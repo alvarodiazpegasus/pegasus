@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formación Claude — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris: #f5f5f5;
+  --grad: linear-gradient(90deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+  --grad-diag: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Barlow', sans-serif; background: var(--blanco); color: var(--negro); overflow-x: hidden; }
+
+/* GRADIENTE */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 16px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.nav-logo { font-weight: 700; font-style: italic; font-size: 1rem; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { text-decoration: none; color: #666; font-size: 0.85rem; font-weight: 600; transition: color 0.2s; }
+.nav-links a:hover { color: var(--negro); }
+
+/* WAVE */
+.wave { width: 100%; overflow: hidden; line-height: 0; }
+.wave svg { display: block; width: 100%; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 48px 60px;
+  position: relative; overflow: hidden;
+}
+.hero-eyebrow {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--morado);
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+}
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 700; font-style: italic;
+  line-height: 1.0; letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero-sub {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.7; color: #555; max-width: 600px;
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+}
+.hero-date {
+  font-size: 0.85rem; font-weight: 700; color: #999;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+}
+.hero-blob {
+  position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+  width: 500px; height: 500px;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  background: var(--grad-diag); opacity: 0.07; z-index: 0;
+}
+.hero-content { position: relative; z-index: 1; max-width: 760px; }
+
+/* SECCIONES */
+section { padding: 80px 48px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #bbb; margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700; font-style: italic;
+  line-height: 1.15; margin-bottom: 40px;
+}
+
+/* CARDS GRID */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.card {
+  border: 1.5px solid #e8e8e8; border-radius: 20px;
+  padding: 28px 24px; background: var(--blanco);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+.card-icon { font-size: 2rem; margin-bottom: 14px; }
+.card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 0.88rem; color: #555; line-height: 1.6; }
+
+/* AVISO CRÍTICO */
+.aviso-critico {
+  background: var(--negro); border-radius: 24px;
+  padding: 40px 48px; margin: 40px 0;
+  position: relative; overflow: hidden;
+}
+.aviso-critico::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad);
+}
+.aviso-critico h3 {
+  font-size: 1.4rem; font-weight: 700; font-style: italic;
+  color: var(--blanco); margin-bottom: 12px;
+}
+.aviso-critico p { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 1rem; }
+.aviso-critico strong { color: var(--amarillo); }
+
+/* TIPS */
+.tip-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px 24px; border-radius: 16px;
+  border: 1.5px solid #e8e8e8;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.tip-item:hover { transform: translateX(6px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+.tip-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem;
+  color: var(--blanco); flex-shrink: 0;
+  background: var(--grad-diag);
+}
+.tip-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.tip-content p { font-size: 0.85rem; color: #666; line-height: 1.55; }
+
+/* SKILLS ACTIVAS */
+.skill-card {
+  border: 1.5px solid #e8e8e8; border-radius: 20px;
+  padding: 28px 24px; background: var(--blanco);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative; overflow: hidden;
+}
+.skill-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+.skill-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad);
+}
+.skill-num {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: #bbb;
+}
+.skill-name {
+  font-size: 1.05rem; font-weight: 700; font-style: italic;
+}
+.skill-who {
+  display: inline-block; padding: 4px 12px; border-radius: 100px;
+  font-size: 0.72rem; font-weight: 700; background: #f0f0f0; color: #555;
+}
+.skill-desc { font-size: 0.88rem; color: #444; line-height: 1.6; }
+.skill-example {
+  background: #f8f8f8; border-radius: 12px; padding: 12px 16px;
+  font-size: 0.82rem; color: #666; line-height: 1.55;
+  border-left: 3px solid;
+}
+.skill-card:nth-child(1) .skill-example { border-color: var(--morado); }
+.skill-card:nth-child(2) .skill-example { border-color: var(--azul); }
+.skill-card:nth-child(3) .skill-example { border-color: var(--verde); }
+.skill-card:nth-child(4) .skill-example { border-color: var(--rosa); }
+.skill-card:nth-child(5) .skill-example { border-color: var(--rojo); }
+.skill-card:nth-child(6) .skill-example { border-color: var(--naranja); }
+.skill-card:nth-child(7) .skill-example { border-color: var(--amarillo); }
+.skill-card:nth-child(8) .skill-example { border-color: var(--verde); }
+
+.btn-download {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 100px;
+  background: var(--negro); color: var(--blanco);
+  font-size: 0.8rem; font-weight: 700;
+  border: none; cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: auto;
+}
+.btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+/* PRÓXIMAMENTE */
+.pronto-grupo { margin-bottom: 32px; }
+.pronto-titulo {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 2px solid #eee;
+}
+.pronto-lista { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.pronto-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.88rem; color: #555; line-height: 1.5;
+}
+.pronto-item::before {
+  content: '→'; font-weight: 700; color: #ccc; flex-shrink: 0; margin-top: 1px;
+}
+.pronto-item strong { color: var(--negro); }
+
+/* MODELOS */
+.modelo-card {
+  border-radius: 16px; padding: 24px;
+  border: 1.5px solid #e8e8e8;
+}
+.modelo-name {
+  font-size: 1.1rem; font-weight: 700; font-style: italic;
+  margin-bottom: 6px;
+}
+.modelo-uso {
+  font-size: 0.82rem; color: #666; line-height: 1.55;
+}
+.modelo-tag {
+  display: inline-block; padding: 3px 10px; border-radius: 100px;
+  font-size: 0.7rem; font-weight: 700; margin-bottom: 10px;
+}
+
+/* TOKENS */
+.token-tip {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 16px 20px; border-radius: 14px; background: var(--gris);
+  margin-bottom: 12px;
+}
+.token-icon { font-size: 1.4rem; flex-shrink: 0; }
+.token-text h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+.token-text p { font-size: 0.83rem; color: #666; line-height: 1.55; }
+
+/* CONECTORES */
+.conector-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 100px;
+  border: 1.5px solid #e8e8e8; font-size: 0.85rem; font-weight: 600;
+  background: var(--blanco); margin: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.conector-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+
+/* FONDO NEGRO */
+.bg-negro { background: var(--negro); color: var(--blanco); }
+.bg-negro .section-label { color: rgba(255,255,255,0.3); }
+.bg-negro .section-title { color: var(--blanco); }
+.bg-negro .card { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+.bg-negro .card h3 { color: var(--blanco); }
+.bg-negro .card p { color: rgba(255,255,255,0.6); }
+
+/* FOOTER */
+footer {
+  padding: 48px; text-align: center;
+  background: var(--negro); color: var(--blanco);
+}
+footer .eslogan {
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 700; font-style: italic;
+  margin-bottom: 16px;
+}
+footer .contacto { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+/* ANIMACIONES */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 60px 24px; }
+  .hero { padding: 100px 24px 60px; }
+  .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .aviso-critico { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo grad-text">FUNDACIÓN PEGASUS</div>
+  <ul class="nav-links">
+    <li><a href="#que-es">Qué es Claude</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#proximas">Próximamente</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Formación interna · Abril 2026</p>
+    <h1>Bienvenido al<br><span class="grad-text">equipo Claude.</span></h1>
+    <p class="hero-sub">Todo lo que necesitas para empezar a trabajar con inteligencia artificial en Pegasus. Sin tecnicismos, sin miedo, con las herramientas ya configuradas para vosotros.</p>
+    <p class="hero-date">Fundación Pegasus · Arganda del Rey · Abril 2026</p>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#08B75B"/>
+        <stop offset="20%" stop-color="#007EC3"/>
+        <stop offset="40%" stop-color="#974694"/>
+        <stop offset="60%" stop-color="#E45E9B"/>
+        <stop offset="75%" stop-color="#D6191B"/>
+        <stop offset="88%" stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="url(#wg1)"/>
+  </svg>
+</div>
+
+<!-- QUÉ ES CLAUDE -->
+<section id="que-es" style="background:#f8f8f8;">
+  <div class="section-inner">
+    <p class="section-label fade-in">Lo primero</p>
+    <h2 class="section-title fade-in">¿Qué es Claude<br>y qué no es?</h2>
+
+    <div class="grid-3 fade-in">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Qué es</h3>
+        <p>Un asistente de IA con el que hablas en lenguaje natural. No es un buscador ni un chatbot de atención al cliente. Es un colaborador que piensa contigo — redacta, analiza, calcula, propone, estructura y resume.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Qué puede hacer</h3>
+        <p>Casi cualquier tarea que implique texto o pensamiento: emails, propuestas, presupuestos, dinámicas, análisis, traducciones, documentos, código HTML, estrategia... Si lo puedes describir, Claude lo puede intentar.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚫</div>
+        <h3>Qué no puede hacer</h3>
+        <p>No tiene acceso a internet en tiempo real. No conoce vuestros archivos internos salvo los que le adjuntéis. No tiene memoria entre conversaciones salvo la configurada en el Project. Y puede equivocarse.</p>
+      </div>
+    </div>
+
+    <!-- AVISO CRÍTICO -->
+    <div class="aviso-critico fade-in">
+      <h3>⚠️ Claude no es la verdad absoluta. Vosotros sí.</h3>
+      <p>Claude amplía vuestro cerebro, no lo sustituye. Puede equivocarse, inventarse datos, malinterpretar contexto o generar información incorrecta con total convicción. <strong>Leed y validad siempre todo antes de enviar, publicar o tomar una decisión.</strong> Usar Claude sin criterio propio es tan peligroso como no usarlo. Vosotros sois el filtro. Siempre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS DE USO -->
+<section id="tips">
+  <div class="section-inner">
+    <p class="section-label fade-in">Cómo sacarle el máximo</p>
+    <h2 class="section-title fade-in">6 tips para hablarle bien</h2>
+
+    <div style="display:flex; flex-direction:column; gap:12px;" class="fade-in">
+      <div class="tip-item">
+        <div class="tip-num">1</div>
+        <div class="tip-content">
+          <h4>Sé específico</h4>
+          <p>Cuanto más contexto le das, mejor respuesta obtiene. "Redacta un email" es malo. "Redacta un email de seguimiento a Maite de RRHH de Sediasa, relación tibia, adjunto propuesta de bienestar, propón slots martes 10h y jueves 16h" es perfecto.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">2</div>
+        <div class="tip-content">
+          <h4>Dale un rol</h4>
+          <p>"Actúa como director de RRHH de una fundación sin ánimo de lucro..." cambia completamente el tono y la profundidad de la respuesta. Las skills de Pegasus ya hacen esto automáticamente.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">3</div>
+        <div class="tip-content">
+          <h4>Pídele que pregunte primero</h4>
+          <p>Añade "si te falta información, pregúntame antes de responder" cuando el encargo es complejo. Evita que Claude invente contexto que no tiene.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">4</div>
+        <div class="tip-content">
+          <h4>Usa el mismo hilo</h4>
+          <p>No abras una conversación nueva cada vez que hablas del mismo tema con el mismo cliente o proyecto. El historial del hilo es tu memoria compartida con Claude. Cuídala.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">5</div>
+        <div class="tip-content">
+          <h4>📄 Adjunta el PDF del hilo de Gmail</h4>
+          <p>Para dar contexto histórico de un cliente: abre el hilo en Gmail → botón imprimir (arriba a la derecha) → Guardar como PDF → adjúntalo a Claude. Así conoce todo el histórico, el tono y los acuerdos previos sin que tengas que explicar nada.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">6</div>
+        <div class="tip-content">
+          <h4>✨ El truco "best practice de..."</h4>
+          <p>Escribir "best practice de [herramienta/tema]" activa el conocimiento experto nativo de Claude. Ejemplos: "best practice de Excel", "best practice de email marketing", "best practice de presentaciones en PowerPoint". No necesitas una skill para todo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTEFACTOS -->
+<section style="background:#f8f8f8;">
+  <div class="section-inner">
+    <p class="section-label fade-in">Outputs avanzados</p>
+    <h2 class="section-title fade-in">Artefactos: qué son<br>y cuándo pedirlos</h2>
+
+    <div class="grid-2 fade-in" style="margin-bottom:32px;">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>Qué es un artefacto</h3>
+        <p>Un archivo generado por Claude: un HTML, un Word, un Excel, un PDF, una presentación. Claude lo crea, tú lo descargas. Son más potentes que una respuesta en chat — y consumen muchos más tokens.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Cuándo pedirlos</h3>
+        <p>Solo cuando el contenido está 100% validado en texto plano. Primero valida el fondo, luego pide el artefacto. Un HTML con animaciones puede costar 10x más tokens que el mismo contenido en texto.</p>
+      </div>
+    </div>
+
+    <div class="grid-4 fade-in">
+      <div class="card" style="text-align:center;">
+        <div class="card-icon">🌐</div>
+        <h3>HTML</h3>
+        <p>Landings, informes, piezas de comunicación. Deploya en Netlify con un link compartible.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-icon">📝</div>
+        <h3>Word (.docx)</h3>
+        <p>Propuestas formales, informes, documentos para adjuntar en emails.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-icon">📊</div>
+        <h3>Excel (.xlsx)</h3>
+        <p>Presupuestos, tablas de seguimiento, modelos de costes.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-icon">🖥️</div>
+        <h3>PowerPoint</h3>
+        <p>Presentaciones para clientes, ayuntamientos o reuniones internas.</p>
+      </div>
+    </div>
+
+    <div class="aviso-critico fade-in" style="margin-top:32px; background:#1a1a2e;">
+      <h3>💡 Regla de oro de los artefactos</h3>
+      <p>Valida siempre el contenido en texto primero. <strong>Nunca pidas un HTML, Word o PDF hasta que el contenido esté aprobado.</strong> Un artefacto mal construido es tokens tirados a la basura — y tiempo perdido rehaciendo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENS -->
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in">Eficiencia</p>
+    <h2 class="section-title fade-in">Gestión de tokens:<br>no los malgastes</h2>
+    <p style="color:#555; margin-bottom:32px; max-width:600px;" class="fade-in">Un token es aproximadamente 4 caracteres. Cada mensaje — tuyo y de Claude — consume tokens. Usarlos bien marca la diferencia entre una herramienta eficiente y una cara.</p>
+
+    <div class="fade-in">
+      <div class="token-tip">
+        <div class="token-icon">✅</div>
+        <div class="token-text">
+          <h4>Valida en texto antes de pedir artefactos</h4>
+          <p>Un HTML consume 5-10x más tokens que el mismo contenido en texto plano. Primero valida el fondo, luego construye la forma.</p>
+        </div>
+      </div>
+      <div class="token-tip">
+        <div class="token-icon">🧵</div>
+        <div class="token-text">
+          <h4>No repitas contexto en cada mensaje</h4>
+          <p>Si estás en el Project Pegasus, Claude ya sabe quiénes sois. No hace falta explicarlo en cada prompt. Las skills ya tienen el contexto embebido.</p>
+        </div>
+      </div>
+      <div class="token-tip">
+        <div class="token-icon">🔄</div>
+        <div class="token-text">
+          <h4>Hilo largo = más tokens por mensaje</h4>
+          <p>Cuando un hilo se hace muy largo, Claude arrastra todo el contexto anterior. Si cambias de tema completamente, abre un hilo nuevo.</p>
+        </div>
+      </div>
+      <div class="token-tip">
+        <div class="token-icon">🎯</div>
+        <div class="token-text">
+          <h4>Prompts cortos y específicos ganan a prompts vagos y largos</h4>
+          <p>"Redacta email seguimiento Maite Sediasa, relación tibia, adjunto propuesta, slots martes 10h y jueves 16h" es mejor que un párrafo explicando todo desde cero.</p>
+        </div>
+      </div>
+      <div class="token-tip">
+        <div class="token-icon">⚡</div>
+        <div class="token-text">
+          <h4>Las skills ahorran tokens</h4>
+          <p>Al tener el contexto de Pegasus ya embebido, no necesitas explicar quiénes sois, cuál es el tono, cuáles son las reglas. La skill lo sabe sola — y tú ahorras tokens en cada uso.</p>
+        </div>
+      </div>
+      <div class="token-tip">
+        <div class="token-icon">🏗️</div>
+        <div class="token-text">
+          <h4>Artefactos complejos al final</h4>
+          <p>HTML con animaciones, Excel con fórmulas, PDFs maquetados cuestan mucho. Reservarlos para cuando el contenido está 100% validado y aprobado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS Y MEMORIA -->
+<section id="proyectos" class="bg-negro">
+  <div class="section-inner">
+    <p class="section-label fade-in">La infraestructura</p>
+    <h2 class="section-title fade-in">Projects, memoria<br>y el <span class="grad-text">Cerebrasus</span></h2>
+
+    <div class="grid-3 fade-in" style="margin-bottom:40px;">
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <h3>Qué es un Project</h3>
+        <p>Un espacio de trabajo compartido donde viven las skills, el manual de Pegasus, la identidad visual y otros archivos de referencia. Claude los lee automáticamente en cada conversación dentro del Project.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Chat normal vs Project</h3>
+        <p><strong>Chat normal:</strong> conversación puntual, sin contexto Pegasus, sin skills. Útil para consultas rápidas o personales.<br><strong>Project Pegasus:</strong> Claude ya sabe quiénes sois. Usa siempre el Project para trabajo de Pegasus.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>El Cerebrasus</h3>
+        <p>La memoria configurada en el Project. Claude conoce la organización, los servicios, el equipo, los municipios activos, los precios, la filosofía... Todo lo que necesita para responder como si llevara años en Pegasus.</p>
+      </div>
+    </div>
+
+    <div style="border:1.5px solid rgba(255,255,255,0.12); border-radius:20px; padding:32px;" class="fade-in">
+      <h3 style="color:var(--blanco); font-size:1.1rem; font-weight:700; margin-bottom:16px;">📌 Qué hay en el Project Pegasus</h3>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--verde); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">Manual Integral Pegasus V9 — todo el conocimiento organizativo</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--verde); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">Manual de Identidad Visual + normas de color</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--verde); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">Logo oficial en alta resolución</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--verde); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">8 skills corporativas activas</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--amarillo); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">Manual V10 en construcción — cuanto mejor esté, mejor responde Claude</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <span style="color:var(--amarillo); font-weight:700;">→</span>
+          <span style="color:rgba(255,255,255,0.7); font-size:0.88rem;">Tipografía Chantal Medium — para piezas con identidad visual oficial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELOS -->
+<section style="background:#f8f8f8;">
+  <div class="section-inner">
+    <p class="section-label fade-in">Elige bien</p>
+    <h2 class="section-title fade-in">Sonnet, Opus, Haiku:<br>¿cuál usar?</h2>
+    <div class="grid-3 fade-in">
+      <div class="modelo-card">
+        <div class="modelo-tag" style="background:#e8f5ee; color:var(--verde);">DÍA A DÍA</div>
+        <div class="modelo-name grad-text">Claude Sonnet</div>
+        <div class="modelo-uso">El modelo estándar. Rápido, inteligente y equilibrado. Para el 90% de las tareas del equipo — emails, propuestas, dinámicas, análisis, artefactos.</div>
+      </div>
+      <div class="modelo-card">
+        <div class="modelo-tag" style="background:#f0eaf8; color:var(--morado);">TAREAS COMPLEJAS</div>
+        <div class="modelo-name grad-text">Claude Opus</div>
+        <div class="modelo-uso">Más potente y más lento. Para análisis estratégicos profundos, documentos muy complejos o cuando Sonnet no llega. Consume más tokens.</div>
+      </div>
+      <div class="modelo-card">
+        <div class="modelo-tag" style="background:#fef9e0; color:#b8a000;">APPS Y AUTOMATIZACIÓN</div>
+        <div class="modelo-name grad-text">Claude Haiku</div>
+        <div class="modelo-uso">Ultrarrápido y ligero. Para aplicaciones interactivas y automatizaciones. Lo usan Álvaro y Marre para herramientas técnicas específicas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONECTORES -->
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in">Integraciones</p>
+    <h2 class="section-title fade-in">Claude conectado<br>con vuestras herramientas</h2>
+    <p style="color:#555; margin-bottom:32px; max-width:600px;" class="fade-in">Claude puede conectarse con las herramientas que ya usáis. Desde dentro de una conversación, puede buscar tareas en Asana, leer emails de Gmail o consultar documentos de Google Drive.</p>
+
+    <div style="margin-bottom:32px;" class="fade-in">
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+        <span class="conector-chip">📋 Asana</span>
+        <span class="conector-chip">📧 Gmail</span>
+        <span class="conector-chip">📁 Google Drive</span>
+        <span class="conector-chip">💼 HubSpot</span>
+        <span class="conector-chip">📊 Monday.com</span>
+        <span class="conector-chip">📝 Notion</span>
+        <span class="conector-chip">🎨 Canva</span>
+        <span class="conector-chip">📦 Box</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>Ejemplo Asana</h3>
+          <p>"Búscame las tareas pendientes del proyecto Rivas Vaciamadrid en Asana" — Claude las encuentra y te las resume sin que abras Asana.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📧</div>
+          <h3>Ejemplo Gmail</h3>
+          <p>"Busca el último email de Teresa de Villaviciosa y redácta un follow-up cálido" — Claude lee el email y genera la respuesta en el tono correcto.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📁</div>
+          <h3>Ejemplo Drive</h3>
+          <p>"Busca la propuesta que enviamos a Brunete el mes pasado" — Claude la localiza en Drive y te la resume o te ayuda a actualizarla.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS ACTIVAS -->
+<section id="skills" style="background:#f8f8f8;">
+  <div class="section-inner">
+    <p class="section-label fade-in">Ya disponibles</p>
+    <h2 class="section-title fade-in">8 skills activas<br>en el Project Pegasus</h2>
+    <p style="color:#555; margin-bottom:40px; max-width:600px;" class="fade-in">Herramientas ya configuradas con el contexto, el tono y las reglas de Pegasus. Claude las activa automáticamente cuando las necesitas. Descárgalas y súbelas a vuestro Project.</p>
+
+    <div class="grid-2 fade-in">
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 01</div>
+        <div class="skill-name">🔍 Checker de Filosofía</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Revisa cualquier texto, idea o comunicación y detecta si contradice la filosofía Pegasus. Alerta de paternalismo, lástima, normalización, culpa, victimismo, superheroísmo o infantilización. Siempre propone la versión corregida.</div>
+        <div class="skill-example">📌 Caso real: analizó una noticia del Ayuntamiento de Torrejón sobre Pegasus y detectó 4 problemas de filosofía — incluyendo "normalización de la diferencia", el error más frecuente del sector.</div>
+        <button class="btn-download" onclick="downloadSkill('filosofia-checker')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 02</div>
+        <div class="skill-name">📖 Storytelling Pegasus</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Construye narrativas con la estructura emocional de Pegasus: miedo → aceptación → transformación. Crea desde cero o mejora textos existentes. Para propuestas, copies, pitches y presentaciones.</div>
+        <div class="skill-example">📌 Caso real: generó la propuesta completa del Plan de Bienestar para una RRHH tradicional de una empresa de logística — entrando por números y llegando a la emoción por la puerta de atrás.</div>
+        <button class="btn-download" onclick="downloadSkill('storytelling')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 03</div>
+        <div class="skill-name">🎨 Identidad Visual HTML</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Genera piezas HTML con la identidad visual oficial de Pegasus. Conoce la paleta completa, los gradientes por programa, la tipografía Barlow y las reglas de diseño. Bloques predefinidos reutilizables.</div>
+        <div class="skill-example">📌 Caso real: generó la landing del Plan de Bienestar con hero, stats, sección problema, solución, retorno y CTA final — todo con identidad Pegasus en un solo encargo.</div>
+        <button class="btn-download" onclick="downloadSkill('identidad-visual-html')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 04</div>
+        <div class="skill-name">✉️ Email Institucional</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Redacta emails a ayuntamientos, instituciones y clientes. Cubre 5 situaciones: primer contacto, seguimiento, respuesta a consulta, operativo y reactivación con gancho estacional. Siempre cercano, nunca parece IA.</div>
+        <div class="skill-example">📌 Caso real: redactó el email de seguimiento a Maite de Sediasa con 😊, propuesta de slots con 📅 y gestión del hilo — en el tono exacto de la relación tibia.</div>
+        <button class="btn-download" onclick="downloadSkill('email-institucional')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 05</div>
+        <div class="skill-name">⚡ Gestión de Conflictos</div>
+        <span class="skill-who">Dirección</span>
+        <div class="skill-desc">Analiza cualquier conflicto (equipo, familia, proveedor, cliente) desde 4 prismas: cliente/usuario, profesional implicado, marca Pegasus y economía. Escala según gravedad e indica cuándo llamar a Ana.</div>
+        <div class="skill-example">📌 Caso real: analizó el caso del psicólogo que se fue rajando y creó un grupo de WhatsApp con ex-compañeros. Diagnóstico 🔴 Grave + recomendación paso a paso + ¿Qué haría Ted Lasso?</div>
+        <button class="btn-download" onclick="downloadSkill('conflicto')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 06</div>
+        <div class="skill-name">🏛️ Propuesta Ayuntamiento</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Genera propuestas de TPT, IS y Campamentos para ayuntamientos. Modelo de costes desde abajo: salarial + gastos generales (20%) + adicionales + margen 40%. Verifica límite contrato menor automáticamente.</div>
+        <div class="skill-example">📌 Caso real: calculó el presupuesto de IS Fútbol Inclusivo para Velilla — 11.539€ al ayuntamiento con margen 40% + tabla de upside de familias del 25% al 100% de ocupación.</div>
+        <button class="btn-download" onclick="downloadSkill('propuesta-ayuntamiento')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 07</div>
+        <div class="skill-name">🏢 Propuesta Empresa</div>
+        <span class="skill-who">Todo el equipo</span>
+        <div class="skill-desc">Genera propuestas Indiferente para empresas privadas. Cubre conferencia de David, formaciones, e-learning, plan de bienestar, comunicación y consultoría D&I. Referencia Santander como caso de escala.</div>
+        <div class="skill-example">📌 Caso real: ante una mutua con 1.000 empleados para el Mes de la Diversidad, generó 5 opciones de menor a mayor impacto — sin cerrar precio hasta saber el presupuesto real.</div>
+        <button class="btn-download" onclick="downloadSkill('propuesta-empresa')">⬇ Descargar skill</button>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-num">SKILL 08</div>
+        <div class="skill-name">🎮 Dinámicas de Sesión</div>
+        <span class="skill-who">David · Rober · Coordinadoras</span>
+        <div class="skill-desc">Diseña dinámicas IE + Juego + Humor para equipo interno (martes/viernes), formaciones para clientes y dinámicas exprés para reuniones de 15-20 min. 4 formatos según el contexto.</div>
+        <div class="skill-example">📌 Caso real: diseñó "El partido que nadie quiere pitar" — dinámica de 35 min para trabajar con todo el equipo cómo comunicar a un compañero que no puede venir en estado inadecuado.</div>
+        <button class="btn-download" onclick="downloadSkill('dinamicas-sesion')">⬇ Descargar skill</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMAMENTE -->
+<section id="proximas">
+  <div class="section-inner">
+    <p class="section-label fade-in">En construcción</p>
+    <h2 class="section-title fade-in">Skills que vienen</h2>
+    <p style="color:#555; margin-bottom:40px; max-width:600px;" class="fade-in">Estas son las próximas skills personalizadas por rol que estarán disponibles próximamente en el Project.</p>
+
+    <div class="grid-2 fade-in">
+      <div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--morado);">👤 David</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Mi voz</strong> — Convierte dictados y notas al estilo de escritura de David</li>
+            <li class="pronto-item"><strong>Conversor RRSS</strong> — Adapta copies entre Instagram y LinkedIn</li>
+            <li class="pronto-item"><strong>Conferencias</strong> — Estructura y adapta conferencias a cada empresa o evento</li>
+          </ul>
+        </div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--azul);">🔧 Rober</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Copies e-learning</strong> — Guiones de vídeo y copies para cursos SCORM</li>
+            <li class="pronto-item"><strong>Premios y licitaciones</strong> — Memorias y textos para concursos públicos</li>
+          </ul>
+        </div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--verde);">📋 Davilín</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Documentos formales</strong> — Cartas, certificados y comunicaciones a organismos</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--rosa);">🌟 Laura (Captación)</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Atención consulta</strong> — Cómo atender, asesorar y cerrar el alta de una familia</li>
+            <li class="pronto-item"><strong>Retención baja</strong> — Gestionar solicitudes de baja, especialmente en junio/julio</li>
+            <li class="pronto-item"><strong>Objeción precio</strong> — Argumentario para "es caro" y "¿por qué pago julio?"</li>
+          </ul>
+        </div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--naranja);">👥 Terapeutas y Monitores</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Registro sesión</strong> — Redactar registros en CRM correctamente</li>
+            <li class="pronto-item"><strong>Comunicación familia</strong> — Mensajes a familias en el tono Pegasus</li>
+            <li class="pronto-item"><strong>Informe usuario</strong> — Informes de evolución para familias y coordinadores</li>
+            <li class="pronto-item"><strong>Gestión incidencia</strong> — Qué hacer, cómo registrar, a quién comunicar</li>
+            <li class="pronto-item"><strong>Duda metodológica</strong> — Consultas sobre cómo aplicar IE + Juego + Humor</li>
+          </ul>
+        </div>
+        <div class="pronto-grupo">
+          <div class="pronto-titulo" style="color:var(--rojo);">🏢 Corporativas nuevas</div>
+          <ul class="pronto-lista">
+            <li class="pronto-item"><strong>Seguimiento profesional</strong> — Informes de reuniones emocionales con trabajadores</li>
+            <li class="pronto-item"><strong>Entrevista selección</strong> — Guía para entrevistar terapeutas y monitores</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE FINAL -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#08B75B"/>
+        <stop offset="20%" stop-color="#007EC3"/>
+        <stop offset="40%" stop-color="#974694"/>
+        <stop offset="60%" stop-color="#E45E9B"/>
+        <stop offset="75%" stop-color="#D6191B"/>
+        <stop offset="88%" stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,0 1080,60 1440,30 L1440,0 L0,0 Z" fill="url(#wg2)"/>
+  </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="eslogan grad-text">"Lo mío no es normal, pero lo tuyo tampoco."</div>
+  <p class="contacto">¿Dudas sobre Claude o las skills? Escribe a <a href="mailto:alvaro@fundacionpegasus.org">alvaro@fundacionpegasus.org</a></p>
+  <p class="contacto" style="margin-top:8px;">Fundación Pegasus · CIF G87919148 · www.fundacionpegasus.org</p>
+</footer>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Skills content for download
+const skills = {
+  'filosofia-checker': `---
+name: pegasus-filosofia-checker
+description: Skill corporativa de Fundación Pegasus. Úsala siempre que necesites revisar si un texto, idea, concepto, propuesta, nombre de servicio o comunicación respeta la filosofía de Pegasus. Detecta automáticamente patrones prohibidos (paternalismo, lástima, normalización, culpa, victimismo, superheroísmo, infantilización) y propone la versión corregida.
+---
+
+# Skill: Checker de Filosofía Pegasus
+
+Eres el guardián de la filosofía de Fundación Pegasus. Revisa cualquier input y detecta si contradice los principios irrenunciables de la organización. Cuando encuentras un problema, propones la versión corregida.
+
+## Patrones PROHIBIDOS
+1. PATERNALISMO Y LÁSTIMA — mensajes que colocan a la persona en posición de inferioridad
+2. NORMALIZACIÓN — el mensaje implícito de que hay algo que necesita ser corregido
+3. CULPA Y VICTIMISMO — mensajes que generan culpa o colocan a la persona como víctima
+4. EL "POBRECITO" — presenta a la persona como digna de compasión o pena
+5. EL "SUPERHÉROE" — presenta a la persona como ser excepcional inspiracional
+6. INFANTILIZACIÓN — tratar a adultos como niños
+
+## Veredicto
+✅ APROBADO / ⚠️ APROBADO CON MATICES / ❌ RECHAZADO
+
+Siempre: diagnóstico + explicación específica + versión corregida.
+
+Prueba final: ¿Este texto conecta desde el miedo compartido o desde la diferencia que separa?`,
+
+  'storytelling': `---
+name: pegasus-storytelling
+description: Skill corporativa de Fundación Pegasus. Úsala para construir narrativas con la estructura emocional de Pegasus: miedo → aceptación → transformación. Para propuestas, copies, pitches y presentaciones.
+---
+
+# Skill: Storytelling Pegasus
+
+## Los 4 actos
+1. LA MÁSCARA — el protagonista actúa como se supone que debe actuar
+2. EL MIEDO — debajo de la máscara hay un miedo universal
+3. LA GRIETA — algo rompe la máscara y abre una pregunta
+4. LA TRANSFORMACIÓN — cambio de mirada, no final feliz de manual
+
+## El miedo es el puente
+El miedo compartido conecta al receptor con la historia. No importa si es una RRHH de logística o un concejal de deportes — todos tienen miedo al juicio, al fracaso, a no ser suficiente.
+
+## Adaptaciones por formato
+- Ayuntamientos: protagonista = el municipio o concejal
+- Empresas: protagonista = la organización o sus líderes  
+- Redes: protagonista = el lector
+- Pitches: 4 actos completos en los primeros 60 segundos`,
+
+  'identidad-visual-html': `---
+name: pegasus-identidad-visual-html
+description: Skill corporativa de Fundación Pegasus. Genera piezas HTML con la identidad visual oficial. Conoce paleta, gradientes, tipografía y reglas de diseño.
+---
+
+# Skill: Identidad Visual HTML — Pegasus
+
+## ⚠️ PRIMERA ACCIÓN SIEMPRE
+Pedir archivo Chantal Medium (.ttf) antes de generar cualquier pieza.
+
+## Paleta oficial
+Verde #08B75B · Azul #007EC3 · Morado #974694 · Rosa #E45E9B
+Rojo #D6191B · Amarillo #F3D100 · Naranja #ED7928
+
+## Por programa
+- Corporativo/Indiferente: gradiente completo
+- TPT: morado → rosa
+- IS: verde → azul  
+- Únete al Flow: rojo → naranja → amarillo
+
+## Reglas irrenunciables
+1. Fondo blanco como base
+2. Gradiente máximo 40% de la pieza
+3. Formas siempre curvas
+4. Barlow como tipografía (Chantal para títulos)
+5. Nunca texto negro sobre gradiente`,
+
+  'email-institucional': `---
+name: pegasus-email-institucional
+description: Skill corporativa de Fundación Pegasus. Redacta emails a ayuntamientos, instituciones y clientes. 5 tipos de situación. Siempre cercano, nunca parece IA.
+---
+
+# Skill: Email Institucional — Pegasus
+
+## 5 tipos de email
+1. Primer contacto (frío) — gancho específico + quiénes somos + propuesta mínima
+2. Seguimiento — referencia concreta + resumen + siguiente paso
+3. Respuesta a consulta — acuse + bloques numerados + próximo paso
+4. Operativo — directo + impacto + confirmación
+5. Reactivación estacional — gancho de momento + referencia + propuesta mínima
+
+## Reglas obligatorias
+- Saludo con 😊 en relaciones técnicas/tibias/consolidadas
+- Slots de agenda siempre con 📅 uno por línea
+- Firma: solo Nombre + Fundación Pegasus
+- Recordatorio de gestión del hilo en cada email
+
+## Nunca
+- Empezar con "Me pongo en contacto..."
+- Dejar agenda en el aire sin opciones concretas
+- Abrir hilo nuevo cuando ya existe uno`,
+
+  'conflicto': `---
+name: pegasus-conflicto
+description: Skill corporativa de Fundación Pegasus. Gestión de conflictos con equipo, familias, proveedores o clientes. Análisis desde 4 prismas + recomendación + escalado automático.
+---
+
+# Skill: Gestión de Conflictos — Pegasus
+
+## Siempre pregunta primero
+17 preguntas en 4 bloques: el conflicto, las partes, el contexto Pegasus, gravedad y urgencia.
+
+## 4 prismas de análisis
+1. Cliente/usuario — impacto en quien recibe el servicio
+2. Profesional implicado — estado emocional, importancia, coste de perderle
+3. Marca Pegasus — riesgo reputacional, coherencia con valores
+4. Economía Pegasus — impacto económico real y margen de maniobra
+
+## Semáforo de gravedad
+🟢 Leve → coordinador · 🟡 Moderado → Iris + Álvaro · 🔴 Grave → dirección · 🚨 Crítico → Ana
+
+## 🏆 ¿Qué haría Ted Lasso?
+Escucharía primero. Separaría persona de comportamiento. Diría la verdad con cariño.`,
+
+  'propuesta-ayuntamiento': `---
+name: pegasus-propuesta-ayuntamiento
+description: Skill corporativa de Fundación Pegasus. Propuestas de TPT, IS y Campamentos para ayuntamientos. Modelo de costes + verificación contrato menor.
+---
+
+# Skill: Propuesta Ayuntamiento — Pegasus
+
+## Modelo de costes (siempre desde abajo)
+1. Coste salarial = horas × coste hora empresa
+   · Terapeuta TPT: 18,19€/h · Monitor IS: 15,91€/h
+2. Gastos generales = coste salarial × 20%
+3. Costes adicionales (materiales, km, comunicación...)
+4. Precio = coste total × 1,40 (margen 40%)
+
+## ⚠️ Pregunta obligatoria sobre semanas
+¿El contrato cubre 12 meses o solo semanas activas?
+
+## Verificación contrato menor
+< 13.000€ ✅ · 13.000-15.000€ ⚠️ · > 15.000€ ❌ licitación
+
+## El upside de las familias
+El contrato es el suelo. Las familias pagan tarifas normales encima = ingreso adicional sin coste marginal.`,
+
+  'propuesta-empresa': `---
+name: pegasus-propuesta-empresa
+description: Skill corporativa de Fundación Pegasus. Propuestas Indiferente para empresas. Conferencia David, formaciones, e-learning, bienestar, comunicación, consultoría D&I.
+---
+
+# Skill: Propuesta Empresa — Indiferente/Pegasus
+
+## Árbol de decisión
+- Impacto rápido toda la plantilla → Conferencia David (7.000€)
+- Cultura sostenida → Consultoría D&I completa
+- Grupos concretos → Formación Sesgos o Conflictos
+- Plantilla grande → E-learning SCORM
+- Beneficio continuo → Plan Bienestar Corporativo
+- Visibilidad D&I → Comunicación y Sensibilización
+
+## El caso Santander
+Inigualables: 3 niveles, ~40.000 empleados, e-learning co-creado. Resultado: cuando baja el miedo, sube la autenticidad.
+
+## En primera reunión
+Nunca cerrar precio. Presentar opciones de menor a mayor impacto. Terminar con 2 preguntas + slots de agenda.`,
+
+  'dinamicas-sesion': `---
+name: pegasus-dinamicas-sesion
+description: Skill corporativa de Fundación Pegasus. Diseña dinámicas IE+Juego+Humor para equipo interno, formaciones externas y dinámicas exprés. La usan David, Rober y coordinadoras.
+---
+
+# Skill: Dinámicas de Sesión — Pegasus
+
+## Metodología — regla de oro
+Juego (bajar guardia) → Humor (romper hielo) → IE (nombrar, sentir, transformar)
+
+## 4 formatos
+A) Equipo interno (martes/viernes) — dinámicas emocionales profundas
+B) Cliente externo — formaciones con efecto Caballo de Troya
+C) Seguimiento post-sesión — materiales de cierre
+D) Dinámica exprés — 10-20 min, sin preparación previa, para cualquier coordinador
+
+## Nombres evocadores siempre
+"El mapa de los miedos", "El partido que nadie quiere pitar"
+Nunca: "Dinámica de autoconocimiento nº 3"`
+};
+
+function downloadSkill(skillKey) {
+  const content = skills[skillKey];
+  if (!content) return;
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `pegasus-${skillKey}-SKILL.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
