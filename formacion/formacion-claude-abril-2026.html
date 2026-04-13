@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -309,8 +308,8 @@ footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
   <ul class="nav-links">
     <li><a href="#que-es">Qué es Claude</a></li>
     <li><a href="#tips">Tips</a></li>
+    <li><a href="#hub">Hub Pegasus</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#proyectos">Proyectos</a></li>
     <li><a href="#proximas">Próximamente</a></li>
   </ul>
 </nav>
@@ -411,11 +410,12 @@ footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
           <p>No abras una conversación nueva cada vez que hablas del mismo tema con el mismo cliente o proyecto. El historial del hilo es tu memoria compartida con Claude. Cuídala.</p>
         </div>
       </div>
-      <div class="tip-item">
-        <div class="tip-num">5</div>
+      <div class="tip-item" style="border-color:var(--morado); background:#faf8fd;">
+        <div class="tip-num" style="background:var(--morado);">5</div>
         <div class="tip-content">
-          <h4>📄 Adjunta el PDF del hilo de Gmail</h4>
-          <p>Para dar contexto histórico de un cliente: abre el hilo en Gmail → botón imprimir (arriba a la derecha) → Guardar como PDF → adjúntalo a Claude. Así conoce todo el histórico, el tono y los acuerdos previos sin que tengas que explicar nada.</p>
+          <h4>📄 El truco del PDF de Gmail — el más potente de todos</h4>
+          <p>Cuando vayas a trabajar sobre una relación con un cliente o municipio, exporta el hilo de Gmail completo como PDF y adjúntaselo a Claude. Así conoce todo el histórico, el tono, los acuerdos previos y cómo responde esa persona — sin que tengas que explicar nada.</p>
+          <p style="margin-top:8px; font-size:0.8rem; color:var(--morado); font-weight:700;">Cómo hacerlo: abre el hilo en Gmail → icono de impresora (arriba a la derecha) → Guardar como PDF → adjunta a Claude</p>
         </div>
       </div>
       <div class="tip-item">
@@ -617,36 +617,104 @@ footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
 <section>
   <div class="section-inner">
     <p class="section-label fade-in">Integraciones</p>
-    <h2 class="section-title fade-in">Claude conectado<br>con vuestras herramientas</h2>
-    <p style="color:#555; margin-bottom:32px; max-width:600px;" class="fade-in">Claude puede conectarse con las herramientas que ya usáis. Desde dentro de una conversación, puede buscar tareas en Asana, leer emails de Gmail o consultar documentos de Google Drive.</p>
+    <h2 class="section-title fade-in">Conectores:<br>potentes pero con coste</h2>
+    <p style="color:#555; margin-bottom:32px; max-width:600px;" class="fade-in">Claude puede conectarse con herramientas externas — Asana, Gmail, Notion, Canva y muchas más. Pero en Pegasus hemos decidido <strong>no activarlos de momento</strong> por dos razones importantes.</p>
 
-    <div style="margin-bottom:32px;" class="fade-in">
-      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-        <span class="conector-chip">📋 Asana</span>
-        <span class="conector-chip">📧 Gmail</span>
-        <span class="conector-chip">📁 Google Drive</span>
-        <span class="conector-chip">💼 HubSpot</span>
-        <span class="conector-chip">📊 Monday.com</span>
-        <span class="conector-chip">📝 Notion</span>
-        <span class="conector-chip">🎨 Canva</span>
-        <span class="conector-chip">📦 Box</span>
+    <div class="grid-2 fade-in" style="margin-bottom:32px;">
+      <div class="aviso-critico" style="margin:0;">
+        <h3>🪙 Consumen muchos tokens</h3>
+        <p>Cada vez que Claude consulta un conector — busca en Asana, lee un email, accede a un archivo — gasta una cantidad significativa de tokens. Para el uso diario del equipo, el coste no compensa el beneficio en la mayoría de casos.</p>
       </div>
+      <div class="aviso-critico" style="margin:0; background:#1a0a0a;">
+        <h3 style="color:#ff6b6b;">🚫 Google Drive NO está conectado</h3>
+        <p>Google Drive contiene información sensible de la organización: nóminas, contratos, datos de familias, información fiscal. <strong style="color:var(--amarillo);">Está desactivado deliberadamente y no debe conectarse.</strong> Nunca.</p>
+      </div>
+    </div>
 
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-icon">📋</div>
-          <h3>Ejemplo Asana</h3>
-          <p>"Búscame las tareas pendientes del proyecto Rivas Vaciamadrid en Asana" — Claude las encuentra y te las resume sin que abras Asana.</p>
+    <div class="fade-in" style="border:1.5px solid #e8e8e8; border-radius:20px; padding:32px;">
+      <p style="font-size:0.85rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#bbb; margin-bottom:16px;">Conectores disponibles en Claude (pero no activados en Pegasus)</p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+        <span class="conector-chip" style="opacity:0.5;">📋 Asana</span>
+        <span class="conector-chip" style="opacity:0.5;">📧 Gmail</span>
+        <span class="conector-chip" style="opacity:0.5; text-decoration:line-through;">📁 Google Drive</span>
+        <span class="conector-chip" style="opacity:0.5;">💼 HubSpot</span>
+        <span class="conector-chip" style="opacity:0.5;">📊 Monday.com</span>
+        <span class="conector-chip" style="opacity:0.5;">📝 Notion</span>
+        <span class="conector-chip" style="opacity:0.5;">🎨 Canva</span>
+      </div>
+      <p style="font-size:0.85rem; color:#888; line-height:1.65;">En el futuro, cuando el equipo tenga más rodaje con Claude, valoraremos activar Asana y Gmail puntualmente para casos concretos. La decisión la toma Álvaro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HUB PEGASUS -->
+<section id="hub" style="background:#f8f8f8;">
+  <div class="section-inner">
+    <p class="section-label fade-in">Vuestra intranet digital</p>
+    <h2 class="section-title fade-in">El Hub Pegasus:<br><span class="grad-text">hub.lomionoesnormal.com</span></h2>
+    <p style="color:#555; margin-bottom:40px; max-width:600px;" class="fade-in">El Hub es el espacio centralizado donde viven todas las herramientas digitales de Pegasus. Propuestas para clientes, protocolos internos, herramientas de dirección. Todo en un solo sitio, accesible desde cualquier dispositivo.</p>
+
+    <div class="grid-3 fade-in" style="margin-bottom:32px;">
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Cómo acceder</h3>
+        <p>Abre el navegador y ve a <strong>hub.lomionoesnormal.com</strong>. Funciona en móvil, tablet y ordenador. Sin instalar nada, sin crear cuenta.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Secciones y contraseñas</h3>
+        <p><strong>Protocolos Internos</strong> — libre para todos.<br><strong>Propuestas</strong> — contraseña del equipo.<br><strong>Dirección</strong> — solo Álvaro y David.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⬆️</div>
+        <h3>Quién puede subir</h3>
+        <p>Solo Álvaro gestiona el repositorio de GitHub donde viven los archivos. Si necesitas publicar una herramienta nueva, envíasela a él con el archivo HTML.</p>
+      </div>
+    </div>
+
+    <div class="aviso-critico fade-in">
+      <h3>💡 El Hub crece con vosotros</h3>
+      <p>Cada propuesta que generéis con Claude, cada protocolo nuevo, cada herramienta — puede acabar en el Hub. <strong>Es vuestra librería digital de Pegasus.</strong> Cuanto más lo uséis, más útil se vuelve.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HTMLS -->
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in">Artefactos web</p>
+    <h2 class="section-title fade-in">HTMLs: páginas web<br>que genera Claude</h2>
+    <p style="color:#555; margin-bottom:40px; max-width:600px;" class="fade-in">Un HTML es un archivo que Claude puede generar y que se abre en el navegador como una página web completa — con diseño, colores, botones e interactividad. Es el formato más potente que puede crear.</p>
+
+    <div class="grid-3 fade-in" style="margin-bottom:32px;">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Paso 1 — Claude lo genera</h3>
+        <p>Pídele a Claude que cree una landing, una propuesta, un informe o cualquier herramienta. Cuando esté listo, verás un botón para descargarlo como archivo <strong>.html</strong>.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👁️</div>
+        <h3>Paso 2 — Tú lo ves en local</h3>
+        <p>Descarga el archivo. Haz doble clic sobre él o arrástralo a Chrome. Se abrirá como una página web en tu ordenador. <strong>Solo tú lo ves — no es público todavía.</strong></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>Paso 3 — Álvaro lo publica</h3>
+        <p>Si quieres que otras personas puedan acceder con una URL, envíaselo a Álvaro. Él lo sube al Hub y en 2 minutos tienes un link para compartir con cualquiera.</p>
+      </div>
+    </div>
+
+    <div style="border:1.5px solid #e8e8e8; border-radius:20px; padding:32px;" class="fade-in">
+      <p style="font-weight:700; margin-bottom:16px;">⚠️ Importante: valida antes de pedir el HTML</p>
+      <p style="font-size:0.9rem; color:#555; line-height:1.7; margin-bottom:16px;">Un HTML consume muchos más tokens que una respuesta en texto. <strong>Primero valida el contenido en el chat</strong> — que el texto, los datos y la estructura estén bien — y solo entonces pide el HTML final.</p>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <p style="font-size:0.8rem; font-weight:700; color:var(--rojo); margin-bottom:8px;">❌ MAL</p>
+          <p style="font-size:0.85rem; color:#666;">"Hazme una landing para Valdemoro" — sin revisar nada primero</p>
         </div>
-        <div class="card">
-          <div class="card-icon">📧</div>
-          <h3>Ejemplo Gmail</h3>
-          <p>"Busca el último email de Teresa de Villaviciosa y redácta un follow-up cálido" — Claude lee el email y genera la respuesta en el tono correcto.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">📁</div>
-          <h3>Ejemplo Drive</h3>
-          <p>"Busca la propuesta que enviamos a Brunete el mes pasado" — Claude la localiza en Drive y te la resume o te ayuda a actualizarla.</p>
+        <div style="flex:1; min-width:200px;">
+          <p style="font-size:0.8rem; font-weight:700; color:var(--verde); margin-bottom:8px;">✅ BIEN</p>
+          <p style="font-size:0.85rem; color:#666;">"Hazme la propuesta para Valdemoro en texto" → revisas → "Ahora conviértelo en HTML"</p>
         </div>
       </div>
     </div>
@@ -821,11 +889,11 @@ footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
 <!-- FOOTER -->
 <footer>
   <div class="eslogan grad-text">"Lo mío no es normal, pero lo tuyo tampoco."</div>
-  <p class="contacto">¿Dudas sobre Claude o las skills? Escribe a <a href="mailto:alvaro@fundacionpegasus.org">alvaro@fundacionpegasus.org</a></p>
+  <p class="contacto">¿Dudas sobre Claude o las skills? Escribe a <a href="/cdn-cgi/l/email-protection#5d3c312b3c2f321d3b2833393c3e3432332d383a3c2e282e73322f3a"><span class="__cf_email__" data-cfemail="2c4d405a4d5e436c4a5942484d4f4543425c494b4d5f595f02435e4b">[email&#160;protected]</span></a></p>
   <p class="contacto" style="margin-top:8px;">Fundación Pegasus · CIF G87919148 · www.fundacionpegasus.org</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
@@ -1026,14 +1094,4 @@ Nunca: "Dinámica de autoconocimiento nº 3"`
 function downloadSkill(skillKey) {
   const content = skills[skillKey];
   if (!content) return;
-  const blob = new Blob([content], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `pegasus-${skillKey}-SKILL.md`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-</script>
-</body>
-</html>
+  const blob = new
