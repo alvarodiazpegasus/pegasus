@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing CMO — Operación Sede · Fundación Pegasus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde:   #08B75B;
+  --azul:    #007EC3;
+  --morado:  #974694;
+  --rosa:    #E45E9B;
+  --rojo:    #D6191B;
+  --amarillo:#F3D100;
+  --naranja: #ED7928;
+  --negro:   #111111;
+  --blanco:  #FFFFFF;
+  --gris:    #F5F5F5;
+  --gris-borde: #E0E0E0;
+  --grad: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Barlow',sans-serif; background:#fff; color:var(--negro); }
+
+/* GRAD TEXT */
+.gt { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* NAV */
+nav {
+  position: sticky; top:0; z-index:100;
+  background:#fff; border-bottom:2px solid var(--gris-borde);
+  padding:14px 48px; display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:1.1rem; }
+.nav-tag {
+  font-size:0.72rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+  color:#999; border:1.5px solid #ddd; border-radius:100px; padding:4px 14px;
+}
+.nav-date { font-size:0.8rem; color:#aaa; font-weight:600; }
+
+/* SECTIONS */
+section {
+  max-width:860px; margin:0 auto; padding:72px 40px;
+  border-bottom:1px solid var(--gris-borde);
+}
+section:last-of-type { border-bottom:none; }
+
+/* BLOCK LABEL */
+.blabel {
+  display:inline-block;
+  font-size:0.68rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+  color:#fff; background:var(--negro); border-radius:100px;
+  padding:5px 14px; margin-bottom:28px;
+}
+
+/* TITLES */
+h1 { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:2.6rem; line-height:1.15; margin-bottom:12px; text-transform:uppercase; }
+h2 { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:1.9rem; line-height:1.2; margin-bottom:20px; text-transform:uppercase; }
+h3 { font-family:'Barlow',sans-serif; font-weight:700; font-size:1.1rem; margin-bottom:8px; }
+p { font-size:1rem; line-height:1.75; color:#333; }
+
+/* HERO */
+.hero { padding:88px 40px 72px; text-align:center; max-width:860px; margin:0 auto; }
+.hero-sub { font-size:1.05rem; color:#555; max-width:560px; margin:16px auto 0; line-height:1.7; }
+.hero-wave { width:100%; overflow:hidden; line-height:0; }
+
+/* STATS STRIP */
+.stats-strip {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+  background:var(--negro); border-radius:20px; overflow:hidden; margin-top:40px;
+}
+.stat-box {
+  background:#fff; padding:32px 24px; text-align:center;
+}
+.stat-box:first-child { border-radius:18px 0 0 18px; }
+.stat-box:last-child  { border-radius:0 18px 18px 0; }
+.stat-num { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:2.2rem; }
+.stat-lbl { font-size:0.78rem; color:#777; margin-top:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; }
+
+/* DATA TABLE */
+.dtable { width:100%; border-collapse:collapse; margin-top:24px; }
+.dtable td { padding:14px 18px; border-bottom:1px solid var(--gris-borde); font-size:0.95rem; }
+.dtable tr:last-child td { border-bottom:none; }
+.dtable td:first-child { color:#555; font-weight:600; width:55%; }
+.dtable td:last-child { font-weight:700; text-align:right; }
+.dtable .total td { background:var(--negro); color:#fff; border-radius:0; }
+.dtable .total td:last-child { color:var(--amarillo); }
+.dtable .highlight td { background:var(--gris); }
+
+/* ALERT BOX */
+.alert {
+  border-radius:16px; padding:24px 28px; margin-top:28px;
+  border-left:4px solid var(--rojo); background:#FFF5F5;
+}
+.alert-red { border-color:var(--rojo); background:#FFF5F5; }
+.alert-blue { border-color:var(--azul); background:#F0F7FF; }
+.alert-green { border-color:var(--verde); background:#F0FAF5; }
+.alert p { font-size:0.93rem; }
+.alert strong { display:block; margin-bottom:6px; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.08em; }
+
+/* TEXT BLOCK */
+.text-block { margin-top:24px; }
+.text-block p + p { margin-top:16px; }
+
+/* CARDS GRID */
+.cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:28px; }
+.card {
+  border:1.5px solid var(--gris-borde); border-radius:20px; padding:28px 24px;
+  transition:transform .25s, box-shadow .25s;
+}
+.card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.08); }
+.card-icon { font-size:1.6rem; margin-bottom:12px; }
+.card p { font-size:0.9rem; color:#555; margin-top:6px; line-height:1.65; }
+
+/* PREGUNTA */
+.pregunta {
+  background:var(--gris); border-radius:16px; padding:24px 28px; margin-top:16px;
+}
+.pregunta-num {
+  display:inline-block; width:28px; height:28px; border-radius:50%;
+  background:var(--negro); color:#fff; text-align:center; line-height:28px;
+  font-size:0.8rem; font-weight:700; margin-bottom:12px; flex-shrink:0;
+}
+.pregunta-principal {
+  background:#fff; border:2px solid var(--negro); border-radius:16px;
+  padding:28px 32px; margin-top:16px;
+}
+.pregunta-principal h3 { font-size:1rem; }
+.pregunta-principal p { font-size:0.93rem; margin-top:8px; }
+
+/* INVERSORES STATUS */
+.inv-card {
+  display:flex; align-items:flex-start; gap:16px;
+  border:1.5px solid var(--gris-borde); border-radius:16px; padding:20px 24px; margin-top:16px;
+}
+.inv-badge {
+  flex-shrink:0; padding:4px 12px; border-radius:100px;
+  font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+}
+.badge-ok { background:#E6FAF1; color:#08B75B; }
+.badge-wip { background:#FFF8E0; color:#C49800; }
+.inv-name { font-weight:700; font-size:0.95rem; margin-bottom:4px; }
+.inv-detail { font-size:0.87rem; color:#555; }
+
+/* FOOTER */
+footer {
+  background:var(--negro); color:#fff; text-align:center; padding:40px;
+}
+footer p { font-size:0.82rem; color:#888; margin-top:8px; }
+
+/* FADE IN */
+.fade-in { opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+/* WAVE */
+.wave { width:100%; overflow:hidden; line-height:0; display:block; }
+
+@media(max-width:640px){
+  section, .hero { padding:48px 20px; }
+  nav { padding:12px 20px; }
+  h1 { font-size:1.9rem; }
+  .stats-strip { grid-template-columns:1fr; }
+  .cards { grid-template-columns:1fr; }
+  .stat-box:first-child, .stat-box:last-child { border-radius:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo gt">FUNDACIÓN PEGASUS</span>
+  <span class="nav-tag">Uso interno · Reunión CMO</span>
+  <span class="nav-date">13 abril 2026</span>
+</nav>
+
+<!-- WAVE TOP -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#08B75B"/>
+        <stop offset="20%" stop-color="#007EC3"/>
+        <stop offset="40%" stop-color="#974694"/>
+        <stop offset="60%" stop-color="#E45E9B"/>
+        <stop offset="75%" stop-color="#D6191B"/>
+        <stop offset="88%" stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,0 L0,0 Z" fill="url(#wg)"/>
+  </svg>
+</div>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <h1 class="gt">OPERACIÓN COMPRA DE SEDE</h1>
+  <p class="hero-sub">Estructuración jurídica de préstamos privados con garantía real sobre el inmueble</p>
+  <div class="stats-strip">
+    <div class="stat-box">
+      <div class="stat-num gt">139</div>
+      <div class="stat-lbl">días para el deadline</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num gt">~400k€</div>
+      <div class="stat-lbl">total operación</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num gt">31 AGO</div>
+      <div class="stat-lbl">fecha límite inamovible</div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 1 — QUIÉNES SOMOS -->
+<section class="fade-in">
+  <span class="blabel">01 — Quiénes somos</span>
+  <h2>FUNDACIÓN PEGASUS</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🏥</div>
+      <h3>Qué hacemos</h3>
+      <p>Centros terapéuticos activos en la Comunidad de Madrid: psicología, logopedia, fisioterapia, deporte adaptado e inclusión.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <h3>Naturaleza jurídica</h3>
+      <p>Fundación sin ánimo de lucro, declarada de Utilidad Pública. CIF G87919148.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Trayectoria</h3>
+      <p>9 años de actividad. Organización consolidada con estructura profesional, contratos laborales y cuentas auditadas.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📍</div>
+      <h3>Sede actual</h3>
+      <p>Avda. Valdearganda 2, Local 2B, Arganda del Rey. En uso como centro terapéutico desde julio 2021.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BLOQUE 2 — EL INMUEBLE -->
+<section class="fade-in">
+  <span class="blabel">02 — El inmueble</span>
+  <h2>DATOS REGISTRALES Y ESTADO</h2>
+  <table class="dtable">
+    <tr><td>Dirección</td><td>Avda. Valdearganda nº 2, Local 2B, Arganda del Rey (Madrid)</td></tr>
+    <tr><td>Planta baja</td><td>235,63 m² · Nivel +1,20</td></tr>
+    <tr><td>Sótano</td><td>201,35 m² · Nivel -2,70</td></tr>
+    <tr class="highlight"><td>Superficie total</td><td>~437 m² construidos</td></tr>
+    <tr><td>Titular registral</td><td>Soluciones Eléctricas Arganda S.L. (SOELAR) · CIF B85793131</td></tr>
+    <tr><td>Hipoteca vigente del vendedor</td><td>~180.000–200.000€ pendientes con Bankinter</td></tr>
+    <tr><td>Inversión realizada por Pegasus</td><td>~284.000€ en reforma integral desde 2021</td></tr>
+    <tr class="highlight"><td>Tasación en curso (Tecnitasa)</td><td>~600.000€ estimado</td></tr>
+  </table>
+  <div class="alert alert-blue" style="margin-top:24px;">
+    <strong>📌 Dato estratégico</strong>
+    <p>Bankinter es acreedor del vendedor (SOELAR) y conoce el inmueble. El vendedor necesita el importe íntegro en agosto para cancelar esa hipoteca — por eso el plazo del 31 de agosto es absolutamente inamovible.</p>
+  </div>
+</section>
+
+<!-- BLOQUE 3 — LA OPERACIÓN -->
+<section class="fade-in">
+  <span class="blabel">03 — La operación</span>
+  <h2>CIFRAS DE COMPRAVENTA</h2>
+  <table class="dtable">
+    <tr><td>Precio pactado (opción bloqueada desde 2021)</td><td>400.000€</td></tr>
+    <tr><td>Descuento fianza</td><td>− 2.400€</td></tr>
+    <tr><td>Alquiler pagado ene 2024 – dic 2025 (24 × 1.200€)</td><td>− 28.800€</td></tr>
+    <tr class="highlight"><td>Precio neto</td><td>~368.800€</td></tr>
+    <tr><td>ITP (7%)</td><td>+ 25.816€</td></tr>
+    <tr><td>Notaría + Registro (estimado)</td><td>+ 5.500€</td></tr>
+    <tr class="total"><td>TOTAL OPERACIÓN</td><td>~400.116€</td></tr>
+  </table>
+  <div class="alert alert-red" style="margin-top:24px;">
+    <strong>⚠️ Deadline inamovible</strong>
+    <p>31 de agosto de 2026. Pago íntegro en el acto de firma de escritura pública mediante cheque bancario. No hay posibilidad de aplazamiento.</p>
+  </div>
+</section>
+
+<!-- BLOQUE 4 — POR QUÉ INVERSORES PRIVADOS -->
+<section class="fade-in">
+  <span class="blabel">04 — Estrategia de financiación</span>
+  <h2>POR QUÉ INVERSORES PRIVADOS</h2>
+  <div class="text-block">
+    <p>Pegasus necesita ~400.000€ para ejecutar la compra antes del 31 de agosto. La vía bancaria está activa como respaldo, pero tiene un problema real: los bancos miran el balance contable de la Fundación, que es el de una organización que reinvierte todo lo que genera. Eso genera fricción y plazos que no tenemos.</p>
+    <p>La vía de inversores privados funciona con otra lógica. No miran únicamente el balance — miran el proyecto, la persona y la garantía. Y la garantía aquí es muy sólida: el inmueble tiene una tasación estimada de ~600.000€ para una compra de 400.000€. Hay ~200.000€ de colchón entre lo que vale y lo que cuesta.</p>
+    <p>La estructura que buscamos es la siguiente: préstamos privados a una rentabilidad pactada — en torno al 2% anual — con devolución en los plazos acordados, y con una garantía real sobre el inmueble en caso de impago. Si Pegasus no pudiera devolver el préstamo, el inversor tendría derecho sobre una parte del inmueble proporcional a su aportación.</p>
+  </div>
+  <div class="stats-strip" style="margin-top:32px;">
+    <div class="stat-box">
+      <div class="stat-num gt">~600k€</div>
+      <div class="stat-lbl">tasación estimada</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num gt">~400k€</div>
+      <div class="stat-lbl">precio de compra</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num gt">~200k€</div>
+      <div class="stat-lbl">colchón de garantía</div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOQUE 5 — ESTADO ACTUAL -->
+<section class="fade-in">
+  <span class="blabel">05 — Estado actual</span>
+  <h2>INVERSORES EN PROCESO</h2>
+
+  <div class="inv-card">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span class="inv-name">Sofía Lavastida</span>
+        <span class="inv-badge badge-ok">Verbal ✓</span>
+      </div>
+      <p class="inv-detail">Deutsche Bank · 25.000€ · 2% anual · Pendiente formalizar contrato</p>
+    </div>
+  </div>
+
+  <div class="inv-card">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span class="inv-name">Begoña Batauri</span>
+        <span class="inv-badge badge-wip">Conectora activa</span>
+      </div>
+      <p class="inv-detail">Ha recibido el two-pager y ha empezado a moverlo entre sus contactos de banca privada. Feedback esperado esta semana.</p>
+    </div>
+  </div>
+
+  <div class="inv-card">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span class="inv-name">Ronda de contactos</span>
+        <span class="inv-badge badge-wip">En curso</span>
+      </div>
+      <p class="inv-detail">David está realizando llamadas de filtrado a perfiles del Club CEO, red personal y contactos de impacto social.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-green" style="margin-top:24px;">
+    <strong>📌 Objetivo de la ronda</strong>
+    <p>3 a 5 inversores con tickets de entre 25.000€ y 90.000€. Cuantos más inversores, más sólida es la garantía para todos — es un argumento de captación activo.</p>
+  </div>
+</section>
+
+<!-- BLOQUE 6 — PREGUNTAS CMO -->
+<section class="fade-in">
+  <span class="blabel">06 — Preguntas para CMO</span>
+  <h2>LO QUE NECESITAMOS RESOLVER</h2>
+
+  <!-- PREGUNTA PRINCIPAL -->
+  <div class="pregunta-principal">
+    <h3>🎯 La cuestión principal</h3>
+    <p>Queremos estructurar préstamos privados de forma que, en caso de impago por parte de Pegasus, cada inversor tenga una garantía sobre el inmueble proporcional a su aportación. Si no podemos devolver el préstamo en las condiciones pactadas, el inversor tiene derecho sobre una parte del activo equivalente a lo que puso. ¿Cómo se articula esto jurídicamente?</p>
+  </div>
+
+  <!-- PREGUNTA EJECUCIÓN AUTOMÁTICA -->
+  <div class="pregunta" style="margin-top:20px; border-left:3px solid var(--rojo);">
+    <div style="display:flex;gap:14px;align-items:flex-start;">
+      <span class="pregunta-num">A</span>
+      <div>
+        <h3>Ejecución automática en caso de impago</h3>
+        <p style="font-size:0.9rem;color:#444;margin-top:6px;">Si hay varios inversores con garantía sobre el inmueble, queremos que el contrato establezca que en caso de impago la venta del inmueble se ejecuta automáticamente — sin necesidad de que todos los inversores se pongan de acuerdo. ¿Es esto posible? ¿Cómo se articula?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREGUNTAS ADICIONALES -->
+  <div style="margin-top:28px;">
+    <h3 style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.12em;color:#999;margin-bottom:16px;">Preguntas adicionales</h3>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">1</span>
+        <div>
+          <h3>Figura jurídica adecuada</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">¿Qué instrumento es el más adecuado para articular esta garantía? ¿Hipoteca? ¿Condición resolutoria? ¿Requiere escritura pública?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">2</span>
+        <div>
+          <h3>Vinculación del inversor antes de agosto</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">Necesitamos que quien diga sí en abril no pueda echarse atrás en agosto. ¿Hay un precontrato con penalización ejecutable? ¿Cuánto tendría que ser la señal para que sea disuasoria? ¿Requiere notaría o vale documento privado?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">3</span>
+        <div>
+          <h3>Prelación entre varios inversores</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">Si hay 3-5 inversores con tickets distintos, ¿cómo se estructura la prelación entre ellos en caso de ejecución? ¿Tienen el mismo rango todos?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">4</span>
+        <div>
+          <h3>Cesión de posición</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">Si un inversor quiere salir antes del plazo pactado, ¿puede ceder su posición a un tercero? ¿Cómo se articula eso contractualmente?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">5</span>
+        <div>
+          <h3>Implicaciones por ser Fundación</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">¿Tiene alguna implicación jurídica específica que Pegasus sea una Fundación sin ánimo de lucro a la hora de constituir estas garantías?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">6</span>
+        <div>
+          <h3>Inscripción en el Registro de la Propiedad</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">¿Desde qué momento se puede inscribir la garantía? ¿Solo tras la escritura de compra, o hay algo que se pueda hacer antes para dar más seguridad al inversor?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">7</span>
+        <div>
+          <h3>Convivencia con hipoteca bancaria</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">Si finalmente también entra un banco como acreedor hipotecario, ¿en qué posición quedan los inversores privados? ¿Hay conflicto de prelación?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="pregunta-num">8</span>
+        <div>
+          <h3>Fiscalidad del inversor</h3>
+          <p style="font-size:0.9rem;color:#444;margin-top:4px;">¿Los intereses del 2% que recibe el inversor tienen algún tratamiento fiscal especial por tratarse de un préstamo a una Fundación? ¿Difiere de un préstamo a una empresa?</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WAVE BOTTOM -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#08B75B"/>
+        <stop offset="20%" stop-color="#007EC3"/>
+        <stop offset="40%" stop-color="#974694"/>
+        <stop offset="60%" stop-color="#E45E9B"/>
+        <stop offset="75%" stop-color="#D6191B"/>
+        <stop offset="88%" stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="url(#wg2)"/>
+  </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="nav-logo" style="font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:1.1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">FUNDACIÓN PEGASUS</div>
+  <p>Documento interno · Uso exclusivo reunión CMO · 13 de abril de 2026</p>
+  <p style="margin-top:4px;">Lo mío no es normal, pero lo tuyo tampoco · www.fundacionpegasus.org</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80);
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
