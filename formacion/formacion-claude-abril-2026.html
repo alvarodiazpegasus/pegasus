@@ -1094,4 +1094,14 @@ Nunca: "Dinámica de autoconocimiento nº 3"`
 function downloadSkill(skillKey) {
   const content = skills[skillKey];
   if (!content) return;
-  const blob = new
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `pegasus-${skillKey}-SKILL.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
