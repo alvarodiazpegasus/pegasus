@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --g1:#08b75b;--g2:#007ec3;--g3:#974694;--g4:#e45e9b;--g5:#d6191b;--g6:#f3d100;--g7:#ed7928;
+  --black:#1a1a1a;--white:#fff;--gray:#f5f4f0;--gray2:#e8e6df;--text:#333;
+}
+body{font-family:'Barlow',Arial,sans-serif;background:#fff;padding:0;margin:0;color:var(--text);}
+
+/* HEADER */
+.header{background:var(--black);padding:20px 36px 16px;}
+.header .stripe{height:5px;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4),var(--g5),var(--g6),var(--g7));border-radius:3px;margin-bottom:14px;}
+.header h1{font-size:20px;font-weight:700;font-style:italic;text-transform:uppercase;color:#fff;letter-spacing:.5px;}
+.header .sub{font-size:11px;color:#888;margin-top:3px;}
+
+/* INTRO ROW */
+.intro{display:flex;gap:10px;padding:16px 36px;background:#fafaf8;border-bottom:1px solid var(--gray2);}
+.intro-item{flex:1;background:#fff;border-radius:8px;padding:10px 14px;border:1px solid var(--gray2);display:flex;align-items:center;gap:10px;}
+.intro-num{font-size:22px;font-weight:700;font-style:italic;}
+.intro-lbl{font-size:11px;color:#666;line-height:1.4;}
+
+/* AREAS */
+.areas{padding:16px 36px;display:flex;flex-direction:column;gap:12px;}
+
+.area-block{border-radius:10px;overflow:hidden;border:1px solid var(--gray2);}
+.area-head{display:flex;align-items:center;gap:0;cursor:pointer;user-select:none;}
+.area-badge{width:200px;flex-shrink:0;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;}
+.area-badge .anum{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:3px;}
+.area-badge .aname{font-size:15px;font-weight:700;font-style:italic;text-transform:uppercase;color:#fff;letter-spacing:.3px;line-height:1.15;}
+.area-meta{flex:1;background:#fff;padding:12px 18px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:center;}
+.meta-col{}
+.meta-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:4px;}
+.meta-val{font-size:11px;color:var(--black);line-height:1.45;}
+.meta-val strong{font-weight:700;}
+.reuniones-badges{display:flex;flex-wrap:wrap;gap:4px;}
+.rbadge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.toggle-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--gray2);background:#f5f4f0;cursor:pointer;flex-shrink:0;transition:transform .2s;}
+.toggle-btn.open{transform:rotate(180deg);}
+
+.area-detail{display:none;border-top:1px solid var(--gray2);}
+.area-detail.open{display:flex;}
+.detail-col{flex:1;padding:14px 18px;border-right:1px solid var(--gray2);}
+.detail-col:last-child{border-right:none;}
+.detail-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.detail-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.detail-list li{font-size:11px;color:#444;line-height:1.45;padding-left:12px;position:relative;}
+.detail-list li::before{content:'·';position:absolute;left:0;font-weight:700;}
+.detail-list li strong{color:var(--black);font-weight:700;}
+.decision-item{font-size:11px;color:#444;line-height:1.45;padding:6px 10px;background:#fafaf8;border-radius:6px;border-left:3px solid;margin-bottom:5px;}
+
+/* FOOTER */
+.footer{padding:12px 36px;border-top:1px solid var(--gray2);display:flex;justify-content:space-between;align-items:center;}
+.footer-logo{font-size:11px;font-weight:700;font-style:italic;text-transform:uppercase;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-note{font-size:10px;color:#aaa;}
+
+/* LEGEND */
+.legend{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:#666;}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="stripe"></div>
+  <h1>Plan de trabajo por áreas · Campamentos Inclusivos Rivas 2026</h1>
+  <div class="sub">Haz clic en cada área para ver el detalle · Estructura propuesta para validar en reunión</div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-item">
+    <div class="intro-num" style="color:var(--g2)">6</div>
+    <div class="intro-lbl">áreas de análisis<br>y transformación</div>
+  </div>
+  <div class="intro-item">
+    <div class="intro-num" style="color:var(--g3)">9</div>
+    <div class="intro-lbl">reuniones de trabajo<br>propuestas (abril–junio)</div>
+  </div>
+  <div class="intro-item">
+    <div class="intro-num" style="color:var(--g1)">3</div>
+    <div class="intro-lbl">actores presentes<br>en cada reunión</div>
+  </div>
+  <div class="intro-item">
+    <div class="intro-num" style="color:var(--g7)">Jun</div>
+    <div class="intro-lbl">entrega del informe<br>de diagnóstico preliminar</div>
+  </div>
+</div>
+
+<!-- AREAS -->
+<div class="areas">
+
+  <!-- ÁREA 1: USUARIOS -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,var(--g2),#0060a0)">
+        <div class="anum">Área 01</div>
+        <div class="aname">Usuarios</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Conocer a fondo quiénes son los menores y diseñar un <strong>sistema de triaje</strong></div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Fichas de autonomía · Historial inscripciones · Diagnósticos 2025</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#e8f5fe;color:var(--g2)">R1 · Análisis perfiles</span>
+            <span class="rbadge" style="background:#e8f5fe;color:var(--g2)">R2 · Diseño triaje</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g2)">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Perfiles y diagnósticos de los 59 menores de 2025 (31 TEA, resto variado)</li>
+          <li>Niveles de apoyo reales vs. niveles declarados en inscripción</li>
+          <li>Necesidades extraordinarias no contempladas en ficha estándar</li>
+          <li>Edades y compatibilidades para formación de grupos</li>
+          <li>Incidencias históricas vinculadas a perfiles concretos</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g2)">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g2)">¿Qué criterios definen el triaje? (diagnóstico, nivel autonomía, conducta, comunicación...)</div>
+        <div class="decision-item" style="border-color:var(--g2)">¿Cuántos niveles de apoyo tiene el sistema? ¿Quién asigna el nivel?</div>
+        <div class="decision-item" style="border-color:var(--g2)">¿Qué información debe recoger la ficha de inscripción para hacer un buen triaje?</div>
+        <div class="decision-item" style="border-color:var(--g2)">¿Cómo se asignan los integradores sociales en función del triaje?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g2)">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Sistema de triaje</strong> con criterios, niveles y protocolo de asignación</li>
+          <li><strong>Ficha de inscripción mejorada</strong> para captación de información útil</li>
+          <li>Incluido en el Informe de Diagnóstico Preliminar (junio)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA 2: ESPACIOS -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,var(--g3),#7a3578)">
+        <div class="anum">Área 02</div>
+        <div class="aname">Espacios</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Evaluar si los espacios permiten una <strong>inclusión funcional real</strong></div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Lista de sedes activas · Planos o distribución básica · Horarios de uso</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#f0e8fe;color:var(--g3)">R3 · Visita técnica sedes</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g3)">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Accesibilidad física de cada sede (entradas, baños, circulación)</li>
+          <li>Existencia de zonas de calma o regulación emocional</li>
+          <li>Espacios para atención individualizada cuando se necesite</li>
+          <li>Señalética e información visual para menores con dificultades de comprensión</li>
+          <li>Ruido, estimulación sensorial y posibles saturaciones en espacios comunes</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g3)">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g3)">¿Qué adaptaciones son posibles y cuáles dependen del Ayuntamiento?</div>
+        <div class="decision-item" style="border-color:var(--g3)">¿Qué sedes tienen mayor riesgo de sobrecarga sensorial y qué protocolos necesitan?</div>
+        <div class="decision-item" style="border-color:var(--g3)">¿Dónde se ubica el espacio de calma en cada sede y quién lo gestiona?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g3)">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Ficha de evaluación por sede</strong> con puntuación de adecuación inclusiva</li>
+          <li><strong>Plan de adaptaciones</strong> priorizadas por coste e impacto</li>
+          <li>Incluido en el Informe de Diagnóstico Preliminar (junio)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA 3: FAMILIAS -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,var(--g1),#068a44)">
+        <div class="anum">Área 03</div>
+        <div class="aname">Familias</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Transformar la relación con las familias: de <strong>administrativa a emocional</strong></div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Protocolos de comunicación actuales · Plantillas de mensajes · Incidencias con familias 2025</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#e8fef0;color:var(--g1)">R4 · Revisión comunicación</span>
+            <span class="rbadge" style="background:#e8fef0;color:var(--g1)">R5 · Diseño protocolo</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g1)">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Proceso de inscripción y primer contacto con la familia</li>
+          <li>Comunicación durante el campamento (agenda diaria, incidencias, feedback)</li>
+          <li>Protocolo de gestión de crisis o situaciones difíciles con familias</li>
+          <li>Momentos de tensión recurrentes en ediciones anteriores</li>
+          <li>Nivel de satisfacción y expectativas de las familias</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g1)">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g1)">¿Cómo se hace el primer contacto con familias de menores con diversidad funcional? ¿Hay una entrevista previa?</div>
+        <div class="decision-item" style="border-color:var(--g1)">¿Qué información recibe la familia cada día y por qué canal?</div>
+        <div class="decision-item" style="border-color:var(--g1)">¿Quién gestiona una crisis con una familia y qué protocolo sigue?</div>
+        <div class="decision-item" style="border-color:var(--g1)">¿Cómo se recoge el feedback de las familias al final de cada semana?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g1)">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Protocolo de acogida y acompañamiento</strong> a familias de menores con DF</li>
+          <li><strong>Guía de comunicación</strong> diaria y ante incidencias</li>
+          <li>Incluido en el Paquete de herramientas (antes del 22 jun)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA 4: SERVICIO -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,var(--g7),#c46010)">
+        <div class="anum">Área 04</div>
+        <div class="aname">Servicio</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Rediseñar la <strong>estructura metodológica</strong> del campamento para que la inclusión sea real</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Programación tipo · Horario diario · Modelo de grupos · Registro de incidencias 2025</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#fef0e8;color:var(--g7)">R6 · Análisis metodológico</span>
+            <span class="rbadge" style="background:#fef0e8;color:var(--g7)">R7 · Diseño modelo</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g7)">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Estructura de la jornada: tiempos, transiciones, momentos críticos</li>
+          <li>Criterio actual de formación de grupos y ratio monitor/menor</li>
+          <li>Cómo participan realmente los menores con DF en actividades grupales</li>
+          <li>Protocolo de actuación ante incidencias conductuales o emocionales</li>
+          <li>Rol actual de los dos integradores sociales y cómo se coordina con monitores</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g7)">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g7)">¿Qué momentos de la jornada son más problemáticos para los menores con DF?</div>
+        <div class="decision-item" style="border-color:var(--g7)">¿Cómo se forman los grupos? ¿Se puede introducir un criterio de compatibilidad?</div>
+        <div class="decision-item" style="border-color:var(--g7)">¿Cuál es el protocolo paso a paso ante una crisis conductual o emocional?</div>
+        <div class="decision-item" style="border-color:var(--g7)">¿Cómo se distribuyen y coordinan los integradores sociales entre sedes?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g7)">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Manual de intervención</strong> para monitores e integradores</li>
+          <li><strong>Protocolo de actuación</strong> ante incidencias conductuales</li>
+          <li><strong>Modelo de grupos</strong> con criterios de formación y ratios</li>
+          <li>Incluido en el Paquete de herramientas (antes del 22 jun)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA 5: MATERIAL -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,#c9a800,#a08200)">
+        <div class="anum">Área 05</div>
+        <div class="aname">Material</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Sistematizar y <strong>estandarizar el kit de materiales</strong> de apoyo en todas las sedes</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Inventario de materiales por sede · Pictogramas actuales · Horarios visuales usados</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#fefae8;color:#a08200">R3 · Durante visita a sedes</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:#a08200">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Materiales disponibles actualmente en cada sede</li>
+          <li>Uso real de los pictogramas, horarios visuales y anticipadores</li>
+          <li>Materiales de regulación emocional disponibles</li>
+          <li>SAAC u otros sistemas alternativos de comunicación en uso</li>
+          <li>Coherencia entre lo que usa Siete Estrellas en distintas sedes</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:#a08200">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g6)">¿Qué materiales mínimos debe tener cada sede sin excepción?</div>
+        <div class="decision-item" style="border-color:var(--g6)">¿Quién es responsable de preparar y reponer los materiales en cada sede?</div>
+        <div class="decision-item" style="border-color:var(--g6)">¿Hay presupuesto para adquirir materiales nuevos? ¿Quién lo gestiona?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:#a08200">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Kit estándar de materiales</strong> por sede con listado y responsable</li>
+          <li><strong>Banco de pictogramas y recursos visuales</strong> compartido entre sedes</li>
+          <li>Incluido en el Paquete de herramientas (antes del 22 jun)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA 6: PROFESIONALES -->
+  <div class="area-block">
+    <div class="area-head" onclick="toggle(this)">
+      <div class="area-badge" style="background:linear-gradient(135deg,var(--g5),#a81015)">
+        <div class="anum">Área 06</div>
+        <div class="aname">Profesionales</div>
+      </div>
+      <div class="area-meta">
+        <div class="meta-col">
+          <div class="meta-label">Objetivo</div>
+          <div class="meta-val">Diseñar el <strong>modelo de formación y cuidado</strong> del equipo profesional</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Insumos necesarios</div>
+          <div class="meta-val">Perfiles del equipo 2025 · Proceso de contratación · Formaciones recibidas</div>
+        </div>
+        <div class="meta-col">
+          <div class="meta-label">Reuniones propuestas</div>
+          <div class="reuniones-badges">
+            <span class="rbadge" style="background:#fee8e8;color:var(--g5)">R8 · Análisis del equipo</span>
+            <span class="rbadge" style="background:#fee8e8;color:var(--g5)">R9 · Plan de formación</span>
+          </div>
+        </div>
+        <div class="toggle-btn">▼</div>
+      </div>
+    </div>
+    <div class="area-detail">
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g5)">Qué analizar</div>
+        <ul class="detail-list">
+          <li>Perfiles actuales: monitores, integradores sociales, coordinadores</li>
+          <li>Proceso de selección y contratación de monitores</li>
+          <li>Formación recibida antes de los campamentos en ediciones anteriores</li>
+          <li>Rotación del equipo entre semanas y sedes</li>
+          <li>Carga emocional del trabajo y ausencia de espacios de supervisión</li>
+        </ul>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g5)">Decisiones a tomar</div>
+        <div class="decision-item" style="border-color:var(--g5)">¿Qué perfil mínimo debe tener un monitor para trabajar con menores con DF?</div>
+        <div class="decision-item" style="border-color:var(--g5)">¿Cuántas horas de formación previa y en qué contenidos?</div>
+        <div class="decision-item" style="border-color:var(--g5)">¿Cómo se estructura el rol de los integradores sociales respecto a los monitores?</div>
+        <div class="decision-item" style="border-color:var(--g5)">¿Cómo se cuida emocionalmente al equipo durante el verano? ¿Hay espacios de descarga?</div>
+      </div>
+      <div class="detail-col">
+        <div class="detail-title" style="color:var(--g5)">Entregable de esta área</div>
+        <ul class="detail-list">
+          <li><strong>Plan de formación</strong> con contenidos, horas y formato</li>
+          <li><strong>Modelo de supervisión emocional</strong> del equipo durante el verano</li>
+          <li><strong>Descripción de perfiles</strong> y criterios mínimos de contratación</li>
+          <li>Incluido en el Informe de Diagnóstico Preliminar (junio)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /areas -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="footer-logo">Fundación Pegasus · Plan de trabajo Rivas 2026</span>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--g2)"></div>R1-R2 Usuarios</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--g3)"></div>R3 Espacios+Material</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--g1)"></div>R4-R5 Familias</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--g7)"></div>R6-R7 Servicio</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--g5)"></div>R8-R9 Profesionales</div>
+  </div>
+  <span class="footer-note">Fechas a definir en reunión · Presencia tripartita en todas</span>
+</div>
+
+<script>
+function toggle(head) {
+  const detail = head.nextElementSibling;
+  const btn = head.querySelector('.toggle-btn');
+  const isOpen = detail.classList.contains('open');
+  // Cierra todos
+  document.querySelectorAll('.area-detail').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('open'));
+  // Abre el clickado si estaba cerrado
+  if (!isOpen) {
+    detail.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>
