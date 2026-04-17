@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>🐎 Pegasus — Mi Plan de Cuponeo 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris-claro: #E8EAF0;
+  --gris-medio: #9CA3AF;
+  --gris-oscuro: #6B7280;
+  
+  /* Gradientes por programa */
+  --grad-corp: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+  --grad-tpt: linear-gradient(135deg, #974694, #E45E9B);
+  --grad-is: linear-gradient(135deg, #08B75B, #007EC3);
+  
+  --t: "";
+  --c: var(--verde);
+  --cd: var(--verde);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--blanco);
+  color: var(--negro);
+  line-height: 1.6;
+}
+
+/* ── SCREEN SYSTEM ── */
+.screen {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* ══ SCREEN 0: SELECTOR ══ */
+#s-home {
+  background: var(--negro);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(8, 183, 91, 0.1) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(0, 126, 195, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 48px 24px 32px;
+}
+
+.home-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--grad-corp);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.home-headline {
+  font-family: 'Barlow', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.home-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+.home-ask {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.terapeuta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.t-card {
+  border-radius: 18px;
+  padding: 16px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid transparent;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.t-card:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.t-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.t-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  color: white;
+  font-size: 16px;
+}
+
+.t-name {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+.t-muni {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+.t-arrow {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+}
+
+.home-footer {
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ══ INNER APP (screens 1+) ══ */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 16px;
+  background: var(--blanco);
+  border-bottom: 1px solid var(--gris-claro);
+}
+
+.app-header-wave {
+  width: 100%;
+  height: 8px;
+  background: var(--grad-corp);
+  border-radius: 0 0 16px 16px;
+}
+
+.hdr-inner {
+  padding: 16px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hdr-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c);
+  cursor: pointer;
+  margin-bottom: 10px;
+  -webkit-tap-highlight-color: transparent;
+  width: fit-content;
+}
+
+.hdr-back:active {
+  opacity: 0.7;
+}
+
+.hdr-name {
+  font-family: 'Barlow', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.1;
+}
+
+.hdr-muni {
+  font-size: 12px;
+  color: var(--gris-oscuro);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.hdr-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 0;
+}
+
+.hdr-chip {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--negro);
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  background: var(--blanco);
+  border-bottom: 2px solid var(--gris-claro);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 12px 14px;
+  text-align: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gris-medio);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s, border-bottom-color 0.15s;
+  position: relative;
+}
+
+.nav-btn.on {
+  color: var(--c);
+  border-bottom-color: var(--c);
+}
+
+.nav-btn:active {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* ── PLAN TAB ── */
+.plan-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  padding-bottom: 40px;
+}
+
+.week-sep {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 24px 0 12px;
+  padding-left: 12px;
+  border-left: 3px solid var(--c);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.week-sep:first-child {
+  margin-top: 0;
+}
+
+/* Day card */
+.dc {
+  background: var(--blanco);
+  border-radius: 16px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--c);
+  transition: box-shadow 0.2s;
+}
+
+.dc:active {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dc-top {
+  padding: 14px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dc-top:active {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.dc-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.dc-num {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dc-day {
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--negro);
+}
+
+.dc-badge {
+  color: white;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.dc-title {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.3;
+}
+
+.dc-arr {
+  font-size: 18px;
+  color: var(--gris-claro);
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: transform 0.2s;
+  font-weight: 700;
+}
+
+.dc-arr.open {
+  transform: rotate(180deg);
+  color: var(--c);
+}
+
+.dc-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--gris-claro);
+  display: none;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.dc-body.open {
+  display: block;
+}
+
+.why-pill {
+  background: rgba(8, 183, 91, 0.08);
+  border-left: 3px solid var(--verde);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 14px;
+  margin: 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.why-ico {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.why-wrap {
+  flex: 1;
+}
+
+.why-lbl {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--verde);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+.why-txt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--negro);
+  line-height: 1.5;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ig {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ig-lbl {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ig-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.4;
+}
+
+.tip-row {
+  background: rgba(243, 209, 0, 0.08);
+  border: 1px solid rgba(243, 209, 0, 0.2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.tip-ico {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.tip-txt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--negro);
+  line-height: 1.5;
+}
+
+.dc-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dc-btn-maps {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: white;
+  text-decoration: none;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--c);
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s;
+}
+
+.dc-btn-maps:active {
+  opacity: 0.85;
+}
+
+.dc-btn-rep {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid var(--c);
+  color: var(--c);
+  background: white;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dc-btn-rep:active {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* ── TIPOS TAB ── */
+.tipos-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  padding-bottom: 40px;
+}
+
+.tipo-card {
+  background: var(--blanco);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-top: 4px solid var(--c);
+}
+
+.tc-hdr {
+  padding: 14px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  user-select: none;
+}
+
+.tc-hdr:active {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.tc-ttl {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--negro);
+}
+
+.tc-arr {
+  font-size: 18px;
+  color: var(--gris-claro);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  font-weight: 700;
+}
+
+.tc-arr.open {
+  transform: rotate(180deg);
+  color: var(--c);
+}
+
+.tc-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--gris-claro);
+  display: none;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.tc-body.open {
+  display: block;
+}
+
+.tc-row {
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tc-row strong {
+  font-weight: 700;
+  color: var(--c);
+}
+
+.tc-row-lbl {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+/* ── PROTO TAB ── */
+.proto-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  padding-bottom: 40px;
+}
+
+.proto-block {
+  background: var(--blanco);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.pb-hdr {
+  padding: 12px 16px;
+  color: white;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pb-body {
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.ps {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.ps:last-child {
+  margin-bottom: 0;
+}
+
+.ps-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ps-txt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--negro);
+  line-height: 1.5;
+  padding-top: 3px;
+}
+
+.ps-txt strong {
+  font-weight: 700;
+  color: var(--c);
+}
+
+.kpi-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 10px;
+}
+
+.kpi-ico {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.kpi-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--negro);
+  margin-bottom: 2px;
+}
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--gris-oscuro);
+  font-weight: 600;
+}
+
+.proto-note {
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── FOOTER GENERAL ── */
+.app-footer {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--gris-oscuro);
+  border-top: 1px solid var(--gris-claro);
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.footer-text {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.footer-text strong {
+  color: var(--c);
+  font-weight: 700;
+}
+
+.footer-slogan {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gris-claro);
+}
+
+</style>
+</head>
+<body>
+
+<!-- SCREEN 0: HOME -->
+<div id="s-home" class="screen active">
+  <div class="home-bg"></div>
+  <div class="home-content">
+    <div class="home-logo">
+      <div class="logo-mark">🐎</div>
+      <div class="logo-text">Pegasus Cuponeo</div>
+    </div>
+    
+    <div>
+      <h1 class="home-headline">Mi Plan de Cuponeo</h1>
+      <p class="home-sub">Selecciona tu nombre para acceder a tu plan de 15 días y protocolo de captación.</p>
+      <div class="home-ask">🐎 Elige tu plan</div>
+    </div>
+    
+    <div class="terapeuta-grid" id="home-grid"></div>
+    
+    <div class="home-footer">
+      <p>💡 Pegasus Cuponeo 2026</p>
+      <p style="margin-top: 8px; font-size: 10px;">Lo mío no es normal, pero lo tuyo tampoco.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 1+: APP INTERIOR -->
+<div id="s-app" class="screen">
+  <!-- HEADER CON BARRA DE COLOR -->
+  <div class="app-header">
+    <div class="app-header-wave"></div>
+    <div class="hdr-inner">
+      <div class="hdr-back" onclick="backToHome()">← Atrás</div>
+      <div class="hdr-name" id="hdr-name">Cargando...</div>
+      <div class="hdr-muni" id="hdr-muni"></div>
+      <div class="hdr-chips">
+        <div class="hdr-chip"><span id="chip-horas"></span></div>
+        <div class="hdr-chip"><span id="chip-objetivo"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN DE PESTAÑAS -->
+  <div class="nav">
+    <div class="nav-btn on" onclick="switchTab('plan')">📋 Mi Plan</div>
+    <div class="nav-btn" onclick="switchTab('tipos')">📖 Tipos A·B·C</div>
+    <div class="nav-btn" onclick="switchTab('proto')">⚡ Protocolo</div>
+  </div>
+
+  <!-- CONTENT: PLAN -->
+  <div class="plan-content" id="plan-content"></div>
+
+  <!-- CONTENT: TIPOS -->
+  <div class="tipos-content" id="tipos-content" style="display:none"></div>
+
+  <!-- CONTENT: PROTOCOLO -->
+  <div class="proto-content" id="proto-content" style="display:none"></div>
+
+  <!-- FOOTER -->
+  <div class="app-footer">
+    <div class="footer-text">Reporta cada jornada a tu coordinadora por WhatsApp. <strong>Sin reportes, sin datos.</strong></div>
+    <div class="footer-slogan">Lo mío no es normal, pero lo tuyo tampoco.</div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const DATA = [
+  {
+    id: 1, nombre: "Ana", municipio: "Torrejón de Ardoz",
+    horas: "4h40/sem", objetivo: "~250 cupones/sem",
+    color: "08B75B", color_dark: "07A94D",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Coles Zona Este", donde: "Paseo de la República", horario: "09:00-12:00", objetivo_n: 1, tip: "Lleva lista de centros escolares de la zona", razon: "Padres buscando soluciones educativas", maps: "https://maps.google.com/?q=Torrejón+Ardoz+colegios" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias y panaderías", donde: "Centro", horario: "10:00-13:00", objetivo_n: 2, tip: "Acuérdate del taco de 20 flyers y cartel A3", razon: "Punto de confianza para familias", maps: "https://maps.google.com/?q=Torrejón+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Saturación residencial", donde: "Barrio Nuevo", horario: "16:00-19:00", objetivo_n: 1, tip: "Calle a calle, buzón a buzón, sistemático", razon: "Cobertura alta en zona residencial", maps: "https://maps.google.com/?q=Torrejón+Barrio+Nuevo" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Centro de Salud", donde: "Av. Constitución", horario: "09:30-11:30", objetivo_n: 1, tip: "Pediatría es el punto de presión clave", razon: "Acceso a padres preocupados por salud", maps: "https://maps.google.com/?q=Torrejón+centro+salud" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "A", titulo: "Asociaciones locales", donde: "Centro Joven", horario: "17:00-19:00", objetivo_n: 1, tip: "Preguntar por responsable de actividades", razon: "Red de confianza con otras familias", maps: "https://maps.google.com/?q=Torrejón+Centro+Joven" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "B", titulo: "Quioscos y tiendas", donde: "Calle Mayor", horario: "09:00-12:00", objetivo_n: 2, tip: "Deja una tarjeta con tu nombre", razon: "Vendedores recomiendan a sus clientes", maps: "https://maps.google.com/?q=Torrejón+Calle+Mayor" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación residencial 2", donde: "Barrio Antiguo", horario: "10:00-13:00", objetivo_n: 1, tip: "Cambio de zona para evitar repetir casas", razon: "Cobertura sin saturar", maps: "https://maps.google.com/?q=Torrejón+Barrio+Antiguo" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "A", titulo: "Puerta de escuela primaria", donde: "CEIP Cervantes", horario: "08:30-09:30", objetivo_n: 1, tip: "Lleva uniforme, sonríe, entrega directa", razon: "Padres receptivos en hora de entrada", maps: "https://maps.google.com/?q=CEIP+Cervantes+Torrejón" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "B", titulo: "Librerías y papelerías", donde: "Centro comercial", horario: "16:00-18:00", objetivo_n: 2, tip: "Si no quieren, no insistas, hay muchas opciones", razon: "Familias comprando para colegio", maps: "https://maps.google.com/?q=Torrejón+papelerías" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "A", titulo: "Punto de presión IES", donde: "Instituto", horario: "12:00-13:00", objetivo_n: 1, tip: "Enfermería es un buen punto de entrada", razon: "Adolescentes con necesidades emocionales", maps: "https://maps.google.com/?q=Torrejón+IES" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "C", titulo: "Saturación residencial 3", donde: "Ampliación Sur", horario: "09:00-12:00", objetivo_n: 1, tip: "Completa las zonas de semanas anteriores", razon: "Cobertura total del municipio", maps: "https://maps.google.com/?q=Torrejón+Ampliación" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Policlínica privada", donde: "Zona comercial", horario: "10:00-12:00", objetivo_n: 1, tip: "Pregunta por recepción, son receptivos", razon: "Padres dispuestos a pagar salud", maps: "https://maps.google.com/?q=Torrejón+policlínica" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "B", titulo: "Peluquerías y comercios variados", donde: "Avenida Principal", horario: "16:00-18:30", objetivo_n: 2, tip: "Son puntos que ven a muchas familias", razon: "Espacios de confianza comunitaria", maps: "https://maps.google.com/?q=Torrejón+peluquerías" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "A", titulo: "Escuela infantil privada", donde: "Centro Premium", horario: "09:00-11:00", objetivo_n: 1, tip: "Preguntar por directora o coordinadora", razon: "Directa con padres de peques", maps: "https://maps.google.com/?q=Torrejón+escuela+infantil" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "C", titulo: "Saturación final y refuerzo", donde: "Zonas calientes", horario: "10:00-13:00", objetivo_n: 1, tip: "Repasa las zonas donde mejor acogida", razon: "Maximizar retorno en últimos días", maps: "https://maps.google.com/?q=Torrejón+Ardoz" }
+      ]
+    ]
+  },
+  {
+    id: 2, nombre: "Irene Lotero", municipio: "Torrejón de Ardoz",
+    horas: "2h40/sem", objetivo: "~120 cupones/sem",
+    color: "007EC3", color_dark: "0067A3",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Punto de presión educativo", donde: "CEIP Principal", horario: "08:45-09:45", objetivo_n: 1, tip: "Coordina con Ana para no pisarse", razon: "Entrada de colegio = padres receptivos", maps: "https://maps.google.com/?q=Torrejón+CEIP" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias clave", donde: "Farmacia Gómez + Farmacia Central", horario: "10:00-11:30", objetivo_n: 1, tip: "Sé breve, deja flyers y cartel", razon: "Farmacias = recomendación de confianza", maps: "https://maps.google.com/?q=Torrejón+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Buzones zona norte", donde: "Barrio Obrero", horario: "15:00-17:00", objetivo_n: 1, tip: "Máximo 100 cupones, calidad sobre cantidad", razon: "Cobertura sin agotarse", maps: "https://maps.google.com/?q=Torrejón+Barrio+Obrero" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Ludoteca municipal", donde: "Casa de Cultura", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por responsable de actividades", razon: "Padres buscando actividades para niños", maps: "https://maps.google.com/?q=Torrejón+ludoteca" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "B", titulo: "Comercios clave", donde: "Centro", horario: "09:00-10:30", objetivo_n: 1, tip: "Quioscos, óptica, etc.", razon: "Puntos de paso frecuente", maps: "https://maps.google.com/?q=Torrejón+centro+comercial" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "A", titulo: "Centro de Salud entrada", donde: "Pediatría", horario: "09:00-10:00", objetivo_n: 1, tip: "Es la zona más fácil de Ana, pero vale para ti", razon: "Padres en momento de decisión", maps: "https://maps.google.com/?q=Torrejón+centro+salud" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación residencial", donde: "Zona Oeste", horario: "10:30-12:00", objetivo_n: 1, tip: "Completar cobertura de la semana 1", razon: "Sin buscar cantidad, buscar calidad", maps: "https://maps.google.com/?q=Torrejón+Zona+Oeste" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "B", titulo: "Refuerzo farmacias y panaderías", donde: "Barrio nuevo", horario: "09:00-10:30", objetivo_n: 1, tip: "Misma técnica de la semana 1", razon: "Mantener contacto con establecimientos", maps: "https://maps.google.com/?q=Torrejón+panaderías" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "A", titulo: "Asociación de discapacidad", donde: "Calle Paz", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por coordinador de actividades", razon: "Red de padres altamente motivados", maps: "https://maps.google.com/?q=Torrejón+asociación" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "C", titulo: "Refuerzo buzones", donde: "Zona Sur", horario: "09:00-10:30", objetivo_n: 1, tip: "Termina lo que falta de cobertura", razon: "Completar mapa geográfico", maps: "https://maps.google.com/?q=Torrejón+Sur" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "B", titulo: "Comercios variados", donde: "Centro", horario: "10:00-11:30", objetivo_n: 1, tip: "Peluquería, óptica, tienda ropa", razon: "Espacios de confianza comunitaria", maps: "https://maps.google.com/?q=Torrejón+comercios" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Punto de presión clínica", donde: "Clínica Dr. López", horario: "09:00-10:00", objetivo_n: 1, tip: "Si hay recepción, entrega personal", razon: "Acceso a padres con presupuesto", maps: "https://maps.google.com/?q=Torrejón+clínica" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "C", titulo: "Saturación final", donde: "Zonas calientes", horario: "09:00-10:30", objetivo_n: 1, tip: "Repasa donde mejor acogida", razon: "Máximo retorno en últimos días", maps: "https://maps.google.com/?q=Torrejón+Ardoz" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "B", titulo: "Refuerzo establecimientos", donde: "Sitios clave", horario: "15:00-16:30", objetivo_n: 1, tip: "Mantén buen vínculo con encargados", razon: "Recurrencia en recomendaciones", maps: "https://maps.google.com/?q=Torrejón" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "A", titulo: "Remate final", donde: "Puntos de presión", horario: "09:00-10:30", objetivo_n: 1, tip: "Haz lo que no hayas podido", razon: "Cierre fuerte del plan", maps: "https://maps.google.com/?q=Torrejón+Ardoz" }
+      ]
+    ]
+  },
+  {
+    id: 3, nombre: "Elena García", municipio: "Rivas-Vaciamadrid",
+    horas: "3h20/sem", objetivo: "~180 cupones/sem",
+    color: "974694", color_dark: "7E3B7A",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Colegios públicos zona centro", donde: "CEIP San Isidro", horario: "08:45-10:00", objetivo_n: 1, tip: "Coordina entrada y hora de salida", razon: "Máxima concentración de padres", maps: "https://maps.google.com/?q=Rivas+CEIP" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias y droguería", donde: "Centro Rivas", horario: "10:00-12:00", objetivo_n: 2, tip: "Lleva cartel + taco flyers", razon: "Recomendadores naturales", maps: "https://maps.google.com/?q=Rivas+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Buzones zona residencial", donde: "Barrio Nuevo", horario: "15:30-17:30", objetivo_n: 1, tip: "Calle a calle, sistemático", razon: "Cobertura alta sin presión", maps: "https://maps.google.com/?q=Rivas+Barrio+Nuevo" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Centro de Salud pediátrico", donde: "ABS Rivas", horario: "09:30-11:00", objetivo_n: 1, tip: "Pediatría y enfermería son claves", razon: "Acceso a padres preocupados", maps: "https://maps.google.com/?q=Rivas+centro+salud" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "B", titulo: "Tiendas de ropa y accesorios", donde: "Avenida Principal", horario: "09:00-11:00", objetivo_n: 1, tip: "Sé breve, sonríe, entrega", razon: "Padres en moda para niños", maps: "https://maps.google.com/?q=Rivas+tiendas" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "A", titulo: "Instituto de Secundaria", donde: "IES Rivas Luna", horario: "12:00-13:00", objetivo_n: 1, tip: "Enfermería es punto de entrada", razon: "Adolescentes con necesidades", maps: "https://maps.google.com/?q=Rivas+IES" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación zona norte", donde: "Polígono", horario: "10:00-12:00", objetivo_n: 1, tip: "Menos densa pero necesaria", razon: "Cobertura completa del municipio", maps: "https://maps.google.com/?q=Rivas+Polígono" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "B", titulo: "Librerías y papelería", donde: "Centro", horario: "09:00-10:30", objetivo_n: 2, tip: "Clientes comprando para colegio", razon: "Padres invirtiendo en educación", maps: "https://maps.google.com/?q=Rivas+papelería" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "A", titulo: "Clínica privada", donde: "Clínica Rivas", horario: "10:00-11:00", objetivo_n: 1, tip: "Padres con poder adquisitivo", razon: "Segmento receptivo", maps: "https://maps.google.com/?q=Rivas+clínica" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "C", titulo: "Buzones zona este", donde: "Residencial Sur", horario: "09:00-11:00", objetivo_n: 1, tip: "Repasa zonas sin cobertura", razon: "Completar mapa", maps: "https://maps.google.com/?q=Rivas+Residencial" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "B", titulo: "Peluquerías y salones", donde: "Zona comercial", horario: "10:00-12:00", objetivo_n: 2, tip: "Puntos de confianza comunitaria", razon: "Madres en momento receptivo", maps: "https://maps.google.com/?q=Rivas+peluquerías" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Escuela infantil privada", donde: "Centro Premium", horario: "09:00-10:00", objetivo_n: 1, tip: "Pregunta por directora", razon: "Padres de peques con presupuesto", maps: "https://maps.google.com/?q=Rivas+escuela+infantil" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "A", titulo: "Asociaciones y ludotecas", donde: "Casa de Cultura", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por responsable", razon: "Red de padres altamente motivados", maps: "https://maps.google.com/?q=Rivas+ludoteca" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "C", titulo: "Refuerzo buzones finales", donde: "Zonas pendientes", horario: "09:00-11:00", objetivo_n: 1, tip: "Termina lo que falta", razon: "Cobertura total sin agotarse", maps: "https://maps.google.com/?q=Rivas+Vaciamadrid" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "B", titulo: "Establecimientos clave", donde: "Centro", horario: "09:00-11:00", objetivo_n: 1, tip: "Refuerza los que mejor acogida tuvieron", razon: "Máximo retorno final", maps: "https://maps.google.com/?q=Rivas" }
+      ]
+    ]
+  },
+  {
+    id: 4, nombre: "Camila", municipio: "Valdemoro",
+    horas: "6h/sem", objetivo: "~350 cupones/sem",
+    color: "ED7928", color_dark: "D86810",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Colegios e institutos", donde: "CEIP Gaona + IES Jaime", horario: "08:30-11:00", objetivo_n: 1, tip: "Coordina horarios de entrada", razon: "Máxima concentración de familias", maps: "https://maps.google.com/?q=Valdemoro+CEIP" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias y droguería", donde: "Centro histórico", horario: "09:00-13:00", objetivo_n: 3, tip: "Es tu zona fuerte, domina las farmacias", razon: "Recomendadores de confianza", maps: "https://maps.google.com/?q=Valdemoro+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Saturación residencial zonas 1 y 2", donde: "Barrio Nueva Castilla + Ampliación", horario: "15:30-18:30", objetivo_n: 2, tip: "Dos zonas en un día = máximo rendimiento", razon: "Cobertura sistemática", maps: "https://maps.google.com/?q=Valdemoro+Nueva+Castilla" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Centro de Salud y clínicas", donde: "ABS Valdemoro + Clínica privada", horario: "09:30-11:30", objetivo_n: 1, tip: "Pediatría es el punto de entrada", razon: "Padres en decisión de salud", maps: "https://maps.google.com/?q=Valdemoro+centro+salud" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "B", titulo: "Comercios variados", donde: "Centro y Avenida Principal", horario: "09:00-12:00", objetivo_n: 2, tip: "Tiendas ropa, óptica, accesorios", razon: "Padres invirtiendo en familia", maps: "https://maps.google.com/?q=Valdemoro+comercios" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "A", titulo: "Puntos de presión educativos", donde: "CEIP Santa Engracia + CEIP Princesa", horario: "08:30-11:00", objetivo_n: 1, tip: "Cambia de colegio cada vez", razon: "Saturar colegios sin repetir", maps: "https://maps.google.com/?q=Valdemoro+CEIP" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación residencial zonas 3 y 4", donde: "Barrio Sur + Zona Nueva", horario: "10:00-13:00", objetivo_n: 2, tip: "Calle a calle, buzón a buzón", razon: "Cobertura sin agotarse", maps: "https://maps.google.com/?q=Valdemoro+Sur" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "B", titulo: "Refuerzo farmacias y panaderías", donde: "Barrios periféricos", horario: "09:00-12:00", objetivo_n: 3, tip: "Mantén buen vínculo", razon: "Recurrencia en recomendaciones", maps: "https://maps.google.com/?q=Valdemoro+panaderías" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "A", titulo: "Escuelas infantiles privadas", donde: "Centros Premium", horario: "09:00-11:00", objetivo_n: 1, tip: "Pregunta siempre por directora", razon: "Padres con presupuesto", maps: "https://maps.google.com/?q=Valdemoro+escuela+infantil" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "C", titulo: "Buzones zona central", donde: "Centro histórico", horario: "09:00-12:00", objetivo_n: 1, tip: "Completa lo que falte", razon: "Máxima densidad", maps: "https://maps.google.com/?q=Valdemoro+centro" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "B", titulo: "Peluquerías, ópticas y tiendas", donde: "Zona comercial", horario: "09:00-12:00", objetivo_n: 2, tip: "Puntos clave de confianza", razon: "Madres en momento receptivo", maps: "https://maps.google.com/?q=Valdemoro+peluquerías" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Asociaciones, ludotecas, casas de cultura", donde: "Equipamientos municipales", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por responsable de actividades", razon: "Red de padres motivados", maps: "https://maps.google.com/?q=Valdemoro+ludoteca" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "C", titulo: "Saturación final zonas 5 y 6", donde: "Zonas pendientes", horario: "10:00-13:00", objetivo_n: 2, tip: "Termina cobertura de municipio", razon: "Completar mapa sin agotarse", maps: "https://maps.google.com/?q=Valdemoro" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "B", titulo: "Establecimientos clave refuerzo", donde: "Sitios con mejor acogida", horario: "09:00-12:00", objetivo_n: 2, tip: "Mantén relación con encargados", razon: "Recurrencia y boca a boca", maps: "https://maps.google.com/?q=Valdemoro" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "A", titulo: "Remate final puntos de presión", donde: "Colegios e institutos", horario: "08:30-11:30", objetivo_n: 1, tip: "Haz lo que no hayas podido", razon: "Cierre fuerte y máximo impacto", maps: "https://maps.google.com/?q=Valdemoro+Valdemoro" }
+      ]
+    ]
+  },
+  {
+    id: 5, nombre: "Andrea Maldonado", municipio: "Leganés",
+    horas: "5h20/sem", objetivo: "~300 cupones/sem",
+    color: "D6191B", color_dark: "B3130E",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Colegios públicos zona oeste", donde: "CEIP Gabriela Mistral", horario: "08:45-10:30", objetivo_n: 1, tip: "Coordina con Laura para no pisarse", razon: "Máxima concentración de padres", maps: "https://maps.google.com/?q=Leganés+CEIP" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias y droguería", donde: "Centro comercial Opción", horario: "10:00-13:00", objetivo_n: 2, tip: "Lleva cartel + taco flyers", razon: "Recomendadores naturales", maps: "https://maps.google.com/?q=Leganés+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Buzones zona residencial norte", donde: "Barrio Nueva", horario: "15:30-18:00", objetivo_n: 1, tip: "Calle a calle sistemático", razon: "Cobertura sin presión", maps: "https://maps.google.com/?q=Leganés+Barrio+Nueva" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Centro de Salud y Hospital", donde: "ABS Leganés", horario: "09:30-11:00", objetivo_n: 1, tip: "Pediatría y área de maternidad", razon: "Acceso a padres preocupados", maps: "https://maps.google.com/?q=Leganés+centro+salud" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "B", titulo: "Tiendas especializadas", donde: "Centro histórico", horario: "09:00-12:00", objetivo_n: 2, tip: "Tiendas ropa niño, óptica, zapatos", razon: "Padres invirtiendo en familia", maps: "https://maps.google.com/?q=Leganés+tiendas" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "A", titulo: "IES y escuelas infantiles", donde: "IES Leganés + Centros infantiles", horario: "08:30-11:00", objetivo_n: 1, tip: "Coordinación importante", razon: "Rango completo de edades", maps: "https://maps.google.com/?q=Leganés+IES" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación residencial zona sur", donde: "Barrio Antiguo", horario: "10:00-12:30", objetivo_n: 1, tip: "Menos densa pero importante", razon: "Cobertura sistemática", maps: "https://maps.google.com/?q=Leganés+Barrio+Antiguo" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "B", titulo: "Librerías y papelería", donde: "Avenida Principal", horario: "09:00-11:00", objetivo_n: 2, tip: "Padres comprando para colegio", razon: "Inversión en educación", maps: "https://maps.google.com/?q=Leganés+papelería" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "A", titulo: "Clínicas privadas y consultorios", donde: "Zona médica", horario: "10:00-11:30", objetivo_n: 1, tip: "Padres con poder adquisitivo", razon: "Segmento receptivo", maps: "https://maps.google.com/?q=Leganés+clínica" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "C", titulo: "Buzones zona este", donde: "Residencial Este", horario: "09:00-11:30", objetivo_n: 1, tip: "Completa cobertura", razon: "Máxima saturación", maps: "https://maps.google.com/?q=Leganés+Este" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "B", titulo: "Peluquerías y salones", donde: "Zona comercial", horario: "10:00-12:30", objetivo_n: 2, tip: "Puntos de confianza comunitaria", razon: "Madres receptivas", maps: "https://maps.google.com/?q=Leganés+peluquerías" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Asociaciones y centros cívicos", donde: "Casa de Cultura", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por responsable", razon: "Red de padres motivados", maps: "https://maps.google.com/?q=Leganés+casa+cultura" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "C", titulo: "Refuerzo buzones finales", donde: "Zonas pendientes", horario: "10:00-12:30", objetivo_n: 1, tip: "Termina lo que falta", razon: "Cobertura completa", maps: "https://maps.google.com/?q=Leganés" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "B", titulo: "Establecimientos clave refuerzo", donde: "Sitios con mejor acogida", horario: "09:00-12:00", objetivo_n: 2, tip: "Mantén buen vínculo", razon: "Recurrencia en recomendaciones", maps: "https://maps.google.com/?q=Leganés" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "A", titulo: "Remate puntos de presión", donde: "Colegios principales", horario: "08:30-11:30", objetivo_n: 1, tip: "Haz lo que no hayas podido", razon: "Cierre fuerte final", maps: "https://maps.google.com/?q=Leganés" }
+      ]
+    ]
+  },
+  {
+    id: 6, nombre: "Laura", municipio: "Leganés",
+    horas: "5h20/sem", objetivo: "~300 cupones/sem",
+    color: "E45E9B", color_dark: "C74878",
+    semanas: [
+      [
+        { dia: 1, semana: 1, label: "Lun", tipo: "A", titulo: "Colegios públicos zona este", donde: "CEIP Los Ángeles", horario: "08:45-10:30", objetivo_n: 1, tip: "Coordina con Andrea para no pisarse", razon: "Máxima concentración de padres", maps: "https://maps.google.com/?q=Leganés+CEIP" },
+        { dia: 2, semana: 1, label: "Mar", tipo: "B", titulo: "Farmacias y comercios", donde: "Centro comercial Alegra", horario: "10:00-13:00", objetivo_n: 2, tip: "Establecimientos con buen flujo", razon: "Recomendadores de confianza", maps: "https://maps.google.com/?q=Leganés+farmacias" },
+        { dia: 3, semana: 1, label: "Miér", tipo: "C", titulo: "Buzones zona residencial centro", donde: "Barrio Centro", horario: "15:30-18:00", objetivo_n: 1, tip: "Sistemático calle a calle", razon: "Cobertura sin presión", maps: "https://maps.google.com/?q=Leganés+Centro" },
+        { dia: 4, semana: 1, label: "Jue", tipo: "A", titulo: "Clínica privada y pediatría privada", donde: "Clínica Centro", horario: "09:30-11:00", objetivo_n: 1, tip: "Pediatría privada = padres con presupuesto", razon: "Acceso a segmento alto", maps: "https://maps.google.com/?q=Leganés+clínica" },
+        { dia: 5, semana: 1, label: "Vie", tipo: "B", titulo: "Tiendas deportivas y jugueterías", donde: "Centro", horario: "09:00-12:00", objetivo_n: 2, tip: "Padres comprando ocio", razon: "Conexión con IS", maps: "https://maps.google.com/?q=Leganés+jugueterías" }
+      ],
+      [
+        { dia: 6, semana: 2, label: "Lun", tipo: "A", titulo: "IES y escuelas infantiles", donde: "IES Centro + Infantiles privadas", horario: "08:30-11:00", objetivo_n: 1, tip: "Cubre rango completo", razon: "Diferentes grupos de edad", maps: "https://maps.google.com/?q=Leganés+IES" },
+        { dia: 7, semana: 2, label: "Mar", tipo: "C", titulo: "Saturación residencial zona oeste", donde: "Barrio Oeste", horario: "10:00-12:30", objetivo_n: 1, tip: "Cobertura sin repetir", razon: "Saturación sistemática", maps: "https://maps.google.com/?q=Leganés+Oeste" },
+        { dia: 8, semana: 2, label: "Miér", tipo: "B", titulo: "Librerías y material educativo", donde: "Centro comercial", horario: "09:00-11:00", objetivo_n: 2, tip: "Padres invirtiendo en educación", razon: "Segmento receptivo", maps: "https://maps.google.com/?q=Leganés+librerías" },
+        { dia: 9, semana: 2, label: "Jue", tipo: "A", titulo: "Centros médicos municipales", donde: "Polideportivo municipal", horario: "10:00-11:30", objetivo_n: 1, tip: "Acceso a padres en actividades", razon: "Punto de presión secundario", maps: "https://maps.google.com/?q=Leganés+polideportivo" },
+        { dia: 10, semana: 2, label: "Vie", tipo: "C", titulo: "Buzones zona norte", donde: "Barrio Norte", horario: "09:00-11:30", objetivo_n: 1, tip: "Completa mapa geográfico", razon: "Cobertura total", maps: "https://maps.google.com/?q=Leganés+Norte" }
+      ],
+      [
+        { dia: 11, semana: 3, label: "Lun", tipo: "B", titulo: "Peluquerías y salones de belleza", donde: "Zona comercial", horario: "10:00-12:30", objetivo_n: 2, tip: "Espacios de confianza comunitaria", razon: "Madres receptivas", maps: "https://maps.google.com/?q=Leganés+peluquerías" },
+        { dia: 12, semana: 3, label: "Mar", tipo: "A", titulo: "Asociaciones y centros de ocio", donde: "Centro de Asociaciones", horario: "17:00-18:30", objetivo_n: 1, tip: "Pregunta por responsable", razon: "Red de padres motivados", maps: "https://maps.google.com/?q=Leganés+asociaciones" },
+        { dia: 13, semana: 3, label: "Miér", tipo: "C", titulo: "Refuerzo buzones finales", donde: "Zonas pendientes", horario: "10:00-12:30", objetivo_n: 1, tip: "Termina lo que falta", razon: "Máxima cobertura", maps: "https://maps.google.com/?q=Leganés" },
+        { dia: 14, semana: 3, label: "Jue", tipo: "B", titulo: "Refuerzo establecimientos clave", donde: "Con mejor acogida", horario: "09:00-12:00", objetivo_n: 2, tip: "Mantén vínculo con encargados", razon: "Recurrencia y recomendación", maps: "https://maps.google.com/?q=Leganés" },
+        { dia: 15, semana: 3, label: "Vie", tipo: "A", titulo: "Remate final de colegios", donde: "Puntos de presión", horario: "08:30-11:30", objetivo_n: 1, tip: "Haz lo pendiente", razon: "Cierre fuerte e impactante", maps: "https://maps.google.com/?q=Leganés" }
+      ]
+    ]
+  }
+];
+
+let current = null;
+
+// ── BUILD HOME ──────────────────────────────────────────────────────────────
+function buildHome() {
+  const grid = document.getElementById('home-grid');
+  grid.innerHTML = DATA.map((t, idx) => {
+    const initials = t.nombre.split(' ')[0].substring(0, 1).toUpperCase();
+    return `<div class="t-card" onclick="openPlan(${t.id})" style="">
+      <div class="t-card-left">
+        <div class="t-avatar" style="background:linear-gradient(135deg, #${t.color}, #${t.color_dark});">${initials}</div>
+        <div>
+          <div class="t-name">${t.nombre}</div>
+          <div class="t-muni">${t.municipio}</div>
+        </div>
+      </div>
+      <div class="t-arrow">→</div>
+    </div>`;
+  }).join('');
+}
+
+// ── OPEN PLAN ────────────────────────────────────────────────────────────────
+function openPlan(id) {
+  current = DATA.find(t => t.id === id);
+  if (!current) return;
+  
+  document.getElementById('s-home').classList.remove('active');
+  document.getElementById('s-app').classList.add('active');
+  
+  // Update color CSS
+  document.documentElement.style.setProperty('--c', '#' + current.color);
+  document.documentElement.style.setProperty('--cd', '#' + current.color_dark);
+  
+  // Update header
+  document.getElementById('hdr-name').textContent = current.nombre;
+  document.getElementById('hdr-muni').textContent = current.municipio;
+  document.getElementById('chip-horas').textContent = current.horas;
+  document.getElementById('chip-objetivo').textContent = current.objetivo;
+  
+  // Build tabs
+  buildPlan();
+  buildTipos();
+  buildProto();
+  
+  // Switch to plan tab
+  switchTab('plan');
+}
+
+// ── BACK TO HOME ─────────────────────────────────────────────────────────────
+function backToHome() {
+  document.getElementById('s-app').classList.remove('active');
+  document.getElementById('s-home').classList.add('active');
+  current = null;
+}
+
+// ── SWITCH TAB ───────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+    btn.classList.toggle('on', (idx === 0 && tab === 'plan') || (idx === 1 && tab === 'tipos') || (idx === 2 && tab === 'proto'));
+  });
+  
+  document.getElementById('plan-content').style.display = tab === 'plan' ? 'block' : 'none';
+  document.getElementById('tipos-content').style.display = tab === 'tipos' ? 'block' : 'none';
+  document.getElementById('proto-content').style.display = tab === 'proto' ? 'block' : 'none';
+}
+
+// ── BUILD PLAN ───────────────────────────────────────────────────────────────
+function buildPlan() {
+  const cont = document.getElementById('plan-content');
+  let html = '';
+  
+  for (let week = 0; week < 3; week++) {
+    html += `<div class="week-sep">📅 Semana ${week + 1}</div>`;
+    for (const day of current.semanas[week]) {
+      const badgeColor = day.tipo === 'A' ? '#F59E0B' : day.tipo === 'B' ? '#3B82F6' : '#10B981';
+      const tipoLabel = day.tipo === 'A' ? 'Punto de Presión' : day.tipo === 'B' ? 'Ruta del Pan' : 'Saturación';
+      
+      html += `<div class="dc">
+        <div class="dc-top" onclick="toggleDC(${day.dia})">
+          <div>
+            <div class="dc-meta">
+              <span class="dc-num">Día ${day.dia}</span>
+              <span class="dc-day">${day.label}</span>
+              <span class="dc-badge" style="background:${badgeColor}">${tipoLabel}</span>
+            </div>
+            <div class="dc-title">${day.titulo}</div>
+          </div>
+          <div class="dc-arr" id="arr-${day.dia}">↓</div>
+        </div>
+        <div class="dc-body" id="dc-${day.dia}">
+          <div class="why-pill">
+            <div class="why-ico">💭</div>
+            <div class="why-wrap">
+              <div class="why-lbl">Por qué esta jornada</div>
+              <div class="why-txt">${day.razon}</div>
+            </div>
+          </div>
+          
+          <div class="info-grid">
+            <div class="ig">
+              <div class="ig-lbl">📍 Dónde</div>
+              <div class="ig-val">${day.donde}</div>
+            </div>
+            <div class="ig">
+              <div class="ig-lbl">⏰ Horario</div>
+              <div class="ig-val">${day.horario}</div>
+            </div>
+            <div class="ig">
+              <div class="ig-lbl">🎯 Objetivo del día</div>
+              <div class="ig-val">~${day.objetivo_n} punto(s) de presión o ${Math.round(current.objetivo.match(/\d+/)[0] / 15)} cupones</div>
+            </div>
+          </div>
+          
+          <div class="tip-row">
+            <div class="tip-ico">💡</div>
+            <div class="tip-txt">${day.tip}</div>
+          </div>
+          
+          <div class="dc-btns">
+            <a href="${day.maps}" target="_blank" class="dc-btn-maps">🗺 Google Maps</a>
+            <button class="dc-btn-rep" onclick="waLink('maria', ${day.dia}, '${day.titulo}')">📤 Informar a María</button>
+          </div>
+          <div style="margin-top:8px">
+            <button class="dc-btn-rep" onclick="waLink('ana', ${day.dia}, '${day.titulo}')" style="width:100%">📤 Informar a Ana</button>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+  
+  cont.innerHTML = html;
+}
+
+function toggleDC(dia) {
+  const body = document.getElementById(`dc-${dia}`);
+  const arr = document.getElementById(`arr-${dia}`);
+  body.classList.toggle('open');
+  arr.classList.toggle('open');
+}
+
+// ── BUILD TIPOS ──────────────────────────────────────────────────────────────
+function buildTipos() {
+  const cont = document.getElementById('tipos-content');
+  cont.innerHTML = `
+    <div class="tipo-card">
+      <div class="tc-hdr" onclick="toggleTipo('A')">
+        <div class="tc-ttl">🏫 Acción A: Punto de Presión</div>
+        <div class="tc-arr" id="arr-tipo-A">↓</div>
+      </div>
+      <div class="tc-body" id="tc-A">
+        <div class="tc-row"><strong>Dónde:</strong> Puerta de colegios, centro de salud, asociaciones, ludotecas</div>
+        <div class="tc-row"><strong>Técnica:</strong> Entrega en mano directa al adulto responsable</div>
+        <div class="tc-row"><strong>Cuándo:</strong> Hora de entrada/salida del colegio, horario de atención al público</div>
+        <div class="tc-row"><strong>Por qué funciona:</strong> Contacto directo = credibilidad. Ves a la persona a los ojos</div>
+        <div class="tc-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--gris-claro);"><strong style="color:var(--c)">KPI:</strong> nº de personas a las que entregas directamente</div>
+      </div>
+    </div>
+    
+    <div class="tipo-card">
+      <div class="tc-hdr" onclick="toggleTipo('B')">
+        <div class="tc-ttl">🛒 Acción B: Ruta del Pan</div>
+        <div class="tc-arr" id="arr-tipo-B">↓</div>
+      </div>
+      <div class="tc-body" id="tc-B">
+        <div class="tc-row"><strong>Dónde:</strong> Farmacias, panaderías, quioscos, peluquerías, ópticas, tiendas</div>
+        <div class="tc-row"><strong>Técnica:</strong> Dejar taco de 20 flyers + cartel A3. Anotar nombre del establecimiento</div>
+        <div class="tc-row"><strong>Cuándo:</strong> En horario de atención al público. Pregunta siempre primero</div>
+        <div class="tc-row"><strong>Por qué funciona:</strong> El vendedor recomienda a sus clientes habituales. Recomendación = confianza</div>
+        <div class="tc-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--gris-claro);"><strong style="color:var(--c)">KPI:</strong> nº de comercios que aceptan + nombre exacto del lugar</div>
+      </div>
+    </div>
+    
+    <div class="tipo-card">
+      <div class="tc-hdr" onclick="toggleTipo('C')">
+        <div class="tc-ttl">📮 Acción C: Saturación</div>
+        <div class="tc-arr" id="arr-tipo-C">↓</div>
+      </div>
+      <div class="tc-body" id="tc-C">
+        <div class="tc-row"><strong>Dónde:</strong> Buzones en calles residenciales, casas bajas, zonas de vivienda</div>
+        <div class="tc-row"><strong>Técnica:</strong> Calle a calle, buzón a buzón. Trabajo sistemático sin prisa</div>
+        <div class="tc-row"><strong>Cuándo:</strong> Cualquier hora. Es trabajo de distribución, no de contacto</div>
+        <div class="tc-row"><strong>Por qué funciona:</strong> Cobertura geográfica alta. Una familia puede llamar en 3 meses</div>
+        <div class="tc-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--gris-claro);"><strong style="color:var(--c)">KPI:</strong> nº total de flyers repartidos en la zona</div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleTipo(key) {
+  const body = document.getElementById(`tc-${key}`);
+  const arr = document.getElementById(`arr-tipo-${key}`);
+  body.classList.toggle('open');
+  arr.classList.toggle('open');
+}
+
+// ── BUILD PROTOCOLO ──────────────────────────────────────────────────────────
+function buildProto() {
+  const cont = document.getElementById('proto-content');
+  cont.innerHTML = `
+    <div class="proto-block">
+      <div class="pb-hdr" style="background:${current.color}">🎽 Uniforme obligatorio</div>
+      <div class="pb-body">
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">1</div>
+          <div class="ps-txt"><strong>Camiseta Pegasus</strong> "Lo Mío No Es Normal, Pero Lo Tuyo Tampoco"</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">2</div>
+          <div class="ps-txt"><strong>Tote bag Pegasus</strong> para llevar material (flyers, cartel, pliego)</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.02); padding:10px; border-radius:10px; margin-top:10px; font-size:12px; color:#666;">
+          📌 Son tu tarjeta de presentación. Transmiten profesionalismo y pertenencia.
+        </div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-hdr" style="background:${current.color}">🗣 Pitch auténtico</div>
+      <div class="pb-body">
+        <div style="margin-bottom:14px;">
+          <div class="ps-num" style="background:${current.color}; margin-bottom:8px; width:28px;">A</div>
+          <div style="font-weight:700; margin-bottom:6px; color:#111">Versión corta (para entrega rápida):</div>
+          <div style="font-size:13px; font-style:italic; padding:10px; background:rgba(0,0,0,0.02); border-radius:8px; line-height:1.6;">
+            "Hola, te dejo esto por si te puede interesar. Somos Pegasus, hacemos terapias aquí en [municipio] desde 25€ y la primera es gratis."
+          </div>
+        </div>
+
+        <div>
+          <div class="ps-num" style="background:${current.color}; margin-bottom:8px; width:28px;">B</div>
+          <div style="font-weight:700; margin-bottom:6px; color:#111">Versión larga (si preguntan o hay interés):</div>
+          <div style="font-size:13px; font-style:italic; padding:10px; background:rgba(0,0,0,0.02); border-radius:8px; line-height:1.6;">
+            "Soy [nombre], trabajo de terapeuta en Pegasus. Llevamos terapias al barrio — psicología, logopedia, terapia ocupacional — a un precio que la gente se puede permitir de verdad. Muchas familias de aquí ya vienen con nosotros. Si conoces a alguien que pueda necesitarlo, ahí tienes el contacto."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-hdr" style="background:${current.color}">🔄 Protocolo antes, durante y después</div>
+      <div class="pb-body">
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">1</div>
+          <div class="ps-txt"><strong>Antes de la jornada:</strong> Pon uniforme, revisa material en la mochila (flyers, carteles, tote bag), consulta el mapa del día</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">2</div>
+          <div class="ps-txt"><strong>Durante la jornada:</strong> Entrega en mano, pide permiso en establecimientos (Acción B), no insistas si dicen que no</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">3</div>
+          <div class="ps-txt"><strong>Al terminar:</strong> Reporta a tu coordinadora por WhatsApp con los 4 KPIs (cupones, contactos, comercios, horario)</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:${current.color}">4</div>
+          <div class="ps-txt"><strong>KPI especial Acción B:</strong> Anotaciones en tu móvil — nombre exacto del establecimiento y teléfono si es posible</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-hdr" style="background:#374151">📊 Los 4 KPIs que comunicarás</div>
+      <div class="pb-body">
+        <div class="kpi-item">
+          <div class="kpi-ico">📫</div>
+          <div>
+            <div class="kpi-lbl">Cupones / flyers repartidos</div>
+            <div class="kpi-sub">Recuento total de la jornada (A + B + C)</div>
+          </div>
+        </div>
+        <div class="kpi-item">
+          <div class="kpi-ico">🤝</div>
+          <div>
+            <div class="kpi-lbl">Contactos directos</div>
+            <div class="kpi-sub">Solo Acción A — personas a las que entregaste en mano</div>
+          </div>
+        </div>
+        <div class="kpi-item">
+          <div class="kpi-ico">🛒</div>
+          <div>
+            <div class="kpi-lbl">Comercios activados</div>
+            <div class="kpi-sub">Acción B — nombre exacto del local que aceptó material</div>
+          </div>
+        </div>
+        <div class="kpi-item">
+          <div class="kpi-ico">⏱</div>
+          <div>
+            <div class="kpi-lbl">Horario inicio y fin</div>
+            <div class="kpi-sub">Aproximadas. Para validar que le dedicaste tiempo real</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-hdr" style="background:#374151">📤 Cómo reportar</div>
+      <div class="pb-body">
+        <div class="ps">
+          <div class="ps-num" style="background:#374151">1</div>
+          <div class="ps-txt">Al terminar tu jornada, entra en <strong>"Mi Plan"</strong> y pulsa <strong>"Informar a María"</strong> o <strong>"Informar a Ana"</strong></div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:#374151">2</div>
+          <div class="ps-txt">Se abrirá WhatsApp con un mensaje prellenado. Tú solo completa los 4 KPIs en los espacios vacíos</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:#374151">3</div>
+          <div class="ps-txt">Envía el mensaje. Tu coordinadora recibe la información y la registra en el Excel</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num" style="background:#374151">4</div>
+          <div class="ps-txt">No tienes que hacer nada más. Solo cuponea y comunica</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#F0F2F5; padding:16px; border-radius:14px; margin-bottom:20px; text-align:center;">
+      <div style="font-size:13px; font-weight:700; color:#111; margin-bottom:6px;">Lo que recuerda Pegasus</div>
+      <div style="font-size:12px; color:#666; line-height:1.6;">
+        No tienes que convencer a nadie. Solo estás sembrando. Una familia que vea el flyer hoy puede llamar en tres meses. <strong>Con que una lo haga, ya habrá valido la pena.</strong>
+      </div>
+    </div>
+  `;
+}
+
+// ── WA LINK ──────────────────────────────────────────────────────────────────
+function waLink(coordi, dia, titulo) {
+  const nums = { maria: '34613083202', ana: '34666006485' };
+  const msg = `🐎 PEGASUS CUPONEO\n` +
+    `Terapeuta: ${current.nombre}\n` +
+    `Día ${dia} · ${titulo}\n\n` +
+    `📫 Cupones repartidos: \n` +
+    `🤝 Contactos directos: \n` +
+    `🛒 Comercios activados: \n` +
+    `⏱ Horario inicio-fin: `;
+  window.location.href = 'https://wa.me/' + nums[coordi] + '?text=' + encodeURIComponent(msg);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildHome();
+</script>
+
+</body>
+</html>
