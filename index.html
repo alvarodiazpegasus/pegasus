@@ -70,4 +70,278 @@ main { padding: 8px 0 80px; max-width: 1400px; margin: 0 auto; }
 .ncard-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 0.64rem; font-weight: 700; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
 .tag-new { background: rgba(8,183,91,0.18); color: var(--verde); }
 
-.ncard-pronto { flex-shrink: 0; width: 180px; border-radius: 12px; background: var(--negro2); border: 1px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column
+.ncard-pronto { flex-shrink: 0; width: 180px; border-radius: 12px; background: var(--negro2); border: 1px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 16px; text-align: center; gap: 8px; opacity: 0.45; }
+.pronto-icon { font-size: 1.6rem; }
+.pronto-text { font-size: 0.74rem; color: rgba(255,255,255,0.35); line-height: 1.4; }
+.pronto-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 100px; }
+
+.carrusel-btn { position: absolute; top: 50%; transform: translateY(-60%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: var(--blanco); font-size: 1.1rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; transition: background 0.2s; backdrop-filter: blur(8px); }
+.carrusel-btn:hover { background: rgba(255,255,255,0.2); }
+.cbtn-left { left: 8px; }
+.cbtn-right { right: 8px; }
+
+.sep { height: 1px; background: rgba(255,255,255,0.05); margin: 4px 48px; }
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+.modal-overlay.visible { display: flex; }
+.modal { background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; max-width: 380px; width: 90%; text-align: center; position: relative; }
+.modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad); border-radius: 24px 24px 0 0; }
+.modal-icon { font-size: 2.2rem; margin-bottom: 14px; }
+.modal h3 { font-size: 1.15rem; font-weight: 700; font-style: italic; margin-bottom: 6px; }
+.modal p { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 22px; }
+.modal input { width: 100%; padding: 13px 16px; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 700; text-align: center; letter-spacing: 0.15em; outline: none; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: var(--blanco); transition: border-color 0.2s; }
+.modal input:focus { border-color: rgba(255,255,255,0.25); }
+.modal input.error { border-color: var(--rojo); }
+.modal-btns { display: flex; gap: 10px; }
+.btn-m { flex: 1; padding: 11px; border-radius: 100px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: transform 0.15s; }
+.btn-m:hover { transform: translateY(-1px); }
+.btn-ok { background: var(--blanco); color: var(--negro); }
+.btn-cancel { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.55); }
+.err-msg { font-size: 0.76rem; color: var(--rojo); margin-top: -2px; margin-bottom: 10px; display: none; }
+.err-msg.visible { display: block; }
+
+footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; max-width: 1400px; margin: 0 auto; }
+.f-eslogan { font-size: 0.88rem; font-weight: 700; font-style: italic; }
+.f-github { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.73rem; font-weight: 600; transition: border-color 0.2s, color 0.2s; }
+.f-github:hover { border-color: rgba(255,255,255,0.28); color: var(--blanco); }
+
+@media (max-width: 768px) {
+  header, .fila-header, footer { padding-left: 20px; padding-right: 20px; }
+  .hero-banner { padding: 24px 20px; }
+  .carrusel { padding-left: 20px; padding-right: 20px; }
+  .sep { margin-left: 20px; margin-right: 20px; }
+  .ncard { width: 200px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo"><span class="grad-text">Hub</span> Pegasus</div>
+      <div class="header-sub">hub.lomionoesnormal.com</div>
+    </div>
+  </div>
+</header>
+
+<div class="hero-banner">
+  <div class="hero-bg"></div>
+  <div class="hero-bg2"></div>
+  <div class="hero-fade"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Herramientas digitales del equipo</p>
+    <h1 class="hero-title">Todo lo que necesitas,<br><span class="grad-text">en un solo sitio.</span></h1>
+  </div>
+</div>
+
+<main>
+
+  <!-- PROTOCOLOS INTERNOS -->
+  <div class="fila">
+    <div class="fila-header">
+      <span style="font-size:1.1rem;">🗂️</span>
+      <span class="fila-titulo">Protocolos Internos</span>
+      <button class="fila-lock lock-abierto">🔓 Libre</button>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c1',-300)">‹</button>
+      <div class="carrusel" id="c1">
+        <a class="ncard" href="formacion/formacion-claude-abril-2026.html" target="_blank">
+          <div class="ncard-thumb">
+            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#974694,#E45E9B);"></div>
+            <span class="ncard-thumb-emoji">🤖</span>
+          </div>
+          <div class="ncard-body">
+            <div class="ncard-nombre">Formación Claude — Abril 2026</div>
+            <div class="ncard-desc">Guía completa: qué es Claude, tips de uso, skills activas y próximas herramientas.</div>
+            <span class="ncard-tag tag-new">✨ Nuevo</span>
+          </div>
+        </a>
+        <a class="ncard" href="formacion/pegasus-cuponeo-2026.html" target="_blank">
+          <div class="ncard-thumb">
+            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#F3D100);"></div>
+            <span class="ncard-thumb-emoji">🐎</span>
+          </div>
+          <div class="ncard-body">
+            <div class="ncard-nombre">Mi Plan de Cuponeo 2026</div>
+            <div class="ncard-desc">Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.</div>
+            <span class="ncard-tag tag-new">✨ Nuevo</span>
+          </div>
+        </a>
+        <div class="ncard-pronto"><div class="pronto-icon">📋</div><div class="pronto-text">Protocolo onboarding nuevos profesionales</div><span class="pronto-label">Próximamente</span></div>
+        <div class="ncard-pronto"><div class="pronto-icon">⚡</div><div class="pronto-text">Protocolo gestión de incidencias en sesión</div><span class="pronto-label">Próximamente</span></div>
+        <div class="ncard-pronto"><div class="pronto-icon">🔄</div><div class="pronto-text">Protocolo bajas y recuperaciones TPT/IS</div><span class="pronto-label">Próximamente</span></div>
+      </div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c1',300)">›</button>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- PROPUESTAS -->
+  <div class="fila fila-bloqueada" id="fila-propuestas">
+    <div class="fila-header">
+      <span style="font-size:1.1rem;">📋</span>
+      <span class="fila-titulo">Propuestas</span>
+      <button class="fila-lock lock-cerrado" id="lock-propuestas" onclick="abrirModal('propuestas')">🔒 Acceder</button>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c2',-300)">‹</button>
+      <div class="carrusel" id="c2">
+        <a class="ncard" href="propuestas/loeches-indiferente.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🏛️</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Loeches</div><div class="ncard-desc">Propuesta de servicios Indiferente para el Ayuntamiento de Loeches.</div><span class="ncard-tag">Ayuntamiento</span></div>
+        </a>
+        <a class="ncard" href="propuestas/morata-indiferente.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🏛️</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Morata de Tajuña</div><div class="ncard-desc">Propuesta de servicios Indiferente para el Ayuntamiento de Morata de Tajuña.</div><span class="ncard-tag">Ayuntamiento</span></div>
+        </a>
+        <a class="ncard" href="propuestas/municipios-que-te-cuidan.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3);"></div><span class="ncard-thumb-emoji">🌿</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Municipios que te cuidan — FMM</div><div class="ncard-desc">Propuesta del programa para la Federación Madrileña de Municipios.</div><span class="ncard-tag">FMM</span></div>
+        </a>
+        <a class="ncard" href="propuestas/pascual-indiferente.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🥛</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Calidad Pascual</div><div class="ncard-desc">Propuesta de servicios Indiferente para Calidad Pascual — 2026.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
+        </a>
+        <a class="ncard" href="propuestas/pegasus-blackbull-landing.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🍔</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Burgers Anormales</div><div class="ncard-desc">Catering inclusivo con propósito. Pegasus × Black Bull — Inserción laboral en restauración.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
+        </a>
+        <div class="ncard-pronto"><div class="pronto-icon">📄</div><div class="pronto-text">Aquí irán apareciendo nuevas propuestas</div><span class="pronto-label">Próximamente</span></div>
+      </div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c2',300)">›</button>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- DIRECCIÓN -->
+  <div class="fila fila-bloqueada" id="fila-direccion">
+    <div class="fila-header">
+      <span style="font-size:1.1rem;">🔐</span>
+      <span class="fila-titulo">Dirección</span>
+      <button class="fila-lock lock-cerrado" id="lock-direccion" onclick="abrirModal('direccion')">🔒 Acceder</button>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c3',-300)">‹</button>
+      <div class="carrusel" id="c3">
+        <a class="ncard" href="direccion/landing-inversores.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#007EC3,#974694);"></div><span class="ncard-thumb-emoji">💰</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Landing Inversores</div><div class="ncard-desc">Landing de presentación para inversores privados de Fundación Pegasus.</div><span class="ncard-tag">Dirección</span></div>
+        </a>
+        <a class="ncard" href="direccion/briefing-cmo.html" target="_blank">
+          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#974694);"></div><span class="ncard-thumb-emoji">🏗️</span></div>
+          <div class="ncard-body"><div class="ncard-nombre">Briefing CMO — Operación Sede</div><div class="ncard-desc">Briefing estratégico para el CMO sobre la operación de sede de Fundación Pegasus.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
+        </a>
+        <div class="ncard-pronto"><div class="pronto-icon">📊</div><div class="pronto-text">Deck de inversores</div><span class="pronto-label">Próximamente</span></div>
+        <div class="ncard-pronto"><div class="pronto-icon">🧮</div><div class="pronto-text">Calculadora de rentabilidad</div><span class="pronto-label">Próximamente</span></div>
+        <div class="ncard-pronto"><div class="pronto-icon">📈</div><div class="pronto-text">Dashboard de tesorería</div><span class="pronto-label">Próximamente</span></div>
+      </div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c3',300)">›</button>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- PROYECTOS INDIFERENTE -->
+  <div class="fila">
+    <div class="fila-header">
+      <span style="font-size:1.1rem;">🧩</span>
+      <span class="fila-titulo">Proyectos Indiferente</span>
+      <button class="fila-lock lock-abierto">🔓 Libre</button>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c4',-300)">‹</button>
+      <div class="carrusel" id="c4">
+        <a class="ncard" href="proyectos-indiferente/rivas-campamentos/index.html" target="_blank">
+          <div class="ncard-thumb">
+            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3,#974694);"></div>
+            <span class="ncard-thumb-emoji">🏕️</span>
+          </div>
+          <div class="ncard-body">
+            <div class="ncard-nombre">Campamentos Inclusivos — Rivas</div>
+            <div class="ncard-desc">Asesoría técnica especializada. Repositorio de entregables del proyecto con el Ayuntamiento de Rivas Vaciamadrid.</div>
+            <span class="ncard-tag tag-new">✨ Activo</span>
+          </div>
+        </a>
+        <div class="ncard-pronto"><div class="pronto-icon">🏢</div><div class="pronto-text">Aquí irán apareciendo nuevos proyectos Indiferente</div><span class="pronto-label">Próximamente</span></div>
+      </div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c4',300)">›</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="f-eslogan grad-text">"Lo mío no es normal, pero lo tuyo tampoco."</span>
+  <a class="f-github" href="https://github.com/alvarodiazpegasus/pegasus" target="_blank">⬆ Subir herramienta → GitHub</a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-icon" id="modal-icon">🔒</div>
+    <h3 id="modal-titulo">Acceso restringido</h3>
+    <p id="modal-desc">Introduce la contraseña para desbloquear esta sección.</p>
+    <input type="password" id="modal-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')verificar()">
+    <p class="err-msg" id="modal-err">Contraseña incorrecta.</p>
+    <div class="modal-btns">
+      <button class="btn-m btn-cancel" onclick="cerrar()">Cancelar</button>
+      <button class="btn-m btn-ok" onclick="verificar()">Acceder</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const pw = { propuestas: 'MIEDO', direccion: 'P3G4SUS2026' };
+const tit = { propuestas: 'Sección Propuestas', direccion: 'Sección Dirección' };
+const ico = { propuestas: '📋', direccion: '🔐' };
+let actual = null;
+const ok = new Set();
+
+function abrirModal(s) {
+  if (ok.has(s)) return;
+  actual = s;
+  document.getElementById('modal-icon').textContent = ico[s];
+  document.getElementById('modal-titulo').textContent = tit[s];
+  document.getElementById('modal-input').value = '';
+  document.getElementById('modal-err').classList.remove('visible');
+  document.getElementById('modal-input').classList.remove('error');
+  document.getElementById('modal-overlay').classList.add('visible');
+  setTimeout(() => document.getElementById('modal-input').focus(), 100);
+}
+
+function cerrar() {
+  document.getElementById('modal-overlay').classList.remove('visible');
+  actual = null;
+}
+
+function verificar() {
+  const v = document.getElementById('modal-input').value;
+  if (v === pw[actual]) {
+    ok.add(actual);
+    document.getElementById('fila-' + actual).classList.add('desbloqueada');
+    const l = document.getElementById('lock-' + actual);
+    l.textContent = '🔓 Desbloqueado';
+    l.classList.remove('lock-cerrado');
+    l.classList.add('lock-abierto');
+    l.onclick = null;
+    cerrar();
+  } else {
+    document.getElementById('modal-input').classList.add('error');
+    document.getElementById('modal-err').classList.add('visible');
+    document.getElementById('modal-input').value = '';
+    document.getElementById('modal-input').focus();
+  }
+}
+
+function scrollCarrusel(id, amt) {
+  document.getElementById(id).scrollBy({ left: amt, behavior: 'smooth' });
+}
+
+document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === document.getElementById('modal-overlay')) cerrar(); });
+</script>
+</body>
+</html>
