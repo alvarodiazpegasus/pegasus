@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto Sediasa × Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --naranja: #ED7928;
+  --amarillo: #F3D100;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris-claro: #f8f9fa;
+  --grad-pegasus: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Barlow', sans-serif; 
+  background: var(--gris-claro);
+  color: var(--negro);
+  line-height: 1.6;
+}
+
+/* PASSWORD SCREEN */
+.password-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(8,183,91,0.05), rgba(0,126,195,0.05), rgba(151,70,148,0.05));
+  padding: 20px;
+}
+
+.password-box {
+  background: white;
+  border-radius: 24px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.password-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--grad-pegasus);
+}
+
+.logos-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.logo-sediasa {
+  height: 48px;
+}
+
+.logo-separator {
+  font-size: 1.5rem;
+  color: #ddd;
+  font-weight: 300;
+}
+
+.logo-pegasus {
+  height: 42px;
+}
+
+.password-box h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--negro);
+}
+
+.password-box p {
+  color: #666;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.password-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.1em;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+
+.password-input:focus {
+  border-color: var(--azul);
+}
+
+.password-input.error {
+  border-color: var(--rojo);
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.error-msg {
+  color: var(--rojo);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  min-height: 20px;
+  font-weight: 600;
+}
+
+.password-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--negro);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.password-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  display: none;
+  min-height: 100vh;
+}
+
+.main-content.visible {
+  display: block;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 24px 32px;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-logos img {
+  height: 36px;
+}
+
+.header-separator {
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(8,183,91,0.08), rgba(0,126,195,0.08), rgba(151,70,148,0.08));
+  padding: 60px 32px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--negro);
+  line-height: 1.2;
+}
+
+.hero-grad {
+  background: var(--grad-pegasus);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cards-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 32px;
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+
+.section-intro h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--negro);
+}
+
+.section-intro p {
+  color: #666;
+  font-size: 1.05rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  margin-bottom: 48px;
+}
+
+.resource-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  color: var(--negro);
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--grad-pegasus);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.resource-card:hover::before {
+  transform: scaleX(1);
+}
+
+.resource-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--negro);
+}
+
+.card-desc {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-propuesta {
+  background: rgba(0,126,195,0.1);
+  color: var(--azul);
+}
+
+.badge-herramienta {
+  background: rgba(151,70,148,0.1);
+  color: var(--morado);
+}
+
+.badge-manual {
+  background: rgba(8,183,91,0.1);
+  color: var(--verde);
+}
+
+footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  padding: 32px;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-slogan {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+  background: var(--grad-pegasus);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.footer-info {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .password-box {
+    padding: 36px 28px;
+  }
+  
+  .logos-header {
+    gap: 16px;
+  }
+  
+  .logo-sediasa, .logo-pegasus {
+    height: 36px;
+  }
+  
+  header {
+    padding: 20px 24px;
+  }
+  
+  .header-logos img {
+    height: 30px;
+  }
+  
+  .hero {
+    padding: 48px 24px;
+  }
+  
+  .cards-section {
+    padding: 48px 24px;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div class="password-screen" id="passwordScreen">
+  <div class="password-box">
+    <div class="logos-header">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'%3E%3Ctext x='10' y='60' font-family='Arial, sans-serif' font-size='48' font-weight='bold' fill='%23006d5b'%3ESediasa%3C/text%3E%3C/svg%3E" alt="Sediasa" class="logo-sediasa">
+      <span class="logo-separator">×</span>
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%2308B75B'/%3E%3Cstop offset='20%25' style='stop-color:%23007EC3'/%3E%3Cstop offset='40%25' style='stop-color:%23974694'/%3E%3Cstop offset='60%25' style='stop-color:%23E45E9B'/%3E%3Cstop offset='80%25' style='stop-color:%23D6191B'/%3E%3Cstop offset='100%25' style='stop-color:%23F3D100'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='10' y='45' font-family='Arial, sans-serif' font-size='42' font-weight='bold' font-style='italic' fill='url(%23grad)'%3EPEGASUS%3C/text%3E%3C/svg%3E" alt="Pegasus" class="logo-pegasus">
+    </div>
+    <h1>Portal Proyecto Sediasa</h1>
+    <p>Introduce la contraseña para acceder a los recursos del proyecto</p>
+    <input 
+      type="password" 
+      class="password-input" 
+      id="passwordInput" 
+      placeholder="••••••••••••••"
+      onkeydown="if(event.key==='Enter') checkPassword()"
+      autocomplete="off">
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="password-btn" onclick="checkPassword()">Acceder al Portal</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+  <header>
+    <div class="header-inner">
+      <div class="header-logos">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'%3E%3Ctext x='10' y='60' font-family='Arial, sans-serif' font-size='48' font-weight='bold' fill='%23006d5b'%3ESediasa%3C/text%3E%3C/svg%3E" alt="Sediasa">
+        <span class="header-separator">×</span>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%2308B75B'/%3E%3Cstop offset='20%25' style='stop-color:%23007EC3'/%3E%3Cstop offset='40%25' style='stop-color:%23974694'/%3E%3Cstop offset='60%25' style='stop-color:%23E45E9B'/%3E%3Cstop offset='80%25' style='stop-color:%23D6191B'/%3E%3Cstop offset='100%25' style='stop-color:%23F3D100'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='10' y='45' font-family='Arial, sans-serif' font-size='42' font-weight='bold' font-style='italic' fill='url(%23grad2)'%3EPEGASUS%3C/text%3E%3C/svg%3E" alt="Pegasus">
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-subtitle">Asesoría Técnica Especializada</p>
+      <h1>Proyecto <span class="hero-grad">Sediasa × Pegasus</span></h1>
+      <p>Transformación cultural a través de la metodología Indiferente</p>
+    </div>
+  </section>
+
+  <section class="cards-section">
+    <div class="section-intro">
+      <h2>Recursos del Proyecto</h2>
+      <p>Accede a la propuesta comercial, la herramienta "La Caja" y su manual de uso</p>
+    </div>
+
+    <div class="cards-grid">
+      <a href="propuesta_sediasa.html" class="resource-card">
+        <span class="card-icon">📋</span>
+        <h3 class="card-title">Propuesta Comercial</h3>
+        <p class="card-desc">Propuesta completa de servicios Indiferente para Sediasa. Incluye metodología, objetivos, fases de implementación y presupuesto detallado.</p>
+        <span class="card-badge badge-propuesta">Propuesta</span>
+      </a>
+
+      <a href="la_caja_herramienta.html" class="resource-card">
+        <span class="card-icon">🎯</span>
+        <h3 class="card-title">La Caja — Herramienta</h3>
+        <p class="card-desc">Herramienta interactiva para la gestión de conflictos y toma de decisiones. Metodología práctica basada en inteligencia emocional.</p>
+        <span class="card-badge badge-herramienta">Herramienta</span>
+      </a>
+
+      <a href="manual_la_caja.html" class="resource-card">
+        <span class="card-icon">📖</span>
+        <h3 class="card-title">Manual de La Caja</h3>
+        <p class="card-desc">Guía completa de uso de la herramienta La Caja. Instrucciones paso a paso, casos prácticos y mejores prácticas de implementación.</p>
+        <span class="card-badge badge-manual">Manual</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <p class="footer-slogan">"Lo mío no es normal, pero lo tuyo tampoco."</p>
+      <p class="footer-info">Fundación Pegasus · Proyecto Sediasa · 2026</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+const CORRECT_PASSWORD = 'SEDIASAPEGASUS';
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput');
+  const errorMsg = document.getElementById('errorMsg');
+  const value = input.value.trim();
+
+  if (value === CORRECT_PASSWORD) {
+    document.getElementById('passwordScreen').style.display = 'none';
+    document.getElementById('mainContent').classList.add('visible');
+    sessionStorage.setItem('sediasa_access', 'true');
+  } else {
+    input.classList.add('error');
+    errorMsg.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
+    input.value = '';
+    setTimeout(() => {
+      input.classList.remove('error');
+    }, 300);
+  }
+}
+
+// Check if already authenticated
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('sediasa_access') === 'true') {
+    document.getElementById('passwordScreen').style.display = 'none';
+    document.getElementById('mainContent').classList.add('visible');
+  }
+});
+</script>
+
+</body>
+</html>
