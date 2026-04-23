@@ -1,0 +1,1493 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prisma — Nota interna para David y Marre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris-suave: #FAFAFA;
+  --gris-medio: #F2F2F2;
+  --gris-borde: #EAEAEA;
+  --gris-texto: #555;
+
+  --grad-corp: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+  color-scheme: light;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--blanco);
+  color: var(--negro);
+  line-height: 1.7;
+  overflow-x: hidden;
+  font-size: 18px;
+}
+
+.grad-text {
+  background: var(--grad-corp);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === HERO === */
+.hero {
+  position: relative;
+  padding: 100px 24px 72px;
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: visible;
+}
+.hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #777;
+  margin-bottom: 28px;
+}
+.hero h1 {
+  font-size: clamp(2.3rem, 5.2vw, 4.2rem);
+  margin-bottom: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.05;
+}
+.hero-sub {
+  font-size: clamp(1.08rem, 1.4vw, 1.25rem);
+  max-width: 760px;
+  color: var(--gris-texto);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.hero-sub strong { color: var(--negro); font-weight: 700; }
+.hero-meta {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--gris-borde);
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+.hero-meta-block { display: flex; flex-direction: column; gap: 4px; }
+.hero-meta-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 700;
+}
+.hero-meta-value { font-weight: 600; color: var(--negro); }
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+.blob-1 {
+  width: 360px; height: 360px;
+  background: var(--grad-corp);
+  top: -80px; right: -120px;
+}
+.blob-2 {
+  width: 240px; height: 240px;
+  background: linear-gradient(135deg, var(--rosa), var(--naranja));
+  bottom: -60px; left: -80px;
+  opacity: 0.22;
+}
+
+/* === PARTE DIVIDER === */
+.parte-divider {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 60px 24px 20px;
+}
+.parte-divider-inner {
+  border-top: 2px solid var(--negro);
+  padding-top: 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.parte-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--negro);
+}
+.parte-titulo {
+  font-size: clamp(1.1rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  color: var(--gris-texto);
+  font-style: italic;
+}
+
+/* === SECCIONES === */
+.seccion {
+  padding: 56px 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+}
+.seccion-num {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 18px;
+  display: block;
+}
+.seccion h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-bottom: 28px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+.seccion p {
+  font-size: clamp(1.02rem, 1.25vw, 1.1rem);
+  color: #2a2a2a;
+  margin-bottom: 22px;
+  line-height: 1.75;
+}
+.seccion p strong { color: var(--negro); font-weight: 700; }
+.seccion p em { color: #444; font-style: italic; }
+
+.seccion-clara {
+  background: var(--gris-suave);
+  max-width: none;
+  padding: 56px 24px;
+}
+.seccion-clara .seccion-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* === BLOQUE DESTACADO === */
+.destacado {
+  padding: 28px 0;
+  margin: 32px 0;
+  border-top: 1px solid var(--gris-borde);
+  border-bottom: 1px solid var(--gris-borde);
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--negro);
+  font-style: italic;
+}
+
+/* === BLOQUE FÍSICA === */
+.fisica {
+  margin: 32px 0;
+  padding: 28px 32px;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 16px;
+  background: var(--blanco);
+}
+.fisica-titulo {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.fisica-def {
+  font-size: 1.02rem;
+  color: var(--negro);
+  font-weight: 500;
+  line-height: 1.65;
+  margin: 0;
+}
+.fisica-def strong { font-weight: 700; }
+
+/* === PILARES === */
+.pilares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 28px 0 32px;
+}
+.pilar {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--gris-suave);
+  border: 1px solid var(--gris-borde);
+  text-align: center;
+}
+.pilar-num {
+  font-size: 0.68rem;
+  color: #999;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.pilar-nombre {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--negro);
+  font-style: italic;
+}
+.pilar.pegasus {
+  background: var(--negro);
+  color: var(--blanco);
+  border-color: var(--negro);
+  position: relative;
+  overflow: hidden;
+}
+.pilar.pegasus::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-corp);
+  opacity: 0.25;
+  z-index: 0;
+}
+.pilar.pegasus .pilar-num,
+.pilar.pegasus .pilar-nombre { position: relative; z-index: 1; }
+.pilar.pegasus .pilar-num { color: #ccc; }
+.pilar.pegasus .pilar-nombre { color: var(--blanco); }
+
+/* === PARALELA === */
+.paralela {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 36px 0;
+}
+@media (max-width: 700px) {
+  .paralela { grid-template-columns: 1fr; gap: 14px; }
+  .paralela .flecha { transform: rotate(90deg); }
+}
+.paralela-col {
+  padding: 22px 22px;
+  background: var(--gris-suave);
+  border-radius: 14px;
+}
+.paralela-col h4 {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #888;
+  margin-bottom: 10px;
+}
+.paralela-col p {
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.55;
+}
+.flecha {
+  font-size: 1.7rem;
+  color: #bbb;
+  text-align: center;
+  font-weight: 300;
+}
+
+/* === PRISMA BANNER === */
+.prisma-banner {
+  padding: 110px 24px;
+  text-align: center;
+  background: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+.prisma-banner::before, .prisma-banner::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.32;
+  pointer-events: none;
+}
+.prisma-banner::before {
+  width: 380px; height: 380px;
+  background: linear-gradient(135deg, var(--verde), var(--azul), var(--morado));
+  top: -140px; left: -100px;
+}
+.prisma-banner::after {
+  width: 340px; height: 340px;
+  background: linear-gradient(135deg, var(--rosa), var(--rojo), var(--naranja), var(--amarillo));
+  bottom: -140px; right: -80px;
+}
+.prisma-banner-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.prisma-banner-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 28px;
+  display: block;
+}
+.prisma-name {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(3.4rem, 10vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-bottom: 28px;
+}
+.prisma-claim {
+  font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+  font-weight: 500;
+  color: #333;
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.prisma-claim strong { color: var(--negro); font-weight: 700; }
+
+/* === COMPARATIVA === */
+.comparativa {
+  padding: 56px 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.comparativa-header {
+  margin-bottom: 40px;
+  max-width: 740px;
+}
+.comparativa-header h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-bottom: 16px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+.comparativa-header p {
+  font-size: 1.02rem;
+  color: var(--gris-texto);
+}
+.comparativa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .comparativa-grid { grid-template-columns: 1fr; }
+}
+.col-card {
+  border-radius: 24px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.col-card.test {
+  background: var(--gris-suave);
+  border: 1.5px solid var(--gris-borde);
+}
+.col-card.prisma {
+  background: var(--negro);
+  color: var(--blanco);
+}
+.col-card.prisma::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 280px; height: 280px;
+  background: var(--grad-corp);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.col-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  position: relative;
+}
+.col-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+.col-card.prisma .col-subtitle { color: #bbb; }
+.col-lista { list-style: none; position: relative; }
+.col-lista-titulo {
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  margin-top: 22px;
+  color: #666;
+}
+.col-card.prisma .col-lista-titulo { color: #aaa; }
+.col-lista li {
+  padding: 9px 0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #e8e8e8;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.5;
+}
+.col-card.prisma .col-lista li { border-bottom-color: #2a2a2a; color: #e0e0e0; }
+.col-lista li:last-child { border-bottom: none; }
+.col-lista li::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  margin-top: 9px;
+  opacity: 0.55;
+}
+
+/* === PENDIENTES === */
+.pendientes-box {
+  background: var(--blanco);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 24px 0;
+  border-left: 3px solid var(--naranja);
+  border-top: 1px solid var(--gris-borde);
+  border-right: 1px solid var(--gris-borde);
+  border-bottom: 1px solid var(--gris-borde);
+}
+.pendientes-box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 14px;
+  color: var(--negro);
+}
+.pendientes-box ul { list-style: none; }
+.pendientes-box li {
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: #333;
+  display: flex;
+  gap: 12px;
+  line-height: 1.55;
+  border-bottom: 1px solid var(--gris-borde);
+}
+.pendientes-box li:last-child { border-bottom: none; }
+.pendientes-box li::before {
+  content: '→';
+  color: var(--naranja);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* === CTA FINAL === */
+.cta {
+  padding: 90px 24px;
+  background: var(--negro);
+  color: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: var(--grad-corp);
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.cta-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.cta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amarillo);
+  margin-bottom: 24px;
+  display: inline-block;
+}
+.cta h2 {
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  margin-bottom: 28px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.cta p {
+  font-size: 1.05rem;
+  color: #d4d4d4;
+  margin-bottom: 18px;
+  line-height: 1.7;
+  max-width: 680px;
+}
+.cta p strong { color: var(--blanco); font-weight: 700; }
+.cta-firma {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #333;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #aaa;
+}
+.cta-firma strong {
+  display: block;
+  color: var(--blanco);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+footer {
+  padding: 44px 24px;
+  background: var(--negro);
+  color: #aaa;
+  text-align: center;
+  border-top: 1px solid #222;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+footer strong { color: var(--blanco); }
+footer .slogan {
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--blanco);
+  margin-bottom: 8px;
+  display: block;
+}
+footer a { color: var(--amarillo); text-decoration: none; font-weight: 600; }
+
+.wave { width: 100%; overflow: hidden; line-height: 0; display: block; }
+
+/* === PITCHES === */
+.pitches {
+  padding: 56px 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.pitches-header {
+  margin-bottom: 40px;
+  max-width: 760px;
+}
+.pitches-header h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-bottom: 16px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+.pitches-header p {
+  font-size: 1.02rem;
+  color: var(--gris-texto);
+  line-height: 1.65;
+}
+.pitch-contexto {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: var(--gris-medio);
+  font-size: 0.78rem;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.col-card.prisma .pitch-contexto {
+  background: rgba(255,255,255,0.1);
+  color: #d0d0d0;
+}
+.pitch-cuerpo {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-top: 12px;
+  font-style: italic;
+  position: relative;
+  padding-left: 18px;
+  border-left: 2px solid;
+}
+.col-card.test .pitch-cuerpo {
+  color: #2a2a2a;
+  border-left-color: #ccc;
+}
+.col-card.prisma .pitch-cuerpo {
+  color: #e0e0e0;
+  border-left-color: #555;
+}
+.pitch-cuerpo .pitch-linea {
+  margin-bottom: 14px;
+  font-size: 0.97rem;
+}
+.pitch-cuerpo .pitch-linea:last-child { margin-bottom: 0; }
+.pitch-nota {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.88rem;
+  color: #666;
+  line-height: 1.6;
+  font-style: normal;
+  position: relative;
+}
+.col-card.prisma .pitch-nota {
+  border-top-color: rgba(255,255,255,0.15);
+  color: #a8a8a8;
+}
+.pitch-nota strong {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: #888;
+  font-weight: 700;
+}
+.col-card.prisma .pitch-nota strong { color: #aaa; }
+
+/* === WALKTHROUGH === */
+.walkthrough {
+  padding: 56px 24px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.walkthrough-header {
+  margin-bottom: 40px;
+  max-width: 760px;
+}
+.walkthrough-header h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-bottom: 16px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+.walkthrough-header p {
+  font-size: 1.02rem;
+  color: var(--gris-texto);
+  line-height: 1.65;
+}
+.steps {
+  list-style: none;
+  position: relative;
+  padding-left: 0;
+}
+.step {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 24px;
+  padding: 16px 0 24px;
+  position: relative;
+}
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 35px;
+  top: 88px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--gris-borde);
+  z-index: 0;
+}
+.step-num {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--negro);
+  background: var(--blanco);
+  border: 2px solid var(--negro);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step.final .step-num {
+  background: var(--negro);
+  color: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+.step.final .step-num::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-corp);
+  opacity: 0.35;
+  z-index: 0;
+}
+.step.final .step-num span { position: relative; z-index: 1; }
+.step-content { padding-top: 14px; }
+.step-content h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-style: italic;
+  margin-bottom: 10px;
+  color: var(--negro);
+}
+.step-content p {
+  font-size: 0.98rem;
+  color: #333;
+  line-height: 1.65;
+  margin: 0;
+}
+.step-content p em { font-style: italic; color: #555; }
+@media (max-width: 600px) {
+  .step { grid-template-columns: 56px 1fr; gap: 16px; }
+  .step-num { width: 56px; height: 56px; font-size: 1.05rem; }
+  .step:not(:last-child)::after { left: 27px; top: 72px; }
+  .step-content { padding-top: 10px; }
+}
+
+/* === ROADMAP === */
+.roadmap {
+  padding: 56px 24px 80px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.roadmap-header {
+  margin-bottom: 36px;
+  max-width: 740px;
+}
+.roadmap-header h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-bottom: 16px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.15;
+}
+.roadmap-header p {
+  font-size: 1.02rem;
+  color: var(--gris-texto);
+  line-height: 1.65;
+}
+.roadmap-metrica {
+  margin: 36px 0 44px;
+  padding: 24px 28px;
+  background: var(--gris-suave);
+  border: 1px solid var(--gris-borde);
+  border-radius: 16px;
+}
+.roadmap-metrica-top {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.roadmap-metrica-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-style: italic;
+  background: var(--grad-corp);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.roadmap-metrica-label {
+  font-size: 0.95rem;
+  color: #444;
+  font-weight: 600;
+}
+.roadmap-bar {
+  height: 6px;
+  background: var(--gris-borde);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.roadmap-bar-fill {
+  height: 100%;
+  background: var(--grad-corp);
+  border-radius: 3px;
+}
+.roadmap-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .roadmap-columnas { grid-template-columns: 1fr; }
+}
+.roadmap-col-titulo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.25rem;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.roadmap-col-titulo.hecho { color: var(--verde); border-bottom-color: var(--verde); }
+.roadmap-col-titulo.falta { color: var(--naranja); border-bottom-color: var(--naranja); }
+.roadmap-col-titulo span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-style: normal;
+  color: #888;
+  letter-spacing: 0.05em;
+}
+.roadmap-items { display: flex; flex-direction: column; gap: 8px; }
+.roadmap-item {
+  background: var(--blanco);
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, background 0.2s;
+}
+.roadmap-item[open] {
+  background: var(--gris-suave);
+  border-color: #d0d0d0;
+}
+.roadmap-item summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--negro);
+}
+.roadmap-item summary::-webkit-details-marker { display: none; }
+.roadmap-item summary::after {
+  content: '+';
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #aaa;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.roadmap-item[open] summary::after { content: '−'; }
+.roadmap-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.roadmap-icon.check {
+  background: var(--verde);
+  color: var(--blanco);
+}
+.roadmap-icon.pending {
+  border: 2px solid var(--naranja);
+  color: var(--naranja);
+  background: var(--blanco);
+}
+.roadmap-item-body {
+  padding: 0 18px 18px 50px;
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.65;
+}
+.roadmap-item-body em { color: #666; font-style: italic; }
+.roadmap-item-body strong { color: var(--negro); font-weight: 700; }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .hero { padding: 64px 20px 48px; }
+  .seccion, .seccion-clara { padding: 48px 20px; }
+  .hero-meta { gap: 24px; }
+  .comparativa { padding: 48px 20px; }
+  .prisma-banner { padding: 72px 20px; }
+  .cta { padding: 72px 20px; }
+  .fisica { padding: 22px 20px; }
+  .parte-divider { padding: 40px 20px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- === HERO === -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div>
+    <p class="hero-eyebrow">Nota interna · 21 abr 2026</p>
+    <h1>Llevo seis semanas<br>construyendo algo<br><span class="grad-text">y necesito contároslo.</span></h1>
+    <p class="hero-sub">
+      Esta nota hace tres cosas. Primero, os cuento <strong>qué he estado construyendo</strong> estas semanas sin haber hablado con vosotros todavía. Segundo, os explico <strong>por qué creo que tenía que construirlo</strong> — el origen, la oportunidad, lo que me llevó a meterme aquí. Y tercero, ya al final, os traigo una decisión concreta que necesito que validéis: <strong>cómo se llama</strong>. Pero la decisión del nombre no tiene sentido sin las dos primeras partes. Por eso este documento empieza donde empieza y no por el nombre.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-block">
+        <span class="hero-meta-label">Para</span>
+        <span class="hero-meta-value">David & Marre</span>
+      </div>
+      <div class="hero-meta-block">
+        <span class="hero-meta-label">De</span>
+        <span class="hero-meta-value">Álvaro</span>
+      </div>
+      <div class="hero-meta-block">
+        <span class="hero-meta-label">Qué se decide aquí</span>
+        <span class="hero-meta-value">Si seguimos · y con qué nombre</span>
+      </div>
+      <div class="hero-meta-block">
+        <span class="hero-meta-label">Lectura</span>
+        <span class="hero-meta-value">12 minutos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === WALKTHROUGH DEL PRODUCTO === -->
+<section class="walkthrough fade-in">
+  <div class="walkthrough-header">
+    <span class="seccion-num">Antes de nada — cómo funciona</span>
+    <h2>Un vistazo al producto antes de contaros por qué.</h2>
+    <p>Si nunca os he enseñado cómo es por dentro, empiezo por ahí. Imaginad que <strong>Marta, directora de RRHH de una empresa de 400 empleados</strong>, acaba de contratarnos. Esto es lo que pasa las dos semanas siguientes.</p>
+  </div>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h4>Marta entra en su portal</h4>
+        <p>Tras firmar, recibe acceso a un panel privado. Sube la lista de emails de su plantilla — por CSV o por integración con su sistema de RRHH — y define el plazo de respuesta. Pongamos dos semanas. A partir de ahí, el producto se encarga solo.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h4>Cada empleado recibe un email</h4>
+        <p>Al día siguiente, los 400 empleados reciben un correo a su nombre con un <em>link único y anónimo</em>. Dentro, una promesa sencilla: quince minutos, 44 preguntas, y cero posibilidad de que nadie — ni nosotros, ni Marta, ni su jefe — sepa quién ha respondido qué.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h4>Responden cuando pueden</h4>
+        <p>Móvil o ordenador, a la hora que quieran. Las preguntas cubren los seis ejes de diversidad. No son preguntas de encuesta de clima — son preguntas sobre si tienes permiso para ser tú en el trabajo.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h4>Marta sigue el ciclo desde su panel</h4>
+        <p>Durante esas dos semanas, Marta ve en su portal solo dos cosas: <em>cuánta plantilla ha respondido</em> y <em>cuánto queda de plazo</em>. No ve respuestas individuales. No puede verlas. El anonimato no es una promesa verbal — es una imposibilidad técnica.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <h4>Se cierra el ciclo</h4>
+        <p>Cuando se cumple el plazo, o antes si ha respondido masa suficiente, Marta cierra el ciclo con un clic. Eso dispara el procesamiento: agregamos datos, corremos el scoring, generamos la narrativa del informe. Tarda 24-48 horas.</p>
+      </div>
+    </li>
+
+    <li class="step final">
+      <div class="step-num"><span>06</span></div>
+      <div class="step-content">
+        <h4>El informe aterriza en su panel</h4>
+        <p>No es un PDF de ochenta páginas. Es un informe que descompone su empresa en los seis ejes, con un dato principal por eje y una hoja de ruta concreta sobre por dónde empezar. Lleva un <strong>sello de certificación</strong> — Base, Silver o Gold — que Marta puede exhibir hacia fuera. Y, dentro del panel, puede hacerle preguntas en lenguaje natural al propio informe: <em>"¿cómo se compara este dato con mi sector?"</em>, <em>"¿por dónde empezaría con presupuesto limitado?"</em>.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ========================================
+     PARTE I — DE DÓNDE VENGO
+     ======================================== -->
+<div class="parte-divider">
+  <div class="parte-divider-inner">
+    <span class="parte-label">Parte I</span>
+    <span class="parte-titulo">De dónde viene esto · el origen</span>
+  </div>
+</div>
+
+<!-- === 01 INDIFERENTE HOY === -->
+<section class="seccion fade-in">
+  <span class="seccion-num">01 — Indiferente hoy</span>
+  <h2>Lo que hacemos funciona. Pero tiene un techo que lo hacemos.</h2>
+  <p>Indiferente es, hoy, <strong>una marca de formación presencial</strong>. Sesgos inconscientes, resolución de conflictos, la conferencia de David. Personas en una sala, dos facilitadores, cuatro horas, y algo cambia. Nuestros clientes lo pagan porque saben que no hay otro proveedor en el mercado que entregue lo que nosotros entregamos en ese formato.</p>
+  <p>El techo no es el producto. El techo es la <strong>capacidad</strong>. David no se multiplica. Rober tampoco. Una formación presencial son horas de agenda, desplazamientos, preparación, y una factura que no puede escalar sin bajar calidad. Con esta estructura, si queremos ir a más clientes, hay que contratar más formadores — y los formadores Pegasus no se fabrican en tres meses.</p>
+  <p>Eso es lo que llevamos un año mirando los tres sin decirlo del todo: <strong>hemos encontrado una fórmula que funciona tan bien que no somos capaces de servirla al ritmo que nos la piden.</strong></p>
+</section>
+
+<!-- === 02 LA GRIETA === -->
+<section class="seccion-clara fade-in">
+  <div class="seccion-inner">
+    <span class="seccion-num">02 — Lo que empecé a ver en las reuniones comerciales</span>
+    <h2>Los clientes estaban pidiéndome otra cosa antes de pedirme lo nuestro.</h2>
+    <p>Desde hace tres o cuatro meses vengo notando un patrón en las primeras llamadas con empresas. Cuando les explico nuestro catálogo, la pregunta que más se repite no es <em>"¿cuánto cuesta la formación?"</em>. Es otra, y siempre llega antes:</p>
+    <p class="destacado">"Antes de formarnos, ¿nos podéis decir cómo estamos?"</p>
+    <p>Las empresas no vienen buscando formaciones. Vienen buscando <strong>una foto de dónde están en materia de diversidad</strong>. Una foto real, útil, que les permita saber qué formar y dónde. Quieren datos antes de decisiones. Y cuando les digo que lo que tenemos es formación, no diagnóstico, pasa una de dos cosas: o contratan la formación a ciegas — y la rentabilidad interna del cliente es peor — o se van a hacer una encuesta de clima con una consultora genérica, y vuelven seis meses después con datos inservibles.</p>
+    <p>La conclusión es sencilla: <strong>el mercado necesita una fase previa a la formación que nosotros no estamos ofreciendo</strong>. Una fase de diagnóstico. Y esa fase la están haciendo mal otros — con cuestionarios de clima laboral, con NPS de diversidad, con encuestas de satisfacción que no miden nada de lo que de verdad importa.</p>
+  </div>
+</section>
+
+<!-- === 03 LA OPORTUNIDAD === -->
+<section class="seccion fade-in">
+  <span class="seccion-num">03 — Por qué creo que tenemos que ocupar ese hueco nosotros</span>
+  <h2>Nadie está haciendo ese diagnóstico bien. Y nosotros tenemos todo lo que hace falta para hacerlo mejor.</h2>
+  <p>Cuando analicé quién está resolviendo este problema en el mercado español, encontré tres tipos de oferta — y las tres tienen el mismo defecto de base.</p>
+  <p>Las consultoras de clima <strong>miden satisfacción, no diversidad</strong>. Los índices tipo Bloomberg o Great Place to Work <strong>miden políticas, no realidad vivida</strong>. Y las pocas herramientas de diversidad que hay <strong>miden representación (cuántos hay de cada tipo) pero no cómo viven esa diferencia las personas</strong>.</p>
+  <p>Ninguna de las tres responde a la pregunta que las empresas nos están haciendo: <em>"¿cómo estamos de verdad?"</em>. Y ninguna de las tres puede responderla, porque les falta lo que a nosotros nos sobra:</p>
+  <p>—el marco conceptual de los <strong>seis pilares</strong> de diversidad, que son la única segmentación útil para la experiencia real de una persona en el trabajo.<br>—la filosofía Pegasus, que cambia el eje de la medición: no miramos si hay sufrimiento, miramos si hay permiso para ser uno mismo.<br>—la credibilidad de David como voz pública que legitima hablar de estos temas sin caer en paternalismo ni corrección política.<br>—diez años de escuchar a personas con y sin etiquetas contarnos cómo es vivir en una organización.</p>
+  <p>Tenemos las piezas para construir el instrumento que las empresas nos están pidiendo. Y si no lo construimos nosotros, lo va a construir alguien que no tiene ninguna de las cuatro.</p>
+  <p class="destacado">Indiferente tiene hoy la formación. Le falta la fase previa. Y esa fase previa es exactamente el hueco que el mercado nos está señalando con la mano.</p>
+</section>
+
+<!-- ========================================
+     PARTE II — LO QUE ESTOY CONSTRUYENDO
+     ======================================== -->
+<div class="parte-divider">
+  <div class="parte-divider-inner">
+    <span class="parte-label">Parte II</span>
+    <span class="parte-titulo">Lo que estoy construyendo · el producto</span>
+  </div>
+</div>
+
+<!-- === 04 QUÉ ES === -->
+<section class="seccion fade-in">
+  <span class="seccion-num">04 — Qué es</span>
+  <h2>Un instrumento digital que le da a una empresa una <span class="grad-text">foto seria</span> de su diversidad emocional. En dos semanas. Sin consultores dentro.</h2>
+  <p>Lo resumo en una frase porque así tiene que entenderse: <strong>la empresa invita a sus empleados a responder un cuestionario de 44 preguntas; nosotros recogemos los datos de forma anónima y RGPD-compliant; y devolvemos un informe que descompone la cultura de esa organización en sus componentes reales</strong>. Un diagnóstico que antes requería seis meses de consultoría, ahora requiere dos semanas.</p>
+  <p>No sustituye a la formación. La precede. Es la pieza que nos faltaba <em>aguas arriba</em> del catálogo: primero diagnóstico, después formación sobre lo que el diagnóstico haya revelado.</p>
+  <p>Los seis ejes que el instrumento descompone son los de siempre — los seis pilares de Indiferente — más uno que es el que nadie mide:</p>
+
+  <div class="pilares">
+    <div class="pilar"><div class="pilar-num">01</div><div class="pilar-nombre">Discapacidad</div></div>
+    <div class="pilar"><div class="pilar-num">02</div><div class="pilar-nombre">Género</div></div>
+    <div class="pilar"><div class="pilar-num">03</div><div class="pilar-nombre">LGTB</div></div>
+    <div class="pilar"><div class="pilar-num">04</div><div class="pilar-nombre">Cultural</div></div>
+    <div class="pilar"><div class="pilar-num">05</div><div class="pilar-nombre">Generacional</div></div>
+    <div class="pilar pegasus"><div class="pilar-num">06</div><div class="pilar-nombre">No-Diferencia</div></div>
+  </div>
+
+  <p>El sexto es el pilar Pegasus. Mide lo que ningún otro instrumento del mercado mide: si en esa organización existe <strong>permiso emocional para ser uno mismo</strong>, independientemente de qué diferencia traigas. Es el eje que convierte este instrumento en algo que no puede hacer nadie más — porque nadie más tiene la filosofía que hay detrás.</p>
+</section>
+
+<!-- === 05 ESTADO ACTUAL === -->
+<section class="seccion-clara fade-in">
+  <div class="seccion-inner">
+    <span class="seccion-num">05 — En qué punto estoy</span>
+    <h2>He dedicado seis semanas en segundo plano y el trabajo de fondo está hecho.</h2>
+    <p>Os pongo el estado real, sin adornos, para que sepáis que esto no es un powerpoint ni una hoja de intenciones. Es un proyecto con los cimientos puestos:</p>
+    <p>—<strong>Instrumento psicométrico</strong>: 44 ítems cerrados, basados en la arquitectura del test Mapfre que ya teníamos. Validación formal con muestra piloto queda pendiente para más adelante.<br>—<strong>Arquitectura técnica</strong>: stack cerrado (Next.js + Supabase Frankfurt + Railway Amsterdam + Anthropic API). Cuatro cuentas nuevas, todo lo demás reutilizado de lo que Pegasus ya tiene contratado.<br>—<strong>Plan RGPD</strong>: arquitectura híbrida cerrada, con validación externa con Mariano prevista cuando el MVP esté al 80%.<br>—<strong>Modelo comercial v1</strong>: pricing, sello de certificación (Base/Silver/Gold), contratos. Listo para ajustar con vuestro feedback.<br>—<strong>Identidad y filosofía</strong>: narrativa, posicionamiento, encaje con Indiferente. Listos para pasar por el filtro Pegasus.</p>
+    <p>Lo único que falta por hacer — y es lo gordo — es <strong>construir el MVP</strong> y ejecutar un primer ciclo real con una empresa. Estimo 8-10 semanas de construcción. Pero antes de empezar a gastar dinero en infraestructura y a dedicar horas de desarrollo, necesito vuestro sí.</p>
+    <p>Y vuestro sí no es sobre la tecnología, ni sobre la psicometría, ni sobre el RGPD — esas son decisiones mías que firmo yo. Vuestro sí es sobre <strong>cómo se llama</strong>.</p>
+  </div>
+</section>
+
+<!-- ========================================
+     PARTE III — CÓMO SE LLAMA
+     ======================================== -->
+<div class="parte-divider">
+  <div class="parte-divider-inner">
+    <span class="parte-label">Parte III</span>
+    <span class="parte-titulo">Cómo se llama · la decisión que os traigo</span>
+  </div>
+</div>
+
+<!-- === 06 EL NOMBRE === -->
+<section class="seccion fade-in">
+  <span class="seccion-num">06 — Por qué el nombre importa ahora</span>
+  <h2>Es lo único de esta lista que <span class="grad-text">no puedo decidir yo solo</span>.</h2>
+  <p>El stack tecnológico no lo vais a vender vosotros. La arquitectura de datos no la vais a explicar vosotros. La psicometría no la vais a defender vosotros. Pero el nombre sí. El nombre va a aparecer en podcasts, en mesas redondas, en aperturas de David, en el pie de firma de Marre. Va a ser lo que pongamos en los materiales, en los contratos, en los emails a clientes, en la prensa.</p>
+  <p>Un nombre que vosotros dos no podáis decir con convicción es un nombre que nunca va a funcionar, por bueno que sea el producto que hay detrás. Por eso esta decisión, y solo esta, os la traigo antes de empezar a construir.</p>
+  <p>Tenía sobre la mesa el nombre obvio: <strong>"Test Indiferente"</strong>. Descriptivo, consistente con la marca madre, cero fricción. Iba a registrar testindiferente.com esta semana. Y me paré.</p>
+  <p>Me paré porque me di cuenta de que "Test Indiferente" describe el <em>formato</em> (un cuestionario) y no la <em>función</em> (lo que ocurre cuando una organización lo atraviesa). Y un nombre que describe la capa equivocada condiciona cómo pensamos el producto desde dentro durante los próximos diez años.</p>
+</section>
+
+<!-- === 07 NOMBRE FÍSICO === -->
+<section class="seccion-clara fade-in">
+  <div class="seccion-inner">
+    <span class="seccion-num">07 — El nombre que propongo</span>
+    <h2>Lo que hacemos tiene un nombre en física. Lo usamos o nos resistimos a usarlo.</h2>
+
+    <div class="fisica">
+      <div class="fisica-titulo">Prisma · definición física</div>
+      <p class="fisica-def">
+        Instrumento óptico que, al ser atravesado por un haz de luz aparentemente uniforme, <strong>descompone esa luz en el espectro de colores que realmente la compone</strong>. El observador descubre que lo que creía blanco era, en realidad, varias cosas distintas viajando juntas.
+      </p>
+    </div>
+
+    <p>Léelo otra vez cambiando dos palabras.</p>
+
+    <div class="fisica">
+      <div class="fisica-titulo">Nuestro producto · descripción funcional</div>
+      <p class="fisica-def">
+        Instrumento de diagnóstico que, al ser atravesado por <strong>una cultura organizacional</strong> aparentemente uniforme, <strong>descompone esa cultura en los seis ejes de diversidad que realmente la componen</strong>. El cliente descubre que lo que creía <em>"bien"</em> era, en realidad, seis realidades distintas actuando a la vez.
+      </p>
+    </div>
+
+    <p>No se parece a un prisma. <strong>Es un prisma</strong> — aplicado a diversidad emocional en lugar de a luz visible, pero el fenómeno es idéntico: un instrumento que descompone una señal aparentemente uniforme en sus componentes reales.</p>
+    <p>Por eso no os traigo una decisión creativa. Os traigo una decisión de <strong>precisión</strong>. El producto ya tiene un nombre en el mundo físico. Resistirse a usarlo por ir a lo descriptivo-convencional sería inventar un segundo nombre para algo que ya tiene el suyo.</p>
+  </div>
+</section>
+
+<!-- === PRISMA BANNER === -->
+<section class="prisma-banner fade-in">
+  <div class="prisma-banner-inner">
+    <span class="prisma-banner-eyebrow">La propuesta, en una palabra</span>
+    <h2 class="prisma-name grad-text">PRISMA</h2>
+    <p class="prisma-claim">
+      Porque es lo que es. Y porque pensaremos mejor sobre él si lo llamamos <strong>por su nombre físico</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- === 08 COMPARATIVA === -->
+<section class="comparativa">
+  <div class="comparativa-header fade-in">
+    <span class="seccion-num">08 — Comparativa honesta</span>
+    <h2>Qué gano y qué pierdo con cada nombre.</h2>
+    <p>"Test Indiferente" no es un nombre malo. Es un nombre que describe la capa equivocada del producto. Y eso tiene consecuencias concretas que quiero que veáis de frente.</p>
+  </div>
+  <div class="comparativa-grid">
+    <!-- TEST INDIFERENTE -->
+    <div class="col-card test fade-in">
+      <h3 class="col-title">"Test Indiferente"</h3>
+      <p class="col-subtitle">La opción obvia · descartada</p>
+      <p class="col-lista-titulo" style="color: #6a9c6a;">A favor</p>
+      <ul class="col-lista">
+        <li>Se entiende sin explicación</li>
+        <li>Consistencia literal con la marca madre Indiferente</li>
+        <li>No requiere construir significado — ya lo tiene</li>
+      </ul>
+      <p class="col-lista-titulo" style="color: #b24a4a;">En contra</p>
+      <ul class="col-lista">
+        <li>Describe el formato (cuestionario) en vez de la función (descomponer)</li>
+        <li>Nos hace pensar el producto como "un test que mejoramos" y no como "un instrumento que afinamos"</li>
+        <li>Es un nombre genérico — difícilmente registrable como marca</li>
+        <li>No soporta extensiones coherentes: <em>"Test Indiferente Pro"</em> no tiene sentido interno</li>
+        <li>Es el nombre de una categoría, no el de un producto</li>
+      </ul>
+    </div>
+
+    <!-- PRISMA -->
+    <div class="col-card prisma fade-in">
+      <h3 class="col-title">Prisma</h3>
+      <p class="col-subtitle">La propuesta</p>
+      <p class="col-lista-titulo" style="color: #6FE896;">A favor</p>
+      <ul class="col-lista">
+        <li>Describe la función real del producto — no una metáfora, una analogía física exacta</li>
+        <li>Nos hace pensar el producto en la capa correcta: descomposición, ejes, espectro</li>
+        <li>Es un nombre propio — registrable, defendible, con identidad</li>
+        <li>Soporta extensiones naturales si algún día el producto se bifurca</li>
+        <li>Encaja sin esfuerzo con la filosofía Pegasus: lo que parece uniforme no lo es</li>
+      </ul>
+      <p class="col-lista-titulo" style="color: #FF8A8A;">En contra</p>
+      <ul class="col-lista">
+        <li>La primera vez que alguien lo oye necesita una frase de contexto</li>
+        <li>Hay que construir significado de marca desde cero</li>
+        <li>Existen otras empresas con el nombre "Prisma" — pendiente verificación formal en OEPM y EUIPO</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- === 09 LOS DOS PITCHES === -->
+<section class="pitches">
+  <div class="pitches-header fade-in">
+    <span class="seccion-num">09 — Dicho en voz alta</span>
+    <h2>La misma llamada, con los dos nombres.</h2>
+    <p>Os dejo los dos pitches como sonarían en conversación real, no en un escenario. Imaginad una llamada de descubierta con un director general o una directora de personas de una empresa de tamaño medio. Sin épica, sin peli de Hollywood. Como lo diríais de verdad en un café.</p>
+  </div>
+  <div class="comparativa-grid">
+    <!-- PITCH TEST -->
+    <div class="col-card test fade-in">
+      <h3 class="col-title">Pitch con "Test Indiferente"</h3>
+      <p class="col-subtitle">Tono funcional · descriptivo</p>
+      <span class="pitch-contexto">Llamada de descubierta · 2 min</span>
+      <div class="pitch-cuerpo">
+        <p class="pitch-linea">Mira, lo que hacemos se llama Test Indiferente. Son 44 preguntas, unos quince minutos por empleado. Lo lanzáis a la plantilla, en dos semanas os devolvemos un informe.</p>
+        <p class="pitch-linea">El informe os dice cómo estáis en las seis áreas que forman la diversidad de un equipo: discapacidad, género, LGTB, cultural, generacional, y una sexta que es nuestra y no la mide nadie más.</p>
+        <p class="pitch-linea">Es más útil que una encuesta de clima y más rápido que una consultoría. Y con eso ya podéis decidir si hay que formar, dónde y a quién.</p>
+      </div>
+      <div class="pitch-nota">
+        <strong>Qué pasa con este pitch</strong>
+        Queda claro. El interlocutor entiende lo que es al primer intento y no tiene que preguntar nada. El problema es ese: que no tiene nada que preguntar. Asiente, pide precio, y la conversación se acaba en la cabeza de "encuestas / formación". Nos coloca en una categoría que ya tenía nombre antes de llegar nosotros.
+      </div>
+    </div>
+
+    <!-- PITCH PRISMA -->
+    <div class="col-card prisma fade-in">
+      <h3 class="col-title">Pitch con "Prisma"</h3>
+      <p class="col-subtitle">Tono observacional · conversacional</p>
+      <span class="pitch-contexto">Llamada de descubierta · 2 min</span>
+      <div class="pitch-cuerpo">
+        <p class="pitch-linea">Cuando una empresa nos dice <em>"aquí estamos bien en diversidad"</em>, lo que normalmente está pasando es que esa frase tapa seis realidades muy distintas. Una persona con discapacidad no está viviendo lo mismo que alguien LGTB, ni que un trabajador extranjero, ni que alguien de 55. Pero si les preguntas por separado, todos contestan con el mismo <em>"bien"</em> — y cada uno quiere decir algo diferente.</p>
+        <p class="pitch-linea">Lo que hemos construido se llama Prisma, y hace en tu cultura lo que hace un prisma con la luz: descompone eso que parece uniforme en los colores que realmente tiene. La plantilla responde quince minutos, volvemos en dos semanas con un informe que separa los seis ejes y os dice dónde la foto se pone oscura y dónde está en verde.</p>
+        <p class="pitch-linea">Lo que cambia no son los datos. Lo que cambia es la conversación: ya no estás decidiendo si formar o no. Estás decidiendo por qué eje empezar.</p>
+      </div>
+      <div class="pitch-nota">
+        <strong>Qué pasa con este pitch</strong>
+        Abre con una observación que el interlocutor reconoce antes de que nombremos el producto — casi siempre asiente. El nombre aparece cuando ya hay curiosidad. Y lo cierra con un cambio de conversación, no con una feature. El resultado: nos coloca en una categoría que todavía no tenía nombre antes de llegar nosotros — lo cual es, para alguien que compra, razón para preguntar más.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PARTE IV — LO QUE OS PIDO
+     ======================================== -->
+<div class="parte-divider">
+  <div class="parte-divider-inner">
+    <span class="parte-label">Parte IV</span>
+    <span class="parte-titulo">Qué os pido · lo que falta y la pregunta</span>
+  </div>
+</div>
+
+<!-- === 10 LO QUE FALTA === -->
+<section class="seccion fade-in">
+  <span class="seccion-num">10 — Lo que todavía no está resuelto</span>
+  <h2>Os lo cuento de frente, para que no aparezca dentro de tres meses como sorpresa.</h2>
+  <p>La decisión no depende solo de que estemos los tres de acuerdo. Hay verificaciones técnicas que tengo que hacer antes de registrar nada, y que no he hecho todavía porque no tenía sentido hacerlas sin vuestro sí previo.</p>
+
+  <div class="pendientes-box">
+    <h3>Pendientes si el nombre se valida</h3>
+    <ul>
+      <li><strong>Búsqueda en OEPM y EUIPO:</strong> confirmar que "Prisma" o una marca compuesta derivada es registrable en las clases que nos interesan. Si está colisionado, hay que decidir variante.</li>
+      <li><strong>Disponibilidad de dominio:</strong> comprobar <em>prismaindiferente.com</em>, o alternativas si el .com principal está ocupado.</li>
+      <li><strong>Relación con la marca madre Indiferente:</strong> cerrar si es "Prisma by Indiferente", "Prisma Indiferente" o simplemente "Prisma". Me inclino por la tercera, pero es decisión compartida.</li>
+    </ul>
+  </div>
+
+  <p>Ninguno me hace dudar de la decisión de fondo. Pero pueden modificar la forma final del nombre. Por eso la pregunta que os hago no es <em>"¿registramos prismaindiferente.com?"</em>. Es una pregunta anterior.</p>
+</section>
+
+<!-- WAVE -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;">
+    <defs>
+      <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="20%"  stop-color="#007EC3"/>
+        <stop offset="40%"  stop-color="#974694"/>
+        <stop offset="60%"  stop-color="#E45E9B"/>
+        <stop offset="75%"  stop-color="#D6191B"/>
+        <stop offset="88%"  stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="url(#wg2)"/>
+  </svg>
+</div>
+
+<!-- === 10 CTA === -->
+<section class="cta">
+  <div class="cta-inner fade-in">
+    <span class="cta-label">11 — La pregunta</span>
+    <h2>¿Compartís que el producto<br>es un prisma?</h2>
+    <p>No os pregunto si os gusta el nombre. Os pregunto si <strong>compartís el diagnóstico</strong>: que lo que el producto hace es descomponer, no testar. Que el verbo correcto es ese.</p>
+    <p>Si lo compartís, el nombre cae solo y arrancamos la construcción. Si no lo compartís — si creéis que lo que estamos construyendo es fundamentalmente medir, o evaluar, o puntuar — entonces el nombre correcto es otro y lo buscamos juntos.</p>
+    <p>Y si hay algo de la historia previa que no os cuadra — si no os encaja que Indiferente tenga una capa digital, si el encaje con el catálogo actual os chirría, si preferís que esto lo construya otro — <strong>también me lo decís ahora</strong>. El naming es lo de menos si el producto no encaja en la cabeza de los tres.</p>
+
+    <div class="cta-firma">
+      <strong>— Álvaro</strong>
+      Decidlo cuando lo tengáis claro. Hasta entonces, no registro nada ni empiezo a construir MVP.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     ANEXO — ROADMAP
+     ======================================== -->
+<div class="parte-divider">
+  <div class="parte-divider-inner">
+    <span class="parte-label">Anexo</span>
+    <span class="parte-titulo">Roadmap del proyecto · dónde estoy y qué falta</span>
+  </div>
+</div>
+
+<section class="roadmap fade-in">
+  <div class="roadmap-header">
+    <span class="seccion-num">Anexo — Roadmap completo</span>
+    <h2>Para que tengáis una foto completa de la mesa.</h2>
+    <p>Lo que está cerrado a fecha de hoy y lo que queda por cerrar. Sin trucos y sin esconder lo que todavía no está hecho. Desplegad el acordeón para ver el detalle de cada bloque.</p>
+  </div>
+
+  <div class="roadmap-metrica">
+    <div class="roadmap-metrica-top">
+      <div class="roadmap-metrica-num">55%</div>
+      <div class="roadmap-metrica-label">del proyecto completado · 9 bloques cerrados de 17</div>
+    </div>
+    <div class="roadmap-bar"><div class="roadmap-bar-fill" style="width: 55%"></div></div>
+  </div>
+
+  <div class="roadmap-columnas">
+    <!-- HECHO -->
+    <div class="roadmap-col">
+      <h3 class="roadmap-col-titulo hecho">Ya cerrado <span>9 bloques</span></h3>
+      <div class="roadmap-items">
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Mapa competitivo del mercado</summary>
+          <div class="roadmap-item-body">Análisis de quién está resolviendo hoy el problema que queremos resolver. Consultoras de clima, índices tipo Bloomberg, herramientas de diversidad existentes. Conclusión: <strong>nadie está midiendo diversidad emocional</strong> — todos miden satisfacción, representación o políticas. El hueco es real.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Buyer persona detallado</summary>
+          <div class="roadmap-item-body">Retrato del perfil de cliente que compra: directora de personas o de D&I, empresa de 250-2.500 empleados, presupuesto de formación, presión interna por hacer algo en diversidad. Qué le duele, qué le motiva, qué le frena a firmar.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Arquitectura del producto end-to-end</summary>
+          <div class="roadmap-item-body">Flujo completo: cómo entra un cliente, cómo se configuran sus empleados, cómo responde cada empleado, cómo se cierra el ciclo, cómo se genera el informe, cómo se entrega. Cada paso con sus pantallas y sus decisiones técnicas mapeadas.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Modelo psicométrico</summary>
+          <div class="roadmap-item-body">44 ítems finales, basados en la arquitectura del test Mapfre que ya teníamos. Sistema de scoring por eje, baremos de referencia, lógica de los niveles de certificación (Base / Silver / Gold). <em>Validación formal con muestra piloto queda pendiente.</em></div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Modelo comercial v1</summary>
+          <div class="roadmap-item-body">Pricing por tramos de plantilla, packaging del servicio (qué se incluye y qué no), sellos de certificación, estructura de contrato, plazos de pago. Todo listo para ajustar con vuestro feedback antes de que se use en la primera venta real.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Plan RGPD y arquitectura de datos</summary>
+          <div class="roadmap-item-body">Arquitectura híbrida cerrada: capa personal en UE estricto, capa de IA en USA con protocolo de anonimización k≥5. Mapa de subprocesadores, RAT preliminar, AET tipo, flujo de derechos ARSOPOL. <em>Validación externa con Mariano prevista cuando el MVP esté al 80 %.</em></div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Stack tecnológico</summary>
+          <div class="roadmap-item-body">Auditoría previa de lo que Pegasus ya tiene contratado (Google Workspace, Mailchimp, SAGE, GitHub, Asana, IONOS, Canva PRO, Claude PRO, Google Analytics). Resultado: solo necesitamos <strong>4 cuentas nuevas</strong> — Supabase, Railway, Brevo y la API de Anthropic. Coste mensual estimado: ~80-150 €.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Scope v1: qué entra y qué no en el MVP</summary>
+          <div class="roadmap-item-body">Decisión clara de lo que se construye en esta primera versión y lo que se aplaza a fases posteriores. Evita que el MVP se convierta en una lista interminable. Lo que queda fuera se retoma con criterio explícito de activación.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon check">✓</span>Narrativa del producto · North Star</summary>
+          <div class="roadmap-item-body">Qué promete el producto, a quién, y en qué se diferencia del resto. Storytelling interno coherente con la filosofía Pegasus. Este documento que estáis leyendo es parte de este bloque. <em>La decisión final de naming — "Prisma" vs "Test Indiferente" — es lo que queda abierto.</em></div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- FALTA -->
+    <div class="roadmap-col">
+      <h3 class="roadmap-col-titulo falta">Por cerrar <span>8 bloques</span></h3>
+      <div class="roadmap-items">
+
+        <details class="roadmap-item" open>
+          <summary><span class="roadmap-icon pending">!</span>Validación del nombre con vosotros</summary>
+          <div class="roadmap-item-body">Lo que estamos haciendo ahora mismo. Hasta que no tengamos vuestra respuesta, nada de lo siguiente arranca. Es el cuello de botella consciente del proyecto.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">2</span>Verificación de marca registrada</summary>
+          <div class="roadmap-item-body">Búsqueda formal en OEPM (España) y EUIPO (UE) para confirmar que el nombre final — sea cual sea — es registrable en las clases que nos interesan. Medio día de trabajo. <em>Se dispara cuando el naming esté validado.</em></div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">3</span>Registro de dominio y apertura de cuentas</summary>
+          <div class="roadmap-item-body">Compra del dominio y alta de las 4 cuentas nuevas (Supabase Frankfurt, Railway Amsterdam, Brevo, API de Anthropic). Configuración DNS. Conexión GitHub ↔ Railway para despliegues automáticos. <em>Medio día - un día de trabajo.</em></div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">4</span>Construcción del MVP</summary>
+          <div class="roadmap-item-body">Desarrollo del producto completo en tres flujos: <strong>flujo empleado</strong> (responder el cuestionario), <strong>flujo RRHH</strong> (portal cliente, subir empleados, cerrar ciclo, ver informe, chat) y <strong>flujo admin</strong> (gestión interna). Estimación: <strong>8-10 semanas</strong> de trabajo continuo.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">5</span>Pre-test psicométrico con muestra piloto</summary>
+          <div class="roadmap-item-body">Ejecución del cuestionario con 30-100 personas voluntarias para validar que los ítems miden lo que creemos que miden. Ajuste de preguntas si hace falta. <em>Se hace en paralelo al MVP.</em></div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">6</span>Validación RGPD externa con Mariano (GECCOS)</summary>
+          <div class="roadmap-item-body">Revisión formal de la arquitectura de datos, los contratos con subprocesadores y el flujo de derechos por parte de Mariano como DPO externo. <em>Se activa cuando el MVP esté al 80 %</em>, no antes — no tiene sentido gastar horas de su tarifa en algo que todavía puede cambiar.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">7</span>Materiales comerciales</summary>
+          <div class="roadmap-item-body">Landing pública del producto, propuesta-tipo en PDF, secuencia de emails de venta, material de onboarding para nuevos clientes, one-pager para enviar en frío. <strong>Todo pasado por el workflow gate de las skills Pegasus</strong> (filosofía-checker + storytelling) antes de salir al exterior.</div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary><span class="roadmap-icon pending">8</span>Primer ciclo piloto real + iteración</summary>
+          <div class="roadmap-item-body">Ejecución del primer ciclo completo con una empresa real, de principio a fin: contratación, invitación a empleados, respuestas, informe, entrega, feedback. A partir del feedback del piloto, iteración del producto antes de abrir comercial a más clientes en paralelo.</div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="slogan">"Lo mío no es normal, pero lo tuyo tampoco."</span>
+  <strong>Fundación Pegasus</strong> · <a href="https://fundacionpegasus.org">fundacionpegasus.org</a>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
