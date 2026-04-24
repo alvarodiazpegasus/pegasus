@@ -1,623 +1,835 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub Pegasus</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --verde: #08B75B;
-  --azul: #007EC3;
-  --morado: #974694;
-  --rosa: #E45E9B;
-  --rojo: #D6191B;
-  --amarillo: #F3D100;
-  --naranja: #ED7928;
-  --negro: #111111;
-  --negro2: #1a1a1a;
-  --negro3: #222222;
-  --blanco: #FFFFFF;
-  --grad: linear-gradient(90deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
-  --grad-diag: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Barlow', sans-serif; background: var(--negro); color: var(--blanco); min-height: 100vh; overflow-x: hidden; }
-
-.grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-header { padding: 28px 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 24px; }
-.logo { font-size: 1.8rem; font-weight: 700; font-style: italic; }
-.header-sub { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
-.search-box { flex: 1; max-width: 400px; position: relative; }
-.search-input { width: 100%; padding: 10px 16px 10px 42px; border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: var(--blanco); font-family: 'Barlow', sans-serif; font-size: 0.88rem; outline: none; transition: all 0.2s; }
-.search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
-.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: 0.4; }
-.search-results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; max-height: 400px; overflow-y: auto; display: none; z-index: 100; }
-.search-results.visible { display: block; }
-.search-result { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.2s; }
-.search-result:hover { background: rgba(255,255,255,0.05); }
-.search-result:last-child { border-bottom: none; }
-.search-result-emoji { font-size: 1.4rem; }
-.search-result-info { flex: 1; }
-.search-result-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
-.search-result-section { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
-.search-result-lock { font-size: 0.9rem; opacity: 0.5; }
-.no-results { padding: 24px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.86rem; }
-
-.hero-banner { height: 260px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 40px 48px; }
-.hero-bg { position: absolute; inset: 0; background: var(--grad-diag); opacity: 0.12; }
-.hero-bg2 { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(151,70,148,0.25) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(8,183,91,0.15) 0%, transparent 50%); }
-.hero-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 130px; background: linear-gradient(transparent, var(--negro)); }
-.hero-content { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; width: 100%; }
-.hero-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-.hero-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; font-style: italic; line-height: 1.05; }
-
-main { padding: 8px 0 80px; max-width: 1400px; margin: 0 auto; }
-
-.fila { padding: 24px 0; }
-.fila-header { display: flex; align-items: center; gap: 12px; padding: 0 48px; margin-bottom: 16px; flex-wrap: wrap; }
-.fila-titulo { font-size: 1.05rem; font-weight: 700; font-style: italic; }
-.fila-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-.view-toggle { display: flex; gap: 4px; background: rgba(255,255,255,0.05); padding: 3px; border-radius: 100px; }
-.view-btn { padding: 4px 12px; border-radius: 100px; border: none; background: transparent; color: rgba(255,255,255,0.4); font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.view-btn.active { background: rgba(255,255,255,0.1); color: var(--blanco); }
-.filter-chips { display: flex; gap: 6px; }
-.filter-chip { padding: 4px 10px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.filter-chip:hover { border-color: rgba(255,255,255,0.25); }
-.filter-chip.active { background: rgba(255,255,255,0.1); color: var(--blanco); border-color: rgba(255,255,255,0.25); }
-
-.carrusel-wrapper { position: relative; }
-.carrusel { display: flex; gap: 12px; padding: 8px 48px 16px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
-.carrusel::-webkit-scrollbar { display: none; }
-.carrusel.list-view { flex-direction: column; gap: 8px; }
-
-.progress-dots { display: flex; justify-content: center; gap: 6px; padding: 8px 48px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
-.dot.active { width: 20px; border-radius: 3px; background: rgba(255,255,255,0.5); }
-
-.ncard { flex-shrink: 0; width: 240px; border-radius: 12px; background: var(--negro3); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; text-decoration: none; color: var(--blanco); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; cursor: pointer; display: block; position: relative; }
-.ncard:hover { transform: scale(1.06) translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.18); z-index: 10; }
-.ncard.hidden { display: none; }
-
-.list-view .ncard { width: 100%; display: flex; flex-direction: row; align-items: center; }
-.list-view .ncard:hover { transform: translateX(4px); }
-.list-view .ncard-thumb { width: 80px; height: 80px; flex-shrink: 0; }
-.list-view .ncard-body { flex: 1; padding: 12px 16px; }
-.list-view .ncard-desc { display: none; }
-
-.ncard-lock { position: absolute; top: 12px; right: 12px; font-size: 1rem; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-
-.ncard-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; position: relative; overflow: hidden; }
-.ncard-thumb-grad { position: absolute; inset: 0; opacity: 0.35; }
-.ncard-thumb-emoji { position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
-
-.ncard-body { padding: 14px 16px; }
-.ncard-nombre { font-size: 0.88rem; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
-.ncard-desc { font-size: 0.75rem; color: rgba(255,255,255,0.45); line-height: 1.5; margin-bottom: 10px; }
-.ncard-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.ncard-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 0.64rem; font-weight: 700; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
-.tag-new { background: rgba(8,183,91,0.18); color: var(--verde); }
-.tag-archive { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.25); }
-.tag-urgent { background: rgba(214,25,27,0.18); color: var(--rojo); }
-.tag-active { background: rgba(237,121,40,0.18); color: var(--naranja); }
-
-.ncard-pronto { flex-shrink: 0; width: 180px; border-radius: 12px; background: var(--negro2); border: 1px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 16px; text-align: center; gap: 8px; opacity: 0.45; }
-.pronto-icon { font-size: 1.6rem; }
-.pronto-text { font-size: 0.74rem; color: rgba(255,255,255,0.35); line-height: 1.4; }
-.pronto-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 100px; }
-
-.show-archive-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; margin: 0 48px; border-radius: 100px; border: 1px dashed rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.3); font-family: 'Barlow', sans-serif; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.show-archive-btn:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.5); }
-
-.carrusel-btn { position: absolute; top: 50%; transform: translateY(-60%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: var(--blanco); font-size: 1.1rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; transition: background 0.2s; backdrop-filter: blur(8px); }
-.carrusel-btn:hover { background: rgba(255,255,255,0.2); }
-.cbtn-left { left: 8px; }
-.cbtn-right { right: 8px; }
-
-.sep { height: 1px; background: rgba(255,255,255,0.05); margin: 4px 48px; }
-
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-.modal-overlay.visible { display: flex; }
-.modal { background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; max-width: 420px; width: 90%; text-align: center; position: relative; }
-.modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad); border-radius: 24px 24px 0 0; }
-.modal-icon { font-size: 2.6rem; margin-bottom: 16px; }
-.modal h3 { font-size: 1.3rem; font-weight: 700; font-style: italic; margin-bottom: 12px; line-height: 1.2; }
-.modal p { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 8px; line-height: 1.5; }
-.modal-section { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.modal input { width: 100%; padding: 13px 16px; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 700; text-align: center; letter-spacing: 0.15em; outline: none; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: var(--blanco); transition: border-color 0.2s; }
-.modal input:focus { border-color: rgba(255,255,255,0.25); }
-.modal input.error { border-color: var(--rojo); }
-.modal-btns { display: flex; gap: 10px; }
-.btn-m { flex: 1; padding: 12px; border-radius: 100px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: transform 0.15s; }
-.btn-m:hover { transform: translateY(-1px); }
-.btn-ok { background: var(--blanco); color: var(--negro); }
-.btn-cancel { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.55); }
-.err-msg { font-size: 0.8rem; color: var(--rojo); margin-top: -2px; margin-bottom: 12px; display: none; }
-.err-msg.visible { display: block; }
-
-.toast { position: fixed; bottom: 24px; right: 24px; background: rgba(8,183,91,0.95); color: var(--blanco); padding: 14px 20px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; display: none; z-index: 2000; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-.toast.visible { display: block; animation: slideIn 0.3s ease; }
-@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; max-width: 1400px; margin: 0 auto; }
-.f-eslogan { font-size: 0.88rem; font-weight: 700; font-style: italic; }
-.f-github { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.73rem; font-weight: 600; transition: border-color 0.2s, color 0.2s; }
-.f-github:hover { border-color: rgba(255,255,255,0.28); color: var(--blanco); }
-
-@media (max-width: 768px) {
-  header, .fila-header, footer { padding-left: 20px; padding-right: 20px; }
-  .hero-banner { padding: 24px 20px; }
-  .carrusel { padding-left: 20px; padding-right: 20px; }
-  .sep, .show-archive-btn, .progress-dots { margin-left: 20px; margin-right: 20px; }
-  .ncard { width: 200px; }
-  .search-box { max-width: none; }
-  .header-inner { flex-direction: column; align-items: stretch; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pegasus</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐎</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --card-hover: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #e50914;
+            --border: #2a2a2a;
+            --gradient-teal: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+            --gradient-purple: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+            --gradient-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            --gradient-green: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4%;
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95), rgba(10,10,10,0));
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d9ff 0%, #ff006e 50%, #ffbe0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        
+        .hub-url {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+            background: var(--card-hover);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        /* Secciones */
+        section {
+            margin: 3rem 0;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-icon {
+            font-size: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .lock-icon {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+        
+        /* Carrusel */
+        .carousel {
+            position: relative;
+            overflow: visible;
+        }
+        
+        .carousel-track {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Cards normales */
+        .ncard {
+            flex: 0 0 280px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .ncard:hover {
+            transform: translateY(-4px);
+            background: var(--card-hover);
+            border-color: var(--text-secondary);
+        }
+        
+        .ncard-thumbnail {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+        
+        .ncard-content {
+            padding: 1.25rem;
+        }
+        
+        .ncard-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .ncard-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .ncard-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        /* Cards de Recientes - MÁS ESTRECHOS */
+        .recent-card {
+            flex: 0 0 200px; /* Reducido de 280px */
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .recent-card:hover {
+            transform: translateY(-4px);
+            background: var(--card-hover);
+            border-color: var(--text-secondary);
+        }
+        
+        .recent-card-thumbnail {
+            height: 100px; /* Reducido de 140px */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem; /* Reducido de 3rem */
+            position: relative;
+        }
+        
+        .recent-card-content {
+            padding: 1rem; /* Reducido de 1.25rem */
+        }
+        
+        .recent-card-title {
+            font-size: 0.9rem; /* Reducido de 1rem */
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .recent-card-description {
+            font-size: 0.8rem; /* Reducido de 0.85rem */
+            color: var(--text-secondary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .recent-card-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem; /* Reducido padding */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.7rem; /* Reducido de 0.75rem */
+            font-weight: 500;
+            margin-top: 0.6rem;
+            color: var(--text-primary);
+        }
+        
+        /* Modal de contraseña */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .password-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--border);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .modal-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        #password-input {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        #password-input:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .modal-btn-submit {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+        }
+        
+        .modal-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-btn-cancel {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .modal-btn-cancel:hover {
+            background: var(--card-hover);
+        }
+        
+        .password-error {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .password-error.active {
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-container {
+                margin: 1rem 0 0 0;
+                max-width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .ncard {
+                flex: 0 0 240px;
+            }
+            
+            .recent-card {
+                flex: 0 0 180px; /* Aún más estrecho en móvil */
+            }
+        }
+    </style>
 </head>
 <body>
-
-<header>
-  <div class="header-inner">
-    <div>
-      <div class="logo"><span class="grad-text">Hub</span> Pegasus</div>
-      <div class="header-sub">hub.lomionoesnormal.com</div>
-    </div>
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar herramienta...">
-      <div class="search-results" id="searchResults"></div>
-    </div>
-  </div>
-</header>
-
-<div class="hero-banner">
-  <div class="hero-bg"></div>
-  <div class="hero-bg2"></div>
-  <div class="hero-fade"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Herramientas digitales del equipo</p>
-    <h1 class="hero-title">Todo lo que necesitas,<br><span class="grad-text">en un solo sitio.</span></h1>
-  </div>
-</div>
-
-<main>
-
-  <!-- RECIENTES -->
-  <div class="fila" id="fila-recientes">
-    <div class="fila-header">
-      <span style="font-size:1.1rem;">🕐</span>
-      <span class="fila-titulo">Recientes</span>
-    </div>
-    <div class="carrusel-wrapper">
-      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('cr',-300)">‹</button>
-      <div class="carrusel" id="cr"></div>
-      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('cr',300)">›</button>
-    </div>
-    <div class="progress-dots" id="dots-recientes"></div>
-  </div>
-
-  <div class="sep"></div>
-
-  <!-- PROTOCOLOS INTERNOS -->
-  <div class="fila">
-    <div class="fila-header">
-      <span style="font-size:1.1rem;">🗂️</span>
-      <span class="fila-titulo">Protocolos Internos</span>
-      <div class="fila-controls">
-        <div class="view-toggle">
-          <button class="view-btn active" onclick="toggleView('c1','cards')">▦ Tarjetas</button>
-          <button class="view-btn" onclick="toggleView('c1','list')">☰ Lista</button>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <div class="logo">PEGASUS</div>
+                    <div class="hub-url">HUB.LOMIONOESNORMAL.COM</div>
+                </div>
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Buscar herramienta...">
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="carrusel-wrapper">
-      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c1',-300)">‹</button>
-      <div class="carrusel" id="c1"></div>
-      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c1',300)">›</button>
-    </div>
-    <div class="progress-dots" id="dots-c1"></div>
-  </div>
+    </header>
 
-  <div class="sep"></div>
+    <main class="container">
+        <!-- SECCIÓN RECIENTES -->
+        <section id="recientes">
+            <div class="section-header">
+                <span class="section-icon">🕒</span>
+                <h2 class="section-title">RECIENTES</h2>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track">
+                    <a href="proyectos-indiferente/rivas-campamentos/index.html" class="recent-card">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                            🏕️
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Espacio Calma — Rivas</div>
+                            <div class="recent-card-description">Propuesta de diseño e implementación del Espacio de Calma y Autorregulación en campamentos de Rivas Vaciamadrid.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
+                    
+                    <a href="direccion/naming-test-indiferente.html" class="recent-card">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            🏷️
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Decisión Naming Test Indiferente</div>
+                            <div class="recent-card-description">Test interactivo de naming para David y Marre. Votación de opciones de nombre para marca Indiferente.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
 
-  <!-- PROPUESTAS -->
-  <div class="fila">
-    <div class="fila-header">
-      <span style="font-size:1.1rem;">📋</span>
-      <span class="fila-titulo">Propuestas</span>
-      <div class="fila-controls">
-        <div class="filter-chips">
-          <button class="filter-chip active" data-filter="all" onclick="filterPropuestas('all')">Todas</button>
-          <button class="filter-chip" data-filter="ayuntamiento" onclick="filterPropuestas('ayuntamiento')">🏛️ Aytos</button>
-          <button class="filter-chip" data-filter="empresa" onclick="filterPropuestas('empresa')">🏢 Empresas</button>
-          <button class="filter-chip" data-filter="institucional" onclick="filterPropuestas('institucional')">🌍 Institucional</button>
+                    <a href="formacion/pegasus-cuponeo-2026.html" class="recent-card">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);">
+                            🐎
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Mi Plan de Cuponeo 2026</div>
+                            <div class="recent-card-description">Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/pascual-indiferente.html" class="recent-card">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            🥛
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Propuesta Calidad Pascual</div>
+                            <div class="recent-card-description">Propuesta de servicios Indiferente para Calidad Pascual: formación, consultoría y campañas de sensibilización.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
+
+                    <a href="https://cooltra-pegasus.netlify.app" class="recent-card" target="_blank">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);">
+                            🛵
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Cooltra × Pegasus</div>
+                            <div class="recent-card-description">Propuesta de colaboración con Cooltra. Movilidad inclusiva y sostenible para personas con discapacidad.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
+
+                    <a href="https://tres-campanadas-pegasus.netlify.app" class="recent-card" target="_blank">
+                        <div class="recent-card-thumbnail" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            🏕️
+                        </div>
+                        <div class="recent-card-content">
+                            <div class="recent-card-title">Tres Campanadas 2026</div>
+                            <div class="recent-card-description">Guardianes del Medioambiente: Campamentos de Verano Inclusiva para Tres Cantos.</div>
+                            <span class="recent-card-badge">🆕 Nuevo</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROTOCOLOS INTERNOS -->
+        <section id="protocolos">
+            <div class="section-header">
+                <span class="section-icon">📋</span>
+                <h2 class="section-title">PROTOCOLOS INTERNOS</h2>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track">
+                    <a href="formacion/formacion-claude.html" class="ncard">
+                        <div class="ncard-thumbnail" style="background: var(--gradient-purple);">
+                            🤖
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Formación Claude</div>
+                            <div class="ncard-description">Guía completa para trabajar con Claude: principios, prompts, mejores prácticas y casos de uso en Pegasus.</div>
+                            <span class="ncard-badge">💜 Formación</span>
+                        </div>
+                    </a>
+
+                    <a href="formacion/pegasus-cuponeo-2026.html" class="ncard">
+                        <div class="ncard-thumbnail" style="background: var(--gradient-green);">
+                            🐎
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Mi Plan de Cuponeo 2026</div>
+                            <div class="ncard-description">Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.</div>
+                            <span class="ncard-badge">💚 Operativa</span>
+                        </div>
+                    </a>
+
+                    <a href="formacion/protocolo_accidentes_pegasus.html" class="ncard">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            🚨
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Protocolo de Accidentes</div>
+                            <div class="ncard-description">Procedimiento completo ante accidentes en sesiones: pasos a seguir, contactos de emergencia y comunicación con familias.</div>
+                            <span class="ncard-badge">🔴 Emergencias</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPUESTAS -->
+        <section id="propuestas">
+            <div class="section-header">
+                <span class="section-icon">💼</span>
+                <h2 class="section-title">PROPUESTAS</h2>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track" data-protected="true" data-section="propuestas">
+                    <a href="propuestas/loeches-indiferente.html" class="ncard" data-url="propuestas/loeches-indiferente.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            🏛️
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Propuesta Loeches</div>
+                            <div class="ncard-description">Propuesta de servicios Indiferente para Ayuntamiento de Loeches: formación en sesgos inconscientes y plan de inclusión.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/morata-indiferente.html" class="ncard" data-url="propuestas/morata-indiferente.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);">
+                            🏛️
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Propuesta Morata de Tajuña</div>
+                            <div class="ncard-description">Propuesta de servicios Indiferente para Ayuntamiento de Morata: formación y consultoría en diversidad e inclusión.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/municipios-fmm-que-te-cuidan.html" class="ncard" data-url="propuestas/municipios-fmm-que-te-cuidan.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            🏘️
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Municipios que te Cuidan</div>
+                            <div class="ncard-description">Propuesta de ampliación del programa FMM: 10 núcleos rurales con Terapia Integral, formación de profesionales locales y acompañamiento continuo.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/pascual-indiferente.html" class="ncard" data-url="propuestas/pascual-indiferente.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            🥛
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Propuesta Calidad Pascual</div>
+                            <div class="ncard-description">Propuesta de servicios Indiferente para Calidad Pascual: formación, consultoría y campañas de sensibilización.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/ruiz-indiferente.html" class="ncard" data-url="propuestas/ruiz-indiferente.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                            🏢
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Propuesta Ruiz</div>
+                            <div class="ncard-description">Propuesta de servicios Indiferente para Grupo Ruiz: formación en sesgos, plan de diversidad y certificación inclusiva.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+
+                    <a href="propuestas/blackbull-landing-2026.html" class="ncard" data-url="propuestas/blackbull-landing-2026.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);">
+                            🍔
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Propuesta Black Bull</div>
+                            <div class="ncard-description">Propuesta de colaboración estratégica Black Bull × Pegasus: catering inclusivo, inserción laboral y eventos corporativos.</div>
+                            <span class="ncard-badge">🔒 Propuesta</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIRECCIÓN -->
+        <section id="direccion">
+            <div class="section-header">
+                <span class="section-icon">👔</span>
+                <h2 class="section-title">DIRECCIÓN</h2>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track" data-protected="true" data-section="direccion">
+                    <a href="direccion/landing-inversores.html" class="ncard" data-url="direccion/landing-inversores.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                            💼
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Landing Inversores</div>
+                            <div class="ncard-description">Presentación estratégica de Fundación Pegasus para inversores privados: modelo de negocio, impacto social y oportunidad de inversión.</div>
+                            <span class="ncard-badge">🔒 Dirección</span>
+                        </div>
+                    </a>
+
+                    <a href="direccion/briefing-cmo.html" class="ncard" data-url="direccion/briefing-cmo.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            📊
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Briefing CMO</div>
+                            <div class="ncard-description">Documento estratégico para el futuro Chief Marketing Officer de Pegasus: estado actual, retos, objetivos 2026-2027 y hoja de ruta.</div>
+                            <span class="ncard-badge">🔒 Dirección</span>
+                        </div>
+                    </a>
+
+                    <a href="direccion/pegasusland.html" class="ncard" data-url="direccion/pegasusland.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">
+                            🎡
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Pegasusland</div>
+                            <div class="ncard-description">Visión estratégica del parque temático de inclusión: concepto, experiencias, modelo de negocio y hoja de ruta 2026-2030.</div>
+                            <span class="ncard-badge">🔒 Dirección</span>
+                        </div>
+                    </a>
+
+                    <a href="direccion/naming-test-indiferente.html" class="ncard" data-url="direccion/naming-test-indiferente.html">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            🏷️
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Decisión Naming Test Indiferente</div>
+                            <div class="ncard-description">Test interactivo de naming para David y Marre. Votación de opciones de nombre para marca Indiferente.</div>
+                            <span class="ncard-badge">🔒 Dirección</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROYECTOS INDIFERENTE -->
+        <section id="proyectos-indiferente">
+            <div class="section-header">
+                <span class="section-icon">🎯</span>
+                <h2 class="section-title">PROYECTOS INDIFERENTE</h2>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track">
+                    <a href="proyectos-indiferente/rivas-campamentos/index.html" class="ncard">
+                        <div class="ncard-thumbnail" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                            🏕️
+                        </div>
+                        <div class="ncard-content">
+                            <div class="ncard-title">Campamentos Rivas — Portal de Consultoría</div>
+                            <div class="ncard-description">Espacio de trabajo compartido con Rivas Vaciamadrid y Siete Estrellas. Diagnóstico, observación en campo e informe estratégico.</div>
+                            <span class="ncard-badge">🧡 Consultoría</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Fundación Pegasus — Lo mío no es normal, pero lo tuyo tampoco.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Hub actualizado: Abril 2026</p>
         </div>
-        <div class="view-toggle">
-          <button class="view-btn active" onclick="toggleView('c2','cards')">▦ Tarjetas</button>
-          <button class="view-btn" onclick="toggleView('c2','list')">☰ Lista</button>
+    </footer>
+
+    <!-- Modal de contraseña -->
+    <div id="password-modal" class="password-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">🔒 Contenido Protegido</h3>
+            <p class="modal-description">Esta sección requiere contraseña de acceso</p>
+            <input type="password" id="password-input" placeholder="Introduce la contraseña">
+            <div class="password-error">❌ Contraseña incorrecta</div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closePasswordModal()">Cancelar</button>
+                <button class="modal-btn modal-btn-submit" onclick="checkPassword()">Acceder</button>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="carrusel-wrapper">
-      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c2',-300)">‹</button>
-      <div class="carrusel" id="c2"></div>
-      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c2',300)">›</button>
-    </div>
-    <div class="progress-dots" id="dots-c2"></div>
-  </div>
 
-  <div class="sep"></div>
+    <script>
+        // Contraseñas por sección
+        const PASSWORDS = {
+            'propuestas': 'MIEDO',
+            'direccion': 'P3G4SUS2026'
+        };
 
-  <!-- DIRECCIÓN -->
-  <div class="fila">
-    <div class="fila-header">
-      <span style="font-size:1.1rem;">🔐</span>
-      <span class="fila-titulo">Dirección</span>
-      <div class="fila-controls">
-        <div class="view-toggle">
-          <button class="view-btn active" onclick="toggleView('c3','cards')">▦ Tarjetas</button>
-          <button class="view-btn" onclick="toggleView('c3','list')">☰ Lista</button>
-        </div>
-      </div>
-    </div>
-    <div class="carrusel-wrapper">
-      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c3',-300)">‹</button>
-      <div class="carrusel" id="c3"></div>
-      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c3',300)">›</button>
-    </div>
-    <div class="progress-dots" id="dots-c3"></div>
-  </div>
+        let currentProtectedUrl = '';
+        let currentSection = '';
 
-  <div class="sep"></div>
+        // Búsqueda
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const allCards = document.querySelectorAll('.ncard, .recent-card');
+            
+            allCards.forEach(card => {
+                const title = card.querySelector('.ncard-title, .recent-card-title').textContent.toLowerCase();
+                const description = card.querySelector('.ncard-description, .recent-card-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
 
-  <!-- PROYECTOS INDIFERENTE -->
-  <div class="fila">
-    <div class="fila-header">
-      <span style="font-size:1.1rem;">🧩</span>
-      <span class="fila-titulo">Proyectos Indiferente</span>
-      <div class="fila-controls">
-        <div class="view-toggle">
-          <button class="view-btn active" onclick="toggleView('c4','cards')">▦ Tarjetas</button>
-          <button class="view-btn" onclick="toggleView('c4','list')">☰ Lista</button>
-        </div>
-      </div>
-    </div>
-    <div class="carrusel-wrapper">
-      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c4',-300)">‹</button>
-      <div class="carrusel" id="c4"></div>
-      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c4',300)">›</button>
-    </div>
-    <div class="progress-dots" id="dots-c4"></div>
-  </div>
+        // Sistema de protección
+        document.querySelectorAll('[data-protected="true"] .ncard').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentProtectedUrl = this.getAttribute('data-url');
+                currentSection = this.closest('[data-section]').getAttribute('data-section');
+                
+                // Verificar si ya tiene acceso
+                const hasAccess = sessionStorage.getItem(`access_${currentSection}`) === 'granted';
+                
+                if (hasAccess) {
+                    window.location.href = currentProtectedUrl;
+                } else {
+                    openPasswordModal();
+                }
+            });
+        });
 
-</main>
+        function openPasswordModal() {
+            document.getElementById('password-modal').classList.add('active');
+            document.getElementById('password-input').value = '';
+            document.querySelector('.password-error').classList.remove('active');
+            document.getElementById('password-input').focus();
+        }
 
-<footer>
-  <span class="f-eslogan grad-text">"Lo mío no es normal, pero lo tuyo tampoco."</span>
-  <a class="f-github" href="https://github.com/alvarodiazpegasus/pegasus" target="_blank">⬆ Subir herramienta → GitHub</a>
-</footer>
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.remove('active');
+            currentProtectedUrl = '';
+            currentSection = '';
+        }
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal">
-    <div class="modal-icon">🛑</div>
-    <h3>¡Alto ahí!</h3>
-    <p>Esto es material clasificado, compañer@.<br>Para ver <strong id="modal-tool-name">esta herramienta</strong> necesitas la clave secreta de:</p>
-    <div class="modal-section">
-      <span id="modal-section-icon">📋</span>
-      <span id="modal-section-name">Propuestas</span>
-    </div>
-    <input type="password" id="modal-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')verificarAcceso()">
-    <p class="err-msg" id="modal-err">🙅 Nop, esa no es la contraseña<br><br>Inténtalo de nuevo</p>
-    <div class="modal-btns">
-      <button class="btn-m btn-cancel" onclick="cerrarModal()">Paso</button>
-      <button class="btn-m btn-ok" onclick="verificarAcceso()">Tengo la clave</button>
-    </div>
-  </div>
-</div>
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            const correctPassword = PASSWORDS[currentSection];
+            
+            if (input === correctPassword) {
+                sessionStorage.setItem(`access_${currentSection}`, 'granted');
+                window.location.href = currentProtectedUrl;
+            } else {
+                document.querySelector('.password-error').classList.add('active');
+                document.getElementById('password-input').value = '';
+                document.getElementById('password-input').focus();
+            }
+        }
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+        // Enter en el input de contraseña
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
 
-<script>
-// DATA: Todas las herramientas del Hub
-const herramientas = [
-  // PROTOCOLOS INTERNOS
-  { id: 'formacion-claude', nombre: 'Formación Claude — Abril 2026', descripcion: 'Guía completa: qué es Claude, tips de uso, skills activas y próximas herramientas.', seccion: 'protocolos', tipo: 'formacion', emoji: '🤖', gradiente: 'linear-gradient(135deg,#974694,#E45E9B)', ruta: 'formacion/formacion-claude-abril-2026.html', nivel: 'libre', fecha: '2026-04-20' },
-  { id: 'cuponeo-2026', nombre: 'Mi Plan de Cuponeo 2026', descripcion: 'Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.', seccion: 'protocolos', tipo: 'formacion', emoji: '🐎', gradiente: 'linear-gradient(135deg,#08B75B,#F3D100)', ruta: 'formacion/pegasus-cuponeo-2026.html', nivel: 'libre', fecha: '2026-04-22' },
-  
-  // PROPUESTAS
-  { id: 'loeches', nombre: 'Indiferente — Loeches', descripcion: 'Propuesta de servicios Indiferente para el Ayuntamiento de Loeches.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🏛️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/loeches-indiferente.html', nivel: 'propuestas', fecha: '2026-02-10' },
-  { id: 'morata', nombre: 'Indiferente — Morata de Tajuña', descripcion: 'Propuesta de servicios Indiferente para el Ayuntamiento de Morata de Tajuña.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🏛️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/morata-indiferente.html', nivel: 'propuestas', fecha: '2026-02-15' },
-  { id: 'municipios-fmm', nombre: 'Municipios que te cuidan — FMM', descripcion: 'Propuesta del programa para la Federación Madrileña de Municipios.', seccion: 'propuestas', tipo: 'institucional', emoji: '🌿', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3)', ruta: 'propuestas/municipios-que-te-cuidan.html', nivel: 'propuestas', fecha: '2026-03-05' },
-  { id: 'pascual', nombre: 'Indiferente — Calidad Pascual', descripcion: 'Propuesta de servicios Indiferente para Calidad Pascual — 2026.', seccion: 'propuestas', tipo: 'empresa', emoji: '🥛', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/pascual-indiferente.html', nivel: 'propuestas', fecha: '2026-04-18' },
-  { id: 'ruiz', nombre: 'Indiferente — Grupo Ruiz', descripcion: 'Propuesta de servicios Indiferente para Grupo Ruiz — Consultoría D&I 2026.', seccion: 'propuestas', tipo: 'empresa', emoji: '🚌', gradiente: 'linear-gradient(135deg,#007EC3,#974694)', ruta: 'propuestas/ruiz-indiferente.html', nivel: 'propuestas', fecha: '2026-04-19' },
-  { id: 'blackbull', nombre: 'Burgers Anormales', descripcion: 'Catering inclusivo con propósito. Pegasus × Black Bull — Inserción laboral en restauración.', seccion: 'propuestas', tipo: 'empresa', emoji: '🍔', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/pegasus-blackbull-landing.html', nivel: 'propuestas', fecha: '2026-04-20' },
-  { id: 'metro', nombre: 'Metro de Madrid × Pegasus', descripcion: 'Propuesta de colaboración con Metro de Madrid — El siguiente paso.', seccion: 'propuestas', tipo: 'empresa', emoji: '🚇', gradiente: 'linear-gradient(135deg,#007EC3,#974694,#E45E9B)', ruta: 'propuestas/metro-pegasus-v5.html', nivel: 'propuestas', fecha: '2026-04-21' },
-  { id: 'tres-cantos', nombre: 'Tres Cantos Medioambiente', descripcion: 'Guardianes del Ecosistema — Gincana Inclusiva para el Festival Medioambiental.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🌱', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3)', ruta: 'propuestas/guardianes_tres_cantos_unificado.html', nivel: 'propuestas', fecha: '2026-04-22' },
-  { id: 'rivas-calma', nombre: 'Espacio Calma — Rivas', descripcion: 'Propuesta de diseño e implementación del Espacio de Calma y Autorregulación en campamentos de Rivas Vaciamadrid.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🧘', gradiente: 'linear-gradient(135deg,#974694,#E45E9B,#D6191B)', ruta: 'propuestas/rivas-espaciocalma.html', nivel: 'propuestas', fecha: '2026-04-23' },
-  { id: 'cooltra', nombre: 'Cooltra × Pegasus', descripcion: 'Propuesta de colaboración con Cooltra. Movilidad inclusiva y sostenible para personas con discapacidad.', seccion: 'propuestas', tipo: 'empresa', emoji: '🛵', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694)', ruta: 'propuestas/cooltra-landing.html', nivel: 'propuestas', fecha: '2026-04-24' },
-  
-  // DIRECCIÓN
-  { id: 'inversores', nombre: 'Landing Inversores', descripcion: 'Landing de presentación para inversores privados de Fundación Pegasus.', seccion: 'direccion', tipo: 'estrategia', emoji: '💰', gradiente: 'linear-gradient(135deg,#007EC3,#974694)', ruta: 'direccion/landing-inversores.html', nivel: 'direccion', fecha: '2026-03-10' },
-  { id: 'briefing-cmo', nombre: 'Briefing CMO — Operación Sede', descripcion: 'Briefing estratégico para el CMO sobre la operación de sede de Fundación Pegasus.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏗️', gradiente: 'linear-gradient(135deg,#D6191B,#974694)', ruta: 'direccion/briefing-cmo.html', nivel: 'direccion', fecha: '2026-04-15' },
-  { id: 'pegasusland', nombre: 'Compra Pegasusland', descripcion: 'Info compraventa sede.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏢', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100)', ruta: 'direccion/pegasusland.html', nivel: 'direccion', fecha: '2026-04-20' },
-  { id: 'naming', nombre: 'Decisión Naming Test Indiferente', descripcion: 'Test interactivo de naming para David y Marre. Votación de opciones de nombre para marca Indiferente.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏷️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928,#F3D100)', ruta: 'direccion/naming-indiferente.html', nivel: 'direccion', fecha: '2026-04-23' },
-  
-  // PROYECTOS INDIFERENTE
-  { id: 'rivas-campamentos', nombre: 'Campamentos Inclusivos — Rivas', descripcion: 'Asesoría técnica especializada. Repositorio de entregables del proyecto con el Ayuntamiento de Rivas Vaciamadrid.', seccion: 'proyectos', tipo: 'consultoria', emoji: '🏕️', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694)', ruta: 'proyectos-indiferente/rivas-campamentos/index.html', nivel: 'libre', fecha: '2026-04-10' },
-  { id: 'sediasa', nombre: 'Proyecto Sediasa', descripcion: 'Consultoría Indiferente para Sediasa. Propuesta comercial, herramienta "La Caja" y manual de uso.', seccion: 'proyectos', tipo: 'consultoria', emoji: '🏢', gradiente: 'linear-gradient(135deg,#007EC3,#974694,#E45E9B)', ruta: 'proyectos-indiferente/sediasa/index.html', nivel: 'libre', fecha: '2026-04-18' },
-  { id: 'conflictos', nombre: 'Resolución de Conflictos', descripcion: 'Landing de la formación Indiferente para empresas. Metodología, propuesta y contratación.', seccion: 'proyectos', tipo: 'consultoria', emoji: '⚡', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928,#F3D100)', ruta: 'proyectos-indiferente/landing-conflictos-COMPLETO.html', nivel: 'libre', fecha: '2026-04-21' }
-];
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePasswordModal();
+            }
+        });
 
-const passwords = { propuestas: 'MIEDO', direccion: 'P3G4SUS2026' };
-const sectionNames = { propuestas: 'Propuestas', direccion: 'Dirección' };
-const sectionIcons = { propuestas: '📋', direccion: '🔐' };
-const unlocked = new Set();
-let currentTool = null;
-let currentFilter = 'all';
-
-// Calcular antigüedad de herramienta
-function getAgeTag(fecha) {
-  const now = new Date('2026-04-24');
-  const toolDate = new Date(fecha);
-  const days = Math.floor((now - toolDate) / (1000 * 60 * 60 * 24));
-  if (days < 7) return 'nuevo';
-  if (days > 30) return 'archivo';
-  return null;
-}
-
-// Generar HTML de una card
-function createCard(tool) {
-  const ageTag = getAgeTag(tool.fecha);
-  const lockIcon = tool.nivel !== 'libre' && !unlocked.has(tool.nivel) ? `<div class="ncard-lock">🔒</div>` : '';
-  
-  let tags = '';
-  if (ageTag === 'nuevo') tags += `<span class="ncard-tag tag-new">🆕 Nuevo</span>`;
-  if (ageTag === 'archivo') tags += `<span class="ncard-tag tag-archive">📦 Archivo</span>`;
-  
-  return `
-    <a class="ncard ${ageTag === 'archivo' ? 'archived' : ''}" href="${tool.ruta}" data-nivel="${tool.nivel}" data-id="${tool.id}" data-tipo="${tool.tipo}" onclick="checkAccess(event, '${tool.id}')">
-      ${lockIcon}
-      <div class="ncard-thumb">
-        <div class="ncard-thumb-grad" style="background:${tool.gradiente};"></div>
-        <span class="ncard-thumb-emoji">${tool.emoji}</span>
-      </div>
-      <div class="ncard-body">
-        <div class="ncard-nombre">${tool.nombre}</div>
-        <div class="ncard-desc">${tool.descripcion}</div>
-        <div class="ncard-tags">${tags}</div>
-      </div>
-    </a>
-  `;
-}
-
-// Renderizar secciones
-function renderSection(sectionId, tools) {
-  const container = document.getElementById(sectionId);
-  container.innerHTML = tools.map(createCard).join('');
-  updateProgressDots(sectionId);
-}
-
-// Renderizar Recientes (últimas 10)
-function renderRecientes() {
-  const sorted = [...herramientas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-  const recent = sorted.slice(0, 10);
-  renderSection('cr', recent);
-}
-
-// Renderizar secciones normales
-function renderProtocolos() {
-  const tools = herramientas.filter(h => h.seccion === 'protocolos');
-  renderSection('c1', tools);
-}
-
-function renderPropuestas() {
-  const tools = herramientas.filter(h => h.seccion === 'propuestas');
-  renderSection('c2', tools);
-}
-
-function renderDireccion() {
-  const tools = herramientas.filter(h => h.seccion === 'direccion');
-  renderSection('c3', tools);
-}
-
-function renderProyectos() {
-  const tools = herramientas.filter(h => h.seccion === 'proyectos');
-  renderSection('c4', tools);
-}
-
-// Filtrar propuestas por tipo
-function filterPropuestas(type) {
-  currentFilter = type;
-  document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.classList.toggle('active', chip.dataset.filter === type);
-  });
-  
-  const cards = document.querySelectorAll('#c2 .ncard');
-  cards.forEach(card => {
-    const cardType = card.dataset.tipo;
-    if (type === 'all' || cardType === type) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-  updateProgressDots('c2');
-}
-
-// Toggle vista tarjetas/lista
-function toggleView(carruselId, mode) {
-  const carrusel = document.getElementById(carruselId);
-  const btns = carrusel.parentElement.parentElement.querySelectorAll('.view-btn');
-  
-  btns.forEach(btn => {
-    btn.classList.toggle('active', 
-      (mode === 'cards' && btn.textContent.includes('Tarjetas')) ||
-      (mode === 'list' && btn.textContent.includes('Lista'))
-    );
-  });
-  
-  if (mode === 'list') {
-    carrusel.classList.add('list-view');
-  } else {
-    carrusel.classList.remove('list-view');
-  }
-}
-
-// Progress dots
-function updateProgressDots(carruselId) {
-  const container = document.getElementById(carruselId);
-  const dotsContainer = document.getElementById('dots-' + carruselId);
-  if (!dotsContainer) return;
-  
-  const visibleCards = Array.from(container.children).filter(c => !c.classList.contains('hidden') && c.classList.contains('ncard'));
-  const total = visibleCards.length;
-  if (total <= 4) {
-    dotsContainer.innerHTML = '';
-    return;
-  }
-  
-  const numDots = Math.ceil(total / 4);
-  dotsContainer.innerHTML = Array(numDots).fill(0).map((_, i) => 
-    `<div class="dot ${i === 0 ? 'active' : ''}"></div>`
-  ).join('');
-}
-
-// Scroll carrusel
-function scrollCarrusel(id, amt) {
-  document.getElementById(id).scrollBy({ left: amt, behavior: 'smooth' });
-}
-
-// Búsqueda
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
-
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase().trim();
-  if (!query) {
-    searchResults.classList.remove('visible');
-    return;
-  }
-  
-  const results = herramientas.filter(h => 
-    h.nombre.toLowerCase().includes(query) || 
-    h.descripcion.toLowerCase().includes(query)
-  );
-  
-  if (results.length === 0) {
-    searchResults.innerHTML = '<div class="no-results">No se encontraron resultados</div>';
-  } else {
-    searchResults.innerHTML = results.map(tool => {
-      const locked = tool.nivel !== 'libre' && !unlocked.has(tool.nivel);
-      return `
-        <div class="search-result" onclick="handleSearchClick('${tool.id}')">
-          <div class="search-result-emoji">${tool.emoji}</div>
-          <div class="search-result-info">
-            <div class="search-result-name">${tool.nombre}</div>
-            <div class="search-result-section">${tool.seccion.charAt(0).toUpperCase() + tool.seccion.slice(1)}</div>
-          </div>
-          ${locked ? '<div class="search-result-lock">🔒</div>' : ''}
-        </div>
-      `;
-    }).join('');
-  }
-  
-  searchResults.classList.add('visible');
-});
-
-searchInput.addEventListener('blur', () => {
-  setTimeout(() => searchResults.classList.remove('visible'), 200);
-});
-
-function handleSearchClick(id) {
-  const tool = herramientas.find(h => h.id === id);
-  if (!tool) return;
-  
-  if (tool.nivel !== 'libre' && !unlocked.has(tool.nivel)) {
-    currentTool = tool;
-    abrirModal(tool.nivel, tool.nombre);
-  } else {
-    window.open(tool.ruta, '_blank');
-  }
-}
-
-// Control de acceso
-function checkAccess(event, id) {
-  event.preventDefault();
-  const tool = herramientas.find(h => h.id === id);
-  if (!tool) return;
-  
-  if (tool.nivel === 'libre' || unlocked.has(tool.nivel)) {
-    window.open(tool.ruta, '_blank');
-  } else {
-    currentTool = tool;
-    abrirModal(tool.nivel, tool.nombre);
-  }
-}
-
-// Modal
-function abrirModal(nivel, toolName) {
-  document.getElementById('modal-tool-name').textContent = toolName;
-  document.getElementById('modal-section-icon').textContent = sectionIcons[nivel];
-  document.getElementById('modal-section-name').textContent = sectionNames[nivel];
-  document.getElementById('modal-input').value = '';
-  document.getElementById('modal-err').classList.remove('visible');
-  document.getElementById('modal-input').classList.remove('error');
-  document.getElementById('modal-overlay').classList.add('visible');
-  setTimeout(() => document.getElementById('modal-input').focus(), 100);
-}
-
-function cerrarModal() {
-  document.getElementById('modal-overlay').classList.remove('visible');
-  currentTool = null;
-}
-
-function verificarAcceso() {
-  if (!currentTool) return;
-  const pwd = document.getElementById('modal-input').value;
-  const nivel = currentTool.nivel;
-  
-  if (pwd === passwords[nivel]) {
-    unlocked.add(nivel);
-    cerrarModal();
-    window.open(currentTool.ruta, '_blank');
-    mostrarToast(`✅ ¡Acceso concedido! Ya puedes ver todo el contenido de ${sectionNames[nivel]}`);
-    // Re-render para quitar candados
-    renderRecientes();
-    renderPropuestas();
-    renderDireccion();
-  } else {
-    document.getElementById('modal-input').classList.add('error');
-    document.getElementById('modal-err').classList.add('visible');
-    document.getElementById('modal-input').value = '';
-    document.getElementById('modal-input').focus();
-  }
-}
-
-function mostrarToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('visible');
-  setTimeout(() => toast.classList.remove('visible'), 3000);
-}
-
-// Click fuera del modal
-document.getElementById('modal-overlay').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('modal-overlay')) cerrarModal();
-});
-
-// Init
-renderRecientes();
-renderProtocolos();
-renderPropuestas();
-renderDireccion();
-renderProyectos();
-</script>
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('password-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePasswordModal();
+            }
+        });
+    </script>
 </body>
 </html>
