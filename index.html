@@ -6,7 +6,7 @@
     <title>Hub Pegasus</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐎</text></svg>">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap');
         
         * {
             margin: 0;
@@ -20,7 +20,6 @@
             --card-hover: #252525;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
-            --accent: #e50914;
             --border: #2a2a2a;
             
             /* Colores Pegasus oficiales */
@@ -40,7 +39,7 @@
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--bg-dark);
             color: var(--text-primary);
             line-height: 1.6;
@@ -230,9 +229,9 @@
             color: var(--text-primary);
         }
         
-        /* Cards de Recientes - MÁS ESTRECHOS SIN CUADRADO DE EMOJI */
+        /* Cards de Recientes - MÁS ESTRECHOS */
         .recent-card {
-            flex: 0 0 200px;
+            flex: 0 0 200px; /* REDUCIDO de 280px */
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
@@ -251,20 +250,20 @@
         }
         
         .recent-card-thumbnail {
-            height: 100px;
+            height: 100px; /* REDUCIDO de 140px */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* REDUCIDO de 3rem */
             position: relative;
         }
         
         .recent-card-content {
-            padding: 1rem;
+            padding: 1rem; /* REDUCIDO de 1.25rem */
         }
         
         .recent-card-title {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* REDUCIDO de 1rem */
             font-weight: 600;
             margin-bottom: 0.4rem;
             line-height: 1.3;
@@ -275,7 +274,7 @@
         }
         
         .recent-card-description {
-            font-size: 0.8rem;
+            font-size: 0.8rem; /* REDUCIDO de 0.85rem */
             color: var(--text-secondary);
             line-height: 1.4;
             display: -webkit-box;
@@ -286,10 +285,10 @@
         
         .recent-card-badge {
             display: inline-block;
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.6rem; /* REDUCIDO */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.7rem; /* REDUCIDO de 0.75rem */
             font-weight: 500;
             margin-top: 0.6rem;
             color: var(--text-primary);
@@ -430,7 +429,7 @@
             }
             
             .recent-card {
-                flex: 0 0 180px;
+                flex: 0 0 180px; /* REDUCIDO también en móvil */
             }
         }
     </style>
