@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,9 +29,24 @@ body { font-family: 'Barlow', sans-serif; background: var(--negro); color: var(-
 .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
 header { padding: 28px 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+.header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 24px; }
 .logo { font-size: 1.8rem; font-weight: 700; font-style: italic; }
 .header-sub { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+.search-box { flex: 1; max-width: 400px; position: relative; }
+.search-input { width: 100%; padding: 10px 16px 10px 42px; border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: var(--blanco); font-family: 'Barlow', sans-serif; font-size: 0.88rem; outline: none; transition: all 0.2s; }
+.search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
+.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: 0.4; }
+.search-results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; max-height: 400px; overflow-y: auto; display: none; z-index: 100; }
+.search-results.visible { display: block; }
+.search-result { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.2s; }
+.search-result:hover { background: rgba(255,255,255,0.05); }
+.search-result:last-child { border-bottom: none; }
+.search-result-emoji { font-size: 1.4rem; }
+.search-result-info { flex: 1; }
+.search-result-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
+.search-result-section { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+.search-result-lock { font-size: 0.9rem; opacity: 0.5; }
+.no-results { padding: 24px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.86rem; }
 
 .hero-banner { height: 260px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 40px 48px; }
 .hero-bg { position: absolute; inset: 0; background: var(--grad-diag); opacity: 0.12; }
@@ -43,22 +59,37 @@ header { padding: 28px 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
 main { padding: 8px 0 80px; max-width: 1400px; margin: 0 auto; }
 
 .fila { padding: 24px 0; }
-.fila-header { display: flex; align-items: center; gap: 12px; padding: 0 48px; margin-bottom: 16px; }
+.fila-header { display: flex; align-items: center; gap: 12px; padding: 0 48px; margin-bottom: 16px; flex-wrap: wrap; }
 .fila-titulo { font-size: 1.05rem; font-weight: 700; font-style: italic; }
-.fila-lock { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; cursor: pointer; transition: background 0.2s; border: none; font-family: 'Barlow', sans-serif; }
-.lock-cerrado { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); }
-.lock-cerrado:hover { background: rgba(255,255,255,0.14); }
-.lock-abierto { background: rgba(8,183,91,0.15); color: var(--verde); cursor: default; }
+.fila-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.view-toggle { display: flex; gap: 4px; background: rgba(255,255,255,0.05); padding: 3px; border-radius: 100px; }
+.view-btn { padding: 4px 12px; border-radius: 100px; border: none; background: transparent; color: rgba(255,255,255,0.4); font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.view-btn.active { background: rgba(255,255,255,0.1); color: var(--blanco); }
+.filter-chips { display: flex; gap: 6px; }
+.filter-chip { padding: 4px 10px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.filter-chip:hover { border-color: rgba(255,255,255,0.25); }
+.filter-chip.active { background: rgba(255,255,255,0.1); color: var(--blanco); border-color: rgba(255,255,255,0.25); }
 
 .carrusel-wrapper { position: relative; }
 .carrusel { display: flex; gap: 12px; padding: 8px 48px 16px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
 .carrusel::-webkit-scrollbar { display: none; }
+.carrusel.list-view { flex-direction: column; gap: 8px; }
 
-.fila-bloqueada .carrusel { filter: blur(6px); pointer-events: none; user-select: none; }
-.fila-bloqueada.desbloqueada .carrusel { filter: none; pointer-events: all; }
+.progress-dots { display: flex; justify-content: center; gap: 6px; padding: 8px 48px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
+.dot.active { width: 20px; border-radius: 3px; background: rgba(255,255,255,0.5); }
 
 .ncard { flex-shrink: 0; width: 240px; border-radius: 12px; background: var(--negro3); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; text-decoration: none; color: var(--blanco); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; cursor: pointer; display: block; position: relative; }
 .ncard:hover { transform: scale(1.06) translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.18); z-index: 10; }
+.ncard.hidden { display: none; }
+
+.list-view .ncard { width: 100%; display: flex; flex-direction: row; align-items: center; }
+.list-view .ncard:hover { transform: translateX(4px); }
+.list-view .ncard-thumb { width: 80px; height: 80px; flex-shrink: 0; }
+.list-view .ncard-body { flex: 1; padding: 12px 16px; }
+.list-view .ncard-desc { display: none; }
+
+.ncard-lock { position: absolute; top: 12px; right: 12px; font-size: 1rem; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
 
 .ncard-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; position: relative; overflow: hidden; }
 .ncard-thumb-grad { position: absolute; inset: 0; opacity: 0.35; }
@@ -67,13 +98,20 @@ main { padding: 8px 0 80px; max-width: 1400px; margin: 0 auto; }
 .ncard-body { padding: 14px 16px; }
 .ncard-nombre { font-size: 0.88rem; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
 .ncard-desc { font-size: 0.75rem; color: rgba(255,255,255,0.45); line-height: 1.5; margin-bottom: 10px; }
+.ncard-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .ncard-tag { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 0.64rem; font-weight: 700; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
 .tag-new { background: rgba(8,183,91,0.18); color: var(--verde); }
+.tag-archive { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.25); }
+.tag-urgent { background: rgba(214,25,27,0.18); color: var(--rojo); }
+.tag-active { background: rgba(237,121,40,0.18); color: var(--naranja); }
 
 .ncard-pronto { flex-shrink: 0; width: 180px; border-radius: 12px; background: var(--negro2); border: 1px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 16px; text-align: center; gap: 8px; opacity: 0.45; }
 .pronto-icon { font-size: 1.6rem; }
 .pronto-text { font-size: 0.74rem; color: rgba(255,255,255,0.35); line-height: 1.4; }
 .pronto-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 100px; }
+
+.show-archive-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; margin: 0 48px; border-radius: 100px; border: 1px dashed rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.3); font-family: 'Barlow', sans-serif; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.show-archive-btn:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.5); }
 
 .carrusel-btn { position: absolute; top: 50%; transform: translateY(-60%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: var(--blanco); font-size: 1.1rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; transition: background 0.2s; backdrop-filter: blur(8px); }
 .carrusel-btn:hover { background: rgba(255,255,255,0.2); }
@@ -84,21 +122,26 @@ main { padding: 8px 0 80px; max-width: 1400px; margin: 0 auto; }
 
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .modal-overlay.visible { display: flex; }
-.modal { background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; max-width: 380px; width: 90%; text-align: center; position: relative; }
+.modal { background: var(--negro2); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px; max-width: 420px; width: 90%; text-align: center; position: relative; }
 .modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad); border-radius: 24px 24px 0 0; }
-.modal-icon { font-size: 2.2rem; margin-bottom: 14px; }
-.modal h3 { font-size: 1.15rem; font-weight: 700; font-style: italic; margin-bottom: 6px; }
-.modal p { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 22px; }
+.modal-icon { font-size: 2.6rem; margin-bottom: 16px; }
+.modal h3 { font-size: 1.3rem; font-weight: 700; font-style: italic; margin-bottom: 12px; line-height: 1.2; }
+.modal p { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 8px; line-height: 1.5; }
+.modal-section { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .modal input { width: 100%; padding: 13px 16px; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; font-family: 'Barlow', sans-serif; font-size: 1rem; font-weight: 700; text-align: center; letter-spacing: 0.15em; outline: none; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: var(--blanco); transition: border-color 0.2s; }
 .modal input:focus { border-color: rgba(255,255,255,0.25); }
 .modal input.error { border-color: var(--rojo); }
 .modal-btns { display: flex; gap: 10px; }
-.btn-m { flex: 1; padding: 11px; border-radius: 100px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: transform 0.15s; }
+.btn-m { flex: 1; padding: 12px; border-radius: 100px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: transform 0.15s; }
 .btn-m:hover { transform: translateY(-1px); }
 .btn-ok { background: var(--blanco); color: var(--negro); }
 .btn-cancel { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.55); }
-.err-msg { font-size: 0.76rem; color: var(--rojo); margin-top: -2px; margin-bottom: 10px; display: none; }
+.err-msg { font-size: 0.8rem; color: var(--rojo); margin-top: -2px; margin-bottom: 12px; display: none; }
 .err-msg.visible { display: block; }
+
+.toast { position: fixed; bottom: 24px; right: 24px; background: rgba(8,183,91,0.95); color: var(--blanco); padding: 14px 20px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; display: none; z-index: 2000; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.toast.visible { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; max-width: 1400px; margin: 0 auto; }
 .f-eslogan { font-size: 0.88rem; font-weight: 700; font-style: italic; }
@@ -109,8 +152,10 @@ footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; displ
   header, .fila-header, footer { padding-left: 20px; padding-right: 20px; }
   .hero-banner { padding: 24px 20px; }
   .carrusel { padding-left: 20px; padding-right: 20px; }
-  .sep { margin-left: 20px; margin-right: 20px; }
+  .sep, .show-archive-btn, .progress-dots { margin-left: 20px; margin-right: 20px; }
   .ncard { width: 200px; }
+  .search-box { max-width: none; }
+  .header-inner { flex-direction: column; align-items: stretch; }
 }
 </style>
 </head>
@@ -121,6 +166,11 @@ footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; displ
     <div>
       <div class="logo"><span class="grad-text">Hub</span> Pegasus</div>
       <div class="header-sub">hub.lomionoesnormal.com</div>
+    </div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar herramienta...">
+      <div class="search-results" id="searchResults"></div>
     </div>
   </div>
 </header>
@@ -137,138 +187,90 @@ footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; displ
 
 <main>
 
+  <!-- RECIENTES -->
+  <div class="fila" id="fila-recientes">
+    <div class="fila-header">
+      <span style="font-size:1.1rem;">🕐</span>
+      <span class="fila-titulo">Recientes</span>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('cr',-300)">‹</button>
+      <div class="carrusel" id="cr"></div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('cr',300)">›</button>
+    </div>
+    <div class="progress-dots" id="dots-recientes"></div>
+  </div>
+
+  <div class="sep"></div>
+
   <!-- PROTOCOLOS INTERNOS -->
   <div class="fila">
     <div class="fila-header">
       <span style="font-size:1.1rem;">🗂️</span>
       <span class="fila-titulo">Protocolos Internos</span>
-      <button class="fila-lock lock-abierto">🔓 Libre</button>
+      <div class="fila-controls">
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="toggleView('c1','cards')">▦ Tarjetas</button>
+          <button class="view-btn" onclick="toggleView('c1','list')">☰ Lista</button>
+        </div>
+      </div>
     </div>
     <div class="carrusel-wrapper">
       <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c1',-300)">‹</button>
-      <div class="carrusel" id="c1">
-        <a class="ncard" href="formacion/formacion-claude-abril-2026.html" target="_blank">
-          <div class="ncard-thumb">
-            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#974694,#E45E9B);"></div>
-            <span class="ncard-thumb-emoji">🤖</span>
-          </div>
-          <div class="ncard-body">
-            <div class="ncard-nombre">Formación Claude — Abril 2026</div>
-            <div class="ncard-desc">Guía completa: qué es Claude, tips de uso, skills activas y próximas herramientas.</div>
-            <span class="ncard-tag tag-new">✨ Nuevo</span>
-          </div>
-        </a>
-        <a class="ncard" href="formacion/pegasus-cuponeo-2026.html" target="_blank">
-          <div class="ncard-thumb">
-            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#F3D100);"></div>
-            <span class="ncard-thumb-emoji">🐎</span>
-          </div>
-          <div class="ncard-body">
-            <div class="ncard-nombre">Mi Plan de Cuponeo 2026</div>
-            <div class="ncard-desc">Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.</div>
-            <span class="ncard-tag tag-new">✨ Nuevo</span>
-          </div>
-        </a>
-        <div class="ncard-pronto"><div class="pronto-icon">📋</div><div class="pronto-text">Protocolo onboarding nuevos profesionales</div><span class="pronto-label">Próximamente</span></div>
-        <div class="ncard-pronto"><div class="pronto-icon">⚡</div><div class="pronto-text">Protocolo gestión de incidencias en sesión</div><span class="pronto-label">Próximamente</span></div>
-        <div class="ncard-pronto"><div class="pronto-icon">🔄</div><div class="pronto-text">Protocolo bajas y recuperaciones TPT/IS</div><span class="pronto-label">Próximamente</span></div>
-      </div>
+      <div class="carrusel" id="c1"></div>
       <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c1',300)">›</button>
     </div>
+    <div class="progress-dots" id="dots-c1"></div>
   </div>
 
   <div class="sep"></div>
 
   <!-- PROPUESTAS -->
-  <div class="fila fila-bloqueada" id="fila-propuestas">
+  <div class="fila">
     <div class="fila-header">
       <span style="font-size:1.1rem;">📋</span>
       <span class="fila-titulo">Propuestas</span>
-      <button class="fila-lock lock-cerrado" id="lock-propuestas" onclick="abrirModal('propuestas')">🔒 Acceder</button>
+      <div class="fila-controls">
+        <div class="filter-chips">
+          <button class="filter-chip active" data-filter="all" onclick="filterPropuestas('all')">Todas</button>
+          <button class="filter-chip" data-filter="ayuntamiento" onclick="filterPropuestas('ayuntamiento')">🏛️ Aytos</button>
+          <button class="filter-chip" data-filter="empresa" onclick="filterPropuestas('empresa')">🏢 Empresas</button>
+          <button class="filter-chip" data-filter="institucional" onclick="filterPropuestas('institucional')">🌍 Institucional</button>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="toggleView('c2','cards')">▦ Tarjetas</button>
+          <button class="view-btn" onclick="toggleView('c2','list')">☰ Lista</button>
+        </div>
+      </div>
     </div>
     <div class="carrusel-wrapper">
       <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c2',-300)">‹</button>
-      <div class="carrusel" id="c2">
-        <a class="ncard" href="propuestas/loeches-indiferente.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🏛️</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Loeches</div><div class="ncard-desc">Propuesta de servicios Indiferente para el Ayuntamiento de Loeches.</div><span class="ncard-tag">Ayuntamiento</span></div>
-        </a>
-        <a class="ncard" href="propuestas/morata-indiferente.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🏛️</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Morata de Tajuña</div><div class="ncard-desc">Propuesta de servicios Indiferente para el Ayuntamiento de Morata de Tajuña.</div><span class="ncard-tag">Ayuntamiento</span></div>
-        </a>
-        <a class="ncard" href="propuestas/municipios-que-te-cuidan.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3);"></div><span class="ncard-thumb-emoji">🌿</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Municipios que te cuidan — FMM</div><div class="ncard-desc">Propuesta del programa para la Federación Madrileña de Municipios.</div><span class="ncard-tag">FMM</span></div>
-        </a>
-        <a class="ncard" href="propuestas/pascual-indiferente.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🥛</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Calidad Pascual</div><div class="ncard-desc">Propuesta de servicios Indiferente para Calidad Pascual — 2026.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/ruiz-indiferente.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#007EC3,#974694);"></div><span class="ncard-thumb-emoji">🚌</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Indiferente — Grupo Ruiz</div><div class="ncard-desc">Propuesta de servicios Indiferente para Grupo Ruiz — Consultoría D&I 2026.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/pegasus-blackbull-landing.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928);"></div><span class="ncard-thumb-emoji">🍔</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Burgers Anormales</div><div class="ncard-desc">Catering inclusivo con propósito. Pegasus × Black Bull — Inserción laboral en restauración.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/metro-pegasus-v5.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#007EC3,#974694,#E45E9B);"></div><span class="ncard-thumb-emoji">🚇</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Metro de Madrid × Pegasus</div><div class="ncard-desc">Propuesta de colaboración con Metro de Madrid — El siguiente paso.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/guardianes_tres_cantos_unificado.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3);"></div><span class="ncard-thumb-emoji">🌱</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Tres Cantos Medioambiente</div><div class="ncard-desc">Guardianes del Ecosistema — Gincana Inclusiva para el Festival Medioambiental.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/rivas-espaciocalma.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#974694,#E45E9B,#D6191B);"></div><span class="ncard-thumb-emoji">🧘</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Espacio Calma — Rivas</div><div class="ncard-desc">Propuesta de diseño e implementación del Espacio de Calma y Autorregulación en campamentos de Rivas Vaciamadrid.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="propuestas/cooltra-landing.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3,#974694);"></div><span class="ncard-thumb-emoji">🛵</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Cooltra × Pegasus</div><div class="ncard-desc">Propuesta de colaboración con Cooltra. Movilidad inclusiva y sostenible para personas con discapacidad.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <div class="ncard-pronto"><div class="pronto-icon">📄</div><div class="pronto-text">Aquí irán apareciendo nuevas propuestas</div><span class="pronto-label">Próximamente</span></div>
-      </div>
+      <div class="carrusel" id="c2"></div>
       <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c2',300)">›</button>
     </div>
+    <div class="progress-dots" id="dots-c2"></div>
   </div>
 
   <div class="sep"></div>
 
   <!-- DIRECCIÓN -->
-  <div class="fila fila-bloqueada" id="fila-direccion">
+  <div class="fila">
     <div class="fila-header">
       <span style="font-size:1.1rem;">🔐</span>
       <span class="fila-titulo">Dirección</span>
-      <button class="fila-lock lock-cerrado" id="lock-direccion" onclick="abrirModal('direccion')">🔒 Acceder</button>
+      <div class="fila-controls">
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="toggleView('c3','cards')">▦ Tarjetas</button>
+          <button class="view-btn" onclick="toggleView('c3','list')">☰ Lista</button>
+        </div>
+      </div>
     </div>
     <div class="carrusel-wrapper">
       <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c3',-300)">‹</button>
-      <div class="carrusel" id="c3">
-        <a class="ncard" href="direccion/landing-inversores.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#007EC3,#974694);"></div><span class="ncard-thumb-emoji">💰</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Landing Inversores</div><div class="ncard-desc">Landing de presentación para inversores privados de Fundación Pegasus.</div><span class="ncard-tag">Dirección</span></div>
-        </a>
-        <a class="ncard" href="direccion/briefing-cmo.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#974694);"></div><span class="ncard-thumb-emoji">🏗️</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Briefing CMO — Operación Sede</div><div class="ncard-desc">Briefing estratégico para el CMO sobre la operación de sede de Fundación Pegasus.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="direccion/pegasusland.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100);"></div><span class="ncard-thumb-emoji">🏢</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Compra Pegasusland</div><div class="ncard-desc">Info compraventa sede.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <a class="ncard" href="direccion/naming-indiferente.html" target="_blank">
-          <div class="ncard-thumb"><div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928,#F3D100);"></div><span class="ncard-thumb-emoji">🏷️</span></div>
-          <div class="ncard-body"><div class="ncard-nombre">Decisión Naming Test Indiferente</div><div class="ncard-desc">Test interactivo de naming para David y Marre. Votación de opciones de nombre para marca Indiferente.</div><span class="ncard-tag tag-new">✨ Nuevo</span></div>
-        </a>
-        <div class="ncard-pronto"><div class="pronto-icon">📊</div><div class="pronto-text">Deck de inversores</div><span class="pronto-label">Próximamente</span></div>
-        <div class="ncard-pronto"><div class="pronto-icon">🧮</div><div class="pronto-text">Calculadora de rentabilidad</div><span class="pronto-label">Próximamente</span></div>
-        <div class="ncard-pronto"><div class="pronto-icon">📈</div><div class="pronto-text">Dashboard de tesorería</div><span class="pronto-label">Próximamente</span></div>
-      </div>
+      <div class="carrusel" id="c3"></div>
       <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c3',300)">›</button>
     </div>
+    <div class="progress-dots" id="dots-c3"></div>
   </div>
 
   <div class="sep"></div>
@@ -278,48 +280,19 @@ footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; displ
     <div class="fila-header">
       <span style="font-size:1.1rem;">🧩</span>
       <span class="fila-titulo">Proyectos Indiferente</span>
-      <button class="fila-lock lock-abierto">🔓 Libre</button>
+      <div class="fila-controls">
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="toggleView('c4','cards')">▦ Tarjetas</button>
+          <button class="view-btn" onclick="toggleView('c4','list')">☰ Lista</button>
+        </div>
+      </div>
     </div>
     <div class="carrusel-wrapper">
       <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c4',-300)">‹</button>
-      <div class="carrusel" id="c4">
-        <a class="ncard" href="proyectos-indiferente/rivas-campamentos/index.html" target="_blank">
-          <div class="ncard-thumb">
-            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#08B75B,#007EC3,#974694);"></div>
-            <span class="ncard-thumb-emoji">🏕️</span>
-          </div>
-          <div class="ncard-body">
-            <div class="ncard-nombre">Campamentos Inclusivos — Rivas</div>
-            <div class="ncard-desc">Asesoría técnica especializada. Repositorio de entregables del proyecto con el Ayuntamiento de Rivas Vaciamadrid.</div>
-            <span class="ncard-tag tag-new">✨ Activo</span>
-          </div>
-        </a>
-        <a class="ncard" href="proyectos-indiferente/sediasa/index.html" target="_blank">
-          <div class="ncard-thumb">
-            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#007EC3,#974694,#E45E9B);"></div>
-            <span class="ncard-thumb-emoji">🏢</span>
-          </div>
-          <div class="ncard-body">
-            <div class="ncard-nombre">Proyecto Sediasa</div>
-            <div class="ncard-desc">Consultoría Indiferente para Sediasa. Propuesta comercial, herramienta "La Caja" y manual de uso.</div>
-            <span class="ncard-tag tag-new">✨ Nuevo</span>
-          </div>
-        </a>
-        <a class="ncard" href="proyectos-indiferente/landing-conflictos-COMPLETO.html" target="_blank">
-          <div class="ncard-thumb">
-            <div class="ncard-thumb-grad" style="background:linear-gradient(135deg,#D6191B,#ED7928,#F3D100);"></div>
-            <span class="ncard-thumb-emoji">⚡</span>
-          </div>
-          <div class="ncard-body">
-            <div class="ncard-nombre">Resolución de Conflictos</div>
-            <div class="ncard-desc">Landing de la formación Indiferente para empresas. Metodología, propuesta y contratación.</div>
-            <span class="ncard-tag tag-new">✨ Nuevo</span>
-          </div>
-        </a>
-        <div class="ncard-pronto"><div class="pronto-icon">🏢</div><div class="pronto-text">Aquí irán apareciendo nuevos proyectos Indiferente</div><span class="pronto-label">Próximamente</span></div>
-      </div>
+      <div class="carrusel" id="c4"></div>
       <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c4',300)">›</button>
     </div>
+    <div class="progress-dots" id="dots-c4"></div>
   </div>
 
 </main>
@@ -332,30 +305,267 @@ footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 48px; displ
 <!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
-    <div class="modal-icon" id="modal-icon">🔒</div>
-    <h3 id="modal-titulo">Acceso restringido</h3>
-    <p id="modal-desc">Introduce la contraseña para desbloquear esta sección.</p>
-    <input type="password" id="modal-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')verificar()">
-    <p class="err-msg" id="modal-err">Contraseña incorrecta.</p>
+    <div class="modal-icon">🛑</div>
+    <h3>¡Alto ahí!</h3>
+    <p>Esto es material clasificado, compañer@.<br>Para ver <strong id="modal-tool-name">esta herramienta</strong> necesitas la clave secreta de:</p>
+    <div class="modal-section">
+      <span id="modal-section-icon">📋</span>
+      <span id="modal-section-name">Propuestas</span>
+    </div>
+    <input type="password" id="modal-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')verificarAcceso()">
+    <p class="err-msg" id="modal-err">🙅 Nop, esa no es la contraseña<br><br>Inténtalo de nuevo</p>
     <div class="modal-btns">
-      <button class="btn-m btn-cancel" onclick="cerrar()">Cancelar</button>
-      <button class="btn-m btn-ok" onclick="verificar()">Acceder</button>
+      <button class="btn-m btn-cancel" onclick="cerrarModal()">Paso</button>
+      <button class="btn-m btn-ok" onclick="verificarAcceso()">Tengo la clave</button>
     </div>
   </div>
 </div>
 
-<script>
-const pw = { propuestas: 'MIEDO', direccion: 'P3G4SUS2026' };
-const tit = { propuestas: 'Sección Propuestas', direccion: 'Sección Dirección' };
-const ico = { propuestas: '📋', direccion: '🔐' };
-let actual = null;
-const ok = new Set();
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-function abrirModal(s) {
-  if (ok.has(s)) return;
-  actual = s;
-  document.getElementById('modal-icon').textContent = ico[s];
-  document.getElementById('modal-titulo').textContent = tit[s];
+<script>
+// DATA: Todas las herramientas del Hub
+const herramientas = [
+  // PROTOCOLOS INTERNOS
+  { id: 'formacion-claude', nombre: 'Formación Claude — Abril 2026', descripcion: 'Guía completa: qué es Claude, tips de uso, skills activas y próximas herramientas.', seccion: 'protocolos', tipo: 'formacion', emoji: '🤖', gradiente: 'linear-gradient(135deg,#974694,#E45E9B)', ruta: 'formacion/formacion-claude-abril-2026.html', nivel: 'libre', fecha: '2026-04-20' },
+  { id: 'cuponeo-2026', nombre: 'Mi Plan de Cuponeo 2026', descripcion: 'Herramienta interactiva: gestión de jornadas de cuponeo, rutas, tipos de acción y protocolo de reporte.', seccion: 'protocolos', tipo: 'formacion', emoji: '🐎', gradiente: 'linear-gradient(135deg,#08B75B,#F3D100)', ruta: 'formacion/pegasus-cuponeo-2026.html', nivel: 'libre', fecha: '2026-04-22' },
+  
+  // PROPUESTAS
+  { id: 'loeches', nombre: 'Indiferente — Loeches', descripcion: 'Propuesta de servicios Indiferente para el Ayuntamiento de Loeches.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🏛️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/loeches-indiferente.html', nivel: 'propuestas', fecha: '2026-02-10' },
+  { id: 'morata', nombre: 'Indiferente — Morata de Tajuña', descripcion: 'Propuesta de servicios Indiferente para el Ayuntamiento de Morata de Tajuña.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🏛️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/morata-indiferente.html', nivel: 'propuestas', fecha: '2026-02-15' },
+  { id: 'municipios-fmm', nombre: 'Municipios que te cuidan — FMM', descripcion: 'Propuesta del programa para la Federación Madrileña de Municipios.', seccion: 'propuestas', tipo: 'institucional', emoji: '🌿', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3)', ruta: 'propuestas/municipios-que-te-cuidan.html', nivel: 'propuestas', fecha: '2026-03-05' },
+  { id: 'pascual', nombre: 'Indiferente — Calidad Pascual', descripcion: 'Propuesta de servicios Indiferente para Calidad Pascual — 2026.', seccion: 'propuestas', tipo: 'empresa', emoji: '🥛', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/pascual-indiferente.html', nivel: 'propuestas', fecha: '2026-04-18' },
+  { id: 'ruiz', nombre: 'Indiferente — Grupo Ruiz', descripcion: 'Propuesta de servicios Indiferente para Grupo Ruiz — Consultoría D&I 2026.', seccion: 'propuestas', tipo: 'empresa', emoji: '🚌', gradiente: 'linear-gradient(135deg,#007EC3,#974694)', ruta: 'propuestas/ruiz-indiferente.html', nivel: 'propuestas', fecha: '2026-04-19' },
+  { id: 'blackbull', nombre: 'Burgers Anormales', descripcion: 'Catering inclusivo con propósito. Pegasus × Black Bull — Inserción laboral en restauración.', seccion: 'propuestas', tipo: 'empresa', emoji: '🍔', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928)', ruta: 'propuestas/pegasus-blackbull-landing.html', nivel: 'propuestas', fecha: '2026-04-20' },
+  { id: 'metro', nombre: 'Metro de Madrid × Pegasus', descripcion: 'Propuesta de colaboración con Metro de Madrid — El siguiente paso.', seccion: 'propuestas', tipo: 'empresa', emoji: '🚇', gradiente: 'linear-gradient(135deg,#007EC3,#974694,#E45E9B)', ruta: 'propuestas/metro-pegasus-v5.html', nivel: 'propuestas', fecha: '2026-04-21' },
+  { id: 'tres-cantos', nombre: 'Tres Cantos Medioambiente', descripcion: 'Guardianes del Ecosistema — Gincana Inclusiva para el Festival Medioambiental.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🌱', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3)', ruta: 'propuestas/guardianes_tres_cantos_unificado.html', nivel: 'propuestas', fecha: '2026-04-22' },
+  { id: 'rivas-calma', nombre: 'Espacio Calma — Rivas', descripcion: 'Propuesta de diseño e implementación del Espacio de Calma y Autorregulación en campamentos de Rivas Vaciamadrid.', seccion: 'propuestas', tipo: 'ayuntamiento', emoji: '🧘', gradiente: 'linear-gradient(135deg,#974694,#E45E9B,#D6191B)', ruta: 'propuestas/rivas-espaciocalma.html', nivel: 'propuestas', fecha: '2026-04-23' },
+  { id: 'cooltra', nombre: 'Cooltra × Pegasus', descripcion: 'Propuesta de colaboración con Cooltra. Movilidad inclusiva y sostenible para personas con discapacidad.', seccion: 'propuestas', tipo: 'empresa', emoji: '🛵', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694)', ruta: 'propuestas/cooltra-landing.html', nivel: 'propuestas', fecha: '2026-04-24' },
+  
+  // DIRECCIÓN
+  { id: 'inversores', nombre: 'Landing Inversores', descripcion: 'Landing de presentación para inversores privados de Fundación Pegasus.', seccion: 'direccion', tipo: 'estrategia', emoji: '💰', gradiente: 'linear-gradient(135deg,#007EC3,#974694)', ruta: 'direccion/landing-inversores.html', nivel: 'direccion', fecha: '2026-03-10' },
+  { id: 'briefing-cmo', nombre: 'Briefing CMO — Operación Sede', descripcion: 'Briefing estratégico para el CMO sobre la operación de sede de Fundación Pegasus.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏗️', gradiente: 'linear-gradient(135deg,#D6191B,#974694)', ruta: 'direccion/briefing-cmo.html', nivel: 'direccion', fecha: '2026-04-15' },
+  { id: 'pegasusland', nombre: 'Compra Pegasusland', descripcion: 'Info compraventa sede.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏢', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100)', ruta: 'direccion/pegasusland.html', nivel: 'direccion', fecha: '2026-04-20' },
+  { id: 'naming', nombre: 'Decisión Naming Test Indiferente', descripcion: 'Test interactivo de naming para David y Marre. Votación de opciones de nombre para marca Indiferente.', seccion: 'direccion', tipo: 'estrategia', emoji: '🏷️', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928,#F3D100)', ruta: 'direccion/naming-indiferente.html', nivel: 'direccion', fecha: '2026-04-23' },
+  
+  // PROYECTOS INDIFERENTE
+  { id: 'rivas-campamentos', nombre: 'Campamentos Inclusivos — Rivas', descripcion: 'Asesoría técnica especializada. Repositorio de entregables del proyecto con el Ayuntamiento de Rivas Vaciamadrid.', seccion: 'proyectos', tipo: 'consultoria', emoji: '🏕️', gradiente: 'linear-gradient(135deg,#08B75B,#007EC3,#974694)', ruta: 'proyectos-indiferente/rivas-campamentos/index.html', nivel: 'libre', fecha: '2026-04-10' },
+  { id: 'sediasa', nombre: 'Proyecto Sediasa', descripcion: 'Consultoría Indiferente para Sediasa. Propuesta comercial, herramienta "La Caja" y manual de uso.', seccion: 'proyectos', tipo: 'consultoria', emoji: '🏢', gradiente: 'linear-gradient(135deg,#007EC3,#974694,#E45E9B)', ruta: 'proyectos-indiferente/sediasa/index.html', nivel: 'libre', fecha: '2026-04-18' },
+  { id: 'conflictos', nombre: 'Resolución de Conflictos', descripcion: 'Landing de la formación Indiferente para empresas. Metodología, propuesta y contratación.', seccion: 'proyectos', tipo: 'consultoria', emoji: '⚡', gradiente: 'linear-gradient(135deg,#D6191B,#ED7928,#F3D100)', ruta: 'proyectos-indiferente/landing-conflictos-COMPLETO.html', nivel: 'libre', fecha: '2026-04-21' }
+];
+
+const passwords = { propuestas: 'MIEDO', direccion: 'P3G4SUS2026' };
+const sectionNames = { propuestas: 'Propuestas', direccion: 'Dirección' };
+const sectionIcons = { propuestas: '📋', direccion: '🔐' };
+const unlocked = new Set();
+let currentTool = null;
+let currentFilter = 'all';
+
+// Calcular antigüedad de herramienta
+function getAgeTag(fecha) {
+  const now = new Date('2026-04-24');
+  const toolDate = new Date(fecha);
+  const days = Math.floor((now - toolDate) / (1000 * 60 * 60 * 24));
+  if (days < 7) return 'nuevo';
+  if (days > 30) return 'archivo';
+  return null;
+}
+
+// Generar HTML de una card
+function createCard(tool) {
+  const ageTag = getAgeTag(tool.fecha);
+  const lockIcon = tool.nivel !== 'libre' && !unlocked.has(tool.nivel) ? `<div class="ncard-lock">🔒</div>` : '';
+  
+  let tags = '';
+  if (ageTag === 'nuevo') tags += `<span class="ncard-tag tag-new">🆕 Nuevo</span>`;
+  if (ageTag === 'archivo') tags += `<span class="ncard-tag tag-archive">📦 Archivo</span>`;
+  
+  return `
+    <a class="ncard ${ageTag === 'archivo' ? 'archived' : ''}" href="${tool.ruta}" data-nivel="${tool.nivel}" data-id="${tool.id}" data-tipo="${tool.tipo}" onclick="checkAccess(event, '${tool.id}')">
+      ${lockIcon}
+      <div class="ncard-thumb">
+        <div class="ncard-thumb-grad" style="background:${tool.gradiente};"></div>
+        <span class="ncard-thumb-emoji">${tool.emoji}</span>
+      </div>
+      <div class="ncard-body">
+        <div class="ncard-nombre">${tool.nombre}</div>
+        <div class="ncard-desc">${tool.descripcion}</div>
+        <div class="ncard-tags">${tags}</div>
+      </div>
+    </a>
+  `;
+}
+
+// Renderizar secciones
+function renderSection(sectionId, tools) {
+  const container = document.getElementById(sectionId);
+  container.innerHTML = tools.map(createCard).join('');
+  updateProgressDots(sectionId);
+}
+
+// Renderizar Recientes (últimas 10)
+function renderRecientes() {
+  const sorted = [...herramientas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  const recent = sorted.slice(0, 10);
+  renderSection('cr', recent);
+}
+
+// Renderizar secciones normales
+function renderProtocolos() {
+  const tools = herramientas.filter(h => h.seccion === 'protocolos');
+  renderSection('c1', tools);
+}
+
+function renderPropuestas() {
+  const tools = herramientas.filter(h => h.seccion === 'propuestas');
+  renderSection('c2', tools);
+}
+
+function renderDireccion() {
+  const tools = herramientas.filter(h => h.seccion === 'direccion');
+  renderSection('c3', tools);
+}
+
+function renderProyectos() {
+  const tools = herramientas.filter(h => h.seccion === 'proyectos');
+  renderSection('c4', tools);
+}
+
+// Filtrar propuestas por tipo
+function filterPropuestas(type) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.filter === type);
+  });
+  
+  const cards = document.querySelectorAll('#c2 .ncard');
+  cards.forEach(card => {
+    const cardType = card.dataset.tipo;
+    if (type === 'all' || cardType === type) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  updateProgressDots('c2');
+}
+
+// Toggle vista tarjetas/lista
+function toggleView(carruselId, mode) {
+  const carrusel = document.getElementById(carruselId);
+  const btns = carrusel.parentElement.parentElement.querySelectorAll('.view-btn');
+  
+  btns.forEach(btn => {
+    btn.classList.toggle('active', 
+      (mode === 'cards' && btn.textContent.includes('Tarjetas')) ||
+      (mode === 'list' && btn.textContent.includes('Lista'))
+    );
+  });
+  
+  if (mode === 'list') {
+    carrusel.classList.add('list-view');
+  } else {
+    carrusel.classList.remove('list-view');
+  }
+}
+
+// Progress dots
+function updateProgressDots(carruselId) {
+  const container = document.getElementById(carruselId);
+  const dotsContainer = document.getElementById('dots-' + carruselId);
+  if (!dotsContainer) return;
+  
+  const visibleCards = Array.from(container.children).filter(c => !c.classList.contains('hidden') && c.classList.contains('ncard'));
+  const total = visibleCards.length;
+  if (total <= 4) {
+    dotsContainer.innerHTML = '';
+    return;
+  }
+  
+  const numDots = Math.ceil(total / 4);
+  dotsContainer.innerHTML = Array(numDots).fill(0).map((_, i) => 
+    `<div class="dot ${i === 0 ? 'active' : ''}"></div>`
+  ).join('');
+}
+
+// Scroll carrusel
+function scrollCarrusel(id, amt) {
+  document.getElementById(id).scrollBy({ left: amt, behavior: 'smooth' });
+}
+
+// Búsqueda
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  if (!query) {
+    searchResults.classList.remove('visible');
+    return;
+  }
+  
+  const results = herramientas.filter(h => 
+    h.nombre.toLowerCase().includes(query) || 
+    h.descripcion.toLowerCase().includes(query)
+  );
+  
+  if (results.length === 0) {
+    searchResults.innerHTML = '<div class="no-results">No se encontraron resultados</div>';
+  } else {
+    searchResults.innerHTML = results.map(tool => {
+      const locked = tool.nivel !== 'libre' && !unlocked.has(tool.nivel);
+      return `
+        <div class="search-result" onclick="handleSearchClick('${tool.id}')">
+          <div class="search-result-emoji">${tool.emoji}</div>
+          <div class="search-result-info">
+            <div class="search-result-name">${tool.nombre}</div>
+            <div class="search-result-section">${tool.seccion.charAt(0).toUpperCase() + tool.seccion.slice(1)}</div>
+          </div>
+          ${locked ? '<div class="search-result-lock">🔒</div>' : ''}
+        </div>
+      `;
+    }).join('');
+  }
+  
+  searchResults.classList.add('visible');
+});
+
+searchInput.addEventListener('blur', () => {
+  setTimeout(() => searchResults.classList.remove('visible'), 200);
+});
+
+function handleSearchClick(id) {
+  const tool = herramientas.find(h => h.id === id);
+  if (!tool) return;
+  
+  if (tool.nivel !== 'libre' && !unlocked.has(tool.nivel)) {
+    currentTool = tool;
+    abrirModal(tool.nivel, tool.nombre);
+  } else {
+    window.open(tool.ruta, '_blank');
+  }
+}
+
+// Control de acceso
+function checkAccess(event, id) {
+  event.preventDefault();
+  const tool = herramientas.find(h => h.id === id);
+  if (!tool) return;
+  
+  if (tool.nivel === 'libre' || unlocked.has(tool.nivel)) {
+    window.open(tool.ruta, '_blank');
+  } else {
+    currentTool = tool;
+    abrirModal(tool.nivel, tool.nombre);
+  }
+}
+
+// Modal
+function abrirModal(nivel, toolName) {
+  document.getElementById('modal-tool-name').textContent = toolName;
+  document.getElementById('modal-section-icon').textContent = sectionIcons[nivel];
+  document.getElementById('modal-section-name').textContent = sectionNames[nivel];
   document.getElementById('modal-input').value = '';
   document.getElementById('modal-err').classList.remove('visible');
   document.getElementById('modal-input').classList.remove('error');
@@ -363,22 +573,25 @@ function abrirModal(s) {
   setTimeout(() => document.getElementById('modal-input').focus(), 100);
 }
 
-function cerrar() {
+function cerrarModal() {
   document.getElementById('modal-overlay').classList.remove('visible');
-  actual = null;
+  currentTool = null;
 }
 
-function verificar() {
-  const v = document.getElementById('modal-input').value;
-  if (v === pw[actual]) {
-    ok.add(actual);
-    document.getElementById('fila-' + actual).classList.add('desbloqueada');
-    const l = document.getElementById('lock-' + actual);
-    l.textContent = '🔓 Desbloqueado';
-    l.classList.remove('lock-cerrado');
-    l.classList.add('lock-abierto');
-    l.onclick = null;
-    cerrar();
+function verificarAcceso() {
+  if (!currentTool) return;
+  const pwd = document.getElementById('modal-input').value;
+  const nivel = currentTool.nivel;
+  
+  if (pwd === passwords[nivel]) {
+    unlocked.add(nivel);
+    cerrarModal();
+    window.open(currentTool.ruta, '_blank');
+    mostrarToast(`✅ ¡Acceso concedido! Ya puedes ver todo el contenido de ${sectionNames[nivel]}`);
+    // Re-render para quitar candados
+    renderRecientes();
+    renderPropuestas();
+    renderDireccion();
   } else {
     document.getElementById('modal-input').classList.add('error');
     document.getElementById('modal-err').classList.add('visible');
@@ -387,11 +600,24 @@ function verificar() {
   }
 }
 
-function scrollCarrusel(id, amt) {
-  document.getElementById(id).scrollBy({ left: amt, behavior: 'smooth' });
+function mostrarToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 3000);
 }
 
-document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === document.getElementById('modal-overlay')) cerrar(); });
+// Click fuera del modal
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-overlay')) cerrarModal();
+});
+
+// Init
+renderRecientes();
+renderProtocolos();
+renderPropuestas();
+renderDireccion();
+renderProyectos();
 </script>
 </body>
 </html>
