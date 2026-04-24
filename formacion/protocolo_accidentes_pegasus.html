@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolo de Accidentes Laborales — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde:   #08B75B;
+    --azul:    #007EC3;
+    --morado:  #974694;
+    --rosa:    #E45E9B;
+    --rojo:    #D6191B;
+    --amarillo:#F3D100;
+    --naranja: #ED7928;
+    --negro:   #111111;
+    --blanco:  #FFFFFF;
+    --gris-claro: #F7F7F7;
+    --gris-borde: #E8E8E8;
+    --grad-corp: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--blanco);
+    color: var(--negro);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--blanco);
+    padding: 28px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-svg {
+    height: 48px;
+    width: auto;
+  }
+
+  .doc-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #999;
+    background: var(--gris-claro);
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--gris-borde);
+  }
+
+  /* WAVE */
+  .wave { width: 100%; overflow: hidden; line-height: 0; display: block; }
+
+  /* HERO */
+  .hero {
+    padding: 48px 40px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Barlow', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .grad-text {
+    background: var(--grad-corp);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: #555;
+    max-width: 620px;
+    margin-bottom: 32px;
+  }
+
+  /* ALERTA ROJA — EMERGENCIA */
+  .alert-emergency {
+    background: var(--rojo);
+    color: var(--blanco);
+    border-radius: 20px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+  }
+
+  .alert-emergency .icon { font-size: 2.4rem; flex-shrink: 0; }
+
+  .alert-emergency .content h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .alert-emergency .content p { font-size: 0.95rem; opacity: 0.92; }
+
+  .tel-big {
+    font-size: 2rem;
+    font-weight: 900;
+    display: block;
+    letter-spacing: 0.02em;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 60px;
+  }
+
+  /* SECTION TITLE */
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  /* DEFINICIÓN */
+  .definition-box {
+    background: var(--gris-claro);
+    border-radius: 20px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+    border-left: 4px solid transparent;
+    border-image: var(--grad-corp) 1;
+    border-image-slice: 1;
+    border-left-style: solid;
+    border-radius: 20px;
+  }
+
+  .definition-box p { color: #444; font-size: 0.97rem; }
+  .definition-box strong { color: var(--negro); }
+
+  /* STEP CARDS */
+  .steps-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .step-card {
+    border: 1.5px solid var(--gris-borde);
+    border-radius: 20px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: transform 0.25s, box-shadow 0.25s;
+    background: var(--blanco);
+  }
+
+  .step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.07);
+  }
+
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--grad-corp);
+    color: var(--blanco);
+    font-weight: 900;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-style: italic;
+  }
+
+  .step-content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-style: italic;
+    text-transform: uppercase;
+  }
+
+  .step-content p { color: #555; font-size: 0.92rem; }
+  .step-content ul { color: #555; font-size: 0.92rem; padding-left: 18px; margin-top: 6px; }
+  .step-content ul li { margin-bottom: 4px; }
+
+  .step-card.grave { border-color: var(--rojo); }
+  .step-card.grave .step-num { background: var(--rojo); }
+  .step-card.warning { border-color: var(--naranja); }
+  .step-card.warning .step-num { background: linear-gradient(135deg, var(--naranja), var(--amarillo)); }
+
+  /* CONTACTOS */
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .contact-card {
+    border: 1.5px solid var(--gris-borde);
+    border-radius: 20px;
+    padding: 22px 24px;
+    background: var(--blanco);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.07);
+  }
+
+  .contact-card .icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+
+  .contact-card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+  }
+
+  .contact-card .name {
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 4px;
+  }
+
+  .contact-card .tel {
+    font-size: 1.25rem;
+    font-weight: 900;
+    background: var(--grad-corp);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .contact-card .note { font-size: 0.8rem; color: #888; }
+
+  /* ESPECIALES — piscina, desplazamiento */
+  .special-section {
+    margin-bottom: 48px;
+  }
+
+  .special-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .special-card {
+    border-radius: 20px;
+    padding: 24px;
+    color: var(--blanco);
+  }
+
+  .special-card.agua { background: linear-gradient(135deg, #007EC3, #08B75B); }
+  .special-card.ruta { background: linear-gradient(135deg, #974694, #E45E9B); }
+  .special-card.solo { background: linear-gradient(135deg, #D6191B, #ED7928); }
+
+  .special-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .special-card ul { padding-left: 18px; font-size: 0.9rem; opacity: 0.95; }
+  .special-card ul li { margin-bottom: 6px; }
+
+  /* FREMAP */
+  .fremap-box {
+    background: var(--negro);
+    border-radius: 24px;
+    padding: 32px;
+    color: var(--blanco);
+    margin-bottom: 48px;
+  }
+
+  .fremap-box h2 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fremap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .fremap-item { background: rgba(255,255,255,0.08); border-radius: 16px; padding: 18px 20px; }
+  .fremap-item .fi-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.6; margin-bottom: 6px; }
+  .fremap-item .fi-val { font-size: 1.1rem; font-weight: 700; }
+  .fremap-item .fi-note { font-size: 0.82rem; opacity: 0.7; margin-top: 4px; }
+
+  /* ITINERE NOTA */
+  .itinere-box {
+    background: linear-gradient(135deg, #974694, #E45E9B);
+    border-radius: 20px;
+    padding: 20px 24px;
+    color: var(--blanco);
+    margin-bottom: 48px;
+    font-size: 0.92rem;
+  }
+
+  .itinere-box strong { display: block; font-size: 1rem; margin-bottom: 4px; text-transform: uppercase; font-style: italic; }
+
+  /* REGISTRO */
+  .registro-box {
+    border: 2px dashed var(--gris-borde);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 48px;
+  }
+
+  .registro-box h2 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .registro-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .registro-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .registro-item::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--gris-borde);
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+
+  .faq-item {
+    border: 1.5px solid var(--gris-borde);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    gap: 12px;
+  }
+
+  .faq-q::after { content: '▾'; font-size: 1rem; flex-shrink: 0; transition: transform 0.2s; }
+  .faq-item.open .faq-q::after { transform: rotate(180deg); }
+
+  .faq-a {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 20px 16px; }
+
+  /* FOOTER */
+  .footer-wave { margin-top: 40px; }
+
+  .footer {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 32px 40px;
+    text-align: center;
+  }
+
+  .footer .slogan {
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 8px;
+  }
+
+  .footer .web { font-size: 0.85rem; opacity: 0.5; letter-spacing: 0.08em; }
+  .footer .cif { font-size: 0.78rem; opacity: 0.4; margin-top: 8px; }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .header { padding: 20px 20px 0; flex-wrap: wrap; gap: 10px; }
+    .hero { padding: 32px 20px 24px; }
+    .hero h1 { font-size: 2rem; }
+    .main { padding: 0 20px 48px; }
+    .alert-emergency { flex-direction: column; gap: 12px; padding: 20px; }
+    .tel-big { font-size: 1.6rem; }
+    .fremap-box { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-container">
+    <!-- Logo Pegasus en SVG inline simplificado -->
+    <svg class="logo-svg" viewBox="0 0 180 48" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#08B75B"/>
+          <stop offset="20%"  stop-color="#007EC3"/>
+          <stop offset="40%"  stop-color="#974694"/>
+          <stop offset="60%"  stop-color="#E45E9B"/>
+          <stop offset="78%"  stop-color="#D6191B"/>
+          <stop offset="90%"  stop-color="#ED7928"/>
+          <stop offset="100%" stop-color="#F3D100"/>
+        </linearGradient>
+      </defs>
+      <!-- Círculo icono -->
+      <circle cx="22" cy="24" r="20" fill="url(#lg)"/>
+      <text x="22" y="29" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="900" font-size="13" fill="white">🐎</text>
+      <!-- Texto PEGASUS -->
+      <text x="50" y="21" font-family="Barlow, sans-serif" font-weight="900" font-style="italic" font-size="18" fill="url(#lg)" letter-spacing="1">PEGA</text>
+      <text x="50" y="21" font-family="Barlow, sans-serif" font-weight="900" font-style="italic" font-size="18" fill="url(#lg)" letter-spacing="1" x="50">PEGASUS</text>
+      <text x="50" y="38" font-family="Barlow, sans-serif" font-weight="400" font-size="8" fill="#999" letter-spacing="2">FUNDACIÓN</text>
+    </svg>
+  </div>
+  <div class="doc-badge">Documento Interno · Uso del Equipo</div>
+</div>
+
+<!-- WAVE SUPERIOR -->
+<div class="wave" style="margin-top:16px;">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="20%"  stop-color="#007EC3"/>
+        <stop offset="40%"  stop-color="#974694"/>
+        <stop offset="60%"  stop-color="#E45E9B"/>
+        <stop offset="78%"  stop-color="#D6191B"/>
+        <stop offset="90%"  stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,0 L0,0 Z" fill="url(#wg1)"/>
+  </svg>
+</div>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-label">Protocolo oficial · Actualizado abril 2026</div>
+  <h1>Protocolo de <span class="grad-text">accidentes</span><br>laborales</h1>
+  <p class="hero-sub">Todo lo que necesitas saber si sufres o presencias un accidente en el trabajo. Léelo antes de que lo necesites.</p>
+</div>
+
+<!-- ALERTA EMERGENCIA -->
+<div class="alert-emergency fade-in" style="padding-left:40px; padding-right:40px; max-width:calc(900px + 80px); width:100%; margin: 0 auto 40px;">
+  <div style="max-width:900px; width:100%; margin:0 auto; background:#D6191B; border-radius:20px; padding:24px 28px; display:flex; align-items:center; gap:20px; color:white;">
+    <div class="icon">🚨</div>
+    <div class="content">
+      <h2>Emergencia grave — llama primero</h2>
+      <p>Pérdida de conciencia, hemorragia grave, accidente en agua, traumatismo severo o cualquier situación que requiera traslado hospitalario:</p>
+      <span class="tel-big">112</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- DEFINICIÓN -->
+  <div class="fade-in" style="margin-bottom:48px;">
+    <div class="section-label">Antes de actuar</div>
+    <div class="section-title">¿Qué es un accidente laboral?</div>
+    <div class="definition-box">
+      <p>Todo suceso repentino que ocurra <strong>con ocasión o por consecuencia del trabajo</strong> y que produzca una lesión corporal al trabajador. Esto incluye también los <strong>accidentes in itinere</strong>: los que ocurren en el trayecto de casa al trabajo o viceversa.</p>
+    </div>
+  </div>
+
+  <!-- PASOS PRINCIPALES -->
+  <div class="fade-in" style="margin-bottom:48px;">
+    <div class="section-label">Protocolo general</div>
+    <div class="section-title">¿Qué hago si ocurre un accidente?</div>
+    <div class="steps-grid">
+
+      <div class="step-card grave">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Evalúa la gravedad</h3>
+          <p><strong style="color:var(--rojo);">GRAVE:</strong> pérdida de conciencia, hemorragia importante, traumatismo en cabeza o columna, accidente en agua, dificultad respiratoria → <strong>Llama al 112 de inmediato.</strong></p>
+          <p style="margin-top:8px;"><strong>NO GRAVE:</strong> herida leve, golpe, esguince sin deformidad → Comunica internamente y gestiona con Fremap.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Comunica internamente</h3>
+          <ul>
+            <li>Avisa a tu <strong>coordinador/a de zona</strong> (primera persona de contacto).</li>
+            <li>Si no localizas al coordinador: avisa al <strong>Director/a del servicio</strong> (Iris en TPT/IS).</li>
+            <li>Informa siempre a <strong>RRHH (Davilín)</strong> — todos los accidentes deben quedar registrados, aunque sean leves.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Contacta con Fremap</h3>
+          <p>Llama al <strong>900 61 00 61</strong> (24h) o acude directamente al centro Fremap más cercano. No necesitas autorización previa.</p>
+          <p style="margin-top:6px;">Indica que eres trabajador de <strong>Fundación Pegasus · CIF G87919148</strong> y lleva tu DNI/NIE.</p>
+        </div>
+      </div>
+
+      <div class="step-card warning">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Registra el accidente</h3>
+          <p>Todo accidente debe quedar documentado. Rellena el parte de accidente y envíalo a RRHH en las <strong>24h siguientes</strong>. Ver checklist de registro más abajo.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTACTOS CLAVE -->
+  <div class="fade-in" style="margin-bottom:48px;">
+    <div class="section-label">Contactos de emergencia</div>
+    <div class="section-title">A quién llamas y en qué orden</div>
+    <div class="contacts-grid">
+      <div class="contact-card">
+        <span class="icon">🚨</span>
+        <h3>Emergencia</h3>
+        <div class="name">Servicios de emergencia</div>
+        <span class="tel">112</span>
+        <div class="note">Siempre primero si la situación es grave</div>
+      </div>
+      <div class="contact-card">
+        <span class="icon">👩‍💼</span>
+        <h3>Tu coordinador/a de zona</h3>
+        <div class="name">María Álvarez / Ana García (TPT)<br>Irene Burgos / José Luis Mena (IS)</div>
+        <div class="note">Primera persona de contacto interno</div>
+      </div>
+      <div class="contact-card">
+        <span class="icon">📋</span>
+        <h3>Dirección de Servicios</h3>
+        <div class="name">Iris</div>
+        <div class="note">Si no localizas a tu coordinador/a</div>
+      </div>
+      <div class="contact-card">
+        <span class="icon">🏢</span>
+        <h3>RRHH</h3>
+        <div class="name">Davilín</div>
+        <div class="note">Siempre informar, incluso en accidentes leves</div>
+      </div>
+      <div class="contact-card">
+        <span class="icon">🏥</span>
+        <h3>Mutua Fremap</h3>
+        <div class="name">Atención 24 horas</div>
+        <span class="tel">900 61 00 61</span>
+        <div class="note">CIF Pegasus: G87919148</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITUACIONES ESPECIALES PEGASUS -->
+  <div class="special-section fade-in">
+    <div class="section-label">Situaciones específicas de Pegasus</div>
+    <div class="section-title">Protocolos por entorno de trabajo</div>
+    <div class="special-grid">
+
+      <div class="special-card agua">
+        <h3>🏊 Accidente en piscina (IS)</h3>
+        <ul>
+          <li>Si el accidentado está en el agua: extrae a tierra firme primero.</li>
+          <li>Si hay pérdida de conciencia o el accidente involucra a un usuario: llama al 112 de inmediato.</li>
+          <li>No muevas a la persona si sospechas lesión cervical.</li>
+          <li>Avisa al responsable de la instalación municipal.</li>
+          <li>Aplica RCP solo si estás formado para ello.</li>
+          <li>Comunica a tu coordinador/a lo antes posible.</li>
+        </ul>
+      </div>
+
+      <div class="special-card ruta">
+        <h3>🚗 Accidente en desplazamiento (in itinere)</h3>
+        <ul>
+          <li>También es accidente laboral si ocurre yendo o volviendo del trabajo.</li>
+          <li>Llama al 112 si hay heridos.</li>
+          <li>Guarda todo: fotos, atestado policial, parte del seguro.</li>
+          <li>Comunica a RRHH en las siguientes 24h.</li>
+          <li>Acude a Fremap aunque sea leve: el registro protege tus derechos.</li>
+        </ul>
+      </div>
+
+      <div class="special-card solo">
+        <h3>👤 Si trabajas solo en el centro</h3>
+        <ul>
+          <li>Antes de cada sesión, ten el teléfono cerca y accesible.</li>
+          <li>Si el accidente te impide llamar, activa el SOS de emergencia de tu móvil.</li>
+          <li>Informa a un familiar o compañero si estás en un centro sin más personal.</li>
+          <li>La instalación municipal tiene obligación de tener un botiquín: localízalo el primer día.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTA IN ITINERE -->
+  <div class="itinere-box fade-in">
+    <strong>⚠️ Importante: accidente in itinere</strong>
+    El accidente de camino al trabajo o de vuelta a casa también es accidente laboral. Aunque parezca un accidente de tráfico ordinario, debes comunicarlo a RRHH y acudir a Fremap. No hacerlo puede implicar perder derechos de cobertura.
+  </div>
+
+  <!-- FREMAP -->
+  <div class="fremap-box fade-in">
+    <h2>🏥 Actuación con Fremap</h2>
+    <div class="fremap-grid">
+      <div class="fremap-item">
+        <div class="fi-label">Teléfono</div>
+        <div class="fi-val">900 61 00 61</div>
+        <div class="fi-note">Atención 24 horas, sin coste</div>
+      </div>
+      <div class="fremap-item">
+        <div class="fi-label">Entidad</div>
+        <div class="fi-val">Fundación Pegasus</div>
+        <div class="fi-note">CIF: G87919148</div>
+      </div>
+      <div class="fremap-item">
+        <div class="fi-label">Qué llevar</div>
+        <div class="fi-val">DNI o NIE</div>
+        <div class="fi-note">Sin más trámites previos</div>
+      </div>
+      <div class="fremap-item">
+        <div class="fi-label">¿Necesito autorización?</div>
+        <div class="fi-val">No</div>
+        <div class="fi-note">Puedes acudir directamente al centro más cercano</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST REGISTRO -->
+  <div class="registro-box fade-in">
+    <div class="section-label">Obligatorio en todos los casos</div>
+    <h2>📋 Checklist de registro del accidente</h2>
+    <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">Envía esta información a RRHH en las 24h siguientes al accidente. Todo accidente debe quedar registrado, aunque sea leve.</p>
+    <div class="registro-items">
+      <div class="registro-item">Fecha, hora y lugar exacto del accidente</div>
+      <div class="registro-item">Descripción de lo que ocurrió</div>
+      <div class="registro-item">Tipo de lesión y parte del cuerpo afectada</div>
+      <div class="registro-item">¿Hubo testigos? Nombre y datos</div>
+      <div class="registro-item">¿Se acudió a Fremap? Fecha y centro</div>
+      <div class="registro-item">¿Se llamó al 112? Número de intervención</div>
+      <div class="registro-item">¿Estabas realizando una sesión con usuarios?</div>
+      <div class="registro-item">¿Fue durante desplazamiento entre centros?</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="fade-in">
+    <div class="section-label">Dudas frecuentes</div>
+    <div class="section-title">Preguntas frecuentes</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q">¿Qué hago si el accidente ocurre fuera del horario laboral pero relacionado con el trabajo?</div>
+        <div class="faq-a">Si ocurre mientras estás realizando una actividad relacionada con Pegasus (desplazamiento, formación, reunión), sigue este protocolo y comunícalo a RRHH lo antes posible. En caso de duda, acude a Fremap y ellos determinarán si tiene cobertura laboral.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Debo informar si el accidente me parece muy leve?</div>
+        <div class="faq-a">Sí, siempre. Un golpe aparentemente leve puede tener consecuencias días después. El registro protege tus derechos laborales. Informa a tu coordinador/a y a RRHH aunque no acudas a Fremap.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Y si no puedo desplazarme hasta Fremap?</div>
+        <div class="faq-a">Llama al 900 61 00 61 (24h) y recibe instrucciones. Si la situación es de emergencia, llama antes al 112.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Qué pasa si el accidente involucra también a un usuario?</div>
+        <div class="faq-a">Atiendes primero al usuario: llama al 112 si es necesario y avisa a su familia. Luego atiende tu propia situación. Comunica el incidente a tu coordinador/a y a la dirección con carácter urgente, ya que puede requerir actuaciones adicionales.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿El accidente de camino al trabajo está cubierto?</div>
+        <div class="faq-a">Sí. El accidente in itinere (trayecto casa-trabajo o trabajo-casa) tiene cobertura como accidente laboral. Guarda toda la documentación (atestado policial, fotos) y comunícalo a RRHH.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Hay botiquín en los centros?</div>
+        <div class="faq-a">Las instalaciones municipales donde operamos tienen obligación de disponer de botiquín. Localiza su ubicación el primer día que trabajes en cada centro y comunica a tu coordinador/a si no está disponible o está incompleto.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER WAVE -->
+<div class="footer-wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="20%"  stop-color="#007EC3"/>
+        <stop offset="40%"  stop-color="#974694"/>
+        <stop offset="60%"  stop-color="#E45E9B"/>
+        <stop offset="78%"  stop-color="#D6191B"/>
+        <stop offset="90%"  stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="url(#wg2)"/>
+  </svg>
+</div>
+
+<div class="footer">
+  <div class="slogan">Lo mío no es normal, pero lo tuyo tampoco.</div>
+  <div class="web">www.fundacionpegasus.org</div>
+  <div class="cif">Fundación Pegasus · CIF G87919148 · Documento de uso interno</div>
+</div>
+
+<script>
+  // Acordeón FAQ
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Fade in al scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
