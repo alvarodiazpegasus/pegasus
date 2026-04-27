@@ -5,6 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hub Pegasus</title>
+<script>
+  // Aplicar tema antes del primer pintado para evitar flash
+  (function() {
+    try {
+      var saved = localStorage.getItem('hub-theme');
+      var preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (preferDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {}
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.cdnfonts.com/css/chantal');
@@ -62,20 +73,78 @@
   --shadow-md: 0 4px 12px rgba(10,14,20,0.1);
   --shadow-lg: 0 12px 32px rgba(10,14,20,0.15);
   --shadow-xl: 0 20px 48px rgba(10,14,20,0.2);
+
+  /* Theme-aware tokens (override en [data-theme="dark"]) */
+  --bg-input-translucent: rgba(255,255,255,0.7);
+  --logo-filter: none;
+}
+
+[data-theme="dark"] {
+  /* Inversión de la paleta neutra: ahora --blanco es el fondo oscuro principal */
+  --blanco:   #0F1419;
+  --gris-50:  #161B22;
+  --gris-100: #1F2530;
+  --gris-200: #2D3441;
+  --gris-300: #3E4653;
+  --gris-400: #5C6370;
+  --gris-500: #7C818C;
+  --gris-600: #9DA1AB;
+  --gris-700: #BDC1CA;
+  --gris-800: #DDE0E6;
+  --gris-900: #EEF0F4;
+  --negro:    #F0F2F5;
+
+  --bg-input-translucent: rgba(31,37,48,0.7);
+  --logo-filter: brightness(1.05) contrast(1.05);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.6);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.7);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { 
+body {
   font-family: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--blanco); 
-  color: var(--negro); 
-  min-height: 100vh; 
+  background: var(--blanco);
+  color: var(--negro);
+  min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Theme toggle button */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gris-200);
+  background: var(--blanco);
+  color: var(--negro);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--ease-out);
+  flex-shrink: 0;
+  padding: 0;
+  font-family: inherit;
+}
+.theme-toggle:hover {
+  border-color: var(--gris-400);
+  box-shadow: var(--shadow-md);
+  transform: scale(1.05);
+}
+.theme-toggle:active { transform: scale(0.96); }
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: inline; }
+[data-theme="dark"] .theme-toggle .icon-sun  { display: inline; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
 .grad-text { 
   background: var(--grad); 
@@ -107,6 +176,8 @@ header {
   height: 48px;
   width: auto;
   display: block;
+  filter: var(--logo-filter);
+  transition: filter 0.3s ease;
 }
 .header-sub { 
   font-size: 0.72rem; 
@@ -127,8 +198,8 @@ header {
   width: 100%; 
   padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10); 
   border-radius: 100px; 
-  border: 1.5px solid var(--gris-200); 
-  background: rgba(255,255,255,0.7);
+  border: 1.5px solid var(--gris-200);
+  background: var(--bg-input-translucent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: var(--negro); 
@@ -663,6 +734,10 @@ footer {
       <input type="text" class="search-input" id="searchInput" placeholder="Buscar herramienta...">
       <div class="search-results" id="searchResults"></div>
     </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+      <span class="icon-moon">🌙</span>
+      <span class="icon-sun">☀️</span>
+    </button>
   </div>
 </header>
 
@@ -992,76 +1067,94 @@ function handleSearchClick(id) {
   if (!tool) return;
   if (tool.nivel !== 'libre' && !unlocked.has(tool.nivel)) {
     currentTool = tool;
-    abrirModal(tool.nivel, tool.nombre);
+    abrirModal(tool.nivel);
   } else {
-    window.open(tool.ruta, '_blank');
+    window.location.href = tool.ruta;
   }
+  searchResults.classList.remove('visible');
+  searchInput.value = '';
 }
 
-function checkAccess(event, id) {
-  event.preventDefault();
-  const tool = herramientas.find(h => h.id === id);
-  if (!tool) return;
-  if (tool.nivel === 'libre' || unlocked.has(tool.nivel)) {
-    window.open(tool.ruta, '_blank');
-  } else {
-    currentTool = tool;
-    abrirModal(tool.nivel, tool.nombre);
-  }
-}
+const sectionLabels = {
+  propuestas: { icon: '📋', name: 'Propuestas' },
+  direccion: { icon: '🎯', name: 'Dirección' }
+};
 
-function abrirModal(nivel, toolName) {
-  document.getElementById('modal-tool-name').textContent = toolName;
-  document.getElementById('modal-section-icon').textContent = sectionIcons[nivel];
-  document.getElementById('modal-section-name').textContent = sectionNames[nivel];
-  document.getElementById('modal-input').value = '';
-  document.getElementById('modal-err').classList.remove('visible');
-  document.getElementById('modal-input').classList.remove('error');
-  document.getElementById('modal-overlay').classList.add('visible');
-  setTimeout(() => document.getElementById('modal-input').focus(), 100);
+function abrirModal(nivel) {
+  const info = sectionLabels[nivel] || { icon: '🔒', name: nivel };
+  const overlay = document.getElementById('modal-overlay');
+  const input = document.getElementById('modal-input');
+  const err = document.getElementById('modal-err');
+  document.getElementById('modal-section-icon').textContent = info.icon;
+  document.getElementById('modal-section-name').textContent = info.name;
+  if (currentTool) {
+    document.getElementById('modal-tool-name').textContent = currentTool.nombre;
+  }
+  err.classList.remove('visible');
+  input.classList.remove('error');
+  input.value = '';
+  overlay.classList.add('visible');
+  setTimeout(() => input.focus(), 50);
 }
 
 function cerrarModal() {
-  document.getElementById('modal-overlay').classList.remove('visible');
+  const overlay = document.getElementById('modal-overlay');
+  const input = document.getElementById('modal-input');
+  const err = document.getElementById('modal-err');
+  overlay.classList.remove('visible');
+  input.value = '';
+  err.classList.remove('visible');
+  input.classList.remove('error');
   currentTool = null;
 }
 
 function verificarAcceso() {
-  if (!currentTool) return;
-  const pwd = document.getElementById('modal-input').value;
-  const nivel = currentTool.nivel;
-  if (pwd === passwords[nivel]) {
-    unlocked.add(nivel);
+  if (!currentTool) return cerrarModal();
+  const input = document.getElementById('modal-input');
+  const err = document.getElementById('modal-err');
+  if (input.value === passwords[currentTool.nivel]) {
+    unlocked.add(currentTool.nivel);
+    const ruta = currentTool.ruta;
     cerrarModal();
-    window.open(currentTool.ruta, '_blank');
-    mostrarToast(`✅ ¡Acceso concedido! Ya puedes ver todo el contenido de ${sectionNames[nivel]}`);
     renderRecientes();
+    renderProtocolos();
     renderPropuestas();
     renderDireccion();
+    renderProyectos();
+    window.location.href = ruta;
   } else {
-    document.getElementById('modal-input').classList.add('error');
-    document.getElementById('modal-err').classList.add('visible');
-    document.getElementById('modal-input').value = '';
-    document.getElementById('modal-input').focus();
+    input.classList.add('error');
+    err.classList.add('visible');
+    input.focus();
+    input.select();
   }
 }
 
-function mostrarToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('visible');
-  setTimeout(() => toast.classList.remove('visible'), 3000);
-}
-
 document.getElementById('modal-overlay').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('modal-overlay')) cerrarModal();
+  if (e.target.id === 'modal-overlay') cerrarModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarModal();
 });
 
+// Render inicial
 renderRecientes();
 renderProtocolos();
 renderPropuestas();
 renderDireccion();
 renderProyectos();
+
+// Theme toggle
+(function() {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('hub-theme', next); } catch(e) {}
+  });
+})();
 </script>
 </body>
 </html>
