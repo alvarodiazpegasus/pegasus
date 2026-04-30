@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>Cierre Q1 2026 · Dashboard interno</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  /* Pegasus signal palette */
+  --verde:#08B75B; --azul:#007EC3; --morado:#974694; --rosa:#E45E9B;
+  --rojo:#D6191B; --amarillo:#F3D100; --naranja:#ED7928;
+  /* Surface */
+  --bg:#FFFFFF; --bg-alt:#FAFBFC; --bg-soft:#F4F5F7;
+  --line:#E5E7EB; --line-soft:#EEF0F2;
+  --ink:#0F172A; --ink-2:#1F2937; --ink-3:#475569; --ink-4:#64748B; --ink-5:#94A3B8;
+  /* Semaphore tints */
+  --tint-pos:#E8F8EF; --tint-neg:#FCE7E8; --tint-warn:#FFF1E0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);font-size:14px;line-height:1.5;font-feature-settings:'cv11','ss01'}
+
+/* ============ HEADER ============ */
+header.app{position:fixed;top:0;left:0;right:0;height:56px;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;z-index:50}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.01em}
+.logo-dot{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100)}
+.logo-meta{color:var(--ink-4);font-weight:500;margin-left:4px}
+.spacer{flex:1}
+.crumb{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--ink-4)}
+.crumb .sep{color:var(--ink-5)}
+.crumb .now{color:var(--ink);font-weight:600}
+.actions{display:flex;align-items:center;gap:10px;margin-left:24px}
+.btn{height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-family:inherit;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn:hover{background:var(--bg-alt);border-color:#D1D5DB}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.primary:hover{background:#000}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn .ico{width:16px;height:16px}
+
+/* ============ LAYOUT ============ */
+.app-body{display:flex;height:100vh;padding-top:56px}
+aside.side{width:240px;flex-shrink:0;border-right:1px solid var(--line);background:var(--bg-alt);overflow-y:auto;padding:18px 12px}
+aside .grp-label{font-size:10.5px;letter-spacing:.08em;font-weight:600;color:var(--ink-5);text-transform:uppercase;padding:10px 12px 6px}
+aside .item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--ink-3);font-weight:500;transition:.12s;margin-bottom:1px}
+aside .item:hover{background:var(--bg-soft);color:var(--ink)}
+aside .item.active{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.04);border:1px solid var(--line)}
+aside .item .num{font-size:11px;color:var(--ink-5);width:18px;text-align:right;font-variant-numeric:tabular-nums}
+aside .item.active .num{color:var(--ink-3)}
+
+main.main{flex:1;overflow-y:auto;padding:24px 32px 80px}
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ PAGE TITLE ============ */
+.page-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:24px}
+.page-h h1{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px;line-height:1.25}
+.page-h .sub{font-size:14px;color:var(--ink-3);max-width:780px;line-height:1.55}
+.page-h .meta{flex-shrink:0;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-4)}
+.tag{display:inline-block;font-size:10.5px;letter-spacing:.06em;font-weight:600;text-transform:uppercase;padding:4px 9px;border-radius:5px;background:var(--bg-soft);color:var(--ink-3);margin-bottom:10px}
+.tag.tpt{background:#F8E8F4;color:#7A2E78}
+.tag.is{background:#E0F4EA;color:#07803F}
+.tag.ind{background:#EAE0F0;color:#6B2A86}
+.tag.warn{background:var(--tint-warn);color:#9A4F00}
+.tag.danger{background:var(--tint-neg);color:#A00B0E}
+
+/* ============ KPI STRIP ============ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px}
+.kpi .l{font-size:11.5px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.kpi .v{font-size:26px;font-weight:700;letter-spacing:-.025em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.kpi .v.pos{color:var(--verde)}.kpi .v.neg{color:var(--rojo)}.kpi .v.warn{color:var(--naranja)}
+.kpi .s{font-size:12px;color:var(--ink-4);margin-top:6px}
+.kpi.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.kpi.dark .l{color:rgba(255,255,255,.6)}
+.kpi.dark .v{color:#fff}
+.kpi.dark .s{color:rgba(255,255,255,.55)}
+.kpi.tint-pos{background:var(--tint-pos);border-color:#BFE5CC}
+.kpi.tint-neg{background:var(--tint-neg);border-color:#F1B7BA}
+.kpi.tint-warn{background:var(--tint-warn);border-color:#F5C685}
+
+/* ============ CARDS / GRID ============ */
+.row{display:grid;gap:14px;margin-bottom:14px}
+.row.r2{grid-template-columns:1fr 1fr}
+.row.r3{grid-template-columns:1fr 1fr 1fr}
+.row.r2-13{grid-template-columns:1fr 1.3fr}
+.row.r2-21{grid-template-columns:1.6fr 1fr}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card.alt{background:var(--bg-alt)}
+.card h3{font-size:11.5px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+.card p{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-bottom:8px}
+.card p:last-child{margin-bottom:0}
+.card p strong{color:var(--ink);font-weight:600}
+.card .head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:14px}
+.card .head-row h3{margin-bottom:0}
+
+/* Pedagogical card */
+.peda{padding:20px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.peda .lead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.peda .ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.peda .ico.c1{background:linear-gradient(135deg,#08B75B,#007EC3)}
+.peda .ico.c2{background:linear-gradient(135deg,#974694,#E45E9B)}
+.peda .ico.c3{background:linear-gradient(135deg,#007EC3,#974694)}
+.peda .ico.c4{background:linear-gradient(135deg,#ED7928,#F3D100);color:var(--ink)}
+.peda h4{font-size:14.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.peda p{font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:8px}
+.peda .ej{margin-top:10px;padding:10px 12px;background:var(--bg-soft);border-radius:7px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.peda .ej strong{color:var(--ink)}
+
+/* TABLE */
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table.t th{font-size:10.5px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--bg-alt)}
+table.t td{padding:10px 14px;border-bottom:1px solid var(--line-soft);color:var(--ink-2);font-weight:500;vertical-align:middle}
+table.t td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+table.t td.neg{color:var(--rojo)}.t td.pos{color:var(--verde)}
+table.t tr:last-child td{border-bottom:none}
+table.t tr.total td{background:var(--bg-alt);color:var(--ink);font-weight:700;border-top:1px solid var(--line)}
+table.t tr.total td.pos{color:#04763C}.t tr.total td.neg{color:#A00B0E}
+table.t tr.warn-row td{background:#FFFBEF}
+table.t tr.warn-row td:first-child{color:var(--naranja)}
+
+.bar-bg{position:relative;height:6px;background:var(--bg-soft);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.bar-fill.green{background:var(--verde)}.bar-fill.red{background:var(--rojo)}
+
+/* DANGER ZONE — clean version */
+.danger-card{background:linear-gradient(180deg,#FFFBF6,#FEF6EE);border:1px solid #F5D6B0;border-radius:10px;padding:22px;margin-bottom:14px}
+.danger-card h2{font-size:18px;font-weight:700;color:#9A4F00;margin-bottom:6px;letter-spacing:-.01em}
+.danger-card p.sub{font-size:13px;color:var(--ink-3);max-width:720px;line-height:1.55}
+.dz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.dz-card{background:#fff;border:1px solid #F2C97D;border-radius:9px;padding:18px}
+.dz-card .pct{font-size:38px;font-weight:800;color:var(--rojo);letter-spacing:-.025em;line-height:1;font-variant-numeric:tabular-nums}
+.dz-card .lab{font-size:11.5px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px}
+.dz-card p{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.dz-card p strong{color:var(--ink);font-weight:600}
+.dz-bottom{margin-top:14px;background:var(--ink);color:#fff;border-radius:9px;padding:14px 18px;display:flex;align-items:flex-start;gap:14px;font-size:13px;line-height:1.55}
+.dz-bottom strong{color:var(--amarillo);font-weight:600}
+.dz-bottom .dot{width:8px;height:8px;border-radius:50%;background:var(--rojo);margin-top:5px;flex-shrink:0}
+
+/* WAVE accent */
+.brand-strip{display:flex;height:3px;border-radius:2px;overflow:hidden;margin-bottom:18px}
+.brand-strip span{flex:1}
+
+/* SIN CENTRO callout */
+.sc{background:linear-gradient(180deg,#FFFBED,#FFF5D9);border:1px solid #F2D97B;border-radius:10px;padding:18px;margin-top:14px}
+.sc h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.sc .sub{font-size:12.5px;color:var(--ink-3);margin-bottom:14px;line-height:1.55}
+.sc-grid{display:grid;gap:10px}
+.sc-grid.g3{grid-template-columns:repeat(3,1fr)}
+.sc-grid.g2{grid-template-columns:repeat(2,1fr)}
+.sc-card{background:#fff;border:1px solid #F2D97B;border-radius:8px;padding:12px 14px}
+.sc-card .nom{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.sc-card .eu{font-size:20px;font-weight:800;color:var(--naranja);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1;margin-bottom:6px}
+.sc-card .role{font-size:11.5px;color:var(--ink-3);line-height:1.4}
+.sc-q{margin-top:12px;padding:10px 12px;background:rgba(0,0,0,.04);border-radius:7px;font-size:12px;color:var(--ink-3);line-height:1.55}
+.sc-q strong{color:var(--ink)}
+
+/* HEATMAP compact */
+.hm{display:grid;gap:2px;margin-top:10px;background:var(--line);padding:1px;border-radius:8px}
+.hm-row{display:grid;gap:2px}
+.hm-row .head{padding:8px 10px;font-size:10.5px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.04em;background:var(--bg-alt);text-align:right}
+.hm-row .first-head{text-align:left}
+.hm-row .ulabel{font-size:12.5px;font-weight:600;background:#fff;padding:9px 10px;border-radius:5px;text-align:left}
+.hm-row .cell{padding:9px 10px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;text-align:right;background:#fff;border-radius:5px}
+
+/* TABS Indiferente */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tab{padding:8px 14px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-4);border-bottom:2px solid transparent;transition:.12s;letter-spacing:.02em}
+.tab:hover{color:var(--ink-2)}
+.tab.active{color:var(--ink);border-bottom-color:var(--morado)}
+.tabpanel{display:none}.tabpanel.active{display:block;animation:fade .2s}
+
+/* Donut layout */
+.donut-wrap{height:280px;position:relative}
+.donut-wrap canvas{max-height:280px}
+
+/* Lecturas grid */
+.lect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lect{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;transition:.2s}
+.lect:hover{border-color:#D1D5DB;transform:translateY(-1px)}
+.lect .num{font-size:11.5px;font-weight:700;color:var(--azul);letter-spacing:.04em;margin-bottom:8px}
+.lect h4{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.lect p{font-size:12.5px;color:var(--ink-3);line-height:1.55}
+
+/* Footer mini */
+.foot-mini{margin-top:32px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-5);display:flex;justify-content:space-between;align-items:center}
+.foot-mini .slogan{font-style:italic;color:var(--ink-4)}
+
+/* CASCADA */
+.cascade{display:flex;gap:8px;align-items:flex-end;height:200px;margin:14px 0}
+.cs-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.cs-bar .top{width:100%;border-radius:6px 6px 2px 2px;display:flex;align-items:flex-start;justify-content:center;padding:8px 6px;color:#fff;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;text-align:center;line-height:1.2}
+.cs-bar .top.green{background:var(--verde)}
+.cs-bar .top.red{background:var(--rojo)}
+.cs-bar .top.gold{background:var(--amarillo);color:var(--ink)}
+.cs-bar .top.dark{background:var(--ink-2)}
+.cs-bar .lab{font-size:11px;color:var(--ink-4);text-align:center;line-height:1.3;font-weight:500}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  aside.side{width:200px}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .row.r2,.row.r2-13,.row.r2-21,.row.r3{grid-template-columns:1fr}
+  .lect-grid{grid-template-columns:1fr 1fr}
+  .dz-grid{grid-template-columns:1fr}
+}
+@media(max-width:780px){
+  aside.side{display:none}
+  main.main{padding:18px}
+  .lect-grid{grid-template-columns:1fr}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#9CA3AF}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span>Pegasus</span>
+    <span class="logo-meta">/ Cierre Q1 2026</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="crumb">
+    <span id="crumb-section">Resumen</span>
+    <span class="sep">·</span>
+    <span class="now"><span id="cur">1</span> de <span id="tot">10</span></span>
+  </div>
+  <div class="actions">
+    <button class="btn" id="prev" title="Anterior (←)">← Anterior</button>
+    <button class="btn primary" id="next" title="Siguiente (→)">Siguiente →</button>
+  </div>
+</header>
+
+<div class="app-body">
+
+<!-- ========== SIDE NAV ========== -->
+<aside class="side">
+  <div class="grp-label">Lectura</div>
+  <div class="item active" data-i="0"><span class="num">1</span><span>Resumen ejecutivo</span></div>
+  <div class="item" data-i="1"><span class="num">2</span><span>Conceptos clave</span></div>
+  <div class="item" data-i="2"><span class="num">3</span><span>Ruta del dinero</span></div>
+  <div class="grp-label">Alertas</div>
+  <div class="item" data-i="3"><span class="num">4</span><span>Danger zone</span></div>
+  <div class="item" data-i="4"><span class="num">5</span><span>P&amp;G vs Caja</span></div>
+  <div class="grp-label">Por vertical</div>
+  <div class="item" data-i="5"><span class="num">6</span><span>TPT</span></div>
+  <div class="item" data-i="6"><span class="num">7</span><span>Inclusive Sport</span></div>
+  <div class="item" data-i="7"><span class="num">8</span><span>Indiferente</span></div>
+  <div class="grp-label">Estructura</div>
+  <div class="item" data-i="8"><span class="num">9</span><span>"General" desglosado</span></div>
+  <div class="item" data-i="9"><span class="num">10</span><span>Otros gastos</span></div>
+  <div class="grp-label">Cierre</div>
+  <div class="item" data-i="10"><span class="num">11</span><span>Lecturas para debate</span></div>
+</aside>
+
+<!-- ========== MAIN ========== -->
+<main class="main">
+
+<!-- =========== 1. RESUMEN EJECUTIVO =========== -->
+<section class="page active" data-page="0" data-title="Resumen ejecutivo">
+  <div class="page-h">
+    <div>
+      <span class="tag">Análisis interno · Q1 2026</span>
+      <h1>El primer trimestre, contado de forma honesta</h1>
+      <p class="sub">Datos reales del Q1 2026 cruzando mayor contable, facturación por centro y nóminas. 53 profesionales · 15 ubicaciones · 4 verticales. Lo que funcionó, lo que pesa y las preguntas que tenemos que hacernos en equipo.</p>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi tint-pos"><div class="l">Ingresos Q1</div><div class="v pos">307.525&nbsp;€</div><div class="s">+41,7% YoY · +64% en 2 años</div></div>
+    <div class="kpi"><div class="l">Coste personal</div><div class="v">279.206&nbsp;€</div><div class="s">53 profesionales · 91% de gastos</div></div>
+    <div class="kpi"><div class="l">Otros gastos</div><div class="v">44.706&nbsp;€</div><div class="s">15 categorías · 9% de gastos</div></div>
+    <div class="kpi tint-neg"><div class="l">Resultado Q1</div><div class="v neg">−16.387&nbsp;€</div><div class="s">Q1 2025 fue −5.995 €</div></div>
+  </div>
+
+  <div class="row r2-13">
+    <div class="card">
+      <h3>Lo que cambió este trimestre</h3>
+      <p>Por primera vez <strong>TPT cierra el Q1 en margen bruto positivo</strong> (+15.367 €, cobertura 110%). Indiferente es la unidad más rentable (49,6% de margen).</p>
+      <p>El <strong>resultado neto sigue en pérdida</strong> porque la inversión en plantilla de octubre 2025 todavía no se ha amortizado con ocupación de plazas.</p>
+      <p>La <strong>tesorería real Q1 batió presupuesto</strong> los 3 meses (cierre marzo 28k€ vs 19k€ ppto).</p>
+    </div>
+    <div class="card alt">
+      <h3>Foco del trimestre</h3>
+      <p>· <strong>Crecimiento orgánico</strong> +13% YoY ex-FMM</p>
+      <p>· <strong>Margen bruto consolidado</strong> +28.319 € (positivo)</p>
+      <p>· <strong>Salarios sobre ingresos</strong> 90,8% · alto vs benchmark sano (60-75%)</p>
+      <p>· <strong>Plantilla 53 personas</strong> · +80% YoY</p>
+      <p>· <strong>FMM</strong> 60.645 € íntegramente facturado y cobrado en Q1</p>
+    </div>
+  </div>
+
+  <div class="foot-mini">
+    <div>Documento interno · Cierre Q1 2026 · 30 de abril 2026</div>
+    <div class="slogan">Lo mío no es normal, pero lo tuyo tampoco</div>
+  </div>
+</section>
+
+<!-- =========== 2. CONCEPTOS =========== -->
+<section class="page" data-page="1" data-title="Conceptos clave">
+  <div class="page-h">
+    <div>
+      <span class="tag">Antes de empezar</span>
+      <h1>4 conceptos para entender este informe sin saber finanzas</h1>
+      <p class="sub">Si nunca has visto una cuenta de resultados o no terminas de tener claro qué es "el margen bruto", esto es para ti. Cuatro definiciones cortas con un ejemplo de Pegasus en cada una.</p>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="peda">
+      <div class="lead"><div class="ico c1">€</div><h4>Ingresos vs Gastos</h4></div>
+      <p><strong>Ingresos</strong> es el dinero que entra: cuotas de las familias, contratos con empresas, convenios con instituciones.</p>
+      <p><strong>Gastos</strong> es el dinero que sale: sueldos, alquileres, luz, ads, asesores, intereses…</p>
+      <div class="ej"><strong>En Q1:</strong> entraron 307.525 € y salieron 323.912 €. La diferencia (−16.387 €) es el resultado del trimestre.</div>
+    </div>
+    <div class="peda">
+      <div class="lead"><div class="ico c2">M</div><h4>Margen bruto vs Resultado neto</h4></div>
+      <p><strong>Margen bruto</strong> = Ingresos − coste de la gente que hace el trabajo. Mide si el servicio en sí es rentable.</p>
+      <p><strong>Resultado neto</strong> = Margen bruto − todos los demás gastos (alquileres, luz, ads, intereses…).</p>
+      <div class="ej"><strong>En Q1:</strong> margen bruto +28.319 € (el servicio cubre los sueldos). Resultado neto −16.387 € (los demás gastos se llevan más).</div>
+    </div>
+    <div class="peda">
+      <div class="lead"><div class="ico c3">P</div><h4>Coste personal vs Otros gastos</h4></div>
+      <p><strong>Coste personal</strong> = sueldos brutos + Seguridad Social que paga la empresa.</p>
+      <p><strong>Otros gastos</strong> = oficina, suministros, marketing, asesoría externa, transporte, intereses, etc.</p>
+      <div class="ej"><strong>En Q1:</strong> 279.206 € en personal · 44.706 € en otros. <strong>El personal pesa el 86,2% del total</strong>: somos un negocio intensivo en mano de obra.</div>
+    </div>
+    <div class="peda">
+      <div class="lead"><div class="ico c4">!</div><h4>"No asignado a centro"</h4></div>
+      <p>Algunos profesionales no están imputados a un centro físico (Arganda, Móstoles…). Pueden ser dirección, formación, sustituciones o coordinación.</p>
+      <p>Su coste no se cubre con la facturación de un centro: lo absorbe la fundación como estructura.</p>
+      <div class="ej"><strong>En Q1:</strong> 31.012 € de TPT/IS sin centro. Es lo que separa "TPT en breakeven" de "TPT con beneficio claro".</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 3. RUTA DEL DINERO =========== -->
+<section class="page" data-page="2" data-title="Ruta del dinero">
+  <div class="page-h">
+    <div>
+      <span class="tag">La foto del trimestre</span>
+      <h1>De 307.525 € de ingresos a −16.387 € de resultado</h1>
+      <p class="sub">El Q1 cierra en pérdida pero no es por falta de facturación. Crecimos +41,7% en ingresos vs el año pasado. La pérdida viene del incremento de plantilla post-octubre 2025 que aún no se ha amortizado con ocupación.</p>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="l">Ingresos</div><div class="v pos">+307.525</div><div class="s">facturados Q1</div></div>
+    <div class="kpi"><div class="l">Coste personal</div><div class="v">−279.206</div><div class="s">53 profesionales</div></div>
+    <div class="kpi"><div class="l">Otros gastos</div><div class="v">−44.706</div><div class="s">15 categorías</div></div>
+    <div class="kpi tint-neg"><div class="l">Resultado</div><div class="v neg">−16.387</div><div class="s">vs −5.995 € Q1 2025</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cascada — ruta paso a paso</h3>
+    <div class="cascade">
+      <div class="cs-bar"><div class="top green" style="height:200px">307.525&nbsp;€</div><div class="lab">1. Ingresos<br>del trimestre</div></div>
+      <div class="cs-bar"><div class="top red" style="height:182px">−279.206&nbsp;€</div><div class="lab">2. Coste<br>personal</div></div>
+      <div class="cs-bar"><div class="top gold" style="height:34px">28.319&nbsp;€</div><div class="lab">3. Margen bruto<br>(personal cubierto)</div></div>
+      <div class="cs-bar"><div class="top red" style="height:34px">−44.706&nbsp;€</div><div class="lab">4. Otros gastos<br>(oficina, ads, asesores)</div></div>
+      <div class="cs-bar"><div class="top dark" style="height:18px">−16.387&nbsp;€</div><div class="lab">5. Resultado<br>final</div></div>
+    </div>
+  </div>
+
+  <div class="row r2" style="margin-top:14px">
+    <div class="card">
+      <h3>Comparativa histórica Q1</h3>
+      <table class="t" style="border:none">
+        <tr><td><strong>Q1 2024</strong></td><td class="num">187.380 €</td><td class="num">resultado n/d</td></tr>
+        <tr><td><strong>Q1 2025</strong></td><td class="num">217.306 €</td><td class="num neg">−5.995 €</td></tr>
+        <tr><td><strong>Q1 2026</strong></td><td class="num pos"><strong>307.525 €</strong></td><td class="num neg"><strong>−16.387 €</strong></td></tr>
+      </table>
+      <p style="font-size:13px;margin-top:10px;color:var(--ink-3)">Crecimos +41% en facturación pero el resultado empeoró 10k€. La tijera está en personal: <strong>+80% YoY</strong>.</p>
+    </div>
+    <div class="card alt">
+      <h3>Por qué no es drama (todavía)</h3>
+      <p>La inversión en plantilla de octubre 2025 fue para absorber el crecimiento previsto. Las plazas se llenan progresivamente; el coste es plenamente aplicado desde mes 1.</p>
+      <p>TPT en break-even Q1, Indiferente con +45k€ de margen, IS pierde solo por el coste no asignado.</p>
+      <p><strong>El reto es Q2:</strong> evitar que el desfase plantilla-ocupación se mantenga.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 4. DANGER ZONE =========== -->
+<section class="page" data-page="3" data-title="Danger zone">
+  <div class="page-h">
+    <div>
+      <span class="tag danger">Zona crítica</span>
+      <h1>Lo que no podemos no mirar</h1>
+      <p class="sub">Tres ratios que cuentan la historia real del Q1. No es alarmismo: son los datos que permiten ver hacia dónde va el negocio si no hacemos nada.</p>
+    </div>
+  </div>
+
+  <div class="danger-card">
+    <h2>Cuando los sueldos pesan más que los ingresos</h2>
+    <p class="sub">En cualquier negocio de servicios profesionales (terapias, deporte adaptado, formación) el coste laboral es el mayor. Pero hay un punto a partir del cual el peso es excesivo.</p>
+
+    <div class="dz-grid">
+      <div class="dz-card">
+        <div class="pct">90,8%</div>
+        <div class="lab">Salarios sobre ingresos</div>
+        <p>De cada <strong>100 € que entran</strong>, 90 € se van a sueldos. El benchmark sano del sector está entre <strong>60-75%</strong>.</p>
+      </div>
+      <div class="dz-card">
+        <div class="pct">86,2%</div>
+        <div class="lab">Salarios sobre el total de gastos</div>
+        <p>De cada <strong>100 € gastados</strong>, 86 son personal. Significa que <strong>casi no invertimos en otra cosa</strong>.</p>
+      </div>
+      <div class="dz-card">
+        <div class="pct">+80%</div>
+        <div class="lab">Crecimiento gasto personal YoY</div>
+        <p>Q1 2025: 155k → Q1 2026: 279k. Mientras los <strong>ingresos suben +42%</strong>, el personal sube <strong>casi el doble</strong>.</p>
+      </div>
+    </div>
+
+    <div class="dz-bottom">
+      <span class="dot"></span>
+      <p><strong>Por qué importa:</strong> si esta tijera entre crecimiento de gasto y crecimiento de ingresos se mantiene 2-3 trimestres más, las pérdidas se aceleran. La inversión en plantilla de octubre 2025 está hecha; <strong>la palanca crítica del año es llenar las plazas que ya tenemos contratadas</strong>. No es un problema, es una urgencia operativa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 5. P&G vs CAJA =========== -->
+<section class="page" data-page="4" data-title="P&G vs Caja">
+  <div class="page-h">
+    <div>
+      <span class="tag">Concepto importante</span>
+      <h1>P&amp;G vs Caja: cuándo se gana ≠ cuándo se cobra</h1>
+      <p class="sub">Una distinción que confunde mucho cuando no tienes formación financiera, y que en Pegasus se ve clarísima con el caso real del Convenio FMM.</p>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="peda">
+      <div class="lead"><div class="ico c1" style="background:var(--ink)">P&amp;G</div><h4>Cuenta de Pérdidas y Ganancias</h4></div>
+      <p>Refleja <strong>cuándo se gana o se gasta</strong>. El criterio se llama "devengo": un ingreso se contabiliza el día que se firma el contrato o se presta el servicio, no el día que entra el dinero.</p>
+      <p>Es el "marcador" oficial del negocio: lo que vamos a contar a Hacienda y a los bancos.</p>
+    </div>
+    <div class="peda">
+      <div class="lead"><div class="ico c1" style="background:var(--azul)">€</div><h4>Caja (Tesorería)</h4></div>
+      <p>Refleja <strong>cuándo se cobra o se paga</strong>. El criterio es "el dinero está en la cuenta sí o no". Si te deben dinero, no aparece.</p>
+      <p>Es el día a día operativo: ¿podemos pagar las nóminas este mes? ¿necesitamos línea de cobro ágil?</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;background:var(--ink);color:#fff;border-color:var(--ink)">
+    <h3 style="color:rgba(255,255,255,.6)">Caso real Pegasus</h3>
+    <p style="color:#fff;font-size:16px;font-weight:600;letter-spacing:-.01em;margin-bottom:10px">El Convenio FMM se firmó en diciembre 2025 — pero el dinero entró en enero y febrero 2026.</p>
+    <p style="color:rgba(255,255,255,.78);font-size:13.5px">En el P&amp;G de 2025, los 60.645 € del FMM ya estaban contados como ingreso (criterio de devengo: el contrato se firmó en 2025). Pero el dinero <strong style="color:#fff">no entró en caja</strong> hasta ene/feb 2026 (20.215 € + 40.430 €). Por eso el resultado contable de 2025 fue peor de lo que el negocio realmente hacía: el ingreso estaba "ganado pero no cobrado". Y por eso el dossier al banco distingue "Resultado Contable" vs "Resultado de Gestión".</p>
+  </div>
+
+  <div class="card alt" style="margin-top:14px">
+    <p style="font-size:13px;margin:0"><strong>Para el equipo:</strong> cuando alguien dice "el FMM ya está cobrado" se refiere a la <strong>caja</strong>. Cuando alguien dice "el FMM era ingreso del 2025" se refiere al <strong>P&amp;G</strong>. Las dos cosas son ciertas a la vez. Es la misma realidad mirada desde dos relojes distintos.</p>
+  </div>
+</section>
+
+<!-- =========== 6. TPT =========== -->
+<section class="page" data-page="5" data-title="TPT">
+  <div class="page-h">
+    <div>
+      <span class="tag tpt">Vertical · Terapias Para Todos</span>
+      <h1>TPT — el motor está en Arganda, Móstoles y Torrejón</h1>
+      <p class="sub">Por primera vez TPT cierra un Q1 en positivo: +15.367 € margen bruto, 110% cobertura. Tres centros aportan +37,5k entre los tres. Los demás están al límite o por debajo.</p>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="l">Facturación</div><div class="v">171.309&nbsp;€</div><div class="s">7 centros físicos</div></div>
+    <div class="kpi"><div class="l">Coste personal</div><div class="v">155.942&nbsp;€</div><div class="s">30 terapeutas</div></div>
+    <div class="kpi tint-pos"><div class="l">Margen bruto</div><div class="v pos">+15.367&nbsp;€</div><div class="s">Cobertura 110%</div></div>
+    <div class="kpi"><div class="l">YoY ingresos</div><div class="v pos">+17,9%</div><div class="s">Q1 2025: 145k €</div></div>
+  </div>
+
+  <div class="row r2-13">
+    <div>
+      <table class="t">
+        <thead><tr><th>Ubicación</th><th class="num">Facturación</th><th class="num">Coste pers.</th><th class="num">Margen</th><th class="num">Cobertura</th></tr></thead>
+        <tbody id="tbl-tpt"></tbody>
+      </table>
+    </div>
+    <div class="sc">
+      <h4>16.347 € sin centro asignado — quiénes son</h4>
+      <p class="sub">Tres profesionales del equipo TPT cuyo tiempo no se imputa a un centro físico.</p>
+      <div class="sc-grid g3" id="tpt-sin"></div>
+      <div class="sc-q"><strong>Pregunta abierta:</strong> ¿son funciones transversales (formación, sustituciones, dirección) o tiempo asignable a centros que aún no se imputa? Si parte se reasigna, cambia el ranking.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="head-row"><h3>Detalle por servicio en cada centro</h3><span style="font-size:11.5px;color:var(--ink-4)">Verde: facturación alta · Rojo: devoluciones</span></div>
+    <div id="hm-tpt"></div>
+  </div>
+</section>
+
+<!-- =========== 7. IS =========== -->
+<section class="page" data-page="6" data-title="Inclusive Sport">
+  <div class="page-h">
+    <div>
+      <span class="tag is">Vertical · Inclusive Sport</span>
+      <h1>IS — todos los centros físicos son rentables, pero el agregado pierde</h1>
+      <p class="sub">Aparente paradoja: cada centro físico cubre su coste o más (Móstoles 211%, La Latina 151%, Torrejón 144%). La pérdida agregada (−5.336 €) viene 100% del coste no asignado a centro.</p>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="l">Facturación</div><div class="v">44.007&nbsp;€</div><div class="s">10 centros</div></div>
+    <div class="kpi"><div class="l">Coste personal</div><div class="v">49.343&nbsp;€</div><div class="s">14 monitores</div></div>
+    <div class="kpi tint-neg"><div class="l">Margen bruto</div><div class="v neg">−5.336&nbsp;€</div><div class="s">Cobertura 89%</div></div>
+    <div class="kpi"><div class="l">YoY ingresos</div><div class="v neg">−18,5%</div><div class="s">Salida Paracuellos</div></div>
+  </div>
+
+  <div class="row r2-13">
+    <div>
+      <table class="t">
+        <thead><tr><th>Ubicación</th><th class="num">Facturación</th><th class="num">Coste pers.</th><th class="num">Margen</th><th class="num">Cobertura</th></tr></thead>
+        <tbody id="tbl-is"></tbody>
+      </table>
+    </div>
+    <div>
+      <div class="sc">
+        <h4>14.665 € sin centro asignado — quiénes son</h4>
+        <p class="sub">Dos profesionales del equipo IS dedicados al 100% a tareas no imputadas a centro físico.</p>
+        <div class="sc-grid g2" id="is-sin"></div>
+        <div class="sc-q"><strong>Pregunta abierta:</strong> si Mena y Burgos son coordinación / dirección operativa, su coste es razonable. Si parte de su tiempo es horas de monitor sin imputar, se puede mover a centros y cerrar el agujero.</div>
+      </div>
+      <div class="card alt" style="margin-top:12px"><p style="font-size:12.5px;margin:0">La caída YoY (−18,5%) es la salida deliberada del contrato de Paracuellos. Modelo más limpio: ~15 k€/mes recurrentes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 8. INDIFERENTE =========== -->
+<section class="page" data-page="7" data-title="Indiferente">
+  <div class="page-h">
+    <div>
+      <span class="tag ind">Vertical · Indiferente</span>
+      <h1>Indiferente — la sorpresa positiva del trimestre</h1>
+      <p class="sub">92.186 € facturados · 46.420 € coste personal · margen bruto +45.766 €. 49,6% sobre ingresos. La unidad económica más rentable del Q1, con dos motores muy distintos.</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="tot">Consolidado</div>
+    <div class="tab" data-tab="b2b">Indiferente B2B</div>
+    <div class="tab" data-tab="fmm">Proyecto FMM</div>
+  </div>
+
+  <div class="tabpanel active" id="tp-tot">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">Ingresos totales</div><div class="v">92.186&nbsp;€</div><div class="s">B2B + FMM</div></div>
+      <div class="kpi"><div class="l">Coste personal</div><div class="v">46.420&nbsp;€</div><div class="s">10 profesionales</div></div>
+      <div class="kpi tint-pos"><div class="l">Margen bruto</div><div class="v pos">+45.766&nbsp;€</div><div class="s">49,6% sobre ingresos</div></div>
+      <div class="kpi"><div class="l">vs Q1 2025</div><div class="v pos">×5,1</div><div class="s">Q1 2025: 18k</div></div>
+    </div>
+    <div class="row r2">
+      <div class="card">
+        <h3>Por qué importa</h3>
+        <p><strong>Apalancamiento alto:</strong> cada euro facturado en Indiferente genera 0,50 € de margen, frente a TPT (0,09) o IS (negativo). Es la línea con mayor ROI por hora de profesional.</p>
+        <p><strong>Composición:</strong> Convenio FMM 60.645 € + Cuotas familias 3.891 € + B2B 27.650 €.</p>
+      </div>
+      <div class="card alt" style="background:var(--tint-warn);border-color:#F2D3A8">
+        <h3 style="color:#9A4F00">Riesgo del año</h3>
+        <p>El convenio CCMM 150.000 € sigue "en redacción". Si se firma en Q2, Indiferente cierra cómodo el ppto anual de 626k€. Si no, hay que captar más B2B para compensar.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="tp-b2b">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">Facturación B2B</div><div class="v">27.650&nbsp;€</div><div class="s">Solo marzo activo</div></div>
+      <div class="kpi"><div class="l">Coste personal</div><div class="v">6.741&nbsp;€</div><div class="s">FJ Ortiz de Lera</div></div>
+      <div class="kpi tint-pos"><div class="l">Margen</div><div class="v pos">+20.909&nbsp;€</div><div class="s">75,6%</div></div>
+      <div class="kpi"><div class="l">Apalancamiento</div><div class="v pos">×4,1</div><div class="s">Ingresos / coste</div></div>
+    </div>
+    <div class="card">
+      <p style="font-size:13.5px">Una sola persona dedicada (Francisco Javier Ortiz de Lera) genera 27 k € en marzo. Enero/febrero sin facturar: período de captación y reposicionamiento. <strong>Marzo cierra el primer mes con ingresos reales</strong>. Si se mantiene el ritmo, Q2 podría superar los 60 k de B2B.</p>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="tp-fmm">
+    <div class="kpi-row">
+      <div class="kpi"><div class="l">Convenio institucional</div><div class="v">60.645&nbsp;€</div><div class="s">100% facturado Q1</div></div>
+      <div class="kpi"><div class="l">Cuotas familias</div><div class="v">3.891&nbsp;€</div><div class="s">Villamanrique · Griñón · Colmenar</div></div>
+      <div class="kpi"><div class="l">Coste personal</div><div class="v">39.679&nbsp;€</div><div class="s">9 profesionales</div></div>
+      <div class="kpi tint-pos"><div class="l">Margen</div><div class="v pos">+24.857&nbsp;€</div><div class="s">38,5%</div></div>
+    </div>
+    <div class="card">
+      <p style="font-size:13.5px">Composición del coste personal: <strong>14.817 € (37%)</strong> son terapeutas en plaza física. <strong>24.862 € (63%)</strong> son directivos cofacturando parte de su tiempo al convenio. <strong>El FMM paga su propia estructura desde el primer trimestre operativo</strong>. Renovación FMM ampliada (200k€) ya en negociación para 2027.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 9. ESTRUCTURA GENERAL =========== -->
+<section class="page" data-page="8" data-title='"General" desglosado'>
+  <div class="page-h">
+    <div>
+      <span class="tag warn">Estructura corporativa</span>
+      <h1>Los 90.115 € de "General" no son un saco</h1>
+      <p class="sub">El bloque "Sin centro asignado" total Q1 suma 90 k €. No es estructura ciega: son 5 bloques distintos, cada uno con su lógica.</p>
+    </div>
+  </div>
+
+  <div class="row r2-13">
+    <div class="card">
+      <h3>Composición</h3>
+      <div class="donut-wrap"><canvas id="gen-donut"></canvas></div>
+    </div>
+    <table class="t">
+      <thead><tr><th>Bloque</th><th class="num">Q1 €</th><th class="num">%</th></tr></thead>
+      <tbody id="tbl-gen"></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>Quién está en cada bloque</h3>
+    <table class="t" id="gen-detalle"></table>
+  </div>
+</section>
+
+<!-- =========== 10. OTROS GASTOS =========== -->
+<section class="page" data-page="9" data-title="Otros gastos">
+  <div class="page-h">
+    <div>
+      <span class="tag warn">Otros gastos · 44.706 €</span>
+      <h1>Marketing y consultoría se llevan casi la mitad</h1>
+      <p class="sub">44.706 € de gastos no laborales del Q1. Las dos primeras categorías (publicidad y consultoría externa) suman 20.665 €: el 46% del total.</p>
+    </div>
+  </div>
+
+  <div class="row r2-13">
+    <div class="card">
+      <h3>Distribución</h3>
+      <div class="donut-wrap"><canvas id="gas-donut"></canvas></div>
+    </div>
+    <table class="t" style="font-size:12.5px">
+      <thead><tr><th>Categoría</th><th class="num">Q1 €</th><th class="num">%</th></tr></thead>
+      <tbody id="tbl-gas"></tbody>
+    </table>
+  </div>
+
+  <div class="row r2" style="margin-top:14px">
+    <div class="card">
+      <h3>Run-rate anual proyectado</h3>
+      <p>· <strong>Publicidad y marketing: ~43 k €/año</strong> · ¿Cuánto retorno en plazas y contratos?</p>
+      <p>· <strong>Consultoría: ~40 k €/año</strong> · Sevi + Cons. Costa son las líneas mayores recurrentes.</p>
+      <p>· <strong>Intereses préstamos: ~8,7 k €/año</strong> · A sumar al servicio de la nueva hipoteca.</p>
+    </div>
+    <div class="card alt">
+      <h3>Notas contables a corregir</h3>
+      <p>· <strong>Meta Ads (4.535 €)</strong> reclasificado de "Suscripciones" a "Publicidad y marketing".</p>
+      <p>· <strong>Aprovisionamientos −1.676 €</strong> son abonos Únete al Flow 2024-25, no del Q1.</p>
+      <p>· <strong>Sevi sigue activo</strong> en 2026. La narrativa "no recurrente" del dossier banco a actualizar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========== 11. DEBATE =========== -->
+<section class="page" data-page="10" data-title="Lecturas para debate">
+  <div class="page-h">
+    <div>
+      <span class="tag">Cierre · Para debatir en equipo</span>
+      <h1>6 lecturas que abren 6 conversaciones</h1>
+      <p class="sub">Esto no es una conclusión. Son los puntos donde el equipo tiene que decidir. Cada uno con un dato concreto y una pregunta abierta.</p>
+    </div>
+  </div>
+
+  <div class="lect-grid">
+    <div class="lect"><div class="num">01 · TPT</div><h4>Break-even por primera vez en un Q1</h4><p>+15.367 € margen bruto, 110% cobertura. El motor son sólo Arganda, Móstoles y Torrejón. ¿Qué hacemos con Leganés/Valdemoro/Rivas en el límite y San Agustín al 33%?</p></div>
+    <div class="lect"><div class="num">02 · Indiferente</div><h4>La unidad más rentable de Pegasus</h4><p>49,6% de margen sobre ingresos. El convenio FMM paga su propia estructura. ¿Aceleramos B2B y cómo blindamos la firma de CCMM 150 k?</p></div>
+    <div class="lect"><div class="num">03 · IS</div><h4>Pierde por estructura, no por operación</h4><p>Todos los centros físicos rentables. La pérdida (−5,3k) es 100% por los 14,7k de Mena y Burgos sin centro. ¿Reasignamos su tiempo?</p></div>
+    <div class="lect"><div class="num">04 · Estructura</div><h4>El "General" no es opaco</h4><p>De 90 k, 27 k son directivos puros y 31 k son TPT/IS sin centro. ¿Cuál es la lógica de tener gente sin asignar a centro? ¿Transitorio o estructural?</p></div>
+    <div class="lect"><div class="num">05 · Marketing</div><h4>El primer gasto no laboral</h4><p>10,7 k Q1 (24% de los otros gastos). ¿Tenemos pipeline trazable? ¿Cuántos contratos vinieron de Meta o de los contenidos? Si no se mide, no se decide.</p></div>
+    <div class="lect"><div class="num">06 · Riesgo del año</div><h4>El gap personal-ocupación</h4><p>+80% gasto personal YoY mientras los ingresos suben +42%. Si las plazas no se llenan más rápido, Q2 también será deficitario. <strong>La pregunta que define 2026</strong>.</p></div>
+  </div>
+
+  <div class="foot-mini">
+    <div>Pegasus · Cierre Q1 2026 · Análisis interno</div>
+    <div class="slogan">Lo mío no es normal, pero lo tuyo tampoco · fundacionpegasus.org</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const DATA = {"tpt": [{"ub": "Arganda del Rey", "fac": 85615, "cte": 65199, "margen": 20416, "cob": 131}, {"ub": "Móstoles", "fac": 28247, "cte": 17305, "margen": 10942, "cob": 163}, {"ub": "Torrejón de Ardoz", "fac": 22714, "cte": 16514, "margen": 6200, "cob": 138}, {"ub": "Leganés", "fac": 14584, "cte": 15118, "margen": -534, "cob": 96}, {"ub": "Valdemoro", "fac": 9638, "cte": 10422, "margen": -785, "cob": 92}, {"ub": "Rivas", "fac": 8981, "cte": 10419, "margen": -1438, "cob": 86}, {"ub": "San Agustín de Guadalix", "fac": 1531, "cte": 4618, "margen": -3087, "cob": 33}], "tpt_sin": [{"name": "Ana Mª García Torrado", "eur": 8475, "role": "100% del tiempo en General"}, {"name": "María Álvarez López", "eur": 5847, "role": "69% en General · 31% en centros"}, {"name": "Iris Gasull Díaz", "eur": 2024, "role": "32% en General · resto en FMM"}], "is": [{"ub": "Torrejón de Ardoz", "fac": 8064, "cte": 5606, "margen": 2458, "cob": 144}, {"ub": "Móstoles", "fac": 3693, "cte": 1748, "margen": 1945, "cob": 211}, {"ub": "Arganda del Rey", "fac": 15129, "cte": 13416, "margen": 1713, "cob": 113}, {"ub": "Navalcarnero", "fac": 5041, "cte": 3607, "margen": 1434, "cob": 140}, {"ub": "Cuatro Caminos", "fac": 4304, "cte": 3060, "margen": 1244, "cob": 141}, {"ub": "La Latina", "fac": 2762, "cte": 1833, "margen": 929, "cob": 151}, {"ub": "La Cebada", "fac": 3447, "cte": 3148, "margen": 299, "cob": 109}, {"ub": "Leganés", "fac": 756, "cte": 952, "margen": -197, "cob": 79}, {"ub": "Valdemoro", "fac": 779, "cte": 1307, "margen": -528, "cob": 60}], "is_sin": [{"name": "Jose Luis Mena Elvira", "eur": 7335, "role": "100% del tiempo en General"}, {"name": "Irene Burgos Plana", "eur": 7330, "role": "100% del tiempo en General"}], "gastos": [{"cat": "Publicidad y marketing", "eur": 10694, "pct": 24.0}, {"cat": "Consultoría y asesoría externa", "eur": 9971, "pct": 22.3}, {"cat": "Material operativo y suministros", "eur": 4791, "pct": 10.7}, {"cat": "Transporte profesionales", "eur": 3366, "pct": 7.5}, {"cat": "Otros servicios diversos", "eur": 3317, "pct": 7.4}, {"cat": "Reparaciones de centros", "eur": 2833, "pct": 6.3}, {"cat": "Software y herramientas digitales", "eur": 2621, "pct": 5.9}, {"cat": "Intereses préstamos vivos", "eur": 2169, "pct": 4.9}, {"cat": "Suministros (luz, agua, gas)", "eur": 1951, "pct": 4.4}, {"cat": "Telefonía y comunicaciones", "eur": 1576, "pct": 3.5}, {"cat": "Servicios bancarios", "eur": 1552, "pct": 3.5}, {"cat": "Seguros", "eur": 949, "pct": 2.1}, {"cat": "Tributos y otros menores", "eur": 437, "pct": 1.0}, {"cat": "No deducibles", "eur": 156, "pct": 0.4}, {"cat": "Ajustes ejercicios anteriores", "eur": -1676, "pct": -3.7}], "gen": [{"label": "Estructura corporativa pura", "eur": 27501, "det": "Álvaro Diaz · Álvaro Marrero · David Rodríguez · Roberto Fernández · David Casado", "pct": 30.5}, {"label": "Cofacturación FMM (directivos)", "eur": 24862, "det": "Mismos directivos cofacturando + Iris Gasull + María Álvarez", "pct": 27.6}, {"label": "TPT no asignado a centro", "eur": 16347, "det": "Ana Mª García · María Álvarez (parte) · Iris Gasull (parte)", "pct": 18.1}, {"label": "IS no asignado a centro", "eur": 14665, "det": "Jose Luis Mena · Irene Burgos", "pct": 16.3}, {"label": "Indiferente B2B", "eur": 6741, "det": "Francisco Javier Ortiz de Lera", "pct": 7.5}], "heatmap": {"tpt_heatmap": {"ubicaciones": ["Arganda del Rey", "Leganés", "Móstoles", "Rivas", "San Agustín de Guadalix", "Torrejón de Ardoz", "Valdemoro"], "servicios": ["Devoluciones", "Fisioterapia", "Logopedia", "Pilates", "Psicología", "Terapia Ocupacional"], "data": [[-2054.15, 13480.7, 30385.45, 120.0, 22529.85, 21152.87], [-427.3, 0.0, 5423.95, 0.0, 4421.8, 5165.4], [-2006.1699999999998, 0.0, 9625.5, 0.0, 7796.28, 12831.16], [-1371.75, 0.0, 7367.8, 0.0, 1198.25, 1787.0], [0.0, 0.0, 0.0, 0.0, 0.0, 1531.1499999999999], [-2094.35, 0.0, 6543.7, 0.0, 11207.8, 7056.85], [-375.40000000000003, 0.0, 4044.46, 0.0, 5968.5, 0.0]]}, "is_heatmap": {"ubicaciones": ["Arganda del Rey", "Cuatro Caminos", "La Cebada", "La Latina", "Leganés", "Móstoles", "Navalcarnero", "Rivas", "Torrejón de Ardoz", "Valdemoro"], "servicios": ["Devoluciones", "Multideporte", "Piscina"], "data": [[-103.9, 0.0, 15233.2], [-51.95, 0.0, 4356.37], [-51.95, 0.0, 3498.5800000000004], [0.0, 0.0, 2762.1800000000003], [0.0, 755.5500000000001, 0.0], [-297.70000000000005, 0.0, 3991.1000000000004], [-99.95, 0.0, 5141.18], [-137.77, 168.8, 0.0], [-103.9, 3628.1200000000003, 4539.95], [-74.95, 854.2, 0.0]]}}};
+const fmt = (n)=>n.toLocaleString('es-ES')+' €';
+const sgn = (n)=>(n>=0?'+':'')+n.toLocaleString('es-ES')+' €';
+
+const pages = document.querySelectorAll('.page');
+const items = document.querySelectorAll('aside .item');
+const total = pages.length;
+let idx = 0;
+
+function go(i){
+  idx = Math.max(0,Math.min(total-1,i));
+  pages.forEach((p,k)=>p.classList.toggle('active',k===idx));
+  items.forEach((it,k)=>it.classList.toggle('active',k===idx));
+  document.getElementById('cur').textContent = idx+1;
+  document.getElementById('tot').textContent = total;
+  document.getElementById('crumb-section').textContent = pages[idx].dataset.title;
+  document.getElementById('prev').disabled = idx===0;
+  document.getElementById('next').disabled = idx===total-1;
+  document.querySelector('main').scrollTop = 0;
+}
+items.forEach(it=>it.addEventListener('click',()=>go(parseInt(it.dataset.i))));
+document.getElementById('prev').onclick=()=>go(idx-1);
+document.getElementById('next').onclick=()=>go(idx+1);
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if(e.key==='ArrowRight'||e.key==='PageDown')go(idx+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp')go(idx-1);
+});
+
+// === TPT TABLE ===
+const tbtTpt = document.querySelector('#tbl-tpt');
+DATA.tpt.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML = `<td><strong>${r.ub}</strong></td>
+    <td class="num">${fmt(r.fac)}</td>
+    <td class="num">${fmt(r.cte)}</td>
+    <td class="num ${r.margen>=0?'pos':'neg'}"><strong>${sgn(r.margen)}</strong></td>
+    <td class="num"><strong>${r.cob}%</strong></td>`;
+  tbtTpt.appendChild(tr);
+});
+const trWtpt = document.createElement('tr'); trWtpt.classList.add('warn-row');
+trWtpt.innerHTML = `<td><strong>⚠ Sin centro asignado</strong></td><td class="num">—</td><td class="num">${fmt(16347)}</td><td class="num neg"><strong>−16.347 €</strong></td><td class="num"><strong>0%</strong></td>`;
+tbtTpt.appendChild(trWtpt);
+const trTtpt = document.createElement('tr'); trTtpt.classList.add('total');
+trTtpt.innerHTML = `<td>TOTAL</td><td class="num">${fmt(171309)}</td><td class="num">${fmt(155942)}</td><td class="num pos"><strong>+15.367 €</strong></td><td class="num"><strong>110%</strong></td>`;
+tbtTpt.appendChild(trTtpt);
+
+// TPT sin
+const tptSinEl = document.querySelector('#tpt-sin');
+DATA.tpt_sin.forEach(p=>{
+  const d=document.createElement('div'); d.className='sc-card';
+  d.innerHTML = `<div class="nom">${p.name}</div><div class="eu">${p.eur.toLocaleString('es-ES')} €</div><div class="role">${p.role}</div>`;
+  tptSinEl.appendChild(d);
+});
+
+// === IS TABLE ===
+const tblIs = document.querySelector('#tbl-is');
+DATA.is.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML = `<td><strong>${r.ub}</strong></td>
+    <td class="num">${fmt(r.fac)}</td><td class="num">${fmt(r.cte)}</td>
+    <td class="num ${r.margen>=0?'pos':'neg'}"><strong>${sgn(r.margen)}</strong></td>
+    <td class="num"><strong>${r.cob}%</strong></td>`;
+  tblIs.appendChild(tr);
+});
+const trWis = document.createElement('tr'); trWis.classList.add('warn-row');
+trWis.innerHTML = `<td><strong>⚠ Sin centro asignado</strong></td><td class="num">—</td><td class="num">${fmt(14665)}</td><td class="num neg"><strong>−14.665 €</strong></td><td class="num"><strong>0%</strong></td>`;
+tblIs.appendChild(trWis);
+const trTis = document.createElement('tr'); trTis.classList.add('total');
+trTis.innerHTML = `<td>TOTAL</td><td class="num">${fmt(44007)}</td><td class="num">${fmt(49343)}</td><td class="num neg"><strong>−5.336 €</strong></td><td class="num"><strong>89%</strong></td>`;
+tblIs.appendChild(trTis);
+
+// IS sin
+const isSinEl = document.querySelector('#is-sin');
+DATA.is_sin.forEach(p=>{
+  const d=document.createElement('div'); d.className='sc-card';
+  d.innerHTML = `<div class="nom">${p.name}</div><div class="eu">${p.eur.toLocaleString('es-ES')} €</div><div class="role">${p.role}</div>`;
+  isSinEl.appendChild(d);
+});
+
+// === HEATMAP TPT ===
+const hm = DATA.heatmap.tpt_heatmap;
+const hmEl = document.querySelector('#hm-tpt');
+const max = Math.max(...hm.data.flat());
+const min = Math.min(0,...hm.data.flat());
+const cols = `220px repeat(${hm.servicios.length},1fr)`;
+const headRow = document.createElement('div'); headRow.className='hm-row';
+headRow.style.gridTemplateColumns=cols;
+headRow.innerHTML = `<div class="head first-head">Ubicación</div>` + hm.servicios.map(s=>`<div class="head">${s}</div>`).join('');
+hmEl.appendChild(headRow);
+hm.ubicaciones.forEach((u,i)=>{
+  const row=document.createElement('div'); row.className='hm-row'; row.style.gridTemplateColumns=cols;
+  let html = `<div class="ulabel">${u}</div>`;
+  hm.data[i].forEach(v=>{
+    let bg='#fff', col='#9CA3AF';
+    if(v>0){const t=v/max;bg=`rgba(8,183,91,${.06+t*.32})`;col=t>0.45?'#04763C':'#0F172A'}
+    else if(v<0){const t=Math.abs(v)/Math.abs(min||1);bg=`rgba(214,25,27,${.06+t*.30})`;col=t>0.5?'#A00B0E':'#0F172A'}
+    html += `<div class="cell" style="background:${bg};color:${col}">${v===0?'—':v.toLocaleString('es-ES')+' €'}</div>`;
+  });
+  row.innerHTML = html;
+  hmEl.appendChild(row);
+});
+
+// === TABS Indiferente ===
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tabpanel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('tp-'+t.dataset.tab).classList.add('active');
+}));
+
+// === Donut General ===
+new Chart(document.getElementById('gen-donut'),{
+  type:'doughnut',
+  data:{labels:DATA.gen.map(g=>g.label),
+    datasets:[{data:DATA.gen.map(g=>g.eur),
+      backgroundColor:['#F3D100','#ED7928','#974694','#E45E9B','#007EC3'],borderWidth:2,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+    plugins:{legend:{position:'bottom',labels:{color:'#475569',font:{family:'Inter',size:11,weight:'500'},padding:10,boxWidth:10}},
+    tooltip:{callbacks:{label:(c)=>c.label+': '+c.parsed.toLocaleString('es-ES')+' € ('+(c.parsed/90115*100).toFixed(1)+'%)'}}}}
+});
+const tblGen = document.querySelector('#tbl-gen');
+DATA.gen.forEach(g=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML = `<td><strong>${g.label}</strong></td><td class="num">${fmt(g.eur)}</td><td class="num">${g.pct.toFixed(1)}%</td>`;
+  tblGen.appendChild(tr);
+});
+const trGtot=document.createElement('tr'); trGtot.classList.add('total');
+trGtot.innerHTML = `<td>TOTAL</td><td class="num">${fmt(90115)}</td><td class="num">100,0%</td>`;
+tblGen.appendChild(trGtot);
+
+// Detalle General
+document.querySelector('#gen-detalle').innerHTML = '<thead><tr><th>Bloque</th><th>Profesionales</th><th class="num">Q1 €</th></tr></thead><tbody>' +
+  DATA.gen.map(g=>`<tr><td><strong>${g.label}</strong></td><td>${g.det}</td><td class="num">${fmt(g.eur)}</td></tr>`).join('') +
+  '</tbody>';
+
+// === Donut Otros gastos ===
+const positivos = DATA.gastos.filter(g=>g.eur>0);
+new Chart(document.getElementById('gas-donut'),{
+  type:'doughnut',
+  data:{labels:positivos.map(g=>g.cat),
+    datasets:[{data:positivos.map(g=>g.eur),
+      backgroundColor:['#ED7928','#974694','#08B75B','#007EC3','#E45E9B','#F3D100','#D6191B','#5B6B8C','#A29BFE','#74B9FF','#55EFC4','#FFEAA7','#DFE6E9','#B2BEC3'],
+      borderWidth:2,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+    plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:(c)=>c.label+': '+c.parsed.toLocaleString('es-ES')+' € ('+(c.parsed/44706*100).toFixed(1)+'%)'}}}}
+});
+const tblGas = document.querySelector('#tbl-gas');
+DATA.gastos.forEach(g=>{
+  const tr=document.createElement('tr');
+  const cls = g.eur<0 ? 'neg' : '';
+  tr.innerHTML = `<td><strong>${g.cat}</strong></td><td class="num ${cls}">${sgn(g.eur)}</td><td class="num">${g.pct.toFixed(1)}%</td>`;
+  tblGas.appendChild(tr);
+});
+const trGtot2=document.createElement('tr'); trGtot2.classList.add('total');
+trGtot2.innerHTML = `<td>TOTAL</td><td class="num">${fmt(44706)}</td><td class="num">100,0%</td>`;
+tblGas.appendChild(trGtot2);
+
+go(0);
+</script>
+</body>
+</html>
