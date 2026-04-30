@@ -982,14 +982,16 @@ select {
 
 </form>
 
-<!-- MENSAJES (fuera del form para que se vean al ocultarlo) -->
-<div class="msg-ok" id="msgOk">
-  <h3>¡Muchas gracias! 🧡</h3>
-  <p>Hemos recibido vuestras respuestas correctamente.<br>
-  En cuanto tengamos la información de todas las familias, os contamos los próximos pasos.</p>
-  <p style="margin-top:12px;font-size:14px;color:#555;">Lo mío no es normal... ¡pero lo tuyo tampoco!</p>
+<!-- PANTALLA DE GRACIAS (fuera del form, visible solo tras envío correcto) -->
+<div class="msg-ok" id="msgOk" style="display:none; max-width:760px; margin:48px auto; padding:56px 40px; text-align:center; border-radius:16px;">
+  <div class="hero-badge" style="margin-bottom:24px;">BlueFamily × Fundación Pegasus</div>
+  <div style="font-size:64px; line-height:1; margin-bottom:16px;">🧡</div>
+  <h3 style="font-family:'Chantal','Barlow',sans-serif; font-size:32px; text-transform:uppercase; letter-spacing:1px; margin:0 0 16px; color:#1a5c3a;">¡Muchas gracias!</h3>
+  <p style="font-size:18px; color:#1a5c3a; margin:0 0 12px;">Hemos registrado correctamente vuestra respuesta.</p>
+  <p style="font-size:16px; color:#555; margin:0 0 24px;">En cuanto tengamos la información de todas las familias, os contamos los próximos pasos.</p>
+  <p style="margin-top:24px; font-size:14px; color:#888; font-style:italic;">Lo mío no es normal... ¡pero lo tuyo tampoco!</p>
 </div>
-<div class="msg-error" id="msgError">
+<div class="msg-error" id="msgError" style="display:none; max-width:760px; margin:48px auto; padding:32px; text-align:center; border-radius:16px;">
   <strong>Ha ocurrido un error al enviar el formulario.</strong><br>
   Por favor, inténtalo de nuevo. Si el problema persiste, escríbenos directamente.
 </div>
@@ -1081,7 +1083,9 @@ document.getElementById('formPegasus').addEventListener('submit', async function
       body: JSON.stringify(data)
     });
 
-    document.getElementById('formPegasus').style.display = 'none';
+    // Ocultamos toda la página (cabecera + formulario) y mostramos la pantalla de gracias
+    document.querySelector('.hero').style.display = 'none';
+    document.querySelector('.form-wrapper').style.display = 'none';
     msgOk.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
