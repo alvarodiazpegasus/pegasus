@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pegasus Lab · Catálogo de capacidades</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p-verde:#08b75b; --p-azul:#007ec3; --p-morado:#974694; --p-rosa:#e45e9b;
+  --p-rojo:#d6191b; --p-naranja:#ed7928; --p-amarillo:#f3d100;
+  --bg:#0e1226; --card:#fff; --text:#1a1330; --muted:#6b637e;
+  --gradient:linear-gradient(120deg,#08b75b 0%,#007ec3 18%,#974694 38%,#e45e9b 56%,#d6191b 72%,#ed7928 86%,#f3d100 100%);
+  --easing:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;font-family:'Fredoka','Schibsted Grotesk',system-ui,sans-serif;color:var(--text);background:#f4f1fa;height:100%}
+button,input,textarea{font-family:inherit}
+a{color:var(--p-morado)}
+
+/* ===== LAYOUT ===== */
+#app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+aside.sidebar{
+  position:sticky;top:0;height:100vh;overflow-y:auto;background:#1a1340;color:#fff;padding:18px 0;
+  box-shadow:4px 0 20px rgba(0,0,0,.18);
+}
+.sidebar .brand{display:flex;align-items:center;gap:10px;padding:6px 22px 18px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:12px}
+.sidebar .brand .logo{width:36px;height:36px;border-radius:50%;background:var(--gradient);box-shadow:0 0 0 3px #1a1340 inset, 0 0 0 4px rgba(255,255,255,.15)}
+.sidebar .brand .text{font-family:'Schibsted Grotesk';font-weight:900;font-size:15px;line-height:1}
+.sidebar .brand .text small{display:block;font-weight:500;font-size:11px;opacity:.7;letter-spacing:.5px;text-transform:uppercase;margin-top:3px}
+.sidebar h4{margin:14px 18px 6px;font-family:'Schibsted Grotesk';font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.sidebar a.nav{display:flex;align-items:center;gap:10px;padding:8px 22px;color:rgba(255,255,255,.85);text-decoration:none;font-size:14px;font-weight:500;transition:background .12s,color .12s;border-left:3px solid transparent}
+.sidebar a.nav:hover{background:rgba(255,255,255,.06);color:#fff}
+.sidebar a.nav.active{background:rgba(151,70,148,.25);color:#fff;border-left-color:var(--p-rosa)}
+.sidebar a.nav .ic{font-size:16px;width:20px;text-align:center}
+.sidebar .count{margin-left:auto;font-size:10px;background:rgba(255,255,255,.1);padding:2px 8px;border-radius:999px;font-weight:700}
+
+main{padding:28px 36px 80px;max-width:1180px}
+.hero{
+  background:linear-gradient(135deg,#974694,#e45e9b);color:#fff;border-radius:24px;padding:38px 40px;margin-bottom:28px;
+  position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(151,70,148,.35);
+}
+.hero::before{content:"";position:absolute;right:-60px;top:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(243,209,0,.4),transparent 70%);}
+.hero::after{content:"";position:absolute;left:-100px;bottom:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,126,195,.4),transparent 70%);}
+.hero h1{font-family:'Schibsted Grotesk';font-size:42px;font-weight:900;margin:0 0 8px;line-height:1.05;position:relative;z-index:1}
+.hero p{font-size:17px;line-height:1.55;margin:0;max-width:760px;position:relative;z-index:1;opacity:.95}
+.hero .stats{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap;position:relative;z-index:1}
+.hero .stat{background:rgba(255,255,255,.16);backdrop-filter:blur(8px);padding:10px 16px;border-radius:14px;font-size:13px;font-weight:600}
+.hero .stat b{font-family:'Schibsted Grotesk';font-size:22px;display:block;line-height:1}
+
+.cat-section{margin:48px 0 32px}
+.cat-title{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e6dff0}
+.cat-title h2{font-family:'Schibsted Grotesk';font-weight:900;font-size:26px;margin:0;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cat-title small{color:var(--muted);font-size:13px;font-weight:500}
+
+.demos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:18px}
+
+article.demo{
+  background:#fff;border-radius:18px;box-shadow:0 8px 22px rgba(0,0,0,.06);padding:18px;
+  display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
+  border:1px solid #ece6f4;
+}
+article.demo::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gradient)}
+article.demo .head{display:flex;align-items:flex-start;gap:8px}
+article.demo .num{font-family:'JetBrains Mono';font-size:11px;font-weight:600;color:var(--p-morado);background:#f4ecf3;padding:2px 7px;border-radius:6px;flex-shrink:0;margin-top:2px}
+article.demo h3{font-family:'Schibsted Grotesk';font-weight:800;font-size:16px;margin:0;color:#1a1330;line-height:1.2}
+article.demo .desc{font-size:13px;color:var(--muted);margin:0;line-height:1.4}
+article.demo .canvas{
+  background:#fafaff;border-radius:12px;padding:14px;min-height:140px;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  border:1px dashed #e6dff0;position:relative;overflow:hidden;
+}
+article.demo .actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.dbtn{
+  padding:6px 12px;border:0;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;
+  background:#f1ecfa;color:var(--p-morado);transition:.15s;
+}
+.dbtn:hover{background:#e3d9f0}
+.dbtn.primary{background:var(--p-morado);color:#fff}
+.dbtn.primary:hover{background:#7d2c7c}
+
+/* ===== PRIMITIVE COMPONENTS used by many demos ===== */
+.bigbtn{background:var(--gradient);color:#fff;border:0;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(151,70,148,.35);transition:transform .15s, filter .15s}
+.bigbtn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.tag-verde{background:#dff5e6;color:#067a3e}
+.tag-azul{background:#dceaf6;color:#005d96}
+.tag-morado{background:#f4e6f3;color:#6d2f6c}
+.tag-rosa{background:#fde2ee;color:#a8366f}
+.tag-naranja{background:#fde8d6;color:#a14600}
+.tag-amarillo{background:#fff3a8;color:#7a5b00}
+
+/* ===== COMMON UTILITY ANIMATIONS ===== */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes wob{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 12px rgba(243,209,0,.7))}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(228,94,155,.6)}50%{box-shadow:0 0 0 14px rgba(228,94,155,0)}}
+
+/* ===== POPUP TOAST ===== */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1340;color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:.3s;z-index:200;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== CONFETTI ===== */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden}
+.confetti span{position:absolute;top:-30px;font-size:22px;animation:cfall linear forwards}
+@keyframes cfall{0%{transform:translateY(-10vh) rotate(0)}100%{transform:translateY(115vh) rotate(720deg)}}
+
+/* ===== SHARED DEMO STYLES ===== */
+.choice{padding:8px 14px;border-radius:10px;background:#fff;border:2px solid #e3d9f0;cursor:pointer;font-size:14px;font-weight:600;transition:.15s;color:#1a1330}
+.choice:hover{border-color:var(--p-morado);transform:translateY(-2px)}
+.choice.ok{background:#dff5e6;border-color:var(--p-verde);color:#067a3e}
+.choice.bad{background:#ffe6e6;border-color:var(--p-rojo);animation:shake .35s}
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%}
+
+@media (max-width:900px){
+  #app{grid-template-columns:1fr}
+  aside.sidebar{position:relative;height:auto}
+  main{padding:18px}
+  .demos-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- ========== SIDEBAR ========== -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo"></div>
+    <div class="text">PEGASUS LAB<small>Catálogo de capacidades</small></div>
+  </div>
+
+  <h4>Catálogo</h4>
+  <a class="nav" href="#cat-1"><span class="ic">🎬</span> Portadas y entradas <span class="count">6</span></a>
+  <a class="nav" href="#cat-2"><span class="ic">🧭</span> Menús y navegación <span class="count">7</span></a>
+  <a class="nav" href="#cat-3"><span class="ic">✨</span> Reveal e interacción <span class="count">8</span></a>
+  <a class="nav" href="#cat-4"><span class="ic">❓</span> Quizzes y preguntas <span class="count">10</span></a>
+  <a class="nav" href="#cat-5"><span class="ic">🎯</span> Drag &amp; drop <span class="count">6</span></a>
+  <a class="nav" href="#cat-6"><span class="ic">🎵</span> Multimedia <span class="count">5</span></a>
+  <a class="nav" href="#cat-7"><span class="ic">📊</span> Visualizaciones <span class="count">7</span></a>
+  <a class="nav" href="#cat-8"><span class="ic">🏆</span> Gamificación <span class="count">6</span></a>
+  <a class="nav" href="#cat-9"><span class="ic">📖</span> Storytelling <span class="count">5</span></a>
+  <a class="nav" href="#cat-10"><span class="ic">💫</span> Efectos visuales <span class="count">8</span></a>
+
+  <h4 style="margin-top:24px">Acerca de</h4>
+  <div style="padding:0 22px;font-size:12px;line-height:1.55;color:rgba(255,255,255,.7)">
+    Demo interna · Fundación Pegasus.
+    Cada bloque es una pieza reutilizable. Todo se puede combinar para construir una dinámica.
+  </div>
+</aside>
+
+<!-- ========== MAIN ========== -->
+<main>
+
+<section class="hero">
+  <h1>El catálogo completo de lo que podemos hacer</h1>
+  <p>Esto es un escaparate, no una dinámica. Cada bloque demuestra UNA capacidad — luego se ensamblan para construir cosas como <i>El Canto de Lila</i>. Pulsa, arrastra, juega con todo: lo que ves aquí es lo que podemos meter en cualquier SCORM de TPT, IS o Indiferente.</p>
+  <div class="stats">
+    <div class="stat"><b>68</b> demos interactivos</div>
+    <div class="stat"><b>10</b> categorías</div>
+    <div class="stat"><b>0 €</b> licencias</div>
+    <div class="stat"><b>SCORM</b> exportable</div>
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 1 · PORTADAS =============== -->
+<section class="cat-section" id="cat-1">
+  <div class="cat-title">
+    <h2>1. Portadas y entradas cinemáticas</h2>
+    <small>Primera impresión: si el peque entra enganchado, el resto fluye.</small>
+  </div>
+  <div class="demos-grid">
+
+    <article class="demo">
+      <div class="head"><span class="num">1.1</span><div><h3>Título letra a letra</h3><p class="desc">Anima cada letra al entrar — efecto de cómic.</p></div></div>
+      <div class="canvas" id="d11"></div>
+      <div class="actions"><button class="dbtn" data-reset="d11">▶ Reproducir</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">1.2</span><div><h3>Personaje flotante con halo</h3><p class="desc">Lila levitando con resplandor pulsante.</p></div></div>
+      <div class="canvas" id="d12" style="background:radial-gradient(ellipse at center,#3a2466 0%,#1a1340 100%);min-height:170px;">
+        <div style="font-size:90px;animation:floaty 3s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(243,209,0,.5))">🦄</div>
+      </div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">1.3</span><div><h3>Cuenta atrás 3-2-1</h3><p class="desc">Splash con dígitos animados al pulsar.</p></div></div>
+      <div class="canvas" id="d13"></div>
+      <div class="actions"><button class="dbtn primary" data-action="d13-go">¡Empezar!</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">1.4</span><div><h3>Fondo animado de color</h3><p class="desc">Degradado que se mueve y respira.</p></div></div>
+      <div class="canvas" id="d14" style="background:linear-gradient(120deg,#974694,#e45e9b,#ed7928,#f3d100,#08b75b,#007ec3);background-size:600% 600%;animation:bgShift 12s linear infinite;color:#fff;min-height:170px"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">1.5</span><div><h3>Botón con magnetismo</h3><p class="desc">El CTA sigue al ratón — irresistible.</p></div></div>
+      <div class="canvas" id="d15" style="min-height:170px"><button class="bigbtn" id="magnetBtn">▶ Empezar</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">1.6</span><div><h3>Splash con ondas</h3><p class="desc">Onda expansiva al cargar la portada.</p></div></div>
+      <div class="canvas" id="d16" style="position:relative;overflow:hidden;min-height:170px"></div>
+      <div class="actions"><button class="dbtn" data-action="d16-go">▶ Lanzar onda</button></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 2 · MENÚS =============== -->
+<section class="cat-section" id="cat-2">
+  <div class="cat-title"><h2>2. Menús y navegación</h2><small>7 formas de organizar el viaje.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo">
+      <div class="head"><span class="num">2.1</span><div><h3>Hub de tarjetas</h3><p class="desc">Estilo Netflix de capítulos.</p></div></div>
+      <div class="canvas" id="d21"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.2</span><div><h3>Menú radial</h3><p class="desc">Botones en círculo alrededor de un centro.</p></div></div>
+      <div class="canvas" id="d22" style="min-height:200px"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.3</span><div><h3>Mapa con pins</h3><p class="desc">Pin clickable sobre un mapa SVG.</p></div></div>
+      <div class="canvas" id="d23"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.4</span><div><h3>Timeline horizontal</h3><p class="desc">Recorrido de paradas con avance.</p></div></div>
+      <div class="canvas" id="d24"></div>
+      <div class="actions"><button class="dbtn" data-action="d24-prev">◀</button><button class="dbtn primary" data-action="d24-next">▶</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.5</span><div><h3>Wizard / stepper</h3><p class="desc">Pasos numerados con progreso.</p></div></div>
+      <div class="canvas" id="d25"></div>
+      <div class="actions"><button class="dbtn primary" data-action="d25-next">Siguiente paso</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.6</span><div><h3>Tabs horizontales</h3><p class="desc">Pestañas con contenido distinto.</p></div></div>
+      <div class="canvas" id="d26"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">2.7</span><div><h3>Acordeón expansible</h3><p class="desc">Listas plegables con animación.</p></div></div>
+      <div class="canvas" id="d27"></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 3 · REVEAL =============== -->
+<section class="cat-section" id="cat-3">
+  <div class="cat-title"><h2>3. Revelación e interacción</h2><small>Esconder y descubrir — el motor de la curiosidad.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo">
+      <div class="head"><span class="num">3.1</span><div><h3>Tarjetas que voltean</h3><p class="desc">Click → flip 3D con cara oculta.</p></div></div>
+      <div class="canvas" id="d31"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.2</span><div><h3>Hover para revelar</h3><p class="desc">Pasa por encima y se descubre.</p></div></div>
+      <div class="canvas" id="d32"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.3</span><div><h3>Rascar para descubrir</h3><p class="desc">Scratch card como las de la lotería.</p></div></div>
+      <div class="canvas" id="d33"></div>
+      <div class="actions"><button class="dbtn" data-action="d33-reset">Volver a tapar</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.4</span><div><h3>Lupa interactiva</h3><p class="desc">Zoom mágico sobre la imagen.</p></div></div>
+      <div class="canvas" id="d34" style="cursor:zoom-in"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.5</span><div><h3>Buscar objetos ocultos</h3><p class="desc">3 puntos calientes para encontrar.</p></div></div>
+      <div class="canvas" id="d35" style="position:relative"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.6</span><div><h3>Cortina que se abre</h3><p class="desc">Tira de los bordes para revelar.</p></div></div>
+      <div class="canvas" id="d36"></div>
+      <div class="actions"><button class="dbtn primary" data-action="d36-toggle">Abrir/Cerrar</button></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.7</span><div><h3>Tooltip explicativo</h3><p class="desc">Hover sobre palabras subrayadas.</p></div></div>
+      <div class="canvas" id="d37"></div>
+    </article>
+
+    <article class="demo">
+      <div class="head"><span class="num">3.8</span><div><h3>Modal de información</h3><p class="desc">Popup centrado con backdrop.</p></div></div>
+      <div class="canvas" id="d38"></div>
+      <div class="actions"><button class="dbtn primary" data-action="d38-open">Abrir modal</button></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 4 · QUIZZES =============== -->
+<section class="cat-section" id="cat-4">
+  <div class="cat-title"><h2>4. Quizzes y preguntas</h2><small>10 formatos distintos de evaluación.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">4.1</span><div><h3>Multi-choice</h3><p class="desc">4 opciones, 1 correcta.</p></div></div><div class="canvas" id="d41"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.2</span><div><h3>Multi-choice con imagen</h3><p class="desc">Tarjetas grandes con emoji + palabra.</p></div></div><div class="canvas" id="d42"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.3</span><div><h3>Verdadero / Falso</h3><p class="desc">2 botones gigantes con feedback.</p></div></div><div class="canvas" id="d43"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.4</span><div><h3>Rellena escribiendo</h3><p class="desc">Input con verificación en vivo.</p></div></div><div class="canvas" id="d44"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.5</span><div><h3>Rellena arrastrando</h3><p class="desc">Drag chips a huecos en frase.</p></div></div><div class="canvas" id="d45"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.6</span><div><h3>Pregunta abierta</h3><p class="desc">Texto libre, busca palabras clave.</p></div></div><div class="canvas" id="d46"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.7</span><div><h3>Ordenar secuencia</h3><p class="desc">Drag&amp;drop vertical ordenado.</p></div></div><div class="canvas" id="d47"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.8</span><div><h3>Unir parejas con líneas</h3><p class="desc">Click una columna, click la otra.</p></div></div><div class="canvas" id="d48"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.9</span><div><h3>Memory cards</h3><p class="desc">Encuentra los pares ocultos.</p></div></div><div class="canvas" id="d49"></div></article>
+    <article class="demo"><div class="head"><span class="num">4.10</span><div><h3>Hotspot quiz</h3><p class="desc">Toca el lugar correcto en la imagen.</p></div></div><div class="canvas" id="d410" style="position:relative"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 5 · DRAG & DROP =============== -->
+<section class="cat-section" id="cat-5">
+  <div class="cat-title"><h2>5. Drag &amp; drop</h2><small>Arrastrar es la mecánica más universal.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">5.1</span><div><h3>Categorizar en cubos</h3><p class="desc">3 cubos, ítems mezclados.</p></div></div><div class="canvas" id="d51"></div></article>
+    <article class="demo"><div class="head"><span class="num">5.2</span><div><h3>Construir frase</h3><p class="desc">Arrastra palabras a la línea.</p></div></div><div class="canvas" id="d52"></div></article>
+    <article class="demo"><div class="head"><span class="num">5.3</span><div><h3>Rellenar receta</h3><p class="desc">Slots con ingredientes que faltan.</p></div></div><div class="canvas" id="d53"></div></article>
+    <article class="demo"><div class="head"><span class="num">5.4</span><div><h3>Puzzle 4 piezas</h3><p class="desc">Arrastra cada pieza a su sitio.</p></div></div><div class="canvas" id="d54" style="min-height:180px"></div></article>
+    <article class="demo"><div class="head"><span class="num">5.5</span><div><h3>Emoción a la cara</h3><p class="desc">Identifica y arrastra emoción.</p></div></div><div class="canvas" id="d55"></div></article>
+    <article class="demo"><div class="head"><span class="num">5.6</span><div><h3>Vestir al personaje</h3><p class="desc">Pieza de ropa al maniquí.</p></div></div><div class="canvas" id="d56"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 6 · MULTIMEDIA =============== -->
+<section class="cat-section" id="cat-6">
+  <div class="cat-title"><h2>6. Multimedia</h2><small>Audio, vídeo y voz integrada.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">6.1</span><div><h3>Audio con onda animada</h3><p class="desc">Synth con visualizador.</p></div></div><div class="canvas" id="d61"></div></article>
+    <article class="demo"><div class="head"><span class="num">6.2</span><div><h3>Player con controles</h3><p class="desc">Play / pausa / barra progreso.</p></div></div><div class="canvas" id="d62"></div></article>
+    <article class="demo"><div class="head"><span class="num">6.3</span><div><h3>Discriminación auditiva</h3><p class="desc">¿Suena igual A y B?</p></div></div><div class="canvas" id="d63"></div></article>
+    <article class="demo"><div class="head"><span class="num">6.4</span><div><h3>Slideshow con auto-play</h3><p class="desc">Carrusel temporizado.</p></div></div><div class="canvas" id="d64"></div></article>
+    <article class="demo"><div class="head"><span class="num">6.5</span><div><h3>Voz del navegador (TTS)</h3><p class="desc">Lectura automática del texto.</p></div></div><div class="canvas" id="d65"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 7 · VISUALIZACIONES =============== -->
+<section class="cat-section" id="cat-7">
+  <div class="cat-title"><h2>7. Visualizaciones interactivas</h2><small>Datos que cobran vida.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">7.1</span><div><h3>Timeline vertical</h3><p class="desc">Eventos clickables en línea.</p></div></div><div class="canvas" id="d71"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.2</span><div><h3>Antes / después</h3><p class="desc">Slider que compara dos imágenes.</p></div></div><div class="canvas" id="d72" style="min-height:180px"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.3</span><div><h3>Gráfico de barras animado</h3><p class="desc">Crecen al entrar en pantalla.</p></div></div><div class="canvas" id="d73"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.4</span><div><h3>Slider con valor en vivo</h3><p class="desc">Calculadora visual.</p></div></div><div class="canvas" id="d74"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.5</span><div><h3>Tabla con filtros</h3><p class="desc">Buscar y ordenar.</p></div></div><div class="canvas" id="d75"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.6</span><div><h3>Donut chart con tooltip</h3><p class="desc">Hover sobre cada segmento.</p></div></div><div class="canvas" id="d76"></div></article>
+    <article class="demo"><div class="head"><span class="num">7.7</span><div><h3>Calendario clickable</h3><p class="desc">Marca un día.</p></div></div><div class="canvas" id="d77"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 8 · GAMIFICACIÓN =============== -->
+<section class="cat-section" id="cat-8">
+  <div class="cat-title"><h2>8. Gamificación</h2><small>Recompensas que generan volición.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">8.1</span><div><h3>Sistema de puntos</h3><p class="desc">+10 con animación al ganar.</p></div></div><div class="canvas" id="d81"></div></article>
+    <article class="demo"><div class="head"><span class="num">8.2</span><div><h3>Badges desbloqueables</h3><p class="desc">Insignias que se iluminan.</p></div></div><div class="canvas" id="d82"></div></article>
+    <article class="demo"><div class="head"><span class="num">8.3</span><div><h3>Barra de progreso segmentada</h3><p class="desc">Niveles 1-5 con check.</p></div></div><div class="canvas" id="d83"></div></article>
+    <article class="demo"><div class="head"><span class="num">8.4</span><div><h3>Achievement popup</h3><p class="desc">"¡Logro desbloqueado!" estilo Xbox.</p></div></div><div class="canvas" id="d84"></div></article>
+    <article class="demo"><div class="head"><span class="num">8.5</span><div><h3>Cristales coleccionables</h3><p class="desc">5 colores Pegasus que se llenan.</p></div></div><div class="canvas" id="d85"></div></article>
+    <article class="demo"><div class="head"><span class="num">8.6</span><div><h3>Ranking simulado</h3><p class="desc">Top 3 con avatares.</p></div></div><div class="canvas" id="d86"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 9 · STORYTELLING =============== -->
+<section class="cat-section" id="cat-9">
+  <div class="cat-title"><h2>9. Storytelling avanzado</h2><small>El ingrediente Pegasus por excelencia.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">9.1</span><div><h3>Diálogo de personaje</h3><p class="desc">Bocadillos con avance manual.</p></div></div><div class="canvas" id="d91"></div></article>
+    <article class="demo"><div class="head"><span class="num">9.2</span><div><h3>Typewriter</h3><p class="desc">Texto que se escribe solo.</p></div></div><div class="canvas" id="d92"></div></article>
+    <article class="demo"><div class="head"><span class="num">9.3</span><div><h3>Branching · elige tu camino</h3><p class="desc">"¿Vas a la izquierda o derecha?"</p></div></div><div class="canvas" id="d93"></div></article>
+    <article class="demo"><div class="head"><span class="num">9.4</span><div><h3>Contador animado</h3><p class="desc">De 0 al número final, fluido.</p></div></div><div class="canvas" id="d94"></div></article>
+    <article class="demo"><div class="head"><span class="num">9.5</span><div><h3>Cita destacada</h3><p class="desc">Quote estilo editorial.</p></div></div><div class="canvas" id="d95"></div></article>
+
+  </div>
+</section>
+
+<!-- =============== CATEGORÍA 10 · EFECTOS =============== -->
+<section class="cat-section" id="cat-10">
+  <div class="cat-title"><h2>10. Efectos visuales</h2><small>Lo que sube la nota emocional.</small></div>
+  <div class="demos-grid">
+
+    <article class="demo"><div class="head"><span class="num">10.1</span><div><h3>Confetti</h3><p class="desc">Celebración con emojis cayendo.</p></div></div><div class="canvas" id="d101" style="min-height:120px"></div><div class="actions"><button class="dbtn primary" data-action="d101-go">🎉 Lanzar</button></div></article>
+    <article class="demo"><div class="head"><span class="num">10.2</span><div><h3>Sparkles al click</h3><p class="desc">Pulsa el área para ver brillos.</p></div></div><div class="canvas" id="d102" style="min-height:140px;cursor:crosshair"></div></article>
+    <article class="demo"><div class="head"><span class="num">10.3</span><div><h3>Ripple / onda al click</h3><p class="desc">Estilo Material Design.</p></div></div><div class="canvas" id="d103" style="min-height:120px;background:#974694;color:#fff;cursor:pointer">Pulsa aquí</div></article>
+    <article class="demo"><div class="head"><span class="num">10.4</span><div><h3>Screen shake</h3><p class="desc">Sacudida — perfecto para fallos.</p></div></div><div class="canvas" id="d104" style="min-height:120px"><div style="font-size:64px">😬</div></div><div class="actions"><button class="dbtn primary" data-action="d104-go">¡Sacudir!</button></div></article>
+    <article class="demo"><div class="head"><span class="num">10.5</span><div><h3>Glow pulse</h3><p class="desc">Resplandor latiente.</p></div></div><div class="canvas" id="d105" style="min-height:140px"><div style="font-size:64px;animation:glow 2s ease-in-out infinite">⭐</div></div></article>
+    <article class="demo"><div class="head"><span class="num">10.6</span><div><h3>Color burst</h3><p class="desc">Explosión radial al click.</p></div></div><div class="canvas" id="d106" style="min-height:140px;cursor:crosshair;position:relative;overflow:hidden"></div></article>
+    <article class="demo"><div class="head"><span class="num">10.7</span><div><h3>Trail mágico (varita)</h3><p class="desc">Estela de partículas siguiendo el cursor.</p></div></div><div class="canvas" id="d107" style="min-height:140px;cursor:crosshair;position:relative;overflow:hidden"></div></article>
+    <article class="demo"><div class="head"><span class="num">10.8</span><div><h3>Transición de escena</h3><p class="desc">Cortina + iris (cierre / apertura).</p></div></div><div class="canvas" id="d108" style="min-height:120px"></div><div class="actions"><button class="dbtn primary" data-action="d108-go">Transición</button></div></article>
+
+  </div>
+</section>
+
+<div style="margin:60px 0 20px;text-align:center;color:var(--muted);font-size:13px">
+  <div style="display:inline-block;padding:14px 24px;background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.06)">
+    <b>68 capacidades demostradas.</b> Combínalas para construir cualquier dinámica TPT, IS o Indiferente.
+  </div>
+</div>
+
+</main>
+</div><!-- /#app -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+<!-- CONFETTI HOST -->
+<div class="confetti" id="confettiHost"></div>
+
+<style>
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+</style>
+
+<script>
+/* ===========================================================================
+   PEGASUS LAB — single-file showroom
+   =========================================================================== */
+
+/* ---------- UTILS ---------- */
+const $ = (s,el=document)=>el.querySelector(s);
+const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild }
+function toast(msg,t=1700){ const e=$('#toast'); e.textContent=msg; e.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>e.classList.remove('show'),t) }
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1])}
+
+/* ---------- AUDIO ---------- */
+const sfx = {
+  ctx:null, master:null,
+  init(){ if(this.ctx) return; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+    this.ctx=new AC(); this.master=this.ctx.createGain(); this.master.gain.value=0.4; this.master.connect(this.ctx.destination)
+  },
+  beep(f=600,d=.1,t='sine',v=.18,a=.005,r=.08){ this.init(); if(!this.ctx) return;
+    const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type=t; o.frequency.value=f; o.connect(g); g.connect(this.master);
+    const T=this.ctx.currentTime;
+    g.gain.setValueAtTime(0,T); g.gain.linearRampToValueAtTime(v,T+a); g.gain.exponentialRampToValueAtTime(.0001,T+a+d+r);
+    o.start(T); o.stop(T+a+d+r+.05)
+  },
+  click(){ this.beep(900,.04,'square',.12) },
+  pop(){
+    this.init(); if(!this.ctx) return;
+    const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type='sine'; o.connect(g); g.connect(this.master);
+    const T=this.ctx.currentTime;
+    o.frequency.setValueAtTime(220,T); o.frequency.exponentialRampToValueAtTime(1100,T+.16);
+    g.gain.setValueAtTime(0,T); g.gain.linearRampToValueAtTime(.28,T+.02); g.gain.exponentialRampToValueAtTime(.0001,T+.2);
+    o.start(T); o.stop(T+.22)
+  },
+  ok(){ [523.25,659.25,784,1046].forEach((f,i)=>setTimeout(()=>this.beep(f,.16,'triangle',.28),i*80)) },
+  bad(){ [440,392,329].forEach((f,i)=>setTimeout(()=>this.beep(f,.2,'sawtooth',.18),i*120)) },
+  magic(){
+    this.init(); if(!this.ctx) return;
+    const T=this.ctx.currentTime;
+    [880,1318,1760].forEach((f,i)=>{
+      const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+      o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(this.master);
+      const s=T+i*.05;
+      g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(.16,s+.02); g.gain.exponentialRampToValueAtTime(.0001,s+.7);
+      o.start(s); o.stop(s+.75)
+    })
+  },
+  speak(text){
+    try{ window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='es-ES'; u.rate=.95; window.speechSynthesis.speak(u) }catch(e){}
+  }
+};
+window.addEventListener('click', ()=>sfx.init(), {once:true});
+
+/* ---------- CONFETTI HELPER ---------- */
+function confetti(amount=60){
+  const host=$('#confettiHost');
+  const emojis=['🌈','✨','⭐','💜','💖','💚','💛','💙','🧡','🎉'];
+  for(let i=0;i<amount;i++){
+    const s=document.createElement('span');
+    s.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=(2.5+Math.random()*3)+'s';
+    s.style.animationDelay=(Math.random()*1)+'s';
+    s.style.fontSize=(14+Math.random()*22)+'px';
+    host.appendChild(s);
+    setTimeout(()=>s.remove(), 6500);
+  }
+}
+
+/* ---------- SIDEBAR ACTIVE STATE ---------- */
+(function navActive(){
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        $$('.sidebar a.nav').forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+id));
+      }
+    });
+  },{rootMargin:'-30% 0px -50% 0px'});
+  $$('.cat-section').forEach(s=>obs.observe(s));
+})();
+
+/* =========================================================================
+   CATEGORY 1 — PORTADAS
+   ========================================================================= */
+
+/* 1.1 Título letra a letra */
+function buildD11(){
+  const c=$('#d11'); c.innerHTML='';
+  const text='El Canto de Lila';
+  const wrap=el('<div style="font-family:Schibsted Grotesk;font-weight:900;font-size:30px;background:linear-gradient(120deg,#974694,#e45e9b,#ed7928);-webkit-background-clip:text;color:transparent"></div>');
+  text.split('').forEach((ch,i)=>{
+    const s=document.createElement('span');
+    s.textContent = ch===' '?' ':ch;
+    s.style.opacity='0'; s.style.display='inline-block'; s.style.transform='translateY(20px)';
+    s.style.animation = `fadeIn .4s var(--easing) ${i*0.06}s forwards`;
+    wrap.appendChild(s);
+  });
+  c.appendChild(wrap);
+}
+buildD11();
+document.querySelector('[data-reset="d11"]').addEventListener('click', buildD11);
+
+/* 1.3 Cuenta atrás */
+document.querySelector('[data-action="d13-go"]').addEventListener('click', ()=>{
+  const c=$('#d13'); c.innerHTML='';
+  const seq=['3','2','1','¡VAMOS!'];
+  let i=0;
+  const span=el('<div style="font-family:Schibsted Grotesk;font-size:54px;font-weight:900;color:#974694"></div>');
+  c.appendChild(span);
+  function tick(){
+    if(i>=seq.length){ span.textContent='✨'; sfx.magic(); confetti(20); return }
+    span.textContent=seq[i]; span.style.animation='none'; void span.offsetWidth; span.style.animation='pop .35s var(--easing)';
+    sfx.pop(); i++; setTimeout(tick, 700);
+  }
+  tick();
+});
+
+/* 1.5 Botón magnético */
+(function magnet(){
+  const c=$('#d15'); const btn=$('#magnetBtn');
+  c.style.position='relative';
+  c.addEventListener('mousemove', e=>{
+    const r=c.getBoundingClientRect();
+    const x=e.clientX-r.left-r.width/2, y=e.clientY-r.top-r.height/2;
+    btn.style.transform = `translate(${x*.2}px, ${y*.2}px)`;
+  });
+  c.addEventListener('mouseleave', ()=>btn.style.transform='');
+  btn.addEventListener('click', ()=>{ sfx.click(); toast('¡Empezamos!') });
+})();
+
+/* 1.6 Onda */
+document.querySelector('[data-action="d16-go"]').addEventListener('click', ()=>{
+  const c=$('#d16'); const r=el('<div style="position:absolute;left:50%;top:50%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#e45e9b,#974694);transform:translate(-50%,-50%) scale(1);opacity:.8;transition:all 1.2s var(--easing)"></div>');
+  c.appendChild(r);
+  requestAnimationFrame(()=>{ r.style.transform='translate(-50%,-50%) scale(20)'; r.style.opacity='0' });
+  sfx.magic();
+  setTimeout(()=>r.remove(), 1300);
+});
+
+/* =========================================================================
+   CATEGORY 2 — MENÚS
+   ========================================================================= */
+
+/* 2.1 Hub de tarjetas */
+(function(){
+  const c=$('#d21');
+  const cards=[
+    {bg:'linear-gradient(135deg,#974694,#e45e9b)',e:'🪄',t:'Capítulo 1'},
+    {bg:'linear-gradient(135deg,#007ec3,#08b75b)',e:'🌊',t:'Capítulo 2'},
+    {bg:'linear-gradient(135deg,#ed7928,#f3d100)',e:'🌟',t:'Capítulo 3'},
+  ];
+  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%"></div>';
+  const g=c.firstChild;
+  cards.forEach(card=>{
+    const d=el(`<div style="background:${card.bg};color:#fff;padding:14px;border-radius:12px;text-align:center;cursor:pointer;transition:transform .15s var(--easing);box-shadow:0 6px 14px rgba(0,0,0,.15)"><div style="font-size:36px">${card.e}</div><div style="font-weight:700;font-size:13px;margin-top:4px">${card.t}</div></div>`);
+    d.addEventListener('mouseenter', ()=>d.style.transform='translateY(-4px) scale(1.04)');
+    d.addEventListener('mouseleave', ()=>d.style.transform='');
+    d.addEventListener('click', ()=>{ sfx.pop(); toast('"'+card.t+'" abierto') });
+    g.appendChild(d);
+  });
+})();
+
+/* 2.2 Menú radial */
+(function(){
+  const c=$('#d22');
+  c.innerHTML='<div style="position:relative;width:200px;height:200px;margin:0 auto"></div>';
+  const wrap=c.firstChild;
+  const center=el('<button class="bigbtn" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;font-size:24px;padding:0;animation:pulse 2s infinite">🦄</button>');
+  wrap.appendChild(center);
+  const items=['🪄','🌊','🛍️','🌳','🏰','🐸'];
+  items.forEach((emoji,i)=>{
+    const a=(i/items.length)*Math.PI*2 - Math.PI/2;
+    const x=Math.cos(a)*72, y=Math.sin(a)*72;
+    const b=el(`<button style="position:absolute;left:50%;top:50%;width:42px;height:42px;border-radius:50%;border:0;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.18);cursor:pointer;font-size:18px;transform:translate(calc(-50% + ${x}px),calc(-50% + ${y}px));transition:transform .15s">${emoji}</button>`);
+    b.addEventListener('mouseenter', ()=>b.style.transform=`translate(calc(-50% + ${x*1.15}px),calc(-50% + ${y*1.15}px)) scale(1.18)`);
+    b.addEventListener('mouseleave', ()=>b.style.transform=`translate(calc(-50% + ${x}px),calc(-50% + ${y}px))`);
+    b.addEventListener('click', ()=>{ sfx.pop(); toast(emoji+' seleccionado') });
+    wrap.appendChild(b);
+  });
+})();
+
+/* 2.3 Mapa con pins */
+(function(){
+  const c=$('#d23');
+  c.innerHTML=`
+    <svg viewBox="0 0 320 180" style="width:100%;height:auto">
+      <rect width="320" height="180" fill="#dceaf6" rx="10"/>
+      <path d="M30 130 Q 90 60, 150 100 T 290 50" stroke="#974694" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <g class="pin" data-name="Cueva" style="cursor:pointer"><circle cx="40" cy="130" r="9" fill="#08b75b"/><text x="40" y="135" font-size="11" text-anchor="middle">🪨</text></g>
+      <g class="pin" data-name="Bosque" style="cursor:pointer"><circle cx="120" cy="90" r="9" fill="#007ec3"/><text x="120" y="95" font-size="11" text-anchor="middle">🌳</text></g>
+      <g class="pin" data-name="Castillo" style="cursor:pointer"><circle cx="280" cy="50" r="9" fill="#f3d100"/><text x="280" y="55" font-size="11" text-anchor="middle">🏰</text></g>
+    </svg>`;
+  c.querySelectorAll('.pin').forEach(p=>p.addEventListener('click', ()=>{ sfx.pop(); toast(p.dataset.name+' seleccionada') }));
+})();
+
+/* 2.4 Timeline horizontal */
+(function(){
+  const c=$('#d24');
+  let cur=0;
+  const stages=['Intro','Reto 1','Reto 2','Reto 3','Final'];
+  function render(){
+    c.innerHTML='';
+    const wrap=el('<div style="width:100%"></div>');
+    const bar=el('<div style="height:6px;background:#e6dff0;border-radius:999px;position:relative;margin:14px 0"></div>');
+    const fill=el(`<div style="height:6px;border-radius:999px;background:var(--gradient);width:${(cur/(stages.length-1))*100}%;transition:width .5s var(--easing)"></div>`);
+    bar.appendChild(fill); wrap.appendChild(bar);
+    const row=el('<div style="display:flex;justify-content:space-between"></div>');
+    stages.forEach((s,i)=>{
+      const dot=el(`<div style="display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:600;color:${i<=cur?'#974694':'#aaa'}"><div style="width:18px;height:18px;border-radius:50%;background:${i<=cur?'#974694':'#fff'};border:2px solid ${i<=cur?'#974694':'#cdc4d9'};margin-bottom:4px"></div>${s}</div>`);
+      row.appendChild(dot);
+    });
+    wrap.appendChild(row); c.appendChild(wrap);
+  }
+  document.querySelector('[data-action="d24-prev"]').addEventListener('click', ()=>{ if(cur>0){cur--; sfx.click(); render()} });
+  document.querySelector('[data-action="d24-next"]').addEventListener('click', ()=>{ if(cur<stages.length-1){cur++; sfx.pop(); render()} });
+  render();
+})();
+
+/* 2.5 Wizard / stepper */
+(function(){
+  const c=$('#d25');
+  let step=1;
+  const total=4;
+  function render(){
+    c.innerHTML='';
+    const wrap=el('<div style="width:100%"></div>');
+    const dots=el('<div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"></div>');
+    for(let i=1;i<=total;i++){
+      const d=el(`<div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;${i<step?'background:#08b75b;color:#fff':i===step?'background:#974694;color:#fff':'background:#e6dff0;color:#666'}">${i<step?'✓':i}</div>`);
+      dots.appendChild(d);
+    }
+    wrap.appendChild(dots);
+    const content=el(`<div style="text-align:center;padding:10px"><b style="color:#974694">Paso ${step}/${total}</b><p style="margin:6px 0;font-size:13px">Esta es la pantalla del paso ${step}.</p></div>`);
+    wrap.appendChild(content);
+    c.appendChild(wrap);
+  }
+  document.querySelector('[data-action="d25-next"]').addEventListener('click', ()=>{
+    if(step<total){ step++; sfx.pop() } else { step=1; sfx.ok(); confetti(20) }
+    render();
+  });
+  render();
+})();
+
+/* 2.6 Tabs */
+(function(){
+  const c=$('#d26');
+  const tabs=[{t:'Logopedia',body:'Conciencia fonológica · sílabas · vocabulario'},{t:'TO',body:'Coordinación · secuenciación · AVD'},{t:'Fisio',body:'Equilibrio · fuerza · coordinación motriz'}];
+  let cur=0;
+  function render(){
+    c.innerHTML='';
+    const tabsRow=el('<div style="display:flex;border-bottom:2px solid #e6dff0;width:100%"></div>');
+    tabs.forEach((t,i)=>{
+      const btn=el(`<button style="background:none;border:0;border-bottom:3px solid ${i===cur?'#974694':'transparent'};color:${i===cur?'#974694':'#666'};padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px;margin-bottom:-2px">${t.t}</button>`);
+      btn.addEventListener('click', ()=>{ cur=i; sfx.click(); render() });
+      tabsRow.appendChild(btn);
+    });
+    c.appendChild(tabsRow);
+    c.appendChild(el(`<div style="padding:14px 4px;font-size:14px">${tabs[cur].body}</div>`));
+  }
+  render();
+})();
+
+/* 2.7 Acordeón */
+(function(){
+  const c=$('#d27');
+  const items=[
+    {q:'¿Qué es el aprendizaje camuflado?',a:'Trabajar contenidos terapéuticos disfrazados de juego para aumentar la volición.'},
+    {q:'¿A qué edad funciona?',a:'A todas. Adaptamos el envoltorio narrativo al perfil del peque.'},
+    {q:'¿Cuántas áreas trabaja?',a:'Cinco por dinámica: rimas, sílabas, vocabulario, frases y memoria.'},
+  ];
+  c.innerHTML='<div style="width:100%"></div>';
+  const wrap=c.firstChild;
+  items.forEach(it=>{
+    const acc=el(`<div style="border:1px solid #e6dff0;border-radius:8px;margin-bottom:6px;overflow:hidden;background:#fff">
+      <button style="width:100%;text-align:left;background:none;border:0;padding:10px 14px;cursor:pointer;font-weight:600;font-size:13px;display:flex;justify-content:space-between;align-items:center"><span>${it.q}</span><span class="arrow" style="transition:.2s">▼</span></button>
+      <div class="body" style="max-height:0;overflow:hidden;transition:max-height .3s var(--easing);font-size:13px;color:#555"><div style="padding:0 14px 12px">${it.a}</div></div>
+    </div>`);
+    const btn=acc.querySelector('button');
+    const body=acc.querySelector('.body');
+    const arr=acc.querySelector('.arrow');
+    btn.addEventListener('click', ()=>{
+      const open=body.style.maxHeight && body.style.maxHeight!=='0px';
+      body.style.maxHeight = open?'0px':body.scrollHeight+'px';
+      arr.style.transform = open?'':'rotate(180deg)';
+      sfx.click();
+    });
+    wrap.appendChild(acc);
+  });
+})();
+
+/* =========================================================================
+   CATEGORY 3 — REVEAL
+   ========================================================================= */
+
+/* 3.1 Tarjetas que voltean */
+(function(){
+  const c=$('#d31'); c.innerHTML='';
+  const grid=el('<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;perspective:600px"></div>');
+  ['🍎','🌳','🐠'].forEach(emoji=>{
+    const card=el(`<div style="aspect-ratio:1;cursor:pointer;transform-style:preserve-3d;transition:transform .5s var(--easing);position:relative">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#974694,#e45e9b);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:24px;backface-visibility:hidden">?</div>
+      <div style="position:absolute;inset:0;background:#fff;border:2px solid #ed7928;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:36px;backface-visibility:hidden;transform:rotateY(180deg)">${emoji}</div>
+    </div>`);
+    card.addEventListener('click', ()=>{ card.style.transform = card.style.transform?'':'rotateY(180deg)'; sfx.pop() });
+    grid.appendChild(card);
+  });
+  c.appendChild(grid);
+})();
+
+/* 3.2 Hover para revelar */
+(function(){
+  const c=$('#d32');
+  c.innerHTML=`<div style="position:relative;width:200px;height:130px;border-radius:10px;overflow:hidden;cursor:pointer">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#974694,#e45e9b);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;transition:opacity .3s">PASA POR ENCIMA</div>
+    <div style="position:absolute;inset:0;background:#fff3cd;display:flex;align-items:center;justify-content:center;font-size:48px">💛</div>
+  </div>`;
+  const wrap=c.firstChild;
+  wrap.addEventListener('mouseenter', ()=>{ wrap.firstElementChild.style.opacity='0' });
+  wrap.addEventListener('mouseleave', ()=>{ wrap.firstElementChild.style.opacity='1' });
+})();
+
+/* 3.3 Scratch card (canvas) */
+(function(){
+  const c=$('#d33');
+  function build(){
+    c.innerHTML='';
+    const wrap=el('<div style="position:relative;width:240px;height:130px;border-radius:10px;overflow:hidden"></div>');
+    const back=el('<div style="position:absolute;inset:0;background:linear-gradient(135deg,#f3d100,#ed7928);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#7a3500">¡PREMIO! 🎉</div>');
+    wrap.appendChild(back);
+    const cv=document.createElement('canvas');
+    cv.width=240; cv.height=130;
+    cv.style.position='absolute'; cv.style.inset='0'; cv.style.cursor='crosshair';
+    const ctx=cv.getContext('2d');
+    ctx.fillStyle='#974694'; ctx.fillRect(0,0,240,130);
+    ctx.fillStyle='#fff'; ctx.font='bold 14px Schibsted Grotesk'; ctx.textAlign='center';
+    ctx.fillText('Rasca para descubrir',120,68);
+    let drawing=false;
+    function draw(e){
+      const r=cv.getBoundingClientRect();
+      const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+      const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+      ctx.globalCompositeOperation='destination-out';
+      ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fill();
+    }
+    cv.addEventListener('mousedown',e=>{drawing=true;draw(e)});
+    cv.addEventListener('mousemove',e=>drawing&&draw(e));
+    window.addEventListener('mouseup',()=>drawing=false);
+    cv.addEventListener('touchstart',e=>{drawing=true;draw(e);e.preventDefault()},{passive:false});
+    cv.addEventListener('touchmove',e=>{drawing&&draw(e);e.preventDefault()},{passive:false});
+    cv.addEventListener('touchend',()=>drawing=false);
+    wrap.appendChild(cv);
+    c.appendChild(wrap);
+  }
+  build();
+  document.querySelector('[data-action="d33-reset"]').addEventListener('click',build);
+})();
+
+/* 3.4 Lupa */
+(function(){
+  const c=$('#d34');
+  c.innerHTML=`<div style="position:relative;width:240px;height:130px;border-radius:10px;background:linear-gradient(45deg,#dceaf6,#fff5cc);display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <div style="font-size:64px">🌳🦊🌸🐝🍓</div>
+    <div class="lens" style="position:absolute;width:70px;height:70px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.3),0 0 20px rgba(0,0,0,.4);pointer-events:none;display:none;font-size:120px;display:flex;align-items:center;justify-content:center;overflow:hidden"></div>
+  </div>`;
+  const wrap=c.firstChild;
+  const lens=wrap.querySelector('.lens');
+  const txt=wrap.firstElementChild;
+  lens.style.display='none';
+  wrap.addEventListener('mouseenter',()=>lens.style.display='flex');
+  wrap.addEventListener('mouseleave',()=>lens.style.display='none');
+  wrap.addEventListener('mousemove',e=>{
+    const r=wrap.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    lens.style.left=(x-35)+'px'; lens.style.top=(y-35)+'px';
+    lens.innerHTML=`<div style="font-size:120px;transform:translate(${(120/2-x)*1.4}px,${(70/2-y)*1.4}px)">🌳🦊🌸🐝🍓</div>`;
+  });
+})();
+
+/* 3.5 Buscar objetos ocultos */
+(function(){
+  const c=$('#d35');
+  c.innerHTML=`<div style="position:relative;width:100%;height:160px;background:linear-gradient(180deg,#dff5e6,#a8e6c1);border-radius:10px;overflow:hidden">
+    <div style="position:absolute;font-size:30px;left:18px;top:18px">🌲</div>
+    <div style="position:absolute;font-size:24px;left:80px;top:60px">🍃</div>
+    <div style="position:absolute;font-size:22px;right:30px;top:30px">🦋</div>
+    <div class="hot" data-id="a" style="position:absolute;left:50px;top:90px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer"></div>
+    <div class="hot" data-id="b" style="position:absolute;right:60px;bottom:20px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer"></div>
+    <div class="hot" data-id="c" style="position:absolute;left:160px;top:40px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer"></div>
+    <div style="position:absolute;left:8px;bottom:8px;font-size:11px;color:#666;background:rgba(255,255,255,.7);padding:2px 8px;border-radius:6px">Encuentra <span id="d35Found">0</span>/3</div>
+  </div>`;
+  let found=new Set();
+  c.querySelectorAll('.hot').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      if(found.has(h.dataset.id)) return;
+      found.add(h.dataset.id);
+      h.style.background='radial-gradient(circle,#f3d100,#ed7928)'; h.style.boxShadow='0 0 14px #ed7928';
+      $('#d35Found').textContent=found.size;
+      sfx.pop();
+      if(found.size===3){ sfx.ok(); confetti(20); toast('¡Todos encontrados!') }
+    });
+  });
+})();
+
+/* 3.6 Cortina */
+(function(){
+  const c=$('#d36');
+  c.innerHTML=`<div style="position:relative;width:240px;height:130px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#f3d100,#ed7928);display:flex;align-items:center;justify-content:center;font-size:36px">🎁</div>`;
+  const wrap=c.firstChild;
+  ['L','R'].forEach(side=>{
+    const curtain=el(`<div class="curtain c-${side}" style="position:absolute;top:0;${side==='L'?'left':'right'}:0;width:50%;height:100%;background:linear-gradient(${side==='L'?'90deg':'-90deg'},#974694,#7d2c7c);transition:transform .8s var(--easing);box-shadow:inset ${side==='L'?'-':''}8px 0 18px rgba(0,0,0,.3)"></div>`);
+    wrap.appendChild(curtain);
+  });
+  let open=false;
+  document.querySelector('[data-action="d36-toggle"]').addEventListener('click', ()=>{
+    open=!open;
+    wrap.querySelector('.c-L').style.transform = open?'translateX(-100%)':'';
+    wrap.querySelector('.c-R').style.transform = open?'translateX(100%)':'';
+    sfx.magic();
+  });
+})();
+
+/* 3.7 Tooltip */
+(function(){
+  const c=$('#d37');
+  c.innerHTML=`<div style="font-size:14px;line-height:1.7">
+    Una <span class="tip" data-tip="Sustantivo común" style="text-decoration:underline dotted #974694;cursor:help;color:#974694">vaca</span> está en el campo. La <span class="tip" data-tip="Verbo en presente" style="text-decoration:underline dotted #974694;cursor:help;color:#974694">come</span> hierba bajo un <span class="tip" data-tip="Sustantivo masculino" style="text-decoration:underline dotted #974694;cursor:help;color:#974694">árbol</span>.
+  </div>`;
+  c.querySelectorAll('.tip').forEach(t=>{
+    let tip=null;
+    t.addEventListener('mouseenter', ()=>{
+      tip=el(`<div style="position:absolute;background:#1a1340;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;z-index:10;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.2)">${t.dataset.tip}</div>`);
+      document.body.appendChild(tip);
+      const r=t.getBoundingClientRect();
+      tip.style.left=(r.left+window.scrollX)+'px';
+      tip.style.top=(r.top+window.scrollY-32)+'px';
+    });
+    t.addEventListener('mouseleave', ()=>{ tip&&tip.remove(); tip=null });
+  });
+})();
+
+/* 3.8 Modal */
+document.querySelector('[data-action="d38-open"]').addEventListener('click', ()=>{
+  const back=el(`<div style="position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:300;animation:fadeIn .25s">
+    <div style="background:#fff;border-radius:18px;padding:28px;max-width:340px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:pop .35s var(--easing)">
+      <div style="font-size:48px">🦄</div>
+      <h3 style="margin:6px 0;font-family:Schibsted Grotesk;color:#974694">¡Hola!</h3>
+      <p style="font-size:14px;color:#555">Soy un modal. Si pulsas fuera, me cierro.</p>
+      <button class="bigbtn" style="margin-top:8px">Vale</button>
+    </div>
+  </div>`);
+  back.addEventListener('click', e=>{ if(e.target===back||e.target.tagName==='BUTTON'){ back.remove(); sfx.click() } });
+  document.body.appendChild(back); sfx.magic();
+});
+
+/* =========================================================================
+   CATEGORY 4 — QUIZZES
+   ========================================================================= */
+
+/* 4.1 Multi-choice */
+(function(){
+  const c=$('#d41');
+  function render(){
+    c.innerHTML=`<div style="text-align:center;width:100%"><b style="display:block;margin-bottom:8px">¿De qué color es el cielo?</b><div class="choice-grid"></div></div>`;
+    const grid=c.querySelector('.choice-grid');
+    [{w:'Azul',ok:1},{w:'Rojo',ok:0},{w:'Verde',ok:0},{w:'Rosa',ok:0}].forEach(o=>{
+      const b=el(`<button class="choice">${o.w}</button>`);
+      b.addEventListener('click', ()=>{
+        if(o.ok){ b.classList.add('ok'); sfx.ok(); toast('¡Bien!') }
+        else { b.classList.add('bad'); sfx.bad(); setTimeout(()=>b.classList.remove('bad'), 500) }
+      });
+      grid.appendChild(b);
+    });
+  }
+  render();
+})();
+
+/* 4.2 Multi-choice imagen */
+(function(){
+  const c=$('#d42');
+  c.innerHTML=`<div style="text-align:center;width:100%"><b style="display:block;margin-bottom:8px">¿Cuál es un mamífero?</b><div class="choice-grid"></div></div>`;
+  const grid=c.querySelector('.choice-grid');
+  [{e:'🐠',ok:0},{e:'🐶',ok:1},{e:'🐍',ok:0},{e:'🐢',ok:0}].forEach(o=>{
+    const b=el(`<button class="choice" style="font-size:28px;padding:12px">${o.e}</button>`);
+    b.addEventListener('click', ()=>{
+      if(o.ok){ b.classList.add('ok'); sfx.ok() } else { b.classList.add('bad'); sfx.bad(); setTimeout(()=>b.classList.remove('bad'),500) }
+    });
+    grid.appendChild(b);
+  });
+})();
+
+/* 4.3 Verdadero/Falso */
+(function(){
+  const c=$('#d43');
+  c.innerHTML=`<div style="text-align:center;width:100%"><b style="display:block;margin-bottom:8px">El sol es una estrella</b>
+  <div style="display:flex;gap:8px;justify-content:center">
+    <button class="choice" data-v="1" style="background:linear-gradient(135deg,#08b75b,#007ec3);color:#fff">✅ Verdadero</button>
+    <button class="choice" data-v="0" style="background:linear-gradient(135deg,#d6191b,#ed7928);color:#fff">❌ Falso</button>
+  </div></div>`;
+  c.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(b.dataset.v==='1'){ sfx.ok(); toast('¡Correcto!') } else { sfx.bad(); toast('Falso, el sol SÍ es una estrella'); }
+    });
+  });
+})();
+
+/* 4.4 Rellena escribiendo */
+(function(){
+  const c=$('#d44');
+  c.innerHTML=`<div style="text-align:center;width:100%"><b style="display:block;margin-bottom:8px">Capital de España:</b>
+  <input type="text" placeholder="Escribe..." style="padding:8px 12px;border-radius:8px;border:2px solid #e6dff0;font-size:14px;outline:none"/>
+  <span class="fb" style="margin-left:8px;font-weight:700"></span></div>`;
+  const inp=c.querySelector('input'); const fb=c.querySelector('.fb');
+  inp.addEventListener('input', ()=>{
+    const v=inp.value.trim().toLowerCase();
+    if(v==='madrid'){ fb.textContent='✓'; fb.style.color='#08b75b'; inp.style.borderColor='#08b75b'; sfx.ok() }
+    else { fb.textContent=''; inp.style.borderColor='#e6dff0' }
+  });
+})();
+
+/* 4.5 Drag chips */
+(function(){
+  const c=$('#d45');
+  c.innerHTML=`<div style="text-align:center;width:100%">
+    <div style="font-size:14px;margin-bottom:6px">El <span class="slot" data-w="perro" style="display:inline-block;min-width:60px;padding:3px 6px;border:2px dashed #974694;border-radius:6px;color:#974694">___</span> ladra al <span class="slot" data-w="cartero" style="display:inline-block;min-width:60px;padding:3px 6px;border:2px dashed #974694;border-radius:6px;color:#974694">___</span></div>
+    <div class="chips" style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap"></div>
+  </div>`;
+  const chips=c.querySelector('.chips');
+  ['perro','gato','cartero'].forEach(w=>{
+    const ch=el(`<button class="choice" style="font-size:13px">${w}</button>`);
+    ch.addEventListener('click', ()=>{
+      const empty=[...c.querySelectorAll('.slot')].find(s=>s.textContent==='___');
+      if(!empty) return;
+      empty.textContent=w; empty.dataset.placed=w;
+      ch.classList.add('ok'); ch.disabled=true; sfx.pop();
+      // check
+      const slots=[...c.querySelectorAll('.slot')];
+      if(slots.every(s=>s.dataset.placed)){
+        const ok=slots.every(s=>s.dataset.placed===s.dataset.w);
+        if(ok){ sfx.ok(); toast('¡Frase correcta!') } else { sfx.bad(); toast('Casi, prueba otra vez') }
+      }
+    });
+    chips.appendChild(ch);
+  });
+})();
+
+/* 4.6 Pregunta abierta */
+(function(){
+  const c=$('#d46');
+  c.innerHTML=`<div style="text-align:center;width:100%"><b style="display:block;margin-bottom:6px">Describe a un buen amigo:</b>
+  <textarea rows="2" style="width:100%;border:2px solid #e6dff0;border-radius:8px;padding:8px;font-family:inherit;font-size:13px;resize:none" placeholder="Empareja: leal, divertido, sincero, generoso..."></textarea>
+  <button class="dbtn primary" style="margin-top:8px">Verificar</button>
+  <div class="fb" style="font-size:12px;margin-top:6px;color:#974694"></div></div>`;
+  const ta=c.querySelector('textarea'); const fb=c.querySelector('.fb');
+  c.querySelector('button').addEventListener('click', ()=>{
+    const v=ta.value.toLowerCase();
+    const keys=['leal','divertido','sincero','generoso','honesto','bueno','simpático','cariñoso'];
+    const found=keys.filter(k=>v.includes(k));
+    if(found.length>=2){ fb.textContent=`✓ Bien, has mencionado: ${found.join(', ')}`; sfx.ok() }
+    else if(found.length===1){ fb.textContent=`Casi: solo "${found[0]}". Añade más adjetivos.`; sfx.bad() }
+    else { fb.textContent='Piensa en cualidades positivas (leal, divertido, sincero...)'; sfx.bad() }
+  });
+})();
+
+/* 4.7 Ordenar secuencia */
+(function(){
+  const c=$('#d47');
+  const items=[
+    {t:'Despertarse',o:1},{t:'Desayunar',o:2},{t:'Ir al cole',o:3},{t:'Comer',o:4}
+  ];
+  function render(){
+    c.innerHTML=`<div style="width:100%"><div class="list" style="display:flex;flex-direction:column;gap:5px"></div><div style="text-align:center;margin-top:6px"><button class="dbtn primary">Comprobar</button></div></div>`;
+    const list=c.querySelector('.list');
+    shuffle([...items]).forEach(it=>{
+      const div=el(`<div draggable="true" data-o="${it.o}" style="background:#fff5cc;border:2px solid #f3d100;border-radius:8px;padding:6px 12px;font-size:13px;cursor:grab;display:flex;align-items:center;gap:8px"><span style="color:#7a5b00">⋮⋮</span>${it.t}</div>`);
+      list.appendChild(div);
+    });
+    let dragged=null;
+    list.addEventListener('dragstart', e=>{ dragged=e.target.closest('[draggable]'); dragged.style.opacity='.5' });
+    list.addEventListener('dragend', ()=>{ if(dragged) dragged.style.opacity=''; dragged=null });
+    list.addEventListener('dragover', e=>{
+      e.preventDefault();
+      if(!dragged) return;
+      const els=[...list.querySelectorAll('[draggable]')].filter(x=>x!==dragged);
+      const after=els.find(x=>{ const r=x.getBoundingClientRect(); return e.clientY < r.top + r.height/2 });
+      if(after) list.insertBefore(dragged, after); else list.appendChild(dragged);
+    });
+    c.querySelector('button').addEventListener('click', ()=>{
+      const order=[...list.querySelectorAll('[draggable]')].map(x=>+x.dataset.o);
+      if(order.every((v,i)=>v===i+1)){ sfx.ok(); toast('¡Orden correcto!') } else { sfx.bad(); toast('No es el orden') }
+    });
+  }
+  render();
+})();
+
+/* 4.8 Unir parejas */
+(function(){
+  const c=$('#d48');
+  const pairs=[{l:'Sol',r:'Estrella'},{l:'Pez',r:'Mar'},{l:'Pájaro',r:'Cielo'}];
+  c.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%">
+    <div class="L" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div class="R" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>`;
+  const L=c.querySelector('.L'), R=c.querySelector('.R');
+  pairs.forEach((p,i)=>{
+    const l=el(`<button class="choice" data-id="${i}">${p.l}</button>`);
+    L.appendChild(l);
+  });
+  shuffle(pairs).forEach((p,i)=>{
+    const realIdx=pairs.findIndex(x=>x.r===p.r);
+    const r=el(`<button class="choice" data-id="${realIdx}">${p.r}</button>`);
+    R.appendChild(r);
+  });
+  let pickedL=null;
+  c.querySelectorAll('.L button').forEach(b=>b.addEventListener('click', ()=>{
+    if(b.classList.contains('ok')) return;
+    c.querySelectorAll('.L button').forEach(x=>x.style.borderColor='');
+    b.style.borderColor='#974694';
+    pickedL=b;
+  }));
+  c.querySelectorAll('.R button').forEach(b=>b.addEventListener('click', ()=>{
+    if(b.classList.contains('ok')||!pickedL) return;
+    if(b.dataset.id===pickedL.dataset.id){ b.classList.add('ok'); pickedL.classList.add('ok'); sfx.ok(); pickedL=null }
+    else { b.classList.add('bad'); sfx.bad(); setTimeout(()=>b.classList.remove('bad'),500) }
+  }));
+})();
+
+/* 4.9 Memory */
+(function(){
+  const c=$('#d49');
+  function build(){
+    const pairs=['🍎','🌳','🐠','🌟'];
+    const deck=shuffle([...pairs,...pairs]);
+    c.innerHTML=`<div class="grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;width:100%"></div>`;
+    const grid=c.querySelector('.grid');
+    let flipped=[], lock=false, found=0;
+    deck.forEach(em=>{
+      const card=el(`<div data-v="${em}" style="aspect-ratio:1;cursor:pointer;perspective:400px;transform-style:preserve-3d;position:relative;transition:transform .4s">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#f3d100,#ed7928);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;backface-visibility:hidden">?</div>
+        <div style="position:absolute;inset:0;background:#fff;border:2px solid #ed7928;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;backface-visibility:hidden;transform:rotateY(180deg)">${em}</div>
+      </div>`);
+      card.addEventListener('click', ()=>{
+        if(lock||card.style.transform) return;
+        card.style.transform='rotateY(180deg)'; sfx.pop();
+        flipped.push(card);
+        if(flipped.length===2){
+          lock=true;
+          const [a,b]=flipped;
+          if(a.dataset.v===b.dataset.v){
+            setTimeout(()=>{ found++; flipped=[]; lock=false; if(found===4){ sfx.ok(); confetti(20) } },350);
+          } else {
+            setTimeout(()=>{ a.style.transform=''; b.style.transform=''; flipped=[]; lock=false }, 700);
+          }
+        }
+      });
+      grid.appendChild(card);
+    });
+  }
+  build();
+})();
+
+/* 4.10 Hotspot quiz */
+(function(){
+  const c=$('#d410');
+  c.innerHTML=`<div style="position:relative;width:100%;height:140px;background:linear-gradient(180deg,#dceaf6,#fff);border-radius:10px;cursor:crosshair;overflow:hidden">
+    <div style="position:absolute;left:60px;top:50px;font-size:36px">🐶</div>
+    <div style="position:absolute;left:140px;top:30px;font-size:36px">🐱</div>
+    <div style="position:absolute;right:50px;top:60px;font-size:36px">🐰</div>
+    <div style="position:absolute;left:8px;top:8px;font-size:11px;background:rgba(255,255,255,.85);padding:3px 8px;border-radius:6px;font-weight:600">Toca al gato</div>
+  </div>`;
+  const wrap=c.firstChild;
+  wrap.addEventListener('click', e=>{
+    const r=wrap.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    if(x>130 && x<180 && y>20 && y<70){ sfx.ok(); toast('¡Bien, has tocado al gato!') }
+    else { sfx.bad(); toast('Ahí no estaba el gato') }
+  });
+})();
+
+/* =========================================================================
+   CATEGORY 5 — DRAG & DROP
+   ========================================================================= */
+
+/* 5.1 Categorizar */
+(function(){
+  const c=$('#d51');
+  c.innerHTML=`<div style="width:100%">
+    <div class="src" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div class="bucket" data-c="fruta" style="background:#fff5cc;border:2px dashed #f3d100;border-radius:8px;padding:8px;min-height:40px;text-align:center;font-size:11px;font-weight:700;color:#7a5b00">🍎 Fruta</div>
+      <div class="bucket" data-c="animal" style="background:#dff5e6;border:2px dashed #08b75b;border-radius:8px;padding:8px;min-height:40px;text-align:center;font-size:11px;font-weight:700;color:#067a3e">🐾 Animal</div>
+    </div>
+  </div>`;
+  const src=c.querySelector('.src');
+  const items=[{e:'🍎',c:'fruta'},{e:'🐠',c:'animal'},{e:'🍌',c:'fruta'},{e:'🐰',c:'animal'}];
+  items.forEach((it,i)=>{
+    const d=el(`<div draggable="true" data-c="${it.c}" data-i="${i}" style="font-size:24px;cursor:grab;padding:4px 8px;background:#fff;border-radius:8px;border:1px solid #e6dff0">${it.e}</div>`);
+    d.addEventListener('dragstart', e=>e.dataTransfer.setData('text/plain', i));
+    d.addEventListener('click', ()=>{ // touch fallback
+      const cur=d.dataset.in||'src';
+      const buckets=['src','fruta','animal'];
+      const next=buckets[(buckets.indexOf(cur)+1)%3];
+      const dst = next==='src' ? src : c.querySelector(`[data-c="${next}"]`);
+      dst.appendChild(d); d.dataset.in=next; sfx.pop();
+    });
+    src.appendChild(d);
+  });
+  c.querySelectorAll('.bucket').forEach(b=>{
+    b.addEventListener('dragover', e=>e.preventDefault());
+    b.addEventListener('drop', e=>{
+      e.preventDefault();
+      const i=e.dataTransfer.getData('text/plain');
+      const it=c.querySelector(`[data-i="${i}"]`);
+      if(it){
+        b.appendChild(it);
+        if(it.dataset.c===b.dataset.c){ sfx.ok() } else { sfx.bad() }
+      }
+    });
+  });
+})();
+
+/* 5.2 Construir frase */
+(function(){
+  const c=$('#d52');
+  const target=['El','perro','come','hueso'];
+  function render(){
+    c.innerHTML=`<div style="width:100%">
+      <div class="line" style="background:#fff5cc;border:2px dashed #f3d100;border-radius:8px;padding:8px;min-height:36px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;font-size:13px;font-weight:600;color:#7a5b00"></div>
+      <div class="src" style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:8px"></div>
+      <div style="text-align:center;margin-top:6px"><button class="dbtn primary">Comprobar</button></div>
+    </div>`;
+    const src=c.querySelector('.src'), line=c.querySelector('.line');
+    shuffle([...target]).forEach(w=>{
+      const b=el(`<button class="choice" style="font-size:12px;padding:4px 10px">${w}</button>`);
+      b.addEventListener('click', ()=>{
+        if(b.parentNode===src){ line.appendChild(b) } else { src.appendChild(b) }
+        sfx.click();
+      });
+      src.appendChild(b);
+    });
+    c.querySelector('.dbtn').addEventListener('click', ()=>{
+      const got=[...line.querySelectorAll('button')].map(x=>x.textContent);
+      if(JSON.stringify(got)===JSON.stringify(target)){ sfx.ok(); toast('¡Frase!') } else { sfx.bad(); toast('No es así') }
+    });
+  }
+  render();
+})();
+
+/* 5.3 Receta */
+(function(){
+  const c=$('#d53');
+  c.innerHTML=`<div style="width:100%;font-size:13px;line-height:2">
+    <div>Mezcla <span class="slot" data-w="harina" style="display:inline-block;width:80px;padding:2px;border:2px dashed #974694;border-radius:6px;text-align:center;color:#974694;font-weight:700"></span> con <span class="slot" data-w="agua" style="display:inline-block;width:60px;padding:2px;border:2px dashed #974694;border-radius:6px;text-align:center;color:#974694;font-weight:700"></span> y un poco de <span class="slot" data-w="sal" style="display:inline-block;width:60px;padding:2px;border:2px dashed #974694;border-radius:6px;text-align:center;color:#974694;font-weight:700"></span>.</div>
+    <div class="chips" style="display:flex;gap:5px;justify-content:center;margin-top:8px;flex-wrap:wrap"></div>
+  </div>`;
+  const chips=c.querySelector('.chips');
+  shuffle(['harina','agua','sal','azúcar']).forEach(w=>{
+    const b=el(`<button class="choice" style="font-size:12px">${w}</button>`);
+    b.addEventListener('click', ()=>{
+      const empty=[...c.querySelectorAll('.slot')].find(s=>!s.textContent);
+      if(!empty) return;
+      empty.textContent=w; empty.dataset.placed=w;
+      b.disabled=true; b.style.opacity='.4';
+      const slots=[...c.querySelectorAll('.slot')];
+      if(slots.every(s=>s.dataset.placed)){
+        if(slots.every(s=>s.dataset.placed===s.dataset.w)){ sfx.ok(); toast('¡Receta!') } else { sfx.bad() }
+      }
+    });
+    chips.appendChild(b);
+  });
+})();
+
+/* 5.4 Puzzle 4 piezas */
+(function(){
+  const c=$('#d54');
+  c.innerHTML=`<div style="position:relative;width:160px;height:160px;background:#dceaf6;border-radius:8px;margin:0 auto"></div>`;
+  const wrap=c.firstChild;
+  const slots=[];
+  for(let i=0;i<4;i++){
+    const x=(i%2)*80, y=Math.floor(i/2)*80;
+    const slot=el(`<div data-i="${i}" style="position:absolute;left:${x}px;top:${y}px;width:80px;height:80px;border:2px dashed #007ec3;background:rgba(255,255,255,.3)"></div>`);
+    wrap.appendChild(slot); slots.push(slot);
+  }
+  shuffle([0,1,2,3]).forEach((i,k)=>{
+    const colors=['#974694','#08b75b','#ed7928','#f3d100'];
+    const px=20+k*30, py=170;
+    const piece=el(`<div draggable="true" data-i="${i}" style="position:absolute;left:${px}px;top:${py}px;width:36px;height:36px;background:${colors[i]};border-radius:6px;cursor:grab;transition:.2s"></div>`);
+    piece.addEventListener('dragstart', e=>e.dataTransfer.setData('text/plain', i));
+    wrap.appendChild(piece);
+  });
+  slots.forEach(s=>{
+    s.addEventListener('dragover', e=>e.preventDefault());
+    s.addEventListener('drop', e=>{
+      e.preventDefault();
+      const i=e.dataTransfer.getData('text/plain');
+      if(s.dataset.i===i){
+        const p=wrap.querySelector(`div[draggable][data-i="${i}"]`);
+        if(p){ p.style.left=s.offsetLeft+22+'px'; p.style.top=s.offsetTop+22+'px'; p.draggable=false; sfx.pop() }
+      } else { sfx.bad() }
+    });
+  });
+})();
+
+/* 5.5 Emoción a la cara */
+(function(){
+  const c=$('#d55');
+  c.innerHTML=`<div style="display:flex;gap:14px;align-items:center;width:100%;justify-content:center">
+    <div class="face" style="font-size:50px;background:#fff5cc;border:2px dashed #f3d100;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center" data-emotion="alegre">😊</div>
+    <div class="src" style="display:flex;flex-direction:column;gap:4px"></div>
+  </div>`;
+  ['Alegre','Triste','Enfadado'].forEach(e=>{
+    const b=el(`<button class="choice" data-e="${e.toLowerCase()}" style="font-size:11px">${e}</button>`);
+    b.addEventListener('click', ()=>{
+      const face=c.querySelector('.face');
+      if(b.dataset.e===face.dataset.emotion){ b.classList.add('ok'); sfx.ok(); toast('¡Lo has identificado!') } else { b.classList.add('bad'); sfx.bad(); setTimeout(()=>b.classList.remove('bad'),500) }
+    });
+    c.querySelector('.src').appendChild(b);
+  });
+})();
+
+/* 5.6 Vestir personaje */
+(function(){
+  const c=$('#d56');
+  c.innerHTML=`<div style="display:flex;gap:14px;align-items:center;width:100%;justify-content:center">
+    <div class="char" style="position:relative;width:80px;height:120px;background:#f4ecf3;border-radius:8px;display:flex;flex-direction:column;align-items:center;padding-top:8px">
+      <div class="head" style="font-size:36px">😀</div>
+      <div class="body" style="font-size:30px"></div>
+      <div class="legs" style="font-size:24px">👖</div>
+    </div>
+    <div class="src" style="display:flex;flex-direction:column;gap:4px"></div>
+  </div>`;
+  ['👕','👔','🧥'].forEach(em=>{
+    const b=el(`<button class="choice" style="font-size:18px;padding:4px 8px">${em}</button>`);
+    b.addEventListener('click', ()=>{ c.querySelector('.body').textContent=em; sfx.pop() });
+    c.querySelector('.src').appendChild(b);
+  });
+})();
+
+/* =========================================================================
+   CATEGORY 6 — MULTIMEDIA
+   ========================================================================= */
+
+/* 6.1 Audio con onda animada */
+(function(){
+  const c=$('#d61');
+  c.innerHTML=`<div style="display:flex;gap:10px;align-items:center;width:100%;justify-content:center">
+    <button class="bigbtn" style="width:48px;height:48px;border-radius:50%;padding:0">▶</button>
+    <svg viewBox="0 0 200 40" style="width:200px;height:40px"></svg>
+  </div>`;
+  const svg=c.querySelector('svg');
+  for(let i=0;i<25;i++){
+    const h=10+Math.random()*20;
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x',i*8); r.setAttribute('y',(40-h)/2); r.setAttribute('width',5); r.setAttribute('height',h);
+    r.setAttribute('fill','#974694'); r.style.transformOrigin='center'; r.style.animation=`pop .4s ease ${i*0.04}s infinite alternate`;
+    svg.appendChild(r);
+  }
+  c.querySelector('button').addEventListener('click', ()=>{ sfx.beep(440,.4,'sine',.2); toast('Reproduciendo…') });
+})();
+
+/* 6.2 Player con controles */
+(function(){
+  const c=$('#d62');
+  c.innerHTML=`<div style="width:100%">
+    <div style="background:#1a1340;border-radius:8px;padding:10px;color:#fff">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="play" style="width:36px;height:36px;border-radius:50%;background:#fff;border:0;cursor:pointer;font-size:13px">▶</button>
+        <div class="bar" style="flex:1;height:5px;background:rgba(255,255,255,.2);border-radius:99px;cursor:pointer;position:relative">
+          <div class="fill" style="height:100%;width:0%;background:linear-gradient(90deg,#974694,#e45e9b);border-radius:99px;transition:width .1s"></div>
+        </div>
+        <small class="time" style="font-family:monospace">0:00 / 0:30</small>
+      </div>
+    </div>
+  </div>`;
+  let playing=false, t=0, iv=null;
+  const playBtn=c.querySelector('.play'), fill=c.querySelector('.fill'), time=c.querySelector('.time');
+  playBtn.addEventListener('click', ()=>{
+    playing=!playing; playBtn.textContent = playing?'⏸':'▶';
+    if(playing){
+      iv=setInterval(()=>{
+        t+=0.2; if(t>=30){ t=0; playing=false; playBtn.textContent='▶'; clearInterval(iv) }
+        fill.style.width=(t/30*100)+'%';
+        time.textContent = `0:${String(Math.floor(t)).padStart(2,'0')} / 0:30`;
+      },200);
+    } else { clearInterval(iv) }
+  });
+})();
+
+/* 6.3 Discriminación auditiva */
+(function(){
+  const c=$('#d63');
+  c.innerHTML=`<div style="text-align:center;width:100%">
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px">
+      <button class="dbtn primary" data-f="440">🔊 A</button>
+      <button class="dbtn primary" data-f="550">🔊 B</button>
+    </div>
+    <div style="font-size:13px;margin-bottom:6px">¿Suenan igual?</div>
+    <div style="display:flex;gap:6px;justify-content:center">
+      <button class="choice" data-v="1">Sí</button>
+      <button class="choice" data-v="0">No</button>
+    </div>
+  </div>`;
+  c.querySelectorAll('button[data-f]').forEach(b=>b.addEventListener('click', ()=>sfx.beep(+b.dataset.f, .3, 'sine', .25)));
+  c.querySelectorAll('button[data-v]').forEach(b=>b.addEventListener('click', ()=>{
+    if(b.dataset.v==='0'){ b.classList.add('ok'); sfx.ok() } else { b.classList.add('bad'); sfx.bad() }
+  }));
+})();
+
+/* 6.4 Slideshow autoplay */
+(function(){
+  const c=$('#d64');
+  const slides=[
+    {bg:'linear-gradient(135deg,#974694,#e45e9b)',e:'🦄',t:'Lila'},
+    {bg:'linear-gradient(135deg,#08b75b,#007ec3)',e:'🌳',t:'Bosque'},
+    {bg:'linear-gradient(135deg,#ed7928,#f3d100)',e:'⭐',t:'Estrella'}
+  ];
+  c.innerHTML=`<div style="position:relative;width:240px;height:130px;border-radius:10px;overflow:hidden">
+    <div class="track" style="display:flex;height:100%;transition:transform .6s var(--easing)"></div>
+    <div class="dots" style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px"></div>
+  </div>`;
+  const track=c.querySelector('.track'), dots=c.querySelector('.dots');
+  slides.forEach((s,i)=>{
+    track.appendChild(el(`<div style="min-width:100%;height:100%;background:${s.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff"><div style="font-size:50px">${s.e}</div><div style="font-weight:700;margin-top:4px">${s.t}</div></div>`));
+    dots.appendChild(el(`<div data-i="${i}" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,${i===0?'1':'.5'})"></div>`));
+  });
+  let cur=0;
+  setInterval(()=>{
+    cur=(cur+1)%slides.length;
+    track.style.transform=`translateX(-${cur*100}%)`;
+    dots.querySelectorAll('div').forEach((d,i)=>d.style.background = i===cur?'#fff':'rgba(255,255,255,.5)');
+  }, 2200);
+})();
+
+/* 6.5 TTS */
+(function(){
+  const c=$('#d65');
+  c.innerHTML=`<div style="text-align:center;width:100%">
+    <div style="font-style:italic;color:#974694;font-size:13px;margin-bottom:8px">"Hola, soy Lila. ¿Vienes conmigo al Bosque?"</div>
+    <button class="bigbtn" style="font-size:13px">🔊 Leer en voz alta</button>
+  </div>`;
+  c.querySelector('button').addEventListener('click', ()=>sfx.speak('Hola, soy Lila. ¿Vienes conmigo al Bosque?'));
+})();
+
+/* =========================================================================
+   CATEGORY 7 — VISUALIZACIONES
+   ========================================================================= */
+
+/* 7.1 Timeline vertical */
+(function(){
+  const c=$('#d71');
+  c.innerHTML=`<div style="width:100%;position:relative;padding-left:20px">
+    <div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--gradient)"></div>
+    ${['2018: Inicio','2020: 100 familias','2023: 23 terapeutas','2026: 5 zonas'].map((t,i)=>`
+      <div style="position:relative;margin-bottom:10px">
+        <div style="position:absolute;left:-19px;top:2px;width:16px;height:16px;border-radius:50%;background:#974694;border:3px solid #fff;box-shadow:0 0 0 2px #974694"></div>
+        <div style="font-size:13px;font-weight:600">${t}</div>
+      </div>
+    `).join('')}
+  </div>`;
+})();
+
+/* 7.2 Antes/después */
+(function(){
+  const c=$('#d72');
+  c.innerHTML=`<div style="position:relative;width:240px;height:140px;border-radius:10px;overflow:hidden;cursor:ew-resize">
+    <div style="position:absolute;inset:0;background:linear-gradient(45deg,#dceaf6,#a8e6c1);display:flex;align-items:center;justify-content:center;font-size:60px">🌅</div>
+    <div class="top" style="position:absolute;inset:0;width:50%;background:linear-gradient(135deg,#1a1340,#3a2466);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:60px">🌌</div>
+    <div class="handle" style="position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);box-shadow:0 0 0 1px #974694"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#974694;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px">↔</div></div>
+  </div>`;
+  const wrap=c.firstChild, top=c.querySelector('.top'), handle=c.querySelector('.handle');
+  let drag=false;
+  wrap.addEventListener('mousedown', e=>drag=true);
+  window.addEventListener('mouseup', ()=>drag=false);
+  wrap.addEventListener('mousemove', e=>{
+    if(!drag) return;
+    const r=wrap.getBoundingClientRect();
+    const p=Math.max(0,Math.min(100,((e.clientX-r.left)/r.width)*100));
+    top.style.width=p+'%'; handle.style.left=p+'%';
+  });
+})();
+
+/* 7.3 Gráfico de barras */
+(function(){
+  const c=$('#d73');
+  const data=[{l:'Lun',v:60},{l:'Mar',v:80},{l:'Mié',v:45},{l:'Jue',v:90},{l:'Vie',v:70}];
+  c.innerHTML=`<div style="display:flex;gap:6px;align-items:flex-end;height:100px;width:100%;justify-content:center"></div>`;
+  const wrap=c.firstChild;
+  data.forEach((d,i)=>{
+    wrap.appendChild(el(`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px">
+      <div style="width:24px;height:0;background:linear-gradient(180deg,#e45e9b,#974694);border-radius:4px 4px 0 0;transition:height .8s var(--easing) ${i*0.1}s" data-h="${d.v}"></div>
+      <span>${d.l}</span>
+    </div>`));
+  });
+  setTimeout(()=>wrap.querySelectorAll('[data-h]').forEach(b=>b.style.height=b.dataset.h+'%'), 200);
+})();
+
+/* 7.4 Slider con valor */
+(function(){
+  const c=$('#d74');
+  c.innerHTML=`<div style="text-align:center;width:100%">
+    <div style="font-family:Schibsted Grotesk;font-size:32px;font-weight:900;color:#974694" class="val">50</div>
+    <input type="range" min="0" max="100" value="50" style="width:100%;accent-color:#974694">
+    <div style="font-size:12px;color:#666">Mueve el slider</div>
+  </div>`;
+  const inp=c.querySelector('input'), val=c.querySelector('.val');
+  inp.addEventListener('input', ()=>{ val.textContent=inp.value; if(inp.value%10===0) sfx.click() });
+})();
+
+/* 7.5 Tabla con filtro */
+(function(){
+  const c=$('#d75');
+  const rows=[{n:'Madrid',z:1},{n:'Móstoles',z:1},{n:'Leganés',z:1},{n:'Valdemoro',z:2},{n:'San Agustín',z:2}];
+  c.innerHTML=`<div style="width:100%">
+    <input placeholder="Buscar..." style="width:100%;padding:6px 10px;border:1px solid #e6dff0;border-radius:6px;font-size:12px;margin-bottom:6px">
+    <table style="width:100%;font-size:12px;border-collapse:collapse">
+      <thead><tr style="background:#f4ecf3"><th style="padding:4px;text-align:left">Centro</th><th style="padding:4px">Zona</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>`;
+  const tb=c.querySelector('tbody'); const inp=c.querySelector('input');
+  function render(filter=''){
+    tb.innerHTML='';
+    rows.filter(r=>r.n.toLowerCase().includes(filter.toLowerCase())).forEach(r=>{
+      tb.appendChild(el(`<tr style="border-top:1px solid #f0e9f5"><td style="padding:4px">${r.n}</td><td style="padding:4px;text-align:center">Z${r.z}</td></tr>`));
+    });
+  }
+  render();
+  inp.addEventListener('input',()=>render(inp.value));
+})();
+
+/* 7.6 Donut */
+(function(){
+  const c=$('#d76');
+  c.innerHTML=`<svg viewBox="0 0 100 100" style="width:130px;height:130px">
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#dff5e6" stroke-width="14"/>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#08b75b" stroke-width="14" stroke-dasharray="80 251" transform="rotate(-90 50 50)" style="cursor:pointer" data-l="Logo">
+      <title>Logopedia 32%</title>
+    </circle>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#974694" stroke-width="14" stroke-dasharray="60 251" stroke-dashoffset="-80" transform="rotate(-90 50 50)" style="cursor:pointer">
+      <title>TO 24%</title>
+    </circle>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#ed7928" stroke-width="14" stroke-dasharray="50 251" stroke-dashoffset="-140" transform="rotate(-90 50 50)" style="cursor:pointer">
+      <title>Fisio 20%</title>
+    </circle>
+    <text x="50" y="55" text-anchor="middle" font-family="Schibsted Grotesk" font-weight="900" font-size="14" fill="#1a1340">100%</text>
+  </svg>`;
+})();
+
+/* 7.7 Calendar */
+(function(){
+  const c=$('#d77');
+  c.innerHTML=`<div style="width:100%"><div style="text-align:center;font-weight:700;font-size:13px;margin-bottom:6px">Mayo 2026</div>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:11px">
+    ${['L','M','X','J','V','S','D'].map(d=>`<div style="text-align:center;color:#666;font-weight:600">${d}</div>`).join('')}
+    ${Array.from({length:31},(_,i)=>i+1).map(d=>`<button data-d="${d}" style="aspect-ratio:1;border:0;background:#f4ecf3;border-radius:5px;cursor:pointer;font-size:11px;font-weight:600">${d}</button>`).join('')}
+  </div></div>`;
+  c.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{
+    c.querySelectorAll('button').forEach(x=>{x.style.background='#f4ecf3';x.style.color=''});
+    b.style.background='#974694'; b.style.color='#fff'; sfx.click();
+    toast('Día '+b.dataset.d+' seleccionado');
+  }));
+})();
+
+/* =========================================================================
+   CATEGORY 8 — GAMIFICACIÓN
+   ========================================================================= */
+
+/* 8.1 Sistema de puntos */
+(function(){
+  const c=$('#d81');
+  let pts=0;
+  c.innerHTML=`<div style="text-align:center"><div style="font-family:Schibsted Grotesk;font-size:36px;font-weight:900;color:#974694" class="pts">0</div><button class="bigbtn" style="font-size:13px">+10 puntos</button></div>`;
+  c.querySelector('button').addEventListener('click', ()=>{
+    pts+=10;
+    const v=c.querySelector('.pts');
+    v.textContent=pts; v.style.animation='none'; void v.offsetWidth; v.style.animation='pop .35s var(--easing)';
+    sfx.ok();
+  });
+})();
+
+/* 8.2 Badges */
+(function(){
+  const c=$('#d82');
+  const badges=[{e:'🥇',n:'Oro',got:1},{e:'🥈',n:'Plata',got:0},{e:'🥉',n:'Bronce',got:1},{e:'⭐',n:'Estrella',got:0}];
+  c.innerHTML=`<div style="display:flex;gap:10px;justify-content:center"></div>`;
+  badges.forEach(b=>{
+    const d=el(`<div style="text-align:center;cursor:pointer"><div style="font-size:36px;${b.got?'':'filter:grayscale(1);opacity:.4'}">${b.e}</div><div style="font-size:10px;font-weight:600">${b.n}</div></div>`);
+    d.addEventListener('click', ()=>{
+      const ic=d.firstElementChild;
+      ic.style.filter=''; ic.style.opacity='1'; sfx.magic();
+      toast('¡Insignia '+b.n+' desbloqueada!');
+    });
+    c.firstChild.appendChild(d);
+  });
+})();
+
+/* 8.3 Progress segmentado */
+(function(){
+  const c=$('#d83');
+  let lvl=2;
+  function render(){
+    c.innerHTML=`<div style="text-align:center;width:100%">
+      <div style="display:flex;gap:3px;height:14px;border-radius:6px;overflow:hidden;background:#e6dff0">
+        ${[1,2,3,4,5].map(i=>`<div style="flex:1;background:${i<=lvl?'var(--gradient)':'transparent'};display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">${i<=lvl?'✓':''}</div>`).join('')}
+      </div>
+      <div style="font-size:12px;margin-top:6px;color:#666">Nivel <b>${lvl}</b> de 5</div>
+      <button class="dbtn primary" style="margin-top:6px">Subir nivel</button>
+    </div>`;
+    c.querySelector('button').addEventListener('click', ()=>{
+      if(lvl<5){lvl++; sfx.ok(); render()} else {sfx.magic(); confetti(30); toast('¡Nivel máximo!')}
+    });
+  }
+  render();
+})();
+
+/* 8.4 Achievement popup */
+(function(){
+  const c=$('#d84');
+  c.innerHTML=`<button class="bigbtn" style="font-size:13px">¡Probar logro!</button>`;
+  c.querySelector('button').addEventListener('click', ()=>{
+    const a=el(`<div style="position:fixed;right:20px;top:80px;background:#1a1340;color:#fff;border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 40px rgba(0,0,0,.4);z-index:300;animation:fadeIn .4s var(--easing);border-left:4px solid #f3d100">
+      <div style="font-size:32px">🏆</div>
+      <div><div style="font-size:11px;color:#f3d100;font-weight:700;letter-spacing:1px;text-transform:uppercase">¡Logro desbloqueado!</div><div style="font-weight:700">Maestro Pegasus</div></div>
+    </div>`);
+    document.body.appendChild(a); sfx.magic();
+    setTimeout(()=>a.style.transform='translateX(120%)', 2500);
+    setTimeout(()=>a.remove(), 3000);
+  });
+})();
+
+/* 8.5 Cristales coleccionables */
+(function(){
+  const c=$('#d85');
+  const cols=['verde','azul','morado','naranja','amarillo'];
+  let got=2;
+  function render(){
+    c.innerHTML=`<div style="text-align:center;width:100%">
+      <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px"></div>
+      <button class="dbtn primary">+ Cristal</button>
+    </div>`;
+    const row=c.querySelector('div div');
+    cols.forEach((col,i)=>{
+      const has=i<got;
+      row.appendChild(el(`<div style="width:24px;height:24px;border-radius:5px;transform:rotate(45deg);${has?`background:linear-gradient(135deg,var(--p-${col}),var(--p-${col}));box-shadow:0 0 12px var(--p-${col})`:'background:#e6dff0'}"></div>`));
+    });
+    c.querySelector('button').addEventListener('click', ()=>{
+      if(got<5){got++; sfx.magic(); render()} else {confetti(30); sfx.ok()}
+    });
+  }
+  render();
+})();
+
+/* 8.6 Ranking */
+(function(){
+  const c=$('#d86');
+  const rank=[{n:'Lucía',p:120,e:'👧'},{n:'Mateo',p:95,e:'👦'},{n:'Lila',p:80,e:'🦄'}];
+  c.innerHTML=`<div style="width:100%">${rank.map((r,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:${i===0?'linear-gradient(135deg,#fff5cc,#fff8d6)':'#f4ecf3'};border-radius:8px;margin-bottom:4px">
+      <div style="font-family:Schibsted Grotesk;font-weight:900;color:#974694;width:18px">${i+1}º</div>
+      <div style="font-size:22px">${r.e}</div>
+      <div style="flex:1;font-size:13px;font-weight:600">${r.n}</div>
+      <div style="color:#974694;font-weight:700">${r.p}</div>
+    </div>`).join('')}</div>`;
+})();
+
+/* =========================================================================
+   CATEGORY 9 — STORYTELLING
+   ========================================================================= */
+
+/* 9.1 Diálogo de personaje */
+(function(){
+  const c=$('#d91');
+  const lines=['Hola, soy Lila.','He perdido mi voz…','¿Me ayudas?','¡Vamos al Bosque!'];
+  let i=0;
+  function render(){
+    c.innerHTML=`<div style="display:flex;gap:10px;align-items:flex-start;width:100%">
+      <div style="font-size:42px;animation:floaty 3s ease-in-out infinite">🦄</div>
+      <div style="flex:1;background:#fff;border:2px solid #974694;border-radius:14px;padding:8px 12px;font-size:13px;font-weight:600;color:#974694;position:relative">${lines[i]}<button class="dbtn primary" style="margin-top:6px;font-size:11px">${i<lines.length-1?'Siguiente ▶':'Reiniciar'}</button></div>
+    </div>`;
+    c.querySelector('button').addEventListener('click', ()=>{
+      i = i<lines.length-1 ? i+1 : 0;
+      sfx.click(); render();
+    });
+  }
+  render();
+})();
+
+/* 9.2 Typewriter */
+(function(){
+  const c=$('#d92');
+  const text='El Bosque de Pegasus es mágico, y solo se abre con palabras…';
+  function play(){
+    c.innerHTML=`<div style="font-style:italic;color:#974694;font-size:14px;line-height:1.5;text-align:center;width:100%"></div>`;
+    const t=c.firstChild;
+    let i=0; const iv=setInterval(()=>{
+      t.textContent = text.slice(0,++i);
+      if(i%4===0) sfx.click();
+      if(i>=text.length) clearInterval(iv);
+    }, 40);
+  }
+  play();
+  c.addEventListener('click', play);
+})();
+
+/* 9.3 Branching */
+(function(){
+  const c=$('#d93');
+  const tree={
+    start:{q:'Llegas al cruce. ¿Por dónde?',opts:[{t:'⬅ Izquierda',n:'left'},{t:'➡ Derecha',n:'right'}]},
+    left:{q:'Encuentras un dragón amistoso.',opts:[{t:'🔄 Volver',n:'start'}]},
+    right:{q:'Encuentras un tesoro 💰',opts:[{t:'🔄 Volver',n:'start'}]},
+  };
+  let cur='start';
+  function render(){
+    const n=tree[cur];
+    c.innerHTML=`<div style="text-align:center;width:100%"><p style="font-size:13px;margin:0 0 8px"><b>${n.q}</b></p><div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap"></div></div>`;
+    n.opts.forEach(o=>{
+      const b=el(`<button class="choice" style="font-size:12px">${o.t}</button>`);
+      b.addEventListener('click', ()=>{ cur=o.n; sfx.pop(); render() });
+      c.querySelector('div div').appendChild(b);
+    });
+  }
+  render();
+})();
+
+/* 9.4 Counter */
+(function(){
+  const c=$('#d94');
+  c.innerHTML=`<div style="text-align:center;width:100%"><div class="num" style="font-family:Schibsted Grotesk;font-size:48px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;color:transparent">0</div><small style="color:#666">familias atendidas</small></div>`;
+  let n=0; const target=1247;
+  const iv=setInterval(()=>{
+    n+=Math.ceil((target-n)/12);
+    c.querySelector('.num').textContent=n.toLocaleString();
+    if(n>=target){ n=target; c.querySelector('.num').textContent=n.toLocaleString(); clearInterval(iv) }
+  }, 40);
+})();
+
+/* 9.5 Cita destacada */
+(function(){
+  const c=$('#d95');
+  c.innerHTML=`<blockquote style="margin:0;padding:12px 16px;border-left:4px solid #974694;background:#f7f3ff;border-radius:0 8px 8px 0;font-style:italic;color:#1a1330;font-size:14px;line-height:1.5;width:100%">
+    "Lo que el peque ve es juego, lo que pasa por debajo es terapia. Nunca al revés."
+    <footer style="font-size:11px;color:#974694;font-weight:700;margin-top:6px;font-style:normal">— Filosofía Pegasus</footer>
+  </blockquote>`;
+})();
+
+/* =========================================================================
+   CATEGORY 10 — EFECTOS
+   ========================================================================= */
+
+/* 10.1 Confetti */
+document.querySelector('[data-action="d101-go"]').addEventListener('click', ()=>{ confetti(70); sfx.magic() });
+
+/* 10.2 Sparkles al click */
+(function(){
+  const c=$('#d102');
+  c.style.position='relative';
+  c.addEventListener('click', e=>{
+    const r=c.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    for(let i=0;i<8;i++){
+      const s=el(`<span style="position:absolute;left:${x}px;top:${y}px;font-size:${10+Math.random()*14}px;pointer-events:none;transition:all .8s ease-out">✨</span>`);
+      c.appendChild(s);
+      const a=Math.random()*Math.PI*2, d=20+Math.random()*40;
+      requestAnimationFrame(()=>{
+        s.style.left=(x+Math.cos(a)*d)+'px'; s.style.top=(y+Math.sin(a)*d)+'px'; s.style.opacity='0';
+      });
+      setTimeout(()=>s.remove(), 900);
+    }
+    sfx.click();
+  });
+})();
+
+/* 10.3 Ripple */
+(function(){
+  const c=$('#d103');
+  c.style.position='relative'; c.style.overflow='hidden';
+  c.addEventListener('click', e=>{
+    const r=c.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    const ring=el(`<span style="position:absolute;left:${x}px;top:${y}px;width:20px;height:20px;background:rgba(255,255,255,.4);border-radius:50%;transform:translate(-50%,-50%) scale(1);pointer-events:none;transition:all .8s ease-out"></span>`);
+    c.appendChild(ring);
+    requestAnimationFrame(()=>{ ring.style.transform='translate(-50%,-50%) scale(15)'; ring.style.opacity='0' });
+    setTimeout(()=>ring.remove(), 900);
+    sfx.click();
+  });
+})();
+
+/* 10.4 Screen shake */
+document.querySelector('[data-action="d104-go"]').addEventListener('click', ()=>{
+  const c=$('#d104');
+  c.style.animation='shake .4s'; setTimeout(()=>c.style.animation='', 500);
+  sfx.bad();
+});
+
+/* 10.6 Color burst */
+(function(){
+  const c=$('#d106');
+  c.addEventListener('click', e=>{
+    const r=c.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    const colors=['#974694','#e45e9b','#ed7928','#f3d100','#08b75b','#007ec3'];
+    colors.forEach((col,i)=>{
+      const a=(i/colors.length)*Math.PI*2;
+      const dot=el(`<span style="position:absolute;left:${x}px;top:${y}px;width:14px;height:14px;background:${col};border-radius:50%;transform:translate(-50%,-50%);transition:all .7s var(--easing);pointer-events:none"></span>`);
+      c.appendChild(dot);
+      requestAnimationFrame(()=>{
+        dot.style.left=(x+Math.cos(a)*60)+'px';
+        dot.style.top=(y+Math.sin(a)*60)+'px';
+        dot.style.opacity='0';
+      });
+      setTimeout(()=>dot.remove(), 800);
+    });
+    sfx.magic();
+  });
+})();
+
+/* 10.7 Trail mágico */
+(function(){
+  const c=$('#d107');
+  c.addEventListener('mousemove', e=>{
+    const r=c.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    const star=el(`<span style="position:absolute;left:${x}px;top:${y}px;font-size:14px;pointer-events:none;transition:all 1s ease-out;transform:translate(-50%,-50%)">✨</span>`);
+    c.appendChild(star);
+    requestAnimationFrame(()=>{
+      star.style.transform=`translate(-50%,-50%) translateY(-30px) rotate(${Math.random()*360}deg)`;
+      star.style.opacity='0';
+    });
+    setTimeout(()=>star.remove(), 1100);
+  });
+})();
+
+/* 10.8 Transición */
+document.querySelector('[data-action="d108-go"]').addEventListener('click', ()=>{
+  const c=$('#d108');
+  const overlay=el(`<div style="position:fixed;inset:0;z-index:280;pointer-events:none">
+    <div class="t-l" style="position:absolute;left:0;top:0;bottom:0;width:50%;background:linear-gradient(90deg,#974694,#7d2c7c);transform:translateX(-100%);transition:transform .6s var(--easing)"></div>
+    <div class="t-r" style="position:absolute;right:0;top:0;bottom:0;width:50%;background:linear-gradient(-90deg,#974694,#7d2c7c);transform:translateX(100%);transition:transform .6s var(--easing)"></div>
+  </div>`);
+  document.body.appendChild(overlay);
+  sfx.magic();
+  requestAnimationFrame(()=>{ overlay.querySelector('.t-l').style.transform='translateX(0)'; overlay.querySelector('.t-r').style.transform='translateX(0)' });
+  setTimeout(()=>{
+    overlay.querySelector('.t-l').style.transform='translateX(-100%)';
+    overlay.querySelector('.t-r').style.transform='translateX(100%)';
+  }, 700);
+  setTimeout(()=>overlay.remove(), 1400);
+});
+
+</script>
+
+</body>
+</html>
