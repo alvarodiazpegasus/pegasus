@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1468,6 +1469,204 @@ footer {
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+
+
+<!-- GUION COMPLETO DEL VIDEO - TRAS REUNION -->
+<style>
+  .guion-bg { background: var(--negro); color: var(--blanco); padding: 96px 0; }
+  .guion-bg .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .guion-header { text-align: center; margin-bottom: 56px; }
+  .guion-claim { font-family: 'Chantal', 'Barlow', sans-serif; font-size: 2.6rem; font-weight: 700; line-height: 1.1; margin: 14px 0 8px; letter-spacing: -0.01em; }
+  .guion-subtitle { font-size: 1rem; opacity: 0.6; letter-spacing: 0.05em; }
+
+  .guion-ficha { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 28px; margin-bottom: 56px; }
+  .guion-ficha-item { font-size: 0.98rem; line-height: 1.5; }
+  .guion-ficha-item strong { display: block; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.55; margin-bottom: 6px; font-weight: 700; }
+
+  .guion-script { display: flex; flex-direction: column; gap: 16px; }
+
+  .gb { border-radius: 14px; padding: 18px 22px; position: relative; }
+
+  .gb-accion { background: rgba(255,255,255,0.03); border-left: 3px solid rgba(255,255,255,0.18); font-style: italic; opacity: 0.85; font-size: 0.95rem; line-height: 1.55; }
+  .gb-accion::before { content: "ESCENA"; display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; opacity: 0.55; margin-bottom: 8px; font-style: normal; }
+
+  .gb-pantalla { background: rgba(243,209,0,0.10); border: 1.5px solid var(--amarillo); border-radius: 16px; text-align: center; padding: 24px; }
+  .gb-pantalla::before { content: "TEXTO EN PANTALLA"; display: block; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.2em; color: var(--amarillo); margin-bottom: 12px; }
+  .gb-pantalla p { font-family: 'Chantal', 'Barlow', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--amarillo); margin: 0; }
+
+  .gb-dial { background: rgba(255,255,255,0.04); border-left: 4px solid; padding: 18px 22px; }
+  .gb-david    { border-left-color: var(--verde); }
+  .gb-conductor{ border-left-color: var(--naranja); }
+  .gb-guille   { border-left-color: var(--azul); }
+
+  .gb-dial-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .gb-dial-tag { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+  .gb-david .gb-dial-tag    { color: var(--verde); }
+  .gb-conductor .gb-dial-tag{ color: var(--naranja); }
+  .gb-guille .gb-dial-tag   { color: var(--azul); }
+
+  .gb-dial-acot { font-size: 0.8rem; font-style: italic; opacity: 0.55; }
+  .gb-dial p { font-size: 1.05rem; line-height: 1.6; margin: 0; }
+
+  .gb-clave { background: linear-gradient(135deg, rgba(8,183,91,0.18), rgba(0,126,195,0.08)); border: 1.5px solid var(--verde); border-left-width: 5px; box-shadow: 0 12px 36px rgba(8,183,91,0.18); margin: 8px 0; }
+  .gb-clave::after { content: "★ MOMENTO CLAVE"; position: absolute; top: -11px; right: 18px; background: var(--verde); color: var(--negro); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; padding: 5px 12px; border-radius: 100px; }
+  .gb-clave strong { color: var(--verde); font-size: 1.12rem; display: block; margin-top: 10px; }
+
+  .gb-aco { font-size: 0.88rem; font-style: italic; opacity: 0.6; padding: 10px 22px; background: none; border-left: none; }
+  .gb-aco::before { content: "( "; font-style: normal; opacity: 0.5; }
+  .gb-aco::after { content: " )"; font-style: normal; opacity: 0.5; }
+
+  .guion-reflexion { margin-top: 64px; padding: 48px 36px; background: var(--grad-full); border-radius: 22px; text-align: center; color: var(--blanco); position: relative; }
+  .guion-reflexion h3 { font-family: 'Chantal', 'Barlow', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
+  .guion-reflexion p { font-size: 1.08rem; line-height: 1.65; max-width: 720px; margin: 0 auto; }
+
+  @media (max-width: 768px) {
+    .guion-ficha { grid-template-columns: 1fr; }
+    .guion-claim { font-size: 2rem; }
+  }
+</style>
+
+<section class="guion-bg" id="guion-video">
+  <div class="container">
+
+    <div class="guion-header">
+      <span class="section-label" style="background: var(--grad-full); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">✨ Tras la reunión · El guion completo</span>
+      <h2 class="guion-claim">"Esto es surrealista..."</h2>
+      <p class="guion-subtitle">Reel POV · Pegasus × Parking</p>
+    </div>
+
+    <!-- FICHA TÉCNICA -->
+    <div class="guion-ficha">
+      <div class="guion-ficha-item">
+        <strong>🎬 Estilo</strong>
+        POV entrevista
+      </div>
+      <div class="guion-ficha-item">
+        <strong>🎭 Actor</strong>
+        David Rodríguez
+      </div>
+      <div class="guion-ficha-item">
+        <strong>📱 Grabación</strong>
+        POV iPhone — la mano siempre en tensión
+      </div>
+      <div class="guion-ficha-item">
+        <strong>💬 Texto fijo en pantalla</strong>
+        "Esto es surrealista... 🤯"
+      </div>
+    </div>
+
+    <!-- GUION ESCENA A ESCENA -->
+    <div class="guion-script">
+
+      <div class="gb gb-pantalla">
+        <p>"Esto es surrealista... 🤯"</p>
+      </div>
+
+      <div class="gb gb-accion">
+        Guille graba a David desde lejos. David camina con mucha decisión hacia un coche que está aparcado en una plaza de minusválidos. Parece que levanta la mano para que el conductor le vea.
+      </div>
+
+      <div class="gb gb-dial gb-guille">
+        <div class="gb-dial-header">
+          <span class="gb-dial-tag">💬 GUILLE</span>
+          <span class="gb-dial-acot">susurrando a cámara, como si grabara a escondidas</span>
+        </div>
+        <p>"Bua, se va a liar, se va a liar..."</p>
+      </div>
+
+      <div class="gb gb-accion">
+        Guille acelera el paso y llega a la escena justo cuando el conductor se acaba de bajar del coche.
+      </div>
+
+      <div class="gb gb-dial gb-conductor">
+        <div class="gb-dial-header">
+          <span class="gb-dial-tag">💬 CONDUCTOR</span>
+        </div>
+        <p>"Mira, de verdad, no tengo tiempo para discutir ahora. Tengo muchísima prisa. Son 5 minutos, compro una cosa y me voy, ¿vale? Tampoco es para tanto."</p>
+      </div>
+
+      <div class="gb gb-aco">David no entra al trapo de la chulería. Suspira, cambia la cara de frustración por una actitud muy tranquila y le habla de tú a tú.</div>
+
+      <div class="gb gb-dial gb-david">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 DAVID</span></div>
+        <p>"Tranquilo, si no vengo a discutir. Pero déjame preguntarte una cosa…"</p>
+      </div>
+
+      <div class="gb gb-dial gb-conductor">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 CONDUCTOR</span></div>
+        <p>"Dime."</p>
+      </div>
+
+      <div class="gb gb-dial gb-david">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 DAVID</span></div>
+        <p>"¿Qué te pasa cuando llamas a tu compañía de teléfono y te tienen 5 minutos con la musiquita de espera?"</p>
+      </div>
+
+      <div class="gb gb-aco">Sigue un poco a la defensiva, pero la pregunta le descoloca.</div>
+
+      <div class="gb gb-dial gb-conductor">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 CONDUCTOR</span></div>
+        <p>"Pues... que me desespero."</p>
+      </div>
+
+      <div class="gb gb-dial gb-david gb-clave">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 DAVID</span></div>
+        <p>"Claro. Pues esa misma impotencia es la que siento yo cuando llego a mi sitio y me toca esperar. Pero con una diferencia: yo no necesito esta plaza para caminar menos. La necesito porque sin el espacio de las rayas azules, no puedo abrir la puerta entera y me quedo atrapado en el coche.</p>
+        <p><strong>Literalmente me estás robando toda mi autonomía.</strong></p>
+      </div>
+
+      <div class="gb gb-aco">Se le cae la actitud de chulo de golpe. Le cambia la cara porque se da cuenta de su error.</div>
+
+      <div class="gb gb-dial gb-conductor">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 CONDUCTOR</span></div>
+        <p>"Ostras... te juro que en la vida lo había pensado así. Lo muevo ahora mismo, perdóname de verdad."</p>
+      </div>
+
+      <div class="gb gb-aco">Le choca la mano o le hace un gesto amable.</div>
+
+      <div class="gb gb-dial gb-david">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 DAVID</span></div>
+        <p>"Nada, tío. Gracias por entenderlo."</p>
+      </div>
+
+      <div class="gb gb-accion">
+        El conductor se sube al coche. David se gira hacia Guille.
+      </div>
+
+      <div class="gb gb-dial gb-guille">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 GUILLE</span></div>
+        <p>"Joder, David, pensaba que le ibas a montar un pollo."</p>
+      </div>
+
+      <div class="gb gb-dial gb-david">
+        <div class="gb-dial-header">
+          <span class="gb-dial-tag">💬 DAVID</span>
+          <span class="gb-dial-acot">mirando a cámara, caminando</span>
+        </div>
+        <p>"La bronca no sirve de nada, Guille. Cuando conectas con la gente, la haces pensar."</p>
+      </div>
+
+      <div class="gb gb-dial gb-guille">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 GUILLE</span></div>
+        <p>"¿Y qué hago para ver más contenido como este?"</p>
+      </div>
+
+      <div class="gb gb-dial gb-david">
+        <div class="gb-dial-header"><span class="gb-dial-tag">💬 DAVID</span></div>
+        <p>"Sígueme."</p>
+      </div>
+
+    </div>
+
+    <!-- REFLEXIÓN FINAL -->
+    <div class="guion-reflexion">
+      <h3>Por qué este vídeo es distinto</h3>
+      <p>Conectar suele funcionar mejor que culpabilizar. Las campañas de concienciación que solo dividen más no transforman: señalan. Este vídeo no señala — pregunta. Y al preguntar, convierte al infractor en aliado.</p>
+    </div>
+
   </div>
 </section>
 
