@@ -1112,6 +1112,18 @@ function handleSearchClick(id) {
   searchInput.value = '';
 }
 
+// Click handler de las tarjetas Netflix: bloquea acceso si requiere password
+function checkAccess(event, toolId) {
+  const tool = herramientas.find(h => h.id === toolId);
+  if (!tool) return true;
+  if (tool.nivel === 'libre' || unlocked.has(tool.nivel)) return true;
+  event.preventDefault();
+  currentTool = tool;
+  abrirModal(tool.nivel);
+  return false;
+}
+
+
 const sectionLabels = {
   propuestas: { icon: '📋', name: 'Propuestas' },
   direccion: { icon: '🎯', name: 'Dirección' }
