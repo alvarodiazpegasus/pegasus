@@ -843,6 +843,27 @@ footer {
     <div class="progress-dots" id="dots-c4"></div>
   </div>
 
+
+  <!-- COMUNICACIONES FAMILIAS -->
+  <div class="fila">
+    <div class="fila-header">
+      <span style="font-size:1.2rem;">👨‍👩‍👧</span>
+      <span class="fila-titulo">COMUNICACIONES FAMILIAS</span>
+      <div class="fila-controls">
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="toggleView('c5','cards')">▦ Tarjetas</button>
+          <button class="view-btn" onclick="toggleView('c5','list')">☰ Lista</button>
+        </div>
+      </div>
+    </div>
+    <div class="carrusel-wrapper">
+      <button class="carrusel-btn cbtn-left" onclick="scrollCarrusel('c5',-300)">‹</button>
+      <div class="carrusel" id="c5"></div>
+      <button class="carrusel-btn cbtn-right" onclick="scrollCarrusel('c5',300)">›</button>
+    </div>
+    <div class="progress-dots" id="dots-c5"></div>
+  </div>
+
 </main>
 
 <footer>
@@ -874,6 +895,7 @@ footer {
 
 <script>
 const herramientas = [
+  { id: 'becas-mec-2026', nombre: 'Becas MEC para Familias 2026', descripcion: 'Guía visual para familias sobre las ayudas del MEC para terapias: cómo solicitarlas, plazos y requisitos.', seccion: 'comunicaciones-familias', tipo: 'comunicacion', emoji: '🎓', gradiente: 'linear-gradient(135deg,#08B75B,#F3D100)', ruta: 'comunicaciones-familias/becas-mec-2026.html', nivel: 'libre', fecha: '2026-05-12' },
   { id: 'landing-institucional', nombre: 'Landing Institucional Pegasus', descripcion: 'Presentación oficial de Fundación Pegasus: historia, verticales, mapa CCMM, partners, Pegasusland, operación y sede.', seccion: 'direccion', tipo: 'estrategia', emoji: '🐎', gradiente: 'linear-gradient(135deg,#007EC3,#974694,#E45E9B)', ruta: 'direccion/landing-institucional.html', nivel: 'direccion', fecha: '2026-05-11' },
   { id: 'david-rodriguez-brunete', nombre: 'David Rodríguez · Brunete', descripcion: 'Propuesta de conferencia de David Rodríguez para institutos del Ayuntamiento de Brunete.', seccion: 'propuestas', tipo: 'propuesta', emoji: '🎙️', gradiente: 'linear-gradient(135deg,#007EC3,#E45E9B)', ruta: 'propuestas/david-rodriguez-brunete.html', nivel: 'propuestas', fecha: '2026-05-11' },
   { id: 'cambios-legales-2026', nombre: 'Reconfiguración Institucional 2026', descripcion: 'Resumen ejecutivo: cambios legales, fundación única vs modelo híbrido, adaptaciones jurídicas y plan de implementación 9-18 meses.', seccion: 'direccion', tipo: 'estrategia', emoji: '⚖️', gradiente: 'linear-gradient(135deg,#974694,#D6191B)', ruta: 'direccion/Resumen_Ejecutivo_Cambios_Legales_2026.html', nivel: 'direccion', fecha: '2026-05-11' },
@@ -979,6 +1001,11 @@ function renderDireccion() {
 function renderProyectos() {
   const tools = herramientas.filter(h => h.seccion === 'proyectos');
   renderSection('c4', tools);
+}
+
+function renderComunicacionesFamilias() {
+  const tools = herramientas.filter(h => h.seccion === 'comunicaciones-familias');
+  renderSection('c5', tools);
 }
 
 function filterPropuestas(type) {
@@ -1130,6 +1157,7 @@ function verificarAcceso() {
     renderPropuestas();
     renderDireccion();
     renderProyectos();
+    renderComunicacionesFamilias();
     window.location.href = ruta;
   } else {
     input.classList.add('error');
@@ -1152,6 +1180,7 @@ renderProtocolos();
 renderPropuestas();
 renderDireccion();
 renderProyectos();
+renderComunicacionesFamilias();
 
 // Theme toggle
 (function() {
