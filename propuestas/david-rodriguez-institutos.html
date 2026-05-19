@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Rodríguez — Conferencia para institutos</title>
+<meta name="description" content="David Rodríguez. CEO de Fundación Pegasus. Una conferencia para los jóvenes de tu instituto. Sin paternalismos. Sin discursos vacíos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #0A0A0A;
+  --negro-suave: #141414;
+  --gris: #888;
+  --gris-claro: #cfcfcf;
+  --blanco: #FFFFFF;
+  --crema: #FFE9B5;
+  --grad: linear-gradient(135deg, #08B75B 0%, #007EC3 18%, #974694 36%, #E45E9B 54%, #D6191B 72%, #ED7928 86%, #F3D100 100%);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Barlow', sans-serif; background: var(--negro); color: var(--blanco); line-height: 1.55; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+.serif-title { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; line-height: 0.92; letter-spacing: -0.02em; }
+.eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gris); display: inline-block; }
+.crema { color: var(--crema); }
+.grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.container-narrow { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 100px 0; }
+@media (max-width: 768px) { .section { padding: 60px 0; } }
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 32px;
+  background: rgba(10,10,10,.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.nav-logo { font-family: 'Barlow', sans-serif; font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 1.05rem; color: var(--blanco); text-decoration: none; letter-spacing: 0.02em; }
+.nav-target { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--crema); padding: 6px 14px; border: 1px solid rgba(255,233,181,.4); border-radius: 100px; }
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.nav-cta { display: inline-block; padding: 10px 22px; border-radius: 100px; background: var(--crema); color: var(--negro); font-weight: 700; font-size: 0.86rem; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,233,181,.28); }
+@media (max-width: 700px) {
+  .nav { padding: 14px 18px; }
+  .nav-target { display: none; }
+  .nav-logo { font-size: 0.9rem; }
+}
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; position: relative; overflow: hidden; padding-top: 80px; }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; padding-bottom: 0; } }
+.hero-blob { position: absolute; width: 480px; height: 480px; border-radius: 50%; filter: blur(110px); opacity: .55; pointer-events: none; z-index: 0; }
+.hero-blob-1 { top: -120px; left: -120px; background: linear-gradient(135deg, #ED7928, #F3D100); }
+.hero-blob-2 { bottom: -120px; left: 30%; background: linear-gradient(135deg, #D6191B, #ED7928); opacity: .35; }
+.hero-text { padding: 0 32px 0 80px; position: relative; z-index: 2; }
+@media (max-width: 1100px) { .hero-text { padding: 0 32px; } }
+
+.hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+.hero-chip { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crema); padding: 7px 14px; border: 1px solid rgba(255,233,181,.4); border-radius: 100px; }
+.hero-name { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.9; font-size: clamp(3rem, 6.5vw, 5.4rem); margin-bottom: 24px; color: var(--blanco); }
+.hero-tagline { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gris-claro); margin-bottom: 16px; }
+.hero-tagline span { color: var(--crema); font-weight: 700; }
+.hero-sub { font-size: 1.08rem; color: var(--gris-claro); margin-bottom: 40px; max-width: 560px; line-height: 1.6; }
+.hero-sub strong { color: var(--blanco); }
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 16px 30px; border-radius: 100px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; cursor: pointer; border: none; letter-spacing: 0.02em; transition: transform .25s, box-shadow .25s, background .25s; }
+.btn-primary { background: var(--crema); color: var(--negro); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255,233,181,.25); }
+.btn-ghost { background: transparent; color: var(--blanco); border: 1.5px solid rgba(255,255,255,.4); }
+.btn-ghost:hover { background: rgba(255,255,255,.08); border-color: var(--blanco); }
+
+.hero-photo { position: relative; height: 100vh; min-height: 600px; background-image: url('imagenes/david-rodriguez/hero-mirando-arriba.jpg'); background-size: cover; background-position: center top; z-index: 1; }
+.hero-photo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--negro) 0%, transparent 18%, transparent 82%, rgba(10,10,10,.4) 100%); }
+@media (max-width: 900px) {
+  .hero-photo { height: 70vh; min-height: 500px; }
+  .hero-photo::before { background: linear-gradient(180deg, transparent 50%, var(--negro) 100%); }
+}
+
+/* MISIÓN */
+.mision { padding: 140px 32px; text-align: center; }
+.mision-quote { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.05; max-width: 1100px; margin: 32px auto; letter-spacing: -0.015em; }
+.mision-quote em { font-style: italic; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.mision-author { font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.82rem; color: var(--gris); }
+
+/* VÍDEO con tilt */
+.tilt-section { padding: 60px 32px 140px; display: flex; justify-content: center; perspective: 1400px; }
+.tilt-card { width: min(94vw, 1100px); aspect-ratio: 16/10; border-radius: 28px; border: 6px solid #1a1a1a; overflow: hidden; position: relative; background: #000; box-shadow: 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026; will-change: transform; display: block; text-decoration: none; }
+.tilt-card img { width: 100%; height: 100%; object-fit: cover; }
+.tilt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 110px; height: 110px; border-radius: 50%; background: var(--rojo); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(214,25,27,.5), 0 0 0 12px rgba(255,255,255,.08); transition: transform .3s, box-shadow .3s; }
+.tilt-play::after { content: ''; width: 0; height: 0; border-style: solid; border-width: 22px 0 22px 36px; border-color: transparent transparent transparent var(--blanco); margin-left: 8px; }
+.tilt-card:hover .tilt-play { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 20px 60px rgba(214,25,27,.7), 0 0 0 16px rgba(255,255,255,.1); }
+.tilt-caption { position: absolute; bottom: 24px; left: 24px; background: rgba(0,0,0,.75); backdrop-filter: blur(10px); padding: 10px 18px; border-radius: 100px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blanco); }
+
+/* SECTION HEADER */
+.s-eyebrow { margin-bottom: 24px; }
+.s-title { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2rem, 3.8vw, 3rem); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 28px; }
+.s-text { font-size: 1.08rem; color: var(--gris-claro); margin-bottom: 18px; }
+.s-text strong { color: var(--blanco); font-weight: 700; }
+
+/* FLOW EN AULA */
+.flow { padding: 100px 32px; background: var(--negro-suave); }
+.flow-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+@media (max-width: 900px) { .flow-grid { grid-template-columns: 1fr; gap: 48px; } }
+.flow-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.flow-photos figure { border-radius: 18px; overflow: hidden; aspect-ratio: 3/4; background: #000; }
+.flow-photos figure:first-child { grid-column: 1 / 3; aspect-ratio: 16/9; }
+.flow-photos img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s; }
+.flow-photos figure:hover img { transform: scale(1.05); }
+.flow-text h2 { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 0.95; margin-bottom: 16px; letter-spacing: -0.02em; }
+.flow-text h3 { color: var(--crema); font-weight: 700; font-size: 1.3rem; margin-bottom: 24px; }
+.flow-text p { color: var(--gris-claro); margin-bottom: 16px; font-size: 1.04rem; }
+.flow-text strong { color: var(--blanco); }
+
+/* TEMAS */
+.temas { padding: 120px 0; }
+.temas-header { text-align: center; max-width: 800px; margin: 0 auto 64px; padding: 0 32px; }
+.temas-grid { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .temas-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .temas-grid { grid-template-columns: 1fr; } }
+.tema-card { background: var(--negro-suave); border: 1px solid rgba(255,255,255,.08); border-radius: 22px; padding: 32px 28px; position: relative; overflow: hidden; transition: transform .35s, border-color .35s; }
+.tema-card:hover { transform: translateY(-6px); border-color: rgba(255,233,181,.3); }
+.tema-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 160px; height: 160px; border-radius: 50%; filter: blur(60px); opacity: .25; }
+.tema-1::before { background: linear-gradient(135deg, #D6191B, #ED7928); }
+.tema-2::before { background: linear-gradient(135deg, #974694, #E45E9B); }
+.tema-3::before { background: linear-gradient(135deg, #08B75B, #007EC3); }
+.tema-4::before { background: linear-gradient(135deg, #007EC3, #974694); }
+.tema-5::before { background: linear-gradient(135deg, #ED7928, #F3D100); }
+.tema-6::before { background: linear-gradient(135deg, #E45E9B, #D6191B); }
+.tema-icon { font-size: 2rem; margin-bottom: 18px; line-height: 1; position: relative; z-index: 2; }
+.tema-card h3 { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; font-size: 1.2rem; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 10px; position: relative; z-index: 2; }
+.tema-card p { color: var(--gris-claro); font-size: 0.96rem; position: relative; z-index: 2; }
+
+/* TRACK RECORD */
+.track { padding: 120px 32px; background: var(--negro-suave); }
+.track-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
+@media (max-width: 900px) { .track-grid { grid-template-columns: 1fr; gap: 48px; } }
+.track h2 { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2rem, 4vw, 3rem); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 24px; }
+.track p { color: var(--gris-claro); font-size: 1.05rem; margin-bottom: 18px; }
+.track strong { color: var(--blanco); }
+.track-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tr-stat { background: var(--negro); border: 1px solid rgba(255,255,255,.08); padding: 28px 24px; border-radius: 20px; }
+.tr-num { font-family: 'Barlow', sans-serif; font-style: italic; font-weight: 900; font-size: 2.4rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.tr-label { font-size: 0.8rem; color: var(--gris); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+.tr-cam-badge { margin-top: 32px; background: rgba(255,233,181,.08); border: 1px solid rgba(255,233,181,.3); border-radius: 16px; padding: 22px; }
+.tr-cam-badge strong { color: var(--crema); display: block; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+.tr-cam-badge p { font-size: 0.95rem; margin: 0; }
+
+/* INFLUENCER YOUTH */
+.influencer { padding: 100px 32px; }
+.influencer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+@media (max-width: 900px) { .influencer-grid { grid-template-columns: 1fr; gap: 48px; } }
+.influencer-text h2 { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2rem, 4vw, 3rem); line-height: 0.95; margin-bottom: 24px; letter-spacing: -0.02em; }
+.influencer-text > p { color: var(--gris-claro); font-size: 1.04rem; margin-bottom: 24px; }
+.influencer-text strong { color: var(--blanco); }
+.influencer-visual { position: relative; aspect-ratio: 4/5; border-radius: 22px; overflow: hidden; background: #000; }
+.influencer-visual img { width: 100%; height: 100%; object-fit: cover; }
+.tiktok-badge { position: absolute; bottom: 22px; left: 22px; right: 22px; background: rgba(0,0,0,.85); backdrop-filter: blur(14px); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+.tiktok-icon { width: 42px; height: 42px; border-radius: 12px; background: var(--blanco); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.tiktok-text-num { font-family: 'Barlow', sans-serif; font-style: italic; font-weight: 800; font-size: 1.3rem; line-height: 1; }
+.tiktok-text-label { font-size: 0.74rem; color: var(--gris-claro); letter-spacing: 0.08em; }
+.youth-line { margin-top: 28px; padding: 18px 22px; background: rgba(255,255,255,.04); border-left: 3px solid var(--crema); font-style: italic; font-size: 1.02rem; color: var(--gris-claro); }
+.youth-line strong { color: var(--crema); }
+
+/* CTA */
+.cta-final { padding: 140px 32px; text-align: center; position: relative; overflow: hidden; }
+.cta-final-bg { position: absolute; inset: 0; background-image: url('imagenes/david-rodriguez/escenario-dosis2024.jpg'); background-size: cover; background-position: center; filter: brightness(.3) saturate(1.1); z-index: 0; }
+.cta-final > * { position: relative; z-index: 2; }
+.cta-final h2 { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: 0.95; margin-bottom: 28px; letter-spacing: -0.02em; }
+.cta-final h2 span { color: var(--crema); }
+.cta-final p { color: var(--gris-claro); max-width: 600px; margin: 0 auto 36px; font-size: 1.1rem; }
+.btn-grande { display: inline-flex; align-items: center; gap: 12px; background: var(--crema); color: var(--negro); padding: 22px 44px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; text-decoration: none; letter-spacing: 0.02em; transition: transform .25s, box-shadow .25s; }
+.btn-grande:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 24px 60px rgba(255,233,181,.4); }
+
+/* FOOTER */
+.footer { background: var(--negro); padding: 70px 32px 32px; text-align: center; border-top: 1px solid rgba(255,255,255,.08); }
+.footer-eslogan { font-family: 'Barlow', sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1; margin-bottom: 8px; letter-spacing: -0.01em; }
+.footer-eslogan span { color: var(--crema); }
+.footer-tag { font-size: 0.8rem; color: var(--gris); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 28px; font-weight: 700; }
+.footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 800px; margin: 0 auto 28px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); gap: 20px; }
+@media (max-width: 700px) { .footer-grid { grid-template-columns: 1fr; } }
+.footer-col-label { font-size: 0.7rem; color: var(--gris); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+.footer-col a { color: var(--blanco); text-decoration: none; font-weight: 600; font-size: 0.94rem; }
+.footer-col a:hover { color: var(--crema); }
+.footer-meta { font-size: 0.72rem; color: rgba(255,255,255,.4); letter-spacing: 0.06em; }
+
+/* FADE-IN */
+.fade-in { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#hero" class="nav-logo">David Rodríguez</a>
+  <span class="nav-target">CONFERENCIAS PARA INSTITUTOS</span>
+  <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Conferencia%20David%20Rodr%C3%ADguez%20en%20institutos" class="nav-cta">Hablemos →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-text">
+    <div class="hero-meta">
+      <span class="hero-chip">PARA INSTITUTOS</span>
+    </div>
+    <h1 class="hero-name">David<br>Rodríguez</h1>
+    <p class="hero-tagline">Y POR QUÉ <span>"LO SUYO NO ES NORMAL"</span></p>
+    <p class="hero-sub">
+      Una conferencia para los jóvenes de tu instituto. Para hablarles de <strong>bullying, miedos, complejos y todo lo que pesa en una mochila a los 14 años</strong> — pero de verdad, sin paternalismos y sin discursos vacíos.
+    </p>
+    <div class="hero-ctas">
+      <a href="#video" class="btn btn-primary">Ver una de sus charlas</a>
+      <a href="#contacto" class="btn btn-ghost">Hablemos</a>
+    </div>
+  </div>
+  <div class="hero-photo" role="img" aria-label="David Rodríguez en escenario"></div>
+</section>
+
+<!-- MISIÓN -->
+<section class="mision">
+  <p class="eyebrow fade-in">SU MISIÓN</p>
+  <p class="mision-quote fade-in">
+    "La verdadera discapacidad <em>no es la que crees</em>. Es el <em>miedo</em>.<br>
+    Y eso lo tenemos todos. <em>Sobre todo a los 15.</em>"
+  </p>
+  <p class="mision-author fade-in">— DAVID RODRÍGUEZ · CEO FUNDACIÓN PEGASUS</p>
+</section>
+
+<!-- VÍDEO -->
+<section class="tilt-section" id="video">
+  <a href="https://www.youtube.com/results?search_query=David+Rodríguez+Pegasus+Lo+mío+no+es+normal" target="_blank" rel="noopener" class="tilt-card" id="tilt-card">
+    <img src="imagenes/david-rodriguez/youtube-quien-soy.jpg" alt="Vídeo Quién soy y por qué lo mío no es normal">
+    <div class="tilt-play"></div>
+    <div class="tilt-caption">VER · Por qué lo mío no es normal</div>
+  </a>
+</section>
+
+<!-- FLOW EN AULA -->
+<section class="flow">
+  <div class="flow-grid">
+    <div class="flow-photos fade-in">
+      <figure><img src="imagenes/david-rodriguez/escenario-dosis2024.jpg" alt="David en escenario"></figure>
+      <figure><img src="imagenes/david-rodriguez/david-charla-rojo.jpg" alt="David en charla"></figure>
+      <figure><img src="imagenes/david-rodriguez/david-charla-naranja.jpg" alt="David en charla"></figure>
+    </div>
+    <div class="flow-text fade-in">
+      <p class="eyebrow">QUÉ PASA EN LA SALA</p>
+      <h2>Esto no es la charla de siempre.</h2>
+      <h3>Y los chavales lo notan en los primeros 30 segundos.</h3>
+      <p>David <strong>no habla a los adolescentes desde arriba</strong>. Habla con ellos. Sin diapositivas aburridas, sin frases hechas, sin moralinas. Cuenta su historia — la de un chaval que nació con diparesia espástica, que se rio de sí mismo antes de que se rieran otros, y que un día decidió montar una fundación.</p>
+      <p>En cada sesión <strong>los móviles se quedan en el bolsillo</strong>. No porque alguien lo pida — porque lo que pasa en el escenario es más interesante que cualquier scroll. La gente que llegaba en plan "otra charla aburrida más" sale tres horas después hablando de cosas que no había hablado nunca.</p>
+      <p>Su estilo no es motivacional. <strong>Es conversacional, honesto, con mucho humor — y cuando toca, es duro.</strong> Trata temas que importan a esa edad sin endulzarlos ni convertirlos en panfleto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEMAS QUE TOCA -->
+<section class="temas">
+  <div class="temas-header fade-in">
+    <p class="eyebrow">DE QUÉ HABLA</p>
+    <h2 class="serif-title" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px;">Lo que pesa <span class="grad-text">en una mochila a los 14.</span></h2>
+    <p style="color: var(--gris-claro); font-size: 1.05rem;">Los temas que se quedan dentro y que casi nadie se atreve a tocar de frente. David los pone en el centro — con la credibilidad de quien los ha vivido en primera persona.</p>
+  </div>
+  <div class="temas-grid">
+    <div class="tema-card tema-1 fade-in">
+      <div class="tema-icon">🛡️</div>
+      <h3>Bullying</h3>
+      <p>David fue ese chaval. El de la silla, el del nombre raro, el que cojeaba. Sabe lo que es. Lo cuenta sin victimismo y sin discursos. Habla a las víctimas, a los testigos y a los que lo hacen.</p>
+    </div>
+    <div class="tema-card tema-2 fade-in">
+      <div class="tema-icon">🪞</div>
+      <h3>Complejos físicos</h3>
+      <p>El cuerpo a los 14 es un campo de minas. David vive con un cuerpo que la gente mira. La verdad sobre qué pasa cuando dejas de querer esconderte y empiezas a habitarlo.</p>
+    </div>
+    <div class="tema-card tema-3 fade-in">
+      <div class="tema-icon">😶</div>
+      <h3>Miedo a ser uno mismo</h3>
+      <p>El núcleo de su mensaje. La verdadera discapacidad no es la física — es el miedo a destacar, a expresar lo que piensas, a decir "yo no soy normal y no pasa nada".</p>
+    </div>
+    <div class="tema-card tema-4 fade-in">
+      <div class="tema-icon">👥</div>
+      <h3>Diferencia e inclusión</h3>
+      <p>Más allá de la teoría que se ve en clase. Cómo se trata en realidad a quien es distinto, qué micro-conductas hacen daño y qué se puede hacer hoy mismo, en este recreo.</p>
+    </div>
+    <div class="tema-card tema-5 fade-in">
+      <div class="tema-icon">⚡</div>
+      <h3>Autoestima y autenticidad</h3>
+      <p>Ser distinto está hoy más castigado que nunca. David lo da la vuelta: lo distinto es lo que vale. Lo de siempre no construye nada — y la juventud lo sabe mejor que nadie.</p>
+    </div>
+    <div class="tema-card tema-6 fade-in">
+      <div class="tema-icon">💬</div>
+      <h3>Salud mental adolescente</h3>
+      <p>Sin alarmismo y sin minimizar. David abre conversación sobre ansiedad, presión social y emocional, y normaliza pedir ayuda — desde la cercanía, no desde la pena.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK RECORD -->
+<section class="track">
+  <div class="track-grid">
+    <div class="fade-in">
+      <p class="eyebrow">YA LO HA HECHO. MUCHO.</p>
+      <h2>200+ institutos. <span class="grad-text">Décadas de chavales.</span></h2>
+      <p>David lleva años pisando institutos. Conoce el ritmo de una sala con 150 adolescentes y sabe cómo se mantiene esa atención sin caer en la fórmula fácil. <strong>No improvisa</strong>: cada formato lo ha probado en decenas de aulas distintas.</p>
+      <p>Ha trabajado con centros públicos y concertados, con orientadores, con AMPAS y con servicios municipales de juventud. Su lenguaje funciona igual en un instituto del centro de Madrid que en uno de la sierra.</p>
+
+      <div class="tr-cam-badge">
+        <strong>PROYECTO COMUNIDAD DE MADRID</strong>
+        <p>David ha sido una de las voces seleccionadas por la Comunidad de Madrid para recorrer institutos de la región con su conferencia. Una experiencia que avala su capacidad para conectar con jóvenes de contextos muy distintos — y que da garantía institucional al formato.</p>
+      </div>
+    </div>
+    <div class="track-stats fade-in">
+      <div class="tr-stat"><div class="tr-num">200+</div><div class="tr-label">Conferencias en institutos</div></div>
+      <div class="tr-stat"><div class="tr-num">CAM</div><div class="tr-label">Proyecto Comunidad de Madrid</div></div>
+      <div class="tr-stat"><div class="tr-num">60K+</div><div class="tr-label">Comunidad joven en redes</div></div>
+      <div class="tr-stat"><div class="tr-num">4,3M</div><div class="tr-label">Visitas un solo TikTok</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INFLUENCER YOUTH -->
+<section class="influencer">
+  <div class="influencer-grid">
+    <div class="influencer-text fade-in">
+      <p class="eyebrow">POR QUÉ CONECTA CON LA JUVENTUD</p>
+      <h2>Habla su idioma. <span class="grad-text">Pero les dice cosas que no oyen.</span></h2>
+      <p>David no es un profesor con micrófono. <strong>Vive en el mismo terreno digital que los chavales</strong>: TikTok, Instagram, YouTube. Su lema "Ser anormal es la hostia" lleva años circulando en las redes que ellos consumen. Cuando entra a un aula, ya saben quién es.</p>
+      <p>Pero a diferencia del influencer al uso, lo que les cuenta es <strong>incómodo de verdad</strong>: les habla del miedo, del bullying, de los complejos. De lo que normalmente se evita en los discursos motivacionales del salón de actos.</p>
+      <div class="youth-line"><strong>"Cuando termina,</strong> los profesores nos dicen siempre lo mismo: nunca habían visto a la sala así de quieta. Y nunca habían visto luego a chavales acercándose a hablar de cosas tan personales."</div>
+    </div>
+    <div class="influencer-visual fade-in">
+      <img src="imagenes/david-rodriguez/tiktok-disimular.jpg" alt="TikTok viral de David">
+      <div class="tiktok-badge">
+        <div class="tiktok-icon">🎵</div>
+        <div>
+          <div class="tiktok-text-num">4,3 millones</div>
+          <div class="tiktok-text-label">DE VISITAS · "Intento disimular mi discapacidad"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="contacto">
+  <div class="cta-final-bg"></div>
+  <p class="eyebrow crema fade-in" style="margin-bottom: 24px;">SIGUIENTE PASO</p>
+  <h2 class="fade-in">¿Le damos <br><span>al verde?</span></h2>
+  <p class="fade-in">Cuéntanos qué instituto, qué curso y qué temas son los que más os preocupan ahora mismo. Programamos una primera reunión con el equipo de orientación y a partir de ahí concretamos fechas, sala y todo lo demás.</p>
+  <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Conferencia%20David%20Rodr%C3%ADguez%20en%20institutos&body=Hola%20%C3%81lvaro%2C%0A%0AOs%20escribimos%20desde%20%5Bcentro%2Fmunicipio%5D%20porque%20nos%20interesa%20la%20conferencia%20de%20David%20Rodr%C3%ADguez%20para%20nuestros%20chavales.%20%C2%BFCu%C3%A1ndo%20podemos%20programar%20una%20reuni%C3%B3n%3F%0A%0AGracias%2C" class="btn-grande fade-in">
+    Hablemos →
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p class="footer-eslogan">Lo mío no es normal,<br><span>pero lo tuyo tampoco</span></p>
+  <p class="footer-tag">#ÚneteAlFlow</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <p class="footer-col-label">CONTACTO</p>
+      <a href="mailto:alvaro.diaz@fundacionpegasus.org">alvaro.diaz@fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">WEB</p>
+      <a href="https://www.fundacionpegasus.org">www.fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">SÍGUELO</p>
+      <a href="https://www.instagram.com/lomionoesnormal/">@lomionoesnormal</a>
+    </div>
+  </div>
+  <p class="footer-meta">FUNDACIÓN PEGASUS · DAVID RODRÍGUEZ · CONFERENCIAS PARA INSTITUTOS</p>
+</footer>
+
+<script>
+/* Scroll-tilt para vídeo */
+const tiltCard = document.getElementById('tilt-card');
+let ticking = false;
+function updateTilt() {
+  if (!tiltCard) { ticking = false; return; }
+  const rect = tiltCard.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const total = rect.height + vh;
+  const passed = vh - rect.top;
+  let progress = passed / total;
+  progress = Math.max(0, Math.min(1, progress));
+  const isMobile = window.innerWidth <= 768;
+  const startScale = isMobile ? 0.85 : 1.05;
+  const endScale = isMobile ? 0.98 : 1;
+  const rotateX = 18 * (1 - progress);
+  const scale = startScale + (endScale - startScale) * progress;
+  tiltCard.style.transform = 'perspective(1400px) rotateX(' + rotateX + 'deg) scale(' + scale + ')';
+  ticking = false;
+}
+function onScroll() { if (!ticking) { requestAnimationFrame(updateTilt); ticking = true; } }
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+updateTilt();
+
+/* Fade-in */
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+</script>
+
+</body>
+</html>
