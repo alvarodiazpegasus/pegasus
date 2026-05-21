@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fusión de Servicios — Dashboard · Fundación Pegasus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --bg: #F7F7F5;
+  --card: #FFFFFF;
+  --border: #E8E6E0;
+  --text: #1A1A18;
+  --text-muted: #6B6A65;
+  --text-light: #9B9A96;
+  --op-alta: #D6191B;
+  --op-alta-bg: #FCEBEB;
+  --op-media: #ED7928;
+  --op-media-bg: #FEF3E8;
+  --done-bg: #F0F0EE;
+  --done-text: #9B9A96;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* HEADER */
+.header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 64px;
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.logo-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--verde), var(--azul));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  letter-spacing: -0.5px;
+}
+.header-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text);
+  letter-spacing: 0.3px;
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+.header-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+}
+.progress-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.progress-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--verde), var(--azul));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.progress-pct {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--verde);
+  white-space: nowrap;
+}
+.header-date {
+  font-size: 11px;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+/* TABS */
+.tabs-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+}
+.tab-btn {
+  padding: 0 20px;
+  height: 44px;
+  border: none;
+  background: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  color: var(--azul);
+  border-bottom-color: var(--azul);
+}
+
+/* CONTENT */
+.main {
+  padding: 28px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* SECTION HEADERS */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  margin-top: 36px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.section-label:first-child { margin-top: 0; }
+.section-label-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.section-label-icon.op { background: linear-gradient(135deg, #007EC3, #08B75B); }
+.section-label-icon.tec { background: linear-gradient(135deg, #974694, #E45E9B); }
+.section-label-icon.em { background: linear-gradient(135deg, #E45E9B, #ED7928); }
+.section-label-text {}
+.section-label-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  color: var(--text);
+}
+.section-label-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+/* RETO CARDS */
+.retos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.reto-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.reto-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.reto-header {
+  padding: 14px 16px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.reto-cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.reto-header-text { flex: 1; }
+.reto-code {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 3px;
+}
+.reto-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+.reto-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.chip-crit {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.chip-alta { background: var(--op-alta-bg); color: var(--op-alta); }
+.chip-media { background: var(--op-media-bg); color: var(--op-media); }
+.reto-expand-btn {
+  font-size: 16px;
+  color: var(--text-light);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.reto-card.open .reto-expand-btn { transform: rotate(180deg); }
+.reto-body {
+  display: none;
+  padding: 0 16px 14px 34px;
+  border-top: 1px solid var(--bg);
+}
+.reto-card.open .reto-body { display: block; }
+.reto-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.reto-linked {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.linked-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #EEF5FB;
+  color: #185FA5;
+  border: 1px solid #B5D4F4;
+}
+
+/* ACCIONES TABLE */
+.acciones-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+.filter-btn {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover { background: var(--bg); color: var(--text); }
+.filter-btn.active { background: var(--azul); color: white; border-color: var(--azul); }
+
+.acciones-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.acciones-table th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.acciones-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--bg);
+  vertical-align: top;
+  font-size: 13px;
+}
+.acciones-table tr:last-child td { border-bottom: none; }
+.accion-row.done td {
+  opacity: 0.45;
+}
+.accion-row.done .accion-titulo {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.accion-code {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--azul);
+  white-space: nowrap;
+}
+.accion-titulo {
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 3px;
+  line-height: 1.35;
+}
+.accion-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.accion-reto-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tag-reto {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #EEF5FB;
+  color: #185FA5;
+  border: 1px solid #B5D4F4;
+  white-space: nowrap;
+}
+.responsable-pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  display: inline-block;
+}
+.cuando-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.asap-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--op-alta-bg);
+  color: var(--op-alta);
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.check-cell { text-align: center; width: 40px; }
+.check-cell input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--verde);
+}
+
+/* CRONOGRAMA */
+.crono-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.crono-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.crono-months {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.crono-month-header {
+  padding: 10px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+}
+.crono-month-header:last-child { border-right: none; }
+.crono-month-header.current {
+  color: var(--azul);
+  background: #EEF5FB;
+}
+.crono-body {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.crono-col {
+  padding: 14px 12px;
+  border-right: 1px solid var(--border);
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.crono-col:last-child { border-right: none; }
+.crono-pill {
+  padding: 7px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: default;
+  transition: opacity 0.2s;
+}
+.crono-pill.type-f { background: #EEF5FB; color: #185FA5; border: 1px solid #B5D4F4; }
+.crono-pill.type-ao { background: #EAF3DE; color: #3B6D11; border: 1px solid #C0DD97; }
+.crono-pill.type-practica { background: #FAEEDA; color: #854F0B; border: 1px solid #FAC775; }
+.crono-pill.done { opacity: 0.4; text-decoration: line-through; }
+.pill-code { font-weight: 700; font-size: 12px; display: block; margin-bottom: 2px; }
+.pill-titulo { font-size: 10px; font-weight: 400; display: block; line-height: 1.35; margin-bottom: 2px; opacity: 0.85; }
+.pill-resp { font-size: 10px; font-weight: 400; opacity: 0.65; display: block; }
+
+/* LEGEND */
+.legend-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.stat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.stat-verde .stat-num { color: var(--verde); }
+.stat-azul .stat-num { color: var(--azul); }
+.stat-naranja .stat-num { color: var(--naranja); }
+.stat-morado .stat-num { color: var(--morado); }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 32px;
+  font-size: 11px;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-badge">P</div>
+      <div>
+        <div class="header-title">Fusión de Servicios · Dashboard</div>
+        <div class="header-sub">Fundación Pegasus · Proyecto interno</div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="progress-area">
+      <span class="progress-label">Progreso global</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="global-progress-bar" style="width: 0%"></div>
+      </div>
+      <span class="progress-pct" id="global-progress-pct">0%</span>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-date" id="last-update">Actualizado: —</div>
+  </div>
+</header>
+
+<nav class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('retos', this)">Retos</button>
+  <button class="tab-btn" onclick="switchTab('formativas', this)">Acciones formativas</button>
+  <button class="tab-btn" onclick="switchTab('operativas', this)">Acciones operativas</button>
+  <button class="tab-btn" onclick="switchTab('cronograma', this)">Cronograma</button>
+</nav>
+
+<main class="main">
+
+<!-- ───────────── TAB RETOS ───────────── -->
+<div class="tab-content active" id="tab-retos">
+
+  <div class="stats-row">
+    <div class="stat-card stat-verde"><div class="stat-num" id="stat-total-retos">12</div><div class="stat-label">Retos identificados</div></div>
+    <div class="stat-card stat-azul"><div class="stat-num" id="stat-alta">9</div><div class="stat-label">Criticidad alta</div></div>
+    <div class="stat-card stat-naranja"><div class="stat-num" id="stat-media">3</div><div class="stat-label">Criticidad media</div></div>
+    <div class="stat-card stat-morado"><div class="stat-num" id="stat-acciones">13</div><div class="stat-label">Acciones totales</div></div>
+  </div>
+
+  <div class="section-label">
+    <div class="section-label-icon op">🔧</div>
+    <div class="section-label-text">
+      <div class="section-label-title">Retos Operativos</div>
+      <div class="section-label-sub">Estructura, sistemas, herramientas y marco laboral</div>
+    </div>
+  </div>
+  <div class="retos-grid" id="retos-op"></div>
+
+  <div class="section-label">
+    <div class="section-label-icon tec">🧠</div>
+    <div class="section-label-text">
+      <div class="section-label-title">Retos Técnicos</div>
+      <div class="section-label-sub">Conocimiento, autoridad profesional y metodología</div>
+    </div>
+  </div>
+  <div class="retos-grid" id="retos-tec"></div>
+
+  <div class="section-label">
+    <div class="section-label-icon em">❤️</div>
+    <div class="section-label-text">
+      <div class="section-label-title">Retos Emocionales</div>
+      <div class="section-label-sub">Personas, identidad y percepción del equipo</div>
+    </div>
+  </div>
+  <div class="retos-grid" id="retos-em"></div>
+
+</div>
+
+<!-- ───────────── TAB FORMATIVAS ───────────── -->
+<div class="tab-content" id="tab-formativas">
+  <div class="acciones-filters">
+    <span class="filter-label">Filtrar por responsable:</span>
+    <button class="filter-btn active" onclick="filterTable('form', 'todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterTable('form', 'Marre', this)">Marre</button>
+    <button class="filter-btn" onclick="filterTable('form', 'Ceci', this)">Ceci</button>
+    <button class="filter-btn" onclick="filterTable('form', 'Iris', this)">Iris</button>
+    <button class="filter-btn" onclick="filterTable('form', 'David', this)">David</button>
+  </div>
+  <table class="acciones-table">
+    <thead>
+      <tr>
+        <th style="width:40px">✓</th>
+        <th style="width:55px">Cód.</th>
+        <th>Acción</th>
+        <th style="width:130px">Retos</th>
+        <th style="width:130px">Responsable</th>
+        <th style="width:140px">Cuándo</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-formativas"></tbody>
+  </table>
+</div>
+
+<!-- ───────────── TAB OPERATIVAS ───────────── -->
+<div class="tab-content" id="tab-operativas">
+  <div class="acciones-filters">
+    <span class="filter-label">Filtrar por responsable:</span>
+    <button class="filter-btn active" onclick="filterTable('op', 'todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterTable('op', 'Iris', this)">Iris</button>
+    <button class="filter-btn" onclick="filterTable('op', 'Marre', this)">Marre</button>
+    <button class="filter-btn" onclick="filterTable('op', 'David', this)">David</button>
+    <button class="filter-btn" onclick="filterTable('op', 'Davilín', this)">Davilín</button>
+    <button class="filter-btn" onclick="filterTable('op', 'Ceci', this)">Ceci</button>
+    <button class="filter-btn" onclick="filterTable('op', 'Álvaro', this)">Álvaro</button>
+  </div>
+  <table class="acciones-table">
+    <thead>
+      <tr>
+        <th style="width:40px">✓</th>
+        <th style="width:55px">Cód.</th>
+        <th>Acción</th>
+        <th style="width:130px">Retos</th>
+        <th style="width:130px">Responsable</th>
+        <th style="width:140px">Cuándo</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-operativas"></tbody>
+  </table>
+</div>
+
+<!-- ───────────── TAB CRONOGRAMA ───────────── -->
+<div class="tab-content" id="tab-cronograma">
+  <div class="crono-filters">
+    <span class="filter-label">Filtrar por responsable:</span>
+    <button class="filter-btn active" onclick="filterCrono('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterCrono('Marre', this)">Marre</button>
+    <button class="filter-btn" onclick="filterCrono('Iris', this)">Iris</button>
+    <button class="filter-btn" onclick="filterCrono('Ceci', this)">Ceci</button>
+    <button class="filter-btn" onclick="filterCrono('David', this)">David</button>
+    <button class="filter-btn" onclick="filterCrono('Davilín', this)">Davilín</button>
+    <button class="filter-btn" onclick="filterCrono('Álvaro', this)">Álvaro</button>
+  </div>
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:#B5D4F4;border:1px solid #B5D4F4"></div>Acción formativa</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C0DD97;border:1px solid #C0DD97"></div>Acción operativa</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FAC775;border:1px solid #FAC775"></div>Práctica / Formación completa</div>
+  </div>
+  <div class="crono-wrap">
+    <div class="crono-months">
+      <div class="crono-month-header current">Mayo 2026</div>
+      <div class="crono-month-header">Junio 2026</div>
+      <div class="crono-month-header">Julio 2026</div>
+      <div class="crono-month-header">Agosto 2026</div>
+      <div class="crono-month-header">Septiembre 2026</div>
+    </div>
+    <div class="crono-body" id="crono-body"></div>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  Proyecto interno Fundación Pegasus · Confidencial · Dashboard Fusión de Servicios v1.0
+</footer>
+
+<script>
+const RETOS = [
+  { id: 'O1', cat: 'op', titulo: 'Redefinición de zonas y reparto de carga', crit: 'alta',
+    desc: 'Las zonas actuales de TPT y de IS no coinciden exactamente. Hay que construir las zonas fusionadas desde cero, redistribuyendo profesionales de ambos servicios por zona geográfica sin aumentar el número total que gestiona cada coordinador.',
+    linked: ['AO1'] },
+  { id: 'O2', cat: 'op', titulo: 'Herramientas y modelo de cobro distintos que deben unificarse', crit: 'alta',
+    desc: 'TPT: Excel horarios + Excel pluses (de CRM-agenda) + Agenda CRM + Excel "TPT - Gestión operativa". IS: Excel horarios + Excel "IS - Gestión operativa" + BBDD S.Contratados CRM. Los cobros en TPT dependen de la agenda CRM (por sesión), en IS son más directos desde S.Contratados. Sin unificar, el coordinador gestiona dos lógicas de cobro paralelas cada mes.',
+    linked: ['F1', 'AO5'] },
+  { id: 'O3', cat: 'op', titulo: 'Marco laboral: dos convenios distintos para el mismo rol', crit: 'alta',
+    desc: 'Coordinadores TPT bajo convenio de terapias, coordinadores IS bajo convenio de deporte. Hay que resolver qué convenio aplica al coordinador fusionado. Equiparación salarial pactada: subida IS en septiembre 2026, igualación completa en enero 2027.',
+    linked: ['AO2'] },
+  { id: 'O4', cat: 'op', titulo: 'Gestión de espacios: dependencia de entidades públicas', crit: 'media',
+    desc: 'Tanto TPT como IS dependen de espacios cedidos por administraciones públicas (ayuntamientos, colegios por las tardes). El protocolo de gestión de espacios IS aún no está formalizado. El coordinador fusionado necesitará un protocolo unificado que cubra los dos contextos.',
+    linked: ['AO3'] },
+  { id: 'T1', cat: 'tec', titulo: 'Supervisión de documentación terapéutica y autoridad técnica', crit: 'alta',
+    desc: 'El coordinador de TPT supervisa PIAS, historias clínicas y evaluaciones. Un coordinador con perfil deportivo no tiene esa base. Un terapeuta puede usar argumentos técnicos para bloquear decisiones de optimización si el coordinador no tiene formación mínima. Soluciones: (1) Ceci diseña proceso eficiente de supervisión; (2) formación básica en criterio terapéutico para todos los coordinadores.',
+    linked: ['F2', 'AO4'] },
+  { id: 'T2', cat: 'tec', titulo: 'Credibilidad y autoridad ante un equipo de perfiles distintos', crit: 'alta',
+    desc: 'Un coordinador de IS dirigiendo terapeutas, o de TPT dirigiendo monitores, puede generar desconfianza profesional. El riesgo no es solo emocional: si el coordinador no tiene autoridad percibida, pierde capacidad de optimizar agendas, cruzar usuarios o tomar decisiones de equipo.',
+    linked: ['F2', 'F3'] },
+  { id: 'T3', cat: 'tec', titulo: 'Comprensión de la metodología del servicio ajeno', crit: 'alta',
+    desc: 'TPT y IS comparten la misma base: juego e inteligencia emocional, vínculo con familias, triaje. Las diferencias son de formato y estructura. A partir de septiembre se realiza "Pegasus 2.0" para alinear TPT con la conciencia de parejas/grupos, cruce de usuarios y enfoque de flow, convergiendo con IS. El triaje es común y se registrará en Excel de cada profesional en ambos servicios.',
+    linked: ['F4', 'AO7'] },
+  { id: 'E1', cat: 'em', titulo: 'Identidad profesional de los coordinadores', crit: 'media',
+    desc: 'Cada coordinador lleva años con una identidad ligada a un único servicio. La fusión puede vivirse como pérdida de especialización. Sin acompañamiento real, el riesgo es resistencia pasiva o desenganche progresivo justo en el momento de mayor exigencia.',
+    linked: ['F3', 'AO8'] },
+  { id: 'E2', cat: 'em', titulo: 'Percepción de equidad en la atención entre terapeutas y monitores', crit: 'media',
+    desc: 'Con un mismo coordinador gestionando ambos perfiles, los educadores deportivos pueden percibir que el coordinador atiende más a los terapeutas (o al revés). Afecta al vínculo coordinador-profesional, pilar de retención en Pegasus. Habrá que diseñar acciones que garanticen atención equivalente en tiempo y calidad a ambos perfiles.',
+    linked: ['F3', 'F4', 'AO6', 'AO7'] },
+];
+
+const ACCIONES_FORM = [
+  { id: 'F1', titulo: 'Formación cruzada en herramientas y operativa de gestión',
+    desc: 'CRM-agenda TPT, S.Contratados IS, Excels gestión operativa de cada servicio.',
+    retos: ['O2'], resp: 'Marre', cuando: 'Mediados de junio (para practicar en julio)', asap: false },
+  { id: 'F2', titulo: 'Formación básica en criterio técnico cruzado para todos los coordinadores',
+    desc: 'Coordinadores IS: fundamentos de especialidades terapéuticas, lógica PIAS, cuándo un "criterio terapéutico" es legítimo. Coordinadores TPT: triaje deportivo, lógica grupos/parejas/tríos IS, dinámica del monitor.',
+    retos: ['T1', 'T2'], resp: 'Ceci (supervisión Iris)', cuando: 'Julio', asap: false },
+  { id: 'F3', titulo: 'Formación en liderazgo de equipos mixtos',
+    desc: 'Autoridad sin base técnica total, gestión de resistencia profesional, comunicación de decisiones de optimización.',
+    retos: ['T2', 'E1', 'E2'], resp: 'Iris (con apoyo de David)', cuando: 'Mediados de junio (práctica en julio)', asap: false },
+  { id: 'F4', titulo: '"Pegasus 2.0": nuevo modelo de intervención en TPT',
+    desc: 'Liderada por Iris con posible intervención de coordinadores o staff líderes informales. Parejas y grupos como norma, cruce de usuarios, triaje unificado TPT+IS, flow e IE como base. Coordinación activa entre terapeutas y educadores deportivos para familias que reciben ambos servicios.',
+    retos: ['T3', 'E2'], resp: 'Iris (coord.) + líderes informales', cuando: 'Input julio · Formación completa ago/sep', asap: false },
+  { id: 'JULIO', titulo: 'Julio — Mes de práctica conjunta',
+    desc: 'Todos los coordinadores hacen operativa real de ambos servicios juntos, con acompañamiento y resolución de dudas en tiempo real.',
+    retos: ['O2', 'T1', 'T2', 'T3'], resp: 'Iris (supervisión)', cuando: 'Julio completo', asap: false },
+];
+
+const ACCIONES_OP = [
+  { id: 'AO1', titulo: 'Diseño de las zonas fusionadas',
+    desc: 'Mapa de zonas combinando profesionales TPT e IS, equilibrando carga por coordinador (nº profesionales, centros, desplazamientos) y resolviendo gaps.',
+    retos: ['O1'], resp: 'Iris + Marre (aprobación David)', cuando: 'ASAP', asap: true },
+  { id: 'AO2', titulo: 'Decisión y formalización del convenio laboral aplicable',
+    desc: 'Resolver con RRHH/laboral qué convenio aplica al coordinador fusionado y documentar la garantía salarial acordada.',
+    retos: ['O3'], resp: 'Davilín + Iris/Marre', cuando: 'Julio', asap: false },
+  { id: 'AO3', titulo: 'Formalización del protocolo de espacios IS',
+    desc: 'Documentar protocolo de relación con instalaciones municipales IS, equivalente al protocolo de centros de TPT.',
+    retos: ['O4'], resp: 'Iris (con coordinadores)', cuando: 'Julio', asap: false },
+  { id: 'AO4', titulo: 'Definición del proceso de supervisión de documentación terapéutica',
+    desc: 'Diseñar con Ceci un flujo eficiente de supervisión de PIAS, historias clínicas y evaluaciones sin saturar horas del departamento técnico/metodología.',
+    retos: ['T1'], resp: 'Iris + Ceci', cuando: 'Reu inicial fin de mayo · Deadline fin de julio', asap: false },
+  { id: 'AO5', titulo: 'Definición del modelo de transición a cuota fija en TPT',
+    desc: 'Preparar propuesta para David: ahorro de tiempo de gestión, reducción de errores y liberación de horas para calidad del servicio y atención a familias.',
+    retos: ['O2'], resp: 'Marre + Álvaro (validación David)', cuando: 'ASAP', asap: true },
+  { id: 'AO6', titulo: 'Diseño de acciones de equidad en atención coordinador-profesional',
+    desc: 'Modelo de seguimiento que garantice que terapeutas y monitores perciben atención equivalente: frecuencia de contacto, presencialidad, reuniones, dinámicas emocionales.',
+    retos: ['E2'], resp: 'Iris', cuando: 'Agosto', asap: false },
+  { id: 'AO7', titulo: 'Diseño del flujo de coordinación entre terapeutas y educadores deportivos',
+    desc: 'Canal y proceso para que profesionales de ambos servicios que atienden a las mismas familias puedan comunicarse y hacer recomendaciones cruzadas, con el coordinador como articulador.',
+    retos: ['T3', 'E2'], resp: 'Iris (visión David)', cuando: 'Julio/agosto', asap: false },
+  { id: 'AO8', titulo: 'Conversaciones individuales con cada coordinador',
+    desc: 'David e Iris realizan conversación individual con cada uno de los 4 coordinadores para entender miedos, expectativas y necesidades antes de diseñar ningún proceso.',
+    retos: ['E1'], resp: 'David e Iris', cuando: 'Julio', asap: false },
+];
+
+const CRONO = [
+  { id: 'AO1', tipo: 'ao', label: 'AO1', resp: 'Iris + Marre', titulo: 'Diseño zonas fusionadas', mes: 0 },
+  { id: 'AO4', tipo: 'ao', label: 'AO4 (inicio)', resp: 'Iris + Ceci', titulo: 'Supervisión documentación terapéutica — reunión inicial', mes: 0 },
+  { id: 'AO5', tipo: 'ao', label: 'AO5', resp: 'Marre + Álvaro', titulo: 'Modelo transición cuota fija TPT', mes: 0 },
+  { id: 'F1', tipo: 'f', label: 'F1', resp: 'Marre', titulo: 'Formación cruzada herramientas y operativa', mes: 1 },
+  { id: 'F3', tipo: 'f', label: 'F3', resp: 'Iris + David', titulo: 'Formación liderazgo equipos mixtos', mes: 1 },
+  { id: 'F2', tipo: 'f', label: 'F2', resp: 'Ceci / Iris', titulo: 'Formación criterio técnico cruzado', mes: 2 },
+  { id: 'AO2', tipo: 'ao', label: 'AO2', resp: 'Davilín + Iris/Marre', titulo: 'Formalización convenio laboral', mes: 2 },
+  { id: 'AO3', tipo: 'ao', label: 'AO3', resp: 'Iris + coordinadores', titulo: 'Protocolo espacios IS', mes: 2 },
+  { id: 'AO4b', tipo: 'ao', label: 'AO4 (deadline)', resp: 'Iris + Ceci', titulo: 'Supervisión documentación terapéutica — deadline', mes: 2 },
+  { id: 'AO7', tipo: 'ao', label: 'AO7', resp: 'Iris + David', titulo: 'Flujo coordinación terapeutas-monitores', mes: 2 },
+  { id: 'AO8', tipo: 'ao', label: 'AO8', resp: 'David e Iris', titulo: 'Conversaciones individuales coordinadores', mes: 2 },
+  { id: 'JULIO', tipo: 'practica', label: 'Práctica conjunta', resp: 'Iris', titulo: 'Mes de práctica real operativa de ambos servicios', mes: 2 },
+  { id: 'F4a', tipo: 'f', label: 'F4 (input)', resp: 'Iris', titulo: 'Pegasus 2.0 — primer input y previsión salidas', mes: 2 },
+  { id: 'AO6', tipo: 'ao', label: 'AO6', resp: 'Iris', titulo: 'Acciones de equidad en atención por coordinador', mes: 3 },
+  { id: 'F4b', tipo: 'practica', label: 'F4 (completa)', resp: 'Iris + líderes', titulo: 'Pegasus 2.0 — formación completa', mes: 4 },
+];
+
+const CAT_COLORS = { op: '#007EC3', tec: '#974694', em: '#E45E9B' };
+
+function getState() {
+  try { return JSON.parse(localStorage.getItem('pegasus_fusion_v1') || '{}'); } catch { return {}; }
+}
+function saveState(s) {
+  localStorage.setItem('pegasus_fusion_v1', JSON.stringify(s));
+  localStorage.setItem('pegasus_fusion_updated', new Date().toLocaleDateString('es-ES'));
+}
+function updateGlobalProgress() {
+  const state = getState();
+  const allIds = [...ACCIONES_FORM.map(a => a.id), ...ACCIONES_OP.map(a => a.id)];
+  const done = allIds.filter(id => state[id]).length;
+  const pct = Math.round((done / allIds.length) * 100);
+  document.getElementById('global-progress-bar').style.width = pct + '%';
+  document.getElementById('global-progress-pct').textContent = pct + '%';
+  const upd = localStorage.getItem('pegasus_fusion_updated');
+  document.getElementById('last-update').textContent = upd ? 'Actualizado: ' + upd : 'Sin cambios aún';
+}
+
+function renderRetos() {
+  const groups = { op: 'retos-op', tec: 'retos-tec', em: 'retos-em' };
+  Object.keys(groups).forEach(cat => {
+    const container = document.getElementById(groups[cat]);
+    RETOS.filter(r => r.cat === cat).forEach(r => {
+      const color = CAT_COLORS[cat];
+      container.innerHTML += `
+        <div class="reto-card" id="rcard-${r.id}">
+          <div class="reto-header" onclick="toggleReto('${r.id}')">
+            <div class="reto-cat-dot" style="background:${color}"></div>
+            <div class="reto-header-text">
+              <div class="reto-code">${r.id}</div>
+              <div class="reto-title">${r.titulo}</div>
+              <div class="reto-chips">
+                <span class="chip-crit chip-${r.crit}">${r.crit === 'alta' ? '🔴 Alta' : '🟡 Media'}</span>
+                ${r.linked.map(l => `<span class="linked-tag">${l}</span>`).join('')}
+              </div>
+            </div>
+            <div class="reto-expand-btn">▾</div>
+          </div>
+          <div class="reto-body">
+            <div class="reto-desc">${r.desc}</div>
+          </div>
+        </div>`;
+    });
+  });
+}
+
+function toggleReto(id) {
+  const card = document.getElementById('rcard-' + id);
+  card.classList.toggle('open');
+}
+
+function renderAccionesTable(acciones, tbodyId) {
+  const state = getState();
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  acciones.forEach(a => {
+    const done = state[a.id] || false;
+    const tr = document.createElement('tr');
+    tr.className = 'accion-row' + (done ? ' done' : '');
+    tr.dataset.resp = a.resp;
+    tr.dataset.id = a.id;
+    tr.innerHTML = `
+      <td class="check-cell">
+        <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleAccion('${a.id}', this)">
+      </td>
+      <td><span class="accion-code">${a.id}</span></td>
+      <td>
+        <div class="accion-titulo">${a.titulo}</div>
+        <div class="accion-desc">${a.desc}</div>
+      </td>
+      <td>
+        <div class="accion-reto-tags">
+          ${a.retos.map(r => `<span class="tag-reto">${r}</span>`).join('')}
+        </div>
+      </td>
+      <td><span class="responsable-pill">${a.resp}</span></td>
+      <td>
+        ${a.asap ? '<div class="asap-badge">ASAP</div>' : ''}
+        <div class="cuando-text">${a.cuando}</div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleAccion(id, cb) {
+  const state = getState();
+  state[id] = cb.checked;
+  saveState(state);
+  const rows = document.querySelectorAll(`[data-id="${id}"]`);
+  rows.forEach(r => r.classList.toggle('done', cb.checked));
+  const allCbs = document.querySelectorAll(`input[onchange*="${id}"]`);
+  allCbs.forEach(c => c.checked = cb.checked);
+  updateGlobalProgress();
+  renderCrono(currentCronoFilter);
+}
+
+function filterTable(type, resp, btn) {
+  const tbodyId = type === 'form' ? 'tbody-formativas' : 'tbody-operativas';
+  const rows = document.querySelectorAll(`#${tbodyId} .accion-row`);
+  rows.forEach(r => {
+    if (resp === 'todos' || r.dataset.resp.toLowerCase().includes(resp.toLowerCase())) {
+      r.style.display = '';
+    } else {
+      r.style.display = 'none';
+    }
+  });
+  const btns = btn.closest('.acciones-filters').querySelectorAll('.filter-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+let currentCronoFilter = 'todos';
+function renderCrono(respFilter) {
+  currentCronoFilter = respFilter;
+  const state = getState();
+  const body = document.getElementById('crono-body');
+  const months = [[], [], [], [], []];
+  CRONO.forEach(item => months[item.mes].push(item));
+  body.innerHTML = '';
+  months.forEach(items => {
+    const col = document.createElement('div');
+    col.className = 'crono-col';
+    items.forEach(item => {
+      if (respFilter !== 'todos' && !item.resp.toLowerCase().includes(respFilter.toLowerCase())) return;
+      const done = state[item.id] || false;
+      const typeClass = item.tipo === 'f' ? 'type-f' : item.tipo === 'practica' ? 'type-practica' : 'type-ao';
+      col.innerHTML += `
+        <div class="crono-pill ${typeClass} ${done ? 'done' : ''}">
+          <span class="pill-code">${item.label}</span>
+          <span class="pill-titulo">${item.titulo}</span>
+          <span class="pill-resp">${item.resp}</span>
+        </div>`;
+    });
+    body.appendChild(col);
+  });
+}
+
+function filterCrono(resp, btn) {
+  renderCrono(resp);
+  const btns = btn.closest('.crono-filters').querySelectorAll('.filter-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+renderRetos();
+renderAccionesTable(ACCIONES_FORM, 'tbody-formativas');
+renderAccionesTable(ACCIONES_OP, 'tbody-operativas');
+renderCrono('todos');
+updateGlobalProgress();
+</script>
+</body>
+</html>
