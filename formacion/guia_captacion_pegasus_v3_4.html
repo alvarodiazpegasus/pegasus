@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Captación — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde:#08B75B;--azul:#007EC3;--morado:#974694;--rosa:#E45E9B;
+  --rojo:#D6191B;--naranja:#ED7928;--amarillo:#F3D100;
+  --negro:#1a1a1a;--gris:#555;--gris2:#888;--gris3:#f5f5f5;--borde:#e0e0e0;
+  --grad:linear-gradient(90deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100);
+  --grad-tpt:linear-gradient(135deg,#974694,#E45E9B);
+  --grad-is:linear-gradient(135deg,#08B75B,#007EC3);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:#fff;color:var(--negro);font-size:15px;line-height:1.65;}
+
+/* TOPBAR */
+.topbar{background:#fff;border-bottom:1px solid var(--borde);padding:0 40px;position:sticky;top:0;z-index:300;}
+.topbar-inner{max-width:1020px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:54px;}
+.logo-grad{font-size:19px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.main-tabs{display:flex;gap:2px;}
+.main-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--gris);transition:all .2s;letter-spacing:.3px;}
+.main-tab.active-corp{background:var(--negro);color:#fff;}
+.main-tab.active-tpt{background:var(--grad-tpt);color:#fff;}
+.main-tab.active-is{background:var(--grad-is);color:#fff;}
+.main-tab.active-sim{background:#1a1a1a;color:#fff;}
+.main-tab:hover:not([class*="active"]){background:var(--gris3);}
+.conf-badge{background:#FEE2E2;color:#991B1B;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;}
+.grad-bar{height:4px;background:var(--grad);}
+
+/* LAYOUT */
+.page{display:none;max-width:1020px;margin:0 auto;padding:36px 40px 80px;}
+.page.active{display:block;}
+
+/* HERO */
+.hero{margin-bottom:36px;}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gris2);margin-bottom:8px;}
+.h1{font-size:34px;font-weight:700;line-height:1.15;margin-bottom:10px;}
+.h1 .g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.h1 .gtpt{background:var(--grad-tpt);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.h1 .gis{background:var(--grad-is);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:14px;color:var(--gris);max-width:640px;line-height:1.7;}
+.divider{height:1px;background:var(--borde);margin:32px 0;}
+
+/* SEC LABEL */
+.slabel{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gris2);margin-bottom:5px;}
+.sh2{font-size:21px;font-weight:700;margin-bottom:5px;}
+.sintro{font-size:14px;color:var(--gris);max-width:660px;margin-bottom:18px;line-height:1.7;}
+
+/* CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.card{background:#fff;border:1px solid var(--borde);border-radius:13px;padding:18px 20px;}
+.card h3{font-size:14px;font-weight:700;margin-bottom:8px;}
+.card p,.card li{font-size:13px;color:var(--gris);line-height:1.6;}
+.card ul{list-style:none;}
+.card ul li{padding:5px 0;border-bottom:1px solid #f2f2f2;display:flex;align-items:flex-start;gap:8px;}
+.card ul li:last-child{border-bottom:none;}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;}
+.tag-tpt{background:#F3E8FF;color:#6B21A8;}
+.tag-is{background:#D1FAE5;color:#065F46;}
+.tag-red{background:#FEE2E2;color:#991B1B;}
+.tag-ora{background:#FEF3C7;color:#92400E;}
+.tag-grn{background:#D1FAE5;color:#065F46;}
+.tag-blu{background:#DBEAFE;color:#1E3A5F;}
+.tag-gray{background:#F3F4F6;color:#374151;}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:8px;}
+.dot-m{background:var(--morado);}
+.dot-r{background:var(--rojo);}
+.dot-g{background:var(--verde);}
+.dot-a{background:var(--azul);}
+
+/* ACCENT CARDS */
+.card-tpt{border-left:4px solid var(--morado);border-radius:0 13px 13px 0;}
+.card-is{border-left:4px solid var(--verde);border-radius:0 13px 13px 0;}
+.card-red{border-left:4px solid var(--rojo);border-radius:0 13px 13px 0;}
+.card-ora{border-left:4px solid var(--naranja);border-radius:0 13px 13px 0;}
+.card-grn{border-left:4px solid var(--verde);border-radius:0 13px 13px 0;}
+.card-blu{border-left:4px solid var(--azul);border-radius:0 13px 13px 0;}
+.card-yel{border-left:4px solid var(--amarillo);border-radius:0 13px 13px 0;background:#fffdf0;}
+
+/* QUOTES */
+.quote{border-left:3px solid var(--borde);padding:8px 12px;font-style:italic;font-size:13px;color:var(--gris);line-height:1.65;margin:8px 0;}
+.quote.ok{border-left-color:var(--verde);}
+.quote.no{border-left-color:var(--rojo);}
+.qlabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.qlabel.ok{color:var(--verde);}
+.qlabel.no{color:var(--rojo);}
+
+/* TIPROW */
+.tiprow{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid #f2f2f2;font-size:13px;color:var(--gris);}
+.tiprow:last-child{border-bottom:none;}
+.tiprow strong{color:var(--negro);}
+.tiprow .tdot{width:6px;height:6px;border-radius:50%;background:var(--morado);flex-shrink:0;margin-top:8px;}
+.tiprow .tdot-g{background:var(--verde);}
+.tiprow .tdot-r{background:var(--rojo);}
+
+/* FLUJO LLAMADA */
+.flujo{display:flex;flex-direction:column;gap:0;}
+.flstep{display:flex;gap:0;align-items:stretch;}
+.fl-line{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0;}
+.fl-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff;z-index:1;}
+.fl-conn{width:2px;background:var(--borde);flex:1;margin:2px 0;}
+.fl-content{padding:0 0 24px 14px;flex:1;}
+.fl-content h3{font-size:14px;font-weight:700;margin-bottom:3px;}
+.fl-content .tiempo{font-size:10px;color:var(--gris2);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.fl-content p{font-size:13px;color:var(--gris);line-height:1.65;margin-bottom:6px;}
+
+/* ACCORDION OBJECIONES */
+.obj-card{border:1px solid var(--borde);border-radius:12px;overflow:hidden;margin-bottom:10px;}
+.obj-header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;background:#fff;cursor:pointer;transition:background .2s;}
+.obj-header:hover{background:var(--gris3);}
+.obj-header h3{font-size:13px;font-weight:700;color:var(--negro);}
+.obj-arrow{font-size:16px;color:var(--gris2);transition:transform .3s;}
+.obj-arrow.open{transform:rotate(180deg);}
+.obj-body{display:none;padding:14px 18px;border-top:1px solid var(--borde);background:var(--gris3);}
+.obj-body.show{display:block;}
+.obj-tipo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rojo);margin-bottom:7px;}
+.obj-frase-in{font-size:13px;font-style:italic;color:var(--negro);margin-bottom:10px;padding:9px 13px;background:#fff;border-radius:7px;border-left:3px solid var(--rojo);}
+.obj-resp{font-size:13px;color:var(--gris);line-height:1.7;}
+.obj-frase-out{font-size:13px;font-style:italic;color:var(--negro);margin-top:9px;padding:9px 13px;background:#fff;border-radius:7px;border-left:3px solid var(--verde);}
+
+/* ===================== SIMULADOR ===================== */
+.sim-wrap{background:var(--gris3);border-radius:16px;padding:26px;}
+.sim-screen{display:none;}
+.sim-screen.active{display:block;}
+.sim-q{font-size:18px;font-weight:700;margin-bottom:5px;color:var(--negro);}
+.sim-sub{font-size:13px;color:var(--gris);margin-bottom:18px;line-height:1.6;}
+.sim-opts{display:flex;flex-direction:column;gap:9px;}
+.sim-btn{background:#fff;border:1.5px solid var(--borde);border-radius:11px;padding:13px 16px;text-align:left;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--negro);transition:all .2s;display:flex;justify-content:space-between;align-items:flex-start;}
+.sim-btn:hover{border-color:var(--morado);background:#faf5ff;}
+.sim-btn .ex{font-size:12px;font-weight:400;color:var(--gris);margin-top:3px;display:block;line-height:1.5;}
+.sim-btn .arr{font-size:15px;color:var(--gris2);flex-shrink:0;margin-left:10px;margin-top:2px;}
+.sim-back{background:transparent;border:1px solid var(--borde);border-radius:7px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--gris);margin-bottom:14px;font-family:'Barlow',sans-serif;}
+.sim-back:hover{background:var(--gris3);}
+.sim-reset{background:var(--negro);border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;color:#fff;margin-top:14px;font-family:'Barlow',sans-serif;}
+.sim-result{background:#fff;border-radius:12px;padding:22px;border:2px solid var(--borde);}
+.sim-result h3{font-size:17px;font-weight:700;margin-bottom:7px;}
+.sim-result .why{font-size:13px;color:var(--gris);margin-bottom:14px;line-height:1.7;}
+.prog{display:flex;gap:5px;margin-bottom:18px;}
+.prog-dot{width:7px;height:7px;border-radius:50%;background:var(--borde);}
+.prog-dot.done{background:var(--negro);}
+.sim-cases{margin-top:16px;border-top:1px solid var(--borde);padding-top:14px;}
+.sim-cases h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gris2);margin-bottom:10px;}
+.sim-case{background:var(--gris3);border-radius:8px;padding:10px 13px;margin-bottom:7px;font-size:13px;}
+.sim-case .cc{font-style:italic;color:var(--negro);margin-bottom:5px;}
+.sim-case .cd{font-size:12px;color:var(--gris);}
+
+/* ===================== ÁRBOL ESTÁTICO ===================== */
+.arbol-wrap{background:#fff;border:1px solid var(--borde);border-radius:13px;padding:22px;}
+.arbol-title{font-size:13px;font-weight:700;margin-bottom:14px;color:var(--negro);}
+.arbol-branch{border-left:3px solid var(--borde);padding-left:18px;margin-bottom:18px;}
+.ab-fis{border-left-color:var(--azul);}
+.ab-log{border-left-color:var(--verde);}
+.ab-psi{border-left-color:var(--morado);}
+.ab-to{border-left-color:var(--naranja);}
+.ab-is{border-left-color:var(--verde);}
+.ab-title{font-size:13px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.ab-items{font-size:12px;color:var(--gris);line-height:1.7;}
+.ab-result{display:inline-block;font-size:11px;font-weight:700;padding:3px 11px;border-radius:20px;margin-top:7px;}
+.ab-result.fis{background:#DBEAFE;color:#1E3A5F;}
+.ab-result.log{background:#D1FAE5;color:#065F46;}
+.ab-result.psi{background:#F3E8FF;color:#6B21A8;}
+.ab-result.to{background:#FEF3C7;color:#92400E;}
+.ab-result.is{background:#D1FAE5;color:#065F46;}
+
+/* TRIAJE EMOCIONAL */
+.triaje-tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;}
+.triaje-tab{padding:9px 18px;border-radius:28px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid var(--borde);background:#fff;color:var(--gris);transition:all .2s;}
+.triaje-tab.tr.active{background:var(--rojo);border-color:var(--rojo);color:#fff;}
+.triaje-tab.to.active{background:var(--naranja);border-color:var(--naranja);color:#fff;}
+.triaje-tab.tg.active{background:var(--verde);border-color:var(--verde);color:#fff;}
+.triaje-tab:hover:not([class*="active"]){background:var(--gris3);}
+.triaje-panel{display:none;}
+.triaje-panel.active{display:block;}
+.t-panel{border:1px solid var(--borde);border-radius:14px;overflow:hidden;}
+.t-head{padding:16px 22px;display:flex;justify-content:space-between;align-items:center;}
+.t-head h3{font-size:16px;font-weight:700;color:#fff;}
+.t-head .t-sub{font-size:12px;opacity:.85;color:#fff;}
+.t-head .t-badge{background:rgba(255,255,255,.2);padding:3px 11px;border-radius:20px;font-size:11px;font-weight:700;color:#fff;}
+.th-r{background:var(--rojo);}
+.th-o{background:var(--naranja);}
+.th-g{background:var(--verde);}
+.t-body{padding:22px;}
+.t-sec{margin-bottom:18px;}
+.t-sec h4{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin-bottom:9px;}
+.señales{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.señal{background:var(--gris3);border-radius:7px;padding:8px 11px;font-size:12px;color:var(--gris);font-style:italic;border-left:2px solid var(--borde);}
+.obj-box{border-radius:9px;padding:13px 15px;margin-top:14px;display:flex;align-items:flex-start;gap:10px;}
+.ob-r{background:#FEF2F2;border:1px solid #FECACA;}
+.ob-o{background:#FFFBEB;border:1px solid #FDE68A;}
+.ob-g{background:#ECFDF5;border:1px solid #A7F3D0;}
+.obj-box .obi{font-size:18px;flex-shrink:0;margin-top:1px;}
+.obj-box h4{font-size:12px;font-weight:700;margin-bottom:3px;}
+.obj-box p{font-size:12px;color:var(--gris);line-height:1.6;}
+
+/* HIGHLIGHT */
+.hl{background:var(--gris3);border-radius:9px;padding:12px 16px;font-size:13px;font-style:italic;color:var(--gris);line-height:1.7;margin:8px 0;}
+.hl-g{background:#ECFDF5;border-left:3px solid var(--verde);border-radius:0 9px 9px 0;}
+.hl-r{background:#FEF2F2;border-left:3px solid var(--rojo);border-radius:0 9px 9px 0;}
+.hl-m{background:#F3E8FF;border-left:3px solid var(--morado);border-radius:0 9px 9px 0;}
+.hl-a{background:#DBEAFE;border-left:3px solid var(--azul);border-radius:0 9px 9px 0;}
+
+/* CASOS ESTÁTICOS */
+.caso{background:#fff;border:1px solid var(--borde);border-radius:11px;padding:15px 18px;margin-bottom:9px;}
+.caso-n{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gris2);margin-bottom:5px;}
+.caso h3{font-size:13px;font-weight:700;font-style:italic;margin-bottom:7px;color:var(--negro);}
+.caso .derivs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+.caso .razon{font-size:12px;color:var(--gris);line-height:1.6;}
+
+/* SESION BIENVENIDA */
+.sb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.sb-fases{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
+.sb-fase{display:flex;gap:0;align-items:stretch;}
+.sbf-line{display:flex;flex-direction:column;align-items:center;width:36px;flex-shrink:0;}
+.sbf-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#fff;z-index:1;}
+.sbf-conn{width:2px;background:var(--borde);flex:1;margin:2px 0;}
+.sbf-content{padding:0 0 20px 12px;flex:1;}
+.sbf-content h3{font-size:13px;font-weight:700;margin-bottom:3px;}
+.sbf-content .st{font-size:10px;color:var(--gris2);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;}
+.sbf-content p{font-size:12px;color:var(--gris);line-height:1.6;}
+
+/* TABLA */
+.tabla{width:100%;border-collapse:collapse;margin-bottom:20px;border-radius:11px;overflow:hidden;border:1px solid var(--borde);font-size:13px;}
+.tabla th{background:var(--grad-tpt);color:#fff;padding:9px 13px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.tabla.is-tabla th{background:var(--grad-is);}
+.tabla td{padding:9px 13px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+.tabla tr:last-child td{border-bottom:none;}
+.tabla tr:nth-child(even) td{background:#fafafa;}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--borde);padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.footer span{font-size:11px;color:var(--gris2);}
+.footer .fb{height:3px;background:var(--grad);width:50px;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="grad-bar"></div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="logo-grad">PEGASUS</span>
+    <nav class="main-tabs">
+      <button class="main-tab active-corp" onclick="showPage('filosofia',this,'active-corp')">Filosofía</button>
+      <button class="main-tab" onclick="showPage('sim',this,'active-sim')">🧠 Simulador</button>
+      <button class="main-tab" onclick="showPage('triaje',this,'active-corp')">Triaje emocional</button>
+      <button class="main-tab" onclick="showPage('tpt',this,'active-tpt')">TPT</button>
+      <button class="main-tab" onclick="showPage('is',this,'active-is')">IS</button>
+      <button class="main-tab" onclick="showPage('objeciones',this,'active-corp')">Objeciones</button>
+    </nav>
+    <span class="conf-badge">🔒 Interno</span>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- FILOSOFÍA                                                          -->
+<!-- ================================================================ -->
+<div id="filosofia" class="page active">
+  <div class="hero">
+    <p class="eyebrow">Guía de captación · Persona de información</p>
+    <h1 class="h1">Cómo vender Pegasus<br><span class="g">sin vender</span></h1>
+    <p class="hero-sub">Esta guía es para ti. Te da las herramientas para conectar con cada familia, adaptar el discurso y acompañarles desde el primer contacto. No vendas un servicio. Conecta desde el miedo compartido.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="slabel">El hilo conductor</p>
+  <h2 class="sh2">La filosofía que nunca cambia</h2>
+  <p class="sintro">Da igual si la familia viene por TPT o por IS. Da igual si hay diagnóstico o no. El primer contacto siempre empieza igual: escuchar, conectar y presentar el para qué de Pegasus antes del qué.</p>
+
+  <!-- FLUJO DE LLAMADA -->
+  <div class="flujo">
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:#1a1a1a;">0</div><div class="fl-conn"></div></div>
+      <div class="fl-content">
+        <p class="tiempo">Apertura · 2-3 min</p>
+        <h3>Escucha activa — antes de hablar, entiende</h3>
+        <p>No empieces hablando de Pegasus. Deja que cuenten. Escucha sin interrumpir. Lo que digan aquí es el hilo del que tirar en todo el resto.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Pregunta de apertura</div>"Hola, ¿cómo puedo ayudarte? Cuéntame un poco qué os trae por aquí."</div>
+        <div class="tiprow"><div class="tdot"></div><p><strong>Tip:</strong> Nunca preguntes el diagnóstico primero. Pregunta qué le está costando en su vida diaria. Eso te dice mucho más que el nombre de la condición.</p></div>
+        <div class="tiprow"><div class="tdot"></div><p><strong>Tip:</strong> Si te llegan con diagnóstico, perfecto. Pero si no lo mencionan, no lo pidas. No necesitas el diagnóstico para orientarles al servicio correcto.</p></div>
+      </div>
+    </div>
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:var(--morado);">1</div><div class="fl-conn"></div></div>
+      <div class="fl-content">
+        <p class="tiempo">Filosofía · 3-4 min</p>
+        <h3>El para qué de Pegasus — no el qué</h3>
+        <p>La mayoría de sitios trabajan para que el niño mejore sus objetivos clínicos. Nosotros trabajamos para algo más profundo: que sea feliz siendo quien es. No normalizamos. Acompañamos.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Frase clave</div>"En Pegasus no trabajamos para que tu hijo sea como los demás. Trabajamos para que sea lo más feliz posible siendo él mismo. Para nosotros el éxito no es que hable bien o que ande recto. El éxito es que se acepte y sea feliz."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Cuando preguntan si van a "mejorar"</div>"No te voy a prometer que vaya a hablar, porque nadie puede prometerte eso con honestidad. Lo que sí te puedo asegurar es que vamos a buscar que se comunique, que se acepte, y que sea lo más feliz posible."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ La familia también</div>"Y no solo trabajamos con tu hijo. Trabajamos contigo. Porque sabemos que cuando la familia está bien, el niño está mejor."</div>
+        <div class="quote no"><div class="qlabel no">🚫 Nunca digas</div>"Vamos a hacer que tu hijo mejore / hable / sea normal / se ponga al nivel de los demás."</div>
+        <div class="tiprow" style="margin-top:10px;"><div class="tdot"></div><p><strong>Tip:</strong> Adapta el discurso al nivel de aceptación de la familia. Consulta la pestaña <em>Triaje emocional</em>.</p></div>
+      </div>
+    </div>
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:var(--azul);">2</div><div class="fl-conn"></div></div>
+      <div class="fl-content">
+        <p class="tiempo">Orientación · 2 min</p>
+        <h3>¿TPT o IS? — Orienta al servicio correcto</h3>
+        <p>Una vez has conectado emocionalmente, orienta al servicio. Usa el <strong>Simulador de necesidades</strong> para practicar esta decisión. La regla rápida: si la necesidad principal es terapéutica → TPT. Si es lúdica, social o deportiva → IS. Si hay ambas → ambas.</p>
+        <div class="tiprow"><div class="tdot"></div><p><strong>Tip:</strong> Muchas familias vienen por ambos servicios. No los presentes como alternativas, preséntalo como un ecosistema: "Algunos de nuestros familias vienen a terapia los martes y a la piscina los sábados."</p></div>
+      </div>
+    </div>
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:var(--rosa);">3</div><div class="fl-conn"></div></div>
+      <div class="fl-content">
+        <p class="tiempo">Metodología · 2-3 min</p>
+        <h3>Cómo funciona por dentro — lo que nos diferencia</h3>
+        <p>Todo ocurre a través del juego. No hay ejercicios aburridos. No hay fichas. Y trabajamos con la familia, no solo con el niño.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ IE + Juego</div>"Todo lo que hacemos pasa por el juego. Tu hijo no siente que está en terapia. Siente que se lo está pasando bien."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Papás al Juego (TPT)</div>"Tenemos algo llamado Papás al Juego: entramos a jugar contigo y tu hijo, para enseñarte a jugar con él en casa también."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Papás a la Charleta (TPT)</div>"Y tenemos las Charletas con familias: espacios para daros herramientas a vosotros. Para gestionar el día a día, aceptar la situación, no sentiros solos."</div>
+      </div>
+    </div>
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:var(--naranja);">4</div><div class="fl-conn"></div></div>
+      <div class="fl-content">
+        <p class="tiempo">Precio · 1-2 min</p>
+        <h3>Condiciones — siempre después del valor</h3>
+        <p>Nunca abras con el precio. Preséntalo cuando ya han conectado con la filosofía y el servicio. Y cuando lo hagas, explica siempre <strong>por qué podemos tenerlo así</strong> — en este orden:</p>
+        <div class="quote ok" style="margin-top:10px;"><div class="qlabel ok">✅ Introducir el precio con el contexto correcto</div>"El precio está entre 17 y 26€ por sesión en TPT, y desde 40€ al mes en IS. Es entre un 55-60% más barato que el mercado. Podemos hacerlo por dos motivos: el primero, y el más importante, es vuestro compromiso anual. Cuando una familia se compromete de septiembre a julio, nos permite planificar el equipo, las plazas y la estructura con antelación. Esa previsibilidad es la que hace posible ese precio. El segundo motivo es que trabajamos con espacios cedidos por los ayuntamientos, lo que elimina el coste de alquiler. Los dos juntos son lo que hace que Pegasus pueda existir con estos precios."</div>
+        <div class="tiprow" style="margin-top:8px;"><div class="tdot"></div><p><strong>Tip:</strong> Si preguntan el precio antes de hora, dilo con naturalidad y vuelve al valor: "Son unos 20€ por sesión. Y te cuento por qué podemos tenerlo tan bajo…" — luego explica los dos motivos.</p></div>
+        <div class="tiprow"><div class="tdot"></div><p><strong>Importante:</strong> Explicar el compromiso anual aquí, en el momento del precio, no significa cerrarlo ahora. El cierre sigue siendo la Sesión de Bienvenida. Pero la familia tiene que salir de esta llamada entendiendo que el precio y el compromiso van de la mano — no son cosas separadas.</p></div>
+      </div>
+    </div>
+    <div class="flstep">
+      <div class="fl-line"><div class="fl-circle" style="background:var(--verde);">5</div></div>
+      <div class="fl-content" style="padding-bottom:0">
+        <p class="tiempo">Cierre · 1 min</p>
+        <h3>Cierre — lee cómo viene la familia y adapta</h3>
+        <p>El cierre ideal depende de lo que estás leyendo al otro lado. <strong>Hay dos escenarios y ambos son buenos.</strong></p>
+        <div class="quote ok" style="margin-top:10px;"><div class="qlabel ok">✅ Si tienen dudas o necesitan verlo antes — ofrece la Sesión de Bienvenida</div>"Lo mejor que podéis hacer es venir a conocernos. Hacemos una Sesión de Bienvenida gratuita donde vuestro hijo juega directamente con el profesional. Sin compromiso. ¿Cuándo os viene bien?"</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Si vienen muy dispuestos y quieren empezar ya — cierra el alta directamente</div>"Perfecto, si lo tenéis claro podemos formalizar el alta directamente y empezar. Os asignamos plaza, terapeuta y horario. La primera sesión será vuestra Sesión de Bienvenida de todas formas, así que no perdéis nada."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Si dudan después de proponer la Sesión de Bienvenida</div>"Entiendo que necesitéis tiempo. La Sesión de Bienvenida es exactamente para eso: para que lo veáis con vuestros propios ojos antes de comprometeros a nada."</div>
+        <div class="tiprow" style="margin-top:8px;"><div class="tdot-g"></div><p><strong>Lectura clave:</strong> La Sesión de Bienvenida es un recurso para familias que necesitan ver antes de comprometerse. Si la familia ya está convencida y quiere empezar, formalizar el alta directamente es la mejor opción — para ellos y para Pegasus. No la frenesó ofreciendo algo gratuito si ya están listos para pagar.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card card-red">
+    <span class="tag tag-red">Siempre presente</span>
+    <h3>Lo que jamás debe pasar en captación</h3>
+    <div class="tiprow"><div class="tdot-r"></div><p>Hablar de precio antes de haber conectado emocionalmente.</p></div>
+    <div class="tiprow"><div class="tdot-r"></div><p>Prometer resultados clínicos: "va a hablar", "va a mejorar", "se va a poner al nivel".</p></div>
+    <div class="tiprow"><div class="tdot-r"></div><p>Compararse con otros centros o criticarlos.</p></div>
+    <div class="tiprow"><div class="tdot-r"></div><p>Usar lenguaje clínico o de limitación: "su problema", "lo que le falta".</p></div>
+    <div class="tiprow"><div class="tdot-r"></div><p>Hacer sentir a la familia que su situación es un problema que hay que corregir.</p></div>
+    <div class="tiprow"><div class="tdot-r"></div><p>Abrumar con condiciones del contrato en la primera llamada.</p></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SIMULADOR DE NECESIDADES                                          -->
+<!-- ================================================================ -->
+<div id="sim" class="page">
+  <div class="hero">
+    <p class="eyebrow">Herramienta de formación · Simulador</p>
+    <h1 class="h1">Simulador de<br><span class="g">necesidades</span></h1>
+    <p class="hero-sub">Practica la orientación al servicio correcto. La familia no te va a decir "mi hijo tiene TEA con necesidades de comunicación funcional". Te va a decir algo como "es un desastre y no para quieto". Esta herramienta te entrena para interpretar eso.</p>
+  </div>
+
+  <div class="divider"></div>
+  <p class="slabel">Herramienta interactiva</p>
+  <h2 class="sh2">¿A qué servicio orientamos?</h2>
+  <p class="sintro" style="margin-bottom:20px;">Ve respondiendo las preguntas como si estuvieras escuchando a la familia. El simulador te guía hasta la orientación correcta y te explica el razonamiento.</p>
+
+  <div class="sim-wrap">
+    <!-- PANTALLA 0: TIPO DE ENTRADA -->
+    <div id="s0" class="sim-screen active">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Cómo describe la familia la situación?</p>
+      <p class="sim-sub">No siempre usarán diagnósticos. Elige la forma en que están llegando la información.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('s1a')"><div><span>Me dicen lo que le cuesta en el día a día</span><span class="ex">"No para quieto", "no tiene amigos", "es un desastre en el cole", "tiene rabietas"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s1b')"><div><span>Me dicen el diagnóstico directamente</span><span class="ex">"Tiene TEA", "le han dicho TDAH", "parálisis cerebral", "síndrome de Down"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s1c')"><div><span>Buscan deporte o actividad física adaptada</span><span class="ex">"Quiero que haga deporte", "que se relacione con otros niños", "que disfrute nadando"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RAMA A: COTIDIANO -->
+    <div id="s1a" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s0')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Qué área de la vida diaria le está costando más?</p>
+      <p class="sim-sub">Escucha cuál es el problema principal. A veces hay varios, pero hay uno que pesa más.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('s2a_mov')"><div><span>Movimiento, dolor o físico</span><span class="ex">"No camina bien", "se cae mucho", "tiene dolor", "le cuesta moverse"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s2a_com')"><div><span>Comunicación, habla o lectura</span><span class="ex">"No habla", "pronuncia muy mal", "le cuesta leer", "no entiende lo que le dices"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s2a_emo')"><div><span>Emocional o conducta — pero el niño habla y entiende bien</span><span class="ex">"Tiene muchos miedos", "se pone muy ansioso", "llora por todo", "conducta en adolescente"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s2a_fun')"><div><span>Funcionar en el día a día, conducta intensa o dependencia</span><span class="ex">"No se viste solo", "rabietas muy fuertes", "no juega con otros", "necesita ayuda para todo", "no para quieto y es un desastre"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s2a_hhss')" style="border-color:var(--verde);"><div><span>Habilidades sociales o buscan grupo — quieren que se relacione con otros</span><span class="ex">"No tiene amigos", "no sabe jugar con otros niños", "es muy tímido", "quiero que esté con otros niños como él", "busco un grupo"</span></div><span class="arr" style="color:var(--verde);">→</span></button>
+      </div>
+    </div>
+
+    <!-- HHSS: ¿con o sin dificultades de funcionamiento? -->
+    <div id="s2a_hhss" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1a')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿El niño tiene dificultades de funcionamiento o discapacidad, o no hay diagnóstico?</p>
+      <p class="sim-sub">Esto orienta si el grupo socioemocional va por la vía terapéutica o directamente por IS.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_hhss_dis')"><div><span>Tiene discapacidad o dificultades de funcionamiento relevantes</span><span class="ex">TEA, síndrome de Down, TDAH severo, baja autonomía, poca comunicación</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_hhss_nodis')"><div><span>No hay diagnóstico o las dificultades son leves — principalmente timidez o falta de relación</span><span class="ex">"Es tímido", "no sabe cómo relacionarse", "no tiene amigos pero no tiene ningún diagnóstico"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RESULTADO HHSS CON DISCAPACIDAD -->
+    <div id="res_hhss_dis" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s2a_hhss')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde);">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación principal</p>
+        <h3>🧩 TO (TPT) + 🏊 IS grupo socioemocional</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO</span><span class="tag tag-is">IS</span><span class="tag tag-grn">Grupo</span></div>
+        <p class="why">Cuando hay discapacidad o dificultades de funcionamiento, las habilidades sociales se trabajan desde dos frentes complementarios. En TPT, la Terapia Ocupacional trabaja la regulación emocional, la adaptación al entorno y la relación con iguales de forma estructurada. En IS, el grupo deportivo adaptado es el espacio donde practicar esas habilidades en un contexto real y lúdico, con otros niños en situación similar. La combinación es mucho más potente que cualquiera de los dos por separado.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar la combinación</div>"Para trabajar las habilidades sociales de tu hijo tenemos dos cosas que se complementan muy bien. Por un lado, la terapia ocupacional, donde trabajamos de forma individual la relación con otros, la regulación y cómo adaptarse a distintas situaciones. Y por otro, tenemos IS: un programa deportivo adaptado en grupo pequeño donde tu hijo puede practicar exactamente eso con otros niños como él, en un entorno de juego real. Los dos juntos son mucho más potentes."</div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:12px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 IS como proyecto socioemocional</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;">En IS no solo trabajamos el deporte. Cada sesión en grupo trabaja la parte socioemocional de forma natural: turnos, normas compartidas, celebrar el logro propio y el de los demás, gestionar la frustración cuando algo no sale, sentirse parte de algo. Todo eso ocurre mientras juegan, sin que el niño lo perciba como intervención.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> PiscinaSUS o Fútbol Lúdico/Multideporte según lo que vea el profesional en la Sesión de Bienvenida. El medio acuático es rico en estímulos y puede ser regulador, pero no siempre. Déjalo abierto y que sea el educador quien oriente.</p>
+        </div>
+        <div class="sim-cases"><h4>Casos frecuentes</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo tiene TEA y no sabe jugar con otros niños"</div><div class="cd">→ TO (TPT) para trabajar habilidades sociales de forma estructurada + IS en grupo para practicarlas en contexto real.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo tiene síndrome de Down y quiero que tenga amigos"</div><div class="cd">→ TO o Logopedia según necesidades + IS grupo como espacio de socialización natural.</div></div>
+          <div class="sim-case"><div class="cc">"No juega con otros niños, se aísla mucho"</div><div class="cd">→ TO primero para evaluar el perfil. IS en paralelo o inmediatamente después como espacio de relación.</div></div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <!-- RESULTADO HHSS SIN DISCAPACIDAD -->
+    <div id="res_hhss_nodis" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s2a_hhss')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde);">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación principal</p>
+        <h3>🏊 IS grupo + 💭 Psicología (TPT) si hay base emocional</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-grn">Grupo socioemocional</span><span class="tag tag-tpt">Psicología opcional</span></div>
+        <p class="why">Cuando no hay diagnóstico ni dificultades de funcionamiento significativas, IS puede ser la puerta de entrada perfecta. El grupo deportivo adaptado es un entorno de bajo umbral para un niño tímido o con pocas habilidades sociales: no se le exige nada, simplemente juega con otros niños en un entorno seguro y divertido. Si detrás hay una base emocional más profunda (ansiedad social, baja autoestima), puede complementarse con psicología en TPT.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar IS como puerta de entrada</div>"Para un niño que necesita relacionarse con otros y no sabe muy bien cómo, IS es probablemente el mejor sitio para empezar. No es una terapia: es un grupo de deporte adaptado donde los niños juegan juntos, se conocen y se lo pasan bien. Sin presión, sin que nadie le evalúe. Solo juego. Y la mayoría de niños que empiezan así acaban teniendo sus primeros amigos ahí."</div>
+        <div class="quote ok"><div class="qlabel ok">✅ Si hay base emocional detrás — sugerir también Psicología</div>"Si además de la socialización notas que hay ansiedad, mucho miedo o baja autoestima, podemos complementar IS con psicología. En psicología trabaja las herramientas internas, y en IS las practica con otros niños. Los dos juntos son muy potentes."</div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:12px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 IS como proyecto socioemocional — sin diagnóstico</p>
+          <p style="font-size:13px;color:var(--gris);line-height:1.65;">IS no requiere diagnóstico. Cualquier niño puede entrar en un grupo adaptado. Para un niño tímido sin discapacidad, el grupo IS puede ser más efectivo que cualquier intervención individual: el aprendizaje social ocurre en contexto real, con iguales, de forma natural. Es la diferencia entre hablar de cómo relacionarse y simplemente relacionarse.</p>
+        </div>
+        <div class="sim-cases"><h4>Casos frecuentes</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo no tiene amigos, es muy tímido pero no tiene ningún diagnóstico"</div><div class="cd">→ IS grupo como primera opción. Valorar Psicología si hay ansiedad social de fondo.</div></div>
+          <div class="sim-case"><div class="cc">"Busco un grupo donde mi hijo pueda estar con otros niños como él"</div><div class="cd">→ IS grupo. Preguntar qué quiere decir "como él" para entender el perfil y elegir el grupo más adecuado.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hija tiene 8 años y no sabe relacionarse, siempre está sola en el recreo"</div><div class="cd">→ IS grupo + valorar Psicología. Si hay ansiedad social o baja autoestima, los dos juntos.</div></div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <!-- s2a_fun: CLAVE TDAH/CONDUCTA -->
+    <div id="s2a_fun" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1a')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">Un poco más sobre cómo funciona el niño…</p>
+      <p class="sim-sub">Esto es clave para orientar bien. No tienes que diagnosticar: solo entender el nivel de funcionamiento.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_to')"><div><span>Le cuesta mucho seguir instrucciones o normas, muy dependiente o no habla</span><span class="ex">"No entiende lo que le dices", "necesita ayuda para todo", "no juega solo ni con otros", "rabietas muy intensas", "TDAH en niño pequeño"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_to_psi')"><div><span>Habla y entiende, pero la conducta o la organización es el problema</span><span class="ex">"Es un desastre, no para, no se organiza", "tiene TDAH y no estudia", "le da todo igual", "no tiene amigos pero sabe relacionarse"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RAMA B: DIAGNÓSTICO -->
+    <div id="s1b" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s0')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Cuál es el diagnóstico o condición que mencionan?</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_fis')"><div><span>Parálisis cerebral, enfermedad neuromuscular o discapacidad física</span><span class="ex">Parálisis cerebral, espina bífida, distrofia muscular, problemas motores neurológicos</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_tea_to')"><div><span>TEA (autismo) — en cualquier nivel</span><span class="ex">Desde TEA de bajo soporte hasta Asperger o autismo sin DI</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_tdah')"><div><span>TDAH</span><span class="ex">Déficit de atención con o sin hiperactividad, en distintas edades</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_sd')"><div><span>Síndrome de Down u otro síndrome genético</span><span class="ex">Síndrome de Down, síndrome de Williams, síndrome de Angelman…</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_log_diag')"><div><span>Dislexia, TEL o dificultades del lenguaje</span><span class="ex">TEL, TDL, dislexia, dificultades lectoescritoras, retraso del lenguaje</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="res_fis" class="sim-screen">
+      <button class="sim-back" onclick="history.go(-1)" style="display:none;"></button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--azul)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--azul);margin-bottom:7px;">Orientación principal</p>
+        <h3>🦴 Fisioterapia (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-blu">Fisioterapia</span></div>
+        <p class="why">El problema principal es físico o neuromotor. La fisioterapia en TPT trabaja movilidad, equilibrio, fuerza y reeducación de la marcha. En casos como parálisis cerebral también suele complementarse con Terapia Ocupacional y Logopedia según las necesidades del niño.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo</div>"Lo que describes encaja con lo que trabaja nuestro equipo de fisioterapia. No solo trabajan el movimiento: buscan que tu hijo pueda funcionar con más autonomía. Y todo a través del juego, no de ejercicios clínicos."</div>
+        <div class="sim-cases"><h4>Casos frecuentes de este tipo</h4>
+          <div class="sim-case"><div class="cc">"Mi hija tiene parálisis cerebral y cada vez le cuesta más moverse"</div><div class="cd">→ Fisioterapia. Complementar con TO si hay dependencia severa y con Logopedia si hay afectación en el habla.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo se cae mucho y tiene problemas de equilibrio"</div><div class="cd">→ Fisioterapia. Evaluar también TO si hay torpeza motriz fina.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">PiscinaSUS — combinación muy recomendada para perfiles motores.</strong> El agua reduce la resistencia y permite trabajar el movimiento de forma que en sala no es posible. Para un niño con parálisis cerebral o problemas neuromotores, la piscina es un entorno donde puede moverse con más libertad, ganar confianza corporal y socializar. El trabajo de fisioterapia en TPT y el trabajo acuático en IS se complementan directamente.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Además de la fisioterapia, tenemos un programa de natación adaptada donde tu hijo puede trabajar el movimiento en el agua y pasárselo en grande con otros niños. Muchas familias con perfiles similares combinan los dos y la diferencia es enorme."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_to" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--naranja)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--naranja);margin-bottom:7px;">Orientación principal</p>
+        <h3>🧩 Terapia Ocupacional (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">Terapia Ocupacional</span></div>
+        <p class="why">El problema principal es el funcionamiento en la vida diaria, la conducta o hay una dependencia significativa. Terapia Ocupacional es la base cuando hay mucha dependencia: trabaja autonomía, regulación emocional, habilidades sociales, rutinas y adaptación al entorno. Cuando hay discapacidad severa, suele ser la primera terapia que se introduce.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo</div>"Lo que describes encaja con terapia ocupacional. Se trabaja todo lo que tiene que ver con el funcionamiento diario: las rutinas, la regulación, relacionarse con los demás. Y todo a través del juego."</div>
+        <div class="hl hl-m" style="margin-top:10px;"><strong>Clave TO vs Psicología:</strong> Si el niño NO puede hablar, comprender y reflexionar sobre lo que le pasa → TO. Si SÍ puede hacerlo → valorar Psicología.</div>
+        <div class="sim-cases"><h4>Casos frecuentes</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo tiene 5 años, no habla y tiene muchas rabietas"</div><div class="cd">→ TO + Logopedia. No habla + conducta + necesidad de comunicación funcional.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo tiene autismo, no juega con otros niños"</div><div class="cd">→ TO. Habilidades sociales + regulación + adaptación.</div></div>
+          <div class="sim-case"><div class="cc">"Es un desastre, no para quieto, no se organiza, le van mal las notas"</div><div class="cd">→ Si es pequeño (hasta 8-9 años) y no reflexiona bien sobre lo que le pasa: TO.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">PiscinaSUS o Fútbol Lúdico — combinación muy potente para trabajar habilidades sociales y regulación en un entorno natural.</strong> Lo que TO trabaja de forma estructurada en sesión, IS lo practica en contexto real: compartir espacio, turnos, competición sana, relación con iguales. Para niños con poca tolerancia a la frustración o dificultades sociales, el deporte adaptado en grupo es el laboratorio más natural que existe.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> Ambas modalidades pueden encajar. El medio acuático aporta estimulación rica y puede ser regulador para algunos perfiles, pero no es una regla universal. La Sesión de Bienvenida es lo que orienta la decisión final.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Además de la terapia, tenemos un programa deportivo adaptado donde tu hijo puede practicar exactamente lo que trabaja en sesión pero con otros niños, en un entorno de juego real. Para niños como el tuyo es muy complementario."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_to_psi" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--morado)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--morado);margin-bottom:7px;">Orientación — depende de la edad</p>
+        <h3>🧩 TO (si es pequeño) · 💭 Psicología (si es mayor)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO hasta ~9 años</span><span class="tag tag-tpt">Psicología desde ~10 años</span></div>
+        <p class="why">Este es el caso del "desastre, no para, no se organiza". La clave es la edad y la capacidad de reflexión. Un niño pequeño que no se organiza y tiene conductas difíciles necesita TO: trabaja estructura, rutinas y regulación de forma concreta. Un adolescente que tiene TDAH y no estudia puede participar activamente en psicología: técnicas de estudio, organización, autocontrol.</p>
+        <div class="hl hl-m"><strong>La regla:</strong> ¿Puede hablar, comprender y reflexionar sobre lo que le pasa? Sí → Psicología. No o edad muy temprana → Terapia Ocupacional.</div>
+        <div class="sim-cases"><h4>Casos frecuentes</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo de 6 años con TDAH no para y es un desastre en casa"</div><div class="cd">→ Terapia Ocupacional. Trabaja regulación, rutinas y estructura de forma concreta y lúdica.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo de 14 años con TDAH no estudia y suspende todo"</div><div class="cd">→ Psicología. Técnicas de estudio, organización, autocontrol, estrategias cognitivas.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo de 8 años habla bien pero no tiene amigos y no sabe relacionarse"</div><div class="cd">→ Valorar TO o Psicología según nivel de reflexión. Consulta en la Sesión de Bienvenida.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">Fútbol Lúdico/Multideporte — especialmente indicado para niños con TDAH o dificultades de relación.</strong> IS es el lugar donde lo que trabajan en terapia se practica en vivo: gestionar la frustración cuando pierden, esperar su turno, celebrar el logro de otro, formar parte de un grupo. Para el niño que "no tiene amigos", el grupo deportivo adaptado es mucho más natural que cualquier dinámica de habilidades sociales en sala.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> PiscinaSUS o Fútbol Lúdico/Multideporte: ambos pueden funcionar. El agua puede ser reguladora pero también estimulante, depende del niño. Orientativo y abierto hasta la Sesión de Bienvenida.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Tenemos un programa deportivo adaptado donde los niños practican exactamente lo que trabajan en terapia, pero con otros niños y en un entorno de juego real. Para niños que necesitan habilidades sociales, el grupo deportivo es un complemento brutal."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="s2a_mov" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1a')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Es principalmente un problema neurológico o funcional?</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_fis')"><div><span>Sí, hay una causa neurológica o condición física de base</span><span class="ex">Parálisis cerebral, problemas neuromusculares, retraso motor neurológico</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_fis')"><div><span>No, es torpeza motriz, caídas frecuentes, mala letra o coordinación</span><span class="ex">"Es muy torpe", "se cae mucho", "tiene mala letra", "no puede con las tijeras"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <div id="s2a_com" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1a')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Qué tipo de dificultad de comunicación?</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_log')"><div><span>No habla o habla muy poco, en cualquier edad</span><span class="ex">No verbal, comunicación mínima, gestual, con pictogramas</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_log')"><div><span>Habla pero tiene problemas de pronunciación, lenguaje o comprensión</span><span class="ex">Pronuncia muy mal, frases muy simples, no entiende instrucciones</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_log')"><div><span>Dificultades para leer o escribir</span><span class="ex">Dislexia, confunde letras, lee muy lento, problemas de escritura</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- TRIAJE EMOCIONAL LOGOPEDIA -->
+    <div id="res_log" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s2a_com')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <p class="sim-q">Una última cosa: ¿cómo está llegando la familia emocionalmente?</p>
+      <p class="sim-sub">El servicio es Logopedia en todos los casos, pero cómo lo presentas cambia mucho según el momento en que está la familia. Elige el que más se acerque.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_log_n1')"><div><span>🔴 Buscan que su hijo "hable de verdad" — están en el duelo</span><span class="ex">"¿Vosotros vais a conseguir que hable?", "yo quiero que sea como los demás", "¿llegará a hablar algún día?"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_log_n2')"><div><span>🟠 Saben que hay dificultades, buscan un sitio que de verdad les entienda</span><span class="ex">"Llevamos tiempo buscando", "en otros sitios no hemos conectado", "quiero que esté bien"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_log_n3')"><div><span>🟢 Han aceptado la situación, buscan calidad y metodología real</span><span class="ex">"¿Qué hacéis diferente?", "ya hemos probado varios sitios", "lo que me importa es que sea feliz"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <div id="res_log_n1" class="sim-screen">
+      <button class="sim-back" onclick="goSim('res_log')">← Volver</button>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación: Logopedia · Familia en nivel 1 (no aceptación)</p>
+        <h3>🗣️ Logopedia (TPT) — con cuidado en el mensaje</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-grn">Logopedia</span><span class="tag tag-red">🔴 Nivel 1</span></div>
+        <p class="why">Esta familia quiere que su hijo hable y espera que le confirmes que es posible. <strong>No prometas que va a hablar.</strong> Pero tampoco cierres esa puerta bruscamente. Primero valida su deseo, luego introduce la filosofía Pegasus con suavidad. El mensaje de "comunicarse y ser feliz" puede sonar a resignación para ellos ahora mismo — no lo uses todavía.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo en nivel 1</div>"Entendemos perfectamente que queráis eso. Cualquier padre en vuestra situación lo haría igual. En Pegasus trabajamos con el logopeda para que tu hijo pueda comunicarse de la mejor forma posible para él. No te voy a prometer que vaya a hablar de una forma concreta, porque eso sería deshonesto. Lo que sí te puedo asegurar es que vamos a buscar que se exprese, que se haga entender, y que sea lo más feliz posible haciéndolo."</div>
+        <div class="hl hl-r" style="margin-top:10px;"><strong>🚫 Evitar en nivel 1:</strong> "el objetivo no es que hable" o "ser feliz comunicándose" como frase de apertura. Para una familia en duelo, eso suena a rendirse. Llega a ese mensaje, pero después de haber validado su esperanza.</div>
+        <div class="sim-cases"><h4>Casos frecuentes en este perfil</h4>
+          <div class="sim-case"><div class="cc">"¿Vosotros vais a conseguir que hable?"</div><div class="cd">→ "No te voy a prometer que vaya a hablar, pero sí que vamos a buscar que pueda comunicarse y expresarse lo mejor posible."</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS? — Con cuidado en cómo lo presentas en nivel 1</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">PiscinaSUS puede ser una puerta de entrada más suave para familias en nivel 1.</strong> En este momento no están listos para aceptar que "el objetivo no es hablar". Pero sí pueden abrir la puerta a IS como algo positivo y sin carga: que su hijo disfrute, que se relacione, que sea feliz en el agua. IS no amenaza su esperanza de que mejore. La complementa.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">Cómo presentarlo en nivel 1:</strong> No lo presentes como complemento terapéutico. Preséntalo como ocio: "mientras trabaja con el logopeda, también puede tener un espacio donde simplemente disfrutar con otros niños."</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Además de la logopedia, tenemos un programa deportivo adaptado. No tiene que ver con la terapia: es simplemente un espacio donde tu hijo puede divertirse, nadar y relacionarse con otros niños. Muchas familias lo combinan y les encanta."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_log_n2" class="sim-screen">
+      <button class="sim-back" onclick="goSim('res_log')">← Volver</button>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación: Logopedia · Familia en nivel 2 (en proceso)</p>
+        <h3>🗣️ Logopedia (TPT) — desde el acompañamiento</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-grn">Logopedia</span><span class="tag tag-ora">🟠 Nivel 2</span></div>
+        <p class="why">Esta familia ya tiene algo de recorrido. Han probado sitios, saben que hay dificultades, pero buscan un lugar donde sentirse comprendidos, no evaluados. Puedes entrar con más fuerza en la diferencia metodológica y en el trabajo con la familia.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo en nivel 2</div>"Lo que trabaja el logopeda en Pegasus no es solo el habla. Trabaja la comunicación en el sentido más amplio: que tu hijo pueda expresarse, hacerse entender y relacionarse. Y no lo hace de forma clínica: todo ocurre a través del juego. Además, trabajamos con vosotros también, no solo con él, porque sabemos que cuando la familia está bien, el niño está mejor."</div>
+        <div class="sim-cases"><h4>Casos frecuentes en este perfil</h4>
+          <div class="sim-case"><div class="cc">"Hemos ido a varios logopedas y no hemos conectado con ninguno"</div><div class="cd">→ Valida el cansancio. Diferencia la metodología. Cierra con la Sesión de Bienvenida.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">Para familias en proceso, IS puede reforzar el mensaje de que Pegasus acompaña en todo.</strong> En nivel 2 ya están más abiertos a escuchar. IS es fácil de presentar como un espacio adicional donde su hijo practica la comunicación y la relación con iguales de forma natural — sin que parezca una terapia extra.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Lo que trabajamos en logopedia, tu hijo lo puede practicar también en nuestro programa deportivo: relacionarse con otros niños, comunicarse en situaciones reales, disfrutar siendo uno más del grupo. Muchas familias combinan los dos y el impacto se nota mucho más."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_log_n3" class="sim-screen">
+      <button class="sim-back" onclick="goSim('res_log')">← Volver</button>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación: Logopedia · Familia en nivel 3 (aceptación)</p>
+        <h3>🗣️ Logopedia (TPT) — con rigor metodológico</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-grn">Logopedia</span><span class="tag tag-grn">🟢 Nivel 3</span></div>
+        <p class="why">Esta familia ha aceptado la situación y busca calidad. Puedes ser directo sobre la metodología, el enfoque y el para qué. Aquí sí puedes usar el mensaje de comunicación funcional y bienestar sin que suene a resignación: ellos ya están en ese lugar.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo en nivel 3</div>"Nuestro enfoque en logopedia no busca que el niño hable de una forma concreta. Busca que pueda comunicarse de la mejor forma posible para él: con palabras, con gestos, con pictogramas, lo que sea más natural y funcional. El objetivo es que se exprese, que se relacione, y que sea feliz haciéndolo. Y todo eso ocurre a través del juego, no de ejercicios clínicos."</div>
+        <div class="sim-cases"><h4>Casos frecuentes en este perfil</h4>
+          <div class="sim-case"><div class="cc">"¿Qué metodología usáis en logopedia?"</div><div class="cd">→ IE + Juego. Comunicación funcional. Trabajo con la familia. Sin tecnicismos. Sin objetivos clínicos visibles para el niño.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">En nivel 3 puedes ser muy directo sobre la complementariedad.</strong> Esta familia entiende el para qué. Puedes explicarles que lo que trabajan en logopedia —comunicación, relación, expresión— tiene un espacio de práctica real en IS: el grupo, la interacción con iguales, las situaciones imprevistas de juego que generan los aprendizajes más duraderos.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"IS es el complemento natural de la logopedia: lo que trabajan en sesión, tu hijo lo practica en un contexto real con otros niños. La comunicación en un juego de grupo no se puede simular en sala. Por eso muchas familias con este perfil combinan los dos servicios."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_log_diag" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación principal</p>
+        <h3>🗣️ Logopedia (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-grn">Logopedia</span></div>
+        <p class="why">Dislexia, TEL/TDL y dificultades del lenguaje son territorio de logopedia. El logopeda trabaja comprensión, expresión, lectoescritura y comunicación.</p>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="s2a_emo" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1a')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿El niño puede hablar, comprender y reflexionar sobre lo que siente?</p>
+      <p class="sim-sub">Esta es la pregunta clave para distinguir psicología de TO en el terreno emocional.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_psi')"><div><span>Sí, puede hablar y reflexionar sobre sus emociones</span><span class="ex">Miedos, ansiedad, baja autoestima, tristeza, problemas familiares</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_to')"><div><span>No o tiene mucha discapacidad — la conducta es el síntoma, no la causa</span><span class="ex">Rabietas, autolesiones, agresividad, no regula emociones de forma verbal</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <div id="res_psi" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--morado)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--morado);margin-bottom:7px;">Orientación principal</p>
+        <h3>💭 Psicología (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-tpt">Psicología</span></div>
+        <p class="why">El problema es emocional y el niño puede participar activamente en terapia. Psicología trabaja con niños, adolescentes y adultos: ansiedad, miedos, autoestima, conducta en niños que comprenden bien, TDAH en adolescentes y situaciones de vida difíciles.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo</div>"Lo que describes encaja con psicología. No es solo para crisis graves: es para cualquier persona que necesite herramientas para gestionar lo que siente. En Pegasus siempre lo trabajamos desde el bienestar, no desde el diagnóstico."</div>
+        <div class="sim-cases"><h4>Casos frecuentes</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo habla bien pero tiene muchos miedos y se pone muy ansioso"</div><div class="cd">→ Psicología.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hija tiene baja autoestima y no quiere ir al cole"</div><div class="cd">→ Psicología.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">IS como refuerzo de la autoestima y la socialización — indicado para niños tímidos, ansiosos o con baja autoestima.</strong> La psicología trabaja lo que el niño piensa y siente sobre sí mismo. IS le da un espacio donde demostrárselo: que puede, que lo pasa bien con otros, que encaja. El deporte adaptado en grupo es un generador de autoestima en contexto real que complementa directamente el trabajo de psicología.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> Ambas modalidades encajan. Lo que importa es el grupo pequeño y el entorno sin presión. La Sesión de Bienvenida orienta cuál encaja mejor con el perfil concreto.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Junto a la psicología, tenemos un programa deportivo adaptado donde tu hijo puede relacionarse con otros niños en un entorno de juego, sin presión. Para niños que trabajan la autoestima o la ansiedad social, el grupo deportivo es un complemento muy potente."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_tea_to" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--naranja)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--naranja);margin-bottom:7px;">Orientación principal</p>
+        <h3>🧩 Terapia Ocupacional + 🗣️ Logopedia (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO</span><span class="tag tag-grn">Logopedia</span></div>
+        <p class="why">El TEA se trabaja principalmente desde TO (habilidades sociales, regulación, autonomía, adaptación al entorno) y Logopedia (comunicación funcional aunque no haya lenguaje oral). Dependiendo del perfil puede añadirse Psicología en casos de mayor autonomía y capacidad de reflexión.</p>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:10px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS? — Especialmente indicado para TEA</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">PiscinaSUS es probablemente la combinación más potente para niños con TEA.</strong> El medio acuático tiene un efecto regulador del sistema nervioso muy documentado: reduce la sobreestimulación, mejora la conciencia corporal y genera un entorno predecible que encaja bien con muchos perfiles TEA. Además, el grupo pequeño de IS es el espacio más natural para practicar las habilidades sociales que se trabajan en TO.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> Ambas modalidades pueden funcionar. La Sesión de Bienvenida es el momento de ver cómo responde el niño en el medio acuático o seco antes de asignar grupo.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Además de la terapia, tenemos PiscinaSUS: natación adaptada en grupo pequeño donde los niños con TEA suelen responder de forma extraordinaria. El agua tiene un efecto muy positivo y el grupo les da un espacio real para practicar con otros niños."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_tdah" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--morado)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--morado);margin-bottom:7px;">Orientación — depende de la edad</p>
+        <h3>🧩 TO (pequeño) · 💭 Psicología (adolescente)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO &lt; 10 años</span><span class="tag tag-tpt">Psicología ≥ 10 años</span></div>
+        <p class="why">La edad y la capacidad de reflexión son las claves con el TDAH. Un niño pequeño necesita TO: estructura concreta, rutinas, regulación. Un adolescente puede trabajar estrategias de organización, técnicas de estudio y autocontrol desde psicología.</p>
+        <div class="sim-cases"><h4>Casos</h4>
+          <div class="sim-case"><div class="cc">"Mi hijo de 7 años con TDAH no para y es imposible en casa"</div><div class="cd">→ TO.</div></div>
+          <div class="sim-case"><div class="cc">"Mi hijo de 15 años con TDAH suspende todo"</div><div class="cd">→ Psicología.</div></div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS? — Muy indicado para TDAH</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">IS es uno de los complementos más potentes para niños con TDAH.</strong> El deporte adaptado les da una vía de descarga de energía estructurada, con normas claras, en un entorno que no les juzga. Mejora la regulación emocional, la tolerancia a la frustración y la relación con iguales — todo lo que también trabaja la terapia, pero en contexto real de juego.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> Para TDAH con hiperactividad motora intensa → Fútbol Lúdico/Multideporte o PiscinaSUS. Ambos pueden funcionar bien con TDAH — lo decide la Sesión de Bienvenida según cómo responde el niño en cada medio.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Para niños con TDAH, el deporte adaptado es casi tan importante como la terapia. Tenemos un programa donde puede canalizar toda esa energía con otros niños, en un entorno sin presión de rendimiento. Muchas familias dicen que el cambio lo notan también en casa."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_sd" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--naranja)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--naranja);margin-bottom:7px;">Orientación principal</p>
+        <h3>🧩 Terapia Ocupacional + combinación según necesidades</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO base</span><span class="tag tag-grn">Logopedia</span><span class="tag tag-blu">Fisioterapia</span></div>
+        <p class="why">Los síndromes genéticos suelen requerir intervención múltiple. TO es casi siempre la base (autonomía, habilidades sociales, regulación). Logopedia si hay afectación del lenguaje. Fisioterapia si hay afectación motora. La combinación depende del nivel de funcionamiento individual.</p>
+        <div class="hl hl-g">En Pegasus cogemos todas las discapacidades porque no trabajamos el diagnóstico. Trabajamos cómo la persona y su familia afrontan la diferencia.</div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:7px;">🏊 ¿Y si añadimos IS?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;"><strong style="color:var(--negro);">IS es un complemento casi universal para síndromes genéticos.</strong> El programa deportivo trabaja exactamente las mismas áreas que la terapia —autonomía, habilidades sociales, autoestima, coordinación— pero en un contexto de ocio real con otros niños. Para muchas familias con síndrome de Down u otros síndromes, IS se convierte en el espacio de socialización más importante de la semana.</p>
+          <p style="font-size:12px;color:var(--gris);margin-bottom:8px;"><strong style="color:var(--negro);">¿Piscina o tierra?</strong> PiscinaSUS o Fútbol Lúdico/Multideporte según el perfil individual. La Sesión de Bienvenida permite ver cuál encaja mejor.</p>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Además de las terapias, tenemos un programa deportivo adaptado donde tu hijo puede hacer deporte, divertirse y relacionarse con otros niños. Para muchas familias como la vuestra es el espacio que más disfrutan de toda la semana."</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <!-- RAMA C: DEPORTE — venta cruzada hacia TPT -->
+    <div id="s1c" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s0')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">Vienen por IS — aprovecha para conocerles mejor</p>
+      <p class="sim-sub">IS es lo que buscan y lo van a tener. Pero antes de cerrar la conversación, recoge información para ver si hay necesidades terapéuticas detrás. Hazlo de forma natural, como parte de la escucha activa.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('s1c_diag')"><div><span>Tienen o mencionan un diagnóstico</span><span class="ex">"Tiene TEA", "tiene parálisis cerebral", "síndrome de Down", "TDAH"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('s1c_cotidiano')"><div><span>No mencionan diagnóstico — describe lo que le cuesta</span><span class="ex">"Es que no se relaciona bien", "es muy torpe", "tiene rabietas", "no habla mucho"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_solo')"><div><span>No hay necesidades adicionales — solo buscan deporte y ocio</span><span class="ex">"Solo quiero que haga deporte y se divierta", nada que sugiera necesidad terapéutica</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RAMA C: vienen con diagnóstico -->
+    <div id="s1c_diag" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Cuál es el diagnóstico?</p>
+      <p class="sim-sub">IS siempre. La pregunta aquí es qué terapia de TPT puedes ofrecerles además.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_to')"><div><span>TEA, síndrome genético o discapacidad intelectual</span><span class="ex">TEA, síndrome de Down, síndrome de Williams…</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_fis')"><div><span>Parálisis cerebral u otro problema físico/neuromotor</span><span class="ex">Parálisis cerebral, espina bífida, problemas de movilidad</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_tdah')"><div><span>TDAH</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_log')"><div><span>Dificultades del lenguaje, dislexia o TEL</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RAMA C: vienen sin diagnóstico, describen cotidiano -->
+    <div id="s1c_cotidiano" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot"></div></div>
+      <p class="sim-q">¿Qué es lo que le cuesta más?</p>
+      <p class="sim-sub">IS siempre. Esta pregunta te orienta a qué terapia sugerirles como complemento.</p>
+      <div class="sim-opts">
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_fis')"><div><span>Movimiento, torpeza o físico</span><span class="ex">"Es muy torpe", "se cae mucho", "le cuesta moverse"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_log')"><div><span>Comunicación o habla</span><span class="ex">"No habla mucho", "pronuncia mal", "no entiende bien"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_psi')"><div><span>Emocional — miedos, ansiedad, baja autoestima</span><span class="ex">"Tiene mucha ansiedad", "es muy tímido", "muchos miedos"</span></div><span class="arr">→</span></button>
+        <button class="sim-btn" onclick="goSim('res_is_x_tpt_to')"><div><span>Autonomía, conducta, regulación o habilidades sociales</span><span class="ex">"Tiene rabietas", "no se organiza", "no juega con otros", "necesita ayuda para todo"</span></div><span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS VENTA CRUZADA IS → TPT -->
+    <div id="res_is_x_tpt_to" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación completa</p>
+        <h3>🏊 IS + 🧩 Terapia Ocupacional (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO</span></div>
+        <p class="why">IS es lo que buscan — se lo damos. Además, lo que describes encaja también con Terapia Ocupacional: trabaja autonomía, habilidades sociales, regulación emocional y adaptación al entorno. IS y TO se complementan directamente: lo que TO trabaja en sesión individual, IS lo practica en grupo con iguales en un contexto de juego real.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar el complemento</div>"Aparte del programa deportivo, tenemos terapia ocupacional, que trabaja exactamente lo que describes —la autonomía, la regulación, relacionarse con otros— pero de forma individual y más profunda. Muchas familias como la vuestra combinan los dos y el impacto se nota mucho más."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_x_tpt_fis" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación completa</p>
+        <h3>🏊 IS + 🦴 Fisioterapia (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span><span class="tag tag-blu">Fisioterapia</span></div>
+        <p class="why">IS es lo que buscan — se lo damos. Además, lo que describes encaja con fisioterapia: trabaja movilidad, equilibrio, coordinación y reeducación del movimiento. IS y fisioterapia se complementan bien: el trabajo en sala y el trabajo en el medio acuático o deportivo atacan el problema desde ángulos distintos.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar el complemento</div>"Aparte del programa deportivo, tenemos fisioterapia, que trabaja el movimiento de forma más específica e individual. Muchas familias con perfiles similares combinan los dos, y la mejora se nota mucho más rápido."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_x_tpt_log" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación completa</p>
+        <h3>🏊 IS + 🗣️ Logopedia (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span><span class="tag tag-grn">Logopedia</span></div>
+        <p class="why">IS es lo que buscan — se lo damos. Además, lo que describes encaja con logopedia: trabaja la comunicación funcional, el lenguaje y la expresión. IS le da un contexto real de interacción con iguales donde practicar lo que trabaja en logopedia. Los dos juntos se refuerzan.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar el complemento</div>"Aparte del programa deportivo, tenemos logopedia, que trabaja la comunicación de forma individual. Y lo bueno es que lo que trabaja con el logopeda, tu hijo lo puede practicar directamente en el grupo deportivo con otros niños. Es una combinación muy natural."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_x_tpt_psi" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación completa</p>
+        <h3>🏊 IS + 💭 Psicología (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span><span class="tag tag-tpt">Psicología</span></div>
+        <p class="why">IS es lo que buscan — se lo damos. Además, si hay ansiedad, miedos o baja autoestima, psicología trabaja las herramientas internas que el niño necesita para gestionarlo. IS le da el espacio donde demostrarlas con otros. Los dos juntos son especialmente potentes para niños tímidos o con inseguridad social.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar el complemento</div>"Aparte del programa deportivo, tenemos psicología, que trabaja las herramientas emocionales de forma individual. Y lo bonito es que en el grupo deportivo puede practicar exactamente eso: relacionarse, atreverse, confiar en otros. Los dos juntos son muy potentes para niños como el tuyo."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_x_tpt_tdah" class="sim-screen">
+      <button class="sim-back" onclick="goSim('s1c')">← Volver</button>
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación completa</p>
+        <h3>🏊 IS + 🧩 TO o 💭 Psicología según edad (TPT)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span><span class="tag tag-ora">TO si es pequeño</span><span class="tag tag-tpt">Psicología si es mayor</span></div>
+        <p class="why">IS es lo que buscan — se lo damos. Para TDAH, IS es además uno de los complementos más potentes: canal de energía, regulación en contexto real, relación con iguales. En TPT: si es pequeño (hasta ~9 años) → TO para estructura y regulación; si es mayor → psicología para organización y autocontrol.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentar el complemento</div>"El programa deportivo para niños con TDAH es especialmente bueno — les ayuda a canalizar la energía y a regularse en un entorno de juego real. Y si además queréis trabajar la parte más interna, tenemos terapia ocupacional o psicología según la edad. Muchas familias con TDAH combinan los dos y el cambio se nota también en casa."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_solo" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--verde)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde);margin-bottom:7px;">Orientación principal</p>
+        <h3>🏊 Inclusive Sport (IS)</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-grn">Deporte adaptado</span></div>
+        <p class="why">IS es el programa perfecto cuando el objetivo principal es el disfrute, la socialización y el deporte. No buscamos rendimiento ni que aprendan a nadar en record. Buscamos que salgan sonriendo, que tengan amigos y que su familia los vea felices haciendo algo que les encanta.</p>
+        <div class="quote ok"><div class="qlabel ok">✅ Cómo presentarlo</div>"Inclusive Sport no es un club de natación normal. Es un espacio donde tu hijo puede disfrutar del deporte sin presión, hacer amigos y crecer como persona. El objetivo no es nadar rápido. Es que salga del agua sonriendo."</div>
+        <div style="background:#F3E8FF;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:3px solid var(--morado);">
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--morado);margin-bottom:7px;">🧩 ¿Hay también necesidades terapéuticas detrás?</p>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;">Cuando la familia llega por IS, a veces hay más debajo. Mientras escuchas, presta atención a señales que indiquen que podrían beneficiarse también de TPT:</p>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
+            <div style="background:white;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gris);">💬 <em>"Tiene problemas para relacionarse con otros niños"</em> → valorar TO o Psicología</div>
+            <div style="background:white;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gris);">💬 <em>"Es muy torpe y se cae mucho"</em> → valorar Fisioterapia</div>
+            <div style="background:white;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gris);">💬 <em>"Le cuesta mucho comunicarse"</em> → valorar Logopedia</div>
+            <div style="background:white;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gris);">💬 <em>"Tiene muchas rabietas o le cuesta regularse"</em> → valorar TO</div>
+            <div style="background:white;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--gris);">💬 <em>"Tiene mucha ansiedad o miedos"</em> → valorar Psicología</div>
+          </div>
+          <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Muchas de las familias que están en IS también tienen a sus hijos en terapia con nosotros. No son cosas separadas: son dos puertas del mismo espacio. ¿Te cuento un poco más sobre lo que hacemos en el programa terapéutico?"</div>
+        </div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+    <div id="res_is_tpt" class="sim-screen">
+      <div class="prog"><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div><div class="prog-dot done"></div></div>
+      <div class="sim-result" style="border-color:var(--morado)">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--morado);margin-bottom:7px;">Orientación principal</p>
+        <h3>🏊 IS + 🧩 TPT — el ecosistema completo</h3>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-is">IS</span><span class="tag tag-tpt">TPT</span></div>
+        <p class="why">Muchas familias que tienen ambas necesidades acaban con los dos servicios. No son alternativas: son dos puertas del mismo espacio. IS para el disfrute, la socialización y el deporte. TPT para el trabajo terapéutico. El vínculo con Pegasus se hace más profundo y el impacto en la familia es mucho mayor.</p>
+        <div class="hl hl-g">"Algunos de nuestras familias vienen a terapia los martes y a la piscina los sábados. Y la familia entera crece con eso."</div>
+        <button class="sim-reset" onclick="goSim('s0')">↺ Nueva consulta</button>
+      </div>
+    </div>
+
+  </div><!-- /sim-wrap -->
+
+  <div class="divider"></div>
+  <p class="slabel">Referencia rápida</p>
+  <h2 class="sh2">Árbol de derivación — para tener siempre a mano</h2>
+  <div class="arbol-wrap" style="margin-top:16px;">
+    <p class="arbol-title">¿Qué le está costando más en su vida diaria?</p>
+    <div class="arbol-branch ab-fis">
+      <p class="ab-title">🦴 Movimiento, dolor, físico</p>
+      <p class="ab-items">No camina bien · dolor · caídas · parálisis cerebral · problemas neuromusculares · torpeza motriz · recuperación</p>
+      <span class="ab-result fis">→ Fisioterapia (TPT)</span>
+      <span class="ab-result is" style="margin-left:6px;">+ PiscinaSUS (IS)</span>
+      <p style="font-size:11px;color:var(--gris);margin-top:5px;">El agua reduce la resistencia y permite trabajar el movimiento de forma complementaria a la fisioterapia.</p>
+    </div>
+    <div class="arbol-branch ab-log">
+      <p class="ab-title">🗣️ Comunicación, voz, lectura/escritura</p>
+      <p class="ab-items">No habla o habla poco · pronuncia mal · no entiende instrucciones · dislexia · TEL/TDL · comunicación funcional</p>
+      <span class="ab-result log">→ Logopedia (TPT)</span>
+      <span class="ab-result is" style="margin-left:6px;">+ IS (grupo)</span>
+      <p style="font-size:11px;color:var(--gris);margin-top:5px;">IS es el espacio donde practicar la comunicación en situaciones reales con iguales. Complemento natural.</p>
+    </div>
+    <div class="arbol-branch ab-psi">
+      <p class="ab-title">💭 Emocional — habla y puede reflexionar</p>
+      <p class="ab-items">Ansiedad · miedos · baja autoestima · tristeza · TDAH adolescente · conducta en niños que comprenden</p>
+      <span class="ab-result psi">→ Psicología (TPT)</span>
+      <span class="ab-result is" style="margin-left:6px;">+ IS (grupo pequeño)</span>
+      <p style="font-size:11px;color:var(--gris);margin-top:5px;">Para baja autoestima y ansiedad social: IS da un espacio de logro real con iguales que refuerza el trabajo de psicología.</p>
+    </div>
+    <div class="arbol-branch ab-to">
+      <p class="ab-title">🧩 Autonomía, conducta intensa, discapacidad severa o TDAH en pequeño</p>
+      <p class="ab-items">No se viste solo · rabietas intensas · no verbal · problemas sensoriales · bajo nivel cognitivo · TDAH &lt; 10 años · no para quieto y no reflexiona</p>
+      <span class="ab-result to">→ TO (TPT)</span>
+      <span class="ab-result is" style="margin-left:6px;">+ PiscinaSUS o Fútbol Lúdico</span>
+      <p style="font-size:11px;color:var(--gris);margin-top:5px;">IS practica en contexto real lo que TO trabaja en sesión: habilidades sociales con iguales, regulación emocional en situaciones de juego, adaptación a normas compartidas. El medio acuático puede ser regulador y rico en estímulos para algunos perfiles, pero la modalidad final la orienta la Sesión de Bienvenida.</p>
+    </div>
+    <div class="arbol-branch ab-is">
+      <p class="ab-title">🏊 Deporte, ocio y socialización</p>
+      <p class="ab-items">Que disfrute · que haga amigos · que haga deporte adaptado · sin presión de rendimiento</p>
+      <span class="ab-result is">→ IS (principal)</span>
+      <span class="ab-result psi" style="margin-left:6px;">¿Hay necesidades terapéuticas detrás?</span>
+      <p style="font-size:11px;color:var(--gris);margin-top:5px;">Escucha señales: si mencionan torpeza, conducta, comunicación o emociones → valorar TPT como complemento.</p>
+    </div>
+    <div style="background:#FEF9C3;border-radius:9px;padding:12px 15px;margin-top:14px;border-left:3px solid var(--amarillo);">
+      <p style="font-size:12px;font-weight:700;margin-bottom:3px;">⚠ ¿Dudas entre Psicología y TO?</p>
+      <p style="font-size:12px;color:var(--gris);">¿Puede hablar, comprender y reflexionar sobre lo que le pasa? ✅ Sí → Psicología &nbsp; ❌ No o muy pequeño → TO</p>
+    </div>
+    <div style="background:#ECFDF5;border-radius:9px;padding:12px 15px;margin-top:10px;border-left:3px solid var(--verde);">
+      <p style="font-size:12px;font-weight:700;margin-bottom:3px;">🏊 Regla general con IS</p>
+      <p style="font-size:12px;color:var(--gris);">Casi cualquier perfil puede complementar TPT con IS. La pregunta no es "¿encaja IS?" sino "¿qué modalidad?" — y eso lo orienta la Sesión de Bienvenida según cómo responde el niño en cada medio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TRIAJE EMOCIONAL                                                   -->
+<!-- ================================================================ -->
+<div id="triaje" class="page">
+  <div class="hero">
+    <p class="eyebrow">Guía de captación · Triaje emocional</p>
+    <h1 class="h1">El mapa emocional<br><span class="g">de la familia</span></h1>
+    <p class="hero-sub">No todas las familias están en el mismo punto. Saber dónde están emocionalmente te permite adaptar el discurso y conectar de verdad. Selecciona el nivel.</p>
+  </div>
+
+  <div class="triaje-tabs">
+    <button class="triaje-tab tr active" onclick="showTriaje('n1',this,'tr')">🔴 Nivel 1 — No aceptación</button>
+    <button class="triaje-tab to" onclick="showTriaje('n2',this,'to')">🟠 Nivel 2 — En proceso</button>
+    <button class="triaje-tab tg" onclick="showTriaje('n3',this,'tg')">🟢 Nivel 3 — Aceptación</button>
+  </div>
+
+  <div id="n1" class="triaje-panel active">
+    <div class="t-panel">
+      <div class="t-head th-r"><div><h3>Nivel 1 — No aceptación</h3><span class="t-sub">Están en el duelo. Todavía buscan la cura.</span></div><span class="t-badge">⚠ Mayor sensibilidad</span></div>
+      <div class="t-body">
+        <div class="t-sec"><h4>¿Cómo los reconoces?</h4>
+          <p style="font-size:13px;color:var(--gris);margin-bottom:9px;">Acaban de recibir un diagnóstico o llevan tiempo negándolo. La pregunta implícita detrás de todo es: <em>"¿Me vais a decir que mi hijo puede ser normal?"</em></p>
+          <div class="señales">
+            <div class="señal">"¿Vosotros vais a conseguir que hable?"</div>
+            <div class="señal">"Yo solo quiero que sea como los demás."</div>
+            <div class="señal">"En otro centro me dijeron que con fisio intensa…"</div>
+            <div class="señal">"¿Cuánto tiempo hasta que mejore?"</div>
+            <div class="señal">"¿Hasta dónde puede llegar?"</div>
+            <div class="señal">"Hemos probado de todo y nada funciona."</div>
+          </div>
+        </div>
+        <div class="t-sec"><h4>Tu objetivo</h4>
+          <div class="obj-box ob-r"><span class="obi">🎯</span><div><h4>Que no se sientan juzgados. Nada más.</h4><p>No intentes cambiar su mentalidad en esta llamada. No es el momento. Tu único objetivo es que sientan que hay alguien que les entiende sin decirles que están equivocados.</p></div></div>
+        </div>
+        <div class="t-sec"><h4>Cómo hablar — paso a paso</h4>
+          <div class="quote ok"><div class="qlabel ok">✅ Paso 1: Valida el miedo</div>"Entiendo perfectamente que estéis buscando eso. Es lo más natural del mundo. Cualquier padre en vuestra situación lo haría igual."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Paso 2: Introduce el cambio con suavidad</div>"Nosotros os proponemos algo diferente: no trabajamos para que vuestro hijo sea como los demás, trabajamos para que sea lo más feliz posible siendo él mismo."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Paso 3: La honestidad como diferencial</div>"No os voy a prometer que vaya a hablar, porque nadie puede prometeros eso con honestidad. Lo que sí os aseguro es que vamos a buscar que se comunique y que sea lo más feliz posible."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Paso 4: La familia también</div>"Y lo más importante: no vais a estar solos. Acompañamos a la familia también, no solo al niño."</div>
+          <div class="quote no"><div class="qlabel no">🚫 Nunca en nivel 1</div>"Tenéis que aceptar la situación." / "Hay que cambiar la forma en que lo veis." — No confrontes. No prediques.</div>
+        </div>
+        <div class="t-sec"><h4>Tips</h4>
+          <div class="tiprow"><div class="tdot-r"></div><p><strong>Escucha más de lo que hablas.</strong> El silencio y la escucha valen más que cualquier frase perfecta.</p></div>
+          <div class="tiprow"><div class="tdot-r"></div><p><strong>No vayas a la metodología todavía.</strong> Papás al Juego y Charletas los presentas después. Primero conecta.</p></div>
+          <div class="tiprow"><div class="tdot-r"></div><p><strong>Si lloran o se emocionan:</strong> para. Deja el silencio. Di: "Tomad el tiempo que necesitéis."</p></div>
+          <div class="tiprow"><div class="tdot-r"></div><p><strong>El cierre es la Sesión de Bienvenida, no el compromiso.</strong> La sesión hace el trabajo que tú no puedes hacer por teléfono.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="n2" class="triaje-panel">
+    <div class="t-panel">
+      <div class="t-head th-o"><div><h3>Nivel 2 — En proceso</h3><span class="t-sub">Ya saben lo que hay. Pero aún están procesando.</span></div><span class="t-badge">Receptivos</span></div>
+      <div class="t-body">
+        <div class="t-sec"><h4>¿Cómo los reconoces?</h4>
+          <div class="señales">
+            <div class="señal">"Llevamos dos años buscando algo que de verdad le ayude."</div>
+            <div class="señal">"En otros sitios nos han tratado como un número."</div>
+            <div class="señal">"Yo también estoy agotada, ya no sé qué hacer."</div>
+            <div class="señal">"¿Cómo trabajáis con las familias?"</div>
+            <div class="señal">"Hemos probado varios sitios, ninguno nos ha convencido."</div>
+            <div class="señal">"Quiero que esté bien, pero también que sea feliz."</div>
+          </div>
+        </div>
+        <div class="t-sec"><h4>Tu objetivo</h4>
+          <div class="obj-box ob-o"><span class="obi">🎯</span><div><h4>Que se sientan acompañados, no solos.</h4><p>Aquí puedes entrar con más fuerza en la filosofía y la metodología. Puedes hablar del trabajo con familias, los Papás al Juego y las Charletas.</p></div></div>
+        </div>
+        <div class="t-sec"><h4>Cómo hablar</h4>
+          <div class="quote ok"><div class="qlabel ok">✅ Valida el cansancio</div>"Lo que describes es agotador. Y es muy habitual. Muchas familias que llegan a Pegasus han pasado exactamente por lo mismo."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Lo que nos diferencia</div>"Nosotros no trabajamos solo con tu hijo. Trabajamos contigo. Porque cuando tú estás bien, él está mejor. Y eso en la mayoría de sitios no existe."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Papás al Juego + Charletas</div>"Tenemos dos herramientas pensadas para las familias: los Papás al Juego, donde entramos a jugar juntos, y las Charletas, que son sesiones para vosotros."</div>
+        </div>
+        <div class="t-sec"><h4>Tips</h4>
+          <div class="tiprow"><div class="tdot-r" style="background:var(--naranja)"></div><p><strong>Este es el perfil donde más funciona la empatía directa.</strong> Nombra lo que están viviendo. "Eso suena agotador."</p></div>
+          <div class="tiprow"><div class="tdot-r" style="background:var(--naranja)"></div><p><strong>Su objeción real no es el precio.</strong> Es "¿esto de verdad va a ser diferente?" Respóndela antes de que la hagan.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="n3" class="triaje-panel">
+    <div class="t-panel">
+      <div class="t-head th-g"><div><h3>Nivel 3 — Aceptación</h3><span class="t-sub">Han llegado a un lugar de paz. Buscan calidad.</span></div><span class="t-badge">✓ Fácil de conectar</span></div>
+      <div class="t-body">
+        <div class="t-sec"><h4>¿Cómo los reconoces?</h4>
+          <div class="señales">
+            <div class="señal">"Ya hemos probado varios sitios, quiero entender qué hacéis vosotros."</div>
+            <div class="señal">"Para nosotros lo más importante es que esté feliz."</div>
+            <div class="señal">"¿Qué metodología usáis?"</div>
+            <div class="señal">"No quiero promesas, quiero saber cómo funciona."</div>
+          </div>
+        </div>
+        <div class="t-sec"><h4>Tu objetivo</h4>
+          <div class="obj-box ob-g"><span class="obi">🎯</span><div><h4>Demostrar rigor y profundidad metodológica.</h4><p>Ve directo a la diferencia real: IE + Juego, trabajo con familias, la estructura de sesiones. Son el perfil que más valora que haya un sistema detrás.</p></div></div>
+        </div>
+        <div class="t-sec"><h4>Cómo hablar</h4>
+          <div class="quote ok"><div class="qlabel ok">✅ Responde con rigor, no con marketing</div>"Nuestra metodología se basa en dos pilares: la Inteligencia Emocional y el Juego. Todo lo que trabajamos con tu hijo ocurre a través del juego, de forma que no percibe que está en terapia."</div>
+          <div class="quote ok"><div class="qlabel ok">✅ Si preguntan por resultados</div>"No trabajamos con promesas de resultados concretos, porque eso sería deshonesto. Lo que sí te puedo decir es que el cambio que notan las familias no es solo en el niño: es en toda la familia."</div>
+        </div>
+        <div class="t-sec"><h4>Tips</h4>
+          <div class="tiprow"><div class="tdot-g"></div><p><strong>La honestidad es tu mejor arma.</strong> "No te voy a prometer X" genera más confianza que cualquier promesa.</p></div>
+          <div class="tiprow"><div class="tdot-g"></div><p><strong>El compromiso anual no les asusta tanto.</strong> Si buscan calidad a largo plazo, el modelo de permanencia tiene sentido.</p></div>
+          <div class="tiprow"><div class="tdot-g"></div><p><strong>Si hacen preguntas difíciles</strong> sobre diagnósticos o límites del servicio: "Eso lo valoramos mejor en la Sesión de Bienvenida con el profesional."</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TPT                                                                -->
+<!-- ================================================================ -->
+<div id="tpt" class="page">
+  <div class="hero">
+    <p class="eyebrow">Terapia Para Todos · Protocolo de captación</p>
+    <h1 class="h1">TPT —<br><span class="gtpt">Terapia Para Todos</span></h1>
+    <p class="hero-sub">Todo lo específico de TPT: perfiles, precios, Sesión de Bienvenida, modelo anual y cómo presentar cada terapia a las familias.</p>
+  </div>
+  <div class="divider"></div>
+
+  <p class="slabel">El servicio</p>
+  <h2 class="sh2">Qué es TPT y cómo presentarlo</h2>
+  <div class="g2" style="margin-bottom:24px;">
+    <div class="card card-tpt">
+      <span class="tag tag-tpt">TPT</span>
+      <h3>¿Quién viene a TPT?</h3>
+      <div class="tiprow"><div class="dot dot-m"></div><p>Familias con niños con discapacidad o diagnóstico.</p></div>
+      <div class="tiprow"><div class="dot dot-m"></div><p>Niños con dificultades sin diagnóstico formal (timidez, dificultades sociales, habilidades motrices).</p></div>
+      <div class="tiprow"><div class="dot dot-m"></div><p>Adultos con necesidades psicológicas (ansiedad, duelo, rupturas).</p></div>
+      <div class="hl hl-m" style="margin-top:10px;">Lo que tienen en común: necesitan apoyo emocional, no solo técnico.</div>
+    </div>
+    <div class="card">
+      <span class="tag tag-gray">Presentación rápida</span>
+      <h3>Cómo explicar TPT a una familia</h3>
+      <div class="quote ok" style="margin-top:6px;"><div class="qlabel ok">✅ Frase clave</div>"Terapia Para Todos es nuestro programa terapéutico. Pero no es terapia clínica al uso. Todo ocurre a través del juego. Tu hijo no va a sentir que está en terapia: va a sentir que se lo está pasando bien. Y mientras tanto, trabaja lo que necesita."</div>
+      <div style="background:#F3E8FF;border-radius:9px;padding:12px 15px;margin-top:12px;border-left:3px solid var(--morado);">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--morado);margin-bottom:6px;">👥 Fomentamos pareja o grupo cuando es posible</p>
+        <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;">Las sesiones pueden ser individuales, en pareja o en grupo pequeño. Siempre que el perfil del niño lo permite, fomentamos la pareja o el grupo porque los beneficios son mayores: el niño aprende a relacionarse, comparte espacio con iguales, trabaja la tolerancia a la frustración y desarrolla habilidades sociales de forma natural. Además, el precio en pareja o grupo es más bajo.</p>
+        <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"Siempre que podemos, intentamos que las sesiones sean en pareja o en un grupito pequeño. Para el niño es mejor porque aprende con otros, y para vosotros el precio también baja. Lo valoramos en la Sesión de Bienvenida según el perfil."</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="slabel">Las 4 especialidades</p>
+  <h2 class="sh2">Cómo presentar cada terapia</h2>
+  <div class="g2" style="margin-bottom:24px;">
+    <div class="card" style="border-top:3px solid var(--naranja);">
+      <span class="tag tag-ora">🧩 Terapia Ocupacional</span>
+      <h3>Para familias con niños con dependencia, conducta o discapacidad severa</h3>
+      <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Presentación</div>"La terapia ocupacional trabaja todo lo que tiene que ver con el día a día: las rutinas, la autonomía, relacionarse con los demás, gestionar las emociones. Todo a través del juego."</div>
+      <p style="font-size:12px;color:var(--gris);margin-top:8px;">Cuando hay discapacidad severa, suele ser la primera que se introduce y la base sobre la que se añaden otras.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--verde);">
+      <span class="tag tag-grn">🗣️ Logopedia</span>
+      <h3>Para dificultades de comunicación, habla o lectura</h3>
+      <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Cuando no habla</div>"Aunque no hable, el logopeda trabaja comunicación funcional: gestos, pictogramas, interacción. El objetivo no es que hable de una forma concreta, sino que pueda comunicarse."</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--azul);">
+      <span class="tag tag-blu">🦴 Fisioterapia</span>
+      <h3>Para problemas físicos, neuromotores o de movimiento</h3>
+      <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Presentación</div>"Trabajan que tu hijo pueda moverse con más autonomía y menos limitaciones. No solo el movimiento: también que pueda funcionar mejor en su vida diaria."</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--morado);">
+      <span class="tag tag-tpt">💭 Psicología</span>
+      <h3>Para niños, adolescentes o adultos que pueden reflexionar</h3>
+      <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Presentación</div>"No es solo para crisis graves. Es para cualquier persona que necesite herramientas para gestionar lo que siente y vivir mejor."</div>
+      <p style="font-size:12px;color:var(--gris);margin-top:8px;">También online para adultos. El criterio clave: el usuario puede hablar y reflexionar sobre lo que le pasa.</p>
+    </div>
+  </div>
+
+  <p class="slabel">Sesión de Bienvenida TPT</p>
+  <h2 class="sh2">La prueba de nivel de TPT</h2>
+  <p class="sintro">No la llames "sesión gratuita". No es una prueba. Es la primera sesión real, con el terapeuta real, con la metodología real.</p>
+
+  <div class="g2" style="margin-bottom:20px;">
+    <div class="card card-tpt">
+      <h3 style="color:var(--morado);">✦ Es una experiencia Pegasus</h3>
+      <div class="tiprow"><div class="dot dot-m"></div><p>40 minutos de sesión real con el terapeuta que le acompañará</p></div>
+      <div class="tiprow"><div class="dot dot-m"></div><p>El padre entra dentro y lo ve todo — no espera fuera</p></div>
+      <div class="tiprow"><div class="dot dot-m"></div><p>Estructura completa: preclase · calentamiento · parte principal · juego final · posclase</p></div>
+      <div class="tiprow"><div class="dot dot-m"></div><p>Sin compromiso, sin formularios, sin evaluaciones visibles</p></div>
+    </div>
+    <div class="card" style="border:1px dashed var(--borde);">
+      <h3 style="color:var(--gris);">○ No es ninguna de estas cosas</h3>
+      <div class="tiprow"><div class="tdot-r"></div><p>Una entrevista clínica o recogida de datos</p></div>
+      <div class="tiprow"><div class="tdot-r"></div><p>Una venta económica ni explicación de condiciones</p></div>
+      <div class="tiprow"><div class="tdot-r"></div><p>Una evaluación formal del usuario</p></div>
+      <div class="tiprow"><div class="tdot-r"></div><p>Una reunión con los padres mientras el niño espera fuera</p></div>
+    </div>
+  </div>
+
+  <div class="sb-fases">
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--negro);">1</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">4 min</p><h3>Preclase</h3><p>Saludo Pegasus · Pregunta al familiar · Introducción breve sin términos clínicos · Padre dentro desde el inicio.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--morado);">2</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">6 min</p><h3>Calentamiento</h3><p>Diálogo micro Pegasus · Resumen de actividades · Juego de activación física · Padre como participante, no como observador.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--rosa);">3</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">20 min</p><h3>Parte principal</h3><p>Sesión gamificada A-B según triaje · Material efecto Waouh · Padre con rol activo dentro del juego · Aprendizaje enmascarado · Técnica Sandwich.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--naranja);">4</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">6 min</p><h3>Juego final</h3><p>Momento más espectacular · Usuario elige entre opciones · Alta energía · Valencia positiva del cierre.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--verde);">5</div></div>
+      <div class="sbf-content" style="padding-bottom:0"><p class="st">4 min</p><h3>Posclase — el momento más importante</h3><p>Mejores momentos en positivo · Puente entre lo vivido y las necesidades reales · Eslogan · Apertura natural a la Sesión 1. Si la familia está emocionada: deja el silencio.</p></div>
+    </div>
+  </div>
+
+  <div class="card card-yel" style="margin-bottom:24px;">
+    <span class="tag" style="background:#FEF3C7;color:#92400E;">Guion de cierre</span>
+    <h3>Cómo invitar a la Sesión de Bienvenida</h3>
+    <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Por teléfono</div>"Antes de contarte todo lo que hacemos, nos gustaría que vinieras a conocernos. Hacemos una Sesión de Bienvenida donde tu hijo va a jugar directamente con el terapeuta. Tú puedes estar dentro y verlo todo. Sin compromiso, sin papeles. Solo para que los dos podáis ver si esto es lo que estáis buscando."</div>
+    <div class="quote ok"><div class="qlabel ok">✅ Si preguntan "¿es gratis?"</div>"Sí. Lo gratuito es el precio. Lo que te llevas no tiene precio."</div>
+  </div>
+
+  <p class="slabel">Condiciones TPT</p>
+  <h2 class="sh2">Lo que necesitas saber para responder</h2>
+  <table class="tabla">
+    <thead><tr><th>Concepto</th><th>Detalle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Precio por sesión</strong></td><td>17,95€ (Terapia Integral FMM) · 19,95€ (Fisioterapia) · 25,95€ (TO, Psicología, Logopedia)</td></tr>
+      <tr><td><strong>Matrícula anual</strong></td><td>80€ (1 actividad) · 100€ (2 actividades). Reserva la plaza. No se devuelve.</td></tr>
+      <tr><td><strong>Compromiso</strong></td><td>Septiembre a julio. Previsibilidad que permite mantener los precios bajos.</td></tr>
+      <tr><td><strong>Pago</strong></td><td>Domiciliación bancaria días 1-5 de cada mes.</td></tr>
+      <tr><td><strong>Baja</strong></td><td>Antes del día 20 del mes. Email: terapiaparatodos@fundacionpegasus.org</td></tr>
+      <tr><td><strong>Descuentos familia</strong></td><td>2ª terapia: 50% matrícula · 3ª: gratis · Otros familiares: 50% matrícula</td></tr>
+      <tr><td><strong>Falta médica</strong></td><td>Recuperable siempre que sea posible.</td></tr>
+      <tr><td><strong>Festivos</strong></td><td>Se descuentan de las sesiones mensuales.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ================================================================ -->
+<!-- IS                                                                 -->
+<!-- ================================================================ -->
+<div id="is" class="page">
+  <div class="hero">
+    <p class="eyebrow">Inclusive Sport · Protocolo de captación</p>
+    <h1 class="h1">IS —<br><span class="gis">Inclusive Sport</span></h1>
+    <p class="hero-sub">Todo lo específico de IS: el enfoque, los perfiles, la Sesión de Bienvenida de 30 minutos, la política de grupos y cómo presentar el programa a las familias.</p>
+  </div>
+  <div class="divider"></div>
+
+  <p class="slabel">El servicio</p>
+  <h2 class="sh2">Qué es IS y cómo presentarlo</h2>
+  <div class="g2" style="margin-bottom:24px;">
+    <div class="card card-is">
+      <span class="tag tag-is">IS</span>
+      <h3>¿Quién viene a IS?</h3>
+      <div class="tiprow"><div class="dot dot-g"></div><p>Principalmente familias con niños con discapacidad de 3 a 12 años.</p></div>
+      <div class="tiprow"><div class="dot dot-g"></div><p>También adultos con discapacidad.</p></div>
+      <div class="tiprow"><div class="dot dot-g"></div><p>Niños sin discapacidad (objetivo estratégico de crecimiento).</p></div>
+      <div class="hl" style="background:#ECFDF5;border-left:3px solid var(--verde);border-radius:0 9px 9px 0;margin-top:10px;">Lo que tienen en común: buscan que su hijo se lo pase bien y encaje. No rendimiento.</div>
+    </div>
+    <div class="card">
+      <span class="tag tag-gray">Presentación rápida</span>
+      <h3>Cómo explicar IS a una familia</h3>
+      <div class="quote ok" style="margin-top:6px;"><div class="qlabel ok">✅ Frase clave</div>"Inclusive Sport no es un club de natación normal. No buscamos que gane medallas. Buscamos que disfrute, que socialice, que se sienta capaz. Que salga del agua sonriendo. Eso es lo que importa."</div>
+      <div class="tiprow" style="margin-top:10px;"><div class="tdot-g"></div><p><strong>Diferencia clave con TPT:</strong> en IS el deporte es el fin en sí mismo (disfrute, socialización). En TPT es el medio para un objetivo terapéutico.</p></div>
+      <div style="background:#D1FAE5;border-radius:9px;padding:12px 15px;margin-top:12px;border-left:3px solid var(--verde);">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:6px;">👥 En IS el grupo es la norma, no la excepción</p>
+        <p style="font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.65;">IS está diseñado para trabajar en grupo. El grupo es donde ocurre la magia: la socialización, la relación con iguales, el sentirse parte de algo. Siempre que el perfil lo permite, el objetivo es que el niño esté en pareja o en grupo, no en individual. En IS abordamos la parte socioemocional, no solo el deporte.</p>
+        <div style="font-size:12px;font-style:italic;color:var(--gris);padding:8px 12px;background:white;border-radius:7px;">"En IS intentamos siempre que los niños estén en grupo o en pareja. Es donde más se trabaja: la relación con otros, el juego compartido, la socialización. Empezamos con una Sesión de Bienvenida para ver cómo responde tu hijo y asignarle el grupo que mejor encaja."</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="slabel">Sesión de Bienvenida IS</p>
+  <h2 class="sh2">La prueba de nivel — 30 minutos</h2>
+  <p class="sintro">En IS la Sesión de Bienvenida dura 30 minutos y se centra en el niño. El educador lo observa en el medio acuático o deportivo y luego comunica a coordinación para asignar el grupo adecuado.</p>
+
+  <div class="card card-is" style="margin-bottom:16px;">
+    <span class="tag tag-is">Diferencias clave con TPT</span>
+    <div class="tiprow"><div class="dot dot-g"></div><p><strong>30 minutos</strong> (vs 40 en TPT). Normalmente solo con el niño.</p></div>
+    <div class="tiprow"><div class="dot dot-g"></div><p><strong>El educador no formaliza</strong> la plaza. Después de la sesión, comunica a coordinación y es coordinación quien asigna el grupo y formaliza el alta.</p></div>
+    <div class="tiprow"><div class="dot dot-g"></div><p><strong>A veces se hace en grupo:</strong> si hay una sesión de grupo disponible, se puede hacer la Sesión de Bienvenida en ese grupo y el niño se queda directamente si encaja.</p></div>
+    <div class="tiprow"><div class="dot dot-g"></div><p><strong>Siempre se empieza individual</strong> salvo que el educador considere que el perfil encaja directamente en un grupo existente.</p></div>
+  </div>
+
+  <div class="sb-fases">
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--negro);">1</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">3 min</p><h3>Preclase</h3><p>Saludo Pegasus · Pregunta al familiar · Introducción breve a la sesión · La Fila (si es en grupo) · Preparación al calentamiento.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--verde);">2</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">4 min</p><h3>Calentamiento</h3><p>Fase social: diálogo micro Pegasus · Fase física: primer juego dentro del agua, activación aeróbica. Nunca largos convencionales de natación.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--azul);">3</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">12 min</p><h3>Parte principal</h3><p>Sesión gamificada A-B · Material efecto Waouh (¡sacar los flotadores!) · Educador siempre en el agua, no fuera · Círculo de influencia: máximo 2 brazadas de los usuarios.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--naranja);">4</div><div class="sbf-conn"></div></div>
+      <div class="sbf-content"><p class="st">8 min</p><h3>Juego final</h3><p>Momento más espectacular · Usuario elige · Saltos, volteretas, juegos deportivos · Disfrute máximo.</p></div>
+    </div>
+    <div class="sb-fase">
+      <div class="sbf-line"><div class="sbf-num" style="background:var(--verde);">5</div></div>
+      <div class="sbf-content" style="padding-bottom:0"><p class="st">3 min</p><h3>Posclase + comunicación a coordinación</h3><p>Devolución breve y positiva a familiar · Eslogan · El educador comunica a coordinación: perfil del niño, grupo sugerido (individual o grupo existente) · Coordinación formaliza la plaza.</p></div>
+    </div>
+  </div>
+
+  <div class="card card-yel" style="margin-bottom:20px;">
+    <span class="tag" style="background:#FEF3C7;color:#92400E;">Política de grupos</span>
+    <h3>Cómo funciona la asignación individual/grupo</h3>
+    <div class="tiprow"><div class="tdot-g"></div><p><strong>Norma general:</strong> siempre se empieza individual para evaluar el perfil del niño en el medio acuático.</p></div>
+    <div class="tiprow"><div class="tdot-g"></div><p><strong>Excepción:</strong> si hay un grupo disponible y el educador considera en la Sesión de Bienvenida que el niño encaja, puede quedarse directamente en ese grupo.</p></div>
+    <div class="tiprow"><div class="tdot-g"></div><p><strong>Por qué empezamos individual:</strong> el triaje en IS se hace en el agua. Un niño puede funcionar muy bien en sala y muy diferente en el medio acuático. Necesitamos verlo antes de asignarle un grupo.</p></div>
+    <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Si preguntan por grupo directamente</div>"Entendemos que prefiráis grupo, y es muy habitual. Lo que hacemos primero es una Sesión de Bienvenida para ver cómo se desenvuelve en el agua, y así poder asignarle el grupo que mejor encaja con su perfil. Suele ser una sola sesión."</div>
+  </div>
+
+  <p class="slabel">Modalidades IS</p>
+  <h2 class="sh2">Qué hay disponible</h2>
+  <table class="tabla is-tabla">
+    <thead><tr><th>Modalidad</th><th>Público</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><strong>PiscinaSUS</strong></td><td>Peques y adultos</td><td>Natación adaptada. Fomenta autonomía, coordinación y autoestima. El deporte rey de IS.</td></tr>
+      <tr><td><strong>Fútbol Lúdico + Multideporte</strong></td><td>Peques y adultos</td><td>Deporte adaptado sin competición en formato lúdico. Fútbol, baloncesto, varios deportes combinados. Foco en habilidades sociales, juego y disfrute.</td></tr>
+    </tbody>
+  </table>
+
+  <p class="slabel">Condiciones IS</p>
+  <h2 class="sh2">Lo que necesitas saber para responder</h2>
+  <table class="tabla is-tabla">
+    <thead><tr><th>Concepto</th><th>Detalle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Precio mensual</strong></td><td>Individual: 51,95€/mes · Pareja/trío: 44,95€/mes · Grupo: 39-44,95€/mes</td></tr>
+      <tr><td><strong>Matrícula anual</strong></td><td>50€ (1 actividad) · 75€ (2 actividades). No se devuelve.</td></tr>
+      <tr><td><strong>Compromiso</strong></td><td>Septiembre a julio.</td></tr>
+      <tr><td><strong>Pago</strong></td><td>Domiciliación bancaria días 1-5 de cada mes.</td></tr>
+      <tr><td><strong>Baja</strong></td><td>Antes del día 20 del mes. Email: inclusivesport@fundacionpegasus.org</td></tr>
+      <tr><td><strong>Descuentos hermanos</strong></td><td>20% cuota hermanos en misma sesión · 50% matrícula 2º hermano · 3er hermano: matrícula gratis</td></tr>
+      <tr><td><strong>Faltas</strong></td><td>No recuperables (salvo lo previsto en el anexo de instalación).</td></tr>
+      <tr><td><strong>Festivos</strong></td><td>No se descuentan.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card card-is" style="margin-bottom:20px;">
+    <span class="tag tag-is">IS + TPT</span>
+    <h3>Cómo presentar el ecosistema completo</h3>
+    <div class="quote ok" style="margin-top:8px;"><div class="qlabel ok">✅ Cuando la familia tiene necesidades de ambos servicios</div>"Muchas de nuestras familias vienen a terapia entre semana y a la piscina los sábados. IS y TPT no son alternativas, son dos puertas del mismo espacio. El vínculo con Pegasus es mucho más profundo cuando la familia está en los dos."</div>
+    <div class="tiprow" style="margin-top:8px;"><div class="tdot-g"></div><p>Especialmente relevante para niños con TEA y TDAH: IS complementa muy bien el trabajo terapéutico de TPT.</p></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- OBJECIONES                                                         -->
+<!-- ================================================================ -->
+<div id="objeciones" class="page">
+  <div class="hero">
+    <p class="eyebrow">Guía de captación · Objeciones</p>
+    <h1 class="h1">Las objeciones más frecuentes<br><span class="g">y cómo responderlas</span></h1>
+    <p class="hero-sub">Una objeción no es un no. Es una pregunta disfrazada de duda. Haz clic en cada una para ver la respuesta y la frase literal.</p>
+  </div>
+
+  <div class="divider"></div>
+  <p class="slabel">Plan anual — las más difíciles</p>
+  <h2 class="sh2">Matrícula, julio y compromiso</h2>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Por qué hay que pagar julio si en julio ya no hay sesiones?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción al modelo anual — de las más importantes de dominar</p>
+      <div class="obj-frase-in">"En julio mi hijo ya está de vacaciones. No entiendo por qué tengo que pagar si no viene."</div>
+      <p class="obj-resp" style="font-size:13px;color:var(--gris);margin-bottom:12px;"><strong style="color:var(--negro);">Lo que hay detrás:</strong> La familia está pensando en términos de "pago por sesión". No entienden todavía que el modelo de Pegasus funciona diferente: no están pagando sesiones, están sosteniendo una plaza y un equipo. Necesitas hacer ese cambio de perspectiva antes de responder.</p>
+      <p class="obj-resp" style="font-size:13px;color:var(--gris);margin-bottom:12px;"><strong style="color:var(--negro);">Por qué se paga julio — entiéndelo tú primero para explicarlo bien:</strong> El compromiso de Pegasus con las familias es anual: de septiembre a julio, ambos incluidos. Eso son 11 meses. En esos 11 meses, Pegasus mantiene contratado al profesional, reserva la instalación, garantiza el horario y asegura que la plaza es de esa familia. Julio es el último mes de ese compromiso. Que el niño esté de vacaciones en la segunda quincena no cambia que la plaza ha estado reservada, que el profesional ha estado disponible y que el ciclo se cierra en julio. Pegasus no factura agosto. Si el modelo fuera de 10 meses con julio libre, el precio mensual tendría que ser más alto para sostener la misma estructura.</p>
+      <div class="obj-frase-out">"Entiendo perfectamente la duda, es muy habitual. Cuando parece que en julio no se viene, puede chocar pagar ese mes. Pero la forma de entenderlo es esta: vosotros no estáis pagando sesiones, estáis sosteniendo una plaza. Pegasus tiene a vuestro profesional contratado, vuestra instalación reservada y vuestro horario bloqueado durante 11 meses: de septiembre a julio. Julio es el cierre de ese ciclo. Si en julio no hubiera compromiso, el precio de los 10 meses anteriores tendría que ser más alto para que el modelo fuera sostenible. La razón por la que podemos tener estos precios —un 55-60% por debajo del mercado— es precisamente porque las familias se comprometen hasta julio. Sin ese compromiso, no hay esos precios."</div>
+      <div class="tiprow" style="margin-top:10px;"><div class="tdot-g"></div><p><strong>Tip:</strong> Si la familia sigue sin entenderlo, usa una analogía: "Es como el gimnasio de cuota anual: pagas los 12 meses aunque en agosto no vayas. La cuota existe para que el gimnasio pueda tener instalaciones y personal todo el año."</p></div>
+      <div class="tiprow"><div class="tdot-g"></div><p><strong>Tip:</strong> No te pongas defensivo. Esta objeción viene siempre de familias que aún no han entendido el modelo, no de familias que quieren escaparse de pagar. Explícalo con tranquilidad, como si fuera la primera vez que alguien te lo pregunta.</p></div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Por qué hay que pagar matrícula?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción a la matrícula</p>
+      <div class="obj-frase-in">"En otros sitios no hay matrícula. No entiendo para qué sirve."</div>
+      <div class="obj-frase-out">"La matrícula es lo que reserva la plaza para toda la temporada. No es una comisión: es tu garantía de que esa plaza es vuestra de septiembre a julio. Y cuando lo comparas con lo que pagaríais en cualquier otro centro, la diferencia sigue siendo enorme."</div>
+      <div class="tiprow" style="margin-top:8px;"><div class="tdot-g"></div><p>Si tienen dos hijos, menciona los descuentos de hermanos en la matrícula. Cambia mucho la percepción del coste.</p></div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "Es un compromiso muy grande, necesito pensármelo"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción al compromiso anual</p>
+      <div class="obj-frase-in">"No sé si puedo comprometerme de septiembre a julio. Es mucho tiempo."</div>
+      <div class="obj-frase-out">"Tiene todo el sentido que lo penséis. Por eso existe la Sesión de Bienvenida: para que no tengáis que comprometeros a nada sin haber visto primero cómo trabajamos. El compromiso anual se firma después de que hayáis comprobado que esto es lo que buscáis, no antes. Venid a conocernos y decidís con toda la información."</div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Y si necesitamos darnos de baja antes de julio?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción a las condiciones de baja</p>
+      <div class="obj-frase-in">"¿Qué pasa si en algún momento necesitamos parar? ¿Perdemos todo?"</div>
+      <p class="obj-resp" style="margin-bottom:10px;font-size:13px;color:var(--gris);"><strong style="color:var(--negro);">Primero: refuerza el valor de la permanencia.</strong> Antes de hablar de qué pasa si se van, asegúrate de que han entendido por qué el compromiso anual existe. La permanencia no es una trampa — es el acuerdo que hace posible el precio.</p>
+      <div class="obj-frase-out">"El compromiso anual —de septiembre a julio— es lo que hace posible que los precios sean lo que son. Es un acuerdo entre los dos: vosotros os comprometéis a estar, y nosotros nos comprometemos a tener el equipo, las plazas y la estructura disponible para vosotros todo el año. Ese acuerdo es el que permite que una sesión cueste lo que cuesta en Pegasus y no el doble en otro sitio.<br><br>Si en algún momento necesitáis parar, podéis hacerlo comunicándolo antes del día 20 del mes, y os acompañaríamos para buscar la mejor solución según vuestra situación. En casos de baja médica prolongada, hay opciones para reservar la plaza."</div>
+      <div class="tiprow" style="margin-top:10px;"><div class="tdot-r"></div><p><strong>Señal de alerta interna — DANGER JULIO:</strong> si durante la llamada la familia menciona varias veces la posibilidad de baja, o si notas que el compromiso anual les genera mucha resistencia, comunícalo a tu coordinador al registrar el alta. Se marcará internamente para hacer seguimiento preventivo en los meses críticos (mayo-julio).</p></div>
+      <div class="tiprow"><div class="tdot-g"></div><p>No abras tú el tema de las condiciones de reincorporación mensual. Si no lo preguntan, no lo expliques. Lo importante es que entiendan el valor del compromiso, no los pasos de vuelta.</p></div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "En otro centro me cuesta menos"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción de precio comparativo</p>
+      <div class="obj-frase-in">"He mirado por ahí y hay sitios con precios parecidos o incluso más baratos."</div>
+      <div class="obj-frase-out">"Puede haber precios similares en algunos sitios. Lo que cambia es qué hay detrás. En Pegasus no estáis pagando solo una hora de terapia. Estáis pagando una metodología pensada para el bienestar emocional de toda la familia, una trabajadora social incluida en el servicio, vuestra coordinadora de referencia y un equipo que os acompaña en todo el proceso. Eso, en el mercado, no existe a este precio."</div>
+      <div class="tiprow" style="margin-top:8px;"><div class="tdot-r"></div><p>No entres en guerra de precios. Desplaza la conversación del precio al valor. Nunca digas que el otro sitio es peor.</p></div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Por qué no hacéis sesiones sueltas?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción al modelo de suscripción</p>
+      <div class="obj-frase-in">"Preferiría ir pagando sesión a sesión sin compromiso."</div>
+      <div class="obj-frase-out">"El trabajo que hacemos no funciona en sesiones sueltas. No porque sea una norma, sino porque el tipo de cambio que buscamos —emocional, de aceptación, de vínculo— necesita continuidad. Un niño que viene una semana sí y tres semanas no no desarrolla el vínculo con el profesional que es la base de todo. Por eso el modelo es anual. Y es también por eso que el precio puede ser lo que es."</div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Y si no funciona? Hemos probado muchas cosas."</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción de riesgo percibido — muy frecuente en nivel 1 y 2</p>
+      <div class="obj-frase-in">"No sé si esto va a funcionar con mi hijo. Llevamos años probando cosas."</div>
+      <div class="obj-frase-out">"Tiene todo el sentido que tengáis esa duda. Y es exactamente para eso que existe la Sesión de Bienvenida: para que lo comprobéis vosotros mismos antes de comprometeros. No os pedimos que tengáis fe ciega. Os pedimos una hora. La mayoría de familias que vienen dicen que es la primera vez que su hijo no quiere irse."</div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 "¿Vosotros trabajáis con [diagnóstico concreto]?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Pregunta sobre alcance del servicio</p>
+      <div class="obj-frase-in">"Mi hijo tiene TEA severo / parálisis cerebral / síndrome de Down… ¿podéis atenderle?"</div>
+      <div class="obj-frase-out">"En Pegasus atendemos todas las discapacidades. Y esto no es marketing: es posible porque no trabajamos el diagnóstico. Trabajamos cómo la persona y su familia afrontan la diferencia. Lo que importa no es el nombre de la condición sino qué necesita en su vida diaria. Eso es lo que evaluamos en la Sesión de Bienvenida con el profesional."</div>
+      <div class="tiprow" style="margin-top:8px;"><div class="tdot-g"></div><p>Nunca digas que un caso está fuera de alcance sin que lo evalúe el equipo técnico. Ante la duda: la Sesión de Bienvenida.</p></div>
+    </div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-header" onclick="toggleObj(this)"><h3>💬 IS: "¿Por qué no empezamos en grupo directamente?"</h3><span class="obj-arrow">▼</span></div>
+    <div class="obj-body">
+      <p class="obj-tipo">Objeción específica de IS</p>
+      <div class="obj-frase-in">"Prefiero que vaya a un grupo desde el principio, ¿no se puede?"</div>
+      <div class="obj-frase-out">"Entendemos que prefiráis grupo, y es muy habitual. Lo que hacemos primero es la Sesión de Bienvenida para ver cómo se desenvuelve en el agua. El medio acuático es muy diferente para cada niño, y necesitamos verlo antes de asignarle el grupo que mejor encaje con su perfil. Suele ser una sola sesión, y si vemos que encaja directamente en un grupo existente, lo dejamos ahí."</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="grad-bar" style="margin-top:60px;"></div>
+<div class="footer">
+  <span>Fundación Pegasus · Guía interna de captación v3 · Mayo 2026</span>
+  <div class="fb"></div>
+  <span>Documento confidencial — uso exclusivo del equipo</span>
+</div>
+
+<script>
+function showPage(id, btn, activeClass) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b => b.className = 'main-tab');
+  document.getElementById(id).classList.add('active');
+  btn.classList.add(activeClass);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showTriaje(id, btn, cls) {
+  document.querySelectorAll('.triaje-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.triaje-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleObj(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.obj-arrow');
+  const isOpen = body.classList.contains('show');
+  document.querySelectorAll('.obj-body').forEach(b => b.classList.remove('show'));
+  document.querySelectorAll('.obj-arrow').forEach(a => a.classList.remove('open'));
+  if (!isOpen) { body.classList.add('show'); arrow.classList.add('open'); }
+}
+function goSim(id) {
+  document.querySelectorAll('.sim-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
