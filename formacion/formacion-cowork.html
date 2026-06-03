@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo trabajar con Claude Cowork — Fundación Pegasus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris-claro: #f7f7f7;
+  --gris-borde: #e8e8e8;
+  --grad-corp: linear-gradient(135deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--blanco);
+  color: var(--negro);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* GRADIENTE TEXTO */
+.grad-text {
+  background: var(--grad-corp);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gris-borde);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--negro);
+  text-decoration: none;
+}
+
+.nav-logo span {
+  background: var(--grad-corp);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--negro);
+  color: var(--blanco);
+  padding: 8px 20px;
+  border-radius: 100px;
+}
+
+/* WAVE */
+.wave { width: 100%; overflow: hidden; line-height: 0; display: block; }
+
+/* HERO */
+.hero {
+  padding: 80px 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  color: var(--negro);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 620px;
+  margin: 0 auto 40px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.stat-card {
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* SECCIONES */
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 40px;
+}
+
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin-bottom: 12px;
+}
+
+.section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.section p {
+  color: #444;
+  margin-bottom: 16px;
+  max-width: 720px;
+}
+
+/* GRID DE CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+
+.card {
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 20px;
+  padding: 28px 24px;
+  background: var(--blanco);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.07); }
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  background: var(--gris-claro);
+}
+
+.card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.92rem;
+  color: #666;
+  margin: 0;
+}
+
+/* DARK SECTION */
+.dark-section {
+  background: var(--negro);
+  color: var(--blanco);
+  padding: 80px 40px;
+}
+
+.dark-section .inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dark-section .section-label { color: #666; }
+
+.dark-section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--blanco);
+  margin-bottom: 20px;
+}
+
+.dark-section p { color: #aaa; }
+
+.dark-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.dark-card {
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding: 24px 20px;
+  border: 1px solid #333;
+}
+
+.dark-card .num {
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.dark-card h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blanco);
+  margin-bottom: 8px;
+}
+
+.dark-card p {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+}
+
+/* QUOTE BREAK */
+.quote-break {
+  background: var(--gris-claro);
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.quote-break .inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.quote-break blockquote {
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--negro);
+  margin-bottom: 16px;
+}
+
+.quote-break cite {
+  font-size: 0.85rem;
+  color: #999;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* PASOS NUMERADOS */
+.steps {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--gris-borde);
+  align-items: start;
+}
+
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--negro);
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  font-size: 0.93rem;
+  color: #666;
+  margin: 0;
+  max-width: 580px;
+}
+
+/* FOLDER TREE */
+.folder-tree {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-top: 28px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.88rem;
+  line-height: 1.9;
+  color: #e0e0e0;
+  overflow-x: auto;
+}
+
+.folder-tree .folder { color: #F3D100; font-weight: bold; }
+.folder-tree .file-md { color: #08B75B; }
+.folder-tree .file-important { color: #E45E9B; font-weight: bold; }
+.folder-tree .comment { color: #666; }
+
+/* CODE BLOCK */
+.code-block-wrap {
+  margin-top: 28px;
+}
+
+.code-block-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+  background: #2a2a2a;
+  border-radius: 12px 12px 0 0;
+  padding: 12px 20px;
+}
+
+.code-block-label span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.code-block-label .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.code-block {
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+  padding: 24px 28px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.83rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.code-block .comment { color: #555; }
+.code-block .key { color: #007EC3; font-weight: bold; }
+.code-block .value { color: #08B75B; }
+.code-block .heading { color: #F3D100; font-weight: bold; }
+.code-block .important { color: #E45E9B; }
+
+/* ERRORES */
+.error-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.error-card {
+  border-radius: 16px;
+  padding: 24px 20px;
+}
+
+.error-card.bad {
+  background: #fff5f5;
+  border: 1.5px solid #fecaca;
+}
+
+.error-card.good {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+}
+
+.error-card .tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.error-card.bad .tag { background: #fee2e2; color: #dc2626; }
+.error-card.good .tag { background: #dcfce7; color: #16a34a; }
+
+.error-card p {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 0;
+}
+
+/* MD HIGHLIGHT */
+.md-highlight {
+  border-left: 4px solid;
+  border-image: var(--grad-corp) 1;
+  background: var(--gris-claro);
+  border-radius: 0 12px 12px 0;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.md-highlight strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.md-highlight p {
+  font-size: 0.88rem;
+  color: #666;
+  margin: 0;
+}
+
+/* CTA FINAL */
+.cta-final {
+  background: var(--negro);
+  color: var(--blanco);
+  text-align: center;
+  padding: 80px 40px;
+}
+
+.cta-final h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.cta-final p {
+  color: #aaa;
+  max-width: 560px;
+  margin: 0 auto 40px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.btn-white { background: var(--blanco); color: var(--negro); }
+.btn-outline-white { background: transparent; color: var(--blanco); border: 2px solid #444; margin-left: 12px; }
+
+/* FOOTER */
+footer {
+  background: #0a0a0a;
+  color: #555;
+  text-align: center;
+  padding: 32px 40px;
+  font-size: 0.83rem;
+}
+
+footer span { color: #333; }
+
+/* FADE IN */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .hero-stats { grid-template-columns: 1fr; }
+  .error-grid { grid-template-columns: 1fr; }
+  nav { padding: 16px 20px; }
+  .section { padding: 48px 20px; }
+  .dark-section { padding: 60px 20px; }
+  .folder-tree { font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Fundación <span>Pegasus</span></a>
+  <div class="nav-pill">Guía Cowork</div>
+</nav>
+
+<!-- WAVE TOP -->
+<div class="wave">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="20%"  stop-color="#007EC3"/>
+        <stop offset="40%"  stop-color="#974694"/>
+        <stop offset="60%"  stop-color="#E45E9B"/>
+        <stop offset="75%"  stop-color="#D6191B"/>
+        <stop offset="88%"  stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,40 C360,80 1080,0 1440,40 L1440,0 L0,0 Z" fill="url(#wg1)"/>
+  </svg>
+</div>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-label">Formación interna · Equipo Pegasus</div>
+  <h1>Claude Cowork<br><span class="grad-text">como sistema de trabajo</span></h1>
+  <p>No es un chat. Es un colaborador con memoria. Pero esa memoria la construyes tú — y esta guía te explica cómo.</p>
+
+  <div class="hero-stats">
+    <div class="stat-card fade-in">
+      <div class="stat-number grad-text">∞</div>
+      <div class="stat-label">Memoria disponible si hay protocolo</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-number grad-text">0</div>
+      <div class="stat-label">Contexto repetido si la carpeta está bien</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-number grad-text">3</div>
+      <div class="stat-label">Documentos clave que lo cambian todo</div>
+    </div>
+  </div>
+</div>
+
+<!-- WAVE -->
+<div class="wave">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,40 C360,0 1080,80 1440,40 L1440,80 L0,80 Z" fill="url(#wg2)" opacity="0.08"/>
+  </svg>
+</div>
+
+<!-- BLOQUE 1: CAMBIO DE MENTALIDAD -->
+<section class="section fade-in">
+  <div class="section-label">01 — El punto de partida</div>
+  <h2>El cambio de <span class="grad-text">mentalidad</span></h2>
+  <p>La mayoría usa Cowork como si fuera Google: pregunta, recibe respuesta, cierra. Funciona, pero es solo el 10% de lo que puede hacer.</p>
+  <p>La diferencia real está en entender que <strong>Cowork no tiene memoria propia entre sesiones</strong>. Cada vez que abres una conversación nueva, Claude arranca de cero. Lo que recuerda es solo lo que tú le das.</p>
+  <p>Ahí está el cambio de mentalidad: pasar de "le pregunto cosas" a "trabajamos juntos en un proyecto con contexto acumulado".</p>
+
+  <div class="cards-grid" style="margin-top:36px;">
+    <div class="card fade-in">
+      <div class="card-icon">💬</div>
+      <h3>Sin sistema</h3>
+      <p>Cada sesión empieza de cero. Repites el contexto. Los resultados son inconsistentes. Después de 10 conversaciones, no hay nada acumulado.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon" style="background:linear-gradient(135deg,#08B75B22,#007EC322);">🧠</div>
+      <h3>Con sistema</h3>
+      <p>Claude conoce tu proyecto, tus reglas, tus decisiones tomadas. Cada sesión avanza sobre lo anterior. La memoria crece con el tiempo.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">⚡</div>
+      <h3>La clave</h3>
+      <p>La calidad del output de Claude depende directamente de la calidad del contexto que le das. La carpeta de trabajo es ese contexto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE DARK -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="#111111"/>
+  </svg>
+</div>
+
+<!-- BLOQUE 2: LA CARPETA -->
+<div class="dark-section fade-in">
+  <div class="inner">
+    <div class="section-label">02 — La base de todo</div>
+    <h2>La carpeta de trabajo —<br><span class="grad-text">el cerebro del proyecto</span></h2>
+    <p>La carpeta es la memoria física de tu proyecto. Claude la lee antes de trabajar. <strong style="color:#fff;">Lo que no está en la carpeta, no existe para Claude.</strong></p>
+    <p style="margin-top:12px;">La regla de oro: si es importante, está escrito. Si está escrito, está en la carpeta.</p>
+
+    <p style="margin-top:28px; color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.15em; font-weight:700;">Ejemplo real — Fran lleva Indiferente</p>
+
+    <div class="folder-tree" style="margin-top:12px;">
+<span class="folder">Indiferente/</span>
+<span class="comment">                          ← carpeta raíz del proyecto</span>
+│
+├── <span class="file-important">CLAUDE.md</span><span class="comment">                   ← ⭐ EL MÁS IMPORTANTE — léelo primero</span>
+├── <span class="file-md">README.md</span><span class="comment">                   ← índice de la carpeta</span>
+├── <span class="file-md">PROXIMOS_PASOS.md</span><span class="comment">           ← qué hacer al arrancar la próxima sesión</span>
+├── <span class="file-md">Dolores_y_Bloqueos.md</span><span class="comment">       ← riesgos y problemas vivos del proyecto</span>
+│
+├── <span class="folder">01_Clientes/</span>
+│   ├── <span class="file-md">Santander.md</span><span class="comment">            ← contexto, contactos, historial</span>
+│   ├── <span class="file-md">PepsiCo.md</span>
+│   └── <span class="file-md">Telefonica.md</span>
+│
+├── <span class="folder">02_Propuestas/</span>
+│   ├── <span class="file-md">propuesta_ayto_alcorcon_2026.md</span>
+│   └── <span class="folder">_enviadas/</span><span class="comment">              ← propuestas ya cerradas</span>
+│
+├── <span class="folder">03_Formaciones/</span>
+│   ├── <span class="file-md">sesgos_inconscientes.md</span><span class="comment">  ← materiales, estructura, adapts</span>
+│   ├── <span class="file-md">resolucion_conflictos.md</span>
+│   └── <span class="file-md">bienestar_corporativo.md</span>
+│
+├── <span class="folder">04_Comercial/</span>
+│   ├── <span class="file-md">pricing_v2.md</span>
+│   └── <span class="file-md">argumentario_ventas.md</span>
+│
+└── <span class="folder">_archivo/</span><span class="comment">                    ← todo lo histórico que ya no es operativo</span></div>
+
+    <div class="dark-cards" style="margin-top:40px;">
+      <div class="dark-card fade-in">
+        <div class="num grad-text">01</div>
+        <h4>Carpeta conectada</h4>
+        <p>Cuando abres Cowork, conectas la carpeta del proyecto. Claude la lee automáticamente.</p>
+      </div>
+      <div class="dark-card fade-in">
+        <div class="num grad-text">02</div>
+        <h4>Sin duplicar</h4>
+        <p>Un solo MD por tema. No hay información en dos sitios. Si algo cambia, se actualiza en el sitio correcto.</p>
+      </div>
+      <div class="dark-card fade-in">
+        <div class="num grad-text">03</div>
+        <h4>_archivo/ siempre</h4>
+        <p>Lo que ya no es operativo va a _archivo/, no se borra. Claude ignora esa carpeta automáticamente.</p>
+      </div>
+      <div class="dark-card fade-in">
+        <div class="num grad-text">04</div>
+        <h4>Viva y actualizada</h4>
+        <p>Una carpeta desactualizada es peor que no tener carpeta. Claude tomará decisiones sobre información falsa.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 C480,0 960,60 1440,30 L1440,0 L0,0 Z" fill="#111111"/>
+  </svg>
+</div>
+
+<!-- BLOQUE 3: CLAUDE.MD -->
+<section class="section fade-in">
+  <div class="section-label">03 — El documento más importante</div>
+  <h2>El <span class="grad-text">CLAUDE.md</span> — tu contrato con Claude</h2>
+  <p>Es lo primero que lee Claude al abrir la carpeta. Define quién eres, qué es el proyecto y las reglas que nunca se saltan.</p>
+  <p>Un buen CLAUDE.md convierte a Claude en un colaborador que ya conoce el proyecto desde el primer mensaje. Uno vacío te obliga a explicar todo desde cero cada sesión.</p>
+
+  <p style="font-weight:700; margin-top:32px; margin-bottom:4px;">¿Qué va dentro?</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+    <div class="md-highlight fade-in">
+      <strong>Quién usa esta carpeta y para qué</strong>
+      <p>Nombre, rol, proyecto, objetivo principal. Claude necesita saber con quién habla.</p>
+    </div>
+    <div class="md-highlight fade-in">
+      <strong>Reglas innegociables</strong>
+      <p>Lo que nunca se puede saltar: tono, formato de entregables, validaciones obligatorias.</p>
+    </div>
+    <div class="md-highlight fade-in">
+      <strong>Decisiones ya tomadas</strong>
+      <p>Lo que ya está decidido y no necesita volver a debatirse. Evita dar vueltas a lo mismo.</p>
+    </div>
+    <div class="md-highlight fade-in">
+      <strong>Contexto del proyecto</strong>
+      <p>Clientes actuales, estado del proyecto, próximas fechas clave, personas relevantes.</p>
+    </div>
+  </div>
+
+  <p style="font-weight:700; margin-top:40px; margin-bottom:4px;">Plantilla CLAUDE.md — Indiferente (adáptala a tu proyecto)</p>
+
+  <div class="code-block-wrap fade-in">
+    <div class="code-block-label">
+      <div class="dot" style="background:#E45E9B;"></div>
+      <div class="dot" style="background:#F3D100; margin-left:6px;"></div>
+      <div class="dot" style="background:#08B75B; margin-left:6px;"></div>
+      <span style="margin-left:12px;">CLAUDE.md — plantilla Indiferente</span>
+    </div>
+    <div class="code-block"><span class="heading"># CLAUDE.md — Indiferente / Fundación Pegasus</span>
+<span class="comment"># Quién usa esta carpeta</span>
+<span class="value">Fran</span>, responsable comercial de Indiferente.
+Indiferente es el servicio de D&I de Fundación Pegasus para empresas privadas.
+Servicios: Sesgos Inconscientes, Resolución de Conflictos, Conferencia David,
+E-learning SCORM, Plan de Bienestar Corporativo.
+
+<span class="comment"># Objetivo principal de esta carpeta</span>
+Gestionar todo el ciclo comercial de Indiferente: propuestas, clientes activos,
+seguimiento, materiales de formación y comunicaciones institucionales.
+
+<span class="comment"># Reglas innegociables</span>
+1. <span class="important">Todo copy visible al cliente pasa por pegasus-filosofia-checker antes de enviarse.</span>
+2. Tono: cercano, directo, sin jerga corporativa. Nunca paternalista.
+3. Los presupuestos se generan siempre con la skill pegasus-presupuestos.
+4. Las propuestas a empresa se generan con pegasus-propuesta-empresa.
+
+<span class="comment"># Clientes activos (actualizar siempre)</span>
+- Santander: formación sesgos en curso — contacto: [nombre]
+- PepsiCo: propuesta enviada — pendiente respuesta
+- Telefónica: cliente recurrente — renovación en sept 2026
+
+<span class="comment"># Decisiones cerradas</span>
+- Precio base sesgos inconscientes: 3.200€ + IVA (grupo hasta 20p)
+- Formato preferido: presencial, 4h, con dinámica de juego incluida
+- El email institucional siempre va desde fran@lomionoesnormal.com
+
+<span class="comment"># Lo que Claude NO hace aquí</span>
+- No toma decisiones de precio sin consultarme
+- No envía nada directamente — solo redacta para que yo revise y envíe</div>
+  </div>
+</section>
+
+<!-- QUOTE BREAK -->
+<div class="quote-break fade-in">
+  <div class="inner">
+    <blockquote>"Si no está en un MD,<br>no existe para Claude."</blockquote>
+    <cite>Regla de oro del sistema de trabajo Pegasus</cite>
+  </div>
+</div>
+
+<!-- BLOQUE 4: MDs ESTRATÉGICOS -->
+<section class="section fade-in">
+  <div class="section-label">04 — Los documentos que mantienen vivo el proyecto</div>
+  <h2>Los <span class="grad-text">3 MDs estratégicos</span></h2>
+  <p>Además del CLAUDE.md, hay dos documentos que marcan la diferencia entre un proyecto vivo y uno que se congela entre sesiones.</p>
+
+  <div style="margin-top:36px; display:flex; flex-direction:column; gap:24px;">
+
+    <div class="card fade-in" style="border-left:4px solid #08B75B; border-radius:0 20px 20px 0;">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <span style="font-size:1.4rem;">📋</span>
+        <h3 style="margin:0;">README.md — El índice</h3>
+      </div>
+      <p style="margin-bottom:12px;">El mapa de la carpeta. Explica qué hay dentro, para qué sirve cada subcarpeta y cuál es el estado actual del proyecto.</p>
+      <p style="font-size:0.85rem; color:#999;">Claude lo lee para orientarse. Tú lo lees cuando llevas un tiempo sin abrir la carpeta y necesitas ubicarte rápido.</p>
+
+      <div class="code-block-wrap" style="margin-top:20px;">
+        <div class="code-block-label">
+          <div class="dot" style="background:#08B75B;"></div>
+          <span style="margin-left:10px;">README.md — plantilla Indiferente</span>
+        </div>
+        <div class="code-block"><span class="heading"># Indiferente — Carpeta de trabajo</span>
+
+<span class="key">Owner:</span> <span class="value">Fran</span>
+<span class="key">Última actualización:</span> <span class="value">[fecha]</span>
+<span class="key">Estado:</span> <span class="value">[ej: 3 propuestas en curso · 2 clientes activos]</span>
+
+<span class="heading">## Qué hay en esta carpeta</span>
+- <span class="value">01_Clientes/</span>    → ficha de cada cliente con historial y estado
+- <span class="value">02_Propuestas/</span>  → propuestas en curso (las enviadas van a _archivo/)
+- <span class="value">03_Formaciones/</span> → materiales y adaptaciones por tipo de formación
+- <span class="value">04_Comercial/</span>   → pricing, argumentario, modelo comercial
+- <span class="value">_archivo/</span>      → histórico cerrado (Claude no lo lee)
+
+<span class="heading">## Clientes activos ahora mismo</span>
+[lista actualizada — mover aquí lo que está en movimiento]
+
+<span class="heading">## Próxima acción prioritaria</span>
+[una sola línea — qué es lo más urgente hoy]</div>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="border-left:4px solid #007EC3; border-radius:0 20px 20px 0;">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <span style="font-size:1.4rem;">🎯</span>
+        <h3 style="margin:0;">PROXIMOS_PASOS.md — La continuidad</h3>
+      </div>
+      <p style="margin-bottom:12px;">El documento que arranca cada sesión. Dice exactamente qué está pendiente, qué está bloqueado y qué es lo más urgente.</p>
+      <p style="font-size:0.85rem; color:#999;">Sin este documento, cada sesión empieza con "¿por dónde íbamos?". Con él, arrancas en 30 segundos.</p>
+
+      <div class="code-block-wrap" style="margin-top:20px;">
+        <div class="code-block-label">
+          <div class="dot" style="background:#007EC3;"></div>
+          <span style="margin-left:10px;">PROXIMOS_PASOS.md — plantilla Indiferente</span>
+        </div>
+        <div class="code-block"><span class="heading"># Próximos pasos — Indiferente</span>
+<span class="comment"># Actualizado: [fecha del último cierre de sesión]</span>
+
+<span class="heading">## 🔴 Urgente — hacer esta semana</span>
+- [ ] Enviar propuesta revisada a PepsiCo (esperan respuesta antes del jueves)
+- [ ] Confirmar fecha con Santander para la formación de octubre
+
+<span class="heading">## 🟡 En curso — en movimiento</span>
+- Telefónica: renovación en negociación — última reunión [fecha]
+- Ayto. Alcorcón: propuesta enviada, sin respuesta todavía
+
+<span class="heading">## 🟢 Para próxima semana</span>
+- Preparar materiales adaptados para sector bancario (Santander)
+- Revisar pricing para grupos de más de 30 personas
+
+<span class="heading">## Bloqueantes</span>
+- Necesito confirmación de David para las fechas de octubre
+
+<span class="heading">## Decisiones tomadas en la última sesión</span>
+- [resumir aquí lo que se decidió — Claude lo actualiza al cerrar]</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="#111111"/>
+  </svg>
+</div>
+
+<!-- BLOQUE 5+6: RITUALES -->
+<div class="dark-section fade-in">
+  <div class="inner">
+    <div class="section-label">05 + 06 — Los rituales que lo mantienen vivo</div>
+    <h2>Inicio y cierre —<br><span class="grad-text">las dos acciones más importantes</span></h2>
+    <p>La diferencia entre un sistema que funciona y uno que se degrada está en hacer siempre estas dos cosas.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px;">
+
+      <div style="background:#1a1a1a; border-radius:20px; padding:32px; border:1px solid #333;">
+        <div style="font-size:2rem; margin-bottom:16px;">🌅</div>
+        <h3 style="color:#fff; font-size:1.15rem; margin-bottom:16px;">Ritual de inicio</h3>
+        <div class="steps" style="border:none;">
+          <div style="padding:14px 0; border-bottom:1px solid #222;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 1</div>
+            <div style="color:#ccc; font-size:0.9rem;">Conecta la carpeta del proyecto en Cowork</div>
+          </div>
+          <div style="padding:14px 0; border-bottom:1px solid #222;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 2</div>
+            <div style="color:#ccc; font-size:0.9rem;">Di: <em style="color:#F3D100;">"Lee PROXIMOS_PASOS.md y dime en qué estamos"</em></div>
+          </div>
+          <div style="padding:14px 0;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 3</div>
+            <div style="color:#ccc; font-size:0.9rem;">Confirma y di qué quieres conseguir hoy. Empieza a trabajar.</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:#555; margin-top:16px;">Con carpeta bien configurada: 30 segundos de arranque.</p>
+      </div>
+
+      <div style="background:#1a1a1a; border-radius:20px; padding:32px; border:1px solid #333;">
+        <div style="font-size:2rem; margin-bottom:16px;">🌙</div>
+        <h3 style="color:#fff; font-size:1.15rem; margin-bottom:16px;">Ritual de cierre — <span style="color:#E45E9B;">obligatorio</span></h3>
+        <div class="steps" style="border:none;">
+          <div style="padding:14px 0; border-bottom:1px solid #222;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 1</div>
+            <div style="color:#ccc; font-size:0.9rem;">Di: <em style="color:#F3D100;">"Cerramos sesión"</em></div>
+          </div>
+          <div style="padding:14px 0; border-bottom:1px solid #222;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 2</div>
+            <div style="color:#ccc; font-size:0.9rem;">Claude actualiza PROXIMOS_PASOS.md con todo lo que ha pasado</div>
+          </div>
+          <div style="padding:14px 0; border-bottom:1px solid #222;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 3</div>
+            <div style="color:#ccc; font-size:0.9rem;">Claude actualiza README.md y cualquier ficha de cliente que haya cambiado</div>
+          </div>
+          <div style="padding:14px 0;">
+            <div style="font-size:0.8rem; color:#666; font-weight:700; margin-bottom:4px;">PASO 4</div>
+            <div style="color:#ccc; font-size:0.9rem;">Revisas y confirmas. Cierras Cowork.</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:#555; margin-top:16px;">Sin cierre = memoria perdida. Con cierre = la próxima sesión arranca perfecta.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 C480,0 960,60 1440,30 L1440,0 L0,0 Z" fill="#111111"/>
+  </svg>
+</div>
+
+<!-- BLOQUE 7: EQUILIBRIO -->
+<section class="section fade-in">
+  <div class="section-label">07 — La regla del equilibrio</div>
+  <h2>Ni exceso ni escasez —<br><span class="grad-text">qué va en un MD y qué no</span></h2>
+  <p>Una carpeta con demasiada información es tan problemática como una vacía. Claude se pierde en el ruido igual que tú te perderías en una bandeja de entrada con 10.000 emails.</p>
+
+  <div class="cards-grid" style="margin-top:36px;">
+    <div class="card fade-in" style="border-top:3px solid #08B75B;">
+      <div class="card-icon" style="background:#f0fdf4; font-size:1.1rem;">✅</div>
+      <h3>Sí va en un MD</h3>
+      <p>Decisiones tomadas. Reglas del proyecto. Estado de clientes. Próximos pasos. Contexto que necesitarás en 3 meses.</p>
+    </div>
+    <div class="card fade-in" style="border-top:3px solid #D6191B;">
+      <div class="card-icon" style="background:#fff5f5; font-size:1.1rem;">❌</div>
+      <h3>No va en un MD</h3>
+      <p>Conversaciones puntuales. Ideas que no han cuajado. Borradores descartados. Información que cambia cada día.</p>
+    </div>
+    <div class="card fade-in" style="border-top:3px solid #ED7928;">
+      <div class="card-icon" style="background:#fff7ed; font-size:1.1rem;">🗃️</div>
+      <h3>Va a _archivo/</h3>
+      <p>Propuestas ya enviadas. Proyectos cerrados. Versiones antiguas de documentos. Todo lo histórico que ya no es operativo.</p>
+    </div>
+  </div>
+
+  <div style="background:#f7f7f7; border-radius:16px; padding:28px; margin-top:36px;">
+    <p style="font-weight:700; margin-bottom:12px;">La pregunta que guía:</p>
+    <p style="font-size:1.1rem; font-style:italic; color:#333;">¿Necesito que Claude recuerde esto en tres meses? Si sí → MD. Si no → chat o _archivo/.</p>
+  </div>
+</section>
+
+<!-- BLOQUE 8: ERRORES -->
+<section class="section fade-in" style="padding-top:0;">
+  <div class="section-label">08 — Lo que falla más</div>
+  <h2>Errores <span class="grad-text">más comunes</span></h2>
+  <p>Estos son los patrones que más se repiten. Reconócelos antes de caer en ellos.</p>
+
+  <div class="error-grid" style="margin-top:32px;">
+    <div class="error-card bad fade-in">
+      <div class="tag">❌ Error</div>
+      <p><strong>No tener CLAUDE.md</strong><br>Claude no sabe quién eres ni qué quieres. Cada sesión empieza desde cero.</p>
+    </div>
+    <div class="error-card good fade-in">
+      <div class="tag">✅ Correcto</div>
+      <p><strong>CLAUDE.md actualizado</strong><br>Claude arranca con contexto completo. La primera respuesta ya va al grano.</p>
+    </div>
+    <div class="error-card bad fade-in">
+      <div class="tag">❌ Error</div>
+      <p><strong>No cerrar la sesión</strong><br>Todo lo que se decidió hoy desaparece. La próxima sesión repite el trabajo.</p>
+    </div>
+    <div class="error-card good fade-in">
+      <div class="tag">✅ Correcto</div>
+      <p><strong>Cierre con "cerramos sesión"</strong><br>Claude actualiza los MDs. La próxima sesión arranca sabiendo exactamente dónde está.</p>
+    </div>
+    <div class="error-card bad fade-in">
+      <div class="tag">❌ Error</div>
+      <p><strong>Carpeta desordenada</strong><br>Claude lee todo lo que hay. Si hay ruido, sus respuestas también tienen ruido.</p>
+    </div>
+    <div class="error-card good fade-in">
+      <div class="tag">✅ Correcto</div>
+      <p><strong>_archivo/ activo</strong><br>Lo histórico fuera de la vista. Claude solo trabaja con información operativa.</p>
+    </div>
+    <div class="error-card bad fade-in">
+      <div class="tag">❌ Error</div>
+      <p><strong>Pedir 5 cosas a la vez</strong><br>Resultados mediocres en todo. Claude intenta hacer demasiado y no hace nada bien.</p>
+    </div>
+    <div class="error-card good fade-in">
+      <div class="tag">✅ Correcto</div>
+      <p><strong>Un objetivo por sesión</strong><br>Contexto claro, objetivo concreto, resultado de calidad. Después, el siguiente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE FINAL -->
+<div class="wave">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wg3" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#08B75B"/>
+        <stop offset="20%"  stop-color="#007EC3"/>
+        <stop offset="40%"  stop-color="#974694"/>
+        <stop offset="60%"  stop-color="#E45E9B"/>
+        <stop offset="75%"  stop-color="#D6191B"/>
+        <stop offset="88%"  stop-color="#ED7928"/>
+        <stop offset="100%" stop-color="#F3D100"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="url(#wg3)"/>
+  </svg>
+</div>
+
+<!-- CTA FINAL -->
+<div class="cta-final fade-in">
+  <h2>Tu próximo paso:<br>crear tu CLAUDE.md</h2>
+  <p>Descarga las plantillas, adapta el CLAUDE.md a tu proyecto y conecta tu carpeta de trabajo en Cowork. La primera sesión con sistema es la más difícil. La segunda ya se nota.</p>
+  <div>
+    <a href="#bloque-3" class="btn btn-white">Ver plantillas</a>
+    <a href="#" class="btn btn-outline-white">Preguntar a Álvaro</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><span>Lo mío no es normal, pero lo tuyo tampoco.</span> · Fundación Pegasus · www.fundacionpegasus.org</p>
+  <p style="margin-top:8px;">Guía interna de uso de Claude Cowork · Versión 1.0 · Junio 2026</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
