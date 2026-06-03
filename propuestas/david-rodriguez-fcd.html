@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Rodríguez × Fundación Cuidados Dignos</title>
+<meta name="description" content="Propuesta de formación vivencial para el equipo de Fundación Cuidados Dignos. Conferencia + Resolución de Conflictos. Septiembre 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde:#08B75B;--azul:#007EC3;--morado:#974694;--rosa:#E45E9B;
+  --rojo:#D6191B;--amarillo:#F3D100;--naranja:#ED7928;
+  --negro:#0A0A0A;--negro-suave:#141414;--gris:#888;--gris-claro:#cfcfcf;
+  --blanco:#FFFFFF;--crema:#FFE9B5;
+  --grad:linear-gradient(135deg,#08B75B 0%,#007EC3 18%,#974694 36%,#E45E9B 54%,#D6191B 72%,#ED7928 86%,#F3D100 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--negro);color:var(--blanco);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* TIPOGRAFÍA */
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gris);display:inline-block;}
+.crema{color:var(--crema);}
+.grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;}
+
+/* LAYOUT */
+.container{max-width:1280px;margin:0 auto;padding:0 32px;}
+.section{padding:120px 0;}
+@media(max-width:768px){.section{padding:64px 0;}}
+
+/* VIEW SWITCHING */
+.view{display:none;}
+.view.active{display:block;animation:viewIn .45s ease;}
+@keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 32px;background:rgba(10,10,10,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08);}
+.nav-logo{font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.05rem;color:var(--blanco);text-decoration:none;letter-spacing:.02em;cursor:pointer;}
+.nav-menu{display:flex;gap:4px;align-items:center;padding:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;}
+.nav-link{background:transparent;border:none;color:rgba(255,255,255,.65);font-family:'Barlow',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.02em;padding:9px 18px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:color .25s,background .25s;}
+.nav-link:hover{color:var(--blanco);background:rgba(255,255,255,.06);}
+body[data-view="david"] .nav-link[data-go="david"],
+body[data-view="propuesta"] .nav-link[data-go="propuesta"]{color:var(--negro);background:var(--crema);}
+.nav-cta-wrap{display:flex;gap:8px;}
+.nav-cta{display:inline-block;padding:10px 22px;border-radius:100px;background:var(--crema);color:var(--negro);font-weight:700;font-size:.86rem;text-decoration:none;transition:transform .2s,box-shadow .2s;border:none;font-family:inherit;cursor:pointer;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,233,181,.28);}
+body[data-view="david"] [data-show="propuesta"]{display:none!important;}
+body[data-view="propuesta"] [data-show="david"]{display:none!important;}
+@media(max-width:820px){.nav{padding:14px 18px;gap:8px;}.nav-logo{font-size:.9rem;}.nav-menu{padding:3px;gap:2px;}.nav-link{font-size:.74rem;padding:7px 12px;letter-spacing:0;}}
+@media(max-width:560px){.nav-cta{padding:8px 14px;font-size:.78rem;}.nav-link{font-size:.7rem;padding:6px 10px;}}
+
+/* ===== VISTA DAVID ===== */
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;overflow:hidden;padding-top:80px;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:100px;padding-bottom:0;}}
+.hero-blob{position:absolute;width:480px;height:480px;border-radius:50%;filter:blur(110px);opacity:.55;pointer-events:none;z-index:0;}
+.hero-blob-1{top:-120px;left:-120px;background:linear-gradient(135deg,#ED7928,#F3D100);}
+.hero-blob-2{bottom:-120px;left:30%;background:linear-gradient(135deg,#D6191B,#ED7928);opacity:.35;}
+.hero-text{padding:0 32px 0 80px;position:relative;z-index:2;}
+@media(max-width:1100px){.hero-text{padding:0 32px;}}
+.hero-quien{font-family:'Barlow',sans-serif;font-weight:600;font-size:.92rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gris-claro);margin-bottom:16px;}
+.hero-name{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;font-size:clamp(3rem,6.5vw,5.4rem);margin-bottom:28px;color:var(--blanco);}
+.hero-name .first{display:block;}
+.hero-name .second{display:block;}
+.hero-tagline{font-family:'Barlow',sans-serif;font-weight:600;font-size:1rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gris-claro);margin-bottom:40px;}
+.hero-tagline span{color:var(--crema);font-weight:700;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 30px;border-radius:100px;font-family:'Barlow',sans-serif;font-weight:700;font-size:.95rem;text-decoration:none;cursor:pointer;border:none;letter-spacing:.02em;transition:transform .25s,box-shadow .25s,background .25s;}
+.btn-primary{background:var(--crema);color:var(--negro);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(255,233,181,.25);}
+.btn-ghost{background:transparent;color:var(--blanco);border:1.5px solid rgba(255,255,255,.4);}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:var(--blanco);}
+.hero-photo{position:relative;height:100vh;min-height:600px;background-image:url('_imagenes/david-rodriguez/hero-mirando-arriba.jpg');background-size:cover;background-position:center top;z-index:1;}
+.hero-photo::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--negro) 0%,transparent 18%,transparent 82%,rgba(10,10,10,.4) 100%);}
+@media(max-width:900px){.hero-photo{height:70vh;min-height:500px;}.hero-photo::before{background:linear-gradient(180deg,transparent 50%,var(--negro) 100%);}}
+
+/* MISIÓN */
+.mision{padding:140px 32px;text-align:center;position:relative;}
+.mision-eyebrow{margin-bottom:32px;}
+.mision-quote{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.05;max-width:1100px;margin:0 auto 32px;letter-spacing:-.015em;}
+.mision-quote em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mision-author{font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:.2em;text-transform:uppercase;font-size:.82rem;color:var(--gris);}
+
+/* VIDEO TILT */
+.tilt-section{padding:60px 32px 140px;display:flex;justify-content:center;perspective:1400px;}
+.tilt-card{width:min(94vw,1100px);aspect-ratio:16/10;border-radius:28px;border:6px solid #1a1a1a;overflow:hidden;position:relative;background:#000;box-shadow:0 9px 20px #0000004a,0 37px 37px #00000042,0 84px 50px #00000026;will-change:transform;}
+.tilt-card img{width:100%;height:100%;object-fit:cover;}
+.tilt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;background:var(--rojo);display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 12px 40px rgba(214,25,27,.5),0 0 0 12px rgba(255,255,255,.08);transition:transform .3s,box-shadow .3s;}
+.tilt-play::after{content:'';width:0;height:0;border-style:solid;border-width:22px 0 22px 36px;border-color:transparent transparent transparent var(--blanco);margin-left:8px;}
+.tilt-play:hover{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 20px 60px rgba(214,25,27,.7),0 0 0 16px rgba(255,255,255,.1);}
+.tilt-caption{position:absolute;bottom:24px;left:24px;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);padding:10px 18px;border-radius:100px;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
+
+/* FLOW / UNA CHARLA DIFERENTE */
+.flow{padding:100px 32px;background:var(--negro-suave);}
+.flow-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;}
+@media(max-width:900px){.flow-grid{grid-template-columns:1fr;gap:48px;}}
+.flow-photos{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.flow-photos figure{border-radius:18px;overflow:hidden;aspect-ratio:3/4;background:#000;}
+.flow-photos figure:first-child{grid-column:1/3;aspect-ratio:16/9;}
+.flow-photos img{width:100%;height:100%;object-fit:cover;transition:transform .8s;}
+.flow-photos figure:hover img{transform:scale(1.05);}
+.flow-text h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.4rem,4.4vw,3.6rem);line-height:.95;margin-bottom:16px;letter-spacing:-.02em;color:var(--blanco);}
+.flow-text h3{color:var(--crema);font-family:'Barlow',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:28px;}
+.flow-text p{color:var(--gris-claro);margin-bottom:18px;font-size:1.05rem;}
+.flow-text strong{color:var(--blanco);font-weight:700;}
+
+/* SERVICIOS — formaciones */
+.servicios{padding:140px 32px;}
+.servicios-header{text-align:center;max-width:760px;margin:0 auto 80px;}
+.servicios-header h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.4rem,4.6vw,3.6rem);line-height:.95;margin:16px 0;letter-spacing:-.02em;}
+.servicios-header p{color:var(--gris-claro);font-size:1.1rem;max-width:580px;margin:0 auto;}
+.servicios-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1280px;margin:0 auto;}
+@media(max-width:900px){.servicios-grid{grid-template-columns:1fr;}}
+.servicio{background:var(--negro-suave);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:40px 32px;position:relative;overflow:hidden;transition:transform .35s,border-color .35s;}
+.servicio:hover{transform:translateY(-8px);border-color:rgba(255,233,181,.3);}
+.servicio::before{content:'';position:absolute;top:-100px;right:-100px;width:220px;height:220px;border-radius:50%;filter:blur(80px);opacity:.25;transition:opacity .35s;}
+.servicio:hover::before{opacity:.5;}
+.servicio-1::before{background:linear-gradient(135deg,#D6191B,#ED7928);}
+.servicio-2::before{background:linear-gradient(135deg,#974694,#E45E9B);}
+.servicio-3::before{background:linear-gradient(135deg,#08B75B,#007EC3);}
+.servicio-4::before{background:linear-gradient(135deg,#F3D100,#ED7928);}
+.servicio-num{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:3.6rem;line-height:1;color:var(--crema);margin-bottom:24px;letter-spacing:-.04em;position:relative;z-index:2;}
+.servicio h3{font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:1.6rem;text-transform:uppercase;margin-bottom:16px;letter-spacing:-.01em;position:relative;z-index:2;}
+.servicio p{color:var(--gris-claro);font-size:.97rem;position:relative;z-index:2;}
+.servicio-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:2;}
+.servicio-tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:5px 11px;border-radius:100px;color:var(--gris-claro);}
+
+/* POR QUÉ DAVID */
+.por-que-david{padding:140px 32px;background:var(--negro-suave);}
+.pqd-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:center;max-width:1280px;margin:0 auto;}
+@media(max-width:900px){.pqd-grid{grid-template-columns:1fr;gap:48px;}}
+.pqd-photo{border-radius:28px;overflow:hidden;aspect-ratio:3/4;background:var(--negro);position:relative;}
+.pqd-photo img{width:100%;height:100%;object-fit:cover;}
+.pqd-photo-caption{position:absolute;bottom:24px;left:24px;right:24px;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);border-radius:14px;padding:14px 18px;font-size:.85rem;color:var(--gris-claro);line-height:1.4;}
+.pqd-photo-caption strong{color:var(--crema);display:block;font-size:.94rem;margin-bottom:2px;}
+.pqd-text h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2rem,3.6vw,2.8rem);letter-spacing:-.02em;line-height:.95;margin-bottom:24px;}
+.pqd-text h2 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.pqd-text p{color:var(--gris-claro);font-size:1.05rem;margin-bottom:18px;}
+.pqd-text strong{color:var(--blanco);}
+.pqd-stats{margin-top:32px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.pqd-stat-num{font-family:'Barlow',sans-serif;font-style:italic;font-weight:800;font-size:1.6rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;}
+.pqd-stat-label{font-size:.74rem;color:var(--gris);letter-spacing:.14em;text-transform:uppercase;font-weight:600;}
+
+/* EMPRESAS */
+.empresas{padding:120px 32px;background:var(--negro);text-align:center;}
+.empresas-header{max-width:760px;margin:0 auto 60px;}
+.empresas p.eyebrow{margin-bottom:24px;}
+.logos-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;border:1px solid rgba(255,255,255,.08);border-radius:24px;overflow:hidden;background:rgba(255,255,255,.04);}
+@media(max-width:768px){.logos-grid{grid-template-columns:repeat(2,1fr);}}
+.logo-cell{padding:36px 24px;min-height:130px;display:flex;align-items:center;justify-content:center;background:var(--negro);transition:background .3s,transform .3s;}
+.logo-cell:hover{background:#181818;transform:translateY(-2px);}
+.logo-cell img{max-width:100%;max-height:56px;width:auto;height:auto;object-fit:contain;opacity:.78;filter:brightness(1.1) contrast(1.05) grayscale(1) invert(1);transition:opacity .3s;}
+.logo-cell:hover img{opacity:1;}
+.logo-cell-text{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:1.3rem;letter-spacing:.02em;color:rgba(255,255,255,.6);}
+
+/* INFLUENCER / REDES */
+.influencer{padding:140px 32px;background:var(--negro-suave);}
+.influencer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center;}
+@media(max-width:900px){.influencer-grid{grid-template-columns:1fr;gap:48px;}}
+.influencer-text h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.2rem,4.4vw,3.4rem);line-height:1;margin-bottom:28px;letter-spacing:-.02em;}
+.influencer-text>p{color:var(--gris-claro);font-size:1.05rem;margin-bottom:32px;}
+.influencer-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:36px;}
+.stat{background:var(--negro);border:1px solid rgba(255,255,255,.08);padding:24px;border-radius:18px;}
+.stat-num{font-family:'Barlow',sans-serif;font-style:italic;font-weight:800;font-size:2.4rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;}
+.stat-label{font-size:.82rem;color:var(--gris);letter-spacing:.16em;text-transform:uppercase;font-weight:600;}
+.influencer-socials{display:flex;gap:12px;flex-wrap:wrap;}
+.social{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:1.5px solid rgba(255,255,255,.18);border-radius:100px;color:var(--blanco);text-decoration:none;font-weight:700;font-size:.88rem;transition:background .25s,border-color .25s;}
+.social:hover{background:rgba(255,255,255,.08);border-color:var(--blanco);}
+.influencer-visual{position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#000;}
+.influencer-visual img{width:100%;height:100%;object-fit:cover;}
+.tiktok-badge{position:absolute;bottom:24px;left:24px;right:24px;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);border-radius:18px;padding:18px 22px;display:flex;align-items:center;gap:16px;}
+.tiktok-icon{width:44px;height:44px;border-radius:12px;background:var(--blanco);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.tiktok-text-num{font-family:'Barlow',sans-serif;font-style:italic;font-weight:800;font-size:1.4rem;line-height:1;}
+.tiktok-text-label{font-size:.78rem;color:var(--gris-claro);letter-spacing:.1em;}
+
+/* CTA FINAL DAVID */
+.cta-final{padding:160px 32px;text-align:center;position:relative;overflow:hidden;}
+.cta-final-bg{position:absolute;inset:0;background-image:url('_imagenes/david-rodriguez/escenario-dosis2024.jpg');background-size:cover;background-position:center;filter:brightness(.32) saturate(1.1);z-index:0;}
+.cta-final>*{position:relative;z-index:2;}
+.cta-final-eyebrow{color:var(--crema);margin-bottom:24px;}
+.cta-final-title{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.6rem,5.5vw,4.8rem);line-height:.95;margin-bottom:28px;letter-spacing:-.02em;}
+.cta-final p{color:var(--gris-claro);max-width:600px;margin:0 auto 40px;font-size:1.1rem;}
+.btn-grande{display:inline-flex;align-items:center;gap:12px;background:var(--crema);color:var(--negro);padding:22px 44px;border-radius:100px;font-weight:800;font-size:1.1rem;text-decoration:none;letter-spacing:.02em;transition:transform .25s,box-shadow .25s;border:none;cursor:pointer;font-family:inherit;}
+.btn-grande:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 24px 60px rgba(255,233,181,.4);}
+
+/* ===== VISTA PROPUESTA ===== */
+.p-hero{min-height:92vh;display:flex;align-items:center;padding:120px 32px 60px;position:relative;overflow:hidden;}
+.p-hero-blob{position:absolute;width:500px;height:500px;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;}
+.p-hero-blob-1{top:-120px;right:-80px;background:linear-gradient(135deg,#ED7928,#F3D100);opacity:.4;}
+.p-hero-blob-2{bottom:-120px;left:-80px;background:linear-gradient(135deg,#D6191B,#974694);opacity:.35;}
+.p-hero-content{position:relative;z-index:2;max-width:1100px;margin:0 auto;width:100%;}
+.p-hero-meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px;}
+.p-hero-meta-item{font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--crema);padding:8px 16px;border:1px solid rgba(255,233,181,.4);border-radius:100px;}
+.p-hero-title{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.4rem,5vw,4.6rem);line-height:.95;letter-spacing:-.02em;margin-bottom:28px;max-width:1000px;}
+.p-hero-title .a{display:block;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.p-hero-sub{font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--gris-claro);max-width:720px;font-weight:400;line-height:1.55;}
+
+.p-section{padding:100px 0;}
+.p-eyebrow{margin-bottom:24px;}
+.p-stitle{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2rem,3.8vw,3rem);line-height:.95;letter-spacing:-.02em;margin-bottom:28px;}
+.p-text{font-size:1.08rem;color:var(--gris-claro);margin-bottom:18px;}
+.p-text strong{color:var(--blanco);font-weight:700;}
+
+/* EL RETO */
+.encargo{background:var(--negro-suave);padding:100px 0;}
+.encargo-inner{max-width:1100px;margin:0 auto;padding:0 32px;}
+.encargo-text{max-width:760px;margin-bottom:56px;}
+.encargo-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:768px){.encargo-cards{grid-template-columns:1fr;}}
+.encargo-card{background:var(--negro);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:32px;position:relative;overflow:hidden;}
+.encargo-card::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;filter:blur(60px);opacity:.22;}
+.encargo-card-0::before{background:linear-gradient(135deg,#08B75B,#007EC3);}
+.encargo-card-1::before{background:linear-gradient(135deg,#D6191B,#ED7928);}
+.encargo-card-2::before{background:linear-gradient(135deg,#974694,#E45E9B);}
+.encargo-card-icon{font-size:1.8rem;margin-bottom:16px;display:block;position:relative;z-index:2;}
+.encargo-card h3{font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:1.15rem;text-transform:uppercase;margin-bottom:10px;letter-spacing:-.01em;position:relative;z-index:2;}
+.encargo-card p{color:var(--gris-claro);font-size:.95rem;position:relative;z-index:2;}
+
+/* POR QUÉ DAVID — PROPUESTA */
+.pqd-propuesta{padding:100px 0;}
+.pqd-propuesta-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto;padding:0 32px;}
+@media(max-width:900px){.pqd-propuesta-grid{grid-template-columns:1fr;gap:48px;}}
+.pqd-propuesta-photo{border-radius:28px;overflow:hidden;aspect-ratio:3/4;background:var(--negro-suave);position:relative;}
+.pqd-propuesta-photo img{width:100%;height:100%;object-fit:cover;}
+.pqd-propuesta-caption{position:absolute;bottom:24px;left:24px;right:24px;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);border-radius:14px;padding:14px 18px;font-size:.85rem;color:var(--gris-claro);line-height:1.4;}
+.pqd-propuesta-caption strong{color:var(--crema);display:block;font-size:.94rem;margin-bottom:2px;}
+.pqd-propuesta-text h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2rem,3.6vw,2.8rem);letter-spacing:-.02em;line-height:.95;margin-bottom:24px;}
+.pqd-propuesta-text h2 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.pqd-propuesta-text p{color:var(--gris-claro);font-size:1.05rem;margin-bottom:18px;}
+.pqd-propuesta-text strong{color:var(--blanco);}
+.pqd-propuesta-stats{margin-top:32px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+/* LOGOS PROPUESTA */
+.empresas-propuesta{padding:60px 0 100px;background:var(--negro-suave);}
+.empresas-propuesta .container{max-width:1100px;margin:0 auto;padding:0 32px;}
+
+/* CONFERENCIA */
+.conferencia{background:linear-gradient(135deg,#1a0a0a 0%,#0A0A0A 50%,#1a0a14 100%);padding:110px 0;position:relative;overflow:hidden;}
+.conferencia::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(214,25,27,.2) 0%,transparent 65%);pointer-events:none;}
+.conferencia-content{max-width:880px;margin:0 auto;padding:0 32px;position:relative;z-index:2;}
+.conferencia-quote{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.05;letter-spacing:-.015em;margin:24px 0 32px;}
+.conferencia-quote em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.conferencia p{color:var(--gris-claro);font-size:1.08rem;margin-bottom:18px;}
+.conferencia strong{color:var(--blanco);}
+
+/* FORMACIÓN CONFLICTOS */
+.formacion{background:var(--negro-suave);padding:110px 0;position:relative;overflow:hidden;}
+.formacion::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(151,70,148,.2) 0%,transparent 65%);pointer-events:none;}
+.formacion-content{max-width:880px;margin:0 auto;padding:0 32px;position:relative;z-index:2;}
+.formacion-quote{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.05;letter-spacing:-.015em;margin:24px 0 32px;}
+.formacion-quote em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.formacion p{color:var(--gris-claro);font-size:1.08rem;margin-bottom:18px;}
+.formacion strong{color:var(--blanco);}
+.fases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:36px;}
+@media(max-width:600px){.fases-grid{grid-template-columns:1fr;}}
+.fase-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;}
+.fase-num{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:1.6rem;color:var(--crema);line-height:1;flex-shrink:0;letter-spacing:-.04em;}
+.fase-card h4{font-size:.92rem;font-weight:800;margin-bottom:4px;letter-spacing:.02em;}
+.fase-card p{color:var(--gris-claro);font-size:.88rem;}
+
+/* LO QUE SE LLEVAN */
+.no-esperes{padding:100px 32px;}
+.no-esperes-grid{max-width:1100px;margin:32px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:768px){.no-esperes-grid{grid-template-columns:1fr;}}
+.no-card{background:var(--negro-suave);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px;display:flex;gap:16px;align-items:flex-start;}
+.no-x{font-size:1.4rem;font-weight:800;color:var(--verde);line-height:1;flex-shrink:0;margin-top:-2px;}
+.no-card h4{font-size:1rem;font-weight:800;margin-bottom:6px;}
+.no-card p{color:var(--gris-claro);font-size:.95rem;}
+
+/* PRESUPUESTO */
+.presupuesto{padding:120px 32px;}
+.presupuesto-card{max-width:880px;margin:0 auto;background:linear-gradient(180deg,#1a1a1a 0%,var(--negro) 100%);border:1.5px solid rgba(255,233,181,.3);border-radius:32px;padding:56px;position:relative;overflow:hidden;}
+.presupuesto-card::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:linear-gradient(135deg,#ED7928,#F3D100);filter:blur(100px);opacity:.25;}
+@media(max-width:768px){.presupuesto-card{padding:36px 28px;}}
+.presupuesto-card>*{position:relative;z-index:2;}
+.presupuesto-pretitle{font-size:.78rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--crema);margin-bottom:18px;}
+.presupuesto-titulo{font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;font-size:clamp(1.4rem,2.4vw,1.8rem);letter-spacing:-.01em;line-height:1.15;margin-bottom:32px;max-width:700px;}
+.precio-line{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.1);}
+.precio-monto{font-family:'Barlow',sans-serif;font-style:italic;font-weight:900;font-size:clamp(3.4rem,7vw,5.5rem);line-height:1;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em;}
+.precio-iva{font-size:1rem;color:var(--gris-claro);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.pack-label{font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--crema);margin-bottom:14px;}
+.pack-list{list-style:none;margin-bottom:28px;}
+.pack-list li{padding:10px 0;font-size:.97rem;color:var(--gris-claro);display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.06);}
+.pack-list li::before{content:'✓';display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--crema);color:var(--negro);font-size:.7rem;font-weight:800;flex-shrink:0;margin-top:2px;}
+.pack-nota{font-size:.88rem;color:var(--gris);padding:16px 20px;border:1px solid rgba(255,255,255,.08);border-radius:12px;line-height:1.5;}
+.pack-nota strong{color:var(--gris-claro);}
+
+/* CTA FINAL PROPUESTA */
+.p-cta-final{text-align:center;padding:120px 32px 100px;}
+.p-cta-final h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(2.4rem,5vw,4rem);letter-spacing:-.02em;line-height:1;margin-bottom:20px;}
+.p-cta-final h2 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.p-cta-final p{color:var(--gris-claro);max-width:580px;margin:0 auto 36px;font-size:1.05rem;}
+
+/* FOOTER */
+.footer{background:var(--negro);padding:80px 32px 40px;text-align:center;border-top:1px solid rgba(255,255,255,.08);}
+.footer-eslogan{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1;margin-bottom:8px;letter-spacing:-.01em;}
+.footer-eslogan span{color:var(--crema);}
+.footer-tag{font-size:.85rem;color:var(--gris);letter-spacing:.32em;text-transform:uppercase;margin-bottom:32px;font-weight:700;}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);max-width:880px;margin:0 auto 40px;padding:32px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);gap:24px;}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr;}}
+.footer-col-label{font-size:.72rem;color:var(--gris);letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px;font-weight:700;}
+.footer-col a{color:var(--blanco);text-decoration:none;font-weight:600;font-size:.98rem;}
+.footer-col a:hover{color:var(--crema);}
+.footer-meta{font-size:.74rem;color:rgba(255,255,255,.4);letter-spacing:.06em;}
+
+.fade-in{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body data-view="david">
+
+<nav class="nav">
+  <a href="#" class="nav-logo" data-go="david">David Rodríguez</a>
+  <div class="nav-menu">
+    <button type="button" class="nav-link" data-go="david">Quién es David</button>
+    <button type="button" class="nav-link" data-go="propuesta">Propuesta FCD</button>
+  </div>
+  <div class="nav-cta-wrap">
+    <a href="mailto:fran.ortiz@fundacionpegasus.org?subject=Quiero%20contratar%20a%20David" class="nav-cta" data-show="david">Contratar →</a>
+    <a href="mailto:fran.ortiz@fundacionpegasus.org?subject=FCD%20%E2%80%94%20Confirmamos%20propuesta%20formaci%C3%B3n%20Gernika" class="nav-cta" data-show="propuesta">Confirmar →</a>
+  </div>
+</nav>
+
+<!-- ====== VISTA DAVID ====== -->
+<main class="view view-david active">
+
+  <section class="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-text">
+      <p class="hero-quien">QUIÉN ES</p>
+      <h1 class="hero-name">
+        <span class="first">DAVID</span>
+        <span class="second">RODRÍGUEZ</span>
+      </h1>
+      <p class="hero-tagline">Y POR QUÉ <span>"LO SUYO NO ES NORMAL"</span></p>
+
+    </div>
+    <div class="hero-photo" role="img" aria-label="David Rodríguez en el escenario"></div>
+  </section>
+
+  <section class="mision">
+    <p class="eyebrow mision-eyebrow fade-in">SU MISIÓN</p>
+    <p class="mision-quote fade-in">
+      "La verdadera discapacidad <em>no es la que crees</em>. Es el <em>miedo</em>.<br>
+      Y eso lo tenemos todos."
+    </p>
+    <p class="mision-author fade-in">— DAVID RODRÍGUEZ · CEO FUNDACIÓN PEGASUS · CONFERENCIANTE</p>
+  </section>
+
+  <section class="tilt-section" id="video">
+    <a href="https://www.youtube.com/results?search_query=David+Rodr%C3%ADguez+Pegasus+Lo+m%C3%ADo+no+es+normal" target="_blank" rel="noopener" class="tilt-card" id="tilt-card">
+      <img src="_imagenes/david-rodriguez/youtube-quien-soy.jpg" alt="Vídeo David Rodríguez">
+      <div class="tilt-play"></div>
+      <div class="tilt-caption">VER · Por qué lo mío no es normal</div>
+    </a>
+  </section>
+
+  <section class="flow">
+    <div class="flow-grid">
+      <div class="flow-photos fade-in">
+        <figure><img src="_imagenes/david-rodriguez/escenario-dosis2024.jpg" alt="DOSIS 2024"></figure>
+        <figure><img src="_imagenes/david-rodriguez/david-charla-rojo.jpg" alt="David charla"></figure>
+        <figure><img src="_imagenes/david-rodriguez/david-charla-naranja.jpg" alt="David charla naranja"></figure>
+      </div>
+      <div class="flow-text fade-in">
+        <p class="eyebrow">ESTE ES SU FLOW</p>
+        <h2>Una "charla" diferente</h2>
+        <h3>Esto no va de "lucha por tus sueños, campeón".</h3>
+        <p>Cuando David habla, <strong>no es el típico discurso de superación</strong> lleno de frases hechas. Su conferencia es una experiencia que transforma a las personas, las hace reflexionar y conectar entre sí.</p>
+        <p>En cada charla, David crea un ambiente donde se <strong>rompen prejuicios y miedos</strong>. La gente sale con una nueva visión sobre la vida y sus retos.</p>
+        <p>Tiene esa capacidad de hacer que cada grupo se convierta en un espacio de crecimiento y autoconocimiento, inspirando a individuos y equipos enteros a <strong>atreverse a ser ellos mismos</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="servicios">
+    <div class="servicios-header fade-in">
+      <p class="eyebrow">FORMACIONES DISPONIBLES</p>
+      <h2>Cuatro experiencias.<br>Un mismo ADN.</h2>
+      <p>Humor, juego e inteligencia emocional. Un equipo que sale distinto a como entró.</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio servicio-1 fade-in">
+        <div class="servicio-num">01</div>
+        <h3>La Conferencia</h3>
+        <p>La conferencia insignia de David. 60–90 minutos donde el público atraviesa la sorpresa, la incomodidad productiva y la transformación. Parte de su historia real para demostrar que el miedo es la verdadera discapacidad del ser humano — y que eso nos une a todos.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">60–90 min</span>
+          <span class="servicio-tag">Presencial o híbrido</span>
+          <span class="servicio-tag">Personalizada</span>
+        </div>
+      </div>
+      <div class="servicio servicio-2 fade-in">
+        <div class="servicio-num">02</div>
+        <h3>Resolución de Conflictos</h3>
+        <p>Formación vivencial de 2 horas donde el equipo trabaja cómo se generan los conflictos y qué hacer antes de que escalen. Con casos reales en audio, una herramienta práctica de resolución y un cierre que nadie espera: el efecto Caballo de Troya. Lo que se aprende no se olvida porque llega desde dentro.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">~2 horas</span>
+          <span class="servicio-tag">Hasta 50 personas</span>
+          <span class="servicio-tag">Presencial o híbrido</span>
+        </div>
+      </div>
+      <div class="servicio servicio-3 fade-in">
+        <div class="servicio-num">03</div>
+        <h3>Sesgos Inconscientes</h3>
+        <p>Una experiencia de 1 hora donde los participantes descubren sus propios sesgos sin que nadie se los señale. A través de un juego de selección con cartas y tablero, el grupo vive en primera persona cómo sus prejuicios operan de forma automática — y aprende a frenarlos.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">~1 hora</span>
+          <span class="servicio-tag">Hasta 25 personas</span>
+          <span class="servicio-tag">Presencial o híbrido</span>
+        </div>
+      </div>
+      <div class="servicio servicio-4 fade-in">
+        <div class="servicio-num">04</div>
+        <h3>La Caja</h3>
+        <p>Dinámica vivencial basada en el concepto de "salir de la caja". El equipo descubre cómo reacciona ante comportamientos que le molestan de otros — y cómo esas mismas reacciones dicen más de uno mismo que del otro. Una herramienta potente para desarrollar empatía real y abrir el pensamiento.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">~1,5 horas</span>
+          <span class="servicio-tag">Equipos internos</span>
+          <span class="servicio-tag">Presencial</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="por-que-david">
+    <div class="pqd-grid">
+      <div class="pqd-photo fade-in">
+        <img src="_imagenes/david-rodriguez/david-libro.jpg" alt="David con el libro Lo mío no es normal">
+        <div class="pqd-photo-caption">
+          <strong>"Lo mío no es normal, pero lo tuyo tampoco"</strong>
+          El libro que da nombre a su filosofía y a la conferencia.
+        </div>
+      </div>
+      <div class="pqd-text fade-in">
+        <p class="eyebrow">POR QUÉ DAVID</p>
+        <h2>No es un conferenciante que habla <em>sobre</em> discapacidad. Es la discapacidad <em>transformada en proyecto.</em></h2>
+        <p>David Rodríguez nació con <strong>diparesia espástica</strong>. La vive, la ha sufrido, la ha transformado y a partir de ella ha construido una fundación entera. Habla de ella desde dentro, no desde la teoría.</p>
+        <p>Es <strong>autor del libro "Lo mío no es normal, pero lo tuyo tampoco"</strong>, que da nombre a su conferencia y resume su mirada sobre la diferencia, el miedo y la inclusión.</p>
+        <p>Su diferencial no es solo inspirar. Es que <strong>entiende el mundo del cuidado y la inclusión desde dentro</strong> — y habla el mismo idioma que la sala. A la vez que le da algo que la sala no espera.</p>
+        <div class="pqd-stats">
+          <div><div class="pqd-stat-num">60K</div><div class="pqd-stat-label">Seguidores Instagram</div></div>
+          <div><div class="pqd-stat-num">8</div><div class="pqd-stat-label">Empresas IBEX</div></div>
+          <div><div class="pqd-stat-num">4,3M</div><div class="pqd-stat-label">Visitas vídeo viral</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:80px;">
+      <p class="eyebrow fade-in" style="text-align:center;display:block;margin-bottom:24px;">EMPRESAS QUE YA LO HAN VIVIDO</p>
+      <div class="logos-grid fade-in">
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/santander.png" alt="Banco Santander"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/pepsico.png" alt="PepsiCo"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/sprinter.png" alt="Sprinter"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/latam.png" alt="LATAM"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/cepsa.png" alt="Cepsa"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/leroy-merlin.png" alt="Leroy Merlin"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/endesa.png" alt="Endesa"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/iberdrola.png" alt="Iberdrola"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="influencer">
+    <div class="influencer-grid">
+      <div class="influencer-text fade-in">
+        <p class="eyebrow">NO PARA QUIETO POR LAS REDES</p>
+        <h2>Más de <span class="grad-text">100k personas</span> ya lo siguen</h2>
+        <p>David celebra la diversidad y promueve la idea de que <strong style="color:var(--crema)">"ser anormal es la hostia"</strong>. Contenido auténtico y sin filtros que fomenta el diálogo sobre inclusión e inteligencia emocional. Conecta con todas las personas que alguna vez se han sentido diferentes.</p>
+        <div class="influencer-stats">
+          <div class="stat"><div class="stat-num">100K+</div><div class="stat-label">Comunidad total</div></div>
+          <div class="stat"><div class="stat-num">50,4K</div><div class="stat-label">Instagram</div></div>
+          <div class="stat"><div class="stat-num">4,3M</div><div class="stat-label">Visitas vídeo viral</div></div>
+          <div class="stat"><div class="stat-num">466</div><div class="stat-label">Publicaciones</div></div>
+        </div>
+        <div class="influencer-socials">
+          <a href="https://www.instagram.com/lomionoesnormal/" target="_blank" rel="noopener" class="social">📸 Instagram</a>
+          <a href="https://www.tiktok.com/@lomionoesnormal" target="_blank" rel="noopener" class="social">🎵 TikTok</a>
+          <a href="https://www.linkedin.com/in/david-rodriguez-pegasus/" target="_blank" rel="noopener" class="social">💼 LinkedIn</a>
+          <a href="https://www.youtube.com/results?search_query=David+Rodr%C3%ADguez+Pegasus" target="_blank" rel="noopener" class="social">▶ YouTube</a>
+        </div>
+      </div>
+      <div class="influencer-visual fade-in">
+        <img src="_imagenes/david-rodriguez/david-tiktok.jpg" alt="David en redes sociales">
+        <div class="tiktok-badge">
+          <div class="tiktok-icon">🎵</div>
+          <div>
+            <div class="tiktok-text-num">4,3 millones</div>
+            <div class="tiktok-text-label">DE VISITAS · "Intento disimular mi discapacidad"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <div class="cta-final-bg"></div>
+    <p class="eyebrow cta-final-eyebrow fade-in">¿LO QUIERES EN TU PRÓXIMO EVENTO?</p>
+    <h2 class="cta-final-title fade-in">
+      Lo suyo no es normal.<br>
+      Lo tuyo, <span class="grad-text">tampoco.</span>
+    </h2>
+    <button type="button" class="btn-grande fade-in" data-go="propuesta">Ver propuesta →</button>
+  </section>
+
+</main>
+
+<!-- ====== VISTA PROPUESTA ====== -->
+<main class="view view-propuesta">
+
+  <section class="p-hero">
+    <div class="p-hero-blob p-hero-blob-1"></div>
+    <div class="p-hero-blob p-hero-blob-2"></div>
+    <div class="p-hero-content">
+      <div class="p-hero-meta">
+        <span class="p-hero-meta-item">⏱ 4,5h de formación vivencial</span>
+        <span class="p-hero-meta-item">Fundación Pegasus × FCD</span>
+      </div>
+      <h1 class="p-hero-title">
+        Cuando cuidas a otros,
+        <span class="a">¿quién te da las herramientas a ti?</span>
+      </h1>
+      <p class="p-hero-sub">La verdadera discapacidad del ser humano no es física. Es el miedo. Y cuando un equipo aprende a reconocerlo y gestionarlo, todo cambia.</p>
+    </div>
+  </section>
+
+  <section class="encargo">
+    <div class="encargo-inner">
+      <div class="encargo-text fade-in">
+        <p class="eyebrow p-eyebrow">EL RETO</p>
+        <h2 class="p-stitle">El miedo es la verdadera <span class="grad-text">discapacidad del ser humano.</span></h2>
+        <p class="p-text">No es la falta de un brazo. No es un cromosoma de más. Es el miedo al rechazo, a no encajar, a no ser suficiente. Ese miedo nos limita a todos — sin excepción.</p>
+        <p class="p-text">En los equipos, ese miedo aparece en forma de conflictos que no se resuelven, de tensiones que se enquistan, de conversaciones que nadie se atreve a tener. <strong>Darle herramientas a un equipo para reconocerlo y gestionarlo no es opcional. Es lo que hace que funcione de verdad.</strong></p>
+      </div>
+      <div class="encargo-cards">
+        <div class="encargo-card encargo-card-0 fade-in">
+          <span class="encargo-card-icon">🧭</span>
+          <h3>Nuevo paradigma</h3>
+          <p>La discapacidad no es el problema. El miedo sí. Una nueva mirada que transforma la forma de acompañar.</p>
+        </div>
+        <div class="encargo-card encargo-card-1 fade-in">
+          <span class="encargo-card-icon">⚡</span>
+          <h3>Gestión de conflictos</h3>
+          <p>Herramientas vivenciales para identificar, comprender y resolver conflictos antes de que escalen.</p>
+        </div>
+        <div class="encargo-card encargo-card-2 fade-in">
+          <span class="encargo-card-icon">❤️</span>
+          <h3>Inteligencia emocional</h3>
+          <p>Lo que no se siente no se transforma. El humor y el juego como puertas de entrada al aprendizaje.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pqd-propuesta">
+    <div class="pqd-propuesta-grid">
+      <div class="pqd-propuesta-photo fade-in">
+        <img src="_imagenes/david-rodriguez/david-libro.jpg" alt="David con el libro Lo mío no es normal">
+        <div class="pqd-propuesta-caption">
+          <strong>"Lo mío no es normal, pero lo tuyo tampoco"</strong>
+          El libro que da nombre a su filosofía y a la conferencia.
+        </div>
+      </div>
+      <div class="pqd-propuesta-text fade-in">
+        <p class="eyebrow p-eyebrow">POR QUÉ DAVID</p>
+        <h2 class="p-stitle">No es un conferenciante que habla <em>sobre</em> discapacidad. Es la discapacidad <em>transformada en proyecto.</em></h2>
+        <p class="p-text">David Rodríguez nació con <strong>diparesia espástica</strong>. La vive, la ha sufrido, la ha transformado y a partir de ella ha construido una fundación entera. Habla de ella desde dentro, no desde la teoría.</p>
+        <p class="p-text">Para un equipo que trabaja cada día con personas en situación de vulnerabilidad, escuchar a alguien que vive la discapacidad desde dentro — y la aborda con humor, vulnerabilidad e inteligencia emocional — cambia algo. <strong>Eso no se consigue con un formador convencional.</strong></p>
+        <p class="p-text">Ha actuado en Santander, PepsiCo, Leroy Merlin, Endesa, Iberdrola, Cepsa, Sprinter y LATAM. Y si funciona en organizaciones de ese calibre, en un equipo como el vuestro — que ya tiene la sensibilidad y el compromiso — <strong>va a funcionar todavía mejor.</strong></p>
+        <div class="pqd-propuesta-stats">
+          <div><div class="pqd-stat-num">60K</div><div class="pqd-stat-label">Seguidores IG</div></div>
+          <div><div class="pqd-stat-num">8</div><div class="pqd-stat-label">Empresas IBEX</div></div>
+          <div><div class="pqd-stat-num">4,3M</div><div class="pqd-stat-label">Visitas viral</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="empresas-propuesta">
+    <div class="container">
+      <p class="eyebrow fade-in" style="text-align:center;display:block;margin-bottom:24px;">EMPRESAS QUE YA LO HAN VIVIDO</p>
+      <div class="logos-grid fade-in">
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/santander.png" alt="Banco Santander"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/pepsico.png" alt="PepsiCo"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/sprinter.png" alt="Sprinter"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/latam.png" alt="LATAM"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/cepsa.png" alt="Cepsa"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/leroy-merlin.png" alt="Leroy Merlin"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/endesa.png" alt="Endesa"></div>
+        <div class="logo-cell"><img src="_imagenes/comunes/logos/iberdrola.png" alt="Iberdrola"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="conferencia">
+    <div class="conferencia-content">
+      <p class="eyebrow fade-in">LA CONFERENCIA</p>
+      <p class="conferencia-quote fade-in">"Lo mío no es normal, <em>pero lo tuyo tampoco."</em></p>
+      <p class="fade-in"><strong>No es un discurso de superación al uso.</strong> No hay frases hechas, no hay "lucha por tus sueños, campeón". David comparte su historia sin filtros para demostrar algo que todos saben pero pocos dicen: que detrás de cada relación de cuidado hay también un miedo propio.</p>
+      <p class="fade-in">Para un equipo que acompaña a personas en situaciones difíciles, esta conferencia abre una conversación que pocas veces ocurre en el espacio interno: <strong>¿cómo estamos nosotros? ¿Qué máscaras llevamos? ¿Desde qué miedos acompañamos?</strong></p>
+      <p class="fade-in">Cuando termina, el equipo no es el mismo. Eso es lo que David deja en la sala. <strong>Y es la base perfecta para la segunda parte de la tarde.</strong></p>
+    </div>
+  </section>
+
+  <section class="formacion">
+    <div class="formacion-content">
+      <p class="eyebrow fade-in">RESOLUCIÓN DE CONFLICTOS</p>
+      <p class="formacion-quote fade-in">Resolución de conflictos: <em>el caballo de Troya.</em></p>
+      <p class="fade-in">El conflicto no es el problema. El problema es no saber qué hacer con él. En esta formación vivencial trabajamos cómo se generan los conflictos en equipos que cuidan, por qué escalan y qué herramientas concretas tenemos para actuar antes de que lo hagan.</p>
+      <p class="fade-in"><strong>Cuatro fases que nadie olvida:</strong></p>
+      <div class="fases-grid fade-in">
+        <div class="fase-card">
+          <div class="fase-num">01</div>
+          <div><h4>La pregunta</h4><p>¿Qué es un problema? El grupo lo decide antes de que nadie le diga la respuesta.</p></div>
+        </div>
+        <div class="fase-card">
+          <div class="fase-num">02</div>
+          <div><h4>Los casos reales</h4><p>Situaciones de conflicto en audio. El equipo debate, vota y argumenta. Sin respuestas correctas todavía.</p></div>
+        </div>
+        <div class="fase-card">
+          <div class="fase-num">03</div>
+          <div><h4>La herramienta</h4><p>Cuándo, dónde, con quién y cómo resolver. Algo que se puede aplicar el lunes siguiente.</p></div>
+        </div>
+        <div class="fase-card">
+          <div class="fase-num">04</div>
+          <div><h4>El giro final</h4><p>El caballo de Troya. Un cierre que cambia la perspectiva de todo lo que se ha debatido. No se explica. Se experimenta.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="no-esperes">
+    <div class="container">
+      <p class="eyebrow p-eyebrow fade-in" style="text-align:center;display:block;">LO QUE SÍ VA A PASAR</p>
+      <h2 class="p-stitle fade-in" style="text-align:center;">Esto es lo que el equipo <span class="grad-text">se lleva a casa.</span></h2>
+    </div>
+    <div class="no-esperes-grid">
+      <div class="no-card fade-in">
+        <div class="no-x">✓</div>
+        <div><h4>Una conversación que rara vez ocurre</h4><p>Los equipos que cuidan hablan mucho de los demás. Esta jornada abre el espacio para hablar de uno mismo. De los miedos propios. De cómo eso afecta a la forma de acompañar.</p></div>
+      </div>
+      <div class="no-card fade-in">
+        <div class="no-x">✓</div>
+        <div><h4>Una herramienta concreta para el conflicto</h4><p>No un protocolo. No un manual. Una herramienta vivencial que el equipo ha probado en la propia sesión y puede aplicar ante una situación real de conflicto.</p></div>
+      </div>
+      <div class="no-card fade-in">
+        <div class="no-x">✓</div>
+        <div><h4>El nuevo paradigma, aplicado al acompañamiento</h4><p>Entender que la discapacidad no es el problema cambia la forma de trabajar con ella. El equipo sale con una mirada diferente sobre los miedos que todos llevamos encima.</p></div>
+      </div>
+      <div class="no-card fade-in">
+        <div class="no-x">✓</div>
+        <div><h4>Algo que se multiplica</h4><p>Vuestro equipo trabaja con otros equipos. Lo que aprenda este día no se queda dentro — lo traslada. La inversión tiene mucho más alcance del que parece a primera vista.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="presupuesto">
+    <div class="presupuesto-card fade-in">
+      <p class="presupuesto-pretitle">PRESUPUESTO · PACK FORMATIVO COMPLETO</p>
+      <h3 class="presupuesto-titulo">Jornada formativa para el equipo de Fundación Cuidados Dignos — Gernika, septiembre 2026</h3>
+      <div class="precio-line">
+        <span class="precio-monto">5.500€</span>
+        <span class="precio-iva">+ IVA</span>
+      </div>
+      <p class="pack-label">EL PACK INCLUYE</p>
+      <ul class="pack-list">
+        <li>Conferencia "Lo mío no es normal, pero lo tuyo tampoco" con David Rodríguez, con dinámica participativa y espacio de preguntas.</li>
+        <li>Formación vivencial en Resolución de Conflictos con efecto Caballo de Troya, más herramienta práctica de resolución para aplicar desde el primer día.</li>
+        <li>Personalización de los casos prácticos al contexto de Fundación Cuidados Dignos.</li>
+        <li>Materiales de la sesión: presentación, audios de casos y entregable final para cada participante.</li>
+        <li>Coordinación previa con vuestro equipo para adaptar el contenido.</li>
+      </ul>
+      <div class="pack-nota">
+        <strong>Gastos de desplazamiento no incluidos.</strong> El traslado del equipo de Pegasus hasta Gernika correrá a cargo de Fundación Cuidados Dignos. Os confirmaremos la logística con antelación para que podáis organizarlo sin sorpresas.
+      </div>
+    </div>
+  </section>
+
+  <section class="p-cta-final">
+    <h2 class="fade-in">¿Le damos al verde,<br><span>Fundación Cuidados Dignos?</span></h2>
+    <p class="fade-in">Nos confirmáis y bloqueamos la fecha en agenda de David. A partir de ahí, programamos una llamada para afinar los casos prácticos y que la jornada sea exactamente lo que vuestro equipo necesita.</p>
+    <a href="mailto:fran.ortiz@fundacionpegasus.org?subject=FCD%20%E2%80%94%20Confirmamos%20propuesta%20formaci%C3%B3n%20Gernika" class="btn-grande fade-in">Confirmar propuesta →</a>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer-eslogan">Lo mío no es normal,<br><span>pero lo tuyo tampoco</span></p>
+  <p class="footer-tag">#ÚneteAlFlow</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <p class="footer-col-label">EMAIL</p>
+      <a href="mailto:fran.ortiz@fundacionpegasus.org">fran.ortiz@fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">WEB</p>
+      <a href="https://www.fundacionpegasus.org">www.fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">SÍGUELE</p>
+      <a href="https://www.instagram.com/lomionoesnormal/">@lomionoesnormal</a>
+    </div>
+  </div>
+  <p class="footer-meta">FUNDACIÓN PEGASUS · CIF G87919148 · INDIFERENTE</p>
+</footer>
+
+<script>
+function setView(view,scroll){
+  if(view!=='david'&&view!=='propuesta')view='david';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelector('.view-'+view).classList.add('active');
+  document.body.dataset.view=view;
+  history.replaceState(null,'',view==='david'?'#':'#propuesta');
+  if(scroll!==false)window.scrollTo({top:0,behavior:'instant'});
+  document.querySelectorAll('.view.active .fade-in').forEach(el=>{
+    el.classList.remove('visible');
+    fadeObserver.observe(el);
+  });
+  if(view==='david'&&tiltCard)requestAnimationFrame(updateTilt);
+}
+
+document.querySelectorAll('[data-go]').forEach(el=>{
+  el.addEventListener('click',(e)=>{e.preventDefault();setView(el.dataset.go,true);});
+});
+
+const fadeObserver=new IntersectionObserver((entries)=>{
+  entries.forEach((entry,i)=>{
+    if(entry.isIntersecting){
+      setTimeout(()=>entry.target.classList.add('visible'),i*60);
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>fadeObserver.observe(el));
+
+const tiltCard=document.getElementById('tilt-card');
+let ticking=false;
+function updateTilt(){
+  if(!tiltCard||document.body.dataset.view!=='david'){ticking=false;return;}
+  const rect=tiltCard.getBoundingClientRect();
+  const vh=window.innerHeight;
+  const total=rect.height+vh;
+  const passed=vh-rect.top;
+  let progress=passed/total;
+  progress=Math.max(0,Math.min(1,progress));
+  const isMobile=window.innerWidth<=768;
+  const startScale=isMobile?.85:1.05;
+  const endScale=isMobile?.98:1;
+  const rotateX=18*(1-progress);
+  const scale=startScale+(endScale-startScale)*progress;
+  tiltCard.style.transform='perspective(1400px) rotateX('+rotateX+'deg) scale('+scale+')';
+  ticking=false;
+}
+function onScroll(){if(!ticking){requestAnimationFrame(updateTilt);ticking=true;}}
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
+
+const initialView=window.location.hash.replace('#','')||'david';
+setView(initialView,false);
+updateTilt();
+</script>
+</body>
+</html>
