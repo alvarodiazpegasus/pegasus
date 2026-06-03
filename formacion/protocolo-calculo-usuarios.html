@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolo de Cálculo de Usuarios IS y TPT — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.cdnfonts.com/css/chantal');
+:root{--verde:#08B75B;--azul:#007EC3;--morado:#974694;--rosa:#E45E9B;--rojo:#D6191B;--naranja:#ED7928;--amarillo:#F3D100;--negro:#0A0E14;--blanco:#FFFFFF;--gris-50:#F7F8FA;--gris-100:#EEF0F4;--gris-200:#DDE0E6;--gris-500:#7C818C;--gris-600:#5C6370;--gris-700:#3E4653;--grad:linear-gradient(90deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100);--grad-diag:linear-gradient(135deg,#08B75B,#007EC3,#974694)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Barlow',-apple-system,sans-serif;background:var(--gris-50);color:var(--negro);line-height:1.65;-webkit-font-smoothing:antialiased}
+.stripe{height:6px;background:var(--grad)}
+.hero{background:var(--negro);color:var(--blanco);padding:80px 48px 100px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,183,91,.08),rgba(0,126,195,.12),rgba(151,70,148,.08));pointer-events:none}
+.hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:24px}
+.hero h1{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:700;line-height:1.05;margin-bottom:24px;letter-spacing:-.01em}
+.hero h1 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.7);max-width:720px;line-height:1.6;margin-bottom:32px}
+.hero-meta{display:flex;gap:16px;flex-wrap:wrap}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;font-size:.78rem;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+main{max-width:980px;margin:0 auto;padding:64px 48px 100px}
+.section{margin-bottom:72px;scroll-margin-top:24px}
+.section-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:6px 14px;border-radius:100px;background:rgba(8,183,91,.1);color:var(--verde);margin-bottom:16px}
+.section-label.azul{background:rgba(0,126,195,.1);color:var(--azul)}
+.section-label.morado{background:rgba(151,70,148,.1);color:var(--morado)}
+.section-label.rosa{background:rgba(228,94,155,.1);color:var(--rosa)}
+.section-label.naranja{background:rgba(237,121,40,.1);color:var(--naranja)}
+.section-label.verde{background:rgba(8,183,91,.12);color:var(--verde)}
+.section h2{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:16px;line-height:1.2;letter-spacing:-.01em}
+.section .lead{font-size:1.05rem;color:var(--gris-600);margin-bottom:32px;max-width:720px}
+.toc{background:var(--blanco);border:1.5px solid var(--gris-200);border-radius:16px;padding:28px 32px;margin-bottom:48px}
+.toc-title{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gris-500);margin-bottom:16px}
+.toc ol{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;counter-reset:tocnum}
+.toc li{counter-increment:tocnum;padding-left:36px;position:relative;font-size:.95rem}
+.toc li::before{content:counter(tocnum,decimal-leading-zero);position:absolute;left:0;top:0;font-family:'Chantal','Barlow',sans-serif;font-weight:700;color:var(--azul);font-size:.9rem;letter-spacing:.05em}
+.toc a{color:var(--negro);text-decoration:none;font-weight:600;transition:color .2s}
+.toc a:hover{color:var(--azul)}
+.ruta{background:var(--blanco);border:1.5px solid var(--gris-200);border-radius:16px;padding:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.ruta-step{padding:10px 18px;background:var(--gris-100);border-radius:100px;font-weight:700;font-size:.92rem;color:var(--negro)}
+.ruta-arrow{color:var(--gris-500);font-size:1.2rem;font-weight:700}
+.ruta-step.final{background:var(--grad-diag);color:var(--blanco)}
+.formula-box{background:var(--negro);color:var(--blanco);border-radius:20px;padding:40px;text-align:center;margin:24px 0;position:relative;overflow:hidden}
+.formula-box::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:var(--grad)}
+.formula-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--amarillo);margin-bottom:20px}
+.formula-line{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:700;line-height:1.4;letter-spacing:-.01em}
+.formula-line .rosa{color:var(--rosa)}
+.formula-line .azul{color:var(--azul)}
+.formula-why{margin-top:32px;display:grid;gap:16px}
+.formula-why-row{display:flex;gap:18px;align-items:flex-start;padding:18px 24px;background:var(--blanco);border-left:4px solid var(--azul);border-radius:12px}
+.formula-why-row.rosa{border-left-color:var(--rosa)}
+.formula-why-row.verde{border-left-color:var(--verde)}
+.formula-why-row .ico{font-size:1.3rem;flex-shrink:0}
+.formula-why-row p{font-size:.95rem;color:var(--gris-600);margin:0}
+.formula-why-row strong{color:var(--negro)}
+.var-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:24px}
+.var-card{background:var(--blanco);border-radius:16px;border:1.5px solid var(--gris-200);overflow:hidden}
+.var-header{padding:18px 24px;background:var(--negro);color:var(--blanco)}
+.var-header.azul{background:var(--azul)}
+.var-header.morado{background:var(--morado)}
+.var-tag{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.var-name{font-family:'Chantal','Barlow',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-.01em}
+.var-body{padding:20px 24px}
+.var-body p{font-size:.92rem;margin-bottom:10px;color:var(--gris-600)}
+.var-body p strong{color:var(--negro)}
+.var-warn{margin-top:14px;padding:12px 16px;background:rgba(243,209,0,.15);border-left:3px solid var(--amarillo);border-radius:8px;font-size:.85rem;color:var(--gris-700)}
+.steps{display:grid;gap:14px;margin-top:24px}
+.step-item{display:flex;align-items:flex-start;gap:18px;padding:18px 24px;background:var(--blanco);border:1.5px solid var(--gris-200);border-radius:12px}
+.step-num{font-family:'Chantal','Barlow',sans-serif;font-size:1.8rem;font-weight:700;color:var(--rosa);line-height:1;flex-shrink:0;width:40px;font-style:italic}
+.step-item p{font-size:.98rem;color:var(--gris-700);margin:0;padding-top:4px}
+.programa-bloque{margin-bottom:40px}
+.programa-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.programa-badge{padding:8px 16px;border-radius:100px;font-family:'Chantal','Barlow',sans-serif;font-size:1rem;font-weight:700;font-style:italic;color:var(--blanco)}
+.programa-badge.is{background:linear-gradient(135deg,var(--verde),var(--azul))}
+.programa-badge.tpt{background:linear-gradient(135deg,var(--morado),var(--rosa))}
+.programa-titulo{font-family:'Chantal','Barlow',sans-serif;font-size:1.4rem;font-weight:700;font-style:italic}
+.tabla-wrap{background:var(--blanco);border-radius:16px;border:1.5px solid var(--gris-200);overflow:hidden}
+table.resultados{width:100%;border-collapse:collapse;font-size:.95rem}
+table.resultados th{background:var(--gris-100);color:var(--gris-700);font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:14px 18px;text-align:left;border-bottom:1.5px solid var(--gris-200)}
+table.resultados td{padding:16px 18px;border-bottom:1px solid var(--gris-100);color:var(--gris-700)}
+table.resultados tr:last-child td{border-bottom:none}
+table.resultados td.anio{font-family:'Chantal','Barlow',sans-serif;font-weight:700;font-style:italic;font-size:1.05rem;color:var(--negro)}
+table.resultados td.total{font-weight:700;color:var(--negro)}
+table.resultados td.usuarios{font-family:'Chantal','Barlow',sans-serif;font-weight:700;font-size:1.15rem;font-style:italic}
+table.resultados td.usuarios.verde{color:var(--verde)}
+table.resultados td.usuarios.morado{color:var(--morado)}
+.warning{background:linear-gradient(135deg,rgba(237,121,40,.06),rgba(214,25,27,.06));border:1.5px solid rgba(237,121,40,.3);border-radius:16px;padding:28px 32px}
+.warning ul{margin-top:16px;list-style:none;display:grid;gap:14px}
+.warning li{display:flex;gap:14px;align-items:flex-start;font-size:.97rem;color:var(--gris-700);line-height:1.6}
+.warning li::before{content:'⚠';color:var(--naranja);flex-shrink:0;font-size:1.05rem;margin-top:2px}
+.info-box{background:var(--blanco);border:2px dashed var(--azul);border-radius:16px;padding:28px 32px;margin-top:24px}
+.info-box-title{font-family:'Chantal','Barlow',sans-serif;font-size:1.2rem;font-weight:700;font-style:italic;color:var(--azul);margin-bottom:12px}
+.info-box p{font-size:.97rem;color:var(--gris-700);margin:0}
+.info-box strong{color:var(--negro)}
+footer{background:var(--negro);color:rgba(255,255,255,.6);padding:40px 48px;text-align:center;font-size:.85rem}
+footer .footer-eslogan{font-family:'Chantal','Barlow',sans-serif;font-style:italic;font-size:1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;margin-bottom:8px}
+@media(max-width:720px){.hero{padding:56px 24px 64px}main{padding:40px 24px 60px}.toc ol{grid-template-columns:1fr}.var-grid{grid-template-columns:1fr}.ruta{flex-direction:column;align-items:stretch}.ruta-arrow{display:none}table.resultados{font-size:.85rem}table.resultados th,table.resultados td{padding:10px 12px}}
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Documento interno · Fundación Pegasus</p>
+    <h1>Protocolo de cálculo de<br><span class="grad">usuarios IS y TPT</span></h1>
+    <p class="hero-sub">Cómo calcular el número de usuarios reales (no plazas) de los programas Inclusive Sport y Terapias en un año concreto, partiendo del histórico acumulado del CRM.</p>
+    <div class="hero-meta">
+      <span class="hero-tag">🧮 Cálculo numérico</span>
+      <span class="hero-tag">💻 CRM · MN Program</span>
+      <span class="hero-tag">📊 IS · TPT</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <div class="toc">
+    <p class="toc-title">Índice</p>
+    <ol>
+      <li><a href="#acceso">Cómo acceder a los datos</a></li>
+      <li><a href="#logica">Lógica del cálculo</a></li>
+      <li><a href="#variables">Variables y filtros del CRM</a></li>
+      <li><a href="#comprobar">Cómo comprobar o modificar los filtros</a></li>
+      <li><a href="#resultados">Resultados por año y programa</a></li>
+      <li><a href="#avisos">Consideraciones importantes</a></li>
+    </ol>
+  </div>
+
+  <div class="section" id="acceso">
+    <span class="section-label">📍 Paso 1</span>
+    <h2>Cómo acceder a los datos</h2>
+    <p class="lead">Los datos necesarios para este cálculo se obtienen directamente desde el CRM. La ruta exacta es:</p>
+    <div class="ruta">
+      <span class="ruta-step">CRM</span>
+      <span class="ruta-arrow">→</span>
+      <span class="ruta-step">MN Program</span>
+      <span class="ruta-arrow">→</span>
+      <span class="ruta-step">Menú lateral izquierdo (abajo)</span>
+      <span class="ruta-arrow">→</span>
+      <span class="ruta-step">Cuadros de informes</span>
+      <span class="ruta-arrow">→</span>
+      <span class="ruta-step">Informes</span>
+      <span class="ruta-arrow">→</span>
+      <span class="ruta-step final">Pestaña: Usuarios 2023 / 2024 / 2025</span>
+    </div>
+  </div>
+
+  <div class="section" id="logica">
+    <span class="section-label azul">🧠 Paso 2</span>
+    <h2>Lógica del cálculo</h2>
+    <p class="lead">El objetivo es conocer cuántos usuarios estuvieron activos en un año concreto (X), partiendo del total histórico acumulado en el programa.</p>
+    <div class="formula-box">
+      <p class="formula-eyebrow">La fórmula</p>
+      <p class="formula-line">Usuarios en AÑO X =<br>Total <span class="rosa">− Bajas previas a 31-12-(X−1)</span> <span class="azul">− Altas desde 01-01-(X+1)</span></p>
+    </div>
+    <div class="formula-why">
+      <div class="formula-why-row rosa">
+        <span class="ico">⬅️</span>
+        <p><strong>Las bajas previas a 31-12-(X−1)</strong> son usuarios que ya se habían ido antes de que empezara el año X. No deben contarse.</p>
+      </div>
+      <div class="formula-why-row">
+        <span class="ico">➡️</span>
+        <p><strong>Las altas desde 01-01-(X+1)</strong> son usuarios que todavía no habían entrado durante el año X. Tampoco deben contarse.</p>
+      </div>
+      <div class="formula-why-row verde">
+        <span class="ico">✅</span>
+        <p>Lo que queda es exactamente <strong>el conjunto de usuarios que existían durante ese año.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="variables">
+    <span class="section-label morado">⚙️ Paso 3</span>
+    <h2>Variables y configuración de filtros</h2>
+    <p class="lead">Cada indicador del CRM tiene un filtro de fechas. Hay que configurarlos así:</p>
+    <div class="var-grid">
+      <div class="var-card">
+        <div class="var-header morado">
+          <p class="var-tag">Variable 1</p>
+          <p class="var-name">Bajas previas a 31-12-X</p>
+        </div>
+        <div class="var-body">
+          <p><strong>Fecha desde:</strong> 01/01/2020 (fecha anterior al inicio real del registro en el CRM ~2022; se usa para no dejar ninguna baja fuera).</p>
+          <p><strong>Fecha hasta:</strong> 31/12/X (debe coincidir exactamente con el nombre del indicador).</p>
+          <div class="var-warn">⚠ Comprueba siempre que el filtro "fecha hasta" y el nombre del dato están correlacionados.</div>
+        </div>
+      </div>
+      <div class="var-card">
+        <div class="var-header azul">
+          <p class="var-tag">Variable 2</p>
+          <p class="var-name">Altas desde 01-01-X</p>
+        </div>
+        <div class="var-body">
+          <p><strong>Fecha desde:</strong> 01/01/X (debe coincidir con el año que indica el nombre del dato).</p>
+          <p><strong>Fecha hasta:</strong> 31/12/2035 (u otro año muy superior al actual; debe ser la misma en todos los indicadores de altas para que sean comparables).</p>
+          <div class="var-warn">⚠ Asegúrate de que todos los indicadores de tipo "Altas desde" tienen exactamente la misma fecha hasta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="comprobar">
+    <span class="section-label rosa">🔍 Paso 4</span>
+    <h2>Cómo comprobar o modificar los filtros</h2>
+    <p class="lead">Una vez dentro de la pestaña del informe correspondiente, sigue estos pasos:</p>
+    <div class="steps">
+      <div class="step-item"><span class="step-num">01</span><p>Pulsa sobre cualquier fila o indicador del informe.</p></div>
+      <div class="step-item"><span class="step-num">02</span><p>Arriba a la izquierda, haz clic en <strong>Modificar filtros</strong>.</p></div>
+      <div class="step-item"><span class="step-num">03</span><p>Verás el filtro aplicado: <strong>Servicios contratados</strong>. Pincha sobre él.</p></div>
+      <div class="step-item"><span class="step-num">04</span><p>Comprueba que las fechas (desde / hasta) son las correctas según la tabla anterior.</p></div>
+      <div class="step-item"><span class="step-num">05</span><p>Si necesitas modificarlas, hazlo y dale a <strong>Guardar</strong>.</p></div>
+    </div>
+  </div>
+
+  <div class="section" id="resultados">
+    <span class="section-label verde">📊 Paso 5</span>
+    <h2>Resultados por año y programa</h2>
+    <p class="lead">Aplicando la fórmula con los datos actuales del CRM (junio 2026):</p>
+
+    <div class="programa-bloque">
+      <div class="programa-header">
+        <span class="programa-badge is">Programa IS</span>
+        <span class="programa-titulo">Inclusive Sport</span>
+      </div>
+      <div class="tabla-wrap">
+        <table class="resultados">
+          <thead>
+            <tr><th>Año</th><th>Total</th><th>− Bajas previas</th><th>− Altas desde</th><th>= Usuarios</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="anio">2023</td><td class="total">667</td><td>4 <span style="color:var(--gris-500);">(31-12-2022)</span></td><td>292 <span style="color:var(--gris-500);">(01-01-2024)</span></td><td class="usuarios verde">371</td></tr>
+            <tr><td class="anio">2024</td><td class="total">667</td><td>90 <span style="color:var(--gris-500);">(31-12-2023)</span></td><td>180 <span style="color:var(--gris-500);">(01-01-2025)</span></td><td class="usuarios verde">397</td></tr>
+            <tr><td class="anio">2025</td><td class="total">667</td><td>195 <span style="color:var(--gris-500);">(31-12-2024)</span></td><td>42 <span style="color:var(--gris-500);">(01-01-2026)</span></td><td class="usuarios verde">430</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="programa-bloque">
+      <div class="programa-header">
+        <span class="programa-badge tpt">Programa TPT</span>
+        <span class="programa-titulo">Terapias</span>
+      </div>
+      <div class="tabla-wrap">
+        <table class="resultados">
+          <thead>
+            <tr><th>Año</th><th>Total</th><th>− Bajas previas</th><th>− Altas desde</th><th>= Usuarios</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="anio">2023</td><td class="total">1103</td><td>4 <span style="color:var(--gris-500);">(31-12-2022)</span></td><td>817 <span style="color:var(--gris-500);">(01-01-2024)</span></td><td class="usuarios morado">282</td></tr>
+            <tr><td class="anio">2024</td><td class="total">1103</td><td>136 <span style="color:var(--gris-500);">(31-12-2023)</span></td><td>484 <span style="color:var(--gris-500);">(01-01-2025)</span></td><td class="usuarios morado">483</td></tr>
+            <tr><td class="anio">2025</td><td class="total">1103</td><td>353 <span style="color:var(--gris-500);">(31-12-2024)</span></td><td>182 <span style="color:var(--gris-500);">(01-01-2026)</span></td><td class="usuarios morado">568</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="avisos">
+    <span class="section-label naranja">⚠️ Consideraciones</span>
+    <h2>A tener en cuenta</h2>
+    <div class="warning">
+      <ul>
+        <li>Este cálculo da el número de <strong>usuarios únicos</strong>, no de plazas ni de sesiones.</li>
+        <li>Para calcular un año nuevo necesitarás siempre <strong>dos datos nuevos</strong>: las bajas previas al cierre del año anterior y las altas a partir del año siguiente.</li>
+        <li>El <strong>año en curso</strong> no se puede calcular todavía porque aún no se tienen las altas desde 01-01-(X+1).</li>
+        <li>Si los totales no cuadran, lo primero que hay que revisar son <strong>los filtros de fecha en el CRM.</strong></li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <p class="info-box-title">💡 Usuario ≠ plaza</p>
+      <p>Un solo usuario puede ocupar 2 plazas si viene 2 días a la semana. Este protocolo cuenta <strong>usuarios únicos</strong>: cada persona se cuenta una vez, independientemente de las plazas que ocupe.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-eslogan">"Lo mío no es normal, pero lo tuyo tampoco."</p>
+  <p>Fundación Pegasus · Protocolo interno · v1 · Junio 2026</p>
+  <p style="margin-top:8px;font-size:.78rem;opacity:.5;">Elaborado por Álvaro Marrero Colino (COO · Director Digital) · Publicado por Álvaro Díaz Santos (CFO)</p>
+</footer>
+
+</body>
+</html>
