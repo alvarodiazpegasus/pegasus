@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -591,10 +592,10 @@ body {
 <div class="tab-content active" id="tab-retos">
 
   <div class="stats-row">
-    <div class="stat-card stat-verde"><div class="stat-num" id="stat-total-retos">12</div><div class="stat-label">Retos identificados</div></div>
-    <div class="stat-card stat-azul"><div class="stat-num" id="stat-alta">9</div><div class="stat-label">Criticidad alta</div></div>
-    <div class="stat-card stat-naranja"><div class="stat-num" id="stat-media">3</div><div class="stat-label">Criticidad media</div></div>
-    <div class="stat-card stat-morado"><div class="stat-num" id="stat-acciones">13</div><div class="stat-label">Acciones totales</div></div>
+    <div class="stat-card stat-verde"><div class="stat-num" id="stat-total-retos">9</div><div class="stat-label">Retos identificados</div></div>
+    <div class="stat-card stat-azul"><div class="stat-num" id="stat-alta">7</div><div class="stat-label">Criticidad alta</div></div>
+    <div class="stat-card stat-naranja"><div class="stat-num" id="stat-media">2</div><div class="stat-label">Criticidad media</div></div>
+    <div class="stat-card stat-morado"><div class="stat-num" id="stat-acciones">17</div><div class="stat-label">Acciones totales</div></div>
   </div>
 
   <div class="section-label">
@@ -727,6 +728,9 @@ const RETOS = [
   { id: 'O4', cat: 'op', titulo: 'Gestión de espacios: dependencia de entidades públicas', crit: 'media',
     desc: 'Tanto TPT como IS dependen de espacios cedidos por administraciones públicas (ayuntamientos, colegios por las tardes). El protocolo de gestión de espacios IS aún no está formalizado. El coordinador fusionado necesitará un protocolo unificado que cubra los dos contextos.',
     linked: ['AO3'] },
+  { id: 'O5', cat: 'op', titulo: 'División de núcleos para dinámicas de equipo', crit: 'alta',
+    desc: 'Actualmente todos los terapeutas se desplazan a Arganda los viernes para las dinámicas. Coste actual: 370 €/mes → 4.070 €/año (×11 meses). La hipótesis es que grupos reducidos favorecen la apertura emocional. Hay que decidir el modelo (A: 4 núcleos independientes / B: 3 viernes zona + 1 viernes todos en Arganda / C: 2 bloques geográficos), identificar espacios disponibles los viernes por la mañana y formar a los coordinadores para liderar las dinámicas con kit preparado por el equipo técnico.',
+    linked: ['AO9', 'AO10', 'F5'] },
   { id: 'T1', cat: 'tec', titulo: 'Supervisión de documentación terapéutica y autoridad técnica', crit: 'alta',
     desc: 'El coordinador de TPT supervisa PIAS, historias clínicas y evaluaciones. Un coordinador con perfil deportivo no tiene esa base. Un terapeuta puede usar argumentos técnicos para bloquear decisiones de optimización si el coordinador no tiene formación mínima. Soluciones: (1) Ceci diseña proceso eficiente de supervisión; (2) formación básica en criterio terapéutico para todos los coordinadores.',
     linked: ['F2', 'AO4'] },
@@ -757,6 +761,9 @@ const ACCIONES_FORM = [
   { id: 'F4', titulo: '"Pegasus 2.0": nuevo modelo de intervención en TPT',
     desc: 'Liderada por Iris con posible intervención de coordinadores o staff líderes informales. Parejas y grupos como norma, cruce de usuarios, triaje unificado TPT+IS, flow e IE como base. Coordinación activa entre terapeutas y educadores deportivos para familias que reciben ambos servicios.',
     retos: ['T3', 'E2'], resp: 'Iris (coord.) + líderes informales', cuando: 'Input julio · Formación completa ago/sep', asap: false },
+  { id: 'F5', titulo: 'Formación a coordinadores para liderar dinámicas de equipo en núcleos',
+    desc: 'Formación para que los coordinadores puedan liderar dinámicas de equipo en sus núcleos con calidad Pegasus. El equipo técnico/dinámicas emocionales prepara y entrega un kit completo (material, estructura, objetivos) para que los coordinadores ejecuten sin improvisación.',
+    retos: ['O5'], resp: 'Equipo técnico/dinámicas + Iris', cuando: 'Julio/agosto', asap: false },
   { id: 'JULIO', titulo: 'Julio — Mes de práctica conjunta',
     desc: 'Todos los coordinadores hacen operativa real de ambos servicios juntos, con acompañamiento y resolución de dudas en tiempo real.',
     retos: ['O2', 'T1', 'T2', 'T3'], resp: 'Iris (supervisión)', cuando: 'Julio completo', asap: false },
@@ -787,14 +794,26 @@ const ACCIONES_OP = [
   { id: 'AO8', titulo: 'Conversaciones individuales con cada coordinador',
     desc: 'David e Iris realizan conversación individual con cada uno de los 4 coordinadores para entender miedos, expectativas y necesidades antes de diseñar ningún proceso.',
     retos: ['E1'], resp: 'David e Iris', cuando: 'Julio', asap: false },
+  { id: 'AO9', titulo: 'Decisión sobre el modelo de división de núcleos',
+    desc: 'Decidir qué modelo se adopta: A (4 núcleos independientes todos los viernes), B (3 viernes en zona + 1 viernes todos en Arganda) o C (2 bloques geográficos en punto medio). Considerar coste, sentimiento de pertenencia, logística de espacios y carga de coordinación.',
+    retos: ['O5'], resp: 'Iris + David', cuando: 'ASAP', asap: true },
+  { id: 'AO10', titulo: 'Identificación de espacios físicos para dinámicas los viernes por la mañana',
+    desc: 'Mapear qué espacios están disponibles en cada zona los viernes por la mañana (centros, instalaciones, alternativas) para las dinámicas de equipo de los nuevos núcleos.',
+    retos: ['O5'], resp: 'Iris (con coordinadores)', cuando: 'Junio/julio', asap: false },
+  { id: 'AO11', titulo: 'Construir Excels y protocolos del nuevo modelo de cobro TPT por cuota fija',
+    desc: 'Crear la infraestructura operativa completa del nuevo modelo: (1) Excel madre consolidado (script que agrega excels individuales de cada profesional por centro/día); (2) Excel de Ajustes Económicos con volcado anual de ajustes planificados por día-centro-mes (festivos nacionales, CAM y locales + vacaciones Pegasus); (3) protocolo oficial de generación de cobros TPT desde S.Contratados alineado con IS, incluyendo el paso de ajustes planificados. Pendiente validar técnicamente en CRM la ejecución de ajustes en bloque (Opción C1 vs C2 en MN Program). Chat de trabajo ya abierto en Claude: "Unificar gestión y calendario".',
+    retos: ['O2'], resp: 'Marre', cuando: 'ASAP', asap: true },
 ];
 
 const CRONO = [
   { id: 'AO1', tipo: 'ao', label: 'AO1', resp: 'Iris + Marre', titulo: 'Diseño zonas fusionadas', mes: 0 },
-  { id: 'AO4', tipo: 'ao', label: 'AO4 (inicio)', resp: 'Iris + Ceci', titulo: 'Supervisión documentación terapéutica — reunión inicial', mes: 0 },
+  { id: 'AO9', tipo: 'ao', label: 'AO9', resp: 'Iris + David', titulo: 'Decisión modelo división de núcleos', mes: 0 },
+  { id: 'AO11', tipo: 'ao', label: 'AO11', resp: 'Marre', titulo: 'Excels y protocolos nuevo modelo cobro TPT', mes: 0 },
+  { id: 'AO4a', tipo: 'ao', label: 'AO4 (inicio)', resp: 'Iris + Ceci', titulo: 'Supervisión doc. terapéutica — reunión inicial', mes: 0 },
   { id: 'AO5', tipo: 'ao', label: 'AO5', resp: 'Marre + Álvaro', titulo: 'Modelo transición cuota fija TPT', mes: 0 },
   { id: 'F1', tipo: 'f', label: 'F1', resp: 'Marre', titulo: 'Formación cruzada herramientas y operativa', mes: 1 },
   { id: 'F3', tipo: 'f', label: 'F3', resp: 'Iris + David', titulo: 'Formación liderazgo equipos mixtos', mes: 1 },
+  { id: 'AO10', tipo: 'ao', label: 'AO10', resp: 'Iris + coordinadores', titulo: 'Identificación espacios viernes por la mañana', mes: 1 },
   { id: 'F2', tipo: 'f', label: 'F2', resp: 'Ceci / Iris', titulo: 'Formación criterio técnico cruzado', mes: 2 },
   { id: 'AO2', tipo: 'ao', label: 'AO2', resp: 'Davilín + Iris/Marre', titulo: 'Formalización convenio laboral', mes: 2 },
   { id: 'AO3', tipo: 'ao', label: 'AO3', resp: 'Iris + coordinadores', titulo: 'Protocolo espacios IS', mes: 2 },
@@ -804,6 +823,7 @@ const CRONO = [
   { id: 'JULIO', tipo: 'practica', label: 'Práctica conjunta', resp: 'Iris', titulo: 'Mes de práctica real operativa de ambos servicios', mes: 2 },
   { id: 'F4a', tipo: 'f', label: 'F4 (input)', resp: 'Iris', titulo: 'Pegasus 2.0 — primer input y previsión salidas', mes: 2 },
   { id: 'AO6', tipo: 'ao', label: 'AO6', resp: 'Iris', titulo: 'Acciones de equidad en atención por coordinador', mes: 3 },
+  { id: 'F5b', tipo: 'f', label: 'F5', resp: 'Eq. técnico + Iris', titulo: 'Formación liderazgo dinámicas en núcleos', mes: 3 },
   { id: 'F4b', tipo: 'practica', label: 'F4 (completa)', resp: 'Iris + líderes', titulo: 'Pegasus 2.0 — formación completa', mes: 4 },
 ];
 
