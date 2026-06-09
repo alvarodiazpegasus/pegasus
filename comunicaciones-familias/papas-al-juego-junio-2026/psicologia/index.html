@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>El Gran Viaje del Explorador · Papás al Juego · Psicología</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+:root {
+  --verde:#08b75b; --azul:#007ec3; --morado:#974694;
+  --rosa:#e45e9b; --rojo:#d6191b; --naranja:#ed7928; --amarillo:#f3d100;
+  --crema:#fff5e0; --negro:#1a1330;
+  --grad-aventura: linear-gradient(135deg, #974694 0%, #e45e9b 50%, #ed7928 100%);
+  --grad-cielo:   linear-gradient(180deg, #2a1b4f 0%, #5a2880 30%, #974694 60%, #ed7928 90%, #f3d100 100%);
+  --grad-bosque:  linear-gradient(180deg, #1f3a26 0%, #2d5234 40%, #4a7c50 100%);
+  --ease-back:    cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent; }
+html, body { height:100%; overflow:hidden; }
+body { font-family:'Barlow',sans-serif; background:var(--grad-cielo); color:var(--negro); user-select:none; }
+
+#stage { position:fixed; inset:0; overflow:hidden; }
+.scene { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; opacity:0; transition:opacity 0.5s ease; z-index:2; }
+.scene.active { display:flex; opacity:1; }
+
+/* ÁRBOLES LATERALES decorativos (en lugar de palmeras) */
+.arbol { position:fixed; bottom:-20px; width:170px; height:280px; z-index:1; pointer-events:none; filter: drop-shadow(0 18px 24px rgba(0,0,0,0.40)); opacity:0.92; }
+.arbol.izq { left:-50px; animation: arbolSwayI 6s ease-in-out infinite; transform-origin: 50% 95%; }
+.arbol.der { right:-50px; animation: arbolSwayD 6s ease-in-out infinite; transform-origin: 50% 95%; }
+@keyframes arbolSwayI { 0%,100%{transform:rotate(-1deg);} 50%{transform:rotate(2deg);} }
+@keyframes arbolSwayD { 0%,100%{transform:rotate(1deg);} 50%{transform:rotate(-2deg);} }
+@media (max-width:900px){ .arbol{width:120px; height:200px; opacity:0.7;} }
+
+/* TOPBAR */
+.topbar { position:fixed; top:14px; left:14px; right:14px; display:flex; justify-content:space-between; align-items:center; z-index:100; pointer-events:none; }
+.topbar > * { pointer-events:auto; }
+.topbar .badge { background:rgba(255,255,255,0.92); border:2px solid var(--morado); color:var(--negro); padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:12px; text-transform:uppercase; letter-spacing:1px; box-shadow:0 4px 12px rgba(0,0,0,0.20); }
+.topbar .progress { background:#fff; padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:13px; color:var(--morado); box-shadow:0 4px 12px rgba(0,0,0,0.20); }
+.topbar .right-grp { display:flex; gap:8px; align-items:center; }
+
+/* BOTONES */
+.btn { display:inline-flex; align-items:center; gap:8px; padding:16px 36px; border-radius:999px; border:0; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:20px; text-transform:uppercase; letter-spacing:1px; cursor:pointer; background:var(--negro); color:#fff; box-shadow:0 14px 28px rgba(0,0,0,0.40); transition:box-shadow 0.15s, filter 0.15s; touch-action:manipulation; user-select:none; -webkit-user-select:none; position:relative; z-index:10; }
+.btn:hover { box-shadow:0 20px 38px rgba(0,0,0,0.45); filter:brightness(1.08); }
+.btn:active { filter:brightness(0.92); }
+.btn.warm { background:var(--grad-aventura); color:#fff; }
+.btn.sun  { background:var(--amarillo); color:var(--negro); }
+.btn.ghost { background:rgba(255,255,255,0.94); color:var(--negro); border:2.5px solid var(--negro); box-shadow:0 8px 18px rgba(0,0,0,0.30); }
+.btn.sm { font-size:14px; padding:10px 22px; }
+.btn:disabled, .btn[disabled] { opacity:0.45; cursor:not-allowed; pointer-events:none; }
+
+/* TÍTULOS */
+.title { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:54px; line-height:1; text-transform:uppercase; letter-spacing:-1px; color:#fff; text-shadow:0 6px 24px rgba(0,0,0,0.50); margin:0; }
+
+/* TOAST INFORMATIVO */
+.info-toast { position:fixed; top:70px; left:50%; transform:translateX(-50%); background:#fff; color:var(--negro); padding:10px 18px; border-radius:999px; border:2px solid var(--morado); box-shadow:0 8px 20px rgba(0,0,0,0.30); font-family:'Barlow',sans-serif; font-weight:800; font-style:italic; font-size:13px; z-index:60; display:flex; align-items:center; gap:8px; max-width:86vw; transition:opacity 0.3s, transform 0.3s var(--ease-back); opacity:1; }
+.info-toast.hidden { opacity:0; transform:translate(-50%,-30px); pointer-events:none; }
+.info-toast .info-ico { font-size:22px; }
+
+/* PEGASUSITO PROTAGONISTA · pantalla fullscreen */
+.historia-fullscreen {
+  position:fixed; inset:0;
+  background:
+    linear-gradient(180deg, rgba(20,5,40,0.65) 0%, rgba(80,30,120,0.50) 50%, rgba(20,5,40,0.65) 100%),
+    url('assets/fondo-aventura.png') center/cover no-repeat,
+    linear-gradient(135deg, #2a1b4f 0%, #5a2880 40%, #e45e9b 100%);
+  z-index:220; display:none; align-items:center; justify-content:center; padding:40px; overflow:hidden;
+}
+.historia-fullscreen.show { display:flex; }
+.historia-stage { display:flex; align-items:center; justify-content:center; gap:40px; max-width:1200px; width:100%; flex-wrap:wrap; }
+.pega-protagonista { position:relative; width:min(46vh, 500px); height:min(46vh, 500px); flex-shrink:0; animation: pegaEntra 0.8s var(--ease-back) both; }
+@keyframes pegaEntra { from{opacity:0; transform:translateX(-100px) scale(0.6);} to{opacity:1; transform:translateX(0) scale(1);} }
+.pega-protagonista::before { content:""; position:absolute; inset:-30px; border-radius:50%; z-index:-1; background: radial-gradient(circle, rgba(243,209,0,0.55), transparent 65%); animation: pegaGlow 2.8s ease-in-out infinite; }
+@keyframes pegaGlow { 0%,100%{transform:scale(1); opacity:0.7;} 50%{transform:scale(1.15); opacity:1;} }
+.pega-protagonista img { width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 24px 36px rgba(0,0,0,0.50)); animation: pegaBob 3.5s ease-in-out infinite; }
+@keyframes pegaBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+.historia-bocadillo-pro { background:#fff; color:var(--negro); padding:32px 36px; border-radius:32px 32px 32px 8px; max-width:540px; flex:1; min-width:280px; position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.50); animation: bocadilloEntra 0.7s var(--ease-back) 0.3s both; }
+@keyframes bocadilloEntra { from{opacity:0; transform:translateX(60px) scale(0.7);} to{opacity:1; transform:translateX(0) scale(1);} }
+.historia-bocadillo-pro::before { content:""; position:absolute; left:-22px; bottom:36px; border:16px solid transparent; border-right-color:#fff; }
+.historia-bocadillo-pro h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:30px; color:var(--morado); text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:18px; line-height:1.05; }
+.historia-bocadillo-pro .texto-historia { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:19px; line-height:1.5; color:var(--negro); margin-bottom:26px; min-height:80px; }
+.historia-cta-row { display:flex; gap:12px; justify-content:flex-end; }
+@media (max-width:900px) {
+  .historia-stage { flex-direction:column; gap:20px; }
+  .pega-protagonista { width:220px; height:220px; }
+  .historia-bocadillo-pro { padding:22px 24px; border-radius:24px; }
+  .historia-bocadillo-pro::before { left:50%; bottom:auto; top:-28px; transform:translateX(-50%); border:14px solid transparent; border-bottom-color:#fff; border-right-color:transparent; }
+  .historia-bocadillo-pro h3 { font-size:22px; }
+  .historia-bocadillo-pro .texto-historia { font-size:16px; min-height:60px; }
+}
+
+/* ESCENA INTRO · escenario PDF como FONDO COVER */
+#scene-portada {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.60) 100%),
+    url('assets/escenario-andrea.png') center/cover no-repeat,
+    var(--grad-cielo);
+}
+.portada-card { width:min(92vw, 760px); position:relative; text-align:center; z-index:3; }
+.portada-titulo { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:clamp(32px, 6vh, 64px); line-height:0.95; text-transform:uppercase; letter-spacing:-1px; color:#fff; text-shadow: 0 8px 32px rgba(0,0,0,0.80), 0 0 16px rgba(0,0,0,0.50); margin-bottom:18px; }
+.portada-titulo .accent { color:var(--amarillo); display:block; }
+.portada-narrativa { background:rgba(255,255,255,0.96); color:var(--negro); padding:14px 22px; border-radius:18px; max-width:660px; margin:0 auto 22px; font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:15px; line-height:1.4; box-shadow:0 14px 30px rgba(0,0,0,0.40); }
+
+/* BRANDING IMAGOTIPO Pegasus (TODAS las pantallas) */
+.brand-logo { position:fixed; top:12px; left:12px; height:42px; z-index:90; border-radius:999px; background:#fff; padding:5px 12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; }
+.brand-logo img { height:100%; width:auto; object-fit:contain; }
+@media (max-height: 720px) { .brand-logo { height:32px; top:8px; left:8px; padding:4px 8px; } }
+
+/* ESCENA ELECCIÓN AVATAR */
+#scene-avatar { background: var(--grad-cielo); }
+.avatar-host { width:min(94vw, 800px); text-align:center; z-index:3; }
+.avatar-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; color:#fff; text-shadow:0 6px 16px rgba(0,0,0,0.40); margin-bottom:8px; text-transform:uppercase; letter-spacing:-0.5px; }
+.avatar-host p { color:rgba(255,255,255,0.95); font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:18px; margin-bottom:24px; }
+.avatar-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; max-width:600px; margin:0 auto; }
+.avatar-card { background:#fff; border:4px solid transparent; border-radius:24px; padding:18px 14px; cursor:pointer; transition: transform 0.2s var(--ease-back), border-color 0.2s, box-shadow 0.2s; box-shadow: 0 18px 36px rgba(0,0,0,0.40); }
+.avatar-card:hover { transform: translateY(-6px); box-shadow:0 26px 50px rgba(0,0,0,0.50); }
+.avatar-card.selected { border-color:var(--amarillo); box-shadow:0 0 0 6px var(--amarillo), 0 22px 44px rgba(243,209,0,0.40); }
+.avatar-card img { width:100%; height:240px; object-fit:contain; }
+.avatar-card .name { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:20px; color:var(--morado); text-transform:uppercase; letter-spacing:0.5px; margin-top:10px; }
+@media (max-width:600px){ .avatar-card img{height:160px;} }
+
+/* ESCENA MAPA */
+#scene-mapa, #scene-parada-0, #scene-parada-1, #scene-parada-2, #scene-parada-3 {
+  background:
+    linear-gradient(180deg, rgba(20,5,40,0.50) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0.55) 100%),
+    url('assets/fondo-aventura.png') center/cover no-repeat,
+    var(--grad-cielo);
+}
+.mapa-host { width:min(94vw, 980px); text-align:center; z-index:3; }
+.mapa-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:32px; color:#fff; text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:16px; text-shadow:0 6px 16px rgba(0,0,0,0.40); }
+.mapa-svg-wrap { background:rgba(255,255,255,0.10); border:2px solid rgba(255,255,255,0.30); border-radius:24px; padding:14px; backdrop-filter: blur(6px); position:relative; }
+.mapa-svg { width:100%; height: min(58vh, 460px); display:block; }
+.mapa-svg .sendero { fill:none; stroke:#f3d100; stroke-width:14; stroke-linecap:round; stroke-dasharray:22 14; opacity:1; filter: drop-shadow(0 0 16px rgba(243,209,0,0.80)) drop-shadow(0 4px 6px rgba(0,0,0,0.50)); animation: senderoFlow 2s linear infinite; }
+@keyframes senderoFlow { to { stroke-dashoffset: -36; } }
+.mapa-svg .parada-circle { stroke:#fff; stroke-width:8; cursor:pointer; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55)); }
+.mapa-svg .parada-circle.completada { fill:var(--verde)!important; }
+.mapa-svg .parada-circle.locked { fill:#666; opacity:0.55; }
+.mapa-svg .parada-label-bg { fill: var(--negro); }
+.mapa-svg .parada-label { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; fill:#fff; text-anchor:middle; pointer-events:none; }
+.mapa-svg .parada-icono { font-size:64px; text-anchor:middle; pointer-events:none; }
+.mapa-avatar-mini {
+  position:absolute;
+  /* Height fijo grande para que la silueta alta-estrecha se vea de verdad.
+     width:auto para que mantenga la proporción natural del PNG. */
+  height: min(48vh, 360px);
+  width: auto;
+  transform: translate(-50%, -50%);
+  transition: left 0.8s var(--ease-back), top 0.8s var(--ease-back);
+  pointer-events:none; z-index:8;
+  filter: drop-shadow(0 18px 28px rgba(0,0,0,0.55));
+}
+.mapa-avatar-mini img {
+  height:100%; width:auto;
+  display:block;
+  animation: avatarMapaBob 3s ease-in-out infinite;
+}
+@keyframes avatarMapaBob { 0%,100%{transform: translateY(0);} 50%{transform: translateY(-14px);} }
+@media (max-height: 720px) {
+  .mapa-avatar-mini { height: min(50vh, 280px); }
+  .mapa-svg .parada-icono { font-size: 50px; }
+  .mapa-svg .parada-label { font-size: 28px; }
+}
+@media (max-height: 560px) {
+  .mapa-avatar-mini { height: 200px; }
+}
+
+/* ACT-HOST genérico para minijuegos */
+.act-host { position:relative; background:#fff; color:var(--negro); border-radius:32px; padding:28px 26px; box-shadow:0 30px 70px rgba(0,0,0,0.40); text-align:center; max-width:min(92vw, 880px); opacity:0; transform:translateY(30px) scale(0.96); animation: actIn 0.7s var(--ease-back) 1.5s forwards; z-index:3; }
+@keyframes actIn { to { opacity:1; transform:translateY(0) scale(1); } }
+.act-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; text-transform:uppercase; letter-spacing:-1px; color:var(--morado); margin-bottom:6px; }
+.act-host .lead { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:16px; color:var(--negro); margin-bottom:14px; line-height:1.4; }
+.theme-rain { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
+.theme-rain .it { position:absolute; top:-10%; font-size:46px; animation: themeFall 3s linear infinite; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.30)); }
+@keyframes themeFall { 0%{transform:translateY(0) rotate(0); opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh) rotate(720deg); opacity:0;} }
+
+/* === PARADA 1 · MEMORIZA · pirámide de objetos · COMPACTA === */
+.piramide-display { display:flex; flex-direction:column; align-items:center; gap:4px; margin:8px 0; }
+.piramide-fila { display:flex; gap:4px; }
+.piramide-fila .obj { width:42px; height:42px; background:linear-gradient(135deg, #fff5d8, #ffe6a3); border:2px solid var(--naranja); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:26px; box-shadow:0 3px 6px rgba(0,0,0,0.15); animation: objAparece 0.4s var(--ease-back) both; }
+@keyframes objAparece { from{opacity:0; transform:scale(0.5);} to{opacity:1; transform:scale(1);} }
+.piramide-fila .obj.oculto { background: #2a2a2a; color: transparent; border-color:#555; }
+.memo-respuesta { background: var(--crema); padding:10px; border-radius:12px; display:flex; flex-direction:column; gap:6px; align-items:center; margin:8px 0; border:2px dashed var(--morado); }
+.memo-respuesta-fila { display:flex; gap:4px; }
+.memo-respuesta-fila .slot { width:34px; height:34px; border:2px dashed var(--morado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; background:#fff; color: var(--morado); font-family:'Barlow',sans-serif; font-weight:900; }
+.memo-respuesta-fila .slot.lleno { border-style:solid; }
+.memo-opciones { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+.memo-opcion { width:40px; height:40px; background:#fff; border:2px solid var(--azul); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.memo-opcion:hover { transform: translateY(-2px); box-shadow:0 6px 12px rgba(0,0,0,0.20); }
+.memo-opcion.usado { opacity:0.3; pointer-events:none; }
+
+/* === PARADA 2 · COOPERACIÓN · transporte del globo === */
+.rio-host { width:100%; height:220px; background: linear-gradient(180deg, #1e6b9a 0%, #2a8fc4 60%, #1e6b9a 100%); border:4px solid #fff; border-radius:24px; position:relative; overflow:hidden; }
+.rio-host::before, .rio-host::after { content:""; position:absolute; left:0; right:0; height:32px; background: repeating-linear-gradient(90deg, transparent 0 30px, rgba(255,255,255,0.4) 30px 36px, transparent 36px 60px); }
+.rio-host::before { top:8px; }
+.rio-host::after { bottom:8px; }
+.rio-camino { position:absolute; left:5%; right:5%; top:30%; bottom:30%; background: rgba(255,255,255,0.15); border:2px dashed rgba(255,255,255,0.50); border-radius:24px; }
+.rio-globo { position:absolute; width:54px; height:54px; left:8%; top:50%; transform: translateY(-50%); font-size:42px; cursor:grab; user-select:none; transition: filter 0.2s; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.30)); z-index:5; }
+.rio-globo:active { cursor:grabbing; }
+.rio-globo.error { filter: drop-shadow(0 0 8px var(--rojo)); animation: globoError 0.5s ease-in-out 2; }
+@keyframes globoError { 0%,100%{transform:translateY(-50%);} 25%{transform:translateY(-50%) translateX(-12px);} 75%{transform:translateY(-50%) translateX(12px);} }
+.rio-meta { position:absolute; right:3%; top:50%; transform: translateY(-50%); font-size:36px; }
+.rio-progress { width:100%; height:8px; background: #f1e5f3; border-radius:4px; overflow:hidden; margin-top:14px; border:2px solid var(--morado); }
+.rio-progress .barra { height:100%; background:var(--grad-aventura); width:0%; transition: width 0.3s; }
+
+/* === PARADA 3 · BOSQUE NÚMEROS === */
+.bosque-host { width:100%; height:240px; background: var(--grad-bosque); border:3px solid #1f3a26; border-radius:20px; position:relative; overflow:hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.40); }
+.bosque-host .arbol-decor { position:absolute; font-size:50px; opacity:0.85; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.50)); }
+.bosque-numero { position:absolute; width:60px; height:60px; background: var(--amarillo); border:3px solid var(--negro); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:32px; color:var(--negro); cursor:pointer; transition: opacity 0.3s, transform 0.3s; box-shadow: 0 6px 14px rgba(0,0,0,0.40); z-index:3; }
+.bosque-numero.hover-ok { box-shadow: 0 0 0 4px var(--verde), 0 6px 14px rgba(0,0,0,0.40); }
+.bosque-numero.escondido { opacity:0.20; background:#444; color: transparent; }
+.bosque-secuencia { display:flex; gap:8px; justify-content:center; margin-top:12px; }
+.bosque-secuencia .sec-slot { width:38px; height:38px; background:#fff; border:2.5px dashed var(--morado); border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:22px; color:var(--morado); }
+.bosque-secuencia .sec-slot.lleno { border-style:solid; background: var(--crema); }
+
+/* Teclado numérico de respuesta · Parada 3 */
+.teclado-numerico { display:grid; grid-template-columns: repeat(5, 1fr); gap:6px; max-width:380px; margin: 12px auto 0; }
+.teclado-numerico .tecla { background: var(--grad-aventura); color:#fff; border:0; border-radius:12px; padding:14px 0; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:26px; cursor:pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.25); transition: transform 0.15s, filter 0.15s; touch-action: manipulation; }
+.teclado-numerico .tecla:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.teclado-numerico .tecla:active { filter: brightness(0.9); }
+.teclado-numerico .tecla:disabled { opacity:0.4; cursor:not-allowed; pointer-events:none; }
+@media (max-height: 720px) { .teclado-numerico { gap:4px; } .teclado-numerico .tecla { padding:10px 0; font-size:22px; } }
+
+/* === PARADA 4 · MOCHILA === */
+.mochila-grid { display:grid; grid-template-columns: 1fr 1fr; gap:20px; align-items:start; margin-top:8px; }
+.items-disponibles { background: var(--crema); border:2.5px solid var(--naranja); border-radius:18px; padding:14px; }
+.items-disponibles h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:14px; color:var(--rojo); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.items-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:8px; }
+.items-grid .item-pick { background:#fff; border:2.5px solid var(--morado); border-radius:12px; padding:8px 4px; font-size:30px; cursor:pointer; transition: transform 0.2s, opacity 0.2s; display:flex; flex-direction:column; align-items:center; gap:2px; }
+.items-grid .item-pick small { font-size:10px; font-weight:800; font-style:italic; color:var(--morado); }
+.items-grid .item-pick:hover { transform: translateY(-3px); }
+.items-grid .item-pick.usado { opacity:0.25; pointer-events:none; }
+.mochila-visual { background: linear-gradient(135deg, #6b421f 0%, #8a5a2e 50%, #6b421f 100%); border:4px solid #4a2e10; border-radius:18px 18px 28px 28px; padding:16px 12px; min-height:240px; position:relative; box-shadow: inset 0 6px 14px rgba(0,0,0,0.40); }
+.mochila-visual h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:14px; color:#fff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; text-align:center; text-shadow: 0 2px 4px rgba(0,0,0,0.40); }
+.mochila-visual .items-cogidos { display:grid; grid-template-columns: repeat(3,1fr); gap:6px; }
+.mochila-visual .item-cogido { background:#fff; border-radius:10px; padding:6px 4px; font-size:24px; text-align:center; display:flex; flex-direction:column; gap:2px; align-items:center; animation: mochilaIn 0.5s var(--ease-back) both; }
+.mochila-visual .item-cogido small { font-size:9px; font-weight:800; font-style:italic; color:var(--morado); }
+@keyframes mochilaIn { from{opacity:0; transform: scale(0.5);} to{opacity:1; transform:scale(1);} }
+.mochila-visual .contador { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: var(--amarillo); color: var(--negro); padding:4px 12px; border-radius:999px; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:12px; }
+
+/* INSIGNIAS · contador en topbar y vista en mapa */
+.insignia-pill { display:flex; gap:4px; }
+.insignia-pill .ins-dot { width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid var(--morado); display:flex; align-items:center; justify-content:center; font-size:11px; }
+.insignia-pill .ins-dot.got { background:var(--amarillo); border-color:var(--naranja); }
+
+/* PANTALLA FINAL */
+#scene-final { background: var(--grad-aventura); position:relative; overflow:hidden; }
+.final-card { background:#fff; color:var(--negro); padding:32px 36px; border-radius:28px; box-shadow:0 30px 70px rgba(0,0,0,0.50); text-align:center; max-width:680px; z-index:3; position:relative; }
+.final-card h1 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:42px; line-height:1.05; color:var(--morado); text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:12px; }
+.final-card p { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:18px; color:var(--negro); line-height:1.4; }
+.final-avatar-mochila { display:flex; flex-direction:column; align-items:center; margin:14px 0; }
+.final-avatar-mochila img { width:200px; height:200px; object-fit:contain; filter: drop-shadow(0 14px 22px rgba(0,0,0,0.40)); }
+.final-insignias { display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap; }
+.final-insignias .ins { font-size:34px; animation: insBounce 0.7s var(--ease-back) both; }
+.final-insignias .ins:nth-child(2){animation-delay:0.2s;}
+.final-insignias .ins:nth-child(3){animation-delay:0.4s;}
+.final-insignias .ins:nth-child(4){animation-delay:0.6s;}
+@keyframes insBounce { from{opacity:0; transform:translateY(20px) scale(0.5);} to{opacity:1; transform:translateY(0) scale(1);} }
+
+.confetti { position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden; }
+.confetti .c { position:absolute; width:10px; height:10px; animation: confFall 3s linear infinite; }
+@keyframes confFall { 0%{top:-10%; transform:rotate(0); opacity:0;} 10%{opacity:1;} 100%{top:110%; transform:rotate(720deg); opacity:0;} }
+
+/* ===== MEDIA QUERY BASE · obligatoria para responsive en laptop 1366×720 ===== */
+@media (max-height: 760px) {
+  .scene { padding: 10px; }
+  .act-host { padding: 14px 18px; max-height: 90vh; }
+  .act-host h2 { font-size: 24px; margin-bottom: 4px; }
+  .act-host .lead { font-size: 13px; margin-bottom: 8px; line-height: 1.3; }
+  .btn { padding: 10px 22px; font-size: 15px; }
+  .btn.sm { padding: 7px 16px; font-size: 12px; }
+  .title { font-size: 36px; }
+  /* Portada */
+  .portada-img { max-height: 38vh; }
+  .portada-titulo { font-size: 32px; margin: 8px 0; }
+  .portada-narrativa { font-size: 13px; padding: 10px 16px; margin-bottom: 12px; }
+  /* Avatar */
+  .avatar-host h2 { font-size: 24px; }
+  .avatar-host p { font-size: 14px; margin-bottom: 14px; }
+  .avatar-card img { height: 180px; }
+  /* Mapa */
+  .mapa-host h2 { font-size: 22px; margin-bottom: 8px; }
+  .mapa-svg { height: min(48vh, 320px); }
+  /* NO sobreescribir .mapa-avatar-mini aquí · se gestiona en su propia media query */
+  /* Parada 1 */
+  .piramide-display { gap: 3px; margin: 4px 0; }
+  .piramide-fila .obj { width: 34px; height: 34px; font-size: 22px; }
+  .memo-respuesta { padding: 8px; margin: 6px 0; }
+  .memo-respuesta-fila .slot { width: 30px; height: 30px; font-size: 18px; }
+  .memo-opcion { width: 34px; height: 34px; font-size: 20px; }
+  /* Parada 2 */
+  .rio-host { height: 160px; }
+  /* Parada 3 */
+  .bosque-host { height: 180px; }
+  .bosque-numero { width: 48px; height: 48px; font-size: 26px; }
+  .bosque-secuencia .sec-slot { width: 32px; height: 32px; font-size: 18px; }
+  /* Parada 4 */
+  .items-disponibles, .mochila-visual { padding: 10px; }
+  .items-grid .item-pick { font-size: 24px; padding: 5px 2px; }
+  .mochila-visual { min-height: 200px; }
+  .mochila-visual .item-cogido { font-size: 20px; padding: 4px 2px; }
+  /* Final */
+  .final-card { padding: 22px 26px; }
+  .final-card h1 { font-size: 30px; }
+  .final-card p { font-size: 15px; }
+  .final-avatar-mochila img { width: 110px; height: 110px; }
+  .final-insignias .ins { font-size: 26px; }
+  /* Pegasusito fullscreen también */
+  .pega-protagonista { width: 240px; height: 240px; }
+  .historia-bocadillo-pro { padding: 22px 26px; }
+  .historia-bocadillo-pro h3 { font-size: 22px; margin-bottom: 12px; }
+  .historia-bocadillo-pro .texto-historia { font-size: 15px; min-height: 60px; margin-bottom: 16px; }
+}
+@media (max-height: 620px) {
+  .scene { padding: 6px; }
+  .act-host { padding: 10px 14px; }
+  .act-host h2 { font-size: 20px; }
+  .act-host .lead { font-size: 12px; margin-bottom: 4px; }
+  .piramide-fila .obj { width: 28px; height: 28px; font-size: 18px; }
+  .memo-opcion { width: 30px; height: 30px; font-size: 18px; }
+  .bosque-host { height: 130px; }
+  .rio-host { height: 120px; }
+  .mapa-svg { height: 200px; }
+  .pega-protagonista { width: 180px; height: 180px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Árboles laterales (en lugar de palmeras) -->
+<svg class="arbol izq" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 100 320 L 95 200 L 105 200 L 100 320 Z" fill="#5a3a1c" stroke="#3a2410" stroke-width="2"/>
+  <ellipse cx="100" cy="180" rx="75" ry="70" fill="#2d5234"/>
+  <ellipse cx="60" cy="140" rx="40" ry="38" fill="#4a7c50"/>
+  <ellipse cx="140" cy="140" rx="40" ry="38" fill="#4a7c50"/>
+  <ellipse cx="100" cy="110" rx="50" ry="45" fill="#1f3a26"/>
+  <ellipse cx="90" cy="170" rx="55" ry="20" fill="#1f3a26" opacity="0.6"/>
+</svg>
+<svg class="arbol der" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 100 320 L 95 200 L 105 200 L 100 320 Z" fill="#5a3a1c" stroke="#3a2410" stroke-width="2"/>
+  <ellipse cx="100" cy="180" rx="75" ry="70" fill="#2d5234"/>
+  <ellipse cx="60" cy="140" rx="40" ry="38" fill="#4a7c50"/>
+  <ellipse cx="140" cy="140" rx="40" ry="38" fill="#4a7c50"/>
+  <ellipse cx="100" cy="110" rx="50" ry="45" fill="#1f3a26"/>
+  <ellipse cx="110" cy="170" rx="55" ry="20" fill="#1f3a26" opacity="0.6"/>
+</svg>
+
+<!-- Branding Pegasus en TODAS las pantallas -->
+<a class="brand-logo" href="#">
+  <img src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+</a>
+
+<div class="topbar">
+  <span class="badge" style="margin-left:auto;">🎒 Papás al Juego · Psicología</span>
+  <div class="right-grp">
+    <button class="btn ghost sm" id="btnMute" onclick="toggleMute()" title="Silenciar">🔊</button>
+    <span class="progress"><span id="insigniasContador">0</span> / 4 insignias</span>
+  </div>
+</div>
+
+<!-- Toast informativo -->
+<div class="info-toast hidden" id="infoToast">
+  <span class="info-ico">💡</span>
+  <span class="info-text" id="infoText"></span>
+</div>
+
+<!-- Pantalla Pegasusito fullscreen -->
+<div class="historia-fullscreen" id="historiaModal">
+  <div class="historia-stage">
+    <div class="pega-protagonista">
+      <img id="pegaProtaImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+    </div>
+    <div class="historia-bocadillo-pro">
+      <h3 id="historiaTitulo">…</h3>
+      <div class="texto-historia" id="historiaTexto">…</div>
+      <div class="historia-cta-row">
+        <button class="btn warm" id="historiaCtaBtn" onclick="cerrarHistoria()">▶ ¡VAMOS!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="stage">
+
+  <!-- ESCENA PORTADA con escenario como fondo cover -->
+  <section class="scene active" id="scene-portada">
+    <div class="portada-card">
+      <h1 class="portada-titulo">El Gran Viaje<br><span class="accent">del Explorador</span></h1>
+      <div class="portada-narrativa">
+        Todo viaje comienza con un primer paso. A lo largo de este camino descubrirás habilidades, superarás desafíos y conseguirás insignias que te ayudarán a preparar tu mochila para la aventura que te espera.
+      </div>
+      <button class="btn warm" onclick="abrirEleccionAvatar()">▶ EMPEZAR LA AVENTURA</button>
+    </div>
+  </section>
+
+  <!-- ESCENA ELECCIÓN AVATAR -->
+  <section class="scene" id="scene-avatar">
+    <div class="avatar-host">
+      <h2>Elige tu Explorador</h2>
+      <p>Antes de comenzar tu viaje, elige al explorador o exploradora que te acompañará durante toda la aventura.</p>
+      <div class="avatar-grid">
+        <div class="avatar-card" id="avatarNino" onclick="elegirAvatar('nino')">
+          <img src="assets/avatar-nino.png" alt="Explorador">
+          <div class="name">Explorador</div>
+        </div>
+        <div class="avatar-card" id="avatarNina" onclick="elegirAvatar('nina')">
+          <img src="assets/avatar-nina.png" alt="Exploradora">
+          <div class="name">Exploradora</div>
+        </div>
+      </div>
+      <button class="btn warm" id="btnAvatarConfirm" disabled style="margin-top:24px;" onclick="confirmarAvatar()">▶ ¡COMENZAR EL VIAJE!</button>
+    </div>
+  </section>
+
+  <!-- ESCENA MAPA -->
+  <section class="scene" id="scene-mapa">
+    <div class="mapa-host">
+      <h2>Mapa del Viaje</h2>
+      <div class="mapa-svg-wrap">
+        <svg class="mapa-svg" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid meet">
+          <!-- Sendero amplio que cubre todo el ancho -->
+          <path class="sendero" d="M 230 360 Q 420 240 600 320 Q 820 410 1000 230 Q 1190 70 1370 170"/>
+          <!-- Parada 1 · MEMORIA -->
+          <g class="parada-g" data-i="0" onclick="abrirParada(0)" style="cursor:pointer;">
+            <circle class="parada-circle" cx="230" cy="360" r="92" fill="#974694"/>
+            <text class="parada-icono" x="230" y="380">⛰️</text>
+            <rect class="parada-label-bg" x="110" y="466" width="240" height="56" rx="28"/>
+            <text class="parada-label" x="230" y="504">MEMORIA</text>
+          </g>
+          <!-- Parada 2 · COOPERACIÓN -->
+          <g class="parada-g" data-i="1" onclick="abrirParada(1)" style="cursor:pointer;">
+            <circle class="parada-circle" cx="600" cy="320" r="92" fill="#007ec3"/>
+            <text class="parada-icono" x="600" y="340">🌊</text>
+            <rect class="parada-label-bg" x="460" y="426" width="280" height="56" rx="28"/>
+            <text class="parada-label" x="600" y="464">COOPERACIÓN</text>
+          </g>
+          <!-- Parada 3 · ATENCIÓN -->
+          <g class="parada-g" data-i="2" onclick="abrirParada(2)" style="cursor:pointer;">
+            <circle class="parada-circle" cx="1000" cy="230" r="92" fill="#08b75b"/>
+            <text class="parada-icono" x="1000" y="250">🌲</text>
+            <rect class="parada-label-bg" x="880" y="336" width="240" height="56" rx="28"/>
+            <text class="parada-label" x="1000" y="374">ATENCIÓN</text>
+          </g>
+          <!-- Parada 4 · MOCHILA -->
+          <g class="parada-g" data-i="3" onclick="abrirParada(3)" style="cursor:pointer;">
+            <circle class="parada-circle" cx="1370" cy="170" r="92" fill="#e45e9b"/>
+            <text class="parada-icono" x="1370" y="190">🎒</text>
+            <rect class="parada-label-bg" x="1250" y="276" width="240" height="56" rx="28"/>
+            <text class="parada-label" x="1370" y="314">MOCHILA</text>
+          </g>
+        </svg>
+        <div class="mapa-avatar-mini" id="mapaAvatar">
+          <img id="mapaAvatarImg" src="assets/avatar-nino.png" alt="Explorador">
+        </div>
+      </div>
+      <p style="color:#fff; font-family:Barlow; font-style:italic; font-weight:700; font-size:14px; margin-top:14px; opacity:0.9;">
+        🎯 Cada parada te dará una insignia para tu mochila. Recórrelas en orden.
+      </p>
+    </div>
+  </section>
+
+  <!-- PARADA 1 · MONTAÑA DE LOS RECUERDOS · MEMORIZA -->
+  <section class="scene" id="scene-parada-0">
+    <div class="theme-rain" id="rainP0"></div>
+    <div class="act-host">
+      <h2>⛰️ Montaña de los Recuerdos</h2>
+      <div class="lead" id="leadP0">Memoriza la pirámide de objetos. Cuando desaparezca, recréala en orden.</div>
+      <div class="piramide-display" id="piramideDisplay"></div>
+      <div class="memo-respuesta" id="memoRespuesta" style="display:none;">
+        <div style="font-family:Barlow; font-weight:900; font-style:italic; font-size:12px; color:var(--morado); text-transform:uppercase;">Reconstruye la pirámide:</div>
+        <div id="memoSlots" style="display:flex; flex-direction:column; gap:4px; align-items:center;"></div>
+        <div class="memo-opciones" id="memoOpciones"></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap;">
+        <button class="btn warm" id="btnMemorizar" onclick="iniciarRespuestaMemo()">▶ YA LO HE MEMORIZADO</button>
+        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARADA 2 · RÍO COOPERACIÓN -->
+  <section class="scene" id="scene-parada-1">
+    <div class="theme-rain" id="rainP1"></div>
+    <div class="act-host">
+      <h2>🌊 Río de la Cooperación</h2>
+      <div class="lead">Transporta el 🎈 globo hasta el otro lado del río <b>sin salirte del camino marcado</b>. Arrastra el globo con el dedo o ratón.</div>
+      <div class="rio-host" id="rioHost">
+        <div class="rio-camino"></div>
+        <div class="rio-globo" id="rioGlobo">🎈</div>
+        <div class="rio-meta">🏁</div>
+      </div>
+      <div class="rio-progress"><div class="barra" id="rioBarra"></div></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;">
+        <button class="btn ghost sm" onclick="resetRio()">🔁 Reiniciar</button>
+        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARADA 3 · BOSQUE NÚMEROS PERDIDOS -->
+  <section class="scene" id="scene-parada-2">
+    <div class="theme-rain" id="rainP2"></div>
+    <div class="act-host">
+      <h2>🌲 Bosque de los Números Perdidos</h2>
+      <div class="lead" id="leadP2">Mira la secuencia de números que aparecen en el bosque. Luego pulsa los <b>botones de abajo</b> en el MISMO orden.</div>
+      <div class="bosque-host" id="bosqueHost"></div>
+      <div class="bosque-secuencia" id="bosqueSecuencia"></div>
+      <!-- Teclado numérico de respuesta -->
+      <div class="teclado-numerico" id="tecladoNumerico"></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+        <button class="btn warm" id="btnVerSecuencia" onclick="mostrarSecuenciaBosque()">▶ VER SECUENCIA</button>
+        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARADA 4 · COLINA DE LA MOCHILA -->
+  <section class="scene" id="scene-parada-3">
+    <div class="theme-rain" id="rainP3"></div>
+    <div class="act-host" style="max-width:min(94vw, 940px);">
+      <h2>🎒 La Mochila que me llevo</h2>
+      <div class="lead">Toca <b>4 cosas</b> que quieras llevarte de este viaje. Pueden ser personas, recuerdos, fortalezas, lo que tú elijas.</div>
+      <div class="mochila-grid">
+        <div class="items-disponibles">
+          <h3>¿Qué te llevas?</h3>
+          <div class="items-grid" id="itemsGrid"></div>
+        </div>
+        <div class="mochila-visual">
+          <h3>🎒 Tu mochila</h3>
+          <div class="items-cogidos" id="itemsCogidos"></div>
+          <div class="contador"><span id="mochilaContador">0</span> / 4</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap;">
+        <button class="btn warm" id="btnMochilaLista" disabled onclick="ganarParada(3)">✓ MI MOCHILA ESTÁ LISTA</button>
+        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA FINAL -->
+  <section class="scene" id="scene-final">
+    <div class="final-card">
+      <h1>¡Lo he conseguido!</h1>
+      <p>He completado mi viaje y ahora llevo conmigo todo lo que necesito para seguir explorando nuevos caminos.</p>
+      <div class="final-avatar-mochila">
+        <img id="finalAvatarImg" src="assets/avatar-nino.png" alt="Explorador">
+        <div class="final-insignias">
+          <span class="ins">🧠</span>
+          <span class="ins">🤝</span>
+          <span class="ins">🔢</span>
+          <span class="ins">💝</span>
+        </div>
+      </div>
+      <p style="font-size:15px; font-style:italic; color:var(--gris-texto, #666); margin-top:8px;">
+        Cada aventura nos enseña algo nuevo. Tu viaje no termina aquí.<br><b>Esto es solo el comienzo.</b>
+      </p>
+      <button class="btn warm" style="margin-top:18px;" onclick="resetTodo()">🔁 OTRO VIAJE</button>
+    </div>
+  </section>
+
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+const PEGA_PATH = '../shared/pegasusito/';
+
+// ===== AUDIO =====
+const AC = window.AudioContext || window.webkitAudioContext;
+let ctx = null;
+function ensureCtx(){ if(!ctx) ctx = new AC(); return ctx; }
+function tone(freq, dur, type='sine', vol=0.18){
+  const c = ensureCtx();
+  const o = c.createOscillator(); const g = c.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, c.currentTime);
+  g.gain.setValueAtTime(vol, c.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(c.currentTime); o.stop(c.currentTime + dur);
+}
+const snd = {
+  tap:   () => tone(660, 0.10, 'triangle'),
+  pop:   () => tone(880, 0.08, 'square', 0.15),
+  win:   () => { tone(660,0.10); setTimeout(()=>tone(880,0.10),100); setTimeout(()=>tone(1175,0.18),200); },
+  fanf:  () => { [523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,0.20,'square',0.15), i*120)); },
+  error: () => tone(140, 0.20, 'sawtooth', 0.18),
+  flip:  () => { tone(300,0.05,'square',0.10); setTimeout(()=>tone(220,0.06,'square',0.10),50); },
+  splash:() => { tone(800,0.05,'sine',0.15); setTimeout(()=>tone(400,0.10,'sine',0.10),50); }
+};
+let muted = false;
+function toggleMute(){
+  muted = !muted;
+  document.getElementById('btnMute').textContent = muted ? '🔇' : '🔊';
+  if (muted && ctx) ctx.suspend(); else if (ctx) ctx.resume();
+}
+
+// ===== ESTADO =====
+const state = {
+  avatar: null,             // 'nino' | 'nina'
+  insignias: [false, false, false, false],  // 4 paradas
+  paradaActual: null
+};
+
+// Posiciones del avatar en el mapa según parada (índice 0-3)
+// Calculadas para que el centro del avatar coincida con cada parada del SVG (1600x500 viewBox)
+// Parada 1 cx=230  → 230/1600 ≈ 14% del ancho del SVG (que ocupa todo el wrap)
+// Parada 2 cx=600  → 600/1600 ≈ 37%
+// Parada 3 cx=1000 → 1000/1600 ≈ 62%
+// Parada 4 cx=1370 → 1370/1600 ≈ 86%
+// El avatar es 200x200 y queremos que su CENTRO coincida con la parada → restamos 100/wrap_ancho
+// Como wrap_ancho varía, usamos translate(-50%,-50%) en CSS
+const MAPA_AVATAR_POS = [
+  { left: '14%',  top: '72%' },
+  { left: '37%',  top: '64%' },
+  { left: '62%',  top: '46%' },
+  { left: '86%',  top: '34%' }
+];
+
+// ===== NAVEGACIÓN =====
+function go(id) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  const t = document.getElementById('scene-' + id);
+  if (t) t.classList.add('active');
+  snd.tap();
+  const host = document.querySelector('#scene-' + id + ' .act-host');
+  if (host) { host.style.animation = 'none'; void host.offsetWidth; host.style.animation = ''; }
+  if (id === 'mapa') actualizarMapa();
+  if (id === 'parada-0') renderRain('rainP0', ['⛰️','🪨','🌿','🦅'], 16);
+  if (id === 'parada-1') renderRain('rainP1', ['💧','🐟','🪷','🌊'], 16);
+  if (id === 'parada-2') renderRain('rainP2', ['🌲','🌳','🍄','🦌'], 16);
+  if (id === 'parada-3') renderRain('rainP3', ['🎒','⭐','💝','🗺️'], 16);
+}
+
+// ===== PEGASUSITO PROTAGONISTA =====
+let pegaCallback = null;
+function setPegaPose(pose) {
+  const img = document.getElementById('pegaProtaImg');
+  if (img) img.src = PEGA_PATH + 'pegasusito-' + pose + '.png';
+}
+function mostrarPantallaPegasusito({ titulo, texto, pose='saludando', cta='▶ CONTINUAR', onContinuar=null }) {
+  document.getElementById('historiaTitulo').textContent = titulo;
+  document.getElementById('historiaTexto').textContent = texto;
+  document.getElementById('historiaCtaBtn').textContent = cta;
+  setPegaPose(pose);
+  pegaCallback = onContinuar;
+  document.getElementById('historiaModal').classList.add('show');
+  snd.flip();
+}
+function cerrarHistoria() {
+  document.getElementById('historiaModal').classList.remove('show');
+  const cb = pegaCallback;
+  pegaCallback = null;
+  if (cb) cb();
+}
+
+// ===== TOAST =====
+let toastTimer = null;
+function toast(texto, duracion = 3000) {
+  const cont = document.getElementById('infoToast');
+  document.getElementById('infoText').textContent = texto;
+  cont.classList.remove('hidden');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> cont.classList.add('hidden'), duracion);
+}
+
+// ===== LLUVIA TEMÁTICA =====
+function renderRain(hostId, items, n=18) {
+  const host = document.getElementById(hostId);
+  if (!host) return;
+  host.innerHTML = '';
+  for (let i=0; i<n; i++) {
+    const el = document.createElement('div');
+    el.className = 'it';
+    el.textContent = items[i % items.length];
+    el.style.left = (Math.random()*100)+'%';
+    el.style.animationDelay = (Math.random()*2.5)+'s';
+    el.style.animationDuration = (2 + Math.random()*2)+'s';
+    el.style.fontSize = (32 + Math.random()*22)+'px';
+    host.appendChild(el);
+  }
+}
+
+// ===== AVATAR =====
+function abrirEleccionAvatar() {
+  mostrarPantallaPegasusito({
+    titulo: '¿Listo para la aventura?',
+    texto: 'Antes de comenzar el viaje, elige al explorador o exploradora que te acompañará durante toda la aventura.',
+    pose: 'explorador',
+    cta: '▶ ELEGIR EXPLORADOR',
+    onContinuar: () => go('avatar')
+  });
+}
+function elegirAvatar(av) {
+  state.avatar = av;
+  document.getElementById('avatarNino').classList.toggle('selected', av === 'nino');
+  document.getElementById('avatarNina').classList.toggle('selected', av === 'nina');
+  document.getElementById('btnAvatarConfirm').disabled = false;
+  snd.pop();
+}
+function confirmarAvatar() {
+  if (!state.avatar) return;
+  // Actualizar avatar en mapa y final
+  const src = 'assets/avatar-' + state.avatar + '.png';
+  document.getElementById('mapaAvatarImg').src = src;
+  document.getElementById('finalAvatarImg').src = src;
+  mostrarPantallaPegasusito({
+    titulo: '¡Comienza la gran aventura!',
+    texto: 'Frente a ti se abre un camino lleno de desafíos. Durante el viaje conseguirás insignias especiales que guardarás en tu mochila. ¡Ponte la mochila y empecemos!',
+    pose: 'explorador',
+    cta: '▶ ¡VAMOS AL MAPA!',
+    onContinuar: () => go('mapa')
+  });
+}
+
+// ===== MAPA =====
+function actualizarMapa() {
+  document.querySelectorAll('.parada-g .parada-circle').forEach((c, i) => {
+    c.classList.toggle('completada', state.insignias[i]);
+    // Solo se desbloquea la siguiente sin completar
+    const debeLockear = !state.insignias[i] && i > 0 && !state.insignias[i-1];
+    c.classList.toggle('locked', debeLockear);
+  });
+  // Posicionar avatar en la siguiente parada no completada
+  const sig = state.insignias.findIndex(v => !v);
+  const idx = sig === -1 ? 3 : sig;
+  const pos = MAPA_AVATAR_POS[idx];
+  const av = document.getElementById('mapaAvatar');
+  av.style.left = pos.left;
+  av.style.top = pos.top;
+  // Contador insignias
+  document.getElementById('insigniasContador').textContent = state.insignias.filter(Boolean).length;
+}
+
+const PARADAS_INFO = [
+  {
+    titulo: '⛰️ Montaña de los Recuerdos',
+    historia: 'Los grandes exploradores observan con atención todo lo que encuentran en el camino. Mira la pirámide de objetos. Después tendrás que reconstruirla con tu memoria.',
+    pose: 'pensativo',
+    cta: '▶ A MEMORIZAR'
+  },
+  {
+    titulo: '🌊 Río de la Cooperación',
+    historia: 'Las aguas son profundas. Sólo los exploradores que colaboran pueden cruzar. Transporta el globo hasta el otro lado sin salir del camino. Un gran explorador nunca viaja solo.',
+    pose: 'trabajando',
+    cta: '▶ CRUZAR EL RÍO'
+  },
+  {
+    titulo: '🌲 Bosque de los Números Perdidos',
+    historia: 'Los guardianes del bosque te mostrarán una secuencia de números durante unos segundos. Después desaparecerán. Para seguir, tendrás que reproducir la secuencia exacta.',
+    pose: 'curioso',
+    cta: '▶ AL BOSQUE'
+  },
+  {
+    titulo: '🎒 La Colina de la Mochila',
+    historia: 'Has llegado al final del camino. Antes de continuar, piensa en lo que quieres llevarte de este viaje: personas, recuerdos, fortalezas, aprendizajes. Todo gran explorador guarda aquello que le ayuda a seguir adelante.',
+    pose: 'pensativo',
+    cta: '▶ PREPARAR MOCHILA'
+  }
+];
+
+function abrirParada(i) {
+  // Comprobar orden secuencial
+  if (i > 0 && !state.insignias[i-1]) {
+    toast('Primero hay que completar la parada anterior.');
+    return;
+  }
+  if (state.insignias[i]) {
+    toast('Esta parada ya la has completado.');
+    return;
+  }
+  state.paradaActual = i;
+  const info = PARADAS_INFO[i];
+  mostrarPantallaPegasusito({
+    titulo: info.titulo,
+    texto: info.historia,
+    pose: info.pose,
+    cta: info.cta,
+    onContinuar: () => {
+      go('parada-' + i);
+      if (i === 0) montarMontana();
+      if (i === 1) montarRio();
+      if (i === 2) montarBosque();
+      if (i === 3) montarMochila();
+    }
+  });
+}
+
+// ===== GANAR PARADA =====
+function ganarParada(i) {
+  state.insignias[i] = true;
+  snd.fanf();
+  const mensajes = [
+    { tit: '¡Insignia de Memoria!', txt: 'Has reconstruido la pirámide. Tu memoria es tu primer tesoro.', pose:'celebrando', cta:'▶ A POR LA SIGUIENTE' },
+    { tit: '¡Insignia de Cooperación!', txt: 'Has cruzado el río juntos. Trabajar en equipo te ha llevado al otro lado.', pose:'celebrando', cta:'▶ AL BOSQUE' },
+    { tit: '¡Insignia de Atención!', txt: 'Has descifrado la secuencia secreta del bosque. Tu atención y tu memoria son tus aliadas.', pose:'celebrando', cta:'▶ A LA COLINA' },
+    { tit: '¡Insignia de Reflexión!', txt: 'Has preparado tu mochila con lo que de verdad importa. Estás listo para seguir explorando.', pose:'celebrando', cta:'▶ AL FINAL' }
+  ];
+  const m = mensajes[i];
+  setTimeout(()=> {
+    mostrarPantallaPegasusito({
+      titulo: m.tit, texto: m.txt, pose: m.pose, cta: m.cta,
+      onContinuar: () => {
+        if (i === 3) {
+          go('final');
+          launchConfetti();
+        } else {
+          go('mapa');
+        }
+      }
+    });
+  }, 600);
+}
+
+// ============================================================
+// PARADA 1 · MONTAÑA · MEMORIZA pirámide de objetos
+// ============================================================
+const OBJ_POOL = ['🌟','🍎','🔑','🦋','🌸','🐚','🎈','⚡','🍀','🌙','🔮','🎁'];
+let piramideObjetos = []; // los 6 a memorizar
+let memoSlotsArr = [];    // los del peque
+
+function generarPiramide() {
+  // 3 filas: 1 + 2 + 3 = 6 objetos
+  const shuffled = [...OBJ_POOL].sort(() => Math.random() - 0.5);
+  piramideObjetos = shuffled.slice(0, 6);
+}
+function pintarPiramide(visible) {
+  const host = document.getElementById('piramideDisplay');
+  host.innerHTML = '';
+  const filas = [[0], [1,2], [3,4,5]];
+  filas.forEach(fila => {
+    const f = document.createElement('div');
+    f.className = 'piramide-fila';
+    fila.forEach(idx => {
+      const o = document.createElement('div');
+      o.className = 'obj' + (visible ? '' : ' oculto');
+      o.textContent = visible ? piramideObjetos[idx] : '?';
+      f.appendChild(o);
+    });
+    host.appendChild(f);
+  });
+}
+function montarMontana() {
+  generarPiramide();
+  pintarPiramide(true);
+  document.getElementById('memoRespuesta').style.display = 'none';
+  document.getElementById('btnMemorizar').style.display = '';
+  document.getElementById('leadP0').innerHTML = '🧠 <b>Memoriza la pirámide</b>. Cuando creas que la tienes, pulsa el botón.';
+}
+function iniciarRespuestaMemo() {
+  pintarPiramide(false);
+  document.getElementById('memoRespuesta').style.display = 'flex';
+  document.getElementById('btnMemorizar').style.display = 'none';
+  document.getElementById('leadP0').innerHTML = '🎯 <b>Reconstruye la pirámide</b>. Toca cada objeto en el mismo orden que viste (de arriba abajo, de izquierda a derecha).';
+  // Slots
+  memoSlotsArr = Array(6).fill(null);
+  pintarSlots();
+  // Opciones (los 6 reales + 2 distractores mezclados)
+  const distractores = OBJ_POOL.filter(o => !piramideObjetos.includes(o)).slice(0,2);
+  const opciones = [...piramideObjetos, ...distractores].sort(() => Math.random() - 0.5);
+  const op = document.getElementById('memoOpciones');
+  op.innerHTML = '';
+  opciones.forEach(emoji => {
+    const b = document.createElement('div');
+    b.className = 'memo-opcion';
+    b.textContent = emoji;
+    b.onclick = () => elegirObjMemo(emoji, b);
+    op.appendChild(b);
+  });
+}
+function pintarSlots() {
+  const filas = [[0], [1,2], [3,4,5]];
+  const host = document.getElementById('memoSlots');
+  host.innerHTML = '';
+  filas.forEach(fila => {
+    const f = document.createElement('div');
+    f.className = 'memo-respuesta-fila';
+    fila.forEach(idx => {
+      const s = document.createElement('div');
+      s.className = 'slot' + (memoSlotsArr[idx] ? ' lleno' : '');
+      s.textContent = memoSlotsArr[idx] || (idx + 1);
+      f.appendChild(s);   // ← FIX: añadir a la fila, no al host
+    });
+    host.appendChild(f);
+  });
+}
+function elegirObjMemo(emoji, btnEl) {
+  const idx = memoSlotsArr.findIndex(v => v === null);
+  if (idx === -1) return;
+  memoSlotsArr[idx] = emoji;
+  btnEl.classList.add('usado');
+  snd.pop();
+  pintarSlots();
+  // Si está completa, comprobar
+  if (memoSlotsArr.every(v => v !== null)) {
+    setTimeout(comprobarMemo, 400);
+  }
+}
+function comprobarMemo() {
+  const correcto = piramideObjetos.every((v, i) => memoSlotsArr[i] === v);
+  if (correcto) {
+    ganarParada(0);
+  } else {
+    snd.error();
+    toast('❌ Casi. Vuelve a intentarlo.', 2500);
+    setTimeout(() => {
+      montarMontana(); // vuelve a empezar con nueva pirámide
+    }, 1500);
+  }
+}
+
+// ============================================================
+// PARADA 2 · RÍO · transportar el globo
+// ============================================================
+let rioPaso = 0;
+let rioDrag = false;
+const RIO_PASOS = 100;
+
+function montarRio() {
+  resetRio();
+  const host = document.getElementById('rioHost');
+  const globo = document.getElementById('rioGlobo');
+
+  function startDrag(e) {
+    rioDrag = true;
+    e.preventDefault();
+  }
+  function moveDrag(e) {
+    if (!rioDrag) return;
+    const rect = host.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    const camino = host.querySelector('.rio-camino').getBoundingClientRect();
+    const yMin = camino.top - rect.top;
+    const yMax = camino.bottom - rect.top;
+    // Si sale del camino vertical, error
+    if (y < yMin || y > yMax) {
+      globo.classList.add('error');
+      snd.error();
+      setTimeout(() => globo.classList.remove('error'), 500);
+      resetRio();
+      return;
+    }
+    const xPct = Math.max(8, Math.min(92, (x / rect.width) * 100));
+    globo.style.left = xPct + '%';
+    globo.style.top = ((y/rect.height)*100) + '%';
+    globo.style.transform = 'translateY(-50%) translateX(-50%)';
+    // Progreso
+    rioPaso = Math.max(0, xPct - 8) / (92 - 8) * 100;
+    document.getElementById('rioBarra').style.width = rioPaso + '%';
+    if (rioPaso >= 95) {
+      rioDrag = false;
+      snd.win();
+      ganarParada(1);
+    }
+  }
+  function endDrag(){ rioDrag = false; }
+
+  globo.onmousedown = startDrag;
+  globo.ontouchstart = startDrag;
+  document.onmousemove = moveDrag;
+  document.ontouchmove = moveDrag;
+  document.onmouseup = endDrag;
+  document.ontouchend = endDrag;
+}
+function resetRio() {
+  rioPaso = 0;
+  const globo = document.getElementById('rioGlobo');
+  if (globo) {
+    globo.style.left = '8%';
+    globo.style.top = '50%';
+    globo.style.transform = 'translateY(-50%)';
+  }
+  const barra = document.getElementById('rioBarra');
+  if (barra) barra.style.width = '0%';
+}
+
+// ============================================================
+// PARADA 3 · BOSQUE · secuencia de números
+// ============================================================
+const N_NUMEROS = 4;
+let bosqueSecuenciaArr = [];
+let bosqueRespuesta = [];
+let bosqueFaseRespuesta = false;
+
+function montarBosque() {
+  const host = document.getElementById('bosqueHost');
+  host.innerHTML = '';
+  // Árboles decorativos
+  const posArboles = [[8,15],[20,55],[35,20],[55,60],[75,30],[88,10]];
+  posArboles.forEach(([x,y]) => {
+    const t = document.createElement('span');
+    t.className = 'arbol-decor';
+    t.textContent = ['🌲','🌳'][Math.floor(Math.random()*2)];
+    t.style.left = x + '%'; t.style.top = y + '%';
+    host.appendChild(t);
+  });
+  // Generar secuencia aleatoria (4 números distintos del 1 al 9)
+  const numeros = [1,2,3,4,5,6,7,8,9].sort(()=>Math.random()-0.5).slice(0, N_NUMEROS);
+  bosqueSecuenciaArr = [...numeros];
+
+  // Pintar los 4 números en el bosque (escondidos al inicio)
+  const posNumeros = [[18,30],[38,55],[60,25],[80,55]];
+  numeros.forEach((n, i) => {
+    const el = document.createElement('div');
+    el.className = 'bosque-numero escondido';
+    el.dataset.n = n;
+    el.textContent = n;
+    el.style.left = posNumeros[i][0] + '%';
+    el.style.top = posNumeros[i][1] + '%';
+    host.appendChild(el);
+  });
+  bosqueRespuesta = [];
+  bosqueFaseRespuesta = false;
+  // Renderizar slots de respuesta (vacíos)
+  pintarSecuencia();
+  // Pintar teclado numérico (1-9) deshabilitado por ahora
+  pintarTecladoNumerico(false);
+  document.getElementById('btnVerSecuencia').style.display = '';
+  document.getElementById('leadP2').innerHTML = '🧠 Pulsa <b>VER SECUENCIA</b> para que los números aparezcan en orden en el bosque. Memorízalos.';
+}
+function pintarSecuencia() {
+  const host = document.getElementById('bosqueSecuencia');
+  host.innerHTML = '';
+  for (let i=0; i<N_NUMEROS; i++) {
+    const s = document.createElement('div');
+    s.className = 'sec-slot' + (bosqueRespuesta[i] !== undefined ? ' lleno' : '');
+    s.textContent = bosqueRespuesta[i] !== undefined ? bosqueRespuesta[i] : (i+1);
+    host.appendChild(s);
+  }
+}
+function pintarTecladoNumerico(activo) {
+  const host = document.getElementById('tecladoNumerico');
+  host.innerHTML = '';
+  for (let n=1; n<=9; n++) {
+    const b = document.createElement('button');
+    b.className = 'tecla';
+    b.textContent = n;
+    b.disabled = !activo;
+    b.onclick = () => pulsarTecla(n);
+    host.appendChild(b);
+  }
+}
+function mostrarSecuenciaBosque() {
+  document.getElementById('btnVerSecuencia').style.display = 'none';
+  const host = document.getElementById('bosqueHost');
+  let i = 0;
+  function ilumSig() {
+    if (i >= N_NUMEROS) {
+      // Tras mostrar todos, esconderlos otra vez y activar el teclado
+      setTimeout(() => {
+        host.querySelectorAll('.bosque-numero').forEach(el => el.classList.add('escondido'));
+        bosqueFaseRespuesta = true;
+        document.getElementById('leadP2').innerHTML = '🎯 Pulsa en el <b>teclado de abajo</b> los números en el MISMO orden que has visto.';
+        pintarTecladoNumerico(true);
+      }, 700);
+      return;
+    }
+    const n = bosqueSecuenciaArr[i];
+    const el = host.querySelector(`.bosque-numero[data-n="${n}"]`);
+    if (el) {
+      el.classList.remove('escondido');
+      el.classList.add('hover-ok');
+      snd.pop();
+      setTimeout(() => el.classList.remove('hover-ok'), 600);
+    }
+    i++;
+    setTimeout(ilumSig, 900);
+  }
+  ilumSig();
+}
+function pulsarTecla(n) {
+  if (!bosqueFaseRespuesta) return;
+  bosqueRespuesta.push(n);
+  pintarSecuencia();
+  snd.tap();
+  const idx = bosqueRespuesta.length - 1;
+  if (bosqueRespuesta[idx] !== bosqueSecuenciaArr[idx]) {
+    // Falla
+    snd.error();
+    toast('❌ Ese no era. La secuencia se vuelve a generar.', 2500);
+    bosqueFaseRespuesta = false;
+    setTimeout(() => { montarBosque(); }, 1800);
+    return;
+  }
+  if (bosqueRespuesta.length === N_NUMEROS) {
+    bosqueFaseRespuesta = false;
+    setTimeout(() => ganarParada(2), 400);
+  }
+}
+
+// ============================================================
+// PARADA 4 · MOCHILA
+// ============================================================
+const ITEMS_MOCHILA = [
+  { ico:'👨‍👩‍👧', lbl:'FAMILIA' },
+  { ico:'👫', lbl:'AMIGOS' },
+  { ico:'❤️', lbl:'AMOR' },
+  { ico:'🦁', lbl:'VALENTÍA' },
+  { ico:'🌱', lbl:'PACIENCIA' },
+  { ico:'🎨', lbl:'CREATIVIDAD' },
+  { ico:'😄', lbl:'HUMOR' },
+  { ico:'🧠', lbl:'CURIOSIDAD' },
+  { ico:'✨', lbl:'ILUSIÓN' }
+];
+let mochilaElegidos = [];
+
+function montarMochila() {
+  mochilaElegidos = [];
+  const grid = document.getElementById('itemsGrid');
+  grid.innerHTML = '';
+  ITEMS_MOCHILA.forEach((it, idx) => {
+    const b = document.createElement('div');
+    b.className = 'item-pick';
+    b.dataset.idx = idx;
+    b.innerHTML = `<span style="font-size:30px;">${it.ico}</span><small>${it.lbl}</small>`;
+    b.onclick = () => elegirItemMochila(idx, b);
+    grid.appendChild(b);
+  });
+  document.getElementById('itemsCogidos').innerHTML = '';
+  document.getElementById('mochilaContador').textContent = '0';
+  document.getElementById('btnMochilaLista').disabled = true;
+}
+function elegirItemMochila(idx, btnEl) {
+  if (mochilaElegidos.length >= 4) {
+    toast('La mochila ya está completa. Pulsa LISTA cuando quieras.');
+    return;
+  }
+  if (mochilaElegidos.includes(idx)) return;
+  mochilaElegidos.push(idx);
+  btnEl.classList.add('usado');
+  snd.pop();
+  // Pintar en la mochila
+  const mochila = document.getElementById('itemsCogidos');
+  const it = ITEMS_MOCHILA[idx];
+  const div = document.createElement('div');
+  div.className = 'item-cogido';
+  div.innerHTML = `${it.ico}<small>${it.lbl}</small>`;
+  mochila.appendChild(div);
+  document.getElementById('mochilaContador').textContent = mochilaElegidos.length;
+  if (mochilaElegidos.length === 4) {
+    document.getElementById('btnMochilaLista').disabled = false;
+  }
+}
+
+// ===== FINAL =====
+function launchConfetti() {
+  snd.fanf();
+  const host = document.getElementById('confetti');
+  host.innerHTML = '';
+  const cols = ['#f3d100','#ed7928','#e45e9b','#08b75b','#007ec3','#974694','#d6191b'];
+  for (let i=0; i<60; i++) {
+    const c = document.createElement('div');
+    c.className = 'c';
+    c.style.left = (Math.random()*100)+'%';
+    c.style.background = cols[i % cols.length];
+    c.style.animationDelay = (Math.random()*2)+'s';
+    c.style.animationDuration = (2 + Math.random()*2)+'s';
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '0';
+    host.appendChild(c);
+  }
+  setTimeout(()=>{ host.innerHTML=''; }, 6000);
+}
+
+function resetTodo() {
+  state.avatar = null;
+  state.insignias = [false, false, false, false];
+  state.paradaActual = null;
+  go('portada');
+}
+
+// ===== UNLOCK AUDIO + BIENVENIDA =====
+document.addEventListener('pointerdown', () => ensureCtx(), { once:true, passive:true });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') resetTodo(); });
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    mostrarPantallaPegasusito({
+      titulo: '¡Hola explorador!',
+      texto: 'Soy Pegasusito y voy a acompañaros en este Gran Viaje. Vamos a recorrer un camino lleno de retos donde conseguiréis insignias para vuestra mochila. ¿Estáis listos?',
+      pose: 'explorador',
+      cta: '▶ ¡VAMOS ALLÁ!'
+    });
+  }, 500);
+});
+</script>
+</body>
+</html>

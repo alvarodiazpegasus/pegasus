@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>¡Se han estropeado las vacaciones! · Papás al Juego · TO</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+
+:root {
+  --verde: #08b75b; --azul: #007ec3; --morado: #974694;
+  --rosa: #e45e9b; --rojo: #d6191b; --naranja: #ed7928; --amarillo: #f3d100;
+  --crema: #fff5e0; --negro: #1a1330;
+  --grad-verano: linear-gradient(135deg, #f3d100, #ed7928 50%, #e45e9b);
+  --grad-cielo:  linear-gradient(180deg, #ffe6a3 0%, #ffc46b 60%, #f59c4f 100%);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+* { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Barlow', sans-serif; background: var(--grad-cielo); color: var(--negro); user-select: none; }
+
+#stage { position: fixed; inset: 0; overflow: hidden; }
+.scene {
+  position: absolute; inset: 0;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+.scene.active { display: flex; opacity: 1; }
+
+/* PALMERAS LATERALES */
+.palmera { position: fixed; bottom:-20px; width:180px; height:320px; z-index:1; pointer-events:none; filter: drop-shadow(0 18px 24px rgba(0,0,0,0.25)); opacity:0.9; }
+.palmera.izq { left:-70px; animation: pSwayI 5s ease-in-out infinite; transform-origin: 60% 90%; }
+.palmera.der { right:-70px; animation: pSwayD 5s ease-in-out infinite; transform-origin: 40% 90%; }
+@keyframes pSwayI { 0%,100%{transform:scaleX(-1) rotate(-2deg);} 50%{transform:scaleX(-1) rotate(3deg);} }
+@keyframes pSwayD { 0%,100%{transform:rotate(-2deg);} 50%{transform:rotate(3deg);} }
+@media (max-width:900px) { .palmera{ width:130px; height:220px; opacity:0.7;} .palmera.izq{left:-80px;} .palmera.der{right:-80px;} }
+
+/* BRANDING Pegasus en TODAS las pantallas */
+.brand-logo { position:fixed; top:12px; left:12px; height:42px; z-index:90; border-radius:999px; background:#fff; padding:5px 12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; }
+.brand-logo img { height:100%; width:auto; object-fit:contain; }
+@media (max-height: 720px) { .brand-logo { height:32px; top:8px; left:8px; padding:4px 8px; } }
+
+/* TOPBAR */
+.topbar { position: fixed; top:14px; left:14px; right:14px; display:flex; justify-content:flex-end; gap:8px; align-items:center; z-index:100; pointer-events:none; }
+.topbar > * { pointer-events:auto; }
+.topbar .badge { background:rgba(255,255,255,0.92); border:2px solid var(--azul); color: var(--negro); padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:12px; text-transform:uppercase; letter-spacing:1px; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+.topbar .progress { background:#fff; padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:13px; color: var(--morado); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+
+/* BOTONES */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 36px;
+  border-radius: 999px; border: 0;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 20px; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer;
+  background: var(--negro); color: #fff;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.30);
+  transition: box-shadow 0.15s, filter 0.15s;
+  touch-action: manipulation;
+  user-select: none; -webkit-user-select: none;
+  position: relative; z-index: 10;
+}
+.btn:hover { box-shadow: 0 20px 38px rgba(0,0,0,0.35); filter: brightness(1.08); }
+.btn:active { filter: brightness(0.92); }
+.btn.warm { background: var(--grad-verano); color:#fff; }
+.btn.sun  { background: var(--amarillo); color: var(--negro); }
+.btn.ghost { background: rgba(255,255,255,0.94); color: var(--negro); border: 2.5px solid var(--negro); box-shadow: 0 8px 18px rgba(0,0,0,0.20); }
+.btn.sm { font-size: 14px; padding: 10px 22px; }
+.btn:disabled, .btn[disabled] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+/* TÍTULOS */
+.title { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:54px; line-height:1; text-transform:uppercase; letter-spacing:-1px; color:#fff; text-shadow:0 6px 24px rgba(0,0,0,0.35); margin:0; }
+
+/* LLUVIA TEMÁTICA */
+.theme-rain { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
+.theme-rain .it { position:absolute; top:-10%; font-size:56px; animation: themeFall 2.5s linear infinite; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.20)); }
+@keyframes themeFall { 0%{transform:translateY(0) rotate(0); opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh) rotate(720deg); opacity:0;} }
+
+/* HOST CON DELAY */
+.act-host {
+  position: relative;
+  background: #fff; color: var(--negro);
+  border-radius: 36px;
+  padding: 36px 30px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.30);
+  text-align: center;
+  max-width: min(92vw, 1000px);
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  animation: actIn 0.7s var(--ease-back) 1.5s forwards;
+  z-index: 3;
+}
+@keyframes actIn { to { opacity:1; transform:translateY(0) scale(1); } }
+.act-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:42px; text-transform:uppercase; letter-spacing:-1px; color:var(--azul); margin-bottom:8px; }
+.act-host .lead { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:18px; color:var(--negro); margin-bottom:18px; line-height:1.4; }
+.act-host .historia { background: var(--crema); border:2.5px dashed var(--naranja); border-radius:18px; padding:14px 20px; font-style:italic; font-weight:700; font-size:16px; color:var(--negro); margin: 0 auto 20px; max-width: 720px; line-height:1.45; }
+
+/* ============ ESCENA INTRO ============ */
+#scene-intro { background: var(--grad-cielo); }
+.intro-card {
+  width: min(92vw, 760px);
+  background: #fff;
+  border-radius: 36px;
+  padding: 40px 36px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.32);
+  text-align: center;
+  border: 6px solid #fff;
+  position: relative;
+  z-index: 3;
+}
+.intro-card h1 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:52px; line-height:1; text-transform:uppercase; letter-spacing:-1px; color:var(--azul); margin-bottom:20px; }
+.intro-card .narrativa { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:22px; line-height:1.5; color:var(--negro); margin-bottom:24px; }
+.intro-equipaje { display:flex; gap:24px; justify-content:center; margin: 16px 0 30px; }
+.intro-equipaje .item { font-size:54px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.20)); animation: bobbe 2.5s ease-in-out infinite; }
+.intro-equipaje .item:nth-child(2){animation-delay:0.3s;}
+.intro-equipaje .item:nth-child(3){animation-delay:0.6s;}
+.intro-equipaje .item:nth-child(4){animation-delay:0.9s;}
+@keyframes bobbe { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+
+/* ============ ESCENA COCHE AVERIADO ============ */
+#scene-coche {
+  background: radial-gradient(circle at 50% 100%, rgba(214,25,27,0.30), transparent 60%), var(--grad-cielo);
+}
+.coche-scene {
+  position: relative;
+  width: min(92vw, 860px); height: min(46vh, 360px);
+  min-height: 280px;
+  background: linear-gradient(180deg, #8edcff 0%, #b9e3fb 50%, #d0a87a 80%, #b58657 100%);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(0,0,0,0.30), inset 0 0 0 5px #fff;
+  z-index: 3;
+}
+.coche-narrativa {
+  position: relative;
+  background:#fff; padding: 10px 20px;
+  margin: 14px auto 0;
+  border-radius: 18px;
+  max-width: 680px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+  font-family:'Barlow',sans-serif; font-weight:700; font-style:italic;
+  font-size: 14px; line-height: 1.35; color: var(--negro);
+  text-align: center;
+  z-index: 3;
+}
+.cromos-row { margin-top: 10px; }
+.cromo { width: 48px; height: 64px; font-size: 24px; }
+.cromo.vacio { font-size: 18px; }
+.coche-narrativa b { color: var(--rojo); }
+
+/* Carretera del suelo */
+.coche-scene .road { position: absolute; left:0; right:0; bottom:0; height:22%; background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%); }
+.coche-scene .road::before { content:""; position:absolute; left:0; right:0; top:48%; height:8px; background: repeating-linear-gradient(90deg, #f3d100 0 50px, transparent 50px 100px); }
+.coche-scene .cielo-decor { position:absolute; top:8%; left:14%; font-size:42px; animation: bobbe 4s ease-in-out infinite; }
+.coche-scene .cielo-decor.b { left:auto; right:14%; top:14%; animation-delay:1s; }
+
+/* COCHE */
+.coche {
+  position: absolute;
+  left: 50%; bottom: 28%;
+  transform: translateX(-50%);
+  width: 320px; height: 180px;
+}
+.coche-cuerpo {
+  position: absolute; left: 20px; right: 20px; bottom: 30px; top: 50px;
+  background: linear-gradient(180deg, #d6191b 0%, #a01113 100%);
+  border-radius: 18px 32px 12px 12px;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.40), inset 0 -10px 0 rgba(0,0,0,0.20);
+}
+.coche-techo {
+  position: absolute; left: 60px; right: 80px; top: 10px; height: 50px;
+  background: linear-gradient(180deg, #b01416, #7a0d0e);
+  border-radius: 16px 28px 0 0;
+}
+.coche-ventana {
+  position: absolute; left: 70px; right: 90px; top: 18px; height: 38px;
+  background: linear-gradient(180deg, #6bc5e6 0%, #b9e3fb 100%);
+  border-radius: 10px 22px 0 0;
+  border: 3px solid #1a1330;
+}
+.coche-faro { position: absolute; left:14px; bottom:50px; width: 18px; height: 14px; background: var(--amarillo); border-radius: 50%; box-shadow: 0 0 20px var(--amarillo); }
+.coche-rueda { position: absolute; bottom: 0; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #444 0%, #1a1a1a 70%); border: 6px solid #333; box-shadow: 0 6px 14px rgba(0,0,0,0.40); }
+.coche-rueda::before { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:18px; height:18px; border-radius:50%; background:#888; }
+.coche-rueda.izq { left: 30px; }
+.coche-rueda.der { right: 30px; }
+.coche-rueda.pinchada { height: 28px; bottom: 4px; border-radius: 50% 50% 30% 30%; }
+
+/* HUMO MOTOR */
+.coche-humo {
+  position: absolute; left: 60%; top: 30px;
+  width: 80px; height: 80px;
+  pointer-events: none;
+}
+.coche-humo .nub {
+  position: absolute;
+  width: 24px; height: 24px;
+  background: rgba(150,150,150,0.7);
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: humoSube 2s ease-out infinite;
+}
+.coche-humo .nub:nth-child(1){animation-delay:0s; left:20px;}
+.coche-humo .nub:nth-child(2){animation-delay:0.6s; left:35px;}
+.coche-humo .nub:nth-child(3){animation-delay:1.2s; left:50px;}
+@keyframes humoSube {
+  0% { transform: translateY(0) scale(0.6); opacity: 0.8; }
+  100% { transform: translateY(-70px) scale(1.4); opacity: 0; }
+}
+
+/* CHISPAS AVERÍA */
+.coche-chispa { position: absolute; left: 55%; top: 60px; font-size: 36px; animation: chispaAm 0.8s ease-in-out infinite; filter: drop-shadow(0 0 8px var(--amarillo)); }
+@keyframes chispaAm { 0%,100%{transform:scale(1) rotate(0);} 50%{transform:scale(1.4) rotate(20deg);} }
+
+/* ZONAS CLICABLES (motor, rueda, depósito, carretera) */
+.coche-zona {
+  position: absolute;
+  background: rgba(255,255,255,0.20);
+  border: 3px dashed #fff;
+  border-radius: 16px;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.2s, transform 0.2s;
+  font-family:'Barlow',sans-serif; font-weight:900; font-style:italic;
+  font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 4px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.50);
+  animation: zonaPulse 1.6s ease-in-out infinite;
+}
+.coche-zona:hover { background: rgba(255,255,255,0.35); }
+.coche-zona.ok {
+  background: rgba(8,183,91,0.45);
+  border-color: var(--verde);
+  border-style: solid;
+  animation: none;
+  cursor: default;
+}
+.coche-zona.ok::after { content: "✓"; position: absolute; right: 6px; top: 4px; font-size: 18px; color: #fff; }
+.coche-zona.locked { background: rgba(0,0,0,0.40); border-color: #999; border-style: solid; animation: none; opacity: 0.6; pointer-events: none; }
+@keyframes zonaPulse { 0%,100%{box-shadow: 0 0 0 0 rgba(255,255,255,0.6);} 50%{box-shadow: 0 0 0 14px rgba(255,255,255,0);} }
+.zona-motor    { left: 56%; top: 40%; width: 100px; height: 60px; }
+.zona-rueda    { left: 24%; bottom: 12%; width: 80px; height: 60px; transform: translateY(-50%); }
+.zona-deposito { left: 4%; top: 42%; width: 100px; height: 60px; }
+.zona-carretera{ left: 50%; bottom: 4%; transform: translateX(-50%); width: 260px; height: 56px; background: rgba(243,209,0,0.40); border-color: var(--amarillo); }
+
+/* CROMOS CARRETERA acumulados */
+.cromos-row { display:flex; gap:8px; justify-content:center; margin-top:14px; flex-wrap:wrap; z-index:3; position:relative; }
+.cromo {
+  width: 64px; height: 84px; border-radius: 8px;
+  background: var(--grad-verano);
+  border: 3px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 8px 18px rgba(151,70,148,0.30);
+  animation: cromoEntra 0.7s var(--ease-back) both;
+}
+@keyframes cromoEntra { from{opacity:0; transform: translateY(30px) scale(0.6);} to{opacity:1; transform:translateY(0) scale(1);} }
+.cromo.vacio { background: rgba(255,255,255,0.50); border: 3px dashed #fff; opacity: 0.5; font-size: 28px; color: #fff; }
+
+/* ============ JUEGO 1 · MOTOR (COMPARACIÓN SIDE-BY-SIDE) ============ */
+.motor-act-host { max-width: 820px; padding: 22px 28px; }
+.planos-versus {
+  display: flex; align-items: center; gap: 18px;
+  justify-content: center; flex-wrap: wrap;
+  margin: 4px auto 14px;
+}
+.plano-cell {
+  background: linear-gradient(180deg, #fff5d8, #ffe6a3);
+  border: 3px solid var(--naranja);
+  border-radius: 16px;
+  padding: 10px 14px;
+  display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.plano-cell.ok-motor { border-color: var(--verde); background: linear-gradient(180deg, #d6ffe6, #b6f4cc); }
+.versus-vs {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 28px; color: var(--rojo);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.20);
+}
+.plano-label {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 11px;
+  color: var(--rojo);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+.bloques-plano.grande {
+  display: grid;
+  grid-template-columns: repeat(3, 30px);
+  gap: 4px;
+}
+.bloques-plano.grande span {
+  width: 30px; height: 30px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.20);
+  transition: background 0.3s;
+}
+.bloques-plano.grande span.vacio {
+  background: rgba(0,0,0,0.10);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow', sans-serif; font-weight: 900;
+  color: rgba(0,0,0,0.40);
+  font-size: 16px;
+  box-shadow: none;
+}
+
+/* Grid compacto de motores */
+.motor-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 6px auto;
+  max-width: 720px;
+}
+.motor-grid-compact .motor-card-c {
+  background: linear-gradient(135deg, var(--azul), var(--morado));
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  position: relative;
+  border: 3px solid transparent;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.motor-grid-compact .motor-card-c:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,0.25); }
+.motor-grid-compact .motor-card-c.selected { border-color: var(--amarillo); box-shadow: 0 0 0 4px var(--amarillo), 0 12px 24px rgba(243,209,0,0.40); }
+.motor-grid-compact .motor-card-c .ico { font-size: 38px; line-height: 1; }
+.motor-grid-compact .motor-card-c .nom { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.motor-grid-compact .motor-card-c .hint { font-size: 10px; font-style: italic; opacity: 0.85; margin-top: 2px; }
+@media (max-width: 600px) {
+  .motor-grid-compact { grid-template-columns: 1fr 1fr; }
+  .planos-versus { flex-direction: row; }
+  .bloques-plano.grande { grid-template-columns: repeat(3, 24px); }
+  .bloques-plano.grande span { width: 24px; height: 24px; }
+  .versus-vs { font-size: 20px; }
+}
+.motor-feedback {
+  margin-top: 16px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 22px;
+  min-height: 32px;
+  text-transform: uppercase;
+}
+.motor-feedback.ok { color: var(--verde); }
+.motor-feedback.fail { color: var(--rojo); }
+.motor-card.correcto-pulse {
+  animation: motorCorrecto 0.7s var(--ease-back) 2;
+  box-shadow: 0 0 0 4px var(--verde), 0 14px 28px rgba(8,183,91,0.40);
+}
+.motor-card.error-pulse {
+  animation: motorError 0.5s ease-in-out 2;
+}
+@keyframes motorCorrecto { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+@keyframes motorError { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-10px);} 75%{transform:translateX(10px);} }
+
+#scene-motor { background: radial-gradient(circle at 50% 0%, rgba(0,126,195,0.30), transparent 60%), var(--grad-cielo); }
+.motor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 540px; margin: 0 auto; }
+.motor-card {
+  height: 160px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--azul), var(--morado));
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+}
+.motor-card.flipped { transform: rotateY(180deg); }
+.motor-card .cara { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; }
+.motor-card .frente { background: linear-gradient(135deg, var(--azul), var(--morado)); color: #fff; }
+.motor-card .frente .ico { font-size: 56px; }
+.motor-card .frente .nom { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; text-align: center; }
+.motor-card .frente .hint-snd { position: absolute; top:8px; right:10px; font-size: 14px; color: rgba(255,255,255,0.7); }
+.motor-card .reverso { background: linear-gradient(180deg, #fff, #f4e6f3); color: var(--morado); transform: rotateY(180deg); border: 3px solid var(--morado); }
+.motor-card .reverso .titulo-plano { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 12px; color: var(--rosa); text-transform:uppercase; margin-bottom: 6px; letter-spacing: 1px; }
+.bloques-plano { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.bloques-plano span { width: 22px; height: 22px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.20); }
+
+/* ============ JUEGO 2 · RUEDAS ============ */
+#scene-rueda { background: radial-gradient(circle at 50% 100%, rgba(151,70,148,0.30), transparent 60%), var(--grad-cielo); }
+.ruedas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 480px; margin: 0 auto; }
+.rueda-host { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+.rueda-svg { width: 130px; height: 130px; transition: transform 0.5s var(--ease-back); }
+.rueda-svg .pinchada-state { display: block; }
+.rueda-svg .inflada-state  { display: none; }
+.rueda-host.inflada .rueda-svg .pinchada-state { display: none; }
+.rueda-host.inflada .rueda-svg .inflada-state  { display: block; animation: ruedaPop 0.6s var(--ease-back); }
+@keyframes ruedaPop { 0%{transform:scale(0.7);} 60%{transform:scale(1.12);} 100%{transform:scale(1);} }
+.rueda-host .aire { position:absolute; font-size: 28px; opacity: 0; transform: scale(0.5); }
+.rueda-host.inflada .aire { animation: aireFly 0.7s var(--ease-back); }
+@keyframes aireFly { 0%{opacity:1; transform:translate(-40px,-30px) scale(0.5);} 100%{opacity:0; transform:translate(-80px,-80px) scale(1.5);} }
+.rueda-host .lbl { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 14px; text-transform: uppercase; color: var(--negro); }
+.rueda-host.inflada .lbl { color: var(--verde); }
+
+/* ============ JUEGO 3 · GASOLINA · QUIÉN ES QUIÉN ============ */
+#scene-gasolina { background: radial-gradient(circle at 50% 100%, rgba(214,25,27,0.30), transparent 60%), linear-gradient(180deg, #2a2a2a 0%, #4a3a3a 100%); color: #fff; }
+.gas-act-host { background: rgba(20,20,20,0.92); color: #fff; border: 2px solid var(--rojo); }
+.gas-act-host h2 { color: var(--amarillo); }
+.gas-act-host .lead { color: #fff; }
+.vecinos-fila { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.vecino {
+  width: 110px; background: #fff; color: var(--negro);
+  border-radius: 16px; padding: 12px 8px;
+  position: relative; cursor: pointer;
+  border: 3px solid var(--amarillo);
+  transition: transform 0.4s var(--ease-back);
+  transform-style: preserve-3d;
+}
+.vecino .cara, .vecino .espalda { backface-visibility: hidden; }
+.vecino.girado { transform: rotateY(180deg); }
+.vecino .espalda { position: absolute; inset: 12px 8px; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.vecino .avatar-front { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 50px; background: linear-gradient(135deg, #ffd698, #fbb56b); border: 3px solid var(--negro); }
+.vecino .avatar-back { width: 70px; height: 80px; background: linear-gradient(180deg, #6b421f, #3a2010); border-radius: 12px 12px 4px 4px; position: relative; }
+.vecino .avatar-back.tat::after { content:"❤️"; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:22px; }
+.vecino .nombre { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 14px; text-transform: uppercase; text-align: center; margin-top: 8px; }
+.vecino .btn-girar { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--azul); color: #fff; border: 0; font-size: 12px; cursor: pointer; }
+
+.pistas-mesa { display: flex; gap: 14px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+.hoja-pistas {
+  width: 130px; height: 160px; background: #fff;
+  border-radius: 4px 16px 4px 4px;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(0,0,0,0.40);
+  position: relative;
+  transition: transform 0.25s;
+  color: var(--negro);
+  border: 2px solid #c8b078;
+  background-image: repeating-linear-gradient(transparent 0 18px, rgba(0,0,0,0.05) 18px 19px);
+  padding: 8px;
+}
+.hoja-pistas:hover { transform: translateY(-6px) rotate(-2deg); }
+.hoja-pistas .hoja-titulo { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 14px; color: var(--rojo); text-transform: uppercase; margin-bottom: 4px; }
+.hoja-pistas .hoja-num { font-family:'Barlow',sans-serif; font-weight:900; font-size: 32px; color: rgba(0,0,0,0.10); position: absolute; right: 8px; top: 4px; }
+.hoja-pistas .hoja-preview { font-style: italic; font-size: 11px; color: #555; line-height: 1.3; }
+
+/* MODAL PISTAS · primera persona */
+.pista-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.pista-modal.show { display: flex; }
+.pista-hoja {
+  width: min(92vw, 480px); height: min(80vh, 600px);
+  background: linear-gradient(180deg, #fff5d8, #ffe6a3);
+  border-radius: 4px 24px 4px 4px;
+  padding: 36px 28px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.60);
+  color: var(--negro);
+  border: 3px solid #c8b078;
+}
+.pista-hoja h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 26px; color: var(--rojo); text-transform: uppercase; margin-bottom: 18px; letter-spacing: -0.3px; }
+.pista-actual { font-family:'Barlow',sans-serif; font-weight:800; font-style:italic; font-size: 24px; line-height: 1.4; min-height: 80px; color: var(--negro); padding: 18px 0; border-top: 2px dashed #999; border-bottom: 2px dashed #999; }
+.pista-controls { display:flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 12px; flex-wrap: wrap; }
+.pista-controls .indi { font-family:'Barlow',sans-serif; font-weight:800; font-style:italic; font-size: 14px; color: #555; }
+.pista-selector { display: none; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-top: 14px; }
+.pista-selector { display: none; }
+.pista-selector.show { display: grid !important; }
+.sel-vecino {
+  background: #fff; border: 2.5px solid var(--azul); color: var(--negro);
+  padding: 12px 8px; border-radius: 14px;
+  font-family: 'Barlow',sans-serif; font-weight: 800; font-style: italic;
+  font-size: 13px; cursor: pointer; line-height: 1.3;
+  transition: transform 0.15s, background 0.15s;
+}
+.sel-vecino:hover { background: var(--azul); color: #fff; transform: translateY(-2px); }
+.hoja-pistas.resuelta { background: #d6ffe6 !important; border-color: var(--verde) !important; }
+.hoja-pistas.resuelta .hoja-titulo { color: var(--verde); }
+
+/* ============ JUEGO 4 · PUZZLE CARRETERA ============ */
+#scene-carretera { background: linear-gradient(180deg, #87ceeb 0%, #b9e3fb 40%, #d0a87a 70%, #b58657 100%); }
+.puzzle-host {
+  width: min(92vw, 760px);
+  background: rgba(255,255,255,0.96);
+  border-radius: 32px;
+  padding: 28px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.32);
+  text-align: center;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  animation: actIn 0.7s var(--ease-back) 1.5s forwards;
+}
+.puzzle-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size: 36px; color: var(--azul); text-transform: uppercase; letter-spacing: -0.5px; margin-bottom: 8px; }
+.puzzle-host .lead { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size: 16px; color: var(--negro); margin-bottom: 18px; }
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: min(80vw, 480px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #6b421f, #4a2e10);
+  padding: 6px;
+  border-radius: 14px;
+}
+.puzzle-cell {
+  background: linear-gradient(180deg, #d0a87a, #b58657);
+  border-radius: 8px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.puzzle-cell.fija { cursor: default; }
+.puzzle-cell:hover:not(.fija) { transform: scale(1.04); }
+.puzzle-cell svg { width: 100%; height: 100%; transition: transform 0.4s var(--ease-back); }
+.puzzle-cell.ok { box-shadow: inset 0 0 0 4px var(--verde); }
+.puzzle-cell .deco { font-size: 38px; }
+
+/* Coche del puzzle final · animación */
+.car-puzzle-anim {
+  position: absolute;
+  font-size: 40px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.40));
+}
+
+/* ============ ESCENA FINAL ============ */
+#scene-final {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(243,209,0,0.45), transparent 50%),
+    var(--grad-verano);
+}
+.final-card {
+  background: #fff; color: var(--negro);
+  padding: 36px 40px; border-radius: 32px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.40);
+  text-align: center;
+  max-width: 720px;
+  z-index: 3; position: relative;
+}
+.final-card h1 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:46px; line-height:1.05; color: var(--rosa); text-transform: uppercase; letter-spacing:-0.5px; margin-bottom:14px; }
+.final-card p { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size: 22px; color: var(--negro); line-height:1.4; }
+.final-destino { font-size: 90px; margin: 18px 0; }
+.final-destino span { display: inline-block; margin: 0 6px; animation: bobbe 2.4s ease-in-out infinite; }
+.final-destino span:nth-child(2){animation-delay:0.3s;}
+.final-destino span:nth-child(3){animation-delay:0.6s;}
+
+/* CONFETI + FLASH */
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.confetti .c { position: absolute; width: 10px; height: 10px; animation: confFall 3s linear infinite; }
+@keyframes confFall { 0%{top:-10%; transform:rotate(0); opacity:0;} 10%{opacity:1;} 100%{top:110%; transform:rotate(720deg); opacity:0;} }
+
+/* ============ TOAST INFORMATIVO (sustituye al pegasusito flotante) ============ */
+.info-toast {
+  position: fixed;
+  top: 70px; left: 50%; transform: translateX(-50%);
+  background: #fff;
+  color: var(--negro);
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--azul);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800; font-style: italic;
+  font-size: 13px;
+  z-index: 60;
+  display: flex; align-items: center; gap: 8px;
+  max-width: 86vw;
+  transition: opacity 0.3s, transform 0.3s var(--ease-back);
+  opacity: 1;
+}
+.info-toast.hidden { opacity: 0; transform: translate(-50%, -30px); pointer-events: none; }
+.info-toast .info-ico { font-size: 22px; }
+.info-toast .info-text { line-height: 1.3; }
+
+/* ============ PEGASUSITO NARRADOR ============ */
+.pegasusito {
+  position: fixed;
+  bottom: 20px; right: 30px;
+  width: 220px;
+  z-index: 60;
+  display: flex; gap: 12px; align-items: flex-end;
+  pointer-events: none;
+  transition: transform 0.4s var(--ease-back), opacity 0.3s;
+}
+.pegasusito.hidden { opacity: 0; transform: translateY(40px); }
+.pega-avatar {
+  position: relative;
+  width: 110px; height: 110px;
+  flex-shrink: 0;
+}
+.pega-avatar::before {
+  content: ""; position: absolute; inset: -8px;
+  border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(243,209,0,0.55), transparent 70%);
+  animation: pegaGlow 2.5s ease-in-out infinite;
+}
+@keyframes pegaGlow { 0%,100%{transform:scale(1); opacity:0.7;} 50%{transform:scale(1.15); opacity:1;} }
+.pega-avatar img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,0.30));
+  animation: pegaBob 3s ease-in-out infinite;
+}
+.pega-emoji {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 84px;
+  animation: pegaBob 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,0.30));
+}
+@keyframes pegaBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+.pega-bocadillo {
+  background: #fff;
+  color: var(--negro);
+  padding: 12px 18px;
+  border-radius: 18px 18px 4px 18px;
+  font-family:'Barlow',sans-serif; font-weight:700; font-style:italic;
+  font-size: 15px; line-height: 1.4;
+  max-width: 260px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+  position: relative;
+  flex: 1;
+}
+.pega-bocadillo::after {
+  content: ""; position: absolute;
+  right: -14px; bottom: 12px;
+  border: 8px solid transparent;
+  border-left-color: #fff;
+}
+.pega-bocadillo:empty { display: none; }
+.pega-bocadillo .cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--morado);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: pegaCursor 0.6s steps(2) infinite;
+}
+@keyframes pegaCursor { 50%{opacity:0;} }
+@media (max-width: 720px) {
+  .pegasusito { bottom: 10px; right: 10px; width: 180px; }
+  .pega-avatar { width: 80px; height: 80px; }
+  .pega-emoji { font-size: 60px; }
+  .pega-bocadillo { font-size: 13px; max-width: 180px; }
+}
+
+/* ============ ESCENA HISTORIA FULLSCREEN · Pegasusito protagonista ============ */
+.historia-fullscreen {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(circle at 30% 50%, rgba(243,209,0,0.30), transparent 60%),
+    radial-gradient(circle at 70% 50%, rgba(228,94,155,0.30), transparent 60%),
+    linear-gradient(135deg, #5a2880 0%, #974694 40%, #e45e9b 100%);
+  z-index: 220;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 40px;
+  overflow: hidden;
+}
+.historia-fullscreen.show { display: flex; }
+.historia-stage {
+  display: flex; align-items: center; justify-content: center;
+  gap: 40px;
+  max-width: 1200px; width: 100%;
+  flex-wrap: wrap;
+}
+.pega-protagonista {
+  position: relative;
+  width: 380px; height: 380px;
+  flex-shrink: 0;
+  animation: pegaEntra 0.8s var(--ease-back) both;
+}
+@keyframes pegaEntra { from{opacity:0; transform: translateX(-100px) scale(0.6);} to{opacity:1; transform:translateX(0) scale(1);} }
+.pega-protagonista::before {
+  content: ""; position: absolute; inset: -30px;
+  border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(243,209,0,0.55), transparent 65%);
+  animation: pegaGlow 2.8s ease-in-out infinite;
+}
+.pega-protagonista img,
+.pega-protagonista .pega-emoji {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 24px 36px rgba(0,0,0,0.50));
+  animation: pegaBob 3.5s ease-in-out infinite;
+}
+.pega-protagonista .pega-emoji {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 280px;
+}
+.historia-bocadillo-pro {
+  background: #fff;
+  color: var(--negro);
+  padding: 32px 36px;
+  border-radius: 32px 32px 32px 8px;
+  max-width: 540px; flex: 1; min-width: 280px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.40);
+  animation: bocadilloEntra 0.7s var(--ease-back) 0.3s both;
+}
+@keyframes bocadilloEntra { from{opacity:0; transform: translateX(60px) scale(0.7);} to{opacity:1; transform:translateX(0) scale(1);} }
+.historia-bocadillo-pro::before {
+  content: ""; position: absolute;
+  left: -22px; bottom: 36px;
+  border: 16px solid transparent;
+  border-right-color: #fff;
+}
+.historia-bocadillo-pro h3 {
+  font-family:'Barlow',sans-serif; font-weight:900; font-style:italic;
+  font-size: 30px; color: var(--morado);
+  text-transform: uppercase; letter-spacing: -0.5px;
+  margin-bottom: 18px;
+  line-height: 1.05;
+}
+.historia-bocadillo-pro .texto-historia {
+  font-family:'Barlow',sans-serif; font-weight:700; font-style:italic;
+  font-size: 19px; line-height: 1.5;
+  color: var(--negro);
+  margin-bottom: 26px;
+  min-height: 80px;
+}
+.historia-bocadillo-pro .cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--morado);
+  vertical-align: text-bottom;
+  animation: pegaCursor 0.6s steps(2) infinite;
+}
+.historia-cta-row { display: flex; gap: 12px; justify-content: flex-end; }
+@media (max-width: 900px) {
+  .historia-stage { flex-direction: column; gap: 20px; }
+  .pega-protagonista { width: 240px; height: 240px; }
+  .pega-protagonista .pega-emoji { font-size: 180px; }
+  .historia-bocadillo-pro { padding: 22px 24px; border-radius: 24px; }
+  .historia-bocadillo-pro::before { left: 50%; bottom: auto; top: -28px; transform: translateX(-50%); border: 14px solid transparent; border-bottom-color: #fff; border-right-color: transparent; }
+  .historia-bocadillo-pro h3 { font-size: 22px; }
+  .historia-bocadillo-pro .texto-historia { font-size: 16px; min-height: 60px; }
+}
+
+/* PIEZAS BANNER · al completar minijuego */
+.piezas-victoria {
+  position: fixed; inset: 0; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.70);
+  z-index: 250;
+  flex-direction: column; gap: 24px;
+}
+.piezas-victoria.show { display: flex; }
+.piezas-victoria .mensaje { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; color:#fff; font-size: 38px; text-transform: uppercase; text-shadow: 0 6px 14px rgba(0,0,0,0.40); }
+.piezas-victoria .piezas-show { display: flex; gap: 18px; }
+.piezas-victoria .pieza-grande {
+  width: 110px; height: 140px;
+  border-radius: 14px;
+  background: var(--grad-verano);
+  border: 4px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 60px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.50);
+  animation: piezaPop 0.6s var(--ease-back) both;
+}
+.piezas-victoria .pieza-grande:nth-child(2) { animation-delay: 0.3s; }
+@keyframes piezaPop { from{opacity:0; transform: scale(0.4) rotate(-30deg);} to{opacity:1; transform: scale(1) rotate(0);} }
+
+/* ===== MEDIA QUERY BASE · responsive obligatoria para laptop 1366×720 ===== */
+@media (max-height: 760px) {
+  .scene { padding: 10px; }
+  .act-host { padding: 14px 18px; max-height: 90vh; }
+  .act-host h2 { font-size: 24px; margin-bottom: 4px; }
+  .act-host .lead { font-size: 13px; margin-bottom: 8px; line-height: 1.3; }
+  .btn { padding: 10px 22px; font-size: 15px; }
+  .btn.sm { padding: 7px 16px; font-size: 12px; }
+  .title { font-size: 36px; }
+  .coche-scene { height: min(40vh, 300px); }
+  .pega-protagonista { width:240px; height:240px; }
+  .historia-bocadillo-pro { padding: 22px 26px; }
+  .historia-bocadillo-pro h3 { font-size: 22px; }
+  .historia-bocadillo-pro .texto-historia { font-size: 15px; min-height: 60px; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 720px) {
+  .title { font-size: 36px; }
+  .intro-card h1 { font-size: 36px; }
+  .intro-card .narrativa { font-size: 17px; }
+  .act-host h2 { font-size: 28px; }
+  .coche-scene { height: 360px; }
+  .coche { width: 240px; height: 140px; }
+  .motor-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ruedas-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ruedas-grid .rueda-svg { width: 100px; height: 100px; }
+  .puzzle-grid { width: 92vw; }
+  .vecino { width: 90px; }
+  .final-card h1 { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Palmeras laterales -->
+<svg class="palmera izq" viewBox="0 0 220 380" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#8a5a2e" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <g fill="#08b75b">
+    <path d="M 100 90 Q 30 50 5 5 Q 55 35 100 70 Z"/>
+    <path d="M 100 90 Q 40 110 5 150 Q 50 95 100 80 Z"/>
+    <path d="M 100 90 Q 150 35 200 10 Q 145 55 105 80 Z"/>
+    <path d="M 100 90 Q 175 95 215 145 Q 145 95 100 80 Z"/>
+    <path d="M 100 90 Q 95 35 80 -5 Q 100 35 105 80 Z"/>
+  </g>
+  <g fill="#0a7a40" opacity="0.6">
+    <path d="M 100 90 Q 40 60 18 30 Q 60 45 100 75 Z"/>
+    <path d="M 100 90 Q 160 60 195 30 Q 145 55 105 75 Z"/>
+  </g>
+  <circle cx="105" cy="95" r="9" fill="#5c3618"/>
+  <circle cx="118" cy="92" r="8" fill="#5c3618"/>
+</svg>
+<svg class="palmera der" viewBox="0 0 220 380" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#8a5a2e" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <g fill="#08b75b">
+    <path d="M 100 90 Q 30 50 5 5 Q 55 35 100 70 Z"/>
+    <path d="M 100 90 Q 40 110 5 150 Q 50 95 100 80 Z"/>
+    <path d="M 100 90 Q 150 35 200 10 Q 145 55 105 80 Z"/>
+    <path d="M 100 90 Q 175 95 215 145 Q 145 95 100 80 Z"/>
+    <path d="M 100 90 Q 95 35 80 -5 Q 100 35 105 80 Z"/>
+  </g>
+  <g fill="#0a7a40" opacity="0.6">
+    <path d="M 100 90 Q 40 60 18 30 Q 60 45 100 75 Z"/>
+    <path d="M 100 90 Q 160 60 195 30 Q 145 55 105 75 Z"/>
+  </g>
+  <circle cx="105" cy="95" r="9" fill="#5c3618"/>
+  <circle cx="118" cy="92" r="8" fill="#5c3618"/>
+</svg>
+
+<!-- Branding Pegasus en TODAS las pantallas -->
+<a class="brand-logo" href="#">
+  <img src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+</a>
+
+<div class="topbar">
+  <span class="badge">🚗 Papás al Juego · TO</span>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <button class="btn ghost sm" id="btnMute" onclick="toggleMute()" title="Silenciar sonido">🔊</button>
+    <span class="progress" id="progress">0 / 3 reparaciones</span>
+  </div>
+</div>
+
+<div id="stage">
+
+  <!-- ESCENA 1 · INTRO -->
+  <section class="scene active" id="scene-intro">
+    <div class="intro-card">
+      <h1>¡Se han estropeado<br>las vacaciones!</h1>
+      <div class="narrativa">
+        Hoy nos vamos de vacaciones. Tenemos las maletas preparadas, las gafas de sol, la ropa de verano... ¡todo listo!<br><br>
+        <b>¿Estáis preparados para marcharos?</b>
+      </div>
+      <div class="intro-equipaje">
+        <span class="item">🧳</span>
+        <span class="item">🕶️</span>
+        <span class="item">👕</span>
+        <span class="item">🩴</span>
+      </div>
+      <button class="btn warm" onclick="go('coche')">▶ ¡SÍ, VÁMONOS!</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 2 · COCHE AVERIADO (HUB) -->
+  <section class="scene" id="scene-coche">
+    <div class="coche-scene">
+      <div class="cielo-decor">☁️</div>
+      <div class="cielo-decor b">☁️</div>
+      <div class="road"></div>
+      <div class="coche">
+        <div class="coche-cuerpo"></div>
+        <div class="coche-techo"></div>
+        <div class="coche-ventana"></div>
+        <div class="coche-faro"></div>
+        <div class="coche-rueda izq" id="rueda-izq"></div>
+        <div class="coche-rueda der pinchada" id="rueda-der"></div>
+        <div class="coche-humo" id="cocheHumo">
+          <div class="nub"></div><div class="nub"></div><div class="nub"></div>
+        </div>
+        <span class="coche-chispa" id="cocheChispa">⚡</span>
+      </div>
+      <button class="coche-zona zona-motor"    id="z-motor"    onclick="abrirJuego('motor')">⚙️<br>MOTOR</button>
+      <button class="coche-zona zona-rueda"    id="z-rueda"    onclick="abrirJuego('rueda')">🛞<br>RUEDA</button>
+      <button class="coche-zona zona-deposito" id="z-deposito" onclick="abrirJuego('gasolina')">⛽<br>GASOLINA</button>
+      <button class="coche-zona zona-carretera locked" id="z-carretera" onclick="abrirJuego('carretera')">🛣️ ARMAR EL CAMINO</button>
+    </div>
+    <div class="coche-narrativa">
+      Pero cuando vamos a arrancar el coche... <b>¡BRRRR... CLONK!</b> El coche se ha averiado y no podremos llegar a nuestro destino hasta repararlo. Por suerte tenemos un <b>equipo de expertos</b>: madres, padres, hijos e hijas. Cada vez que reparéis una parte ganaréis trozos de carretera.
+    </div>
+    <div class="cromos-row" id="cromosRow">
+      <div class="cromo vacio">1</div>
+      <div class="cromo vacio">2</div>
+      <div class="cromo vacio">3</div>
+      <div class="cromo vacio">4</div>
+      <div class="cromo vacio">5</div>
+      <div class="cromo vacio">6</div>
+    </div>
+  </section>
+
+  <!-- ESCENA 3 · MOTOR · comparación side-by-side -->
+  <section class="scene" id="scene-motor">
+    <div class="theme-rain" id="motorRain"></div>
+    <div class="act-host motor-act-host">
+      <h2 style="font-size:32px; margin-bottom:4px;">⚙️ El plano del motor</h2>
+      <div class="lead" style="font-size:14px; margin-bottom:14px;">
+        🎯 Toca cada motor para escucharlo y ver su plano. Cuando encuentres el que coincide con el objetivo, pulsa <b>ESTE ES EL CORRECTO</b>.
+      </div>
+      <!-- Comparación side-by-side -->
+      <div class="planos-versus">
+        <div class="plano-cell">
+          <div class="plano-label">🎯 PLANO OBJETIVO</div>
+          <div class="bloques-plano grande" id="planoObjetivo"></div>
+        </div>
+        <div class="versus-vs">VS</div>
+        <div class="plano-cell">
+          <div class="plano-label" id="planoMotorLabel">⚙️ ELIGE UN MOTOR</div>
+          <div class="bloques-plano grande" id="planoMotorElegido">
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+            <span class="vacio">?</span>
+          </div>
+        </div>
+      </div>
+      <div class="motor-grid-compact" id="motorGrid"></div>
+      <div id="motorFeedback" class="motor-feedback"></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+        <button class="btn warm" id="btnElegirMotor" disabled onclick="confirmarMotor()">✓ ESTE ES EL CORRECTO</button>
+        <button class="btn ghost sm" onclick="go('coche')">↩️ Volver al coche</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA 4 · RUEDA -->
+  <section class="scene" id="scene-rueda">
+    <div class="theme-rain" id="ruedaRain"></div>
+    <div class="act-host">
+      <h2>🛞 Cambiar la rueda</h2>
+      <div class="historia">
+        Ahora hemos descubierto otro problema. Una rueda está pinchada. Necesitamos cambiarla para poder continuar.
+      </div>
+      <div class="lead">Pulsa cada rueda para inflarla. Cuando estén las 4 listas, podréis confirmar.</div>
+      <div class="ruedas-grid" id="ruedasGrid"></div>
+      <button class="btn warm" id="btnRuedaCambiada" disabled style="margin-top: 22px;" onclick="ganarRueda()">✓ RUEDA CAMBIADA</button>
+      <div style="margin-top: 14px;">
+        <button class="btn ghost sm" onclick="go('coche')">↩️ Volver al coche</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA 5 · GASOLINA · QUIÉN ES QUIÉN -->
+  <section class="scene" id="scene-gasolina">
+    <div class="act-host gas-act-host">
+      <h2>🔍 ¿Qué vecino nos ha dado gasolina?</h2>
+      <div class="historia" style="background: rgba(243,209,0,0.20); border-color: var(--amarillo); color: #fff;">
+        El coche ya está arreglado, pero no tenemos gasolina suficiente. Hemos pedido ayuda a los vecinos del barrio. Cada vez que descubramos quién nos ha ayudado, nos regalará 1 litro de combustible.
+      </div>
+      <div class="lead">Pulsa <b>🔄</b> sobre cada vecino para verlo de espaldas. Abre las 3 hojas de pistas para descubrir a los culpables.</div>
+      <div class="vecinos-fila" id="vecinosFila"></div>
+      <div style="margin-top: 14px; font-family:Barlow; font-style:italic; font-weight:700; color: var(--amarillo); font-size: 14px;">🗂️ ARCHIVO DE PISTAS</div>
+      <div class="pistas-mesa" id="pistasMesa"></div>
+      <button class="btn warm" id="btnGanarGas" disabled style="margin-top: 22px;" onclick="ganarGasolina()">✓ VECINOS DESCUBIERTOS</button>
+      <div style="margin-top: 14px;">
+        <button class="btn ghost sm" onclick="go('coche')">↩️ Volver al coche</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA 6 · CARRETERA · PUZZLE -->
+  <section class="scene" id="scene-carretera">
+    <div class="theme-rain" id="carreteraRain"></div>
+    <div class="puzzle-host">
+      <h2>🛣️ ¡Nos vamos de vacaciones!</h2>
+      <div class="historia">
+        Habéis reparado el motor. Habéis cambiado la rueda. Habéis conseguido gasolina.
+        Ahora es el momento de <b>construir la carretera</b> para llevar el coche hasta el destino.
+      </div>
+      <div class="lead">🔄 Toca cada pieza para rotarla. Cuando todas formen el camino, el coche podrá pasar.</div>
+      <div class="puzzle-grid" id="puzzleGrid"></div>
+      <div style="margin-top: 18px;">
+        <button class="btn ghost sm" onclick="go('coche')">↩️ Volver al coche</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA 7 · FINAL -->
+  <section class="scene" id="scene-final">
+    <img src="../shared/pegasusito/pegasusito-vacaciones.png" alt="Pegasusito de vacaciones"
+         style="width: min(40vw, 320px); margin-bottom: 16px; filter: drop-shadow(0 16px 24px rgba(0,0,0,0.30)); animation: pegaBob 3s ease-in-out infinite; z-index: 3; position: relative;">
+    <div class="final-card">
+      <h1>¡Lo habéis conseguido!</h1>
+      <p>Habéis reparado el coche, conseguido gasolina y construido el camino. <b>Las vacaciones están salvadas.</b></p>
+      <div class="final-destino"><span>🏖️</span><span>⛰️</span><span>⛺</span></div>
+      <button class="btn warm" onclick="resetTodo()">🔁 JUGAR DE NUEVO</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- Toast informativo neutro (sin Pegasusito).
+     Pegasusito solo aparece en escenas dedicadas: modal historia y pantalla final. -->
+<div class="info-toast hidden" id="infoToast">
+  <span class="info-ico">💡</span>
+  <span class="info-text" id="infoText"></span>
+</div>
+
+<!-- Pantalla Pegasusito fullscreen · reutilizable en TODOS los momentos clave -->
+<div class="historia-fullscreen" id="historiaModal">
+  <div class="historia-stage">
+    <div class="pega-protagonista">
+      <img id="pegaProtaImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+    </div>
+    <div class="historia-bocadillo-pro">
+      <h3 id="historiaTitulo">…</h3>
+      <div class="texto-historia" id="historiaTexto">…</div>
+      <div class="historia-cta-row">
+        <button class="btn warm" id="historiaCtaBtn" onclick="cerrarHistoria()">▶ ¡VAMOS!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pistas -->
+<div class="pista-modal" id="pistaModal">
+  <div class="pista-hoja">
+    <h3 id="pistaTitulo">Sospechoso 1</h3>
+    <div class="pista-actual" id="pistaActual">…</div>
+    <div class="pista-selector" id="pistaSelector"></div>
+    <div class="pista-controls">
+      <button class="btn ghost sm" onclick="cerrarPistas()">↩️ Cerrar</button>
+      <span class="indi" id="pistaIndi">1 / 4</span>
+      <button class="btn warm sm" id="pistaSiguienteBtn" onclick="siguientePista()">Siguiente ➡</button>
+    </div>
+  </div>
+</div>
+
+<!-- Banner de piezas conseguidas -->
+<div class="piezas-victoria" id="piezasVictoria">
+  <div class="mensaje" id="piezasMensaje">🎉 ¡2 piezas conseguidas!</div>
+  <div class="piezas-show">
+    <div class="pieza-grande">🛣️</div>
+    <div class="pieza-grande">🛣️</div>
+  </div>
+  <button class="btn warm" onclick="cerrarPiezasVictoria()">▶ Volver al coche</button>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+/* =========================================================
+   ¡Se han estropeado las vacaciones! · LÓGICA
+   ========================================================= */
+
+// AUDIO básico
+const AC = window.AudioContext || window.webkitAudioContext;
+let ctx = null;
+function ensureCtx() { if (!ctx) ctx = new AC(); return ctx; }
+function tone(freq, dur, type = 'sine', vol = 0.18) {
+  const c = ensureCtx();
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, c.currentTime);
+  g.gain.setValueAtTime(vol, c.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(c.currentTime); o.stop(c.currentTime + dur);
+}
+const snd = {
+  tap:    () => tone(660, 0.10, 'triangle'),
+  win:    () => { tone(660,0.10,'sine'); setTimeout(()=>tone(880,0.10,'sine'),100); setTimeout(()=>tone(1175,0.18,'sine'),200); },
+  fanf:   () => { [523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,0.20,'square',0.15), i*120)); },
+  brrr:   () => { const c=ensureCtx(); const o=c.createOscillator(); const g=c.createGain(); o.type='sawtooth'; o.frequency.setValueAtTime(80,c.currentTime); o.frequency.linearRampToValueAtTime(60,c.currentTime+0.3); g.gain.setValueAtTime(0.08,c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+0.4); o.connect(g); g.connect(c.destination); o.start(c.currentTime); o.stop(c.currentTime+0.4); },
+  clonk:  () => tone(120, 0.16, 'square', 0.18),
+  infla:  () => { const c=ensureCtx(); const o=c.createOscillator(); const g=c.createGain(); o.type='sine'; o.frequency.setValueAtTime(200,c.currentTime); o.frequency.linearRampToValueAtTime(800,c.currentTime+0.6); g.gain.setValueAtTime(0.10,c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+0.7); o.connect(g); g.connect(c.destination); o.start(c.currentTime); o.stop(c.currentTime+0.7); },
+  pageFlip: () => { tone(300,0.05,'square',0.10); setTimeout(()=>tone(220,0.06,'square',0.10),50); },
+  // Sonido COHETE · whoosh ascendente largo, agudo
+  motorCohete: () => {
+    const c = ensureCtx();
+    const o = c.createOscillator();
+    const g = c.createGain();
+    const filt = c.createBiquadFilter();
+    filt.type = 'highpass'; filt.frequency.setValueAtTime(400, c.currentTime);
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(200, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(2400, c.currentTime + 0.8);
+    g.gain.setValueAtTime(0.10, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.9);
+    o.connect(filt); filt.connect(g); g.connect(c.destination);
+    o.start(c.currentTime); o.stop(c.currentTime + 0.9);
+  },
+  // Sonido RAYO · zap rapidísimo agudo y vibrante
+  motorRayo: () => {
+    const c = ensureCtx();
+    [0, 0.08, 0.16].forEach((d, i) => {
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.type = 'square';
+      o.frequency.setValueAtTime(1800 - i*200, c.currentTime + d);
+      o.frequency.exponentialRampToValueAtTime(300, c.currentTime + d + 0.12);
+      g.gain.setValueAtTime(0.08, c.currentTime + d);
+      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d + 0.14);
+      o.connect(g); g.connect(c.destination);
+      o.start(c.currentTime + d); o.stop(c.currentTime + d + 0.15);
+    });
+  },
+  // Sonido VACACIONAL · melodía suave estilo ukelele/tropical
+  motorVacacional: () => {
+    const c = ensureCtx();
+    [440, 554, 659, 880].forEach((f, i) => {
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f, c.currentTime + i*0.12);
+      g.gain.setValueAtTime(0.0001, c.currentTime + i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.08, c.currentTime + i*0.12 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + i*0.12 + 0.25);
+      o.connect(g); g.connect(c.destination);
+      o.start(c.currentTime + i*0.12); o.stop(c.currentTime + i*0.12 + 0.28);
+    });
+  },
+  // Sonido SÚPER TURBO · rugido grave con saturación
+  motorSuperTurbo: () => {
+    const c = ensureCtx();
+    // Capa 1: tono grave principal
+    const o1 = c.createOscillator();
+    const g1 = c.createGain();
+    o1.type = 'sawtooth';
+    o1.frequency.setValueAtTime(55, c.currentTime);
+    o1.frequency.linearRampToValueAtTime(110, c.currentTime + 0.4);
+    o1.frequency.linearRampToValueAtTime(80, c.currentTime + 0.9);
+    g1.gain.setValueAtTime(0.18, c.currentTime);
+    g1.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 1.0);
+    o1.connect(g1); g1.connect(c.destination);
+    o1.start(c.currentTime); o1.stop(c.currentTime + 1.0);
+    // Capa 2: armónico (rugido)
+    const o2 = c.createOscillator();
+    const g2 = c.createGain();
+    o2.type = 'square';
+    o2.frequency.setValueAtTime(110, c.currentTime);
+    o2.frequency.linearRampToValueAtTime(220, c.currentTime + 0.4);
+    g2.gain.setValueAtTime(0.04, c.currentTime);
+    g2.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 1.0);
+    o2.connect(g2); g2.connect(c.destination);
+    o2.start(c.currentTime); o2.stop(c.currentTime + 1.0);
+  }
+};
+// Mute global
+let muted = false;
+function toggleMute() {
+  muted = !muted;
+  document.getElementById('btnMute').textContent = muted ? '🔇' : '🔊';
+  if (muted && ctx) {
+    ctx.suspend();
+  } else if (ctx) {
+    ctx.resume();
+  }
+}
+
+// ESTADO
+const state = {
+  motorOk: false,
+  ruedaOk: false,
+  gasolinaOk: false,
+  piezas: 0,                       // 0..6
+  motorTarjetasVolteadas: 0,
+  ruedaInfladas: 0,
+  pistaActualIdx: 0,
+  pistaSospechoso: 0,
+  brrrIv: null                     // intervalo del sonido motor averiado
+};
+
+// LLUVIA TEMÁTICA
+function renderRain(hostId, items, n=24) {
+  const host = document.getElementById(hostId);
+  if (!host) return;
+  host.innerHTML = '';
+  for (let i=0; i<n; i++) {
+    const el = document.createElement('div');
+    el.className = 'it';
+    el.textContent = items[i % items.length];
+    el.style.left = (Math.random()*100)+'%';
+    el.style.animationDelay = (Math.random()*2.5)+'s';
+    el.style.animationDuration = (2 + Math.random()*2)+'s';
+    el.style.fontSize = (36 + Math.random()*28)+'px';
+    host.appendChild(el);
+  }
+}
+
+// NAVEGACIÓN
+function go(id) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  const t = document.getElementById('scene-'+id);
+  if (t) t.classList.add('active');
+  snd.tap();
+  // Re-disparar animaciones
+  const host = document.querySelector('#scene-'+id+' .act-host, #scene-'+id+' .puzzle-host');
+  if (host) { host.style.animation='none'; void host.offsetWidth; host.style.animation=''; }
+  // Lluvia temática
+  if (id === 'motor') renderRain('motorRain', ['⚙️','🔩','🔧','🛠️','📐'], 22);
+  if (id === 'rueda') renderRain('ruedaRain', ['🛞','💨','🔧','🌬️','⚙️'], 22);
+  if (id === 'carretera') renderRain('carreteraRain', ['🛣️','🚗','🚙','🌳','⛽'], 22);
+  if (id === 'coche') {
+    actualizarCoche();
+    const todoListo = state.motorOk && state.ruedaOk && state.gasolinaOk;
+    // Sin toast en pantalla coche: la narrativa ya está en la card debajo del coche.
+    // El toast queda reservado para mensajes de bloqueo (orden secuencial).
+  }
+  if (id === 'intro') {
+    // Sin toast en intro: la bienvenida la hace la pantalla Pegasusito al cargar el HTML.
+  }
+}
+
+// SONIDO MOTOR AVERIADO en bucle
+function arrancarBrrr() {
+  if (state.brrrIv) return;
+  state.brrrIv = setInterval(() => {
+    if (!state.motorOk && document.getElementById('scene-coche').classList.contains('active')) {
+      if (Math.random() < 0.6) snd.brrr(); else snd.clonk();
+    }
+  }, 1800);
+}
+function pararBrrr() {
+  if (state.brrrIv) { clearInterval(state.brrrIv); state.brrrIv = null; }
+}
+
+// HISTORIAS de cada minijuego (narradas por Pegasusito)
+const PEGA_PATH = '../shared/pegasusito/';
+const HISTORIAS = {
+  motor: {
+    titulo: '⚙️ El plano secreto del motor',
+    texto: 'Para arreglar el coche necesitamos reconstruir el motor, pero las instrucciones son raras. Tendréis que comunicaros muy bien para descubrir cómo era.',
+    pega: 'trabajando'
+  },
+  rueda: {
+    titulo: '🛞 Cambiar la rueda',
+    texto: 'Ahora hemos descubierto otro problema: una rueda está pinchada. Necesitamos cambiarla para poder continuar.',
+    pega: 'trabajando'
+  },
+  gasolina: {
+    titulo: '🔍 ¿Qué vecino nos ha dado gasolina?',
+    texto: 'El coche ya está arreglado, pero no tenemos gasolina suficiente. Hemos pedido ayuda a los vecinos. Cada vez que descubramos quién nos ha ayudado, nos regalará 1 litro de combustible.',
+    pega: 'curioso'
+  },
+  carretera: {
+    titulo: '🛣️ ¡Construir la carretera!',
+    texto: 'Habéis reparado el motor, cambiado la rueda y conseguido gasolina. Ahora toca construir el camino para llevar el coche hasta las vacaciones.',
+    pega: 'pensativo'
+  }
+};
+function setPegaPose(pose) {
+  const img = document.getElementById('pegaAvatarImg');
+  if (img) img.src = PEGA_PATH + 'pegasusito-' + pose + '.png';
+}
+function setPegaProtagonista(pose) {
+  const img = document.getElementById('pegaProtaImg');
+  if (img) img.src = PEGA_PATH + 'pegasusito-' + pose + '.png';
+}
+let juegoPendiente = null;
+
+// ABRIR JUEGO con historia previa
+// ORDEN OBLIGATORIO: motor → rueda → gasolina → carretera
+function abrirJuego(j) {
+  // Comprobar orden secuencial
+  if (j === 'rueda' && !state.motorOk) {
+    pegasusDice('Primero hay que arreglar el motor. Luego cambiamos la rueda.');
+    return;
+  }
+  if (j === 'gasolina' && (!state.motorOk || !state.ruedaOk)) {
+    pegasusDice('La gasolina la conseguimos después de arreglar motor y rueda.');
+    return;
+  }
+  if (j === 'carretera' && (!state.motorOk || !state.ruedaOk || !state.gasolinaOk)) {
+    pegasusDice('¡Eh! Primero arreglamos motor, rueda y conseguimos gasolina. Luego construimos el camino.');
+    return;
+  }
+  // Si ya está hecho
+  if (j === 'motor' && state.motorOk)       { pegasusDice('El motor ya está, está como nuevo.'); return; }
+  if (j === 'rueda' && state.ruedaOk)       { pegasusDice('La rueda ya la cambiaste.'); return; }
+  if (j === 'gasolina' && state.gasolinaOk) { pegasusDice('Ya conseguimos la gasolina.'); return; }
+  // Mostrar historia ANTES de entrar al juego
+  juegoPendiente = j;
+  const h = HISTORIAS[j];
+  document.getElementById('historiaTitulo').textContent = h.titulo;
+  document.getElementById('historiaTexto').textContent = h.texto;
+  setPegaProtagonista(h.pega);
+  document.getElementById('historiaModal').classList.add('show');
+  snd.pageFlip();
+}
+function cerrarHistoria() {
+  document.getElementById('historiaModal').classList.remove('show');
+  // Si hay callback custom, ejecutarlo y NO ir a juegoPendiente
+  if (pegaCallback) {
+    const cb = pegaCallback;
+    pegaCallback = null;
+    cb();
+    return;
+  }
+  const j = juegoPendiente;
+  juegoPendiente = null;
+  if (!j) return;
+  go(j);
+  if (j === 'motor')    montarMotor();
+  if (j === 'rueda')    montarRuedas();
+  if (j === 'gasolina') montarGasolina();
+  if (j === 'carretera') montarPuzzle();
+}
+
+// Función reutilizable: pantalla fullscreen Pegasusito protagonista
+let pegaCallback = null;
+function mostrarPantallaPegasusito({ titulo, texto, pose = 'saludando', cta = '▶ CONTINUAR', onContinuar = null }) {
+  document.getElementById('historiaTitulo').textContent = titulo;
+  document.getElementById('historiaTexto').textContent = texto;
+  document.getElementById('historiaCtaBtn').textContent = cta;
+  setPegaProtagonista(pose);
+  juegoPendiente = null;
+  pegaCallback = onContinuar;
+  document.getElementById('historiaModal').classList.add('show');
+  snd.pageFlip();
+}
+function volverACoche() { go('coche'); }
+
+// Toast informativo · mantiene la API pegasusDice(texto, opts) por compatibilidad
+let toastTimer = null;
+function pegasusDice(texto, opts = {}) {
+  const duracion = opts.duracion ?? 3500;
+  const cont = document.getElementById('infoToast');
+  const t = document.getElementById('infoText');
+  if (!cont || !t) return;
+  t.textContent = texto;
+  cont.classList.remove('hidden');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { cont.classList.add('hidden'); }, duracion);
+}
+
+// ACTUALIZAR COCHE
+function actualizarCoche() {
+  // Humo y chispas: solo si motor averiado
+  document.getElementById('cocheHumo').style.display    = state.motorOk ? 'none' : 'block';
+  document.getElementById('cocheChispa').style.display = state.motorOk ? 'none' : 'block';
+  // Rueda: si arreglada, ya no pinchada
+  const r = document.getElementById('rueda-der');
+  if (state.ruedaOk) r.classList.remove('pinchada'); else r.classList.add('pinchada');
+  // Zonas: secuenciales. Solo la próxima sin "ok" está activa
+  const zMotor = document.getElementById('z-motor');
+  const zRueda = document.getElementById('z-rueda');
+  const zDeposito = document.getElementById('z-deposito');
+  const zCarretera = document.getElementById('z-carretera');
+  zMotor.classList.toggle('ok', state.motorOk);
+  zRueda.classList.toggle('ok', state.ruedaOk);
+  zDeposito.classList.toggle('ok', state.gasolinaOk);
+  // Bloqueo secuencial
+  zRueda.classList.toggle('locked', !state.motorOk);
+  zDeposito.classList.toggle('locked', !(state.motorOk && state.ruedaOk));
+  const todoListo = state.motorOk && state.ruedaOk && state.gasolinaOk;
+  zCarretera.classList.toggle('locked', !todoListo);
+  // Quitar locked en los que ya están OK (es válido seguir clicando aunque ya resuelto)
+  if (state.motorOk)    zMotor.classList.remove('locked');
+  if (state.ruedaOk)    zRueda.classList.remove('locked');
+  if (state.gasolinaOk) zDeposito.classList.remove('locked');
+  // Cromos
+  const cromosRow = document.getElementById('cromosRow');
+  cromosRow.innerHTML = '';
+  const iconos = ['🛣️','🛣️','🛣️','🛣️','🛣️','🛣️'];
+  for (let i=0; i<6; i++) {
+    const d = document.createElement('div');
+    d.className = 'cromo' + (i < state.piezas ? '' : ' vacio');
+    d.textContent = i < state.piezas ? iconos[i] : (i+1);
+    cromosRow.appendChild(d);
+  }
+  // Progreso
+  const reparados = (state.motorOk?1:0) + (state.ruedaOk?1:0) + (state.gasolinaOk?1:0);
+  document.getElementById('progress').textContent = reparados + ' / 3 reparaciones';
+  // Sonido
+  if (state.motorOk) pararBrrr(); else arrancarBrrr();
+}
+
+// ===== JUEGO 1 · MOTOR · memory con sonidos =====
+const MOTORES = [
+  { nom: 'Motor Cohete',     ico: '🚀', snd: 'motorCohete'     },
+  { nom: 'Motor Rayo',       ico: '⚡', snd: 'motorRayo'       },
+  { nom: 'Motor Vacacional', ico: '🏖️', snd: 'motorVacacional' },
+  { nom: 'Motor Súper Turbo',ico: '🏎️', snd: 'motorSuperTurbo' }
+];
+const COLOR_POOL = ['#974694','#e45e9b','#08b75b','#007ec3','#f3d100','#ed7928','#d6191b'];
+
+// Genera un plano único de 9 bloques de colores
+function generarPlano(seed) {
+  const plano = [];
+  let s = seed;
+  for (let i=0; i<9; i++) {
+    s = (s * 9301 + 49297) % 233280;
+    const idx = Math.abs(s) % COLOR_POOL.length;
+    plano.push(COLOR_POOL[idx]);
+  }
+  return plano;
+}
+function pintarPlano(host, plano) {
+  host.innerHTML = '';
+  plano.forEach(col => {
+    const s = document.createElement('span');
+    s.style.background = col;
+    host.appendChild(s);
+  });
+}
+
+let motorCorrectoIdx = 0;
+let motorPlanos = [];
+let motorElegidoIdx = -1;
+
+function montarMotor() {
+  const grid = document.getElementById('motorGrid');
+  grid.innerHTML = '';
+  motorElegidoIdx = -1;
+  document.getElementById('motorFeedback').textContent = '';
+  document.getElementById('motorFeedback').className = 'motor-feedback';
+  document.getElementById('btnElegirMotor').disabled = true;
+  // Reset plano motor elegido
+  const planoMot = document.getElementById('planoMotorElegido');
+  planoMot.innerHTML = '';
+  for (let i=0; i<9; i++) {
+    const s = document.createElement('span');
+    s.className = 'vacio';
+    s.textContent = '?';
+    planoMot.appendChild(s);
+  }
+  document.getElementById('planoMotorLabel').innerHTML = '⚙️ ELIGE UN MOTOR';
+
+  // Genera 4 planos distintos
+  motorPlanos = MOTORES.map((m, i) => generarPlano(Date.now() + i*7919));
+  // Elige uno como CORRECTO
+  motorCorrectoIdx = Math.floor(Math.random() * MOTORES.length);
+  pintarPlano(document.getElementById('planoObjetivo'), motorPlanos[motorCorrectoIdx]);
+
+  MOTORES.forEach((m, idx) => {
+    const card = document.createElement('div');
+    card.className = 'motor-card-c';
+    card.dataset.idx = idx;
+    card.innerHTML = `
+      <div class="ico">${m.ico}</div>
+      <div class="nom">${m.nom}</div>
+      <div class="hint">🔊 Toca para oír y ver</div>
+    `;
+    card.addEventListener('mouseenter', () => snd[m.snd]());
+    card.addEventListener('click', () => seleccionarMotor(idx));
+    grid.appendChild(card);
+  });
+}
+
+function seleccionarMotor(idx) {
+  motorElegidoIdx = idx;
+  snd[MOTORES[idx].snd]();
+  // Pintar el plano del motor elegido a la derecha
+  pintarPlano(document.getElementById('planoMotorElegido'), motorPlanos[idx]);
+  document.getElementById('planoMotorLabel').innerHTML = `⚙️ ${MOTORES[idx].nom.toUpperCase()}`;
+  // Marcar la tarjeta visualmente
+  document.querySelectorAll('#motorGrid .motor-card-c').forEach((c, i) => {
+    c.classList.toggle('selected', i === idx);
+  });
+  // Activar botón ESTE ES
+  document.getElementById('btnElegirMotor').disabled = false;
+  // Feedback intermedio
+  const feedback = document.getElementById('motorFeedback');
+  feedback.textContent = '👀 Compara los dos planos. ¿Coinciden?';
+  feedback.className = 'motor-feedback';
+  feedback.style.color = 'var(--negro)';
+}
+
+function confirmarMotor() {
+  if (motorElegidoIdx < 0) return;
+  const feedback = document.getElementById('motorFeedback');
+  if (motorElegidoIdx === motorCorrectoIdx) {
+    feedback.textContent = `✓ ¡Es el ${MOTORES[motorElegidoIdx].nom}!`;
+    feedback.className = 'motor-feedback ok';
+    document.querySelector('#motorGrid .motor-card-c.selected').style.borderColor = 'var(--verde)';
+    document.querySelectorAll('.plano-cell')[1].classList.add('ok-motor');
+    snd.fanf();
+    setTimeout(() => { ganarMotor(); }, 1600);
+  } else {
+    feedback.textContent = `❌ El ${MOTORES[motorElegidoIdx].nom} no es. Prueba con otro.`;
+    feedback.className = 'motor-feedback fail';
+    const sel = document.querySelector('#motorGrid .motor-card-c.selected');
+    if (sel) {
+      sel.classList.add('error-pulse');
+      setTimeout(() => sel.classList.remove('error-pulse'), 1000);
+    }
+    snd.clonk();
+    setTimeout(() => {
+      feedback.textContent = '';
+      feedback.className = 'motor-feedback';
+    }, 2500);
+  }
+}
+
+function ganarMotor() {
+  state.motorOk = true;
+  state.piezas = Math.min(state.piezas + 2, 6);
+  snd.fanf();
+  setTimeout(() => mostrarPantallaPegasusito({
+    titulo: '¡Motor reparado!',
+    texto: '¡Genial! Hemos descubierto cuál era el motor. Os habéis ganado 2 piezas de carretera. Ahora a por la rueda pinchada.',
+    pose: 'celebrando',
+    cta: '▶ A POR LA RUEDA',
+    onContinuar: () => go('coche')
+  }), 600);
+}
+
+// ===== JUEGO 2 · RUEDAS =====
+function montarRuedas() {
+  const grid = document.getElementById('ruedasGrid');
+  grid.innerHTML = '';
+  state.ruedaInfladas = 0;
+  document.getElementById('btnRuedaCambiada').disabled = true;
+  for (let i=0; i<4; i++) {
+    const h = document.createElement('div');
+    h.className = 'rueda-host';
+    h.style.position = 'relative';
+    h.innerHTML = `
+      <svg class="rueda-svg" viewBox="0 0 120 120">
+        <!-- ESTADO PINCHADA: óvalo achatado, claramente plano abajo -->
+        <g class="pinchada-state">
+          <ellipse cx="60" cy="86" rx="52" ry="22" fill="#222" stroke="#000" stroke-width="3"/>
+          <ellipse cx="60" cy="86" rx="44" ry="14" fill="#444"/>
+          <circle cx="60" cy="86" r="14" fill="#999" stroke="#666" stroke-width="2"/>
+          <circle cx="60" cy="86" r="5" fill="#555"/>
+          <!-- líneas indicando "pinchada" -->
+          <text x="60" y="20" text-anchor="middle" font-family="Barlow" font-weight="900" font-style="italic" font-size="13" fill="#d6191b">PINCHADA</text>
+          <path d="M 30 38 L 90 38" stroke="#d6191b" stroke-width="3" stroke-linecap="round"/>
+          <text x="90" y="50" text-anchor="middle" font-size="14" fill="#d6191b">💨</text>
+        </g>
+        <!-- ESTADO INFLADA: círculo perfecto con radios -->
+        <g class="inflada-state">
+          <circle cx="60" cy="60" r="48" fill="#1a1a1a" stroke="#000" stroke-width="4"/>
+          <circle cx="60" cy="60" r="38" fill="#2a2a2a"/>
+          <!-- llanta con radios -->
+          <circle cx="60" cy="60" r="22" fill="#aaa" stroke="#888" stroke-width="2"/>
+          <g stroke="#666" stroke-width="3">
+            <line x1="60" y1="38" x2="60" y2="82"/>
+            <line x1="38" y1="60" x2="82" y2="60"/>
+            <line x1="44" y1="44" x2="76" y2="76"/>
+            <line x1="76" y1="44" x2="44" y2="76"/>
+          </g>
+          <circle cx="60" cy="60" r="7" fill="#555"/>
+          <!-- tick verde -->
+          <circle cx="100" cy="20" r="14" fill="#08b75b" stroke="#fff" stroke-width="3"/>
+          <text x="100" y="26" text-anchor="middle" font-size="16" fill="#fff" font-weight="900">✓</text>
+        </g>
+      </svg>
+      <span class="aire">💨</span>
+      <span class="lbl">Rueda ${i+1}</span>
+    `;
+    h.addEventListener('click', () => {
+      if (h.classList.contains('inflada')) return;
+      h.classList.add('inflada');
+      snd.infla();
+      state.ruedaInfladas++;
+      if (state.ruedaInfladas >= 4) document.getElementById('btnRuedaCambiada').disabled = false;
+    });
+    grid.appendChild(h);
+  }
+}
+function ganarRueda() {
+  state.ruedaOk = true;
+  state.piezas = Math.min(state.piezas + 2, 6);
+  snd.fanf();
+  setTimeout(() => mostrarPantallaPegasusito({
+    titulo: '¡Rueda cambiada!',
+    texto: 'Habéis inflado las 4 ruedas. Ahora el coche puede rodar bien, pero todavía nos falta gasolina para llegar. Toca preguntar a los vecinos.',
+    pose: 'celebrando',
+    cta: '▶ A POR LA GASOLINA',
+    onContinuar: () => go('coche')
+  }), 600);
+}
+
+// ===== JUEGO 3 · GASOLINA · QUIÉN ES QUIÉN =====
+const VECINOS = [
+  { nom: 'Carmen', ico: '👩‍🦰', tat: false },
+  { nom: 'Paco',   ico: '👨',   tat: false },
+  { nom: 'Luisa',  ico: '👱‍♀️', tat: true  },
+  { nom: 'Marcos', ico: '🧔',   tat: true  },
+  { nom: 'Ana',    ico: '👩',   tat: false }
+];
+/* Cada hoja apunta a UN vecino real del array VECINOS[].
+   El peque lee las pistas y al final tiene que decir quién es. */
+const SOSPECHOSOS_PISTAS = [
+  {
+    titulo: 'Sospechoso 1',
+    pistas: [
+      'Es una mujer.',
+      'Tiene el pelo pelirrojo y largo.',
+      'No lleva gafas.',
+      'No tiene tatuaje en la espalda.'
+    ],
+    culpable: 0  // CARMEN
+  },
+  {
+    titulo: 'Sospechoso 2',
+    pistas: [
+      'Es un hombre.',
+      'Tiene barba.',
+      'Tiene un tatuaje en la espalda.',
+      'No lleva gafas.'
+    ],
+    culpable: 3  // MARCOS
+  },
+  {
+    titulo: 'Sospechoso 3',
+    pistas: [
+      'Es una mujer.',
+      'Tiene el pelo rubio y rizado.',
+      'Tiene un tatuaje en la espalda.',
+      'Es de las que lleva mucho rato escondida.'
+    ],
+    culpable: 2  // LUISA
+  }
+];
+let sospechososResueltos = [false, false, false];
+function montarGasolina() {
+  sospechososResueltos = [false, false, false];
+  document.getElementById('btnGanarGas').disabled = true;
+  const fila = document.getElementById('vecinosFila');
+  fila.innerHTML = '';
+  VECINOS.forEach((v, i) => {
+    const card = document.createElement('div');
+    card.className = 'vecino';
+    card.innerHTML = `
+      <button class="btn-girar" onclick="event.stopPropagation(); girarVecino(${i});" title="Girar">🔄</button>
+      <div class="cara">
+        <div class="avatar-front">${v.ico}</div>
+        <div class="nombre">${v.nom}</div>
+      </div>
+      <div class="espalda">
+        <div class="avatar-back ${v.tat?'tat':''}"></div>
+        <div class="nombre" style="margin-top:8px;">${v.nom}</div>
+      </div>
+    `;
+    fila.appendChild(card);
+  });
+  const mesa = document.getElementById('pistasMesa');
+  mesa.innerHTML = '';
+  SOSPECHOSOS_PISTAS.forEach((s, i) => {
+    const h = document.createElement('div');
+    h.className = 'hoja-pistas';
+    h.innerHTML = `
+      <span class="hoja-num">${i+1}</span>
+      <div class="hoja-titulo">${s.titulo}</div>
+      <div class="hoja-preview">${s.pistas[0]}</div>
+    `;
+    h.onclick = () => abrirPistas(i);
+    mesa.appendChild(h);
+  });
+}
+function girarVecino(i) {
+  const cards = document.querySelectorAll('#vecinosFila .vecino');
+  cards[i].classList.toggle('girado');
+  snd.tap();
+}
+function abrirPistas(idxSospechoso) {
+  state.pistaSospechoso = idxSospechoso;
+  state.pistaActualIdx = 0;
+  mostrarPistaActual();
+  document.getElementById('pistaModal').classList.add('show');
+  snd.pageFlip();
+}
+function mostrarPistaActual() {
+  const s = SOSPECHOSOS_PISTAS[state.pistaSospechoso];
+  const total = s.pistas.length;
+  if (state.pistaActualIdx < total) {
+    // Mostrar pista
+    document.getElementById('pistaTitulo').textContent = s.titulo + ' · Pista ' + (state.pistaActualIdx+1);
+    document.getElementById('pistaActual').innerHTML = '“' + s.pistas[state.pistaActualIdx] + '”';
+    document.getElementById('pistaIndi').textContent = (state.pistaActualIdx+1) + ' / ' + total;
+    document.getElementById('pistaSiguienteBtn').textContent = (state.pistaActualIdx+1) === total ? '¿Quién es? ➡' : 'Siguiente ➡';
+    document.getElementById('pistaSelector').style.display = 'none';
+    document.getElementById('pistaActual').style.display = 'block';
+    document.getElementById('pistaIndi').style.display = 'inline';
+    document.getElementById('pistaSiguienteBtn').style.display = 'inline-flex';
+  } else {
+    // Fase ADIVINAR · selector de vecinos
+    document.getElementById('pistaTitulo').textContent = s.titulo + ' · ¿Quién es?';
+    document.getElementById('pistaActual').style.display = 'none';
+    document.getElementById('pistaIndi').style.display = 'none';
+    document.getElementById('pistaSiguienteBtn').style.display = 'none';
+    const sel = document.getElementById('pistaSelector');
+    sel.style.display = 'flex';
+    sel.innerHTML = '';
+    VECINOS.forEach((v, i) => {
+      const b = document.createElement('button');
+      b.className = 'sel-vecino';
+      b.innerHTML = `<span style="font-size:38px;">${v.ico}</span><br><b>${v.nom}</b>`;
+      b.onclick = () => responderSospechoso(i);
+      sel.appendChild(b);
+    });
+  }
+}
+function responderSospechoso(idxVecino) {
+  const s = SOSPECHOSOS_PISTAS[state.pistaSospechoso];
+  if (idxVecino === s.culpable) {
+    sospechososResueltos[state.pistaSospechoso] = idxVecino;
+    snd.win();
+    document.getElementById('pistaActual').style.display = 'block';
+    document.getElementById('pistaActual').innerHTML = `✅ ¡Correcto! <b>${VECINOS[idxVecino].nom}</b> nos ha dado gasolina.`;
+    document.getElementById('pistaSelector').style.display = 'none';
+    actualizarHojas();
+    setTimeout(() => {
+      cerrarPistas();
+      // Si las 3 resueltas, habilitar botón ganar
+      if (sospechososResueltos.every(r => r !== false)) {
+        document.getElementById('btnGanarGas').disabled = false;
+      }
+    }, 1800);
+  } else {
+    snd.clonk();
+    document.getElementById('pistaActual').style.display = 'block';
+    document.getElementById('pistaActual').innerHTML = `❌ Mmm... no es <b>${VECINOS[idxVecino].nom}</b>. Vuelve a leer las pistas.`;
+    document.getElementById('pistaSelector').style.display = 'none';
+    setTimeout(() => {
+      state.pistaActualIdx = 0;
+      mostrarPistaActual();
+    }, 1500);
+  }
+}
+function siguientePista() {
+  state.pistaActualIdx++;
+  mostrarPistaActual();
+  snd.pageFlip();
+}
+function actualizarHojas() {
+  document.querySelectorAll('.hoja-pistas').forEach((h, i) => {
+    if (sospechososResueltos[i] !== false) {
+      h.classList.add('resuelta');
+      h.querySelector('.hoja-preview').innerHTML = `✅ <b>${VECINOS[sospechososResueltos[i]].nom}</b>`;
+    }
+  });
+}
+function cerrarPistas() {
+  document.getElementById('pistaModal').classList.remove('show');
+}
+function ganarGasolina() {
+  if (!sospechososResueltos.every(r => r !== false)) {
+    pegasusDice('Primero hay que adivinar los 3 sospechosos.');
+    return;
+  }
+  state.gasolinaOk = true;
+  state.piezas = Math.min(state.piezas + 2, 6);
+  snd.fanf();
+  setTimeout(() => mostrarPantallaPegasusito({
+    titulo: '¡Tenemos gasolina!',
+    texto: 'Habéis descubierto a los 3 vecinos que nos han ayudado. Ya tenemos motor, rueda y gasolina. ¡Solo falta construir el camino!',
+    pose: 'celebrando',
+    cta: '▶ CONSTRUIR EL CAMINO',
+    onContinuar: () => go('coche')
+  }), 600);
+}
+
+// ===== BANNER PIEZAS VICTORIA =====
+function mostrarPiezasVictoria(msg) {
+  document.getElementById('piezasMensaje').textContent = msg;
+  document.getElementById('piezasVictoria').classList.add('show');
+}
+function cerrarPiezasVictoria() {
+  document.getElementById('piezasVictoria').classList.remove('show');
+  go('coche');
+}
+
+// ===== JUEGO 4 · PUZZLE CARRETERA =====
+/* Cuadrícula 3x3:
+ *   pos: 0 1 2
+ *        3 4 5
+ *        6 7 8
+ *  Camino correcto: 0 → 1 → 2 → 5 → 8 (5 piezas, 6ª pieza puede ser en 4 como cruce o decorativa)
+ *  Pero el PDF dice 6 piezas. Voy a usar:
+ *   camino: 0→1→2 luego 2→5 luego 5→4 luego 4→7 luego 7→8 → 6 piezas
+ */
+/* Layout 3x3 · camino lógico:
+   [0H]→[1H]→[2 curva izq-abajo]
+   [3 🌳]   [4 🌲]   [5V]
+                      ↓
+   [6 ⛽]   [7 🌳]   [8 🏁 META]
+   Camino: 0 → 1 → 2 → 5 → 8
+*/
+const PUZZLE_LAYOUT = [
+  { i:0, tipo:'recta-h', rotCorrecta:0, piezaCarretera:true },
+  { i:1, tipo:'recta-h', rotCorrecta:0, piezaCarretera:true },
+  { i:2, tipo:'curva',   rotCorrecta:0, piezaCarretera:true },   // curva conecta IZQUIERDA con ABAJO en rot 0
+  { i:3, tipo:'deco',    deco:'🌳' },
+  { i:4, tipo:'deco',    deco:'🌲' },
+  { i:5, tipo:'recta-v', rotCorrecta:0, piezaCarretera:true },
+  { i:6, tipo:'deco',    deco:'⛽' },
+  { i:7, tipo:'deco',    deco:'🌳' },
+  { i:8, tipo:'meta',    deco:'🏁' }
+];
+// estado del puzzle: rotaciones actuales (en grados)
+let puzzleRotacionesActuales = [];
+
+function svgPieza(tipo) {
+  // Pieza 100x100 con carretera marrón/asfalto
+  const base = `<rect width="100" height="100" fill="transparent"/>`;
+  const asf = '#2a2a2a', linea = '#f3d100';
+  if (tipo === 'recta-h') {
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      ${base}
+      <rect x="0" y="35" width="100" height="30" fill="${asf}"/>
+      <rect x="0" y="48" width="100" height="4" fill="${linea}" stroke-dasharray="6 6"/>
+    </svg>`;
+  }
+  if (tipo === 'recta-v') {
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      ${base}
+      <rect x="35" y="0" width="30" height="100" fill="${asf}"/>
+      <rect x="48" y="0" width="4" height="100" fill="${linea}"/>
+    </svg>`;
+  }
+  if (tipo === 'curva') {
+    // Curva que conecta lado IZQUIERDO con lado INFERIOR
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      ${base}
+      <path d="M 0 50 Q 0 50 50 50 Q 50 50 50 100" stroke="${asf}" stroke-width="30" fill="none" stroke-linecap="butt"/>
+      <path d="M 0 50 Q 30 50 50 50 Q 50 70 50 100" stroke="${linea}" stroke-width="3" stroke-dasharray="6 6" fill="none"/>
+    </svg>`;
+  }
+  return '';
+}
+
+function montarPuzzle() {
+  const grid = document.getElementById('puzzleGrid');
+  grid.innerHTML = '';
+  puzzleRotacionesActuales = [];
+  PUZZLE_LAYOUT.forEach((p, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'puzzle-cell';
+    if (p.piezaCarretera) {
+      // rotación inicial aleatoria (90, 180 o 270)
+      const rotIni = [90, 180, 270][Math.floor(Math.random()*3)];
+      puzzleRotacionesActuales[idx] = (p.rotCorrecta + rotIni) % 360;
+      cell.dataset.idx = idx;
+      cell.dataset.tipo = p.tipo;
+      cell.dataset.rotCorrecta = p.rotCorrecta;
+      cell.innerHTML = svgPieza(p.tipo);
+      cell.querySelector('svg').style.transform = `rotate(${puzzleRotacionesActuales[idx]}deg)`;
+      cell.onclick = () => rotarPieza(idx, cell);
+    } else {
+      cell.classList.add('fija');
+      cell.innerHTML = `<span class="deco">${p.deco}</span>`;
+    }
+    grid.appendChild(cell);
+  });
+}
+function rotarPieza(idx, cell) {
+  puzzleRotacionesActuales[idx] = (puzzleRotacionesActuales[idx] + 90) % 360;
+  cell.querySelector('svg').style.transform = `rotate(${puzzleRotacionesActuales[idx]}deg)`;
+  snd.tap();
+  // Comprobar si la pieza está OK
+  const correcta = parseInt(cell.dataset.rotCorrecta);
+  if (puzzleRotacionesActuales[idx] === correcta) {
+    cell.classList.add('ok');
+  } else {
+    cell.classList.remove('ok');
+  }
+  // Comprobar si todas OK
+  const todasOk = PUZZLE_LAYOUT.every(p => {
+    if (!p.piezaCarretera) return true;
+    return puzzleRotacionesActuales[p.i] === p.rotCorrecta;
+  });
+  if (todasOk) {
+    setTimeout(animarCocheRuta, 600);
+  }
+}
+function animarCocheRuta() {
+  snd.win();
+  pegasusDice('¡La carretera está completa! Vamos a las vacaciones.', { pose: 'vacaciones' });
+  const grid = document.getElementById('puzzleGrid');
+  const cells = grid.querySelectorAll('.puzzle-cell');
+  // Crear el coche fuera del grid en posición inicial (a la izquierda del primer cuadrante)
+  const car = document.createElement('div');
+  car.className = 'car-puzzle-anim';
+  car.textContent = '🚗';
+  car.style.position = 'absolute';
+  car.style.fontSize = '36px';
+  car.style.transition = 'transform 0.45s linear, left 0.45s linear, top 0.45s linear';
+  grid.appendChild(car);
+  // Camino lógico: arranca a la izquierda fuera del grid, entra por 0, sigue 1, 2, 5, 8 (meta)
+  const ruta = [0, 1, 2, 5, 8];
+  const gridRect = grid.getBoundingClientRect();
+  // Posición inicial (fuera del grid, a la izquierda)
+  const cell0Rect = cells[0].getBoundingClientRect();
+  car.style.left = (cell0Rect.left - gridRect.left - 60) + 'px';
+  car.style.top  = (cell0Rect.top  - gridRect.top + cell0Rect.height/2 - 22) + 'px';
+  car.style.transform = 'rotate(0deg)';
+  let step = 0;
+  function siguiente() {
+    if (step >= ruta.length) {
+      // Salir por la derecha del grid (más allá de la meta)
+      const ultRect = cells[ruta[ruta.length-1]].getBoundingClientRect();
+      car.style.left = (ultRect.left - gridRect.left + ultRect.width + 60) + 'px';
+      setTimeout(() => {
+        mostrarPantallaPegasusito({
+          titulo: '¡El coche llegó!',
+          texto: 'Hemos cruzado todo el camino. Habéis sido un equipo increíble. ¡Las vacaciones nos esperan!',
+          pose: 'vacaciones',
+          cta: '▶ A LAS VACACIONES',
+          onContinuar: () => { go('final'); launchConfetti(); }
+        });
+      }, 800);
+      return;
+    }
+    const idx = ruta[step];
+    const cell = cells[idx];
+    const r = cell.getBoundingClientRect();
+    const left = r.left - gridRect.left + r.width/2 - 22;
+    const top  = r.top  - gridRect.top  + r.height/2 - 22;
+    car.style.left = left + 'px';
+    car.style.top  = top + 'px';
+    // Rotación según la dirección hacia la siguiente celda
+    let rot = 0;
+    if (step < ruta.length - 1) {
+      const next = ruta[step+1];
+      const curCol = idx % 3, curRow = Math.floor(idx/3);
+      const nxtCol = next % 3, nxtRow = Math.floor(next/3);
+      if (nxtCol > curCol) rot = 0;
+      else if (nxtCol < curCol) rot = 180;
+      else if (nxtRow > curRow) rot = 90;
+      else if (nxtRow < curRow) rot = -90;
+    }
+    car.style.transform = `rotate(${rot}deg)`;
+    step++;
+    setTimeout(siguiente, 600);
+  }
+  siguiente();
+}
+
+// CONFETI FINAL
+function launchConfetti() {
+  snd.fanf();
+  const host = document.getElementById('confetti');
+  host.innerHTML = '';
+  const cols = ['#f3d100','#ed7928','#e45e9b','#08b75b','#007ec3','#974694','#d6191b'];
+  for (let i=0; i<60; i++) {
+    const c = document.createElement('div');
+    c.className = 'c';
+    c.style.left = (Math.random()*100)+'%';
+    c.style.background = cols[i % cols.length];
+    c.style.animationDelay = (Math.random()*2)+'s';
+    c.style.animationDuration = (2+Math.random()*2)+'s';
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '0';
+    host.appendChild(c);
+  }
+  setTimeout(()=>{ host.innerHTML=''; }, 6000);
+}
+
+// RESET TODO
+function resetTodo() {
+  state.motorOk = false;
+  state.ruedaOk = false;
+  state.gasolinaOk = false;
+  state.piezas = 0;
+  pararBrrr();
+  go('intro');
+}
+
+// AUDIO unlock
+function unlockAudio() { ensureCtx(); }
+document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+document.addEventListener('touchstart',  unlockAudio, { once: true, passive: true });
+document.addEventListener('keydown',     unlockAudio, { once: true, passive: true });
+
+// ESCAPE: volver a inicio
+document.addEventListener('keydown', e => { if (e.key === 'Escape') resetTodo(); });
+
+// Pantalla de BIENVENIDA con Pegasusito al cargar
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    mostrarPantallaPegasusito({
+      titulo: '¡Hola! Soy Pegasusito',
+      texto: 'Soy la mascota Pegasus y voy a acompañaros en esta aventura. ¡Vamos a salvar las vacaciones juntos!',
+      pose: 'saludando',
+      cta: '▶ ¡VAMOS ALLÁ!'
+    });
+  }, 400);
+});
+</script>
+</body>
+</html>

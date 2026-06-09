@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Viaje de Verano con Fisio · Papás al Juego</title>
+<style>
+/* =========================================================
+   Viaje de Verano con Fisio · versión ESTRICTA (Alba)
+   Estética veraniega · paleta Pegasus (cálidos)
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+
+:root {
+  --verde: #08b75b;
+  --azul: #007ec3;
+  --morado: #974694;
+  --rosa: #e45e9b;
+  --rojo: #d6191b;
+  --naranja: #ed7928;
+  --amarillo: #f3d100;
+  --crema: #fff5e0;
+  --negro: #1a1330;
+  --grad-verano: linear-gradient(135deg, #f3d100 0%, #ed7928 45%, #e45e9b 100%);
+  --grad-cielo: linear-gradient(180deg, #ffe6a3 0%, #ffc46b 60%, #f59c4f 100%);
+  --grad-mar:   linear-gradient(180deg, #5cc4e8 0%, #2a8fc4 100%);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--grad-cielo);
+  color: var(--negro);
+  user-select: none;
+  position: relative;
+}
+
+#stage { position: fixed; inset: 0; overflow: hidden; }
+
+/* ============ BRANDING Pegasus (TODAS las pantallas) ============ */
+.brand-logo { position:fixed; top:12px; left:12px; height:42px; z-index:90; border-radius:999px; background:#fff; padding:5px 12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; }
+.brand-logo img { height:100%; width:auto; object-fit:contain; }
+@media (max-height: 720px) { .brand-logo { height:32px; top:8px; left:8px; padding:4px 8px; } }
+
+/* ============ PEGASUSITO PROTAGONISTA · pantalla fullscreen ============ */
+.historia-fullscreen {
+  position:fixed; inset:0;
+  background:
+    linear-gradient(180deg, rgba(20,5,40,0.55) 0%, rgba(80,30,120,0.40) 50%, rgba(20,5,40,0.55) 100%),
+    linear-gradient(135deg, #2a1b4f 0%, #5a2880 40%, #e45e9b 100%);
+  z-index:220; display:none; align-items:center; justify-content:center; padding:40px; overflow:hidden;
+}
+.historia-fullscreen.show { display:flex; }
+.historia-stage { display:flex; align-items:center; justify-content:center; gap:40px; max-width:1200px; width:100%; flex-wrap:wrap; }
+.pega-protagonista {
+  position:relative;
+  height: min(50vh, 420px); width:auto;
+  flex-shrink:0;
+  animation: pegaEntra 0.8s var(--ease-back) both;
+}
+@keyframes pegaEntra { from{opacity:0; transform:translateX(-100px) scale(0.6);} to{opacity:1; transform:translateX(0) scale(1);} }
+.pega-protagonista img { height:100%; width:auto; filter: drop-shadow(0 24px 36px rgba(0,0,0,0.50)); animation: pegaBob 3.5s ease-in-out infinite; }
+@keyframes pegaBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+.historia-bocadillo-pro {
+  background:#fff; color:#1a1330;
+  padding:32px 36px; border-radius:32px 32px 32px 8px;
+  max-width:540px; flex:1; min-width:280px;
+  position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.50);
+  animation: bocadilloEntra 0.7s var(--ease-back) 0.3s both;
+}
+@keyframes bocadilloEntra { from{opacity:0; transform:translateX(60px) scale(0.7);} to{opacity:1; transform:translateX(0) scale(1);} }
+.historia-bocadillo-pro::before { content:""; position:absolute; left:-22px; bottom:36px; border:16px solid transparent; border-right-color:#fff; }
+.historia-bocadillo-pro h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:30px; color: var(--morado); text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:18px; line-height:1.05; }
+.historia-bocadillo-pro .texto-historia { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:19px; line-height:1.5; color:#1a1330; margin-bottom:26px; min-height:80px; }
+.historia-cta-row { display:flex; gap:12px; justify-content:flex-end; }
+@media (max-width:900px) {
+  .historia-stage { flex-direction:column; gap:20px; }
+  .pega-protagonista { height: 220px; }
+  .historia-bocadillo-pro { padding:22px 24px; border-radius:24px; }
+  .historia-bocadillo-pro::before { left:50%; bottom:auto; top:-28px; transform:translateX(-50%); border:14px solid transparent; border-bottom-color:#fff; border-right-color:transparent; }
+  .historia-bocadillo-pro h3 { font-size:22px; }
+  .historia-bocadillo-pro .texto-historia { font-size:16px; min-height:60px; }
+}
+
+/* ============ PALMERAS LATERALES (decoración fija) ============ */
+.palmera {
+  position: fixed;
+  bottom: -20px;
+  width: 180px; height: 320px;
+  z-index: 1;            /* detrás de contenido importante */
+  pointer-events: none;
+  filter: drop-shadow(0 18px 24px rgba(0,0,0,0.25));
+  opacity: 0.92;
+}
+.palmera.izq { left: -70px; animation: palmeraSwayIzq 5s ease-in-out infinite; transform-origin: 60% 90%; }
+.palmera.der { right: -70px; animation: palmeraSwayDer 5s ease-in-out infinite; transform-origin: 40% 90%; }
+@keyframes palmeraSwayIzq {
+  0%,100% { transform: scaleX(-1) rotate(-2deg); }
+  50%     { transform: scaleX(-1) rotate(3deg); }
+}
+@keyframes palmeraSwayDer {
+  0%,100% { transform: rotate(-2deg); }
+  50%     { transform: rotate(3deg); }
+}
+@media (max-width: 900px) {
+  .palmera { width: 130px; height: 220px; opacity: 0.75; }
+  .palmera.izq { left: -80px; }
+  .palmera.der { right: -80px; }
+}
+.scene {
+  position: absolute; inset: 0;
+  display: none;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;             /* por encima de las palmeras decorativas */
+}
+.scene.active { display: flex; opacity: 1; }
+
+/* ============ TOPBAR ============ */
+.topbar {
+  position: fixed; top: 14px; left: 14px; right: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100; pointer-events: none;
+}
+.topbar > * { pointer-events: auto; }
+.topbar .badge {
+  background: rgba(255,255,255,0.90);
+  border: 2px solid var(--naranja);
+  color: var(--negro);
+  padding: 6px 14px; border-radius: 999px;
+  font-weight: 800; font-style: italic; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.topbar .progress {
+  background: #fff; padding: 6px 14px;
+  border-radius: 999px; font-weight: 800; font-style: italic; font-size: 13px;
+  color: var(--morado); box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ============ BOTONES ============ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 36px;
+  border-radius: 999px; border: 0;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 20px; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer;
+  background: var(--negro); color: #fff;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.30);
+  transition: box-shadow 0.15s, filter 0.15s;
+  touch-action: manipulation;   /* sin delay de 300 ms en móvil */
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  z-index: 10;                  /* siempre clicable encima del resto */
+}
+.btn:hover { box-shadow: 0 20px 38px rgba(0,0,0,0.35); filter: brightness(1.08); }
+.btn:active { filter: brightness(0.92); }
+.btn.warm { background: var(--grad-verano); color: #fff; }
+.btn.sun  { background: var(--amarillo); color: var(--negro); }
+.btn.ghost {
+  background: rgba(255,255,255,0.94); color: var(--negro);
+  border: 2.5px solid var(--negro);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.20);
+}
+.btn.sm { font-size: 14px; padding: 10px 22px; }
+.btn:disabled, .btn[disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+/* ============ TÍTULOS ============ */
+.title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 56px; line-height: 1;
+  text-transform: uppercase; letter-spacing: -1px;
+  color: #fff;
+  text-shadow: 0 6px 24px rgba(0,0,0,0.30);
+  margin: 0;
+}
+.title .yellow { color: var(--amarillo); }
+.subtitle {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800; font-style: italic;
+  font-size: 28px; color: var(--negro);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ============ ESCENA 1 · PORTADA ============ */
+#scene-portada {
+  background:
+    radial-gradient(circle at 20% 80%, rgba(243,209,0,0.40), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(228,94,155,0.40), transparent 40%),
+    var(--grad-cielo);
+}
+.portada-scene {
+  position: relative;
+  width: min(88vw, 880px); height: 420px;
+  border-radius: 36px;
+  background: linear-gradient(180deg, #8edcff 0%, #b9e3fb 35%, #ffd698 55%, #fbb56b 100%);
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.35), inset 0 0 0 6px #fff;
+  margin-bottom: 28px;
+  z-index: 2;
+}
+
+/* Sol ilustrado (no emoji) */
+.sol-real {
+  position: absolute; top: 36px; right: 60px;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #fff5a8 30%, #f3d100 60%, #ed7928 100%);
+  box-shadow:
+    0 0 60px rgba(243,209,0,0.6),
+    0 0 30px rgba(255,255,255,0.8) inset;
+  animation: solRot 30s linear infinite;
+}
+.sol-real::before, .sol-real::after {
+  content: ""; position: absolute; inset: -22px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, rgba(243,209,0,0.5) 8deg, transparent 16deg,
+    transparent 36deg, rgba(243,209,0,0.5) 44deg, transparent 52deg,
+    transparent 72deg, rgba(243,209,0,0.5) 80deg, transparent 88deg,
+    transparent 108deg, rgba(243,209,0,0.5) 116deg, transparent 124deg,
+    transparent 144deg, rgba(243,209,0,0.5) 152deg, transparent 160deg,
+    transparent 180deg, rgba(243,209,0,0.5) 188deg, transparent 196deg,
+    transparent 216deg, rgba(243,209,0,0.5) 224deg, transparent 232deg,
+    transparent 252deg, rgba(243,209,0,0.5) 260deg, transparent 268deg,
+    transparent 288deg, rgba(243,209,0,0.5) 296deg, transparent 304deg,
+    transparent 324deg, rgba(243,209,0,0.5) 332deg, transparent 340deg);
+  z-index: -1;
+}
+@keyframes solRot { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+/* Nubes */
+.nube {
+  position: absolute;
+  width: 110px; height: 36px;
+  background: #fff;
+  border-radius: 100px;
+  box-shadow:
+    20px -14px 0 -4px #fff,
+    40px -6px 0 -2px #fff,
+    -22px -10px 0 -4px #fff;
+  opacity: 0.92;
+  animation: nubeFlot 18s linear infinite;
+}
+.nube-a { top: 24%; left: 14%; }
+.nube-b { top: 12%; left: 56%; transform: scale(0.7); animation-duration: 24s; animation-delay: -8s; }
+@keyframes nubeFlot {
+  0%   { transform: translateX(-30px) scale(1); }
+  50%  { transform: translateX(40px) scale(1); }
+  100% { transform: translateX(-30px) scale(1); }
+}
+
+/* Fuegos artificiales SVG */
+.fuego {
+  position: absolute;
+  width: 90px; height: 90px;
+  animation: fuegoPulse 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(243,209,0,0.6));
+}
+.fuego:nth-of-type(2) { animation-delay: 0.7s; }
+@keyframes fuegoPulse {
+  0%,100% { transform: scale(0.6); opacity: 0.5; }
+  50%     { transform: scale(1.1); opacity: 1; }
+}
+
+/* Escenario de música */
+.escenario-real {
+  position: absolute; left: 6%; bottom: 36%;
+  width: 130px; height: 100px;
+}
+.escenario-real .esc-techo {
+  position: absolute; left: 0; right: 0; top: 0;
+  height: 22px;
+  background: linear-gradient(180deg, #d6191b 0%, #b01416 100%);
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.20);
+}
+.escenario-real .esc-techo::before {
+  content: ""; position: absolute; left: -8px; right: -8px; top: 22px; height: 6px;
+  background: repeating-linear-gradient(90deg, #f3d100 0 12px, #fff 12px 24px);
+}
+.escenario-real .esc-piso {
+  position: absolute; left: 6%; right: 6%; bottom: 0; height: 18px;
+  background: linear-gradient(180deg, #5c3618, #3a2010);
+  border-radius: 6px;
+}
+.escenario-real .esc-micro {
+  position: absolute; left: 50%; bottom: 18px;
+  width: 6px; height: 50px;
+  margin-left: -3px;
+  background: #1a1330;
+}
+.escenario-real .esc-micro::before {
+  content: ""; position: absolute; left: 50%; top: -10px;
+  transform: translateX(-50%);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #888, #333);
+}
+.escenario-real .esc-musico {
+  position: absolute; left: 24%; bottom: 18px;
+  width: 28px; height: 50px;
+  background: linear-gradient(180deg, #08b75b 0%, #08b75b 55%, #007ec3 55%);
+  border-radius: 14px 14px 4px 4px;
+}
+.escenario-real .esc-musico::before {
+  content: ""; position: absolute; left: 50%; top: -20px;
+  transform: translateX(-50%);
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #f4c8a0;
+}
+
+/* Puesto de helados */
+.puesto-helados {
+  position: absolute; right: 6%; bottom: 36%;
+  width: 150px; height: 110px;
+}
+.puesto-helados .ph-techo {
+  position: absolute; left: -8px; right: -8px; top: 0;
+  height: 28px;
+  background: repeating-linear-gradient(90deg, #e45e9b 0 16px, #fff 16px 32px);
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.20);
+}
+.puesto-helados .ph-mostrador {
+  position: absolute; left: 0; right: 0; bottom: 0; top: 32px;
+  background: linear-gradient(180deg, #fff 0%, #fde2ee 100%);
+  border: 3px solid var(--rosa);
+  border-radius: 4px 4px 10px 10px;
+}
+.puesto-helados .ph-letra {
+  position: absolute; left: 0; right: 0; top: 38px;
+  text-align: center;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 14px; color: var(--rosa);
+  letter-spacing: 1px;
+}
+.puesto-helados .ph-cono {
+  position: absolute; bottom: 6px;
+  width: 22px; height: 36px;
+}
+.puesto-helados .ph-cono::before {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 18px;
+  background: linear-gradient(180deg, #d49b50, #8a5a2e);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.puesto-helados .ph-cono::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: 24px;
+  border-radius: 50% 50% 40% 40%;
+}
+.puesto-helados .ph-cono-1 { left: 14px; }
+.puesto-helados .ph-cono-1::after { background: #f4a8b8; }   /* fresa */
+.puesto-helados .ph-cono-2 { left: 60px; }
+.puesto-helados .ph-cono-2::after { background: #fff5a8; }   /* limón */
+.puesto-helados .ph-cono-3 { left: 106px; }
+.puesto-helados .ph-cono-3::after { background: #8a5a2e; }   /* chocolate */
+
+/* Cámara fotográfica grande */
+.camara-foto {
+  position: absolute; left: 50%; top: 38%;
+  width: 110px; height: 78px;
+  transform: translateX(-50%);
+  animation: bob 2.6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.30));
+}
+@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(-8px);} }
+.camara-foto .cf-cuerpo {
+  position: absolute; left: 0; right: 0; bottom: 0; top: 14px;
+  background: linear-gradient(180deg, #2a2a2a, #1a1330);
+  border-radius: 12px;
+}
+.camara-foto .cf-cuerpo::before {
+  content: ""; position: absolute; left: 12px; top: 10px;
+  width: 22px; height: 8px; background: #555; border-radius: 3px;
+}
+.camara-foto .cf-flash {
+  position: absolute; right: 14px; top: -4px;
+  width: 14px; height: 18px;
+  background: linear-gradient(180deg, #444, #222);
+  border-radius: 3px;
+}
+.camara-foto .cf-flash::after {
+  content: ""; position: absolute; left: 2px; right: 2px; top: 3px; bottom: 3px;
+  background: var(--amarillo);
+  border-radius: 2px;
+  animation: flashBlink 2s ease-in-out infinite;
+}
+@keyframes flashBlink { 0%,90%{opacity:0.4;} 95%{opacity:1; box-shadow: 0 0 16px var(--amarillo);} 100%{opacity:0.4;} }
+.camara-foto .cf-lente {
+  position: absolute; left: 50%; top: 32px;
+  transform: translateX(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #555 0%, #222 60%, #000 100%);
+  border: 4px solid #888;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+}
+.camara-foto .cf-lente::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.40);
+}
+
+/* Mar y arena */
+.portada-scene .mar {
+  position: absolute; left: 0; right: 0; bottom: 18%; height: 14%;
+  background: linear-gradient(180deg, #5cc4e8 0%, #2a8fc4 100%);
+}
+.portada-scene .mar::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -8px; height: 16px;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 20px,
+    rgba(255,255,255,0.6) 20px 28px,
+    transparent 28px 40px);
+  border-radius: 50% 50% 0 0;
+}
+.portada-scene .arena {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 18%;
+  background: linear-gradient(180deg, #f0c97e, #d49b50);
+}
+
+/* Sombrillas */
+.sombrilla { position: absolute; width: 60px; height: 70px; }
+.sombrilla-a { left: 16%; bottom: 8%; }
+.sombrilla-b { right: 18%; bottom: 8%; }
+.sombrilla .som-arriba {
+  width: 60px; height: 30px;
+  border-radius: 60px 60px 0 0;
+  background: repeating-conic-gradient(from 90deg, var(--rojo) 0deg 36deg, #fff 36deg 72deg);
+}
+.sombrilla .som-arriba.alt {
+  background: repeating-conic-gradient(from 90deg, var(--azul) 0deg 36deg, #fff 36deg 72deg);
+}
+.sombrilla .som-mastil {
+  width: 4px; height: 44px;
+  background: #5c3618;
+  margin-left: 28px;
+}
+
+/* Banda de iconos en la parte inferior · DENTRO de la escena */
+.badges-escenarios {
+  position: absolute; left: 12px; right: 12px; bottom: 12px;
+  display: flex; justify-content: space-between; gap: 6px;
+  pointer-events: none;
+  z-index: 3;
+}
+.badges-escenarios .bag {
+  flex: 1;
+  background: rgba(255,255,255,0.95);
+  padding: 4px 10px; border-radius: 999px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800; font-style: italic;
+  font-size: 11px; color: var(--negro);
+  letter-spacing: 0.5px; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  border: 1.5px solid var(--amarillo);
+  white-space: nowrap;
+}
+.badges-escenarios .bag small { font-size: 10px; font-weight: 900; font-style: italic; }
+
+.portada-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 56px; line-height: 0.95;
+  text-transform: uppercase; letter-spacing: -1px;
+  color: #fff;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.40), 0 0 6px rgba(0,0,0,0.20);
+  text-align: center;
+}
+.portada-title .accent { color: var(--amarillo); }
+
+/* ============ ESCENA 2 · PREPARACIÓN ============ */
+#scene-preparacion {
+  background:
+    radial-gradient(circle at 50% 100%, rgba(228,94,155,0.30), transparent 60%),
+    var(--grad-cielo);
+  cursor: pointer;
+}
+.frases-stack {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 22px;
+  max-width: 800px;
+  text-align: center;
+}
+.frase {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800; font-style: italic;
+  font-size: 32px; line-height: 1.25;
+  color: var(--negro);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s, transform 0.6s var(--ease-back);
+  background: #fff;
+  padding: 14px 28px;
+  border-radius: 28px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+  max-width: 90vw;
+}
+.frase.show { opacity: 1; transform: translateY(0); }
+.frase.big { font-size: 56px; background: var(--amarillo); color: var(--negro); padding: 22px 38px; }
+.hint-toca {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: rgba(255,255,255,0.94);
+  border: 2px solid var(--naranja);
+  color: var(--negro); padding: 10px 20px; border-radius: 999px;
+  font-weight: 800; font-style: italic; font-size: 14px;
+  letter-spacing: 1px; text-transform: uppercase;
+  animation: hintPulse 1.6s ease-in-out infinite;
+}
+@keyframes hintPulse { 0%,100%{transform:translateX(-50%) scale(1);} 50%{transform:translateX(-50%) scale(1.05);} }
+
+/* ============ ESCENA 3 · MALETA + RULETA INTERROGACIÓN ============ */
+#scene-maleta {
+  background:
+    radial-gradient(circle at 80% 80%, rgba(243,209,0,0.30), transparent 50%),
+    var(--grad-cielo);
+}
+.maleta-corner {
+  position: absolute; left: 30px; bottom: 30px;
+  display: flex; flex-direction: column; align-items: center;
+  animation: maletaIn 1s var(--ease-back) both;
+}
+@keyframes maletaIn { from{opacity:0; transform:scale(0.6);} to{opacity:1; transform:scale(1);} }
+.maleta-icon { font-size: 130px; filter: drop-shadow(0 12px 16px rgba(0,0,0,0.30)); }
+.maleta-label {
+  margin-top: 8px;
+  background: var(--verde); color: #fff;
+  padding: 6px 14px; border-radius: 999px;
+  font-weight: 900; font-style: italic; font-size: 13px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.flechas { position: absolute; left: 200px; bottom: 130px; font-size: 60px; color: var(--naranja); }
+.flechas span { display: inline-block; animation: flechaPulse 1.5s ease-in-out infinite; }
+.flechas span:nth-child(2) { animation-delay: 0.3s; }
+.flechas span:nth-child(3) { animation-delay: 0.6s; }
+@keyframes flechaPulse { 0%,100%{transform:translateX(0);opacity:0.4;} 50%{transform:translateX(20px);opacity:1;} }
+
+/* RULETA · aguja gira, ruleta fija */
+.ruleta-wrap {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 90px;     /* espacio para el botón GIRAR */
+}
+.ruleta {
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  position: relative;
+  border: 10px solid #fff;
+  box-shadow: 0 24px 50px rgba(0,0,0,0.35);
+  background: conic-gradient(
+    var(--rosa)     0deg  90deg,
+    var(--amarillo) 90deg 180deg,
+    var(--naranja) 180deg 270deg,
+    var(--verde)   270deg 360deg
+  );
+}
+/* Etiquetas posicionadas en el centro de cada cuadrante (diagonales NE/SE/SW/NW) */
+.ruleta .lbl {
+  position: absolute;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 20px; color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.ruleta .lbl-ne { top: 22%; right: 14%; }   /* HELADOS · sector 0-90 */
+.ruleta .lbl-se { bottom: 22%; right: 14%; } /* FERIA   · sector 90-180 */
+.ruleta .lbl-sw { bottom: 22%; left: 14%; }  /* MÚSICA  · sector 180-270 */
+.ruleta .lbl-nw { top: 22%; left: 14%; }     /* FOTOS   · sector 270-360 */
+
+.ruleta .qmark {
+  position: absolute;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 60px; color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+.ruleta .qmark-ne { top: 18%; right: 22%; }
+.ruleta .qmark-se { bottom: 18%; right: 22%; }
+.ruleta .qmark-sw { bottom: 18%; left: 22%; }
+.ruleta .qmark-nw { top: 18%; left: 22%; }
+
+/* Hub central decorativo */
+.ruleta .hub {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: #fff;
+  border: 5px solid var(--negro);
+  z-index: 2;
+}
+
+/* AGUJA · esto sí gira */
+.ruleta-aguja {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 16px; height: 170px;
+  margin-left: -8px;
+  margin-top: -160px;             /* punta arriba, base en el centro de la ruleta */
+  background: linear-gradient(180deg, var(--negro) 0%, var(--negro) 70%, var(--rojo) 100%);
+  border-radius: 50% 50% 6px 6px;
+  transform-origin: 50% 94%;      /* gira desde la base, no desde la punta */
+  transform: rotate(0deg);
+  transition: transform 3.5s cubic-bezier(0.17, 0.67, 0.32, 1);
+  z-index: 3;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.40));
+  pointer-events: none;
+}
+.ruleta-aguja::after {
+  content: ""; position: absolute;
+  left: 50%; top: -2px;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 26px solid var(--negro);
+}
+
+.ruleta-cta {
+  position: absolute;
+  left: 50%; bottom: 20px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 4;
+}
+
+/* ============ ESCENAS 5-8 · ACTIVIDADES ============ */
+.actividad-host {
+  position: relative;
+  width: min(90vw, 900px);
+  background: #fff;
+  border-radius: 36px;
+  padding: 36px 30px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.30);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  animation: actividadIn 0.7s var(--ease-back) 1.5s forwards;
+}
+@keyframes actividadIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.actividad-host h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 44px; text-transform: uppercase; letter-spacing: -1px;
+  color: var(--naranja);
+  margin-bottom: 16px;
+}
+.actividad-host ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+.actividad-host li {
+  background: var(--crema);
+  border: 2.5px solid var(--amarillo);
+  border-radius: 22px;
+  padding: 18px 16px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800; font-style: italic;
+  font-size: 22px;
+  color: var(--negro);
+  display: flex; align-items: center; gap: 14px;
+  animation: liIn 0.5s var(--ease-back) both;
+}
+.actividad-host li .ico { font-size: 38px; }
+.actividad-host li .num { color: var(--rosa); font-weight: 900; font-size: 26px; }
+@keyframes liIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+
+/* Lluvia temática de fondo (común a todas las actividades) */
+.theme-rain {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.theme-rain .it {
+  position: absolute; top: -10%;
+  font-size: 56px;
+  animation: themeFall 2.5s linear infinite;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.20));
+}
+@keyframes themeFall { 0%{transform:translateY(0) rotate(0); opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh) rotate(720deg); opacity:0;} }
+
+/* Alias antiguo para compatibilidad */
+.helados-rain { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.helados-rain .h { position: absolute; top: -10%; font-size: 56px; animation: themeFall 2.5s linear infinite; }
+
+/* CÁMARA · FOTOS */
+.camara-host {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 30px;
+  width: min(90vw, 600px);
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  animation: actividadIn 0.7s var(--ease-back) 1.5s forwards;
+}
+.visor-grande {
+  width: min(92vw, 680px); height: 460px;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1330 100%);
+  border-radius: 28px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.40);
+  border: 8px solid #fff;
+  overflow: hidden;
+}
+@media (max-width: 720px) { .visor-grande { height: 320px; } }
+.visor-grande video, .visor-grande canvas {
+  position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.cam-placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px;
+  color: #fff;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700; font-style: italic;
+  font-size: 16px; text-align: center;
+}
+.cam-icon-big {
+  font-size: 80px;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.40));
+  animation: bobCam 2.5s ease-in-out infinite;
+}
+@keyframes bobCam { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.cam-msg { line-height: 1.4; max-width: 280px; }
+.camara-grande {
+  width: 280px; height: 200px;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1330 100%);
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.40);
+}
+.camara-grande::before {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #444, #111);
+  border: 6px solid #888;
+  box-shadow: inset 0 0 16px rgba(0,0,0,0.6);
+}
+.camara-grande::after {
+  content: ""; position: absolute; left: 25px; top: 25px;
+  width: 40px; height: 16px;
+  background: #555;
+  border-radius: 4px;
+}
+.camara-grande .visor {
+  position: absolute; right: 25px; top: 25px;
+  width: 38px; height: 26px;
+  background: var(--rojo);
+  border-radius: 4px;
+  animation: visorBlink 1s ease-in-out infinite;
+}
+@keyframes visorBlink { 0%,49%{opacity:1;} 50%,100%{opacity:0.3;} }
+.cuenta-atras {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 56px; color: var(--negro);
+  background: var(--amarillo);
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
+  text-shadow: 0 3px 8px rgba(0,0,0,0.20);
+  border: 5px solid #fff;
+}
+.cuenta-atras.fin {
+  animation: cuentaFin 0.4s ease-in-out;
+  color: var(--rojo);
+}
+@keyframes cuentaFin { 0%,100%{transform:scale(1);} 50%{transform:scale(1.25);} }
+.flash-screen {
+  position: fixed; inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+}
+.flash-screen.fire {
+  animation: flashFire 0.6s ease-out;
+}
+@keyframes flashFire { 0%{opacity:0;} 20%{opacity:1;} 100%{opacity:0;} }
+
+.botones-camara { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+/* ============ ESCENA FINAL ============ */
+#scene-final {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(243,209,0,0.40), transparent 60%),
+    var(--grad-verano);
+  color: #fff;
+}
+#scene-final .mensaje {
+  background: #fff;
+  color: var(--negro);
+  padding: 40px 48px;
+  border-radius: 32px;
+  text-align: center;
+  max-width: 720px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.40);
+}
+#scene-final h1 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 44px; line-height: 1.05;
+  color: var(--naranja);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+#scene-final p {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700; font-style: italic;
+  font-size: 22px;
+  color: var(--negro);
+  line-height: 1.45;
+}
+#scene-final .maleta-final {
+  font-size: 130px;
+  animation: maletaSel 2s ease-in-out infinite;
+  filter: drop-shadow(0 16px 24px rgba(0,0,0,0.40));
+  margin-top: 24px;
+}
+@keyframes maletaSel { 0%,100%{transform:rotate(-3deg) scale(1);} 50%{transform:rotate(3deg) scale(1.08);} }
+#scene-final .sello {
+  position: absolute;
+  font-size: 60px;
+  opacity: 0;
+  animation: selloDrop 1.2s var(--ease-back) 1s forwards;
+  pointer-events: none;
+}
+@keyframes selloDrop {
+  0%   { opacity: 0; transform: translateY(-200px) scale(2.5) rotate(-30deg); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.4) rotate(8deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(-5deg); }
+}
+
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.confetti .c {
+  position: absolute; width: 10px; height: 10px;
+  animation: confFall 3s linear infinite;
+}
+@keyframes confFall {
+  0%   { top: -10%; transform: rotate(0); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { top: 110%; transform: rotate(720deg); opacity: 0; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 720px) {
+  .title, #scene-final h1 { font-size: 36px; }
+  .portada-title { font-size: 36px; }
+  .portada-scene { height: 340px; }
+  .ruleta { width: 260px; height: 260px; }
+  .ruleta .sector .lbl { font-size: 16px; }
+  .actividad-host h2 { font-size: 30px; }
+  .actividad-host ul { grid-template-columns: 1fr; }
+  .actividad-host li { font-size: 18px; }
+  .cuenta-atras { font-size: 80px; width: 140px; height: 140px; }
+  .frase { font-size: 22px; padding: 12px 22px; }
+  .frase.big { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Palmeras laterales fijas -->
+<svg class="palmera izq" viewBox="0 0 220 380" xmlns="http://www.w3.org/2000/svg">
+  <!-- tronco -->
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#8a5a2e" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#6b421f" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- líneas de anillos del tronco -->
+  <g stroke="#5c3618" stroke-width="2" fill="none" opacity="0.45">
+    <path d="M 113 320 Q 125 318 138 322"/>
+    <path d="M 110 260 Q 122 258 134 262"/>
+    <path d="M 107 200 Q 119 198 130 202"/>
+    <path d="M 104 140 Q 115 138 125 142"/>
+  </g>
+  <!-- hojas (5 hojas grandes en torno al tope) -->
+  <g fill="#08b75b">
+    <path d="M 100 90 Q 30 50 5 5 Q 55 35 100 70 Z"/>
+    <path d="M 100 90 Q 40 110 5 150 Q 50 95 100 80 Z"/>
+    <path d="M 100 90 Q 150 35 200 10 Q 145 55 105 80 Z"/>
+    <path d="M 100 90 Q 175 95 215 145 Q 145 95 100 80 Z"/>
+    <path d="M 100 90 Q 95 35 80 -5 Q 100 35 105 80 Z"/>
+  </g>
+  <g fill="#0a7a40" opacity="0.6">
+    <path d="M 100 90 Q 40 60 18 30 Q 60 45 100 75 Z"/>
+    <path d="M 100 90 Q 160 60 195 30 Q 145 55 105 75 Z"/>
+  </g>
+  <!-- cocos -->
+  <circle cx="105" cy="95" r="9" fill="#5c3618"/>
+  <circle cx="118" cy="92" r="8" fill="#5c3618"/>
+  <circle cx="112" cy="105" r="9" fill="#5c3618"/>
+</svg>
+<svg class="palmera der" viewBox="0 0 220 380" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#8a5a2e" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <path d="M 130 380 C 125 280, 115 180, 100 90" stroke="#6b421f" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <g stroke="#5c3618" stroke-width="2" fill="none" opacity="0.45">
+    <path d="M 113 320 Q 125 318 138 322"/>
+    <path d="M 110 260 Q 122 258 134 262"/>
+    <path d="M 107 200 Q 119 198 130 202"/>
+    <path d="M 104 140 Q 115 138 125 142"/>
+  </g>
+  <g fill="#08b75b">
+    <path d="M 100 90 Q 30 50 5 5 Q 55 35 100 70 Z"/>
+    <path d="M 100 90 Q 40 110 5 150 Q 50 95 100 80 Z"/>
+    <path d="M 100 90 Q 150 35 200 10 Q 145 55 105 80 Z"/>
+    <path d="M 100 90 Q 175 95 215 145 Q 145 95 100 80 Z"/>
+    <path d="M 100 90 Q 95 35 80 -5 Q 100 35 105 80 Z"/>
+  </g>
+  <g fill="#0a7a40" opacity="0.6">
+    <path d="M 100 90 Q 40 60 18 30 Q 60 45 100 75 Z"/>
+    <path d="M 100 90 Q 160 60 195 30 Q 145 55 105 75 Z"/>
+  </g>
+  <circle cx="105" cy="95" r="9" fill="#5c3618"/>
+  <circle cx="118" cy="92" r="8" fill="#5c3618"/>
+  <circle cx="112" cy="105" r="9" fill="#5c3618"/>
+</svg>
+
+<!-- Branding Pegasus en TODAS las pantallas -->
+<a class="brand-logo" href="#">
+  <img src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+</a>
+
+<!-- Pantalla Pegasusito fullscreen reutilizable -->
+<div class="historia-fullscreen" id="historiaModal">
+  <div class="historia-stage">
+    <div class="pega-protagonista">
+      <img id="pegaProtaImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+    </div>
+    <div class="historia-bocadillo-pro">
+      <h3 id="historiaTitulo">…</h3>
+      <div class="texto-historia" id="historiaTexto">…</div>
+      <div class="historia-cta-row">
+        <button class="btn warm" id="historiaCtaBtn" onclick="cerrarHistoria()">▶ ¡VAMOS!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <span class="badge">🏖️ Papás al Juego · Fisio</span>
+  <span class="progress" id="progress">0 / 4</span>
+</div>
+
+<div id="stage">
+
+  <!-- ESCENA 1 · PORTADA · escena ilustrada CSS/SVG -->
+  <section class="scene active" id="scene-portada">
+    <div class="portada-scene" id="portadaIlu">
+      <!-- Cielo con sol y nubes -->
+      <div class="sol-real"></div>
+      <div class="nube nube-a"></div>
+      <div class="nube nube-b"></div>
+
+      <!-- Fuegos artificiales (partículas SVG) -->
+      <svg class="fuego" style="left:14%; top:8%;" viewBox="0 0 100 100">
+        <g stroke="#f3d100" stroke-width="3" stroke-linecap="round" fill="none">
+          <line x1="50" y1="50" x2="50" y2="10"/><line x1="50" y1="50" x2="90" y2="50"/>
+          <line x1="50" y1="50" x2="50" y2="90"/><line x1="50" y1="50" x2="10" y2="50"/>
+          <line x1="50" y1="50" x2="80" y2="20"/><line x1="50" y1="50" x2="20" y2="80"/>
+          <line x1="50" y1="50" x2="80" y2="80"/><line x1="50" y1="50" x2="20" y2="20"/>
+        </g>
+        <g fill="#ed7928">
+          <circle cx="50" cy="10" r="4"/><circle cx="90" cy="50" r="4"/>
+          <circle cx="50" cy="90" r="4"/><circle cx="10" cy="50" r="4"/>
+          <circle cx="80" cy="20" r="3"/><circle cx="20" cy="80" r="3"/>
+        </g>
+      </svg>
+      <svg class="fuego" style="right:18%; top:4%;" viewBox="0 0 100 100">
+        <g stroke="#e45e9b" stroke-width="3" stroke-linecap="round" fill="none">
+          <line x1="50" y1="50" x2="50" y2="10"/><line x1="50" y1="50" x2="90" y2="50"/>
+          <line x1="50" y1="50" x2="50" y2="90"/><line x1="50" y1="50" x2="10" y2="50"/>
+          <line x1="50" y1="50" x2="80" y2="20"/><line x1="50" y1="50" x2="20" y2="80"/>
+          <line x1="50" y1="50" x2="80" y2="80"/><line x1="50" y1="50" x2="20" y2="20"/>
+        </g>
+        <g fill="#f3d100">
+          <circle cx="50" cy="10" r="4"/><circle cx="90" cy="50" r="4"/>
+          <circle cx="50" cy="90" r="4"/><circle cx="10" cy="50" r="4"/>
+        </g>
+      </svg>
+
+      <!-- Escenario de música -->
+      <div class="escenario-real">
+        <div class="esc-techo"></div>
+        <div class="esc-piso"></div>
+        <div class="esc-micro"></div>
+        <div class="esc-musico"></div>
+      </div>
+
+      <!-- Puesto de helados -->
+      <div class="puesto-helados">
+        <div class="ph-techo"></div>
+        <div class="ph-mostrador"></div>
+        <div class="ph-letra">HELADOS</div>
+        <div class="ph-cono ph-cono-1"></div>
+        <div class="ph-cono ph-cono-2"></div>
+        <div class="ph-cono ph-cono-3"></div>
+      </div>
+
+      <!-- Cámara grande -->
+      <div class="camara-foto">
+        <div class="cf-cuerpo"></div>
+        <div class="cf-flash"></div>
+        <div class="cf-lente"></div>
+      </div>
+
+      <!-- Mar + arena -->
+      <div class="mar"></div>
+      <div class="arena"></div>
+
+      <!-- Sombrillas en la playa -->
+      <div class="sombrilla sombrilla-a">
+        <div class="som-arriba"></div>
+        <div class="som-mastil"></div>
+      </div>
+      <div class="sombrilla sombrilla-b">
+        <div class="som-arriba alt"></div>
+        <div class="som-mastil"></div>
+      </div>
+
+      <!-- Mini iconos (playa/piscina/montaña/parque acuático) en banda inferior -->
+      <div class="badges-escenarios">
+        <div class="bag">🏖️<small>PLAYA</small></div>
+        <div class="bag">🏊‍♂️<small>PISCINA</small></div>
+        <div class="bag">⛰️<small>MONTAÑA</small></div>
+        <div class="bag">💦<small>PARQUE ACUÁTICO</small></div>
+      </div>
+    </div>
+    <h1 class="portada-title">Viaje de Verano<br><span class="accent">con Fisio</span></h1>
+    <button class="btn warm" style="margin-top: 36px;" onclick="go('preparacion')">▶ EMPEZAR</button>
+  </section>
+
+  <!-- ESCENA 2 · PREPARACIÓN -->
+  <section class="scene" id="scene-preparacion" onclick="avanzarFrase()">
+    <div class="frases-stack" id="frasesStack">
+      <div class="frase" data-f="0">¡Este año vamos a crear nuestro propio viaje de verano deseado!</div>
+      <div class="frase" data-f="1">Vamos a empezar preparando...</div>
+      <div class="frase" data-f="2">¿Qué necesitamos preparar antes de irnos de viaje?</div>
+      <div class="frase big" data-f="3">¡UNA MALETA! 🧳</div>
+      <div class="frase" data-f="4">¿Qué se necesita en la maleta?</div>
+    </div>
+    <div class="hint-toca" id="hintToca">👆 Toca para continuar</div>
+  </section>
+
+  <!-- ESCENA 3 · MALETA + RULETA CON INTERROGACIÓN -->
+  <section class="scene" id="scene-maleta">
+    <div class="maleta-corner">
+      <span class="maleta-icon">🧳</span>
+      <span class="maleta-label">✓ Maleta lista</span>
+    </div>
+    <div class="flechas"><span>➡</span><span>➡</span><span>➡</span></div>
+    <div class="ruleta-wrap">
+      <div class="ruleta" id="ruletaQ">
+        <span class="qmark qmark-ne">?</span>
+        <span class="qmark qmark-se">?</span>
+        <span class="qmark qmark-sw">?</span>
+        <span class="qmark qmark-nw">?</span>
+        <div class="hub"></div>
+      </div>
+      <div class="ruleta-aguja"></div>
+      <button class="btn warm sm ruleta-cta" onclick="go('ruleta-nombres')">DESCUBRIR ACTIVIDADES</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 4 · RULETA CON NOMBRES -->
+  <section class="scene" id="scene-ruleta-nombres" style="background: radial-gradient(circle at 80% 80%, rgba(243,209,0,0.30), transparent 50%), var(--grad-cielo);">
+    <h1 class="title" style="color: var(--morado); text-shadow: 0 4px 12px rgba(0,0,0,0.10);">¡La Ruleta!</h1>
+    <p class="subtitle" id="ruletaInstr" style="margin-bottom: 36px;">Pulsa <b>GIRAR</b> para descubrir qué actividad toca.</p>
+    <div class="ruleta-wrap">
+      <div class="ruleta" id="ruletaN">
+        <span class="lbl lbl-ne">HELADOS</span>
+        <span class="lbl lbl-se">FERIA</span>
+        <span class="lbl lbl-sw">MÚSICA</span>
+        <span class="lbl lbl-nw">FOTOS</span>
+        <div class="hub"></div>
+      </div>
+      <div class="ruleta-aguja" id="aguja"></div>
+      <button class="btn warm sm ruleta-cta" id="btnGirar" onclick="girarRuleta()">🎯 GIRAR</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 5 · HELADOS -->
+  <section class="scene" id="scene-helados" style="background: linear-gradient(180deg, #ffe6a3, #ffc46b);">
+    <div class="helados-rain" id="heladosRain"></div>
+    <div class="actividad-host">
+      <h2>🍦 HELADOS</h2>
+      <p style="font-weight:700; font-style:italic; font-size:20px; color: var(--negro);">¿Qué helado eliges?</p>
+      <ul>
+        <li><span class="ico">🍫</span> Helado de chocolate</li>
+        <li><span class="ico">🍦</span> Helado de vainilla</li>
+        <li><span class="ico">☁️</span> Helado de nube</li>
+        <li><span class="ico">🍋</span> Helado de limón</li>
+        <li style="grid-column: 1 / -1; justify-content: center;"><span class="ico">🥛</span> Helado de yogur</li>
+      </ul>
+      <button class="btn warm" style="margin-top: 24px;" onclick="volverRuleta()">▶ SIGUIENTE</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 6 · FERIA -->
+  <section class="scene" id="scene-feria" style="background: linear-gradient(180deg, #ffd5b3, #f59c4f);">
+    <div class="theme-rain" id="feriaRain"></div>
+    <div class="actividad-host">
+      <h2>🎯 JUEGOS DE FERIA</h2>
+      <ul>
+        <li><span class="num">1.</span><span class="ico">🎯</span> Diana de feria</li>
+        <li><span class="num">2.</span><span class="ico">🎳</span> Bolos</li>
+        <li><span class="num">3.</span><span class="ico">🎈</span> Globo</li>
+        <li><span class="num">4.</span><span class="ico">⭕</span> Canicas movidas por el viento</li>
+      </ul>
+      <button class="btn warm" style="margin-top: 24px;" onclick="volverRuleta()">▶ SIGUIENTE</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 7 · MÚSICA -->
+  <section class="scene" id="scene-musica" style="background: linear-gradient(180deg, #fce4f3, #e45e9b);">
+    <div class="theme-rain" id="musicaRain"></div>
+    <div class="actividad-host">
+      <h2 style="color: var(--morado);">🎵 AL RITMO DE LA MÚSICA</h2>
+      <p style="font-weight:700; font-style:italic; font-size:20px; color: var(--negro);">Elige un número y suena la canción:</p>
+      <ul>
+        <li><span class="num">1.</span> La Bomba — <i>King África</i></li>
+        <li><span class="num">2.</span> YMCA — <i>Village People</i></li>
+        <li><span class="num">3.</span> La Macarena — <i>Los del Río</i></li>
+        <li><span class="num">4.</span> Follow the Leader — <i>Soca Boys</i></li>
+        <li style="grid-column: 1 / -1; justify-content: center;"><span class="num">5.</span> Paquito el Chocolatero</li>
+      </ul>
+      <button class="btn warm" style="margin-top: 24px;" onclick="volverRuleta()">▶ SIGUIENTE</button>
+    </div>
+  </section>
+
+  <!-- ESCENA 8 · FOTOS · cámara real con getUserMedia -->
+  <section class="scene" id="scene-fotos" style="background: radial-gradient(circle at 50% 100%, rgba(8,183,91,0.30), transparent 60%), var(--grad-cielo);">
+    <div class="theme-rain" id="fotosRain"></div>
+    <div class="camara-host">
+      <h2 style="font-family:Barlow;font-weight:900;font-style:italic;font-size:38px;color:var(--negro);text-transform:uppercase;letter-spacing:-0.5px;">📸 Momento de las Fotos</h2>
+      <div class="visor-grande">
+        <video id="camVideo" autoplay playsinline muted style="display:none;"></video>
+        <canvas id="camCanvas" style="display:none;"></canvas>
+        <div class="cam-placeholder" id="camOverlay">
+          <div class="cam-icon-big">📷</div>
+          <div class="cam-msg">Pulsa <b>ACTIVAR CÁMARA</b><br>para hacer la foto real</div>
+        </div>
+      </div>
+      <div class="cuenta-atras" id="cuentaAtras">60</div>
+      <div class="botones-camara" id="botonesCamara">
+        <button class="btn warm" id="btnActivarCam" onclick="activarCamara()">📷 ACTIVAR CÁMARA</button>
+        <button class="btn ghost" onclick="iniciarCuentaAtras(true)">▶ MODO SIMULADO</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA FINAL -->
+  <section class="scene" id="scene-final">
+    <div class="mensaje" style="position: relative;">
+      <h1>¡Hemos completado nuestro viaje de verano con Fisio!</h1>
+      <p>Tenemos que ir a la maleta a poner el sello que demuestra que hemos completado todo el viaje.<br><br><b>¿Dónde está la maleta?</b></p>
+      <div class="maleta-final">🧳</div>
+      <span class="sello" style="left: 50%; top: 60%; transform: translateX(-50%);">✅</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="flash-screen" id="flashScreen"></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+/* =========================================================
+   LÓGICA del Viaje de Verano con Fisio
+   ========================================================= */
+
+// ---------- AUDIO básico con Web Audio API ----------
+const AC = window.AudioContext || window.webkitAudioContext;
+let ctx = null;
+function ensureCtx() { if (!ctx) ctx = new AC(); return ctx; }
+function tone(freq, dur, type = 'sine', vol = 0.18) {
+  const c = ensureCtx();
+  const osc = c.createOscillator();
+  const gain = c.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, c.currentTime);
+  gain.gain.setValueAtTime(vol, c.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+  osc.connect(gain); gain.connect(c.destination);
+  osc.start(c.currentTime); osc.stop(c.currentTime + dur);
+}
+const snd = {
+  tap:    () => tone(660, 0.10, 'triangle'),
+  win:    () => { tone(660, 0.10, 'sine'); setTimeout(() => tone(880, 0.18, 'sine'), 100); },
+  fanf:   () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.20, 'square', 0.15), i * 130)); },
+  girar:  () => {
+    const c = ensureCtx();
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, c.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(80, c.currentTime + 3);
+    gain.gain.setValueAtTime(0.10, c.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 3);
+    osc.connect(gain); gain.connect(c.destination);
+    osc.start(c.currentTime); osc.stop(c.currentTime + 3);
+  },
+  shutter: () => { tone(2400, 0.05, 'square', 0.30); setTimeout(() => tone(800, 0.08, 'sine', 0.20), 60); },
+  beep:    () => tone(880, 0.08, 'square', 0.15)
+};
+
+// ---------- NAVEGACIÓN ESCENAS ----------
+// === PEGASUSITO FULLSCREEN reutilizable ===
+const PEGA_PATH = '../shared/pegasusito/';
+let pegaCallback = null;
+function mostrarPantallaPegasusito({ titulo, texto, pose='saludando', cta='▶ CONTINUAR', onContinuar=null }) {
+  document.getElementById('historiaTitulo').textContent = titulo;
+  document.getElementById('historiaTexto').textContent = texto;
+  document.getElementById('historiaCtaBtn').textContent = cta;
+  document.getElementById('pegaProtaImg').src = PEGA_PATH + 'pegasusito-' + pose + '.png';
+  pegaCallback = onContinuar;
+  document.getElementById('historiaModal').classList.add('show');
+}
+function cerrarHistoria() {
+  document.getElementById('historiaModal').classList.remove('show');
+  const cb = pegaCallback; pegaCallback = null;
+  if (cb) cb();
+}
+
+function go(id) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  const t = document.getElementById('scene-' + id);
+  if (t) t.classList.add('active');
+  snd.tap();
+  if (id === 'preparacion') resetFrases();
+  if (id === 'helados') renderHeladosRain();
+  if (id === 'feria')   renderFeriaRain();
+  if (id === 'musica')  renderMusicaRain();
+  if (id === 'fotos')   renderFotosRain();
+  // Re-disparar animación con delay del .actividad-host / .camara-host
+  if (['helados','feria','musica','fotos'].includes(id)) {
+    const host = document.querySelector('#scene-' + id + ' .actividad-host, #scene-' + id + ' .camara-host');
+    if (host) {
+      host.style.animation = 'none';
+      void host.offsetWidth;
+      host.style.animation = '';
+    }
+  }
+}
+
+// ---------- ESCENA 2: PREPARACIÓN ----------
+let fraseIdx = 0;
+function resetFrases() {
+  fraseIdx = 0;
+  document.querySelectorAll('#frasesStack .frase').forEach(f => f.classList.remove('show'));
+  document.getElementById('hintToca').style.display = 'block';
+  setTimeout(() => mostrarSiguienteFrase(), 400);
+}
+function mostrarSiguienteFrase() {
+  const fr = document.querySelector(`.frase[data-f="${fraseIdx}"]`);
+  if (fr) { fr.classList.add('show'); snd.tap(); fraseIdx++; }
+}
+function avanzarFrase() {
+  if (fraseIdx < 5) {
+    mostrarSiguienteFrase();
+    if (fraseIdx === 5) {
+      document.getElementById('hintToca').style.display = 'none';
+      setTimeout(() => go('maleta'), 1400);
+    }
+  }
+}
+
+// ---------- RULETA ----------
+// Orden fijo según PDF: Helados → Feria → Música → Fotos
+// La AGUJA gira (no la ruleta). Sectores del conic-gradient:
+//   0-90   = rosa     = HELADOS (NE)
+//   90-180 = amarillo = FERIA   (SE)
+//   180-270= naranja  = MÚSICA  (SW)
+//   270-360= verde    = FOTOS   (NW)
+const ORDEN_RULETA = ['helados', 'feria', 'musica', 'fotos'];
+const SECTOR_ANGULO = { helados: 45, feria: 135, musica: 225, fotos: 315 }; // centro de cada sector
+let actividadIdx = 0;
+let agujaRot = 0;
+let girando = false;
+
+function girarRuleta() {
+  if (girando) return;
+  if (actividadIdx >= ORDEN_RULETA.length) {
+    go('final');
+    setTimeout(launchConfetti, 400);
+    return;
+  }
+  girando = true;
+  snd.girar();
+  const objetivo = ORDEN_RULETA[actividadIdx];
+  const anguloObjetivo = SECTOR_ANGULO[objetivo];
+  // 4 vueltas completas + ajuste fino al centro del sector
+  const vueltas = 4;
+  const rotActual = agujaRot % 360;
+  const delta = (360 - rotActual) + (360 * (vueltas - 1)) + anguloObjetivo;
+  agujaRot = agujaRot + delta;
+  const aguja = document.getElementById('aguja');
+  if (aguja) aguja.style.transform = `rotate(${agujaRot}deg)`;
+
+  const btn = document.getElementById('btnGirar');
+  btn.style.opacity = '0.4';
+  btn.style.pointerEvents = 'none';
+
+  setTimeout(() => {
+    girando = false;
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    snd.win();
+    go(objetivo);
+    actividadIdx++;
+    actualizarProgreso();
+  }, 3700);
+}
+
+function volverRuleta() {
+  if (actividadIdx >= ORDEN_RULETA.length) {
+    // Tras la 4ª actividad (fotos), llevar al final
+    go('final');
+    setTimeout(launchConfetti, 400);
+    return;
+  }
+  go('ruleta-nombres');
+  const instr = document.getElementById('ruletaInstr');
+  if (actividadIdx === ORDEN_RULETA.length) {
+    instr.innerHTML = '¡Todas las actividades hechas! Pulsa <b>GIRAR</b> para terminar.';
+  }
+}
+
+function actualizarProgreso() {
+  document.getElementById('progress').textContent = `${actividadIdx} / 4`;
+}
+
+// ---------- LLUVIA TEMÁTICA ANIMADA ----------
+function renderRain(hostId, items, count = 24) {
+  const host = document.getElementById(hostId);
+  if (!host) return;
+  host.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'it';
+    el.textContent = items[i % items.length];
+    el.style.left = (Math.random() * 100) + '%';
+    el.style.animationDelay = (Math.random() * 2.5) + 's';
+    el.style.animationDuration = (2 + Math.random() * 2) + 's';
+    el.style.fontSize = (38 + Math.random() * 28) + 'px';
+    host.appendChild(el);
+  }
+}
+function renderHeladosRain() { renderRain('heladosRain', ['🍦','🍨','🍧','🍫','🍡'], 28); }
+function renderFeriaRain()   { renderRain('feriaRain',   ['🎯','🎳','🎈','⭕','🏆','🎪'], 26); }
+function renderMusicaRain()  { renderRain('musicaRain',  ['🎵','🎶','🎤','🎧','🪩','🎷'], 26); }
+function renderFotosRain()   { renderRain('fotosRain',   ['📸','📷','✨','🌟','💖'], 24); }
+
+// ---------- FOTOS · CÁMARA REAL + CUENTA ATRÁS ----------
+let cuentaTimer = null;
+let cuentaValor = 60;
+let camStream = null;
+let camActiva = false;
+
+async function activarCamara() {
+  const btn = document.getElementById('btnActivarCam');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Pidiendo permiso…'; }
+  try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('Tu navegador no soporta cámara');
+    }
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: 'user' },
+      audio: false
+    });
+    const v = document.getElementById('camVideo');
+    v.srcObject = camStream;
+    v.style.display = 'block';
+    document.getElementById('camOverlay').style.display = 'none';
+    camActiva = true;
+    // Cambiar botones: ahora INICIAR cuenta atrás
+    document.getElementById('botonesCamara').innerHTML = `
+      <button class="btn warm" onclick="iniciarCuentaAtras(false)">▶ INICIAR CUENTA ATRÁS</button>
+    `;
+  } catch(e) {
+    console.warn('Cámara no disponible:', e);
+    alert('No se pudo acceder a la cámara:\n\n' + e.message + '\n\nSe activa el modo simulado.');
+    if (btn) { btn.disabled = false; btn.textContent = '📷 ACTIVAR CÁMARA'; }
+    document.getElementById('botonesCamara').innerHTML = `
+      <button class="btn warm" onclick="iniciarCuentaAtras(true)">▶ INICIAR (modo simulado)</button>
+    `;
+  }
+}
+
+function iniciarCuentaAtras(simulado) {
+  cuentaValor = 60;
+  const display = document.getElementById('cuentaAtras');
+  display.textContent = cuentaValor;
+  display.classList.remove('fin');
+
+  if (cuentaTimer) clearInterval(cuentaTimer);
+  cuentaTimer = setInterval(() => {
+    cuentaValor--;
+    display.textContent = cuentaValor;
+    if (cuentaValor <= 10 && cuentaValor > 0) snd.beep();
+    if (cuentaValor <= 0) {
+      clearInterval(cuentaTimer);
+      cuentaTimer = null;
+      display.classList.add('fin');
+      hacerFoto(simulado);
+    }
+  }, 1000);
+
+  document.getElementById('botonesCamara').innerHTML = `
+    <button class="btn ghost" onclick="iniciarCuentaAtras(${simulado ? 'true' : 'false'})">🔁 REINICIAR</button>
+    <button class="btn warm" onclick="terminarFotos()">✓ END</button>
+  `;
+}
+
+function hacerFoto(simulado) {
+  snd.shutter();
+  // Flash blanco siempre
+  const flash = document.getElementById('flashScreen');
+  flash.classList.remove('fire');
+  void flash.offsetWidth;
+  flash.classList.add('fire');
+
+  // Capturar frame real si la cámara está activa
+  if (!simulado && camActiva) {
+    const v = document.getElementById('camVideo');
+    const c = document.getElementById('camCanvas');
+    if (v.videoWidth > 0) {
+      c.width = v.videoWidth;
+      c.height = v.videoHeight;
+      const ctx2d = c.getContext('2d');
+      // 1. Frame de la cámara con espejo horizontal
+      ctx2d.save();
+      ctx2d.translate(c.width, 0);
+      ctx2d.scale(-1, 1);
+      ctx2d.drawImage(v, 0, 0, c.width, c.height);
+      ctx2d.restore();
+      // 2. Marco con palmeras a ambos lados
+      dibujarMarcoPalmeras(ctx2d, c.width, c.height);
+      c.style.display = 'block';
+      v.style.display = 'none';
+    }
+  }
+
+  // Mostrar botones REINICIAR + GUARDAR + END
+  const haCapturado = !simulado && camActiva && document.getElementById('camCanvas').style.display === 'block';
+  document.getElementById('botonesCamara').innerHTML = `
+    ${haCapturado ? '<button class="btn sun" onclick="guardarFoto()">💾 GUARDAR FOTO</button>' : ''}
+    <button class="btn ghost" onclick="reiniciarFoto(${simulado ? 'true' : 'false'})">🔁 REINICIAR</button>
+    <button class="btn warm" onclick="cerrarFotos()">✓ TERMINAR</button>
+  `;
+}
+
+function cerrarFotos() {
+  // Pantalla Pegasusito vacaciones antes del cierre final
+  mostrarPantallaPegasusito({
+    titulo: '¡Viaje completado!',
+    texto: 'Habéis recorrido las cuatro paradas del verano. La maleta está sellada. Las vacaciones os esperan.',
+    pose: 'vacaciones',
+    cta: '▶ AL FINAL',
+    onContinuar: () => {
+      terminarFotos();
+    }
+  });
+}
+
+function reiniciarFoto(simulado) {
+  document.getElementById('camCanvas').style.display = 'none';
+  if (camActiva) document.getElementById('camVideo').style.display = 'block';
+  iniciarCuentaAtras(simulado);
+}
+
+function guardarFoto() {
+  const c = document.getElementById('camCanvas');
+  if (!c) return;
+  const link = document.createElement('a');
+  link.download = 'viaje-verano-fisio-' + Date.now() + '.png';
+  link.href = c.toDataURL('image/png');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  snd.win();
+}
+
+// ===== UNLOCK AUDIO + BIENVENIDA con Pegasusito =====
+document.addEventListener('pointerdown', () => ensureCtx(), { once:true, passive:true });
+document.addEventListener('keydown', () => ensureCtx(), { once:true, passive:true });
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    mostrarPantallaPegasusito({
+      titulo: '¡Hola! Soy Pegasusito',
+      texto: 'Soy la mascota Pegasus y voy a acompañaros en este viaje de verano. ¡Vamos a preparar la maleta juntos!',
+      pose: 'vacaciones',
+      cta: '▶ ¡VAMOS DE VIAJE!'
+    });
+  }, 400);
+});
+
+// ===== MEDIA QUERY BASE responsive =====
+const styleResp = document.createElement('style');
+styleResp.textContent = `
+@media (max-height: 760px) {
+  .scene { padding: 10px; }
+  .actividad-host { padding: 18px 22px; }
+  .actividad-host h2 { font-size: 26px; }
+  .btn { padding: 10px 22px; font-size: 15px; }
+  .ruleta { width: 280px; height: 280px; }
+  .visor-grande { height: 320px; }
+  .pega-protagonista { height: 280px; }
+  .historia-bocadillo-pro { padding: 22px 26px; }
+  .historia-bocadillo-pro h3 { font-size: 22px; }
+}`;
+document.head.appendChild(styleResp);
+</script>
+</body>
+</html>
+entById('camCanvas').style.display === 'block';
+  document.getElementById('botonesCamara').innerHTML = `
+    ${haCapturado ? '<button class="btn sun" onclick="guardarFoto()">💾 GUARDAR FOTO</button>' : ''}
+    <button class="btn ghost" onclick="reiniciarFoto(${simulado ? 'true' : 'false'})">🔁 REINICIAR</button>
+    <button class="btn warm" onclick="terminarFotos()">✓ TERMINAR</button>
+  `;
+}
+
+// Dibuja una palmera estilizada con paths en el canvas
+function dibujarPalmera(ctx, x, baseY, h, flip) {
+  ctx.save();
+  ctx.translate(x, baseY);
+  if (flip) ctx.scale(-1, 1);
+  const w = h * 0.55;
+  // Tronco
+  ctx.strokeStyle = '#8a5a2e';
+  ctx.lineWidth = h * 0.07;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(-w*0.12, -h*0.35, -w*0.20, -h*0.65, -w*0.30, -h*0.95);
+  ctx.stroke();
+  // Hojas
+  ctx.fillStyle = '#08b75b';
+  const topX = -w*0.30, topY = -h*0.95;
+  const drawLeaf = (ang, len) => {
+    ctx.save();
+    ctx.translate(topX, topY);
+    ctx.rotate(ang);
+    ctx.beginPath();
+    ctx.ellipse(len/2, 0, len/2, h*0.06, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+  const len = w * 0.85;
+  drawLeaf(-Math.PI * 0.85, len);   // arriba izq
+  drawLeaf(-Math.PI * 0.55, len);   // arriba
+  drawLeaf(-Math.PI * 0.25, len);   // arriba der
+  drawLeaf( Math.PI * 0.10, len);   // der
+  drawLeaf( Math.PI * 0.55, len);   // abajo der
+  drawLeaf( Math.PI * 1.00, len);   // izq
+  // Cocos
+  ctx.fillStyle = '#5c3618';
+  ctx.beginPath(); ctx.arc(topX + 4, topY + 8, h*0.025, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(topX - 6, topY + 10, h*0.022, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function dibujarMarcoPalmeras(ctx, w, h) {
+  // Palmera izquierda + derecha (ancladas a las esquinas inferiores)
+  const altura = h * 0.65;
+  dibujarPalmera(ctx, w * 0.08, h * 0.95, altura, false);
+  dibujarPalmera(ctx, w * 0.92, h * 0.95, altura, true);
+  // Texto en la esquina inferior
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.font = `bold italic ${Math.round(h*0.04)}px Barlow, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('🏖️ VIAJE DE VERANO CON FISIO', w/2, h - h*0.04);
+}
+
+function reiniciarFoto(simulado) {
+  const c = document.getElementById('camCanvas');
+  const v = document.getElementById('camVideo');
+  c.style.display = 'none';
+  if (camActiva && camStream) v.style.display = 'block';
+  document.getElementById('cuentaAtras').classList.remove('fin');
+  document.getElementById('cuentaAtras').textContent = '60';
+  iniciarCuentaAtras(simulado);
+}
+
+function guardarFoto() {
+  const c = document.getElementById('camCanvas');
+  if (!c || c.style.display === 'none') return;
+  const link = document.createElement('a');
+  link.download = 'viaje-verano-fisio-' + new Date().toISOString().slice(0,16).replace(/[:T]/g,'-') + '.png';
+  link.href = c.toDataURL('image/png');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  snd.win();
+}
+
+function terminarFotos() {
+  if (cuentaTimer) { clearInterval(cuentaTimer); cuentaTimer = null; }
+  // Detener stream de cámara
+  if (camStream) {
+    camStream.getTracks().forEach(t => t.stop());
+    camStream = null;
+    camActiva = false;
+  }
+  go('final');
+  setTimeout(launchConfetti, 400);
+}
+
+// ---------- CONFETI FINAL ----------
+function launchConfetti() {
+  snd.fanf();
+  const host = document.getElementById('confetti');
+  host.innerHTML = '';
+  const colores = ['#f3d100', '#ed7928', '#e45e9b', '#08b75b', '#007ec3', '#974694'];
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement('div');
+    c.className = 'c';
+    c.style.left = (Math.random() * 100) + '%';
+    c.style.background = colores[i % colores.length];
+    c.style.animationDelay = (Math.random() * 2) + 's';
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    host.appendChild(c);
+  }
+  setTimeout(() => { host.innerHTML = ''; }, 6000);
+}
+
+// ---------- KEYBOARD ESCAPE ----------
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    document.getElementById('scene-portada').classList.add('active');
+    actividadIdx = 0; ruletaRot = 0; fraseIdx = 0;
+    actualizarProgreso();
+  }
+});
+
+// inicializar Web Audio al primer gesto (sin consumir el click del botón)
+function unlockAudio() { ensureCtx(); }
+document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+document.addEventListener('touchstart',  unlockAudio, { once: true, passive: true });
+document.addEventListener('keydown',     unlockAudio, { once: true, passive: true });
+</script>
+</body>
+</html>

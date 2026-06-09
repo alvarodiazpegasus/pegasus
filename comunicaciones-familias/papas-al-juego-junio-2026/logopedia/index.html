@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Piedra de Te Fiti · Gymkana Logopedia · Papás al Juego junio 2026</title>
+<style>
+  :root{
+    --morado:#974694;
+    --rosa:#E45E9B;
+    --turquesa:#1fb6c4;
+    --turquesa-osc:#0d7d8c;
+    --azul:#1d6fa5;
+    --coral:#ff7a59;
+    --naranja:#ffb14e;
+    --tinta:#13303a;
+    --ok:#4caf72;
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; height:100%; overflow:hidden; }
+  body{
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color:var(--tinta);
+    background:#06303a;
+  }
+
+  /* ---------- Stage / escenas ---------- */
+  #stage{ position:fixed; inset:0; overflow:hidden; }
+  .scene{
+    position:absolute; inset:0;
+    display:none;
+    flex-direction:column; align-items:center; justify-content:center;
+    padding: clamp(12px, 2vh, 24px);
+    text-align:center;
+  }
+  .scene.show{ display:flex; animation:fadeIn .45s ease-out; }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+
+  /* ---------- Branding obligatorio ---------- */
+  .brand-logo{
+    position:fixed; top:12px; left:12px; height:36px; z-index:90;
+    border-radius:999px; background:#fff; padding:4px 10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.20);
+  }
+  @media (max-height:720px){ .brand-logo{ height:28px; top:8px; left:8px; } }
+
+  /* ---------- Botones ---------- */
+  .btn{
+    border:none; cursor:pointer; touch-action:manipulation;
+    font-family:inherit; font-weight:800;
+    font-size: clamp(15px, 2.2vh, 19px);
+    padding:14px 30px; border-radius:999px;
+    color:#fff; background:linear-gradient(135deg,var(--turquesa),var(--azul));
+    box-shadow:0 8px 22px rgba(0,0,0,0.22);
+    transition: filter .2s, box-shadow .2s;
+    letter-spacing:.3px;
+  }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:active{ filter:brightness(.95); }
+  .btn.coral{ background:linear-gradient(135deg,var(--coral),var(--naranja)); }
+  .btn.morado{ background:linear-gradient(135deg,var(--morado),var(--rosa)); }
+  .btn.ghost{ background:rgba(255,255,255,.92); color:var(--turquesa-osc); box-shadow:0 4px 14px rgba(0,0,0,.18); }
+  @media (max-height:720px){ .btn{ padding:12px 26px; font-size:16px; } }
+
+  /* ---------- Mute global (siempre a la derecha del todo) ---------- */
+  .mute-btn{
+    position:fixed; top:12px; right:12px; z-index:100;
+    background:#fff; border:none; border-radius:50%;
+    width:44px; height:44px; font-size:20px; cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.20); touch-action:manipulation;
+    line-height:1;
+  }
+  @media (max-height:720px){ .mute-btn{ width:36px; height:36px; font-size:16px; top:8px; right:8px; } }
+
+  /* ---------- Volver al mapa (a la izquierda del mute) ---------- */
+  .volver-mapa{
+    position:fixed; top:12px; right:64px; z-index:91;
+    border:none; cursor:pointer; touch-action:manipulation;
+    font-family:inherit; font-weight:800; font-size:14px;
+    background:rgba(255,255,255,.92); color:var(--turquesa-osc);
+    padding:8px 16px; border-radius:999px;
+    box-shadow:0 4px 12px rgba(0,0,0,.2);
+    display:none;
+  }
+  .volver-mapa.on{ display:block; }
+  @media (max-height:720px){ .volver-mapa{ top:8px; right:52px; padding:6px 12px; font-size:13px; } }
+
+  /* ---------- Toast (arriba) ---------- */
+  #toast{
+    position:fixed; top:64px; left:50%; transform:translateX(-50%) translateY(-20px);
+    z-index:200; background:var(--tinta); color:#fff;
+    padding:12px 22px; border-radius:14px; font-weight:700; font-size:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.3); opacity:0; pointer-events:none;
+    transition:opacity .3s, transform .3s; max-width:80vw;
+  }
+  #toast.on{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #toast.err{ background:var(--coral); }
+  #toast.ok{ background:var(--ok); }
+
+  /* ---------- Hosts de actividad ---------- */
+  .act-host{
+    background:rgba(255,255,255,.96);
+    border-radius:24px;
+    padding: clamp(16px,3vh,28px) clamp(18px,3vw,34px);
+    max-width:min(94vw,940px); max-height:90vh; overflow:hidden;
+    box-shadow:0 18px 50px rgba(0,0,0,.28);
+    width:100%;
+  }
+  .act-host h2{ margin:0 0 6px; font-size:clamp(22px,3.6vh,34px); color:var(--turquesa-osc); }
+  .act-host .lead{ margin:0 0 14px; font-size:clamp(13px,1.9vh,17px); color:#3a5560; }
+  @media (max-height:720px){
+    .scene{ padding:12px; }
+    .act-host{ padding:16px 20px; max-height:92vh; }
+    .act-host h2{ font-size:22px; }
+    .act-host .lead{ font-size:13px; margin-bottom:8px; }
+  }
+
+  /* ---------- Fondos temáticos ---------- */
+  .bg-ocean{ background:radial-gradient(120% 120% at 50% 0%, #5fd6df 0%, var(--turquesa) 38%, var(--azul) 100%); }
+  .bg-night{ background:radial-gradient(120% 120% at 50% 30%, #143a4a, #061d26); }
+
+  /* ---------- Escenas cinematográficas (bienvenida / historia inicial) ---------- */
+  .scene-cine{ padding:0; background:#06303a; }
+  .cine-fondo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .cine-veil{ position:absolute; inset:0; background:rgba(0,0,0,0.45); z-index:2; }
+  .cine-wrap{ position:relative; z-index:3; display:flex; align-items:center; justify-content:center;
+      gap:clamp(16px,4vw,56px); flex-wrap:wrap; max-width:1060px; padding:clamp(12px,2vh,24px); }
+  .cine-peg{ height:min(50vh,420px); width:auto; filter:drop-shadow(0 16px 30px rgba(0,0,0,.5)); animation:flota 3s ease-in-out infinite; }
+  @media (max-height:720px){ .cine-peg{ height:46vh; } }
+  .cine-texto{ max-width:min(86vw,460px); text-align:left; }
+  .cine-texto h1{ margin:0 0 14px; color:#fff; font-size:clamp(28px,5.4vh,56px); line-height:1.02;
+      text-shadow:0 4px 18px rgba(0,0,0,.7), 0 2px 4px rgba(0,0,0,.6); }
+  .cine-texto p{ margin:0 0 22px; color:#eafcff; font-size:clamp(15px,2.3vh,20px); line-height:1.45;
+      text-shadow:0 2px 10px rgba(0,0,0,.6); }
+  .saltar-btn{ position:fixed; top:14px; right:64px; z-index:95; border:none; cursor:pointer; touch-action:manipulation;
+      background:rgba(255,255,255,.18); color:#fff; font-family:inherit; font-weight:700; font-size:13px;
+      padding:7px 14px; border-radius:999px; backdrop-filter:blur(4px); }
+  .saltar-btn:hover{ background:rgba(255,255,255,.32); }
+  @media (max-height:720px){ .saltar-btn{ top:10px; right:56px; padding:5px 11px; font-size:12px; } }
+  .escuchando{ color:#ffe; font-weight:800; font-size:clamp(15px,2.2vh,19px); margin-top:6px; animation:parpadeo 1.2s ease-in-out infinite; }
+  @keyframes parpadeo{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
+  .cine-peg.hablando{ animation:hablar 1.1s ease-in-out infinite; }
+  @keyframes hablar{ 0%,100%{ transform:rotate(-2deg) translateY(0); } 50%{ transform:rotate(2deg) translateY(-10px); } }
+
+  /* ====================================================== */
+  /* PANTALLA 0 · BIENVENIDA + Pegasusito reusable          */
+  /* ====================================================== */
+  .peg-wrap{
+    display:flex; align-items:center; justify-content:center;
+    gap:clamp(16px,4vw,52px); flex-wrap:wrap; max-width:1000px;
+  }
+  .peg-img{ height:min(46vh,360px); width:auto; filter:drop-shadow(0 14px 26px rgba(0,0,0,.3)); }
+  @media (max-height:720px){ .peg-img{ height:42vh; } }
+  .peg-bocadillo{
+    background:#fff; border-radius:26px; padding:24px 28px;
+    max-width:min(86vw,440px); position:relative;
+    box-shadow:0 14px 40px rgba(0,0,0,.25); text-align:left;
+  }
+  .peg-bocadillo h1{ margin:0 0 10px; font-size:clamp(24px,4vh,40px); color:var(--morado); line-height:1.05; }
+  .peg-bocadillo p{ margin:0 0 18px; font-size:clamp(14px,2vh,18px); color:#3a5560; line-height:1.4; }
+
+  /* ====================================================== */
+  /* PANTALLA 1 · SELECCIÓN DE PERSONAJE                    */
+  /* ====================================================== */
+  #personaje h1{ color:#fff; font-size:clamp(26px,4.4vh,46px); margin:0 0 4px; text-shadow:0 3px 12px rgba(0,0,0,.3); }
+  #personaje .sub{ color:#eafcff; margin:0 0 20px; font-size:clamp(13px,2vh,17px); }
+  .heroes{ display:flex; gap:clamp(12px,2.5vw,28px); flex-wrap:wrap; justify-content:center; }
+  .hero-card{
+    background:rgba(255,255,255,.96); border-radius:22px; padding:14px 14px 18px;
+    width:clamp(140px,22vw,210px); cursor:pointer; touch-action:manipulation;
+    box-shadow:0 10px 28px rgba(0,0,0,.22); transition:transform .18s ease-out, box-shadow .18s;
+    border:4px solid transparent;
+  }
+  .hero-card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 16px 36px rgba(0,0,0,.3); border-color:var(--naranja); }
+  .hero-card img{ height:min(26vh,200px); width:auto; object-fit:contain; }
+  .hero-card .nombre{ font-weight:900; font-size:clamp(17px,2.4vh,22px); color:var(--turquesa-osc); margin-top:6px; }
+  .hero-card .frase{ font-size:clamp(12px,1.7vh,14px); color:#5a7682; }
+  @media (max-height:720px){ .hero-card img{ height:22vh; } }
+
+  /* ====================================================== */
+  /* MAPA                                                   */
+  /* ====================================================== */
+  #mapa{ padding:0; }
+  .mapa-fondo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .mapa-veil{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.18),transparent 30%,transparent 70%,rgba(0,0,0,.22)); z-index:2; }
+
+  .parada{
+    position:absolute; z-index:10; cursor:pointer; touch-action:manipulation;
+    width:clamp(46px,6vw,64px); height:clamp(46px,6vw,64px);
+    border-radius:50%; background:rgba(255,255,255,.92);
+    border:4px solid var(--morado);
+    display:flex; align-items:center; justify-content:center;
+    font-size:clamp(20px,3vh,26px); font-weight:900; color:var(--morado);
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+    transition:transform .2s; transform:translate(-50%,-50%);
+    animation:pulso 2.4s ease-in-out infinite;
+  }
+  @keyframes pulso{ 0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 0 0 rgba(255,177,78,.6);} 50%{ box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 0 12px rgba(255,177,78,0);} }
+  .parada:hover{ transform:translate(-50%,-50%) scale(1.14); }
+  .parada.completada{ background:var(--ok); border-color:#2e7d4f; color:#fff; animation:none; }
+  .parada .etq{
+    position:absolute; top:calc(100% + 4px); left:50%; transform:translateX(-50%);
+    background:rgba(19,48,58,.86); color:#fff; font-size:11px; font-weight:700;
+    padding:3px 9px; border-radius:999px; white-space:nowrap; letter-spacing:.2px;
+  }
+  /* posiciones calibradas sobre isla-tefiti.png */
+  .parada-1{ top:40%; left:11%; }
+  .parada-2{ top:56%; left:79%; }
+  .parada-3{ top:84%; left:33%; }
+  .parada-4{ top:53%; left:46%; }
+  .parada-5{ top:16%; left:52%; }
+
+  .avatar{
+    position:absolute; z-index:12; width:clamp(54px,8vh,82px); height:auto;
+    transform:translate(-50%,-90%);
+    transition:top 1s cubic-bezier(.4,0,.2,1), left 1s cubic-bezier(.4,0,.2,1);
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,.45)); pointer-events:none;
+    animation:flota 2.6s ease-in-out infinite;
+  }
+  @keyframes flota{ 0%,100%{ margin-top:0; } 50%{ margin-top:-8px; } }
+
+  /* indicador de fragmentos */
+  .indicador{
+    position:absolute; top:12px; right:64px; z-index:20;
+    background:rgba(255,255,255,.92); border-radius:18px; padding:8px 12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28); display:flex; align-items:center; gap:10px;
+  }
+  .indicador .txt{ font-size:13px; font-weight:800; color:var(--turquesa-osc); line-height:1; }
+  .indicador .txt small{ display:block; font-size:10px; color:#789; font-weight:600; }
+  @media (max-height:720px){ .indicador{ top:8px; right:52px; padding:6px 10px; } }
+
+  /* piedra a base de 4 cuadrantes */
+  .piedra{ position:relative; width:54px; height:54px; }
+  .piedra .frag{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:contain;
+    opacity:.22; filter:grayscale(1) brightness(1.3);
+    transition:opacity .6s, filter .6s;
+  }
+  .piedra .frag.on{ opacity:1; filter:drop-shadow(0 0 6px rgba(76,200,114,.9)); }
+  .piedra .frag.q0{ clip-path:inset(0 50% 50% 0); }
+  .piedra .frag.q1{ clip-path:inset(0 0 50% 50%); }
+  .piedra .frag.q2{ clip-path:inset(50% 50% 0 0); }
+  .piedra .frag.q3{ clip-path:inset(50% 0 0 50%); }
+  @media (max-height:720px){ .piedra{ width:44px; height:44px; } }
+
+  /* ====================================================== */
+  /* SOPA DE IMÁGENES                                       */
+  /* ====================================================== */
+  .sopa-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:6px auto 0; max-width:min(78vh,560px); }
+  .sopa-cell{
+    aspect-ratio:1/1; background:#eef6f8; border-radius:14px;
+    border:3px solid transparent; cursor:pointer; touch-action:manipulation;
+    display:flex; align-items:center; justify-content:center; padding:6px;
+    transition:transform .12s, border-color .2s, background .2s;
+  }
+  .sopa-cell img{ width:100%; height:100%; object-fit:contain; pointer-events:none; }
+  .sopa-cell:hover{ transform:scale(1.05); }
+  .sopa-cell.sel{ border-color:var(--ok); background:#dff5e6; }
+  .sopa-cell.shake{ animation:shake .4s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-7px);} 40%,80%{transform:translateX(7px);} }
+
+  /* ====================================================== */
+  /* PARES MÍNIMOS (orilla)                                 */
+  /* ====================================================== */
+  .cuenco{ font-size:clamp(60px,12vh,110px); line-height:1; margin:4px 0 2px; }
+  .pares-cards{ display:flex; gap:clamp(14px,4vw,40px); justify-content:center; margin:10px 0 16px; flex-wrap:wrap; }
+  .palabra-card{
+    background:linear-gradient(135deg,#fff,#eafcff); border:4px solid var(--turquesa);
+    border-radius:20px; padding:clamp(16px,3vh,30px) clamp(24px,5vw,52px);
+    font-size:clamp(26px,5vh,48px); font-weight:900; color:var(--azul);
+    cursor:pointer; touch-action:manipulation; box-shadow:0 8px 22px rgba(0,0,0,.18);
+    transition:transform .15s, border-color .2s; animation:floatcard 3s ease-in-out infinite;
+  }
+  .palabra-card:nth-child(2){ animation-delay:.6s; }
+  @keyframes floatcard{ 0%,100%{transform:translateY(0) rotate(-1deg);} 50%{transform:translateY(-10px) rotate(1deg);} }
+  .palabra-card:hover{ transform:scale(1.05); border-color:var(--naranja); }
+  .palabra-card.shake{ animation:shake .4s; border-color:var(--coral); }
+  .rondas{ font-size:13px; font-weight:700; color:#5a7682; margin-top:2px; }
+
+  /* ====================================================== */
+  /* BOSQUE · historias + candado                           */
+  /* ====================================================== */
+  .picto-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:8px auto 0; max-width:min(70vh,520px); }
+  .picto{
+    background:#eef6f8; border-radius:16px; border:3px solid transparent; padding:10px;
+    cursor:pointer; touch-action:manipulation; aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center; transition:transform .12s,border-color .2s;
+  }
+  .picto img{ width:100%; height:100%; object-fit:contain; pointer-events:none; }
+  .picto:hover{ transform:scale(1.05); border-color:var(--naranja); }
+  .picto.ok{ border-color:var(--ok); background:#dff5e6; }
+  .picto.shake{ animation:shake .4s; border-color:var(--coral); }
+
+  .candado-svg{ display:block; margin:0 auto; }
+  .codigo-secreto{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
+  .codigo-secreto .cs{ width:54px; height:54px; background:#fff; border-radius:12px; border:3px solid var(--morado); padding:5px; }
+  .codigo-secreto .cs img{ width:100%; height:100%; object-fit:contain; }
+
+  /* ====================================================== */
+  /* VOLCÁN                                                 */
+  /* ====================================================== */
+  #punto-5{ overflow:hidden; justify-content:flex-end;
+    background:
+      linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
+      url('assets/imagenes/volcan/interior-volcan.png') center/cover no-repeat; }
+  .heroe-cima{ position:absolute; top:14vh; left:50%; transform:translateX(-50%);
+      width:clamp(50px,8vh,80px); z-index:3; filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
+  .heroe-cima.caer{ animation:caer 1.3s ease-in forwards; }
+  @keyframes caer{ 0%{ transform:translateX(-50%) translateY(0) rotate(0);} 100%{ transform:translateX(-50%) translateY(60vh) rotate(540deg); opacity:0; } }
+  .volcan-q{
+    position:relative; z-index:4; background:rgba(255,255,255,.96); border-radius:22px;
+    padding:clamp(14px,2.6vh,24px) clamp(18px,3vw,30px); max-width:min(92vw,680px); width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,.4); margin-top:auto; margin-bottom:clamp(8px,3vh,28px);
+  }
+  .volcan-q .badge{ display:inline-block; font-size:12px; font-weight:800; padding:4px 12px; border-radius:999px; margin-bottom:8px; color:#fff; }
+  .badge.peque{ background:var(--turquesa); }
+  .badge.papa{ background:var(--morado); }
+  .volcan-q h3{ margin:2px 0 12px; font-size:clamp(17px,2.8vh,24px); color:var(--tinta); }
+  .opts-img{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .opt-img{ width:clamp(80px,14vh,120px); aspect-ratio:1/1; background:#eef6f8; border-radius:16px; border:3px solid transparent;
+      cursor:pointer; touch-action:manipulation; padding:8px; transition:transform .12s,border-color .2s; }
+  .opt-img img{ width:100%; height:100%; object-fit:contain; pointer-events:none; }
+  .opt-img:hover{ transform:scale(1.05); border-color:var(--naranja); }
+  .opt-img.shake,.opt-txt.shake{ animation:shake .4s; }
+  .opts-txt{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .opt-txt{ background:#eef6f8; border:3px solid transparent; border-radius:14px; padding:12px 20px;
+      font-size:clamp(14px,2vh,18px); font-weight:700; color:var(--tinta); cursor:pointer; touch-action:manipulation; transition:transform .12s,border-color .2s; }
+  .opt-txt:hover{ transform:scale(1.04); border-color:var(--naranja); }
+
+  /* ====================================================== */
+  /* PEGASUSITO MODAL fullscreen                            */
+  /* ====================================================== */
+  #pegasusitoModal{ position:fixed; inset:0; z-index:300; display:none;
+      align-items:center; justify-content:center; padding:clamp(12px,2vh,24px);
+      background:radial-gradient(120% 120% at 50% 0%, #5fd6df 0%, var(--turquesa) 40%, var(--azul) 100%); }
+  #pegasusitoModal.show{ display:flex; animation:fadeIn .4s; }
+
+  /* ====================================================== */
+  /* VÍDEO                                                  */
+  /* ====================================================== */
+  .video-box{ position:relative; width:min(86vw,760px); aspect-ratio:16/9; max-height:54vh; border-radius:18px; overflow:hidden;
+      box-shadow:0 14px 40px rgba(0,0,0,.3); background:#0a2630; margin:6px auto 14px; }
+  .video-box video{ position:absolute; inset:0; width:100%; height:100%; z-index:2; }
+
+  /* ====================================================== */
+  /* FINAL · Te Fiti                                        */
+  /* ====================================================== */
+  #final{ background:#000; }
+  .final-stage{ position:relative; width:100%; height:100%; }
+  .piedra-final{ position:absolute; top:7vh; left:50%; transform:translateX(-50%);
+      width:min(24vh,210px); height:min(24vh,210px); z-index:5; }
+  .piedra-final .frag{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+      transition:transform 1.6s cubic-bezier(.2,.7,.2,1), opacity 1s; opacity:0; }
+  .piedra-final.armada .frag{ transform:none !important; opacity:1; }
+  .piedra-final.armada{ filter:drop-shadow(0 0 36px rgba(120,255,180,.9)); animation:latido 2.2s ease-in-out infinite; }
+  @keyframes latido{ 0%,100%{ filter:drop-shadow(0 0 26px rgba(120,255,180,.7)); } 50%{ filter:drop-shadow(0 0 52px rgba(160,255,210,1)); } }
+  .piedra-final .frag.q0{ clip-path:inset(0 50% 50% 0); transform:translate(-60vw,-40vh) rotate(-90deg); }
+  .piedra-final .frag.q1{ clip-path:inset(0 0 50% 50%); transform:translate(60vw,-40vh) rotate(90deg); }
+  .piedra-final .frag.q2{ clip-path:inset(50% 50% 0 0); transform:translate(-60vw,60vh) rotate(90deg); }
+  .piedra-final .frag.q3{ clip-path:inset(50% 0 0 50%); transform:translate(60vw,60vh) rotate(-90deg); }
+  .tefiti-img{ position:absolute; bottom:0; left:50%; transform:translateX(-50%) translateY(100%);
+      height:min(82vh,640px); z-index:10; transition:transform 3s cubic-bezier(.2,.7,.2,1);
+      filter:drop-shadow(0 0 50px rgba(120,255,180,.5)); }
+  .tefiti-img.sube{ transform:translateX(-50%) translateY(8%); }
+  #final .final-cta{ position:absolute; bottom:6vh; left:50%; transform:translateX(-50%); z-index:5; display:none; }
+  #final .final-cta.on{ display:block; }
+</style>
+</head>
+<body>
+
+  <img class="brand-logo" src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+  <button class="mute-btn" id="muteBtn" title="Silenciar / Reactivar audio" onclick="toggleMute()">🔊</button>
+  <button class="volver-mapa" id="btnVolverMapa" onclick="volverAlMapa()">🗺 Volver al mapa</button>
+  <div id="toast"></div>
+
+  <div id="stage">
+
+    <!-- ============ PANTALLA 0 · BIENVENIDA ============ -->
+    <section class="scene scene-cine show" id="bienvenida">
+      <img class="cine-fondo" src="assets/imagenes/mapa/isla-tefiti.png" alt="">
+      <div class="cine-veil"></div>
+      <div class="cine-wrap">
+        <img class="cine-peg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+        <div class="cine-texto">
+          <h1>¡UNA AVENTURA OS ESPERA!</h1>
+          <p>El océano os ha elegido. Una piedra mágica se ha roto en cuatro fragmentos y la isla necesita vuestra ayuda. ¿Estáis preparados?</p>
+          <button class="btn coral" onclick="empezar()">▶ EMPEZAR LA AVENTURA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PANTALLA INTERMEDIA · HISTORIA INICIAL ============ -->
+    <section class="scene scene-cine" id="historia-inicial">
+      <img class="cine-fondo" src="assets/imagenes/mapa/isla-tefiti.png" alt="">
+      <div class="cine-veil"></div>
+      <button class="saltar-btn" onclick="irAPersonaje()">Saltar →</button>
+      <div class="cine-wrap">
+        <img class="cine-peg" id="pegHistoria" src="../shared/pegasusito/pegasusito-curioso.png" alt="Pegasusito">
+        <div class="cine-texto">
+          <h1>ESCUCHAD LA LEYENDA</h1>
+          <p>El historiador os va a contar lo que ha pasado…</p>
+          <button class="btn coral" id="btnEscuchar" onclick="escucharLeyenda()">▶ ESCUCHAR</button>
+          <div class="escuchando" id="indEscuchando" style="display:none;">🔊 Escuchando…</div>
+          <button class="btn morado" id="btnElegirPersonaje" style="display:none;" onclick="irAPersonaje()">▶ ELEGIR PERSONAJE</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PANTALLA 1 · PERSONAJE ============ -->
+    <section class="scene bg-ocean" id="personaje">
+      <h1>ELIGE A TU GUÍA</h1>
+      <p class="sub">Quien os acompañe recorrerá la isla con vosotros</p>
+      <div class="heroes">
+        <div class="hero-card" onclick="elegirHeroe('moana')">
+          <img src="assets/imagenes/personajes/moana.png" alt="Moana">
+          <div class="nombre">Moana</div>
+          <div class="frase">Valiente y decidida</div>
+        </div>
+        <div class="hero-card" onclick="elegirHeroe('maui')">
+          <img src="assets/imagenes/personajes/maui.png" alt="Maui">
+          <div class="nombre">Maui</div>
+          <div class="frase">Fuerte y divertido</div>
+        </div>
+        <div class="hero-card" onclick="elegirHeroe('hei-hei')">
+          <img src="assets/imagenes/personajes/hei-hei.png" alt="Hei Hei">
+          <div class="nombre">Hei Hei</div>
+          <div class="frase">Despistado pero con suerte</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAPA ============ -->
+    <section class="scene" id="mapa">
+      <img class="mapa-fondo" src="assets/imagenes/mapa/isla-tefiti.png" alt="Isla de Te Fiti">
+      <div class="mapa-veil"></div>
+
+      <div class="indicador">
+        <div class="piedra" id="piedraMini">
+          <img class="frag q0" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q1" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q2" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q3" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+        </div>
+        <div class="txt"><span id="fragCount">0</span>/4<small>Fragmentos</small></div>
+      </div>
+
+      <div class="parada parada-1" onclick="irAParada(1)"><span>1</span><span class="etq">Inicio</span></div>
+      <div class="parada parada-2" onclick="irAParada(2)"><span>2</span><span class="etq">Laguna</span></div>
+      <div class="parada parada-3" onclick="irAParada(3)"><span>3</span><span class="etq">Orilla</span></div>
+      <div class="parada parada-4" onclick="irAParada(4)"><span>4</span><span class="etq">Bosque</span></div>
+      <div class="parada parada-5" onclick="irAParada(5)"><span>5</span><span class="etq">Volcán</span></div>
+
+      <img class="avatar" id="avatar" src="" alt="">
+    </section>
+
+    <!-- ============ PUNTO 2 · VÍDEO ============ -->
+    <section class="scene bg-ocean" id="punto-2-video">
+      <div class="act-host">
+        <h2>Bailad las olas 🌊</h2>
+        <p class="lead">Ved el vídeo e intentad seguir los movimientos. Cuando terminéis, dadle al botón.</p>
+        <div class="video-box">
+          <video id="videoBaile" src="assets/video/baile-olas.mp4" controls loop playsinline
+            style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
+            Tu navegador no soporta vídeo HTML5.
+          </video>
+        </div>
+        <button class="btn coral" onclick="mostrarSopa()">▶ HEMOS BAILADO</button>
+      </div>
+    </section>
+
+    <!-- ============ PUNTO 2 · SOPA DE IMÁGENES ============ -->
+    <section class="scene bg-ocean" id="punto-2-sopa">
+      <div class="act-host">
+        <h2>Sopa de la laguna</h2>
+        <p class="lead">Algunas imágenes están <b>repetidas</b>. Encontrad las parejas y tocad las <b>dos</b> de cada una. <span id="sopaProg"></span></p>
+        <div class="sopa-grid" id="sopaGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ PUNTO 3 · ORILLA (pares mínimos) ============ -->
+    <section class="scene bg-ocean" id="punto-3">
+      <div class="act-host">
+        <h2>El cuenco de las palabras</h2>
+        <p class="lead">Escuchad bien y tocad la palabra que habéis oído.</p>
+        <div class="cuenco">🏺</div>
+        <div class="pares-cards" id="paresCards"></div>
+        <button class="btn" onclick="reproducirParActual()">🔊 ESCUCHAR</button>
+        <div class="rondas">Ronda <span id="ronda">1</span> de 5</div>
+      </div>
+    </section>
+
+    <!-- ============ PUNTO 4 · BOSQUE (historias + candado) ============ -->
+    <section class="scene bg-ocean" id="punto-4">
+      <div class="act-host">
+        <h2 id="bosqueTit">El bosque de los secretos</h2>
+        <p class="lead" id="bosqueLead"></p>
+        <div class="picto-grid" id="pictoGrid"></div>
+        <div id="candadoZona" style="display:none;">
+          <svg class="candado-svg" id="candadoSvg" width="120" height="130" viewBox="0 0 120 130">
+            <rect x="20" y="55" width="80" height="62" rx="12" fill="#974694"/>
+            <path id="arco" d="M35 55 V40 a25 25 0 0 1 50 0 V55" fill="none" stroke="#974694" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="60" cy="82" r="9" fill="#fff"/>
+            <rect x="56" y="86" width="8" height="18" rx="4" fill="#fff"/>
+          </svg>
+          <div class="codigo-secreto" id="codigoSecreto"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PUNTO 5 · VOLCÁN ============ -->
+    <section class="scene" id="punto-5">
+      <img class="heroe-cima" id="heroeCima" src="" alt="">
+      <div class="volcan-q" id="volcanQ"></div>
+    </section>
+
+    <!-- ============ PEGASUSITO MODAL ============ -->
+    <div id="pegasusitoModal">
+      <div class="peg-wrap">
+        <img class="peg-img" id="pegImg" src="" alt="Pegasusito">
+        <div class="peg-bocadillo">
+          <h1 id="pegTit"></h1>
+          <p id="pegTxt"></p>
+          <button class="btn coral" id="pegCta"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FINAL · Te Fiti ============ -->
+    <section class="scene" id="final">
+      <div class="final-stage">
+        <div class="piedra-final" id="piedraFinal">
+          <img class="frag q0" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q1" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q2" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+          <img class="frag q3" src="assets/imagenes/piedra/piedra-completa.png" alt="">
+        </div>
+        <img class="tefiti-img" id="tefitiImg" src="assets/imagenes/personajes/te-fiti.png" alt="Te Fiti">
+        <button class="btn morado final-cta" id="finalCta" onclick="pantallaDespedida()">▶ FIN DE LA AVENTURA</button>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+/* =========================================================
+   ESTADO
+========================================================= */
+const estado = {
+  heroe: null,
+  fragmentos: [false,false,false,false],          // 0..3
+  paradasCompletadas: [false,false,false,false,false] // paradas 1..5 -> idx 0..4
+};
+// qué fragmento concede cada parada (parada 1 = inicio, no concede)
+const PARADA_FRAGMENTO = { 2:0, 3:1, 4:2, 5:3 };
+
+const PARADAS = {
+  1:{top:'40%',left:'11%'}, 2:{top:'56%',left:'79%'}, 3:{top:'84%',left:'33%'},
+  4:{top:'53%',left:'46%'}, 5:{top:'16%',left:'52%'}
+};
+
+/* =========================================================
+   AUDIO
+========================================================= */
+const audios = { historiador:{}, tefiti:{}, pares:{}, musica:{}, sfx:{} };
+
+function preloadAudios(){
+  const H='assets/audio/voz-historiador/';
+  audios.historiador = {
+    inicio:new Audio(H+'historiador-01-inicio.mp3'),
+    laguna:new Audio(H+'historiador-02-laguna.mp3'),
+    orilla:new Audio(H+'historiador-03-orilla.mp3'),
+    bosque:new Audio(H+'historiador-04-bosque.mp3'),
+    volcan:new Audio(H+'historiador-05-volcan.mp3'),
+    final:new Audio(H+'historiador-06-final.mp3'),
+    victoria:new Audio(H+'historiador-victoria.mp3'),
+  };
+  audios.tefiti = { final:new Audio('assets/audio/voz-te-fiti/te-fiti-final.mp3') };
+  const P='assets/audio/pares-minimos/';
+  ['pala','bala','cama','gama','tos','dos','foto','jota','mata','nata','pero','pelo','coro','toro','chapa','llapa']
+    .forEach(w => audios.pares[w]=new Audio(P+w+'.mp3'));
+  const M='assets/audio/musica/';
+  audios.musica = {
+    isla:new Audio(M+'musica-isla-loop.mp3'),
+    volcan:new Audio(M+'musica-volcan-epico.mp3'),
+    final:new Audio(M+'musica-final-tefiti.mp3'),
+  };
+  audios.musica.isla.loop=true; audios.musica.volcan.loop=true; audios.musica.final.loop=false;
+  const S='assets/audio/sound-fx/';
+  audios.sfx = {
+    olas:new Audio(S+'sfx-olas-loop.mp3'),
+    splash:new Audio(S+'sfx-splash.mp3'),
+    chime:new Audio(S+'sfx-chime-fragmento.mp3'),
+    candado:new Audio(S+'sfx-candado-abrir.mp3'),
+    fuego:new Audio(S+'sfx-volcan-fuego.mp3'),
+    caer:new Audio(S+'sfx-caer-volcan.mp3'),
+    revive:new Audio(S+'sfx-revive.mp3'),
+    piedra:new Audio(S+'sfx-piedra-completa.mp3'),
+  };
+  audios.sfx.olas.loop=true;
+  // preload hints
+  Object.values(audios).forEach(g=>Object.values(g).forEach(a=>{a.preload='auto'; a.load();}));
+}
+
+function reproducir(grupo,nombre,opc={}){
+  const a = audios[grupo] && audios[grupo][nombre];
+  if(!a) return null;
+  try{ a.currentTime=0; }catch(e){}
+  a.volume = opc.volume ?? 1.0;
+  if(opc.loop!==undefined) a.loop=opc.loop;
+  a.play().catch(()=>{});
+  return a;
+}
+function pararTodaLaMusica(){ Object.values(audios.musica).forEach(a=>{a.pause();}); }
+function fadeOut(a,ms=900){
+  if(!a) return; const v0=a.volume, step=v0/(ms/50);
+  const t=setInterval(()=>{ a.volume=Math.max(0,a.volume-step); if(a.volume<=0.01){a.pause(); clearInterval(t);} },50);
+}
+function fadeIn(a,ms=900,target=0.3){
+  if(!a) return; a.volume=0; a.play().catch(()=>{}); const step=target/(ms/50);
+  const t=setInterval(()=>{ a.volume=Math.min(target,a.volume+step); if(a.volume>=target) clearInterval(t); },50);
+}
+
+/* =========================================================
+   MUTE GLOBAL (FIX 2C)
+========================================================= */
+let isMuted=false;
+function toggleMute(){
+  isMuted=!isMuted;
+  document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊';
+  Object.values(audios).forEach(grupo=>Object.values(grupo).forEach(a=>{ a.muted=isMuted; }));
+  const v=document.getElementById('videoBaile'); if(v) v.muted=isMuted;
+}
+
+/* =========================================================
+   PARAR AUDIOS NARRATIVA al cambiar de pantalla (FIX 2A)
+========================================================= */
+function pararAudiosNarrativa(){
+  Object.values(audios.historiador).forEach(a=>{ a.pause(); a.currentTime=0; });
+  Object.values(audios.tefiti).forEach(a=>{ a.pause(); a.currentTime=0; });
+  Object.values(audios.pares).forEach(a=>{ a.pause(); a.currentTime=0; });
+  Object.values(audios.sfx).forEach(a=>{ if(!a.loop){ a.pause(); a.currentTime=0; } });
+  const v=document.getElementById('videoBaile'); if(v) v.pause();
+}
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+function mostrarEscena(id){
+  pararAudiosNarrativa();
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('show'));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('show');
+  // botón volver al mapa: visible en puntos de actividad, no en bienvenida/personaje/mapa/final
+  const conVolver=['punto-2-video','punto-2-sopa','punto-3','punto-4','punto-5'];
+  document.getElementById('btnVolverMapa').classList.toggle('on', conVolver.includes(id));
+}
+
+function toast(msg,tipo='',ms=1800){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='on '+tipo;
+  clearTimeout(t._t); t._t=setTimeout(()=>{ t.className=tipo; },ms);
+}
+
+/* ---- Pegasusito modal reutilizable ---- */
+function mostrarPegasusito({titulo,texto,pose,cta,onContinuar}){
+  document.getElementById('pegImg').src='../shared/pegasusito/pegasusito-'+pose+'.png';
+  document.getElementById('pegTit').textContent=titulo;
+  document.getElementById('pegTxt').textContent=texto;
+  const b=document.getElementById('pegCta');
+  b.textContent=cta;
+  b.onclick=()=>{ document.getElementById('pegasusitoModal').classList.remove('show'); onContinuar&&onContinuar(); };
+  document.getElementById('pegasusitoModal').classList.add('show');
+}
+
+/* =========================================================
+   INICIO
+========================================================= */
+function empezar(){
+  mostrarEscena('historia-inicial');
+}
+
+function escucharLeyenda(){
+  document.getElementById('btnEscuchar').style.display='none';
+  document.getElementById('indEscuchando').style.display='block';
+  document.getElementById('pegHistoria').classList.add('hablando');
+  const a=reproducir('historiador','inicio',{volume:1});
+  const fin=()=>{
+    document.getElementById('indEscuchando').style.display='none';
+    document.getElementById('pegHistoria').classList.remove('hablando');
+    document.getElementById('btnElegirPersonaje').style.display='inline-block';
+  };
+  if(a) a.addEventListener('ended', fin, {once:true}); else fin();
+}
+
+function irAPersonaje(){
+  mostrarEscena('personaje');
+}
+
+function elegirHeroe(h){
+  estado.heroe=h;
+  reproducir('sfx','splash',{volume:.8});
+  const src='assets/imagenes/personajes/'+h+'.png';
+  document.getElementById('avatar').src=src;
+  document.getElementById('heroeCima').src=src;
+  // posicionar avatar en parada 1
+  posicionarAvatar(1,false);
+  irAlMapa(true);
+}
+
+/* =========================================================
+   MAPA
+========================================================= */
+function posicionarAvatar(n,animar){
+  const av=document.getElementById('avatar');
+  if(!animar){ const prev=av.style.transition; av.style.transition='none'; av.style.top=PARADAS[n].top; av.style.left=PARADAS[n].left; void av.offsetWidth; av.style.transition=prev; }
+  else { av.style.top=PARADAS[n].top; av.style.left=PARADAS[n].left; }
+}
+
+function irAlMapa(primeraVez){
+  mostrarEscena('mapa');
+  refrescarMapa();
+  reproducir('sfx','splash',{volume:.5});
+  // música isla + olas en bucle bajito
+  fadeIn(audios.musica.isla,1000,0.30);
+  reproducir('sfx','olas',{volume:.2,loop:true});
+}
+function volverAlMapa(){ irAlMapa(false); }
+
+function refrescarMapa(){
+  // fragmentos en indicador
+  for(let i=0;i<4;i++){
+    document.querySelectorAll('#piedraMini .frag')[i].classList.toggle('on', estado.fragmentos[i]);
+  }
+  document.getElementById('fragCount').textContent = estado.fragmentos.filter(Boolean).length;
+  // paradas completadas
+  for(let p=1;p<=5;p++){
+    const el=document.querySelector('.parada-'+p);
+    const done=estado.paradasCompletadas[p-1];
+    el.classList.toggle('completada',done);
+    el.querySelector('span').textContent = done ? '✓' : p;
+  }
+}
+
+function irAParada(n){
+  posicionarAvatar(n,true);
+  reproducir('sfx','splash',{volume:.6});
+  setTimeout(()=>abrirPunto(n), 1000);
+}
+
+function abrirPunto(n){
+  if(n===1){
+    mostrarPegasusito({
+      titulo:'El corazón de la isla',
+      texto:'Hace mucho, la piedra de Te Fiti dio vida a esta isla. Ahora está rota en cuatro fragmentos. Recorred los lugares marcados y recuperadlos para que la isla vuelva a brillar.',
+      pose:'explorador', cta:'▶ ENTENDIDO',
+      onContinuar:()=>{ if(!estado.paradasCompletadas[0]){ estado.paradasCompletadas[0]=true; } volverAlMapa(); }
+    });
+  }
+  else if(n===2){ intentarPunto(2, abrirPunto2); }
+  else if(n===3){ intentarPunto(3, abrirPunto3); }
+  else if(n===4){ intentarPunto(4, abrirPunto4); }
+  else if(n===5){ intentarPunto(5, abrirPunto5); }
+}
+
+// si ya está completada, deja revisitar; si no, lanza la actividad
+function intentarPunto(n, fnActividad){
+  if(estado.paradasCompletadas[n-1]){
+    toast('Ya conseguiste este fragmento ✓','ok');
+    setTimeout(volverAlMapa, 400);
+    return;
+  }
+  fnActividad();
+}
+
+/* =========================================================
+   RECOMPENSA COMÚN (fragmento)
+========================================================= */
+function conseguirFragmento(parada){
+  const fragIdx = PARADA_FRAGMENTO[parada];
+  estado.fragmentos[fragIdx]=true;
+  estado.paradasCompletadas[parada-1]=true;
+  reproducir('sfx','chime',{volume:.9});
+  const completados = estado.fragmentos.filter(Boolean).length;
+
+  mostrarPegasusito({
+    titulo:'¡Fragmento recuperado!',
+    texto:'La piedra brilla un poco más. Lleváis '+completados+' de 4 fragmentos.',
+    pose:'celebrando', cta: completados===4 ? '▶ VOLVER A LA ISLA' : '▶ VOLVER AL MAPA',
+    onContinuar:()=>{
+      if(completados===4){ irAlMapa(false); setTimeout(secuenciaFinal, 1200); }
+      else { volverAlMapa(); reproducir('historiador','victoria',{volume:1}); }
+    }
+  });
+}
+
+/* =========================================================
+   PUNTO 2 · LAGUNA (vídeo + sopa)
+========================================================= */
+function abrirPunto2(){
+  reproducir('historiador','laguna',{volume:1});
+  mostrarPegasusito({
+    titulo:'La laguna submarina',
+    texto:'Bajo el agua turquesa se esconde el primer fragmento. Primero bailaremos como las olas… y luego buscaremos las parejas escondidas en la laguna.',
+    pose:'curioso', cta:'▶ A LA LAGUNA',
+    onContinuar:()=>{
+      const v=document.getElementById('videoBaile');
+      if(v){ try{ v.pause(); v.currentTime=0; }catch(e){} }
+      mostrarEscena('punto-2-video');
+    }
+  });
+}
+
+const SOPA_ICONOS=['aletas','bikini','camara','cangrejo','cesta','coral','cubo-de-arena','cucurucho-de-helado',
+  'estrella-de-mar','flor-hibisco','flotador','gafas-de-sol','gafas-snorkel','medusa','palmera','pelota-playa',
+  'pez-tropical','sandia','sol','sombrero','sombrilla-de-playa','tortuga-marina','tumbona'];
+let sopaRepetidos=new Set(), sopaSeleccionadas=new Set();
+
+function barajar(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function mostrarSopa(){
+  // detener vídeo local al salir
+  const v=document.getElementById('videoBaile');
+  if(v){ try{ v.pause(); }catch(e){} }
+  construirSopa();
+  mostrarEscena('punto-2-sopa');
+}
+
+function construirSopa(){
+  const baraja=barajar(SOPA_ICONOS);
+  const repetidos=baraja.slice(0,5);          // 5 iconos -> aparecen x2 (10 celdas)
+  const unicos=baraja.slice(5,20);            // 15 iconos -> aparecen x1
+  sopaRepetidos=new Set(repetidos);
+  sopaSeleccionadas=new Set();
+  let celdas=[];
+  repetidos.forEach(n=>{ celdas.push(n); celdas.push(n); });
+  unicos.forEach(n=>celdas.push(n));
+  celdas=barajar(celdas);                      // 25 celdas
+  const grid=document.getElementById('sopaGrid'); grid.innerHTML='';
+  celdas.forEach((nombre,i)=>{
+    const c=document.createElement('div');
+    c.className='sopa-cell'; c.dataset.nombre=nombre; c.dataset.idx=i;
+    c.innerHTML='<img src="assets/imagenes/sopa-de-imagenes/'+nombre+'.png" alt="">';
+    c.onclick=()=>clicSopa(c);
+    grid.appendChild(c);
+  });
+  actualizarProgSopa();
+}
+function actualizarProgSopa(){
+  document.getElementById('sopaProg').textContent='('+sopaSeleccionadas.size+'/10)';
+}
+function clicSopa(celda){
+  const nombre=celda.dataset.nombre, idx=celda.dataset.idx;
+  if(!sopaRepetidos.has(nombre)){
+    celda.classList.add('shake'); setTimeout(()=>celda.classList.remove('shake'),420);
+    reproducir('sfx','splash',{volume:.3});
+    toast('Esa imagen no está repetida 🔎','err',1200);
+    return;
+  }
+  if(sopaSeleccionadas.has(idx)){ // deseleccionar
+    sopaSeleccionadas.delete(idx); celda.classList.remove('sel');
+  } else {
+    sopaSeleccionadas.add(idx); celda.classList.add('sel');
+  }
+  actualizarProgSopa();
+  if(sopaSeleccionadas.size===10){
+    toast('¡Habéis encontrado todas las parejas!','ok');
+    setTimeout(()=>conseguirFragmento(2), 700);
+  }
+}
+
+/* =========================================================
+   PUNTO 3 · ORILLA (pares mínimos)
+========================================================= */
+const paresMinimos=[
+  {a:'pala',b:'bala'},{a:'cama',b:'gama'},{a:'tos',b:'dos'},{a:'foto',b:'jota'},
+  {a:'mata',b:'nata'},{a:'pero',b:'pelo'},{a:'coro',b:'toro'},{a:'chapa',b:'llapa'}
+];
+let paresRondas=[], paresRondaIdx=0, parActual=null, palabraObjetivo=null;
+
+function abrirPunto3(){
+  reproducir('historiador','orilla',{volume:1});
+  mostrarPegasusito({
+    titulo:'La orilla encantada',
+    texto:'Las olas susurran palabras muy parecidas. Afinad el oído: escuchad bien y señalad la palabra correcta. Cinco veces seguidas y el fragmento será vuestro.',
+    pose:'pensativo', cta:'▶ ESCUCHAR LAS OLAS',
+    onContinuar:()=>{
+      paresRondas=barajar(paresMinimos).slice(0,5);
+      paresRondaIdx=0;
+      mostrarEscena('punto-3');
+      montarRondaPares();
+    }
+  });
+}
+function montarRondaPares(){
+  parActual=paresRondas[paresRondaIdx];
+  document.getElementById('ronda').textContent=paresRondaIdx+1;
+  const cartas=barajar([parActual.a,parActual.b]);
+  const cont=document.getElementById('paresCards'); cont.innerHTML='';
+  cartas.forEach(p=>{
+    const d=document.createElement('div'); d.className='palabra-card'; d.textContent=p;
+    d.onclick=()=>clicPalabra(d,p);
+    cont.appendChild(d);
+  });
+  palabraObjetivo = Math.random()<0.5 ? parActual.a : parActual.b;
+  setTimeout(reproducirParActual, 500);
+}
+function reproducirParActual(){ if(palabraObjetivo) reproducir('pares',palabraObjetivo,{volume:1}); }
+function clicPalabra(card,palabra){
+  if(palabra===palabraObjetivo){
+    reproducir('sfx','chime',{volume:.5});
+    paresRondaIdx++;
+    if(paresRondaIdx>=5){ toast('¡Oído de explorador!','ok'); setTimeout(()=>conseguirFragmento(3),700); }
+    else { toast('¡Correcto! '+(5-paresRondaIdx)+' más','ok',1100); setTimeout(montarRondaPares,800); }
+  } else {
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'),420);
+    toast('Escuchad otra vez 🔊','err',1200);
+    setTimeout(reproducirParActual,500);
+  }
+}
+
+/* =========================================================
+   PUNTO 4 · BOSQUE (historias + candado)
+========================================================= */
+const historias=[
+  { texto:'Sara quiere encontrar su juguete favorito en el salón. ¿Qué necesita para buscarlo?',
+    correcto:'lupa', opciones:['lupa','monedero','zapatos','libro'] },
+  { texto:'Lucas quiere comprar un regalo a su madre. ¿Qué le falta?',
+    correcto:'monedero', opciones:['monedero','llaves','juguete','mochila'] },
+  { texto:'Marta no encuentra la salida del parque. ¿A quién pide ayuda?',
+    correcto:'persona-adulta', opciones:['persona-adulta','libro','zapatos','juguete'] },
+];
+let histIdx=0, codigo=[];
+
+function abrirPunto4(){
+  reproducir('historiador','bosque',{volume:1});
+  mostrarPegasusito({
+    titulo:'El bosque de los secretos',
+    texto:'Entre los árboles, tres pequeñas historias guardan un código. Ayudad a cada personaje a resolver qué necesita. Con las tres respuestas se abrirá el candado.',
+    pose:'curioso', cta:'▶ ENTRAR AL BOSQUE',
+    onContinuar:()=>{ histIdx=0; codigo=[]; document.getElementById('candadoZona').style.display='none';
+      document.getElementById('pictoGrid').style.display=''; mostrarEscena('punto-4'); montarHistoria(); }
+  });
+}
+function montarHistoria(){
+  const h=historias[histIdx];
+  document.getElementById('bosqueTit').textContent='Historia '+(histIdx+1)+' de 3';
+  document.getElementById('bosqueLead').textContent=h.texto;
+  const grid=document.getElementById('pictoGrid'); grid.innerHTML='';
+  barajar(h.opciones).forEach(op=>{
+    const d=document.createElement('div'); d.className='picto';
+    d.innerHTML='<img src="assets/imagenes/iconos-candado/'+op+'.png" alt="">';
+    d.onclick=()=>clicPicto(d,op,h.correcto);
+    grid.appendChild(d);
+  });
+}
+function clicPicto(el,op,correcto){
+  if(op===correcto){
+    el.classList.add('ok'); reproducir('sfx','chime',{volume:.5});
+    codigo.push(correcto);
+    [...document.querySelectorAll('#pictoGrid .picto')].forEach(p=>p.onclick=null);
+    toast('¡Bien resuelto!','ok',1100);
+    histIdx++;
+    if(histIdx>=3) setTimeout(abrirCandado,900);
+    else setTimeout(montarHistoria,900);
+  } else {
+    el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),420);
+    toast('Mmm… prueba otra vez','err',1100);
+  }
+}
+function abrirCandado(){
+  document.getElementById('bosqueTit').textContent='El código secreto';
+  document.getElementById('bosqueLead').textContent='Las tres respuestas abren el candado…';
+  document.getElementById('pictoGrid').style.display='none';
+  const cz=document.getElementById('candadoZona'); cz.style.display='';
+  const cs=document.getElementById('codigoSecreto'); cs.innerHTML='';
+  codigo.forEach(c=>{ const d=document.createElement('div'); d.className='cs';
+    d.innerHTML='<img src="assets/imagenes/iconos-candado/'+c+'.png" alt="">'; cs.appendChild(d); });
+  reproducir('sfx','candado',{volume:.9});
+  // animación de apertura: el arco salta
+  const arco=document.getElementById('arco');
+  arco.style.transition='transform .6s ease-out'; arco.style.transformOrigin='35px 40px';
+  setTimeout(()=>{ arco.style.transform='rotate(-35deg) translateY(-6px)'; },150);
+  setTimeout(()=>conseguirFragmento(4), 1500);
+}
+
+/* =========================================================
+   PUNTO 5 · VOLCÁN
+========================================================= */
+const preguntasVolcan=[
+  { tipo:'peque', q:'¿Cuál de estas es roja?',
+    img:[{n:'sandia',ok:true},{n:'pez-tropical'},{n:'palmera'}] },
+  { tipo:'peque', q:'Señala el animal que vive en el mar',
+    img:[{n:'tortuga-marina',ok:true},{n:'palmera'},{n:'sol'}] },
+  { tipo:'peque', q:'¿Qué nos ponemos para protegernos del sol en la playa?',
+    img:[{n:'sombrero',ok:true},{n:'pelota-playa'},{n:'cubo-de-arena'}] },
+  { tipo:'papa', q:'Animal marino con 8 brazos que cambia de color.',
+    txt:[{t:'Pulpo',ok:true},{t:'Tortuga'},{t:'Tiburón'}] },
+  { tipo:'papa', q:'Capital de una isla volcánica española.',
+    txt:[{t:'Santa Cruz de Tenerife',ok:true},{t:'Valladolid'},{t:'Sevilla'}] },
+  { tipo:'papa', q:'Película de Disney donde el océano elige a una niña.',
+    txt:[{t:'Vaiana (Moana)',ok:true},{t:'Frozen'},{t:'Coco'}] },
+  { tipo:'papa', q:'Material con el que se hacían los anzuelos de Maui en la leyenda polinesia.',
+    txt:[{t:'Hueso',ok:true},{t:'Hierro'},{t:'Plástico'}] },
+];
+let volcanIdx=0;
+
+function abrirPunto5(){
+  fadeOut(audios.musica.isla,900);
+  setTimeout(()=>fadeIn(audios.musica.volcan,1000,0.35),600);
+  reproducir('historiador','volcan',{volume:1});
+  reproducir('sfx','fuego',{volume:.4});
+  mostrarPegasusito({
+    titulo:'El volcán',
+    texto:'El último fragmento descansa en lo alto del cráter. Responded las pruebas sin caer en la lava. Tres para los exploradores pequeños y cuatro para los grandes. ¡Ánimo!',
+    pose:'pensativo', cta:'▶ SUBIR AL VOLCÁN',
+    onContinuar:()=>{ volcanIdx=0; mostrarEscena('punto-5'); montarPreguntaVolcan(); }
+  });
+}
+function montarPreguntaVolcan(){
+  const p=preguntasVolcan[volcanIdx];
+  const host=document.getElementById('volcanQ');
+  const total=preguntasVolcan.length;
+  let html='<span class="badge '+(p.tipo==='peque'?'peque':'papa')+'">'+
+           (p.tipo==='peque'?'Para exploradores peques':'Para exploradores grandes')+
+           ' · '+(volcanIdx+1)+'/'+total+'</span>';
+  html+='<h3>'+p.q+'</h3>';
+  if(p.tipo==='peque'){
+    html+='<div class="opts-img">'+p.img.map((o,i)=>
+      '<div class="opt-img" data-ok="'+(o.ok?1:0)+'"><img src="assets/imagenes/sopa-de-imagenes/'+o.n+'.png" alt=""></div>').join('')+'</div>';
+  } else {
+    html+='<div class="opts-txt">'+p.txt.map(o=>
+      '<div class="opt-txt" data-ok="'+(o.ok?1:0)+'">'+o.t+'</div>').join('')+'</div>';
+  }
+  host.innerHTML=html;
+  host.querySelectorAll('[data-ok]').forEach(el=>el.onclick=()=>respuestaVolcan(el));
+}
+function respuestaVolcan(el){
+  if(el.dataset.ok==='1'){
+    reproducir('sfx','chime',{volume:.5});
+    volcanIdx++;
+    if(volcanIdx>=preguntasVolcan.length){
+      toast('¡Habéis dominado el volcán!','ok');
+      fadeOut(audios.musica.volcan,800);
+      setTimeout(()=>conseguirFragmento(5),700);
+    } else {
+      toast('¡Correcto!','ok',900);
+      setTimeout(montarPreguntaVolcan,700);
+    }
+  } else {
+    el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),420);
+    caerEnVolcan();
+  }
+}
+function caerEnVolcan(){
+  const h=document.getElementById('heroeCima');
+  reproducir('sfx','caer',{volume:.8});
+  h.classList.add('caer');
+  toast('¡Has caído! Pero los semidioses reviven…','err',1800);
+  setTimeout(()=>{
+    h.classList.remove('caer'); reproducir('sfx','revive',{volume:.8});
+  },1400);
+}
+
+/* =========================================================
+   FINAL · Te Fiti
+========================================================= */
+function secuenciaFinal(){
+  mostrarEscena('final');                 // mostrarEscena ya llama a pararAudiosNarrativa()
+  document.getElementById('btnVolverMapa').classList.remove('on');
+
+  // 1. silenciar fondos
+  fadeOut(audios.musica.isla, 800);
+  audios.musica.volcan.pause();
+  audios.sfx.olas.pause();
+
+  // 2. SFX piedra completa
+  reproducir('sfx','piedra',{volume:.7});
+
+  // 3. los 4 fragmentos vuelan y se unen (arriba, no sobre Te Fiti)
+  setTimeout(()=>document.getElementById('piedraFinal').classList.add('armada'), 1500);
+
+  // 4. tras 1 s, voz del historiador. Música y Te Fiti SOLO cuando termina.
+  setTimeout(()=>{
+    const histFinal=reproducir('historiador','final',{volume:1});
+    const seguir=()=>{
+      fadeIn(audios.musica.final, 1500, 0.5);          // 5. música final
+      setTimeout(()=>{                                  // 6. Te Fiti se eleva + su voz
+        document.getElementById('tefitiImg').classList.add('sube');
+        reproducir('tefiti','final',{volume:1});
+      }, 600);
+      setTimeout(()=>document.getElementById('finalCta').classList.add('on'), 4500);
+    };
+    if(histFinal) histFinal.addEventListener('ended', seguir, {once:true});
+    else seguir();
+  }, 1000);
+}
+
+function pantallaDespedida(){
+  pararTodaLaMusica();
+  document.getElementById('finalCta').classList.remove('on');
+  mostrarPegasusito({
+    titulo:'¡Habéis salvado la isla!',
+    texto:'La piedra de Te Fiti vuelve a latir y la isla reverdece. Gracias, exploradores. Buenas vacaciones 🌊',
+    pose:'vacaciones', cta:'🌴 ¡HASTA LA PRÓXIMA AVENTURA!',
+    onContinuar:()=>{ /* fin: el modal se cierra y queda la isla de fondo */ irAlMapa(false); }
+  });
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+window.addEventListener('load', ()=>{
+  preloadAudios();
+  mostrarEscena('bienvenida');
+});
+</script>
+</body>
+</html>

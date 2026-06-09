@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Papás al Juego · Junio 2026 — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.cdnfonts.com/css/chantal');
+:root{--verde:#08B75B;--azul:#007EC3;--morado:#974694;--rosa:#E45E9B;--rojo:#D6191B;--naranja:#ED7928;--amarillo:#F3D100;--negro:#0A0E14;--blanco:#FFFFFF;--gris-50:#F7F8FA;--gris-100:#EEF0F4;--gris-300:#BDC1CA;--gris-600:#5C6370;--grad:linear-gradient(90deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--negro);color:var(--blanco);min-height:100vh;line-height:1.6}
+.stripe{height:6px;background:var(--grad)}
+.hero{padding:96px 32px 64px;text-align:center;max-width:1100px;margin:0 auto}
+.logo{height:60px;margin-bottom:40px}
+.hero-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:20px}
+.hero h1{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);font-weight:700;line-height:1.05;margin-bottom:18px;letter-spacing:-.01em}
+.hero h1 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.15rem;color:rgba(255,255,255,.7);max-width:680px;margin:0 auto;line-height:1.65}
+.cards{max-width:1100px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:24px;padding:40px;text-decoration:none;color:var(--blanco);transition:all 0.3s cubic-bezier(0.33,1,0.68,1);position:relative;overflow:hidden;display:block}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:24px 24px 0 0}
+.card.c1::before{background:linear-gradient(90deg,var(--verde),var(--azul))}
+.card.c2::before{background:linear-gradient(90deg,var(--naranja),var(--amarillo))}
+.card.c3::before{background:linear-gradient(90deg,var(--azul),var(--morado))}
+.card.c4::before{background:linear-gradient(90deg,var(--morado),var(--rosa))}
+.card:hover{transform:translateY(-6px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.card-emoji{font-size:3rem;margin-bottom:16px;line-height:1}
+.card-area{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
+.card h2{font-family:'Chantal','Barlow',sans-serif;font-size:1.6rem;font-weight:700;font-style:italic;line-height:1.2;margin-bottom:10px}
+.card-conduce{font-size:.95rem;color:rgba(255,255,255,.6);margin-bottom:20px;font-style:italic}
+.card-cta{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--amarillo);font-size:.95rem;letter-spacing:.02em}
+.card:hover .card-cta{color:var(--blanco)}
+.footer{padding:40px 32px 60px;text-align:center;color:rgba(255,255,255,.5);font-size:.85rem}
+.footer-eslogan{font-family:'Chantal','Barlow',sans-serif;font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;margin-bottom:8px;font-size:.95rem}
+@media(max-width:720px){.hero{padding:64px 20px 40px}.cards{grid-template-columns:1fr;padding:0 20px 60px;gap:16px}.card{padding:32px 28px}}
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+
+<div class="hero">
+  <img src="shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus" class="logo">
+  <p class="hero-eyebrow">Jornada de junio 2026</p>
+  <h1>Papás al<br><span class="grad">Juego</span></h1>
+  <p class="hero-sub">Cuatro gymkanas para que las familias jueguen con sus peques. Una por especialidad terapéutica. Doble click — y a jugar.</p>
+</div>
+
+<div class="cards">
+
+  <a class="card c1" href="fisioterapia/">
+    <div class="card-emoji">🤸</div>
+    <div class="card-area">Fisioterapia</div>
+    <h2>Viaje de Verano<br>con Fisio</h2>
+    <p class="card-conduce">Conduce Alba</p>
+    <span class="card-cta">Empezar gymkana →</span>
+  </a>
+
+  <a class="card c2" href="to/">
+    <div class="card-emoji">🧩</div>
+    <div class="card-area">Terapia Ocupacional</div>
+    <h2>¡Se han estropeado<br>las vacaciones!</h2>
+    <p class="card-conduce">Conduce Esther</p>
+    <span class="card-cta">Empezar gymkana →</span>
+  </a>
+
+  <a class="card c3" href="psicologia/">
+    <div class="card-emoji">🧠</div>
+    <div class="card-area">Psicología</div>
+    <h2>El Gran Viaje<br>del Explorador</h2>
+    <p class="card-conduce">Conduce Andrea</p>
+    <span class="card-cta">Empezar gymkana →</span>
+  </a>
+
+  <a class="card c4" href="logopedia/">
+    <div class="card-emoji">🗣️</div>
+    <div class="card-area">Logopedia</div>
+    <h2>La Piedra<br>de Te Fiti</h2>
+    <p class="card-conduce">Conduce Cecilia</p>
+    <span class="card-cta">Empezar gymkana →</span>
+  </a>
+
+</div>
+
+<div class="footer">
+  <p class="footer-eslogan">"Lo mío no es normal, pero lo tuyo tampoco."</p>
+  <p>Fundación Pegasus · Junio 2026</p>
+</div>
+
+</body>
+</html>
