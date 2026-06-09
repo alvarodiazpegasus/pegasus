@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa de Bienestar Emocional y Prevención en Adolescentes — Fundación Pegasus × Leganés</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.cdnfonts.com/css/chantal');
+:root{--verde:#08B75B;--azul:#007EC3;--morado:#974694;--rosa:#E45E9B;--rojo:#D6191B;--naranja:#ED7928;--amarillo:#F3D100;--negro:#0A0E14;--blanco:#FFFFFF;--gris-50:#F7F8FA;--gris-100:#EEF0F4;--gris-200:#DDE0E6;--gris-500:#7C818C;--gris-600:#5C6370;--gris-700:#3E4653;--grad:linear-gradient(90deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Barlow',-apple-system,sans-serif;background:var(--gris-50);color:var(--negro);line-height:1.7;-webkit-font-smoothing:antialiased}
+.stripe{height:6px;background:var(--grad)}
+.hero{background:var(--negro);color:var(--blanco);padding:96px 48px 110px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,183,91,.08),rgba(0,126,195,.12),rgba(151,70,148,.08));pointer-events:none}
+.hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:28px}
+.hero h1{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(2.3rem,4.8vw,3.8rem);font-weight:700;line-height:1.05;margin-bottom:20px;letter-spacing:-.01em}
+.hero h1 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-claim{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(1.2rem,2vw,1.6rem);font-style:italic;color:var(--amarillo);margin-bottom:36px;letter-spacing:-.01em}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:780px;line-height:1.7;margin-bottom:36px}
+.hero-meta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:100px;font-size:.78rem;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+
+main{max-width:980px;margin:0 auto;padding:80px 48px 60px}
+.section{margin-bottom:88px;scroll-margin-top:24px}
+.section-label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:18px}
+.s-verde{background:rgba(8,183,91,.1);color:var(--verde)}
+.s-azul{background:rgba(0,126,195,.1);color:var(--azul)}
+.s-morado{background:rgba(151,70,148,.1);color:var(--morado)}
+.s-rosa{background:rgba(228,94,155,.1);color:var(--rosa)}
+.s-naranja{background:rgba(237,121,40,.1);color:var(--naranja)}
+.s-amarillo{background:rgba(243,209,0,.18);color:#8a7600}
+.s-rojo{background:rgba(214,25,27,.1);color:var(--rojo)}
+
+.section h2{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:700;margin-bottom:18px;line-height:1.15;letter-spacing:-.01em}
+.section h2 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section p{font-size:1rem;color:var(--gris-700);line-height:1.75;margin-bottom:16px;max-width:820px}
+.section p strong{color:var(--negro)}
+
+/* Cards de metodología */
+.metodo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+.metodo-card{background:var(--blanco);border:1.5px solid var(--gris-200);border-radius:18px;padding:28px;position:relative;overflow:hidden}
+.metodo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.metodo-card.c1::before{background:var(--verde)}
+.metodo-card.c2::before{background:var(--azul)}
+.metodo-card.c3::before{background:var(--rosa)}
+.metodo-icon{font-size:2rem;margin-bottom:16px}
+.metodo-card h3{font-family:'Chantal','Barlow',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:10px;letter-spacing:-.01em}
+.metodo-card p{font-size:.94rem;color:var(--gris-600);margin:0}
+
+/* Fases */
+.fase-bloque{background:var(--blanco);border-radius:24px;padding:48px;margin-top:32px;box-shadow:0 8px 32px rgba(10,14,20,.04)}
+.fase-tag{display:inline-block;padding:8px 18px;border-radius:100px;font-family:'Chantal','Barlow',sans-serif;font-size:.85rem;font-weight:700;font-style:italic;color:var(--blanco);margin-bottom:18px;letter-spacing:.05em}
+.fase-1 .fase-tag{background:linear-gradient(135deg,var(--verde),var(--azul))}
+.fase-2 .fase-tag{background:linear-gradient(135deg,var(--azul),var(--morado))}
+.fase-3 .fase-tag{background:linear-gradient(135deg,var(--morado),var(--rosa))}
+.fase-bloque h3{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:700;line-height:1.2;margin-bottom:8px;letter-spacing:-.01em}
+.fase-sub{font-family:'Chantal','Barlow',sans-serif;font-style:italic;color:var(--gris-600);font-size:1.1rem;margin-bottom:24px}
+.fase-bloque h4{font-family:'Chantal','Barlow',sans-serif;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--gris-500);margin:28px 0 14px;font-style:normal}
+.fase-bloque ul{list-style:none;display:grid;gap:10px}
+.fase-bloque ul li{position:relative;padding-left:28px;font-size:.97rem;color:var(--gris-700);line-height:1.6}
+.fase-bloque ul li::before{content:'';position:absolute;left:0;top:9px;width:14px;height:2px;background:var(--verde)}
+.fase-2 ul li::before{background:var(--azul)}
+.fase-3 ul li::before{background:var(--morado)}
+.fase-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:24px;padding:20px;background:var(--gris-50);border-radius:14px}
+.fase-meta-item .l{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gris-500);margin-bottom:6px}
+.fase-meta-item .v{font-family:'Chantal','Barlow',sans-serif;font-weight:700;font-size:1.05rem;color:var(--negro)}
+
+/* Resultados */
+.resultados-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px}
+.result-card{background:var(--blanco);border-left:4px solid var(--verde);padding:20px 24px;border-radius:0 12px 12px 0;font-size:.96rem;color:var(--gris-700);line-height:1.55}
+.result-card strong{color:var(--negro)}
+
+/* Reframing destacado */
+.reframing-box{background:linear-gradient(135deg,rgba(8,183,91,.08),rgba(0,126,195,.08));border:1.5px dashed rgba(8,183,91,.4);border-radius:20px;padding:36px 40px;margin-top:24px}
+.reframing-box h3{font-family:'Chantal','Barlow',sans-serif;font-size:1.3rem;font-weight:700;font-style:italic;color:var(--verde);margin-bottom:14px;letter-spacing:-.01em}
+.reframing-box p{font-size:.98rem;color:var(--gris-700);margin:0}
+.reframing-box p strong{color:var(--negro)}
+
+/* Adaptación / dimensionamiento */
+.adaptacion-box{background:var(--negro);color:var(--blanco);border-radius:20px;padding:48px;position:relative;overflow:hidden;margin-top:24px}
+.adaptacion-box::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:var(--grad)}
+.adaptacion-box h3{font-family:'Chantal','Barlow',sans-serif;font-size:1.5rem;font-weight:700;font-style:italic;margin-bottom:16px;letter-spacing:-.01em}
+.adaptacion-box p{font-size:1rem;color:rgba(255,255,255,.8);margin-bottom:14px;line-height:1.75;max-width:none}
+
+/* Cierre */
+.cierre{background:var(--negro);color:var(--blanco);padding:80px 48px;text-align:center;position:relative;overflow:hidden}
+.cierre::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,183,91,.06),rgba(151,70,148,.08),rgba(228,94,155,.06));pointer-events:none}
+.cierre-inner{max-width:780px;margin:0 auto;position:relative;z-index:1}
+.cierre h2{font-family:'Chantal','Barlow',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;line-height:1.1;margin-bottom:20px;letter-spacing:-.01em}
+.cierre h2 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cierre-eslogan{font-family:'Chantal','Barlow',sans-serif;font-style:italic;font-size:1.1rem;color:rgba(255,255,255,.7);margin-top:32px}
+
+footer{background:#000;color:rgba(255,255,255,.5);padding:32px 48px;text-align:center;font-size:.82rem}
+
+@media(max-width:720px){
+  .hero{padding:64px 24px 72px}
+  main{padding:48px 24px}
+  .metodo-grid,.resultados-grid{grid-template-columns:1fr}
+  .fase-bloque{padding:32px 24px}
+  .adaptacion-box,.cierre{padding:40px 28px}
+}
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Fundación Pegasus × Ayuntamiento de Leganés</p>
+    <h1>Programa de Bienestar<br>Emocional y Prevención<br><span class="grad">en Adolescentes</span></h1>
+    <p class="hero-claim">"La discapacidad invisible: el miedo"</p>
+    <p class="hero-sub">Una propuesta de intervención en salud emocional dirigida a adolescentes entre 15 y 17 años, basada en la psicología humanista, la aceptación y la creación de espacios seguros donde los jóvenes puedan expresarse sin miedo al juicio.</p>
+    <div class="hero-meta">
+      <span class="hero-tag">🧠 Bienestar emocional</span>
+      <span class="hero-tag">🎓 Adolescentes 15–17 años</span>
+      <span class="hero-tag">🏛️ Contrato menor</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- 1. JUSTIFICACIÓN -->
+  <div class="section" id="justificacion">
+    <span class="section-label s-azul">01 · Justificación</span>
+    <h2>Por qué este programa,<br><span class="grad">por qué ahora</span></h2>
+    <p>Los centros educativos se enfrentan cada vez más a situaciones relacionadas con el malestar emocional de los adolescentes: ansiedad, baja autoestima, dificultades relacionales, aislamiento social, acoso escolar, conductas autolesivas y riesgo suicida.</p>
+    <p>La adolescencia es una etapa clave para la construcción de la identidad personal. Cuando los jóvenes no encuentran espacios seguros donde expresar sus emociones y preocupaciones, el sufrimiento suele manifestarse a través de conflictos, conductas de riesgo o problemas de salud mental.</p>
+    <p>Desde Fundación Pegasus proponemos una intervención basada en la <strong>psicología humanista</strong>, centrada en la aceptación, el autoconocimiento, la autoestima y la creación de entornos seguros donde los jóvenes puedan expresarse sin miedo al juicio.</p>
+  </div>
+
+  <!-- 2. OBJETIVO GENERAL -->
+  <div class="section" id="objetivo">
+    <span class="section-label s-verde">02 · Objetivo general</span>
+    <h2>Qué queremos<br>que pase</h2>
+    <p>Promover el bienestar emocional de adolescentes de entre <strong>15 y 17 años</strong> mediante acciones de <strong>sensibilización, prevención e intervención psicológica</strong> que favorezcan la autoestima, la aceptación personal, la gestión emocional y las relaciones saludables.</p>
+  </div>
+
+  <!-- 3. METODOLOGÍA -->
+  <div class="section" id="metodologia">
+    <span class="section-label s-morado">03 · Metodología</span>
+    <h2>Tres principios<br>que nos sostienen</h2>
+    <p>La intervención se sustenta en tres principios metodológicos:</p>
+    <div class="metodo-grid">
+      <div class="metodo-card c1">
+        <div class="metodo-icon">🎲</div>
+        <h3>Juego</h3>
+        <p>Utilización de dinámicas participativas y experienciales que facilitan el aprendizaje emocional.</p>
+      </div>
+      <div class="metodo-card c2">
+        <div class="metodo-icon">💙</div>
+        <h3>Inteligencia Emocional</h3>
+        <p>Desarrollo de habilidades para reconocer, comprender y gestionar emociones propias y ajenas.</p>
+      </div>
+      <div class="metodo-card c3">
+        <div class="metodo-icon">😊</div>
+        <h3>Humor</h3>
+        <p>Creación de espacios cercanos y seguros que favorezcan la participación y la conexión entre iguales.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="section" id="fase1">
+    <span class="section-label s-verde">04 · Fase 1</span>
+    <h2>Conferencia<br>de impacto emocional</h2>
+    <div class="fase-bloque fase-1">
+      <span class="fase-tag">FASE 1 · La conferencia</span>
+      <h3>"La verdadera discapacidad es el miedo"</h3>
+      <p class="fase-sub">Conferencia impartida por David Rodríguez.</p>
+      <p>A través de su historia personal, David invita a los jóvenes a reflexionar sobre cómo el miedo condiciona nuestras decisiones, relaciones y proyectos vitales. La sesión rompe con los modelos tradicionales de charla motivacional y busca generar <strong>identificación, cercanía y reflexión</strong>.</p>
+
+      <h4>Contenidos</h4>
+      <ul>
+        <li>El miedo como limitación universal.</li>
+        <li>Los complejos y la aceptación personal.</li>
+        <li>Diferencia entre dolor y sufrimiento.</li>
+        <li>La importancia de pedir ayuda.</li>
+        <li>El valor de mostrarse vulnerable.</li>
+        <li>El éxito entendido como la capacidad de ser uno mismo.</li>
+      </ul>
+
+      <h4>Actividad participativa</h4>
+      <p>Tras la conferencia se realiza un coloquio abierto donde los alumnos pueden compartir inquietudes, experiencias y reflexiones.</p>
+      <p>Posteriormente se desarrolla la dinámica <strong>"El Sobre Emocional"</strong>, donde pequeños grupos trabajan diferentes temáticas:</p>
+      <ul>
+        <li>Aceptación personal.</li>
+        <li>Autoestima.</li>
+        <li>Complejos e imagen corporal.</li>
+        <li>Miedo al rechazo.</li>
+        <li>Relaciones saludables.</li>
+        <li>Gestión emocional.</li>
+        <li>Resiliencia y superación.</li>
+      </ul>
+
+      <div class="fase-meta">
+        <div class="fase-meta-item">
+          <p class="l">Participantes</p>
+          <p class="v">Entre 300 y 500 alumnos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="section" id="fase2">
+    <span class="section-label s-azul">05 · Fase 2</span>
+    <h2>Espacios de<br>Bienestar Emocional</h2>
+    <div class="fase-bloque fase-2">
+      <span class="fase-tag">FASE 2 · Los grupos</span>
+      <h3>Grupos de desarrollo personal para adolescentes</h3>
+      <p class="fase-sub">Tras la conferencia, los jóvenes podrán inscribirse voluntariamente en grupos de trabajo emocional.</p>
+
+      <h4>Objetivos</h4>
+      <ul>
+        <li>Crear espacios seguros de expresión emocional.</li>
+        <li>Fomentar el sentimiento de pertenencia.</li>
+        <li>Mejorar la autoestima y la confianza.</li>
+        <li>Dotar de herramientas para afrontar dificultades cotidianas.</li>
+        <li>Prevenir situaciones de aislamiento, acoso o sufrimiento emocional.</li>
+      </ul>
+
+      <h4>Formato</h4>
+      <ul>
+        <li>Grupos de 8 a 10 participantes.</li>
+        <li>Sesión mensual.</li>
+        <li>Dirigidos por psicólogos especializados.</li>
+        <li>Metodología participativa y experiencial.</li>
+      </ul>
+
+      <h4>Temáticas</h4>
+      <ul>
+        <li>Autoestima.</li>
+        <li>Aceptación.</li>
+        <li>Relaciones sociales.</li>
+        <li>Gestión del miedo.</li>
+        <li>Presión social.</li>
+        <li>Identidad y proyecto de vida.</li>
+        <li>Resolución de conflictos.</li>
+        <li>Bienestar emocional.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="section" id="fase3">
+    <span class="section-label s-morado">06 · Fase 3</span>
+    <h2>Atención<br>Psicológica Individual</h2>
+    <div class="fase-bloque fase-3">
+      <span class="fase-tag">FASE 3 · El acompañamiento</span>
+      <h3>Atención psicológica individual</h3>
+      <p class="fase-sub">Algunos adolescentes pueden requerir un acompañamiento más específico.</p>
+      <p>Por ello, el programa contempla un servicio de atención psicológica individual destinado a aquellos jóvenes detectados por:</p>
+      <ul>
+        <li>El propio equipo profesional.</li>
+        <li>Los centros educativos.</li>
+        <li>Las familias.</li>
+        <li>Demanda directa del adolescente.</li>
+      </ul>
+
+      <h4>Objetivos</h4>
+      <ul>
+        <li>Ofrecer apoyo emocional especializado.</li>
+        <li>Detectar situaciones de riesgo.</li>
+        <li>Intervenir de manera temprana.</li>
+        <li>Derivar a recursos especializados cuando sea necesario.</li>
+      </ul>
+
+      <div class="fase-meta">
+        <div class="fase-meta-item">
+          <p class="l">Plazas</p>
+          <p class="v">A determinar según presupuesto y necesidades del municipio</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADOS ESPERADOS -->
+  <div class="section" id="resultados">
+    <span class="section-label s-rosa">07 · Resultados esperados</span>
+    <h2>Lo que puede<br>pasar</h2>
+    <div class="resultados-grid">
+      <div class="result-card"><strong>Incremento</strong> del bienestar emocional percibido.</div>
+      <div class="result-card"><strong>Mejora</strong> de la autoestima y la aceptación personal.</div>
+      <div class="result-card"><strong>Reducción</strong> del estigma asociado a la salud mental.</div>
+      <div class="result-card"><strong>Generación</strong> de espacios seguros de expresión emocional.</div>
+      <div class="result-card"><strong>Detección</strong> temprana de situaciones de riesgo.</div>
+      <div class="result-card"><strong>Fortalecimiento</strong> de la red de apoyo entre jóvenes, familias y centros educativos.</div>
+    </div>
+  </div>
+
+  <!-- REFRAMING -->
+  <div class="section" id="enfoque">
+    <span class="section-label s-verde">08 · Una nota sobre el enfoque</span>
+    <h2>Cómo presentar el programa<br>al municipio</h2>
+    <div class="reframing-box">
+      <h3>Programa Municipal de Bienestar Emocional y Prevención del Malestar Adolescente</h3>
+      <p>Creemos que para venderlo al ayuntamiento quedaría todavía mejor si lo planteamos como un <strong>Programa Municipal de Bienestar Emocional y Prevención del Malestar Adolescente</strong>, porque pone el foco en la <strong>promoción de la salud emocional (positivo)</strong> y no únicamente en la prevención del suicidio (reactivo). Eso suele encajar mejor con las áreas de <strong>Juventud, Educación y Salud</strong>.</p>
+    </div>
+  </div>
+
+  <!-- ADAPTACIÓN Y DIMENSIONAMIENTO -->
+  <div class="section" id="adaptacion">
+    <span class="section-label s-naranja">09 · Adaptación y dimensionamiento</span>
+    <h2>Cómo encaja en<br><span class="grad">el contrato menor</span></h2>
+    <div class="adaptacion-box">
+      <h3>Adaptación del programa</h3>
+      <p>Con el objetivo de garantizar la viabilidad y sostenibilidad del proyecto, las acciones planteadas se ajustarán al <strong style="color:var(--amarillo)">presupuesto disponible</strong> y al marco de contratación establecido por el Ayuntamiento.</p>
+      <p>La propuesta presentada constituye un modelo integral de intervención que combina <strong style="color:var(--amarillo)">sensibilización, prevención e intervención psicológica</strong>. No obstante, el alcance definitivo del programa podrá adaptarse en función de los recursos asignados, priorizando aquellas actuaciones que generen un mayor impacto en la población juvenil.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- CIERRE -->
+<section class="cierre">
+  <div class="cierre-inner">
+    <h2>¿Lo <span class="grad">hacemos?</span></h2>
+    <p class="cierre-eslogan">"Lo mío no es normal, pero lo tuyo tampoco."</p>
+  </div>
+</section>
+
+<footer>
+  Fundación Pegasus · Propuesta para el Ayuntamiento de Leganés · 2026
+</footer>
+
+</body>
+</html>
