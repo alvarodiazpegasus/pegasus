@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pegasus · Memoria Institucional Ampliada · 2026</title>
+<meta name="description" content="Fundación Pegasus · Memoria institucional ampliada · Versión navegable con identidad visual oficial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde:   #08B75B;
+  --azul:    #007EC3;
+  --morado:  #974694;
+  --rosa:    #E45E9B;
+  --rojo:    #D6191B;
+  --amarillo:#F3D100;
+  --naranja: #ED7928;
+  --negro:   #111111;
+  --blanco:  #FFFFFF;
+  --gris-100: #F7F7F7;
+  --gris-300: #DDD;
+  --gris-500: #888;
+  --gris-700: #444;
+  --gradient: linear-gradient(120deg, var(--verde) 0%, var(--azul) 18%, var(--morado) 36%, var(--rosa) 54%, var(--rojo) 72%, var(--naranja) 86%, var(--amarillo) 100%);
+  --gradient-tpt: linear-gradient(120deg, var(--morado), var(--rosa));
+  --gradient-is: linear-gradient(120deg, var(--verde), var(--azul));
+  --gradient-flow: linear-gradient(120deg, var(--rojo), var(--naranja), var(--amarillo));
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--negro);
+  background: var(--blanco);
+  line-height: 1.55;
+  font-size: 17px;
+}
+
+/* === BARRA SUPERIOR GRADIENTE === */
+.gradient-bar {
+  height: 8px;
+  background: var(--gradient);
+  width: 100%;
+}
+
+/* === NAV === */
+nav.main {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gris-300);
+  z-index: 100;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.nav-logo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 24px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.nav-links a {
+  color: var(--gris-700);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--morado); }
+
+/* === HERO === */
+.hero {
+  padding: 120px 32px 80px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: var(--gradient-tpt);
+  border-radius: 50% 40% 60% 50% / 60% 50% 40% 50%;
+  opacity: 0.25;
+  z-index: 0;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: -50px;
+  width: 350px;
+  height: 350px;
+  background: var(--gradient-is);
+  border-radius: 50% 60% 40% 50% / 50% 40% 60% 50%;
+  opacity: 0.15;
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.hero h1 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1.0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-bottom: 32px;
+}
+.hero h1 .accent {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p.subtitle {
+  font-size: 22px;
+  color: var(--gris-700);
+  line-height: 1.45;
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--gris-300);
+}
+.hero-meta-item .label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gris-500);
+  margin-bottom: 4px;
+}
+.hero-meta-item .value {
+  font-size: 18px;
+  font-weight: 700;
+}
+.hero-tag {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 8px 20px;
+  background: var(--morado);
+  color: var(--blanco);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* === SECCIONES === */
+section.contenido {
+  padding: 80px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+section.alterna { background: var(--gris-100); }
+section.contenido.full-bg {
+  max-width: 100%;
+  margin: 0;
+}
+section.contenido.full-bg .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.05;
+  margin-bottom: 24px;
+  max-width: 900px;
+}
+.section-title .accent {
+  background: var(--gradient-tpt);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-lead {
+  font-size: 19px;
+  color: var(--gris-700);
+  max-width: 760px;
+  margin-bottom: 48px;
+  line-height: 1.55;
+}
+
+/* === FILOSOFIA · 3 columnas === */
+.philos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.philos-card {
+  padding: 32px 28px;
+  border-radius: 24px;
+  background: var(--blanco);
+  border-left: 5px solid;
+}
+.philos-card.morado { border-color: var(--morado); }
+.philos-card.rosa { border-color: var(--rosa); }
+.philos-card.azul { border-color: var(--azul); }
+.philos-card h3 {
+  font-style: italic;
+  color: var(--rosa);
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.philos-card.morado h3 { color: var(--morado); }
+.philos-card.azul h3 { color: var(--azul); }
+.philos-card p { font-size: 15px; color: var(--gris-700); }
+
+/* === VERTICAL CARDS === */
+.vertical {
+  border-radius: 28px;
+  padding: 48px;
+  margin-bottom: 32px;
+  color: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+.vertical.tpt { background: var(--gradient-tpt); }
+.vertical.is { background: var(--gradient-is); }
+.vertical.indif { background: var(--gradient); }
+.vertical-eyebrow {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.vertical h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.1;
+  margin-bottom: 32px;
+}
+.vertical-body { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+.vertical-body h4 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+.vertical-body p { font-size: 16px; line-height: 1.55; }
+.vertical-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 16px; }
+.vertical-stat {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 20px;
+  border-radius: 16px;
+}
+.vertical-stat .val { font-size: 32px; font-weight: 800; font-style: italic; line-height: 1; margin-bottom: 8px; }
+.vertical-stat .lab { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9; }
+.vertical-ampliado {
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+}
+.vertical-ampliado h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+.vertical-ampliado ul { list-style: none; padding: 0; }
+.vertical-ampliado li {
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+}
+.vertical-ampliado li:last-child { border: none; }
+.vertical-ampliado li strong { font-weight: 700; }
+
+@media (max-width: 700px) {
+  .vertical-body { grid-template-columns: 1fr; }
+}
+
+/* === CARDS GENERICAS === */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.card {
+  padding: 28px;
+  background: var(--blanco);
+  border-radius: 20px;
+  border: 1px solid var(--gris-300);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+.card .stat-val {
+  font-size: 42px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  margin-bottom: 8px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card .stat-lab {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gris-500);
+}
+.card p { font-size: 15px; color: var(--gris-700); margin-top: 12px; }
+.card h4 { font-size: 18px; margin-bottom: 8px; font-style: italic; color: var(--morado); }
+
+/* === LISTA RICA === */
+.lista-rica {
+  list-style: none;
+  margin: 24px 0;
+}
+.lista-rica li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gris-300);
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+}
+.lista-rica li:last-child { border: none; }
+.lista-rica .num {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 20px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.lista-rica .body strong { display: block; margin-bottom: 4px; font-size: 16px; }
+.lista-rica .body span { color: var(--gris-700); font-size: 15px; line-height: 1.5; }
+
+/* === RIESGOS · TABLA === */
+.riesgos { display: grid; gap: 16px; }
+.riesgo {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  padding: 24px 28px;
+  background: var(--blanco);
+  border-radius: 16px;
+  border-left: 4px solid var(--rojo);
+}
+.riesgo-titulo { font-weight: 700; color: var(--rojo); font-style: italic; }
+.riesgo-detalle { font-size: 15px; color: var(--gris-700); line-height: 1.55; }
+.riesgo-detalle .mit { display: block; margin-top: 8px; color: var(--verde); font-weight: 600; }
+@media (max-width: 700px) {
+  .riesgo { grid-template-columns: 1fr; }
+}
+
+/* === EQUIPO === */
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.persona {
+  background: var(--blanco);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid var(--gris-300);
+  position: relative;
+}
+.persona .avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gradient-tpt);
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 22px;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+.persona h4 { font-size: 18px; margin-bottom: 4px; }
+.persona .rol { font-size: 13px; color: var(--morado); font-weight: 600; letter-spacing: 0.5px; }
+.persona .desc { font-size: 14px; color: var(--gris-700); margin-top: 12px; }
+
+/* === FILA CONTACTO / FOOTER === */
+footer.main {
+  background: var(--negro);
+  color: var(--blanco);
+  padding: 80px 32px 48px;
+  margin-top: 80px;
+}
+footer.main .inner { max-width: 1280px; margin: 0 auto; }
+footer.main h2 {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+footer.main h2 .accent {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+footer.main p.lead { font-size: 19px; max-width: 700px; margin-bottom: 40px; color: rgba(255,255,255,0.85); }
+footer .footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+footer .col h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--amarillo);
+  margin-bottom: 12px;
+}
+footer .col a { color: var(--blanco); text-decoration: none; display: block; padding: 4px 0; }
+footer .col a:hover { color: var(--amarillo); }
+footer .meta {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* === HIGHLIGHTS === */
+.highlight {
+  margin: 32px 0;
+  padding: 28px 32px;
+  background: var(--gradient-tpt);
+  color: var(--blanco);
+  border-radius: 20px;
+  font-size: 18px;
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 500;
+}
+.highlight strong { font-weight: 700; }
+
+/* === CIRCULO VIRTUOSO === */
+.flujo {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+  margin: 32px 0;
+}
+.flujo-box {
+  padding: 24px;
+  border-radius: 16px;
+  border: 2px solid var(--gris-300);
+}
+.flujo-box.financiador { background: var(--blanco); }
+.flujo-box.beneficiario { background: var(--gradient-tpt); color: var(--blanco); border: none; }
+.flujo-box .et { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; }
+.flujo-box .nm { font-size: 18px; font-weight: 700; }
+.flujo-arrow { font-size: 32px; color: var(--morado); }
+@media (max-width: 700px) {
+  .flujo { grid-template-columns: 1fr; }
+  .flujo-arrow { transform: rotate(90deg); }
+}
+
+/* === BANDERA AMPLIADO === */
+.tag-ampliado {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--amarillo);
+  color: var(--negro);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 700px) {
+  nav.main { padding: 12px 20px; }
+  .nav-links { gap: 12px; font-size: 12px; }
+  .hero { padding: 60px 24px 40px; }
+  section.contenido { padding: 48px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="gradient-bar"></div>
+
+<nav class="main">
+  <a href="#top" class="nav-logo">PEGASUS</a>
+  <div class="nav-links">
+    <a href="#origen">Origen</a>
+    <a href="#filosofia">Filosofía</a>
+    <a href="#verticales">Verticales</a>
+    <a href="#prisma">PRISMA</a>
+    <a href="#transversales">Transversales</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#metricas">Métricas</a>
+    <a href="#modelo">Modelo</a>
+    <a href="#riesgos">Riesgos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Memoria Institucional · Versión ampliada</p>
+    <h1>Lo mío no es <span class="accent">normal</span>, pero lo tuyo tampoco.</h1>
+    <p class="subtitle">Acompañamos a las personas a ser conscientes de sus miedos y a aceptar sus diferencias para que puedan transformar sus vidas y la sociedad.</p>
+    <span class="hero-tag">Versión navegable · Madrid 2026</span>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="label">Fundación</div><div class="value">Pegasus · CIF G87919148</div></div>
+      <div class="hero-meta-item"><div class="label">Constitución</div><div class="value">06/07/2017</div></div>
+      <div class="hero-meta-item"><div class="label">Sede operativa</div><div class="value">Arganda del Rey · Madrid</div></div>
+      <div class="hero-meta-item"><div class="label">Régimen fiscal</div><div class="value">Utilidad Pública · Ley 49/2002</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEGASUS EN UNA PÁGINA ============ -->
+<section class="contenido alterna full-bg">
+  <div class="inner">
+    <p class="eyebrow">La fundación de un vistazo</p>
+    <h2 class="section-title">Pegasus <span class="accent">en una página</span></h2>
+    <p class="section-lead">Cuatro cifras que cuentan la organización en el momento actual. Datos verificados, presentados de forma agregada conforme al art. 9 del RGPD.</p>
+
+    <div class="cards-grid" style="margin-bottom: 48px;">
+      <div class="card"><div class="stat-val">1,03 M€</div><div class="stat-lab">Ingresos 2025</div><p>+18,9 % crecimiento anual. 51,5 % proviene de TPT, 22,6 % de Indiferente, 18,8 % de IS.</p></div>
+      <div class="card"><div class="stat-val">+1.000</div><div class="stat-lab">Usuarios únicos 2025</div><p>970 activos a junio 2026. La base de usuarios crece en torno a un +20 % anual sostenido.</p></div>
+      <div class="card"><div class="stat-val">47</div><div class="stat-lab">Profesionales · 100% indefinidos</div><p>Sin voluntariado. Plantilla profesionalizada con contratos indefinidos como norma.</p></div>
+      <div class="card"><div class="stat-val">6</div><div class="stat-lab">Premios institucionales</div><p>Talento Solidario (F. Botín), Emprendedor Social (UEM), Autonomía y Discapacidad (F. La Caixa), Future Leaders (Llorente y Cuenca), Generadores (Coca-Cola), Talento Carné Joven (C. Madrid).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORIGEN ============ -->
+<section class="contenido" id="origen">
+  <p class="eyebrow">Sección 01 · Origen</p>
+  <h2 class="section-title">Pegasus no nació de un plan de negocio. <span class="accent">Nació de una pregunta.</span></h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;">
+    <div>
+      <p style="font-size: 17px; color: var(--gris-700); margin-bottom: 16px;">David Rodríguez nació en Arganda del Rey con <strong>diparesia espástica</strong>. De niño, una palabra lo definió antes que ninguna otra: <em>discapacitado</em>. Lo metieron en fisioterapia para corregir su forma de andar. El daño nunca fue el esfuerzo físico, sino el mensaje implícito que lo acompañaba: <em>tal como eres, no eres suficiente; hay que arreglarte</em>.</p>
+      <p style="font-size: 17px; color: var(--gris-700); margin-bottom: 16px;">Para sobrevivir socialmente aprendió dos máscaras: la del <strong>"pobrecito"</strong> y la del <strong>"campeón"</strong>. La primera pedía compasión. La segunda admiración a pesar de su condición. Las dos le conseguían aceptación. Ninguna era él.</p>
+      <p style="font-size: 17px; color: var(--gris-700);">Años después, en una piscina adaptada, vio personas con discapacidades más severas que la suya disfrutar del agua sin la pelea interna que él arrastraba. Aquello abrió una pregunta incómoda: <strong>lo que de verdad lo limitaba no era su forma de andar, era el miedo al rechazo</strong>.</p>
+    </div>
+    <div>
+      <div class="highlight">El miedo es la verdadera discapacidad del ser humano. Y es universal. La discapacidad no es la línea que separa a las personas; el miedo es el puente que las une.</div>
+      <p class="tag-ampliado">Lectura ampliada</p>
+      <p style="font-size: 15px; color: var(--gris-700);">Esta tesis explica por qué Pegasus no segmenta su trabajo en "personas con discapacidad" vs "el resto". Trabaja con todas: las familias con peques con diagnóstico, los monitores en piscina, los equipos de RRHH de grandes empresas. La línea no es el diagnóstico — es el miedo, y todos lo tenemos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FILOSOFÍA ============ -->
+<section class="contenido alterna full-bg" id="filosofia">
+  <div class="inner">
+    <p class="eyebrow">Sección 02 · Filosofía y líneas rojas</p>
+    <h2 class="section-title">No ayudamos a nadie. <span class="accent">Acompañamos con valor real.</span></h2>
+    <p class="section-lead">Pegasus rechaza el modelo asistencial del tercer sector. No por estética: es una decisión estratégica de primer orden, y está escrita en los estatutos.</p>
+
+    <div class="philos">
+      <div class="philos-card morado">
+        <h3>Sin donativos</h3>
+        <p>No vivimos de la caridad. Cobramos porque damos un servicio con valor. La rentabilidad emocional y social también es rentabilidad.</p>
+      </div>
+      <div class="philos-card rosa">
+        <h3>Sin voluntariado</h3>
+        <p>Profesionales bien formados, no voluntarios bien intencionados. La calidad técnica del servicio es innegociable.</p>
+      </div>
+      <div class="philos-card azul">
+        <h3>Sin paternalismo</h3>
+        <p>La persona es la protagonista. No se la "arregla": se la acompaña. El terapeuta camina al lado, no por delante.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size: 26px; font-style: italic; margin: 48px 0 16px; color: var(--morado);">El círculo virtuoso · subsidio cruzado</h3>
+    <p style="font-size: 17px; color: var(--gris-700); margin-bottom: 24px;">Pegasus genera ingresos por el valor que crea y los destina a financiar servicios accesibles para las familias. La consultoría a empresas y los contratos con administraciones no son negocios paralelos: son la base económica que sostiene la accesibilidad.</p>
+
+    <div class="flujo">
+      <div class="flujo-box financiador">
+        <div class="et">Generan ingreso</div>
+        <div class="nm">Indiferente (empresa) + convenios con AAPP</div>
+      </div>
+      <div class="flujo-arrow">→</div>
+      <div class="flujo-box beneficiario">
+        <div class="et">Financian accesibilidad</div>
+        <div class="nm">Terapia e Inclusive Sport para las familias</div>
+      </div>
+    </div>
+
+    <p class="tag-ampliado">Lectura ampliada</p>
+    <p style="font-size: 16px; color: var(--gris-700);">Resultado: una sesión de terapia accesible desde <strong>17,95–25,95 € por sesión</strong>, frente a los <strong>60–70 € del mercado privado</strong>. La diferencia no es subsidio externo — es subsidio cruzado interno. Esto convierte a Pegasus en una organización financieramente autónoma respecto al modelo asistencial tradicional.</p>
+  </div>
+</section>
+
+<!-- ============ VERTICALES ============ -->
+<section class="contenido" id="verticales">
+  <p class="eyebrow">Sección 03 · Verticales operativos</p>
+  <h2 class="section-title">Tres líneas de servicio que comparten una misma <span class="accent">metodología y propósito</span>.</h2>
+  <p class="section-lead">Dos atienden directamente a las familias (TPT e Inclusive Sport); una vende a empresas e instituciones (Indiferente) y financia la accesibilidad de las otras dos.</p>
+
+  <!-- VERTICAL TPT -->
+  <div class="vertical tpt">
+    <span class="vertical-eyebrow">Terapia Para Todos</span>
+    <h2>Terapia que <em>no</em> te dice que hay que arreglarte</h2>
+    <div class="vertical-body">
+      <div>
+        <h4>Qué es</h4>
+        <p>Sesiones individuales de 40 minutos en Terapia Ocupacional, Psicología, Logopedia y Fisioterapia. Trabajo desde la emoción y el juego, accesible económicamente.</p>
+      </div>
+      <div>
+        <h4>A quién sirve</h4>
+        <p>Familias con peques —el núcleo está en 6-11 años—, con TEA como diagnóstico predominante. La terapia se mide por la transformación, no contra un estándar.</p>
+      </div>
+    </div>
+    <div class="vertical-stats">
+      <div class="vertical-stat"><div class="val">7+3</div><div class="lab">Centros core + núcleos FMM</div></div>
+      <div class="vertical-stat"><div class="val">87 %</div><div class="lab">Ocupación (sin FMM)</div></div>
+      <div class="vertical-stat"><div class="val">+101 %</div><div class="lab">Usuarios 2023→2025</div></div>
+      <div class="vertical-stat"><div class="val">22 %</div><div class="lab">Bajas por objetivos cumplidos</div></div>
+    </div>
+    <div class="vertical-ampliado">
+      <h5>Lectura ampliada · TPT</h5>
+      <ul>
+        <li><strong>Ingresos:</strong> 401.611 € (2024) · 532.739 € (2025, +32,5 %) · 287.313 € (ene-may 2026).</li>
+        <li><strong>La métrica del "éxito":</strong> el 22 % de las bajas son por <em>objetivos terapéuticos cumplidos</em>. Es una métrica negativa que en realidad mide el éxito de la intervención.</li>
+        <li><strong>Cambio de modelo en curso:</strong> migración de cobro variable por sesión a <em>cuota fija mensual</em> tipo gimnasio. Cuota propuesta: 103,80 €/mes (4 sesiones × PVP). Piloto previsto Arganda · septiembre 2026.</li>
+        <li><strong>Composición plantilla:</strong> 21 terapeutas asistenciales (TO/Psi/Logo) + 2 coordinadoras + 1 directora de servicios. Tres terapeutas más están imputados a los convenios FMM.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VERTICAL IS -->
+  <div class="vertical is">
+    <span class="vertical-eyebrow">Inclusive Sport</span>
+    <h2>El deporte no cambia lo que somos: potencia a quien ya somos</h2>
+    <div class="vertical-body">
+      <div>
+        <h4>Qué es</h4>
+        <p>PiscinaSUS (acuático) y Fútbol y Multideporte, para peques y adultos. El objetivo no es competir ni "funcionar mejor": es disfrutar y crear vínculo.</p>
+      </div>
+      <div>
+        <h4>A quién sirve</h4>
+        <p>Personas con y sin discapacidad, en red territorial por toda la Comunidad de Madrid. Es, además, la primera puerta de entrada de muchas familias a Pegasus.</p>
+      </div>
+    </div>
+    <div class="vertical-stats">
+      <div class="vertical-stat"><div class="val">7+3</div><div class="lab">Piscinas + fútbol/multideporte</div></div>
+      <div class="vertical-stat"><div class="val">103 %</div><div class="lab">Ocupación · objetivo 120 %</div></div>
+      <div class="vertical-stat"><div class="val">15,7</div><div class="lab">Meses estancia media (70 % más que TPT)</div></div>
+      <div class="vertical-stat"><div class="val">Premio</div><div class="lab">La Caixa · Innovación</div></div>
+    </div>
+    <div class="vertical-ampliado">
+      <h5>Lectura ampliada · Inclusive Sport</h5>
+      <ul>
+        <li><strong>Ingresos:</strong> 156.701 € (2024) · 194.228 € (2025, +23,9 %) · 72.931 € (ene-may 2026).</li>
+        <li><strong>Modelo cuota fija mensual:</strong> ya consolidado. La palanca de margen es la <em>densificación</em> por parejas y grupos: dos usuarios compatibles en la misma franja duplican el ingreso sin aumentar el coste del monitor.</li>
+        <li><strong>Coordinación post-fusión sept 2026:</strong> las 4 coordinadoras (2 TPT + 2 IS) pasarán a llevar ambos servicios por zona geográfica, ganando eficiencia operativa.</li>
+        <li><strong>Estancia media muy superior a TPT:</strong> 15,7 meses vs 9,3 meses. La actividad deportiva crea vínculo más duradero. Cuando se combinan ambos servicios, la estancia media sube a 20,3 meses.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VERTICAL INDIFERENTE -->
+  <div class="vertical indif">
+    <span class="vertical-eyebrow">Indiferente</span>
+    <h2>Llevamos el miedo compartido al mundo corporativo</h2>
+    <div class="vertical-body">
+      <div>
+        <h4>Qué es</h4>
+        <p>Consultoría de diversidad e inclusión para empresas y administraciones. Conferencia de David, formaciones (sesgos, resolución de conflictos), e-learning, campañas y planes de bienestar. Aquí la metodología suma el <strong>humor</strong> como palanca de disrupción.</p>
+      </div>
+      <div>
+        <h4>A quién sirve</h4>
+        <p>A la organización (RRHH, Diversidad, RSC), no al usuario final. Es el motor económico que financia la accesibilidad de TPT e Inclusive Sport.</p>
+      </div>
+    </div>
+    <div class="vertical-stats">
+      <div class="vertical-stat"><div class="val">234 k€</div><div class="lab">Facturación 2025</div></div>
+      <div class="vertical-stat"><div class="val">626 k€</div><div class="lab">Forecast 2026</div></div>
+      <div class="vertical-stat"><div class="val">+51,7 %</div><div class="lab">Crecimiento 2024→2025</div></div>
+      <div class="vertical-stat"><div class="val">73 %</div><div class="lab">Forecast confirmado</div></div>
+    </div>
+    <div class="vertical-ampliado">
+      <h5>Lectura ampliada · Indiferente</h5>
+      <ul>
+        <li><strong>Empresas que han confiado:</strong> Mapfre, Leroy Merlin, Endesa, Telefónica, Iberdrola, PepsiCo, LATAM, Moeve, Metro de Madrid, Sprinter, Belden, Urbaser, entre otras.</li>
+        <li><strong>El reto:</strong> facturación por proyectos sin recurrencia. La respuesta estructural a esto es <strong>PRISMA</strong>, el producto SaaS que aporta ingreso recurrente.</li>
+        <li><strong>Apalancamiento alto:</strong> cada euro genera ~0,50 € de margen, frente a TPT (~0,09 €) o IS (negativo). La línea con mayor ROI por hora del Grupo.</li>
+        <li><strong>Diversificación:</strong> 24 clientes activos, ninguno representa >25 % de la facturación.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRISMA ============ -->
+<section class="contenido alterna full-bg" id="prisma">
+  <div class="inner">
+    <p class="eyebrow">Sección 04 · El producto digital</p>
+    <h2 class="section-title">PRISMA convierte Indiferente en <span class="accent">un modelo recurrente</span>.</h2>
+    <p class="section-lead">PRISMA es un SaaS B2B que mide el nivel de bienestar emocional de una plantilla en función de los pilares de la diversidad. <strong>En producción desde mayo 2026.</strong></p>
+
+    <div class="cards-grid">
+      <div class="card"><div class="stat-val">May 26</div><div class="stat-lab">En producción</div><p>MVP navegable desde mayo 2026.</p></div>
+      <div class="card"><div class="stat-val">3,5–15 k€</div><div class="stat-lab">Licencia anual por tramo</div><p>Por tamaño de plantilla.</p></div>
+      <div class="card"><div class="stat-val">&lt;200 €</div><div class="stat-lab">Coste infraestructura/mes</div><p>Margen tecnológico marginal.</p></div>
+      <div class="card"><div class="stat-val">~47 k€</div><div class="stat-lab">LTV modelado · pendiente validación</div><p>Por cliente, según retención.</p></div>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 17px; color: var(--gris-700);">El flujo del producto: test anónimo desde el móvil → dashboard para RRHH con brechas por colectivo y narrativa por IA → recomendaciones que reactivan el catálogo de Indiferente con dato real.</p>
+
+    <div class="highlight" style="margin-top: 32px;">
+      <strong>Lectura para inversión:</strong> el desarrollo está hecho (asistido por IA, coste de infraestructura marginal). La necesidad de capital de PRISMA <strong>no es tecnológica, es comercial</strong>. LTV modelado · pendiente de validación con el primer cliente.
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSVERSALES ============ -->
+<section class="contenido" id="transversales">
+  <p class="eyebrow">Sección 05 · Proyectos transversales</p>
+  <h2 class="section-title">Impacto público <span class="accent">con métricas reales</span></h2>
+
+  <div class="vertical tpt" style="background: var(--gradient-tpt);">
+    <span class="vertical-eyebrow">FMM · Municipios que te cuidan</span>
+    <h2>Convenio Federación Madrileña de Municipios</h2>
+    <p style="font-size: 17px; margin-bottom: 24px;">Terapia Ocupacional de proximidad en tres núcleos rurales (Griñón, Villamanrique de Tajo, Colmenar del Arroyo). Antes del servicio, las familias se desplazaban 25-60 km para acceder a terapia especializada. Pegasus actúa como puerta de entrada al sistema especializado.</p>
+    <div class="vertical-stats">
+      <div class="vertical-stat"><div class="val">4,8/5</div><div class="lab">Satisfacción</div></div>
+      <div class="vertical-stat"><div class="val">95 %</div><div class="lab">Recomiendan</div></div>
+      <div class="vertical-stat"><div class="val">90 %</div><div class="lab">Retención</div></div>
+      <div class="vertical-stat"><div class="val">44 %</div><div class="lab">Sin diagnóstico previo</div></div>
+    </div>
+    <div class="vertical-ampliado">
+      <h5>Lectura ampliada · FMM</h5>
+      <ul>
+        <li><strong>Facturación Bloque 1 (dic-2025 → jul-2026):</strong> 202.150,06 €.</li>
+        <li><strong>Modelo replicable</strong> municipio a municipio dentro de la red FMM.</li>
+        <li><strong>44 % sin diagnóstico previo</strong> indica que el servicio actúa además como puerta de entrada al sistema especializado público, no solo como tratamiento.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="vertical" style="background: var(--gradient-flow); margin-top: 32px;">
+    <span class="vertical-eyebrow">LQNTC · Lo que nadie te cuenta</span>
+    <h2>Convenio Comunidad de Madrid</h2>
+    <p style="font-size: 17px; margin-bottom: 24px;">Convenio con la Comunidad de Madrid (Consejería de Familia, Juventud y Asuntos Sociales) para intervención con 60 familias de personas con discapacidad, mediante el modelo propio MAED (Modelo de Afrontamiento Emocional de la Discapacidad): 15 sesiones presenciales + itinerario digital formativo.</p>
+    <div class="vertical-stats">
+      <div class="vertical-stat"><div class="val">150 k€</div><div class="lab">Importe convenio</div></div>
+      <div class="vertical-stat"><div class="val">60</div><div class="lab">Familias</div></div>
+      <div class="vertical-stat"><div class="val">100 %</div><div class="lab">Pago único anticipado</div></div>
+      <div class="vertical-stat"><div class="val">MAED</div><div class="lab">Metodología propia</div></div>
+    </div>
+    <div class="vertical-ampliado">
+      <h5>Lectura ampliada · LQNTC</h5>
+      <ul>
+        <li><strong>Vigencia:</strong> jul-2026 → may-2027, con pago anticipado del 100 %. Firmado en acto oficial el 2 de julio de 2026.</li>
+        <li><strong>MAED:</strong> metodología propia de Pegasus, replicable a otras comunidades autónomas. Es la palanca de escalabilidad de este vertical institucional.</li>
+        <li><strong>Sin recurrencia garantizada:</strong> convenio puntual, sin garantía de prórroga. Marcado como riesgo en sección 9.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EQUIPO ============ -->
+<section class="contenido alterna full-bg" id="equipo">
+  <div class="inner">
+    <p class="eyebrow">Sección 06 · Equipo y gobernanza</p>
+    <h2 class="section-title">Un equipo profesional, <span class="accent">no un grupo de voluntarios</span></h2>
+    <p class="section-lead">47 profesionales, el 100 % con contrato indefinido. La dirección combina perfiles de servicio, financieros, de marketing y técnicos.</p>
+
+    <div class="equipo-grid">
+      <div class="persona">
+        <div class="avatar">DR</div>
+        <h4>David Rodríguez</h4>
+        <p class="rol">CEO · Fundador y Presidente</p>
+        <p class="desc">Cara visible de Indiferente. Su marca personal (@lomionoesnormal · 85.700 seguidores · cuenta verificada) multiplica el alcance institucional de Pegasus.</p>
+      </div>
+      <div class="persona">
+        <div class="avatar" style="background: var(--gradient-is);">AD</div>
+        <h4>Álvaro Díaz Santos</h4>
+        <p class="rol">CFO · Director de Indiferente</p>
+        <p class="desc">Lleva las finanzas de la fundación y la unidad B2B. Responsable del modelo económico y los forecast multianuales.</p>
+      </div>
+      <div class="persona">
+        <div class="avatar" style="background: var(--gradient-flow);">AM</div>
+        <h4>Álvaro Marrero</h4>
+        <p class="rol">CMO · Marketing, operaciones, IT</p>
+        <p class="desc">Marca, comunicación digital, identidad visual, web e infraestructura tecnológica.</p>
+      </div>
+      <div class="persona">
+        <div class="avatar">RF</div>
+        <h4>Roberto Fernández</h4>
+        <p class="rol">Director Técnico y Metodológico</p>
+        <p class="desc">Custodio de la metodología Pegasus. Responsable de la calidad técnica del servicio.</p>
+      </div>
+      <div class="persona">
+        <div class="avatar" style="background: var(--gradient-is);">IG</div>
+        <h4>Iris Gasull</h4>
+        <p class="rol">Directora de Servicios</p>
+        <p class="desc">Tras la fusión TPT + IS de septiembre 2026, dirección unificada de servicios asistenciales y deportivos.</p>
+      </div>
+    </div>
+
+    <p class="tag-ampliado" style="margin-top: 48px;">Organigrama post-fusión septiembre 2026</p>
+    <p style="font-size: 16px; color: var(--gris-700);">En septiembre de 2026, TPT e Inclusive Sport se fusionan en una única Dirección de Servicios (Iris Gasull): una sola línea de mando por zona geográfica, mayor eficiencia operativa y escalabilidad. Las 4 coordinadoras pasan de llevar un solo servicio a llevar ambos por su zona.</p>
+  </div>
+</section>
+
+<!-- ============ MÉTRICAS ============ -->
+<section class="contenido" id="metricas">
+  <p class="eyebrow">Sección 07 · Métricas y tracción 2025-2026</p>
+  <h2 class="section-title">Métricas <span class="accent">reales y verificadas</span></h2>
+  <p class="section-lead">Cifras auditables, presentadas de forma agregada conforme al RGPD.</p>
+
+  <div class="cards-grid">
+    <div class="card"><div class="stat-val">+1.000</div><div class="stat-lab">Usuarios únicos atendidos en 2025</div></div>
+    <div class="card"><div class="stat-val">970</div><div class="stat-lab">Usuarios activos hoy (jun 2026)</div></div>
+    <div class="card"><div class="stat-val">+101 %</div><div class="stat-lab">Crecimiento TPT 2023-2025</div></div>
+    <div class="card"><div class="stat-val">+29 %</div><div class="stat-lab">Crecimiento Inclusive Sport 2023-2025</div></div>
+    <div class="card"><div class="stat-val">15 años</div><div class="stat-lab">Edad media · núcleo 6-11 años (51 % base histórica)</div></div>
+    <div class="card"><div class="stat-val">1 de cada 2</div><div class="stat-lab">Usuarios con TEA como diagnóstico</div></div>
+    <div class="card"><div class="stat-val">22 %</div><div class="stat-lab">Bajas TPT por objetivos terapéuticos cumplidos</div></div>
+    <div class="card"><div class="stat-val">20,3 meses</div><div class="stat-lab">Estancia combinada TPT + IS</div></div>
+  </div>
+
+  <div class="highlight" style="margin-top: 32px;">
+    <strong>Permanencia por servicio:</strong> estancia media 9,3 meses en terapia, 15,7 en Inclusive Sport, 20,3 cuando la familia combina ambos. <em>El cruce entre servicios duplica el tiempo de acompañamiento.</em>
+  </div>
+</section>
+
+<!-- ============ MODELO FINANCIERO ============ -->
+<section class="contenido alterna full-bg" id="modelo">
+  <div class="inner">
+    <p class="eyebrow">Sección 08 · Modelo financiero y escalado</p>
+    <h2 class="section-title">De dónde vienen <span class="accent">los euros</span></h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px;">
+      <div class="card">
+        <h4>Ingresos totales</h4>
+        <div class="stat-val">1,03 M€</div>
+        <div class="stat-lab">2025 · +18,9 % YoY</div>
+        <p>869.695 € (2024) → 1.034.123 € (2025) → 478.911 € (ene-may 2026, +38 % vs mismo periodo).</p>
+      </div>
+      <div class="card">
+        <h4>Composición 2025</h4>
+        <ul style="list-style: none; padding: 0; margin-top: 12px;">
+          <li style="padding: 4px 0; display: flex; justify-content: space-between;"><span>TPT</span><strong>51,5 %</strong></li>
+          <li style="padding: 4px 0; display: flex; justify-content: space-between;"><span>Indiferente (con FMM y LQNTC)</span><strong>22,6 %</strong></li>
+          <li style="padding: 4px 0; display: flex; justify-content: space-between;"><span>Inclusive Sport</span><strong>18,8 %</strong></li>
+          <li style="padding: 4px 0; display: flex; justify-content: space-between;"><span>Subvenciones</span><strong>3,7 %</strong></li>
+          <li style="padding: 4px 0; display: flex; justify-content: space-between;"><span>Únete al Flow</span><strong>3,4 %</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size: 26px; font-style: italic; margin-bottom: 16px; color: var(--morado);">Estructura de costes (empresa/mes)</h3>
+    <div class="cards-grid">
+      <div class="card"><div class="stat-val">1.892 €</div><div class="stat-lab">Terapeuta 26h</div></div>
+      <div class="card"><div class="stat-val">1.510 €</div><div class="stat-lab">Monitor Inclusive Sport</div></div>
+      <div class="card"><div class="stat-val">3.080 €</div><div class="stat-lab">Coordinador/a de zona</div></div>
+      <div class="card"><div class="stat-val">3.344 €</div><div class="stat-lab">Directora de Servicios</div></div>
+    </div>
+
+    <h3 style="font-size: 26px; font-style: italic; margin: 48px 0 16px; color: var(--rosa);">Palancas del modelo</h3>
+    <ul class="lista-rica">
+      <li><div class="num">01</div><div class="body"><strong>Cuota fija</strong><span>Previsibilidad de ingreso. Ya en IS, en evaluación para TPT (piloto Arganda · septiembre 2026).</span></div></li>
+      <li><div class="num">02</div><div class="body"><strong>Densificación en Inclusive Sport</strong><span>Ocupación objetivo del 120 % vía parejas y grupos. Sube margen sin sumar coste de monitor.</span></div></li>
+      <li><div class="num">03</div><div class="body"><strong>Subsidio cruzado</strong><span>Indiferente y AAPP financian la accesibilidad de TPT e IS.</span></div></li>
+      <li><div class="num">04</div><div class="body"><strong>Recurrencia PRISMA</strong><span>Licencia anual + cross-sell sistematizado. LTV modelado en ~47 k€, pendiente validación con primer cliente.</span></div></li>
+    </ul>
+
+    <div class="highlight" style="margin-top: 32px;">
+      <strong>Potencial de escalado:</strong> el modelo es replicable municipio a municipio (FMM) y comunidad a comunidad (MAED). El producto digital (PRISMA) escala sin coste marginal técnico significativo.
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAKEHOLDERS ============ -->
+<section class="contenido">
+  <p class="eyebrow">Sección 09 · Stakeholders y redes</p>
+  <h2 class="section-title">David Rodríguez, <span class="accent">un activo intangible</span></h2>
+  <p class="section-lead">La marca personal de David multiplica el alcance de Pegasus: su narrativa llega a millones de personas y conecta con audiencias institucionales del máximo nivel.</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+    <div class="card">
+      <div class="stat-val">85.700</div>
+      <div class="stat-lab">@lomionoesnormal · cuenta verificada</div>
+      <p style="margin-top: 16px;">589 publicaciones. Reels con 240k, 111k y 423k visualizaciones. <em>"Ser anormal es la hostia"</em>.</p>
+    </div>
+    <div class="card">
+      <div class="stat-val">24.000</div>
+      <div class="stat-lab">@fundacionpegasus · El Equipasus</div>
+      <p style="margin-top: 16px;">241 publicaciones · 344 cuentas seguidas. Cuenta institucional que da voz al equipo y a las familias.</p>
+    </div>
+  </div>
+
+  <p class="tag-ampliado" style="margin-top: 32px;">Alcance institucional</p>
+  <p style="font-size: 16px; color: var(--gris-700);">David ha debatido sobre discapacidad y diversidad con <strong>Alberto Núñez Feijóo</strong> en un encuentro con jóvenes. El alcance del debate —millones de visualizaciones— demuestra la capacidad de Pegasus para conectar con audiencias institucionales del máximo nivel y llevar su narrativa mucho más allá del sector social.</p>
+</section>
+
+<!-- ============ RIESGOS ============ -->
+<section class="contenido alterna full-bg" id="riesgos">
+  <div class="inner">
+    <p class="eyebrow">Sección 09 BIS · Riesgos y mitigaciones</p>
+    <h2 class="section-title">Lo que vigilamos, <span class="accent">y cómo lo gestionamos</span></h2>
+    <p class="section-lead">Presentamos los riesgos abiertamente: nombrarlos con su mitigación es parte de la disciplina de gestión.</p>
+
+    <div class="riesgos">
+      <div class="riesgo">
+        <div class="riesgo-titulo">Volatilidad de Indiferente</div>
+        <div class="riesgo-detalle">Facturación por proyectos, sin recurrencia. <span class="mit">→ Mitigación: PRISMA aporta ingreso recurrente y cross-sell sistematizado. Forecast 2026 diversificado en 24 clientes (ninguno >25 %).</span></div>
+      </div>
+      <div class="riesgo">
+        <div class="riesgo-titulo">Dependencia del fundador</div>
+        <div class="riesgo-detalle">David concentra voz pública y método. <span class="mit">→ Mitigación: profesionalización de la dirección (Dirección de Servicios) y equipo directivo senior; metodología documentada y transferible.</span></div>
+      </div>
+      <div class="riesgo">
+        <div class="riesgo-titulo">Margen de Inclusive Sport</div>
+        <div class="riesgo-detalle">Margen de contribución negativo en 2025. <span class="mit">→ Mitigación: reestructuración de julio 2026; objetivo de margen positivo desde el Q4 de 2026 tras la fusión en la Dirección de Servicios.</span></div>
+      </div>
+      <div class="riesgo">
+        <div class="riesgo-titulo">Concentración en subvención pública</div>
+        <div class="riesgo-detalle">~352 k€ de 2026 ligados a FMM y LQNTC. <span class="mit">→ Mitigación: diversificación entre dos administraciones distintas y cartera privada creciente (Indiferente).</span></div>
+      </div>
+      <div class="riesgo">
+        <div class="riesgo-titulo">LQNTC no prorrogable</div>
+        <div class="riesgo-detalle">Convenio puntual sin garantía de continuidad. <span class="mit">→ Mitigación: pipeline de nueva edición y replicabilidad del modelo MAED a otras comunidades autónomas.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="main" id="contacto">
+  <div class="inner">
+    <p class="hero-eyebrow" style="background: linear-gradient(120deg, var(--amarillo), var(--naranja)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Gracias</p>
+    <h2>Lo nuestro <em>no</em> es <span class="accent">normal</span>, ¿y lo tuyo?</h2>
+    <p class="lead">Estamos hartos de confrontar. Queremos conectar, tender puentes y soplar el miedo juntos. Gracias por acompañarnos en este recorrido.</p>
+
+    <div class="footer-cols">
+      <div class="col">
+        <h5>Contacto</h5>
+        <a href="mailto:david.rodriguez@fundacionpegasus.org">David Rodríguez · Presidente</a>
+        <a href="mailto:david.rodriguez@fundacionpegasus.org">david.rodriguez@fundacionpegasus.org</a>
+      </div>
+      <div class="col">
+        <h5>Finanzas e Indiferente</h5>
+        <a href="mailto:alvaro.diaz@fundacionpegasus.org">Álvaro Díaz Santos · CFO</a>
+        <a href="mailto:alvaro.diaz@fundacionpegasus.org">alvaro.diaz@fundacionpegasus.org</a>
+      </div>
+      <div class="col">
+        <h5>Sede</h5>
+        <p style="color: rgba(255,255,255,0.85); font-size: 14px;">Arganda del Rey · Madrid</p>
+        <a href="https://fundacionpegasus.org" target="_blank">fundacionpegasus.org</a>
+      </div>
+      <div class="col">
+        <h5>Redes</h5>
+        <a href="https://instagram.com/lomionoesnormal" target="_blank">@lomionoesnormal</a>
+        <a href="https://instagram.com/fundacionpegasus" target="_blank">@fundacionpegasus</a>
+      </div>
+    </div>
+
+    <div class="meta">
+      <span>Fundación Pegasus · CIF G87919148 · Ley 49/2002 Utilidad Pública</span>
+      <span>Memoria Institucional ampliada · 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
