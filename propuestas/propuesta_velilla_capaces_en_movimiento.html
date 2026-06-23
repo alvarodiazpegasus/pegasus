@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capaces en Movimiento · Velilla de San Antonio · Fundación Pegasus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --negro: #111111;
+  --blanco: #FFFFFF;
+  --gris: #f5f5f5;
+  --gris-texto: #555;
+  --grad-is: linear-gradient(135deg, #08B75B 0%, #007EC3 100%);
+  --grad-is-h: linear-gradient(160deg, #08B75B 0%, #00a0e0 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--blanco);
+  color: var(--negro);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ── TIPOGRAFÍA ── */
+h1, h2, h3 {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+p { color: var(--gris-texto); }
+strong { color: var(--negro); }
+
+/* ── UTILIDADES ── */
+.grad-text-is {
+  background: var(--grad-is);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.white-text { color: var(--blanco) !important; }
+.white-text p, .white-text li { color: rgba(255,255,255,0.88) !important; }
+.white-text h2, .white-text h3, .white-text strong { color: var(--blanco) !important; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 80px 0; }
+.section-sm { padding: 56px 0; }
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--verde);
+  margin-bottom: 14px;
+  display: block;
+}
+.label-white { color: rgba(255,255,255,0.7); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+/* ── FADE IN ── */
+.fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── WAVE ── */
+.wave { width: 100%; overflow: hidden; line-height: 0; display: block; }
+.wave svg { display: block; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid #eee;
+}
+.nav-logo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.2rem;
+}
+.nav-badge {
+  background: var(--grad-is);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 100px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── PORTADA / HERO ── */
+.hero {
+  background: var(--grad-is-h);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 32px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -15%;
+  width: 70%; height: 130%;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50% 50% 50% 50% / 40% 60% 40% 60%;
+  transform: rotate(-15deg);
+}
+.hero-eyebrow {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 24px;
+}
+.hero h1 { color: white; max-width: 800px; }
+.hero-sub {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: rgba(255,255,255,0.88);
+  max-width: 560px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(4px);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 40px;
+}
+.hero-wave-blob {
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background: var(--negro);
+  padding: 40px 0;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-style: italic;
+  background: var(--grad-is);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  line-height: 1.1;
+}
+.stat-label {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ── CARDS ── */
+.card {
+  background: white;
+  border: 1.5px solid #ebebeb;
+  border-radius: 20px;
+  padding: 28px 24px;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+.card-icon {
+  width: 52px; height: 52px;
+  background: var(--grad-is);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+.card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+.card p { font-size: 0.92rem; }
+
+/* ── QUOTE BREAK ── */
+.quote-break {
+  background: var(--grad-is);
+  padding: 72px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.quote-break::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: 5%;
+  font-size: 18rem;
+  color: rgba(255,255,255,0.06);
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+.quote-text {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  font-style: italic;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.35;
+}
+.quote-author {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+/* ── DARK SECTION ── */
+.dark-section {
+  background: var(--negro);
+  padding: 80px 0;
+}
+
+/* ── SESIONES TIPOS ── */
+.sesion-card {
+  background: white;
+  border-radius: 24px;
+  padding: 32px 28px;
+  border: 2px solid #ebebeb;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sesion-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: var(--grad-is);
+}
+.sesion-num {
+  font-size: 3rem;
+  font-weight: 800;
+  font-style: italic;
+  background: var(--grad-is);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  line-height: 1;
+}
+.sesion-tipo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  margin: 8px 0 4px;
+}
+.sesion-duracion {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--verde);
+  background: rgba(8,183,91,0.1);
+  padding: 4px 14px;
+  border-radius: 100px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.sesion-card p { font-size: 0.9rem; }
+
+/* ── SLOTS VISUAL ── */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin: 24px 0;
+}
+.slot-box {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 4px;
+}
+.slot-individual { background: rgba(8,183,91,0.15); color: var(--verde); border: 1.5px solid rgba(8,183,91,0.3); }
+.slot-pareja { background: rgba(0,126,195,0.12); color: var(--azul); border: 1.5px solid rgba(0,126,195,0.25); }
+.slot-grupo { background: var(--grad-is); color: white; }
+.slot-gt { background: #f0f0f0; color: #999; border: 1.5px dashed #ddd; }
+
+/* ── TRIAJE ── */
+.triaje-perfil {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1.5px solid #ebebeb;
+}
+.triaje-badge {
+  background: var(--grad-is);
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  font-style: italic;
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.triaje-perfil-text h4 { font-size: 0.95rem; margin-bottom: 2px; }
+.triaje-perfil-text p { font-size: 0.83rem; }
+
+/* ── HORARIO TABLE ── */
+.horario-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1.5px solid #ebebeb;
+  margin-top: 24px;
+}
+.horario-table th {
+  background: var(--negro);
+  color: white;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.horario-table td {
+  padding: 12px 18px;
+  text-align: center;
+  font-size: 0.88rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-weight: 600;
+}
+.horario-table tr:last-child td { border-bottom: none; }
+.horario-table tr:nth-child(even) td { background: #fafafa; }
+.td-hora { font-weight: 700; color: #999; font-size: 0.82rem; }
+.td-grupo { background: rgba(8,183,91,0.12) !important; color: var(--verde); }
+.td-pareja { background: rgba(0,126,195,0.1) !important; color: var(--azul); }
+.td-individual { background: rgba(17,17,17,0.05) !important; color: #555; }
+.td-gt { background: #f8f8f8 !important; color: #bbb; font-style: italic; font-size: 0.8rem; }
+
+/* ── DIAS SEMANA ── */
+.dias-semana {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.dia-circle {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  color: #ccc;
+  background: white;
+}
+.dia-active {
+  background: var(--grad-is);
+  color: white;
+  border-color: transparent;
+}
+
+/* ── CRONOGRAMA ── */
+.crono-item {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  position: relative;
+}
+.crono-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 52px;
+  bottom: -16px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--verde), var(--azul));
+  opacity: 0.3;
+}
+.crono-dot {
+  width: 50px; height: 50px;
+  background: var(--grad-is);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.crono-content h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.crono-content p { font-size: 0.9rem; }
+.crono-mes {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--verde);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── PRESUPUESTO ── */
+.presup-hero {
+  background: var(--grad-is);
+  border-radius: 28px;
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.presup-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -10%;
+  width: 60%; height: 160%;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+.presup-precio {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  font-style: italic;
+  color: white;
+  line-height: 1;
+  display: block;
+}
+.presup-label {
+  color: rgba(255,255,255,0.8);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.presup-detail {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.presup-detail-item {
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 14px 24px;
+  text-align: center;
+}
+.presup-detail-item strong {
+  display: block;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: white;
+}
+.presup-detail-item span {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cofi-flow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 32px 0;
+}
+.cofi-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
+  background: white;
+  border: 1.5px solid #ebebeb;
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.cofi-step-num {
+  width: 36px; height: 36px;
+  background: var(--grad-is);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  margin: 0 auto 12px;
+}
+.cofi-step h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--negro) !important;
+}
+.cofi-step p { font-size: 0.85rem; color: var(--gris-texto) !important; }
+.cofi-arrow {
+  font-size: 1.8rem;
+  color: var(--verde);
+  font-weight: 700;
+}
+
+/* ── NO INCLUYE ── */
+.no-incluye-list {
+  list-style: none;
+}
+.no-incluye-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.92rem;
+  color: var(--gris-texto);
+}
+.no-incluye-list li:last-child { border-bottom: none; }
+.no-x {
+  width: 28px; height: 28px;
+  background: #fee;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #e53e3e;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── POR QUÉ PEGASUS ── */
+.porq-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 28px 24px;
+}
+.porq-card h3 {
+  color: white;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+.porq-card p { color: rgba(255,255,255,0.75); font-size: 0.9rem; }
+.porq-icon { font-size: 2rem; margin-bottom: 12px; }
+
+/* ── PREMIOS ── */
+.premio-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1.5px solid #ebebeb;
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--negro);
+  margin: 6px;
+}
+.premio-chip::before {
+  content: '🏆';
+  font-size: 1rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--negro);
+  padding: 56px 32px 36px;
+  text-align: center;
+}
+.footer-slogan {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.footer-web {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: block;
+}
+.footer-datos {
+  color: rgba(255,255,255,0.35);
+  font-size: 0.78rem;
+  margin-top: 20px;
+  line-height: 1.8;
+}
+.footer-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 28px auto;
+  max-width: 300px;
+}
+
+/* ── SECCIÓN VELILLA HEADER ── */
+.velilla-header {
+  background: var(--negro);
+  padding: 72px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.velilla-header::before {
+  content: 'VELILLA';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14rem;
+  font-weight: 900;
+  font-style: italic;
+  color: rgba(255,255,255,0.03);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+}
+.velilla-header h2 {
+  color: white;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+.velilla-header p {
+  color: rgba(255,255,255,0.65);
+  font-size: 1.1rem;
+  margin-top: 12px;
+}
+
+/* ── CAPACIDAD VISUAL ── */
+.capacidad-bar {
+  background: #f0f0f0;
+  border-radius: 100px;
+  height: 12px;
+  overflow: hidden;
+  margin: 8px 0 4px;
+}
+.capacidad-fill {
+  height: 100%;
+  background: var(--grad-is);
+  border-radius: 100px;
+  transition: width 1.5s ease;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .presup-detail { gap: 16px; }
+  .cofi-flow { flex-direction: column; align-items: center; }
+  .cofi-arrow { transform: rotate(90deg); }
+  .slots-grid { grid-template-columns: repeat(4, 1fr); }
+  nav { padding: 12px 20px; }
+  .container { padding: 0 20px; }
+}
+
+/* ── ÍNDICE ── */
+.indice-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: default;
+}
+.indice-item:last-child { border-bottom: none; }
+.indice-num {
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--verde);
+  width: 28px;
+  flex-shrink: 0;
+}
+.indice-titulo {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--negro);
+  padding: 0 16px;
+}
+.indice-dots {
+  flex: 1;
+  border-bottom: 1px dotted #ddd;
+  margin: 0 8px;
+  height: 1px;
+  align-self: flex-end;
+  margin-bottom: 7px;
+}
+.indice-propuesta .indice-titulo {
+  font-weight: 800;
+  color: var(--verde);
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-logo grad-text-is">FUNDACIÓN PEGASUS</div>
+  <div class="nav-badge">Propuesta · Velilla de San Antonio</div>
+</nav>
+
+<!-- ═══ PORTADA ═══ -->
+<section class="hero">
+  <div class="container" style="position:relative;z-index:2;">
+    <p class="hero-eyebrow">Proyecto de Transformación Social y Educativa</p>
+    <h1>Inclusive<br>Sport</h1>
+    <p class="hero-sub">Capaces en Movimiento<br>Velilla de San Antonio</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:40px;">
+      <div class="hero-pill">🏃 Multideporte Adaptado</div>
+      <div class="hero-pill">📅 Oct 2026 · May 2027</div>
+      <div class="hero-pill">💶 14.750 €</div>
+    </div>
+  </div>
+  <div class="hero-wave-blob">
+    <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,60 C400,10 1000,90 1440,40 L1440,90 L0,90 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ STATS BAR ═══ -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="grid-4">
+      <div class="stat-item fade-in">
+        <span class="stat-num">+800</span>
+        <span class="stat-label">Familias impactadas</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">7</span>
+        <span class="stat-label">Años de experiencia</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">+15</span>
+        <span class="stat-label">Municipios en la CM</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">0€</span>
+        <span class="stat-label">Coste para las familias</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ÍNDICE ═══ -->
+<section class="section-sm" style="background:#fafafa;">
+  <div class="container" style="max-width:680px;">
+    <span class="label">Contenido</span>
+    <h2 style="margin-bottom:32px;">Índice</h2>
+    <div class="fade-in">
+      <div class="indice-item"><span class="indice-num">01</span><span class="indice-titulo">¿Quiénes somos?</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">02</span><span class="indice-titulo">¿Qué es Inclusive Sport?</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">03</span><span class="indice-titulo">Nuestro objetivo: Enfoque Inclusivo</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">04</span><span class="indice-titulo">Metodología</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">05</span><span class="indice-titulo">Medio: Multideporte Adaptado</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">06</span><span class="indice-titulo">Tipología de sesiones y capacidad</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">07</span><span class="indice-titulo">Triaje de usuarios</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">08</span><span class="indice-titulo">El Team</span><span class="indice-dots"></span></div>
+      <div class="indice-item"><span class="indice-num">09</span><span class="indice-titulo">Premios y reconocimiento</span><span class="indice-dots"></span></div>
+      <div class="indice-item indice-propuesta"><span class="indice-num">10</span><span class="indice-titulo">✦ Propuesta Velilla de San Antonio</span><span class="indice-dots"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 01 · QUIÉNES SOMOS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2 fade-in">
+      <div>
+        <span class="label">01 · Fundación Pegasus</span>
+        <h2 style="margin-bottom:20px;">¿Quiénes<br>somos?</h2>
+        <p style="margin-bottom:16px;">La Fundación Pegasus es la primera entidad del mundo que lucha frente a la verdadera discapacidad del ser humano: el <strong>MIEDO</strong>, emoción que todos tenemos indiferentemente de nuestra condición o diferencia.</p>
+        <p style="margin-bottom:20px;">Hemos generado un movimiento social de acceso universal donde, a través de la implementación de diferentes programas socioeducativos centrados en el <strong>juego y la inteligencia emocional</strong>, mejoramos las relaciones interpersonales entre los participantes.</p>
+        <p>Fomentamos los 5 principios en los que se basa Pegasus: <strong>empatía, compañerismo, igualdad de derechos, equidad y amor.</strong></p>
+      </div>
+      <div style="background:var(--grad-is);border-radius:32px;padding:40px;display:flex;flex-direction:column;gap:20px;">
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">🏃</div>
+          <strong style="color:white;display:block;margin-bottom:4px;">IS · Inclusive Sport</strong>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">Ocio deportivo inclusivo para personas con y sin discapacidad.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">❤️</div>
+          <strong style="color:white;display:block;margin-bottom:4px;">TPT · Terapia Para Todos</strong>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">Fisio, TO, psicología y logopedia con enfoque emocional.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">🎓</div>
+          <strong style="color:white;display:block;margin-bottom:4px;">InDiferente</strong>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">Formación en sesgos y diversidad para empresas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 · QUÉ ES IS ═══ -->
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#08B75B"/><stop offset="100%" stop-color="#007EC3"/></linearGradient></defs><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="url(#wg1)"/></svg></div>
+<section class="section" style="background:var(--grad-is);">
+  <div class="container white-text fade-in">
+    <span class="label label-white">02 · El programa</span>
+    <h2 style="color:white;margin-bottom:24px;">¿Qué es<br>Inclusive Sport?</h2>
+    <div class="grid-2" style="gap:48px;">
+      <div>
+        <p style="font-size:1.1rem;color:rgba(255,255,255,0.9);margin-bottom:20px;">Es el programa de transformación social que <strong style="color:white;">a través de la práctica deportiva y la inteligencia emocional fomenta la normalización</strong> de las diferencias, emociones y miedos.</p>
+        <p style="color:rgba(255,255,255,0.85);margin-bottom:20px;">Gracias a la personalización de nuestras actividades en función de las necesidades individuales de cada participante, <strong style="color:white;">conseguimos eliminar la exclusión deportiva</strong> que sufren las personas con discapacidad.</p>
+        <p style="color:rgba(255,255,255,0.85);">La inclusión y la educación en valores son el eje central: una oferta ocio-deportiva de calidad, <strong style="color:white;">accesible económicamente y totalmente inclusiva</strong>.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:1.6rem;flex-shrink:0;">🎯</div>
+          <div><strong style="color:white;display:block;margin-bottom:4px;">No rehabilitamos</strong><p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">Reeducamos. Rompemos con el enfoque clínico: enfermedad ≠ discapacidad.</p></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:1.6rem;flex-shrink:0;">🎮</div>
+          <div><strong style="color:white;display:block;margin-bottom:4px;">El deporte es el medio</strong><p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">No enseñamos deporte. Realizamos práctica físico-deportiva para conseguir fines educativos y emocionales.</p></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:16px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start;">
+          <div style="font-size:1.6rem;flex-shrink:0;">👨‍👩‍👧</div>
+          <div><strong style="color:white;display:block;margin-bottom:4px;">La familia, nuestro foco</strong><p style="color:rgba(255,255,255,0.8);font-size:0.88rem;">El impacto no es solo en el usuario. Involucramos activamente a las familias en el proceso.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#08B75B"/><stop offset="100%" stop-color="#007EC3"/></linearGradient></defs><path d="M0,30 C360,0 1080,60 1440,30 L1440,0 L0,0 Z" fill="url(#wg2)"/></svg></div>
+
+<!-- ═══ 03 · ENFOQUE INCLUSIVO ═══ -->
+<section class="section">
+  <div class="container">
+    <span class="label">03 · Objetivo</span>
+    <h2 style="margin-bottom:12px;">Nuestro objetivo:<br>Enfoque Inclusivo</h2>
+    <p style="max-width:640px;margin-bottom:48px;">El objetivo principal es la mejora de la calidad de vida de los participantes a nivel biológico, psicológico, social y funcional, logrando una <strong>inclusión real y equitativa</strong> basada en la calidad y la seguridad.</p>
+    <div class="grid-3 fade-in">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Bienestar emocional</h3>
+        <p>Trabajamos la autoestima, la autonomía y la reducción de creencias limitantes respecto a la discapacidad. El plano emocional es el eje de todo.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>Inclusión real</h3>
+        <p>El servicio es para todos: personas con y sin discapacidad, cualquier edad. Se elimina la exclusión que genera el enfoque competitivo convencional.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏃</div>
+        <h3>Autonomía física</h3>
+        <p>Fomentamos la independencia de movimiento y la funcionalidad. Equilibrio entre sostener y ayudar: ni dependencia ni abandono.</p>
+      </div>
+    </div>
+    <div style="margin-top:40px;background:#fafafa;border-radius:20px;padding:32px;display:flex;gap:24px;align-items:flex-start;" class="fade-in">
+      <div style="font-size:2rem;flex-shrink:0;">📋</div>
+      <div>
+        <strong style="display:block;margin-bottom:8px;font-size:1rem;">Adaptaciones en cada sesión</strong>
+        <p style="font-size:0.9rem;">Todas las sesiones incluyen adaptaciones <strong>espaciales</strong> (delimitación de zonas de trabajo), <strong>temporales</strong> (uso de Timer visual) y <strong>comunicativas</strong> (métodos alternativos: pictogramas, lenguaje bimodal). La asignación de tipología de clase la determina el sistema de triaje interno de Pegasus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 · METODOLOGÍA ═══ -->
+<section class="section" style="background:#fafafa;">
+  <div class="container">
+    <span class="label">04 · Cómo trabajamos</span>
+    <h2 style="margin-bottom:40px;">Metodología</h2>
+    <div class="grid-2 fade-in" style="gap:48px;">
+      <div>
+        <p style="margin-bottom:20px;">El principio fundamental de todas nuestras sesiones es la <strong>diversión</strong>, construida sobre tres herramientas:</p>
+        <div style="margin-bottom:24px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;">
+            <div style="background:var(--grad-is);color:white;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🎲</div>
+            <div><strong>El Juego.</strong><span style="color:var(--gris-texto);"> Actividades estructuradas con objetivos pedagógicos. Tres rondas, progresiones de dificultad, aprendizaje camuflado en la diversión. No hay competición: hay retos.</span></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;">
+            <div style="background:var(--grad-is);color:white;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✨</div>
+            <div><strong>El Material.</strong><span style="color:var(--gris-texto);"> Explícito, variado y atractivo para conseguir el efecto "Waouh". El material hace que venir al servicio sea como ir a un parque de atracciones.</span></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="background:var(--grad-is);color:white;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">⚡</div>
+            <div><strong>El Flow.</strong><span style="color:var(--gris-texto);"> Estilo de comunicación dinámico y arrollador. El profesional es un showman: activo, inmersivo, nunca observador. Genera muy buen rollo desde el primer segundo.</span></div>
+          </div>
+        </div>
+        <p style="font-size:0.88rem;color:#888;font-style:italic;">"El material hace que venir sea como ir al parque de atracciones · el flow hace que la gente se sienta como en una discoteca · el diseño de la actividad genera satisfacción autotélica."</p>
+      </div>
+      <div>
+        <strong style="display:block;margin-bottom:20px;font-size:1rem;">Estructura de cada sesión:</strong>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:1.5px solid #ebebeb;">
+            <div style="width:8px;height:8px;background:var(--verde);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Preclase</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;">Vínculo con la familia · introducción a la sesión</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:1.5px solid #ebebeb;">
+            <div style="width:8px;height:8px;background:var(--verde);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Calentamiento social</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;">Diálogo · habilidades de comunicación · micro Pegasus</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:1.5px solid #ebebeb;">
+            <div style="width:8px;height:8px;background:var(--verde);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Calentamiento físico</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;">Activación progresiva · actividades lúdicas</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(8,183,91,0.08);border-radius:12px;padding:12px 16px;border:1.5px solid rgba(8,183,91,0.2);">
+            <div style="width:8px;height:8px;background:var(--verde);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Parte principal</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;"><strong>Gamificada / Técnica / Circuito</strong> · máximo TAME</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(8,183,91,0.08);border-radius:12px;padding:12px 16px;border:1.5px solid rgba(8,183,91,0.2);">
+            <div style="width:8px;height:8px;background:var(--verde);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Juego final</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;">Los usuarios eligen · momento más espectacular</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:1.5px solid #ebebeb;">
+            <div style="width:8px;height:8px;background:var(--azul);border-radius:50%;flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;width:110px;flex-shrink:0;">Postclase</span>
+            <span style="color:var(--gris-texto);font-size:0.85rem;">Devolución a familia · cierre con eslogan Pegasus</span>
+          </div>
+        </div>
+        <p style="font-size:0.8rem;color:#aaa;margin-top:12px;font-style:italic;">Duración total: 30 min (individual/pareja) · 45 min (grupal)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 05 · MULTIDEPORTE ═══ -->
+<section class="section">
+  <div class="container">
+    <span class="label">05 · El medio</span>
+    <h2 style="margin-bottom:12px;">Multideporte Adaptado</h2>
+    <p style="max-width:620px;margin-bottom:40px;">La práctica físico-deportiva terrestre es el medio a través del cual implementamos nuestra metodología. En Velilla de San Antonio trabajamos con <strong>multideporte adaptado</strong>: varios deportes combinados en función de las capacidades, los gustos y los objetivos individuales de cada participante.</p>
+    <div class="grid-3 fade-in">
+      <div class="card">
+        <div class="card-icon">⚽</div>
+        <h3>Deportes con balón</h3>
+        <p>Fútbol, baloncesto, balonmano y voleibol adaptados. Siempre desde el enfoque lúdico, nunca competitivo. Las reglas se adaptan a cada grupo.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏃</div>
+        <h3>Atletismo y psicomotricidad</h3>
+        <p>Circuitos de habilidades, coordinación, equilibrio y desplazamientos. Cada prueba tiene una narrativa: no es un circuito, es una aventura.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Juegos cooperativos</h3>
+        <p>Actividades diseñadas para trabajar la interacción, la comunicación y el trabajo en equipo. El foco es la relación entre participantes, no el resultado.</p>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding:28px 32px;background:var(--grad-is);border-radius:24px;display:flex;gap:20px;align-items:center;" class="fade-in">
+      <div style="font-size:2.5rem;flex-shrink:0;">💡</div>
+      <p style="color:rgba(255,255,255,0.9);font-size:0.95rem;"><strong style="color:white;">El deporte es el envoltorio, no el objetivo.</strong> Lo que trabajamos de fondo es la autoestima, la autonomía, las relaciones sociales y la educación en valores. El multideporte nos da flexibilidad total para adaptar la actividad a cualquier perfil de usuario, sin límite de discapacidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 06 · TIPOLOGÍA DE SESIONES ═══ -->
+<section class="section" style="background:#fafafa;">
+  <div class="container">
+    <span class="label">06 · Formato del servicio</span>
+    <h2 style="margin-bottom:12px;">Tipología de sesiones<br>y capacidad</h2>
+    <p style="max-width:640px;margin-bottom:40px;">Tenemos tres formatos de sesión. La asignación de cada usuario a un formato concreto la determina el <strong>sistema de triaje Pegasus</strong> en función de su perfil cognitivo, físico y emocional. Esto nos permite maximizar la calidad de la intervención para cada persona.</p>
+
+    <div class="grid-3 fade-in" style="margin-bottom:48px;">
+      <div class="sesion-card">
+        <span class="sesion-num">1/1</span>
+        <p class="sesion-tipo">Individual</p>
+        <span class="sesion-duracion">30 minutos</span>
+        <p>Para personas que requieren atención exclusiva y personalizada. Mayor grado de discapacidad o alta variabilidad conductual. El profesional dedica el 100% de la atención a un solo usuario.</p>
+      </div>
+      <div class="sesion-card">
+        <span class="sesion-num">1/2</span>
+        <p class="sesion-tipo">Pareja</p>
+        <span class="sesion-duracion">30 minutos</span>
+        <p>Dos usuarios con perfiles compatibles comparten sesión. Se trabaja la interacción social y la cooperación. Mayor eficiencia que la individual sin perder calidad.</p>
+      </div>
+      <div class="sesion-card">
+        <span class="sesion-num">1/4–6</span>
+        <p class="sesion-tipo">Grupal</p>
+        <span class="sesion-duracion">45 minutos</span>
+        <p>Grupos reducidos de usuarios con mayor autonomía. Mayor interacción social, dinámicas de equipo y juegos cooperativos. Maximiza la inclusión real entre pares.</p>
+      </div>
+    </div>
+
+    <!-- SLOTS VISUAL -->
+    <div class="fade-in" style="background:white;border-radius:24px;padding:32px;border:1.5px solid #ebebeb;">
+      <h3 style="margin-bottom:8px;font-size:1.15rem;">Capacidad del servicio en Velilla</h3>
+      <p style="font-size:0.9rem;margin-bottom:24px;">Con <strong>2 días de apertura</strong> (miércoles y viernes), <strong>4 horas de pista por día</strong> (16:00–20:00) y el sistema de triaje, la capacidad real del servicio es:</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:28px;">
+        <div style="text-align:center;padding:20px;background:#fafafa;border-radius:16px;">
+          <span style="font-size:2.4rem;font-weight:800;font-style:italic;background:var(--grad-is);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;">16</span>
+          <span style="font-size:0.82rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.1em;">Slots/semana</span>
+          <p style="font-size:0.8rem;color:#aaa;margin-top:4px;">2 días × 4h × 2 slots/h</p>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(8,183,91,0.07);border-radius:16px;border:1.5px solid rgba(8,183,91,0.2);">
+          <span style="font-size:2.4rem;font-weight:800;font-style:italic;background:var(--grad-is);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;">~19</span>
+          <span style="font-size:0.82rem;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:0.1em;">Usuarios objetivo</span>
+          <p style="font-size:0.8rem;color:#aaa;margin-top:4px;">Modelo individual puro</p>
+        </div>
+        <div style="text-align:center;padding:20px;background:rgba(0,126,195,0.07);border-radius:16px;border:1.5px solid rgba(0,126,195,0.2);">
+          <span style="font-size:2.4rem;font-weight:800;font-style:italic;background:var(--grad-is);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;">+25</span>
+          <span style="font-size:0.82rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:0.1em;">Con triaje</span>
+          <p style="font-size:0.8rem;color:#aaa;margin-top:4px;">Grupos + parejas optimizados</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:#888;font-style:italic;">El triaje Pegasus convierte los slots individuales en sesiones de pareja y grupales para los perfiles que lo admiten, ampliando la capacidad sin reducir la calidad de la intervención.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 07 · TRIAJE ═══ -->
+<section class="section">
+  <div class="container">
+    <span class="label">07 · Personalización</span>
+    <h2 style="margin-bottom:12px;">Sistema de triaje<br>de usuarios</h2>
+    <p style="max-width:640px;margin-bottom:40px;">El triaje <strong>no es evaluación clínica</strong>. Es el mecanismo de personalización y escalado de calidad de Pegasus: un protocolo sistematizado que determina el formato idóneo de sesión para cada persona, sin depender de la intuición del profesional concreto.</p>
+
+    <div class="grid-2 fade-in" style="gap:40px;">
+      <div>
+        <strong style="display:block;margin-bottom:16px;font-size:1rem;">Perfiles de comunicación</strong>
+        <div class="triaje-perfil">
+          <div class="triaje-badge">1A–1B</div>
+          <div class="triaje-perfil-text"><h4>Comunicación mínima o ausente</h4><p>Sesión individual · mando directo · manipulación directa del profesional.</p></div>
+        </div>
+        <div class="triaje-perfil">
+          <div class="triaje-badge">2A–2B</div>
+          <div class="triaje-perfil-text"><h4>Comunicación básica o alternativa</h4><p>Individual o pareja · uso de pictogramas · instrucciones sencillas.</p></div>
+        </div>
+        <div class="triaje-perfil">
+          <div class="triaje-badge">3A–3B</div>
+          <div class="triaje-perfil-text"><h4>Comunicación efectiva</h4><p>Pareja o grupo · metodologías activas · interacción entre participantes.</p></div>
+        </div>
+      </div>
+      <div>
+        <strong style="display:block;margin-bottom:16px;font-size:1rem;">¿Qué determina el triaje?</strong>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 16px;background:#fafafa;border-radius:12px;">
+            <span style="font-size:1.2rem;">📐</span>
+            <div><strong style="font-size:0.9rem;">Ratio de sesión</strong><p style="font-size:0.83rem;">Individual, pareja o grupo según perfil.</p></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 16px;background:#fafafa;border-radius:12px;">
+            <span style="font-size:1.2rem;">🎓</span>
+            <div><strong style="font-size:0.9rem;">Metodología educativa</strong><p style="font-size:0.83rem;">Mando directo vs. metodologías activas.</p></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 16px;background:#fafafa;border-radius:12px;">
+            <span style="font-size:1.2rem;">⚙️</span>
+            <div><strong style="font-size:0.9rem;">Adaptaciones de calidad</strong><p style="font-size:0.83rem;">Material, comunicación y manipulación.</p></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 16px;background:#fafafa;border-radius:12px;">
+            <span style="font-size:1.2rem;">🛡️</span>
+            <div><strong style="font-size:0.9rem;">Adaptaciones de seguridad</strong><p style="font-size:0.83rem;">Condición médica y parámetros conductuales.</p></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:16px 18px;background:rgba(8,183,91,0.08);border-radius:14px;border-left:3px solid var(--verde);">
+          <p style="font-size:0.88rem;"><strong>El triaje es dinámico.</strong> Se revisa periódicamente y evoluciona con el participante. Lo que hoy sirve, quizá mañana no. Principio de temporalidad Pegasus.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUOTE ═══ -->
+<div class="quote-break fade-in">
+  <p class="quote-text">"Lo mío no es normal,<br>pero lo tuyo tampoco."</p>
+  <p class="quote-author">Fundación Pegasus · filosofía corporativa</p>
+</div>
+
+<!-- ═══ 08 · EL TEAM ═══ -->
+<section class="section">
+  <div class="container">
+    <span class="label">08 · Quién lo hace posible</span>
+    <h2 style="margin-bottom:40px;">El Team</h2>
+    <div class="grid-2 fade-in" style="gap:48px;">
+      <div>
+        <p style="margin-bottom:20px;">Inclusive Sport cuenta con un equipo de profesionales <strong>especializados en el mundo del deporte, la educación, la discapacidad y la inteligencia emocional</strong>.</p>
+        <p style="margin-bottom:20px;">Lo que nos diferencia no es solo la titulación: es la pasión. Para nuestros profesionales, esto no es un trabajo, es una forma de vida. Ese componente humano es lo que genera el impacto real.</p>
+        <p>El equipo se forma continuamente a través de talleres semanales de inteligencia emocional y psicología, garantizando la cohesión y el crecimiento global del grupo.</p>
+        <div style="margin-top:24px;padding:20px 24px;background:#fafafa;border-radius:16px;">
+          <strong style="display:block;margin-bottom:10px;font-size:0.95rem;">Titulaciones del equipo IS:</strong>
+          <p style="font-size:0.88rem;">CAFYD (Ciencias de la Actividad Física y el Deporte) · TAFAD · Magisterio · Máster en Discapacidad · Psicología</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:var(--grad-is);border-radius:20px;padding:24px 28px;">
+          <strong style="color:white;font-size:1rem;display:block;margin-bottom:6px;">Técnico Deportivo · Monitor IS</strong>
+          <p style="color:rgba(255,255,255,0.85);font-size:0.9rem;">Dirección y desarrollo de actividades físico-deportivas adaptadas. Preparación de recursos y materiales. Titulación: CAFYD + formación específica en discapacidad.</p>
+        </div>
+        <div style="background:var(--negro);border-radius:20px;padding:24px 28px;">
+          <strong style="color:white;font-size:1rem;display:block;margin-bottom:6px;">Coordinador de Proyecto · Pegasus</strong>
+          <p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Evaluación y seguimiento de participantes. Diseño de contenidos y objetivos. Coordinación de RRHH y materiales. Orientación metodológica al técnico. Enlace con el Ayuntamiento.</p>
+        </div>
+        <div style="padding:20px 24px;background:#fafafa;border-radius:16px;border:1.5px solid #ebebeb;">
+          <p style="font-size:0.88rem;"><strong>Todos los profesionales tienen contrato fijo.</strong> No trabajamos con voluntarios. La estabilidad del equipo es parte de la calidad del servicio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 09 · PREMIOS ═══ -->
+<section class="dark-section">
+  <div class="container fade-in">
+    <span class="label label-white">09 · Reconocimiento</span>
+    <h2 style="color:white;margin-bottom:12px;">Premios y avalistas</h2>
+    <p style="color:rgba(255,255,255,0.65);max-width:560px;margin-bottom:32px;">La innovación social y la metodología de Pegasus han sido reconocidas por algunas de las instituciones más relevantes en España.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0;">
+      <div class="premio-chip">Premio Fundación Botín · Talento Solidario</div>
+      <div class="premio-chip">Premio Emprendedor Social UEM</div>
+      <div class="premio-chip">Fundación La Caixa · Autonomía Personal 2021</div>
+      <div class="premio-chip">Premio Talento Carnet Joven</div>
+      <div class="premio-chip">Future Leaders · Llorente y Cuenca</div>
+      <div class="premio-chip">Generadores · Coca-Cola</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 10 · PROPUESTA VELILLA · HEADER ═══ -->
+<div class="velilla-header">
+  <div class="container" style="position:relative;z-index:2;">
+    <span class="label label-white">10 · Propuesta específica</span>
+    <h2>Velilla de San Antonio</h2>
+    <p>Capaces en Movimiento · Proyecto de Deporte Inclusivo</p>
+  </div>
+</div>
+
+<!-- ═══ RETO Y SOLUCIÓN ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2 fade-in" style="gap:48px;">
+      <div>
+        <span class="label">El reto</span>
+        <h3 style="font-size:1.6rem;margin-bottom:16px;">Velilla de San Antonio:<br>deporte inclusivo para todos</h3>
+        <p style="margin-bottom:16px;">Velilla de San Antonio lleva años apostando por los servicios sociales y el bienestar de sus vecinos. El Ayuntamiento, a través del IMD y con el apoyo de CAM Madrid Activa (Región Activa), ha identificado la necesidad de un servicio de deporte adaptado e inclusivo de calidad para el municipio.</p>
+        <p style="margin-bottom:16px;">Existe <strong>demanda real y contrastada</strong> de familias con personas con discapacidad que necesitan un servicio especializado, continuo y accesible económicamente.</p>
+        <p>La solución: un servicio que no solo cubre esa necesidad, sino que lo hace con la mejor metodología disponible en la Comunidad de Madrid.</p>
+      </div>
+      <div>
+        <span class="label">La solución</span>
+        <div style="background:var(--grad-is);border-radius:24px;padding:32px;color:white;">
+          <h3 style="color:white;font-size:1.5rem;margin-bottom:16px;">Capaces en Movimiento</h3>
+          <p style="color:rgba(255,255,255,0.9);margin-bottom:20px;">Servicio de coordinación y monitoraje deportivo inclusivo para Velilla de San Antonio, gestionado íntegramente por Fundación Pegasus.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">🏃</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Deporte:</strong> Multideporte adaptado (terrestre)</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">📅</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Días:</strong> Miércoles y Viernes</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">🕓</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Horario:</strong> 16:00 – 20:00</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">📆</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Periodo:</strong> 1 octubre 2026 – 30 mayo 2027</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">👥</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Cobertura:</strong> cualquier edad, con y sin discapacidad</span>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <span style="font-size:1.2rem;">💶</span>
+              <span style="color:rgba(255,255,255,0.9);font-size:0.92rem;"><strong style="color:white;">Coste para familias:</strong> 0 € (100% subvencionado)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IMPLEMENTACIÓN ═══ -->
+<section class="section-sm" style="background:#fafafa;">
+  <div class="container">
+    <span class="label">Implementación</span>
+    <h2 style="margin-bottom:32px;">Horario y capacidad<br>del servicio</h2>
+
+    <div class="grid-2 fade-in" style="gap:48px;margin-bottom:40px;">
+      <div>
+        <strong style="display:block;margin-bottom:12px;">Días de apertura:</strong>
+        <div class="dias-semana">
+          <div class="dia-circle">L</div>
+          <div class="dia-circle">M</div>
+          <div class="dia-circle dia-active">X</div>
+          <div class="dia-circle">J</div>
+          <div class="dia-circle dia-active">V</div>
+        </div>
+        <p style="font-size:0.88rem;color:#888;margin-top:8px;">Miércoles y Viernes · 16:00–20:00 (4h pista/día)</p>
+
+        <div style="margin-top:28px;">
+          <strong style="display:block;margin-bottom:12px;font-size:0.95rem;">Resumen de capacidad:</strong>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:0.85rem;font-weight:600;">Slots disponibles/semana</span>
+                <span style="font-size:0.85rem;font-weight:800;color:var(--negro);">16</span>
+              </div>
+              <div class="capacidad-bar"><div class="capacidad-fill" style="width:53%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:0.85rem;font-weight:600;">Usuarios · modelo individual</span>
+                <span style="font-size:0.85rem;font-weight:800;color:var(--verde);">~19</span>
+              </div>
+              <div class="capacidad-bar"><div class="capacidad-fill" style="width:63%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:0.85rem;font-weight:600;">Usuarios · con triaje (parejas+grupos)</span>
+                <span style="font-size:0.85rem;font-weight:800;color:var(--azul);">+25</span>
+              </div>
+              <div class="capacidad-bar"><div class="capacidad-fill" style="width:83%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <strong style="display:block;margin-bottom:4px;font-size:0.95rem;">Ejemplo de horario con triaje:</strong>
+        <p style="font-size:0.82rem;color:#888;margin-bottom:12px;">Las sesiones grupales (45 min) y de pareja (30 min) permiten atender más usuarios en el mismo horario.</p>
+        <table class="horario-table">
+          <thead>
+            <tr>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Miércoles</th>
+              <th>Viernes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-hora">16:00</td>
+              <td class="td-hora">16:45</td>
+              <td class="td-grupo">Grupo (4–6 u.)</td>
+              <td class="td-grupo">Grupo (4–6 u.)</td>
+            </tr>
+            <tr>
+              <td class="td-hora">16:45</td>
+              <td class="td-hora">17:15</td>
+              <td class="td-pareja">Pareja</td>
+              <td class="td-pareja">Pareja</td>
+            </tr>
+            <tr>
+              <td class="td-hora">17:15</td>
+              <td class="td-hora">17:45</td>
+              <td class="td-pareja">Pareja</td>
+              <td class="td-pareja">Pareja</td>
+            </tr>
+            <tr>
+              <td class="td-hora">17:45</td>
+              <td class="td-hora">18:15</td>
+              <td class="td-individual">Individual</td>
+              <td class="td-individual">Individual</td>
+            </tr>
+            <tr>
+              <td class="td-hora">18:15</td>
+              <td class="td-hora">18:45</td>
+              <td class="td-individual">Individual</td>
+              <td class="td-individual">Individual</td>
+            </tr>
+            <tr>
+              <td class="td-hora">18:45</td>
+              <td class="td-hora">19:15</td>
+              <td class="td-pareja">Pareja</td>
+              <td class="td-pareja">Pareja</td>
+            </tr>
+            <tr>
+              <td class="td-hora">19:15</td>
+              <td class="td-hora">19:45</td>
+              <td class="td-individual">Individual</td>
+              <td class="td-individual">Individual</td>
+            </tr>
+            <tr>
+              <td class="td-hora">19:45</td>
+              <td class="td-hora">20:00</td>
+              <td class="td-gt">G. Técnica</td>
+              <td class="td-gt">G. Técnica</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:600;color:var(--verde);"><span style="width:12px;height:12px;background:rgba(8,183,91,0.2);border-radius:3px;display:inline-block;"></span>Grupo</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:600;color:var(--azul);"><span style="width:12px;height:12px;background:rgba(0,126,195,0.15);border-radius:3px;display:inline-block;"></span>Pareja</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:600;color:#555;"><span style="width:12px;height:12px;background:rgba(17,17,17,0.07);border-radius:3px;display:inline-block;"></span>Individual</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CRONOGRAMA ═══ -->
+<section class="section">
+  <div class="container">
+    <span class="label">Planificación</span>
+    <h2 style="margin-bottom:12px;">Cronograma y acciones<br>de la temporada</h2>
+    <p style="max-width:580px;margin-bottom:40px;">Basado en el proyecto "Capaces en Movimiento" de CAM Madrid Activa, articulamos la temporada en tres fases:</p>
+
+    <div style="max-width:680px;">
+      <div class="crono-item fade-in">
+        <div class="crono-dot">📣</div>
+        <div class="crono-content">
+          <span class="crono-mes">Jun · Jul · Ago · Sep 2026</span>
+          <h3>Difusión e inscripciones</h3>
+          <p>Inclusión del servicio en el programa deportivo anual del IDM (buzoneo municipal). Publicación en web y RRSS del Ayuntamiento con cartelería, nota de prensa y vídeo explicativo. Apertura de inscripciones. <strong>Reunión informativa con entidades</strong> (asociaciones de diversidad, clubs deportivos, centros educativos CEIP F. Tomás y Valiente, CEIP Valdemera, IES Ana María Matute) en septiembre.</p>
+        </div>
+      </div>
+
+      <div class="crono-item fade-in">
+        <div class="crono-dot">🔍</div>
+        <div class="crono-content">
+          <span class="crono-mes">Septiembre 2026</span>
+          <h3>Evaluación inicial de participantes</h3>
+          <p>Valoración individual de cada participante antes del inicio del servicio: capacidad física, nivel cognitivo, condiciones de salud y necesidades de adaptación. Se establecen los grupos, parejas e individuales para la temporada. Nuestro sistema de triaje Pegasus estructura este proceso.</p>
+        </div>
+      </div>
+
+      <div class="crono-item fade-in">
+        <div class="crono-dot">⚽</div>
+        <div class="crono-content">
+          <span class="crono-mes">Octubre 2026 · Mayo 2027</span>
+          <h3>Actividades deportivas</h3>
+          <p>8 meses de servicio semanal. Miércoles y viernes, 16:00–20:00 h, sala de artes marciales del Polideportivo "Las Canteras". Dos sesiones simultáneas en curso. Inscripciones abiertas de forma continua durante toda la temporada para dar cabida a nuevos participantes.</p>
+        </div>
+      </div>
+
+      <div class="crono-item fade-in">
+        <div class="crono-dot">📊</div>
+        <div class="crono-content">
+          <span class="crono-mes">Diciembre 2026 · Marzo 2027</span>
+          <h3>Evaluaciones intermedias</h3>
+          <p>Dos evaluaciones de seguimiento a lo largo de la temporada. Revisión del progreso de cada participante, ajuste de grupos si procede, y actualización del triaje. Información al Técnico Deportivo Municipal del Ayuntamiento sobre la evolución del servicio.</p>
+        </div>
+      </div>
+
+      <div class="crono-item fade-in">
+        <div class="crono-dot">🏆</div>
+        <div class="crono-content">
+          <span class="crono-mes">Mayo 2027</span>
+          <h3>Evaluación final y cierre</h3>
+          <p>Evaluación final de todos los participantes. <strong>Informe de resultados</strong> al Ayuntamiento: usuarios atendidos, sesiones impartidas, evolución por perfiles y cumplimiento de objetivos del proyecto CAM. Sesión de cierre con familias.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MODELO DE COFINANCIACIÓN ═══ -->
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><linearGradient id="wg3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#08B75B"/><stop offset="100%" stop-color="#007EC3"/></linearGradient></defs><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="url(#wg3)"/></svg></div>
+<section class="section" style="background:var(--grad-is);">
+  <div class="container white-text fade-in">
+    <span class="label label-white">Propuesta económica</span>
+    <h2 style="color:white;margin-bottom:12px;">Modelo de cofinanciación social</h2>
+    <p style="color:rgba(255,255,255,0.85);max-width:620px;margin-bottom:40px;">Esta inversión no es un gasto operativo. Es una herramienta de <strong style="color:white;">cofinanciación social</strong>: el Ayuntamiento de Velilla de San Antonio asume el valor íntegro del servicio para que la barrera económica desaparezca para todos sus vecinos.</p>
+
+    <div class="presup-hero" style="background:rgba(0,0,0,0.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);">
+      <span class="presup-precio">14.750 €</span>
+      <p class="presup-label">Propuesta de Contrato Menor · sin IVA</p>
+      <div class="presup-detail">
+        <div class="presup-detail-item">
+          <strong>8 meses</strong>
+          <span>Oct 2026 · May 2027</span>
+        </div>
+        <div class="presup-detail-item">
+          <strong>2 días/sem</strong>
+          <span>Mié + Vie</span>
+        </div>
+        <div class="presup-detail-item">
+          <strong>0 €</strong>
+          <span>Coste familias</span>
+        </div>
+        <div class="presup-detail-item">
+          <strong>+25 usuarios</strong>
+          <span>Cap. con triaje</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <p style="color:rgba(255,255,255,0.85);text-align:center;margin-bottom:28px;">¿Qué financia el Ayuntamiento con 14.750 €?</p>
+      <div class="cofi-flow">
+        <div class="cofi-step">
+          <div class="cofi-step-num">1</div>
+          <h4>Valor de mercado del servicio</h4>
+          <p>Un monitor deportivo totalmente individualizado en el mercado privado cuesta entre <strong>40 y 60 € la hora</strong>. Eso supone entre 320 y 480 € al mes para una sola familia.</p>
+        </div>
+        <div class="cofi-arrow">→</div>
+        <div class="cofi-step">
+          <div class="cofi-step-num">2</div>
+          <h4>Aportación del Ayuntamiento</h4>
+          <p>El Ayuntamiento cubre el <strong>100% del valor</strong> del servicio a través del Contrato Menor, con apoyo de la financiación CAM Madrid Activa.</p>
+        </div>
+        <div class="cofi-arrow">→</div>
+        <div class="cofi-step">
+          <div class="cofi-step-num">3</div>
+          <h4>Resultado para las familias</h4>
+          <p>Acceso gratuito a un servicio de deporte inclusivo de calidad para todos los vecinos de Velilla, sin importar su situación económica.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;background:rgba(255,255,255,0.12);border-radius:20px;padding:28px 32px;text-align:center;">
+      <p style="color:rgba(255,255,255,0.9);font-size:1rem;"><strong style="color:white;">El precio incluye:</strong> técnico deportivo + coordinador de proyecto (perfil explícitamente requerido en las especificaciones del servicio) + gestión técnica + seguimiento y reporting al Ayuntamiento.</p>
+    </div>
+  </div>
+</section>
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><linearGradient id="wg4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#08B75B"/><stop offset="100%" stop-color="#007EC3"/></linearGradient></defs><path d="M0,30 C360,0 1080,60 1440,30 L1440,0 L0,0 Z" fill="url(#wg4)"/></svg></div>
+
+<!-- ═══ QUÉ NO INCLUYE ═══ -->
+<section class="section-sm">
+  <div class="container">
+    <div class="grid-2 fade-in" style="gap:48px;">
+      <div>
+        <span class="label">Aclaraciones importantes</span>
+        <h2 style="margin-bottom:16px;">¿Qué no incluye<br>esta propuesta?</h2>
+        <p style="margin-bottom:24px;">En aras de la transparencia, detallamos expresamente lo que queda fuera del alcance del servicio prestado por Fundación Pegasus, en línea con las especificaciones del propio proyecto CAM:</p>
+        <ul class="no-incluye-list">
+          <li>
+            <div class="no-x">✕</div>
+            <div><strong>Espacios e instalaciones deportivas.</strong> Las instalaciones donde se presta el servicio son responsabilidad del IMD del Ayuntamiento de Velilla de San Antonio, tal como recogen las especificaciones del proyecto.</div>
+          </li>
+          <li>
+            <div class="no-x">✕</div>
+            <div><strong>Material deportivo de gran formato.</strong> El equipamiento fijo y el material deportivo de gran formato (porterías, canastas, tatamis, etc.) corre a cargo del IMD. Pegasus puede complementar con material propio adicional.</div>
+          </li>
+          <li>
+            <div class="no-x">✕</div>
+            <div><strong>Transporte de usuarios.</strong> El desplazamiento de los participantes hasta las instalaciones no está incluido en el servicio.</div>
+          </li>
+          <li>
+            <div class="no-x">✕</div>
+            <div><strong>Gestión administrativa del Ayuntamiento.</strong> Inscripciones, comunicación municipal a ciudadanos y gestión del padrón de usuarios corren a cargo del Ayuntamiento (Técnico Deportivo Municipal).</div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <span class="label" style="opacity:0;pointer-events:none;">espacio</span>
+        <h2 style="margin-bottom:16px;opacity:0;pointer-events:none;">x</h2>
+        <div style="background:#fafafa;border-radius:24px;padding:32px;border:1.5px solid #ebebeb;">
+          <strong style="display:block;margin-bottom:16px;font-size:1rem;">✅ Qué sí incluye Pegasus</strong>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Técnico deportivo</strong> con titulación CAFYD y especialización en discapacidad (2 días/semana, 4h/día)</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Coordinador de entidad</strong>: evaluación, seguimiento, diseño de contenidos y enlace con el Ayuntamiento (10h/mes)</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Triaje inicial y seguimiento</strong> de cada usuario durante toda la temporada</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Material didáctico y lúdico</strong> propio de Pegasus para las sesiones</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Informes de resultados</strong> al Ayuntamiento (arranque + cierre de temporada)</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.9rem;">
+              <span style="color:var(--verde);font-weight:700;flex-shrink:0;">✓</span>
+              <span><strong>Coordinación directa con el IMD</strong> y el Técnico Deportivo Municipal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POR QUÉ PEGASUS ═══ -->
+<section class="dark-section">
+  <div class="container fade-in">
+    <span class="label label-white">La diferencia</span>
+    <h2 style="color:white;margin-bottom:40px;">¿Por qué Pegasus?</h2>
+    <div class="grid-4" style="gap:20px;">
+      <div class="porq-card">
+        <div class="porq-icon">📅</div>
+        <h3>7 años de experiencia</h3>
+        <p>Entidad sin ánimo de lucro con más de 800 familias impactadas y presencia en 15+ municipios de la Comunidad de Madrid.</p>
+      </div>
+      <div class="porq-card">
+        <div class="porq-icon">🎯</div>
+        <h3>Metodología propia</h3>
+        <p>Sistema de triaje sistematizado, protocolo replicable, no depende de la intuición. El mismo estándar de calidad en todos los municipios.</p>
+      </div>
+      <div class="porq-card">
+        <div class="porq-icon">👔</div>
+        <h3>Profesionales con contrato fijo</h3>
+        <p>Sin voluntarios. Todos los profesionales tienen contrato fijo y titulación específica (CAFYD, Máster en Discapacidad). Estabilidad = calidad.</p>
+      </div>
+      <div class="porq-card">
+        <div class="porq-icon">🔗</div>
+        <h3>Visión a largo plazo</h3>
+        <p>Año 1: contrato menor para validar. Año 2: licitación para consolidar. Modelo de éxito probado en Paracuellos del Jarama.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="section" style="text-align:center;">
+  <div class="container fade-in" style="max-width:680px;">
+    <span class="label" style="display:block;text-align:center;">Siguiente paso</span>
+    <h2 style="margin-bottom:16px;">Arranquemos<br>en octubre</h2>
+    <p style="margin-bottom:32px;">Estamos listos para comenzar el proceso de formalización. Para cualquier consulta sobre la propuesta o para avanzar en la solicitud formal de presupuesto, contacta con nosotros.</p>
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <div style="background:var(--negro);color:white;padding:14px 28px;border-radius:100px;font-weight:700;font-size:0.92rem;">
+        📧 alvaro.diaz@fundacionpegasus.org
+      </div>
+      <div style="background:var(--grad-is);color:white;padding:14px 28px;border-radius:100px;font-weight:700;font-size:0.92rem;">
+        🌐 www.fundacionpegasus.org
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <p class="footer-slogan grad-text-is">Lo mío no es normal,<br>pero lo tuyo tampoco.</p>
+    <span class="footer-web">www.fundacionpegasus.org</span>
+    <hr class="footer-divider">
+    <p class="footer-datos">
+      Fundación Pegasus · CIF G87919148 · Reg. Fundaciones nº 2259<br>
+      Ley 49/2002 (mecenazgo) · IBAN ES91 0049 5900 2621 1002 8937<br>
+      Propuesta para el Ayuntamiento de Velilla de San Antonio · Junio 2026
+    </p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Animate capacity bars on scroll
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.capacidad-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = w; }, 100);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.capacidad-bar').forEach(el => barObserver.observe(el.parentElement));
+</script>
+</body>
+</html>
