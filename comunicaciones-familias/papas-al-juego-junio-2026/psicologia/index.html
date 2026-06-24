@@ -1,1187 +1,1120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>El Gran Viaje del Explorador · Papás al Juego · Psicología</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
-:root {
-  --verde:#08b75b; --azul:#007ec3; --morado:#974694;
-  --rosa:#e45e9b; --rojo:#d6191b; --naranja:#ed7928; --amarillo:#f3d100;
-  --crema:#fff5e0; --negro:#1a1330;
-  --grad-aventura: linear-gradient(135deg, #974694 0%, #e45e9b 50%, #ed7928 100%);
-  --grad-cielo:   linear-gradient(180deg, #2a1b4f 0%, #5a2880 30%, #974694 60%, #ed7928 90%, #f3d100 100%);
-  --grad-bosque:  linear-gradient(180deg, #1f3a26 0%, #2d5234 40%, #4a7c50 100%);
-  --ease-back:    cubic-bezier(0.34, 1.56, 0.64, 1);
+:root{
+  --morado:#974694; --rosa:#e45e9b; --verde:#08b75b; --azul:#007ec3;
+  --amarillo:#f3d100; --naranja:#ed7928; --rojo:#d6191b;
+  --negro:#000; --blanco:#fff;
+  --grad-aventura: linear-gradient(135deg, #08b75b 0%, #007ec3 60%, #974694 100%);
+  --ease-back: cubic-bezier(.34,1.56,.64,1);
 }
-* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent; }
-html, body { height:100%; overflow:hidden; }
-body { font-family:'Barlow',sans-serif; background:var(--grad-cielo); color:var(--negro); user-select:none; }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Barlow',sans-serif;background:#0a1a2c;color:#fff;position:relative;-webkit-font-smoothing:antialiased}
 
-#stage { position:fixed; inset:0; overflow:hidden; }
-.scene { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; opacity:0; transition:opacity 0.5s ease; z-index:2; }
-.scene.active { display:flex; opacity:1; }
+.brand-logo{position:fixed;top:10px;left:10px;height:38px;z-index:120;background:#fff;padding:3px 10px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.30);display:flex;align-items:center;text-decoration:none}
+.brand-logo img{height:100%;display:block}
+@media (max-height:760px){.brand-logo{height:30px;top:8px;left:8px}}
 
-/* ÁRBOLES LATERALES decorativos (en lugar de palmeras) */
-.arbol { position:fixed; bottom:-20px; width:170px; height:280px; z-index:1; pointer-events:none; filter: drop-shadow(0 18px 24px rgba(0,0,0,0.40)); opacity:0.92; }
-.arbol.izq { left:-50px; animation: arbolSwayI 6s ease-in-out infinite; transform-origin: 50% 95%; }
-.arbol.der { right:-50px; animation: arbolSwayD 6s ease-in-out infinite; transform-origin: 50% 95%; }
-@keyframes arbolSwayI { 0%,100%{transform:rotate(-1deg);} 50%{transform:rotate(2deg);} }
-@keyframes arbolSwayD { 0%,100%{transform:rotate(1deg);} 50%{transform:rotate(-2deg);} }
-@media (max-width:900px){ .arbol{width:120px; height:200px; opacity:0.7;} }
+.topbar{position:fixed;top:10px;right:10px;display:flex;gap:10px;align-items:center;z-index:110}
+.topbar .badge{background:rgba(0,0,0,.55);color:#fff;padding:8px 14px;border-radius:999px;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.5px;backdrop-filter:blur(6px)}
+.topbar .progress{background:#fff;color:var(--morado);padding:8px 14px;border-radius:999px;font-weight:900;font-style:italic;font-size:12px}
+.btn-mute{background:#fff;color:var(--morado);border:none;cursor:pointer;width:38px;height:38px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.25);touch-action:manipulation;transition:opacity .2s,background .2s}
 
-/* TOPBAR */
-.topbar { position:fixed; top:14px; left:14px; right:14px; display:flex; justify-content:space-between; align-items:center; z-index:100; pointer-events:none; }
-.topbar > * { pointer-events:auto; }
-.topbar .badge { background:rgba(255,255,255,0.92); border:2px solid var(--morado); color:var(--negro); padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:12px; text-transform:uppercase; letter-spacing:1px; box-shadow:0 4px 12px rgba(0,0,0,0.20); }
-.topbar .progress { background:#fff; padding:6px 14px; border-radius:999px; font-weight:800; font-style:italic; font-size:13px; color:var(--morado); box-shadow:0 4px 12px rgba(0,0,0,0.20); }
-.topbar .right-grp { display:flex; gap:8px; align-items:center; }
+#stage{position:fixed;inset:0;overflow:hidden}
+.scene{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(12px,2vh,24px)}
+.scene.active{display:flex}
+.scene-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.scene-bg.dim::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.40)}
+.scene-bg.dim-strong::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.65) 100%)}
+.scene-inner{position:relative;z-index:2;max-width:min(96vw,1100px);max-height:92vh;text-align:center}
 
-/* BOTONES */
-.btn { display:inline-flex; align-items:center; gap:8px; padding:16px 36px; border-radius:999px; border:0; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:20px; text-transform:uppercase; letter-spacing:1px; cursor:pointer; background:var(--negro); color:#fff; box-shadow:0 14px 28px rgba(0,0,0,0.40); transition:box-shadow 0.15s, filter 0.15s; touch-action:manipulation; user-select:none; -webkit-user-select:none; position:relative; z-index:10; }
-.btn:hover { box-shadow:0 20px 38px rgba(0,0,0,0.45); filter:brightness(1.08); }
-.btn:active { filter:brightness(0.92); }
-.btn.warm { background:var(--grad-aventura); color:#fff; }
-.btn.sun  { background:var(--amarillo); color:var(--negro); }
-.btn.ghost { background:rgba(255,255,255,0.94); color:var(--negro); border:2.5px solid var(--negro); box-shadow:0 8px 18px rgba(0,0,0,0.30); }
-.btn.sm { font-size:14px; padding:10px 22px; }
-.btn:disabled, .btn[disabled] { opacity:0.45; cursor:not-allowed; pointer-events:none; }
+.btn{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;border:none;cursor:pointer;padding:14px 30px;border-radius:999px;font-size:17px;letter-spacing:.4px;text-transform:uppercase;background:var(--grad-aventura);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.30);touch-action:manipulation;transition:opacity .2s,background .2s,box-shadow .2s}
+.btn:hover{box-shadow:0 10px 28px rgba(0,0,0,.40)}
+.btn.ghost{background:rgba(0,0,0,.65);color:#fff;border:2px solid #fff;backdrop-filter:blur(4px)}
+.btn.sm{padding:8px 18px;font-size:13px}
+.btn.lg{padding:16px 36px;font-size:19px}
+.btn:disabled,.btn.locked{opacity:.40;cursor:not-allowed;box-shadow:none}
+.btn.locked::after{content:" 🔊"}
+@media (max-height:760px){.btn{padding:11px 24px;font-size:15px} .btn.lg{padding:13px 28px;font-size:17px}}
 
-/* TÍTULOS */
-.title { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:54px; line-height:1; text-transform:uppercase; letter-spacing:-1px; color:#fff; text-shadow:0 6px 24px rgba(0,0,0,0.50); margin:0; }
+/* PORTADA */
+.portada-titulo{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,7vh,78px);line-height:.95;color:#fff;text-transform:uppercase;text-shadow:0 8px 22px rgba(0,0,0,.65);letter-spacing:-1px;margin-bottom:18px}
+.portada-cartel{display:inline-block;background:#4a2818;color:#fff;padding:10px 26px;border-radius:8px;font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:clamp(14px,1.8vh,18px);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;box-shadow:0 8px 18px rgba(0,0,0,.4);border:3px solid #6b3a22}
+.portada-texto{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:clamp(15px,2.1vh,19px);color:#fff;text-shadow:0 4px 12px rgba(0,0,0,.55);max-width:620px;margin:0 auto 30px;line-height:1.4}
 
-/* TOAST INFORMATIVO */
-.info-toast { position:fixed; top:70px; left:50%; transform:translateX(-50%); background:#fff; color:var(--negro); padding:10px 18px; border-radius:999px; border:2px solid var(--morado); box-shadow:0 8px 20px rgba(0,0,0,0.30); font-family:'Barlow',sans-serif; font-weight:800; font-style:italic; font-size:13px; z-index:60; display:flex; align-items:center; gap:8px; max-width:86vw; transition:opacity 0.3s, transform 0.3s var(--ease-back); opacity:1; }
-.info-toast.hidden { opacity:0; transform:translate(-50%,-30px); pointer-events:none; }
-.info-toast .info-ico { font-size:22px; }
+/* AVATARES */
+.avatares-host{background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:clamp(16px,2.4vh,28px);border-radius:24px;max-width:min(94vw,900px);width:100%}
+.avatares-host h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:clamp(22px,3.6vh,32px);color:#fff;text-transform:uppercase;margin-bottom:10px;text-shadow:0 4px 10px rgba(0,0,0,.5)}
+.avatares-host .lead{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:clamp(14px,1.8vh,16px);color:#fff;margin-bottom:18px;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.jugadores-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.jugador-col{background:rgba(255,255,255,.95);color:#000;padding:14px 12px;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.40)}
+.jugador-col h3{font-family:'Barlow';font-weight:900;font-style:italic;font-size:18px;color:var(--morado);text-transform:uppercase;margin-bottom:10px}
+.opciones-avatar{display:flex;gap:10px;justify-content:center}
+.opcion-avatar{background:#f5f5f8;border:3px solid #e0e0e0;border-radius:14px;padding:8px;cursor:pointer;width:100%;max-width:130px;display:flex;flex-direction:column;align-items:center;gap:4px;touch-action:manipulation;transition:opacity .2s,border-color .2s,background .2s}
+.opcion-avatar img{width:100%;max-height:min(22vh,160px);object-fit:contain}
+.opcion-avatar .nombre-av{font-family:'Barlow';font-weight:900;font-style:italic;font-size:12px;color:var(--morado);text-transform:uppercase}
+.opcion-avatar.selected{border-color:var(--rosa);background:#fff5fa;box-shadow:0 6px 16px rgba(228,94,155,.40)}
+.opcion-avatar:hover{border-color:var(--morado)}
+@media (max-height:760px){.opcion-avatar img{max-height:min(16vh,110px)}}
 
-/* PEGASUSITO PROTAGONISTA · pantalla fullscreen */
-.historia-fullscreen {
-  position:fixed; inset:0;
-  background:
-    linear-gradient(180deg, rgba(20,5,40,0.65) 0%, rgba(80,30,120,0.50) 50%, rgba(20,5,40,0.65) 100%),
-    url('assets/fondo-aventura.png') center/cover no-repeat,
-    linear-gradient(135deg, #2a1b4f 0%, #5a2880 40%, #e45e9b 100%);
-  z-index:220; display:none; align-items:center; justify-content:center; padding:40px; overflow:hidden;
+/* MAPA */
+.mapa-host{position:relative;width:min(94vw,1000px);max-height:88vh;display:flex;flex-direction:column;align-items:center;gap:10px}
+.mapa-img-wrap{position:relative;width:100%;max-height:min(60vh,540px)}
+.mapa-img-wrap img{width:100%;max-height:min(60vh,540px);object-fit:contain;border-radius:18px;filter:drop-shadow(0 14px 30px rgba(0,0,0,.50))}
+.mapa-zonas{position:absolute;inset:0;pointer-events:none}
+.mapa-zona{position:absolute;width:60px;height:60px;background:var(--rosa);color:#fff;border-radius:50%;border:4px solid #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Barlow';font-weight:900;font-style:italic;font-size:20px;cursor:pointer;pointer-events:auto;box-shadow:0 6px 14px rgba(0,0,0,.50);touch-action:manipulation;transition:transform .2s var(--ease-back),background .2s;z-index:4;animation:zonaPulso 2s ease-in-out infinite;transform:translate(-50%,-50%)}
+.mapa-zona:hover{transform:translate(-50%,-50%) scale(1.15);background:var(--morado)}
+.mapa-zona.ok{background:var(--verde);animation:none}
+.mapa-zona.ok::after{content:"✓";position:absolute;top:-8px;right:-8px;background:#fff;color:var(--verde);width:22px;height:22px;border-radius:50%;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+@keyframes zonaPulso{0%,100%{box-shadow:0 6px 14px rgba(0,0,0,.50),0 0 0 0 rgba(228,94,155,.65)} 50%{box-shadow:0 6px 14px rgba(0,0,0,.50),0 0 0 14px rgba(228,94,155,0)}}
+@media (max-height:760px){.mapa-zona{width:46px;height:46px;font-size:16px;border-width:3px}}
+
+.mochilas-equipo{display:flex;gap:14px;justify-content:center;align-items:center;background:rgba(0,0,0,.55);padding:8px 14px;border-radius:16px;backdrop-filter:blur(6px)}
+.mochila-mini{display:flex;align-items:center;gap:6px}
+.mochila-mini-avatar{width:38px;height:38px;border-radius:50%;background:#fff;padding:2px;flex-shrink:0;overflow:hidden}
+.mochila-mini-avatar img{width:100%;height:100%;object-fit:contain}
+.mochila-mini-slots{display:flex;gap:4px}
+.mochila-mini-slot{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:2px dashed rgba(255,255,255,.40);display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,.5)}
+.mochila-mini-slot.tiene{background:#fff;border:none}
+.mochila-mini-slot.tiene img{width:86%;height:86%;object-fit:contain}
+@media (max-height:760px){.mochila-mini-avatar{width:32px;height:32px} .mochila-mini-slot{width:22px;height:22px;font-size:11px}}
+
+.juego-host{background:rgba(255,255,255,.96);color:#000;padding:clamp(14px,2.2vh,24px) clamp(18px,3vw,28px);border-radius:22px;max-height:92vh;max-width:min(96vw,980px);width:100%;display:flex;flex-direction:column;gap:8px;box-shadow:0 24px 60px rgba(0,0,0,.55);overflow:hidden}
+.juego-host h2{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:clamp(22px,3.4vh,30px);color:var(--morado);text-transform:uppercase;line-height:1.05}
+.juego-host .lead{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:clamp(13px,1.6vh,15px);color:#333;line-height:1.35}
+.juego-host .lead b{color:var(--rosa)}
+.juego-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.juego-back{display:flex;justify-content:center;margin-top:4px}
+
+/* MEMORIA PIRÁMIDE */
+.piramide-zone{display:flex;gap:16px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.piramide-col{display:flex;flex-direction:column;gap:4px;align-items:center}
+.piramide-col h4{font-family:'Barlow';font-weight:900;font-style:italic;font-size:12px;color:var(--morado);text-transform:uppercase}
+.piramide{display:flex;flex-direction:column;gap:6px;padding:10px;background:rgba(151,70,148,.10);border-radius:12px;position:relative}
+.piramide.objetivo{background:rgba(228,94,155,.15)}
+.piramide-fila{display:flex;gap:6px;justify-content:center}
+.piramide-slot{width:clamp(44px,6vh,64px);height:clamp(44px,6vh,64px);background:#fff;border:2px dashed rgba(151,70,148,.5);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;transition:opacity .2s,background .2s;position:relative}
+.piramide-slot.tiene{background:#fff;border:2px solid var(--rosa)}
+.piramide-slot img{width:90%;height:90%;object-fit:contain}
+.piramide-slot.ok{border-color:var(--verde);background:#eafff0}
+.piramide-slot.error{border-color:var(--rojo);animation:shakeIt .4s}
+.piramide-slot.objetivo{cursor:default;border-style:solid;border-color:rgba(228,94,155,.5)}
+@keyframes shakeIt{0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}}
+.paleta-objetos{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:min(60vw,460px);background:#f5f5f8;padding:10px;border-radius:12px}
+.paleta-objeto{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:4px;cursor:pointer;touch-action:manipulation;height:clamp(48px,7vh,70px);display:flex;align-items:center;justify-content:center;transition:opacity .2s,border-color .2s}
+.paleta-objeto img{max-width:90%;max-height:90%;object-fit:contain}
+.paleta-objeto.selected{border-color:var(--rosa);background:#fff5fa}
+.paleta-objeto.usado{opacity:.25;cursor:not-allowed}
+.paleta-objeto:hover{border-color:var(--morado)}
+.piramide-cuenta{font-family:'Barlow';font-weight:900;font-style:italic;font-size:18px;color:var(--rosa);text-align:center;background:rgba(228,94,155,.15);padding:6px 12px;border-radius:14px;display:inline-block}
+
+/* RÍO */
+.rio-zone{display:flex;flex-direction:column;align-items:center;gap:8px}
+.rio-svg-wrap{position:relative;width:min(86vw,720px);height:min(38vh,280px);background:#d4ecff;border-radius:16px;overflow:hidden}
+.rio-svg-wrap svg{position:absolute;inset:0;width:100%;height:100%}
+.rio-checkpoint{position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.85);border:3px solid var(--azul);cursor:pointer;touch-action:manipulation;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font-family:'Barlow';font-weight:900;font-style:italic;font-size:12px;color:var(--azul);z-index:3;transition:opacity .2s,background .2s}
+.rio-checkpoint.locked{opacity:.40;cursor:not-allowed}
+.rio-checkpoint.activo{background:var(--amarillo);border-color:var(--rojo);animation:pulsoCheck 1.4s ease-in-out infinite}
+@keyframes pulsoCheck{0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.25)}}
+.rio-checkpoint.ok{background:var(--verde);border-color:#fff;color:#fff;animation:none}
+.globo-rio{position:absolute;font-size:32px;transform:translate(-50%,-50%);transition:left .55s var(--ease-back),top .55s var(--ease-back);z-index:5;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.40))}
+.rio-rondas{display:flex;gap:14px;justify-content:center;margin-top:4px}
+.rio-ronda-pill{background:#f5f5f8;padding:6px 14px;border-radius:999px;font-family:'Barlow';font-weight:900;font-style:italic;font-size:13px;color:#555;border:2px solid #ddd;display:flex;gap:6px;align-items:center}
+.rio-ronda-pill.actual{border-color:var(--rosa);background:#fff5fa;color:var(--rosa)}
+.rio-ronda-pill.ok{border-color:var(--verde);background:#eafff0;color:var(--verde)}
+
+/* BOSQUE */
+.bosque-zone{display:flex;flex-direction:column;align-items:center;gap:10px}
+.bosque-secuencia-mostrar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:14px 18px;background:rgba(8,183,91,.15);border-radius:16px;border:3px dashed var(--verde)}
+.bosque-num-show{width:clamp(40px,5.5vh,56px);height:clamp(40px,5.5vh,56px);background:var(--verde);color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(20px,3vh,28px);box-shadow:0 6px 14px rgba(0,0,0,.3);animation:numPop .4s var(--ease-back)}
+@keyframes numPop{from{opacity:0;transform:scale(.3)} to{opacity:1;transform:scale(1)}}
+.bosque-slots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.bosque-slot{width:clamp(38px,5vh,52px);height:clamp(38px,5vh,52px);background:#fff;border:2px dashed #ccc;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(18px,2.8vh,24px);color:var(--morado)}
+.bosque-slot.tiene{background:#fff5fa;border-color:var(--rosa);border-style:solid}
+.bosque-slot.error{background:#ffe8e8;border-color:var(--rojo);animation:shakeIt .4s}
+.bosque-teclado{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:min(70vw,420px)}
+.bosque-tecla{background:#fff;border:2px solid var(--morado);border-radius:12px;padding:10px 0;font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(18px,2.8vh,22px);color:var(--morado);cursor:pointer;touch-action:manipulation;transition:opacity .2s,background .2s}
+.bosque-tecla:hover{background:#f5e5f5}
+.bosque-tecla:active{background:var(--morado);color:#fff}
+
+/* COLINA */
+.colina-zone{display:flex;gap:16px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.colina-mochila{display:flex;flex-direction:column;gap:6px;align-items:center}
+.colina-mochila h4{font-family:'Barlow';font-weight:900;font-style:italic;font-size:14px;color:var(--morado);text-transform:uppercase}
+.colina-mochila-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px;background:rgba(151,70,148,.10);border-radius:14px}
+.colina-slot{width:clamp(70px,9vh,100px);height:clamp(70px,9vh,100px);background:#fff;border:2px dashed rgba(151,70,148,.5);border-radius:10px;cursor:pointer;touch-action:manipulation;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;text-align:center}
+.colina-slot.tiene{background:linear-gradient(135deg,#fff5fa,#ffe8f1);border:2px solid var(--rosa)}
+.colina-slot .ico{font-size:24px;line-height:1}
+.colina-slot .lbl{font-family:'Barlow';font-weight:900;font-style:italic;font-size:10px;color:var(--morado);text-transform:uppercase;margin-top:2px;line-height:1.1}
+.colina-paleta{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:min(50vw,360px);padding:10px;background:#f5f5f8;border-radius:14px}
+.colina-pegatina{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:6px 4px;cursor:pointer;touch-action:manipulation;text-align:center;transition:opacity .2s,border-color .2s,background .2s}
+.colina-pegatina .ico{font-size:20px;line-height:1}
+.colina-pegatina .lbl{font-family:'Barlow';font-weight:900;font-style:italic;font-size:9px;color:var(--morado);text-transform:uppercase;margin-top:1px;line-height:1.1}
+.colina-pegatina.selected{border-color:var(--rosa);background:#fff5fa}
+.colina-pegatina.usada{opacity:.25;cursor:not-allowed}
+.colina-pegatina:hover{border-color:var(--morado)}
+
+/* VALLE */
+.valle-zone{display:flex;gap:16px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.sopa-grid{display:grid;grid-template-columns:repeat(15,1fr);gap:2px;padding:6px;background:rgba(151,70,148,.15);border-radius:10px;width:min(58vh,480px);aspect-ratio:1/1}
+.sopa-letra{background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(9px,1.6vh,13px);color:var(--morado);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:background .15s}
+.sopa-letra.start{background:var(--amarillo)}
+.sopa-letra.encontrada{background:var(--verde);color:#fff}
+.valle-palabras{display:flex;flex-direction:column;gap:4px;background:#f5f5f8;padding:12px;border-radius:12px;min-width:160px}
+.valle-palabras h4{font-family:'Barlow';font-weight:900;font-style:italic;font-size:13px;color:var(--morado);text-transform:uppercase;margin-bottom:4px}
+.valle-palabra-item{font-family:'Barlow';font-weight:700;font-style:italic;font-size:13px;color:#444;padding:3px 8px;border-radius:6px;background:#fff}
+.valle-palabra-item.encontrada{background:var(--verde);color:#fff;text-decoration:line-through}
+.valle-cuenta{font-family:'Barlow';font-weight:900;font-style:italic;font-size:15px;color:var(--rosa);text-align:center;margin-top:4px;padding:6px 10px;background:#fff5fa;border-radius:10px}
+
+/* MODAL DUAL */
+.pega-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:200;padding:clamp(12px,2vh,24px)}
+.pega-modal.show{display:flex}
+.pega-modal-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(151,70,148,.92),rgba(228,94,155,.92))}
+.pega-modal.modo-narrador .pega-modal-bg{background:linear-gradient(135deg,rgba(0,30,70,.95),rgba(20,60,120,.95))}
+.pega-modal-inner{position:relative;z-index:2}
+.pega-fullscreen{display:flex;gap:30px;align-items:center;justify-content:center;max-width:min(94vw,1000px);flex-wrap:wrap}
+.pega-foto{width:min(34vh,300px);height:min(34vh,300px);flex-shrink:0}
+.pega-foto img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 26px rgba(0,0,0,.50));animation:pegaBob 3.6s ease-in-out infinite}
+@keyframes pegaBob{0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)}}
+.pega-modal .narrador-foto{display:none}
+.pega-modal.modo-narrador .pega-foto{display:none}
+.pega-modal.modo-narrador .narrador-foto{display:flex;flex-direction:column;align-items:center;gap:10px;width:min(34vh,300px);flex-shrink:0;text-align:center}
+.narrador-foto .narrador-icon{font-size:min(18vh,130px);filter:drop-shadow(0 12px 22px rgba(0,0,0,.50));animation:micPulse 1.6s ease-in-out infinite}
+@keyframes micPulse{0%,100%{transform:scale(1)} 50%{transform:scale(1.08)}}
+.narrador-foto .narrador-lbl{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;text-transform:uppercase;letter-spacing:.5px;text-shadow:0 4px 10px rgba(0,0,0,.50)}
+.narrador-foto .narrador-ondas{display:flex;gap:6px;align-items:flex-end;height:30px}
+.narrador-foto .narrador-ondas span{display:block;width:6px;background:#fff;border-radius:4px;animation:ondaBars 1.1s ease-in-out infinite}
+.narrador-foto .narrador-ondas span:nth-child(1){animation-delay:0s;height:18px}
+.narrador-foto .narrador-ondas span:nth-child(2){animation-delay:.2s;height:28px}
+.narrador-foto .narrador-ondas span:nth-child(3){animation-delay:.4s;height:14px}
+@keyframes ondaBars{0%,100%{transform:scaleY(.4)} 50%{transform:scaleY(1.0)}}
+.pega-bocadillo{background:#fff;color:#000;padding:22px 26px;border-radius:26px 26px 26px 8px;max-width:460px;flex:1;min-width:260px;position:relative;box-shadow:0 26px 70px rgba(0,0,0,.45);text-align:left}
+.pega-bocadillo::before{content:"";position:absolute;left:-20px;bottom:30px;border:14px solid transparent;border-right-color:#fff}
+.pega-bocadillo h3{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:var(--morado);text-transform:uppercase;margin-bottom:12px;line-height:1.05}
+.pega-bocadillo p{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:16px;line-height:1.45;color:#000;margin-bottom:18px}
+.pega-bocadillo .cta-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+@media (max-width:760px){.pega-fullscreen{flex-direction:column;gap:18px} .pega-bocadillo::before{left:50%;bottom:auto;top:-28px;transform:translateX(-50%);border-bottom-color:#fff;border-right-color:transparent}}
+@media (max-height:760px){.pega-foto,.pega-modal.modo-narrador .narrador-foto{width:min(26vh,220px);height:min(26vh,220px)} .narrador-foto .narrador-icon{font-size:min(14vh,100px)} .narrador-foto .narrador-lbl{font-size:15px} .pega-bocadillo{padding:16px 20px} .pega-bocadillo h3{font-size:20px;margin-bottom:8px} .pega-bocadillo p{font-size:14px;margin-bottom:12px}}
+
+.info-toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:14px;font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:13px;box-shadow:0 8px 20px rgba(0,0,0,.40);z-index:150;max-width:90vw;display:flex;gap:8px;align-items:center;transition:opacity .3s}
+.info-toast.hidden{opacity:0;pointer-events:none}
+.info-toast .ico{font-size:18px}
+
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:300}
+.confetti span{position:absolute;top:-30px;font-size:22px;animation:cae linear forwards}
+@keyframes cae{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* FINAL */
+.final-card{background:rgba(255,255,255,.97);color:#000;padding:clamp(20px,3vh,32px) clamp(24px,4vw,44px);border-radius:28px;max-width:min(94vw,760px);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+.final-card h1{font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:clamp(26px,5vh,44px);color:var(--morado);text-transform:uppercase;line-height:.95;margin-bottom:14px}
+.final-card p{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.4}
+.final-avatares{display:flex;gap:24px;justify-content:center;align-items:flex-end;margin-bottom:16px}
+.final-avatar-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+.final-avatar-col img{width:min(20vh,180px);max-height:min(24vh,200px);object-fit:contain;filter:drop-shadow(0 14px 24px rgba(0,0,0,.45))}
+.final-mochila-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;background:rgba(151,70,148,.10);padding:4px;border-radius:8px}
+.final-mochila-mini .ins-img{width:22px;height:22px}
+.final-mochila-mini .ins-img img{width:100%;height:100%;object-fit:contain}
+
+@media (max-height:760px){
+  .juego-host{padding:12px 16px;max-height:94vh;gap:6px}
+  .juego-host h2{font-size:22px}
+  .juego-host .lead{font-size:12px;line-height:1.3}
+  .mochilas-equipo{padding:5px 10px}
+  .avatares-host{padding:12px 14px}
+  .avatares-host h2{font-size:22px;margin-bottom:6px}
+  .avatares-host .lead{font-size:13px;margin-bottom:10px}
+  .final-card h1{font-size:26px;margin-bottom:8px}
+  .final-card p{font-size:14px;margin-bottom:10px}
+  .final-avatar-col img{max-height:min(20vh,170px)}
 }
-.historia-fullscreen.show { display:flex; }
-.historia-stage { display:flex; align-items:center; justify-content:center; gap:40px; max-width:1200px; width:100%; flex-wrap:wrap; }
-.pega-protagonista { position:relative; width:min(46vh, 500px); height:min(46vh, 500px); flex-shrink:0; animation: pegaEntra 0.8s var(--ease-back) both; }
-@keyframes pegaEntra { from{opacity:0; transform:translateX(-100px) scale(0.6);} to{opacity:1; transform:translateX(0) scale(1);} }
-.pega-protagonista::before { content:""; position:absolute; inset:-30px; border-radius:50%; z-index:-1; background: radial-gradient(circle, rgba(243,209,0,0.55), transparent 65%); animation: pegaGlow 2.8s ease-in-out infinite; }
-@keyframes pegaGlow { 0%,100%{transform:scale(1); opacity:0.7;} 50%{transform:scale(1.15); opacity:1;} }
-.pega-protagonista img { width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 24px 36px rgba(0,0,0,0.50)); animation: pegaBob 3.5s ease-in-out infinite; }
-@keyframes pegaBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
-.historia-bocadillo-pro { background:#fff; color:var(--negro); padding:32px 36px; border-radius:32px 32px 32px 8px; max-width:540px; flex:1; min-width:280px; position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.50); animation: bocadilloEntra 0.7s var(--ease-back) 0.3s both; }
-@keyframes bocadilloEntra { from{opacity:0; transform:translateX(60px) scale(0.7);} to{opacity:1; transform:translateX(0) scale(1);} }
-.historia-bocadillo-pro::before { content:""; position:absolute; left:-22px; bottom:36px; border:16px solid transparent; border-right-color:#fff; }
-.historia-bocadillo-pro h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:30px; color:var(--morado); text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:18px; line-height:1.05; }
-.historia-bocadillo-pro .texto-historia { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:19px; line-height:1.5; color:var(--negro); margin-bottom:26px; min-height:80px; }
-.historia-cta-row { display:flex; gap:12px; justify-content:flex-end; }
-@media (max-width:900px) {
-  .historia-stage { flex-direction:column; gap:20px; }
-  .pega-protagonista { width:220px; height:220px; }
-  .historia-bocadillo-pro { padding:22px 24px; border-radius:24px; }
-  .historia-bocadillo-pro::before { left:50%; bottom:auto; top:-28px; transform:translateX(-50%); border:14px solid transparent; border-bottom-color:#fff; border-right-color:transparent; }
-  .historia-bocadillo-pro h3 { font-size:22px; }
-  .historia-bocadillo-pro .texto-historia { font-size:16px; min-height:60px; }
-}
-
-/* ESCENA INTRO · escenario PDF como FONDO COVER */
-#scene-portada {
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.60) 100%),
-    url('assets/escenario-andrea.png') center/cover no-repeat,
-    var(--grad-cielo);
-}
-.portada-card { width:min(92vw, 760px); position:relative; text-align:center; z-index:3; }
-.portada-titulo { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:clamp(32px, 6vh, 64px); line-height:0.95; text-transform:uppercase; letter-spacing:-1px; color:#fff; text-shadow: 0 8px 32px rgba(0,0,0,0.80), 0 0 16px rgba(0,0,0,0.50); margin-bottom:18px; }
-.portada-titulo .accent { color:var(--amarillo); display:block; }
-.portada-narrativa { background:rgba(255,255,255,0.96); color:var(--negro); padding:14px 22px; border-radius:18px; max-width:660px; margin:0 auto 22px; font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:15px; line-height:1.4; box-shadow:0 14px 30px rgba(0,0,0,0.40); }
-
-/* BRANDING IMAGOTIPO Pegasus (TODAS las pantallas) */
-.brand-logo { position:fixed; top:12px; left:12px; height:42px; z-index:90; border-radius:999px; background:#fff; padding:5px 12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; }
-.brand-logo img { height:100%; width:auto; object-fit:contain; }
-@media (max-height: 720px) { .brand-logo { height:32px; top:8px; left:8px; padding:4px 8px; } }
-
-/* ESCENA ELECCIÓN AVATAR */
-#scene-avatar { background: var(--grad-cielo); }
-.avatar-host { width:min(94vw, 800px); text-align:center; z-index:3; }
-.avatar-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; color:#fff; text-shadow:0 6px 16px rgba(0,0,0,0.40); margin-bottom:8px; text-transform:uppercase; letter-spacing:-0.5px; }
-.avatar-host p { color:rgba(255,255,255,0.95); font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:18px; margin-bottom:24px; }
-.avatar-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; max-width:600px; margin:0 auto; }
-.avatar-card { background:#fff; border:4px solid transparent; border-radius:24px; padding:18px 14px; cursor:pointer; transition: transform 0.2s var(--ease-back), border-color 0.2s, box-shadow 0.2s; box-shadow: 0 18px 36px rgba(0,0,0,0.40); }
-.avatar-card:hover { transform: translateY(-6px); box-shadow:0 26px 50px rgba(0,0,0,0.50); }
-.avatar-card.selected { border-color:var(--amarillo); box-shadow:0 0 0 6px var(--amarillo), 0 22px 44px rgba(243,209,0,0.40); }
-.avatar-card img { width:100%; height:240px; object-fit:contain; }
-.avatar-card .name { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:20px; color:var(--morado); text-transform:uppercase; letter-spacing:0.5px; margin-top:10px; }
-@media (max-width:600px){ .avatar-card img{height:160px;} }
-
-/* ESCENA MAPA */
-#scene-mapa, #scene-parada-0, #scene-parada-1, #scene-parada-2, #scene-parada-3 {
-  background:
-    linear-gradient(180deg, rgba(20,5,40,0.50) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0.55) 100%),
-    url('assets/fondo-aventura.png') center/cover no-repeat,
-    var(--grad-cielo);
-}
-.mapa-host { width:min(94vw, 980px); text-align:center; z-index:3; }
-.mapa-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:32px; color:#fff; text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:16px; text-shadow:0 6px 16px rgba(0,0,0,0.40); }
-.mapa-svg-wrap { background:rgba(255,255,255,0.10); border:2px solid rgba(255,255,255,0.30); border-radius:24px; padding:14px; backdrop-filter: blur(6px); position:relative; }
-.mapa-svg { width:100%; height: min(58vh, 460px); display:block; }
-.mapa-svg .sendero { fill:none; stroke:#f3d100; stroke-width:14; stroke-linecap:round; stroke-dasharray:22 14; opacity:1; filter: drop-shadow(0 0 16px rgba(243,209,0,0.80)) drop-shadow(0 4px 6px rgba(0,0,0,0.50)); animation: senderoFlow 2s linear infinite; }
-@keyframes senderoFlow { to { stroke-dashoffset: -36; } }
-.mapa-svg .parada-circle { stroke:#fff; stroke-width:8; cursor:pointer; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55)); }
-.mapa-svg .parada-circle.completada { fill:var(--verde)!important; }
-.mapa-svg .parada-circle.locked { fill:#666; opacity:0.55; }
-.mapa-svg .parada-label-bg { fill: var(--negro); }
-.mapa-svg .parada-label { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; fill:#fff; text-anchor:middle; pointer-events:none; }
-.mapa-svg .parada-icono { font-size:64px; text-anchor:middle; pointer-events:none; }
-.mapa-avatar-mini {
-  position:absolute;
-  /* Height fijo grande para que la silueta alta-estrecha se vea de verdad.
-     width:auto para que mantenga la proporción natural del PNG. */
-  height: min(48vh, 360px);
-  width: auto;
-  transform: translate(-50%, -50%);
-  transition: left 0.8s var(--ease-back), top 0.8s var(--ease-back);
-  pointer-events:none; z-index:8;
-  filter: drop-shadow(0 18px 28px rgba(0,0,0,0.55));
-}
-.mapa-avatar-mini img {
-  height:100%; width:auto;
-  display:block;
-  animation: avatarMapaBob 3s ease-in-out infinite;
-}
-@keyframes avatarMapaBob { 0%,100%{transform: translateY(0);} 50%{transform: translateY(-14px);} }
-@media (max-height: 720px) {
-  .mapa-avatar-mini { height: min(50vh, 280px); }
-  .mapa-svg .parada-icono { font-size: 50px; }
-  .mapa-svg .parada-label { font-size: 28px; }
-}
-@media (max-height: 560px) {
-  .mapa-avatar-mini { height: 200px; }
-}
-
-/* ACT-HOST genérico para minijuegos */
-.act-host { position:relative; background:#fff; color:var(--negro); border-radius:32px; padding:28px 26px; box-shadow:0 30px 70px rgba(0,0,0,0.40); text-align:center; max-width:min(92vw, 880px); opacity:0; transform:translateY(30px) scale(0.96); animation: actIn 0.7s var(--ease-back) 1.5s forwards; z-index:3; }
-@keyframes actIn { to { opacity:1; transform:translateY(0) scale(1); } }
-.act-host h2 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:36px; text-transform:uppercase; letter-spacing:-1px; color:var(--morado); margin-bottom:6px; }
-.act-host .lead { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:16px; color:var(--negro); margin-bottom:14px; line-height:1.4; }
-.theme-rain { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
-.theme-rain .it { position:absolute; top:-10%; font-size:46px; animation: themeFall 3s linear infinite; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.30)); }
-@keyframes themeFall { 0%{transform:translateY(0) rotate(0); opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh) rotate(720deg); opacity:0;} }
-
-/* === PARADA 1 · MEMORIZA · pirámide de objetos · COMPACTA === */
-.piramide-display { display:flex; flex-direction:column; align-items:center; gap:4px; margin:8px 0; }
-.piramide-fila { display:flex; gap:4px; }
-.piramide-fila .obj { width:42px; height:42px; background:linear-gradient(135deg, #fff5d8, #ffe6a3); border:2px solid var(--naranja); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:26px; box-shadow:0 3px 6px rgba(0,0,0,0.15); animation: objAparece 0.4s var(--ease-back) both; }
-@keyframes objAparece { from{opacity:0; transform:scale(0.5);} to{opacity:1; transform:scale(1);} }
-.piramide-fila .obj.oculto { background: #2a2a2a; color: transparent; border-color:#555; }
-.memo-respuesta { background: var(--crema); padding:10px; border-radius:12px; display:flex; flex-direction:column; gap:6px; align-items:center; margin:8px 0; border:2px dashed var(--morado); }
-.memo-respuesta-fila { display:flex; gap:4px; }
-.memo-respuesta-fila .slot { width:34px; height:34px; border:2px dashed var(--morado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; background:#fff; color: var(--morado); font-family:'Barlow',sans-serif; font-weight:900; }
-.memo-respuesta-fila .slot.lleno { border-style:solid; }
-.memo-opciones { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
-.memo-opcion { width:40px; height:40px; background:#fff; border:2px solid var(--azul); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; }
-.memo-opcion:hover { transform: translateY(-2px); box-shadow:0 6px 12px rgba(0,0,0,0.20); }
-.memo-opcion.usado { opacity:0.3; pointer-events:none; }
-
-/* === PARADA 2 · COOPERACIÓN · transporte del globo === */
-.rio-host { width:100%; height:220px; background: linear-gradient(180deg, #1e6b9a 0%, #2a8fc4 60%, #1e6b9a 100%); border:4px solid #fff; border-radius:24px; position:relative; overflow:hidden; }
-.rio-host::before, .rio-host::after { content:""; position:absolute; left:0; right:0; height:32px; background: repeating-linear-gradient(90deg, transparent 0 30px, rgba(255,255,255,0.4) 30px 36px, transparent 36px 60px); }
-.rio-host::before { top:8px; }
-.rio-host::after { bottom:8px; }
-.rio-camino { position:absolute; left:5%; right:5%; top:30%; bottom:30%; background: rgba(255,255,255,0.15); border:2px dashed rgba(255,255,255,0.50); border-radius:24px; }
-.rio-globo { position:absolute; width:54px; height:54px; left:8%; top:50%; transform: translateY(-50%); font-size:42px; cursor:grab; user-select:none; transition: filter 0.2s; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.30)); z-index:5; }
-.rio-globo:active { cursor:grabbing; }
-.rio-globo.error { filter: drop-shadow(0 0 8px var(--rojo)); animation: globoError 0.5s ease-in-out 2; }
-@keyframes globoError { 0%,100%{transform:translateY(-50%);} 25%{transform:translateY(-50%) translateX(-12px);} 75%{transform:translateY(-50%) translateX(12px);} }
-.rio-meta { position:absolute; right:3%; top:50%; transform: translateY(-50%); font-size:36px; }
-.rio-progress { width:100%; height:8px; background: #f1e5f3; border-radius:4px; overflow:hidden; margin-top:14px; border:2px solid var(--morado); }
-.rio-progress .barra { height:100%; background:var(--grad-aventura); width:0%; transition: width 0.3s; }
-
-/* === PARADA 3 · BOSQUE NÚMEROS === */
-.bosque-host { width:100%; height:240px; background: var(--grad-bosque); border:3px solid #1f3a26; border-radius:20px; position:relative; overflow:hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.40); }
-.bosque-host .arbol-decor { position:absolute; font-size:50px; opacity:0.85; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.50)); }
-.bosque-numero { position:absolute; width:60px; height:60px; background: var(--amarillo); border:3px solid var(--negro); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:32px; color:var(--negro); cursor:pointer; transition: opacity 0.3s, transform 0.3s; box-shadow: 0 6px 14px rgba(0,0,0,0.40); z-index:3; }
-.bosque-numero.hover-ok { box-shadow: 0 0 0 4px var(--verde), 0 6px 14px rgba(0,0,0,0.40); }
-.bosque-numero.escondido { opacity:0.20; background:#444; color: transparent; }
-.bosque-secuencia { display:flex; gap:8px; justify-content:center; margin-top:12px; }
-.bosque-secuencia .sec-slot { width:38px; height:38px; background:#fff; border:2.5px dashed var(--morado); border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:22px; color:var(--morado); }
-.bosque-secuencia .sec-slot.lleno { border-style:solid; background: var(--crema); }
-
-/* Teclado numérico de respuesta · Parada 3 */
-.teclado-numerico { display:grid; grid-template-columns: repeat(5, 1fr); gap:6px; max-width:380px; margin: 12px auto 0; }
-.teclado-numerico .tecla { background: var(--grad-aventura); color:#fff; border:0; border-radius:12px; padding:14px 0; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:26px; cursor:pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.25); transition: transform 0.15s, filter 0.15s; touch-action: manipulation; }
-.teclado-numerico .tecla:hover { filter: brightness(1.1); transform: translateY(-2px); }
-.teclado-numerico .tecla:active { filter: brightness(0.9); }
-.teclado-numerico .tecla:disabled { opacity:0.4; cursor:not-allowed; pointer-events:none; }
-@media (max-height: 720px) { .teclado-numerico { gap:4px; } .teclado-numerico .tecla { padding:10px 0; font-size:22px; } }
-
-/* === PARADA 4 · MOCHILA === */
-.mochila-grid { display:grid; grid-template-columns: 1fr 1fr; gap:20px; align-items:start; margin-top:8px; }
-.items-disponibles { background: var(--crema); border:2.5px solid var(--naranja); border-radius:18px; padding:14px; }
-.items-disponibles h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:14px; color:var(--rojo); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
-.items-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:8px; }
-.items-grid .item-pick { background:#fff; border:2.5px solid var(--morado); border-radius:12px; padding:8px 4px; font-size:30px; cursor:pointer; transition: transform 0.2s, opacity 0.2s; display:flex; flex-direction:column; align-items:center; gap:2px; }
-.items-grid .item-pick small { font-size:10px; font-weight:800; font-style:italic; color:var(--morado); }
-.items-grid .item-pick:hover { transform: translateY(-3px); }
-.items-grid .item-pick.usado { opacity:0.25; pointer-events:none; }
-.mochila-visual { background: linear-gradient(135deg, #6b421f 0%, #8a5a2e 50%, #6b421f 100%); border:4px solid #4a2e10; border-radius:18px 18px 28px 28px; padding:16px 12px; min-height:240px; position:relative; box-shadow: inset 0 6px 14px rgba(0,0,0,0.40); }
-.mochila-visual h3 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:14px; color:#fff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; text-align:center; text-shadow: 0 2px 4px rgba(0,0,0,0.40); }
-.mochila-visual .items-cogidos { display:grid; grid-template-columns: repeat(3,1fr); gap:6px; }
-.mochila-visual .item-cogido { background:#fff; border-radius:10px; padding:6px 4px; font-size:24px; text-align:center; display:flex; flex-direction:column; gap:2px; align-items:center; animation: mochilaIn 0.5s var(--ease-back) both; }
-.mochila-visual .item-cogido small { font-size:9px; font-weight:800; font-style:italic; color:var(--morado); }
-@keyframes mochilaIn { from{opacity:0; transform: scale(0.5);} to{opacity:1; transform:scale(1);} }
-.mochila-visual .contador { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: var(--amarillo); color: var(--negro); padding:4px 12px; border-radius:999px; font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:12px; }
-
-/* INSIGNIAS · contador en topbar y vista en mapa */
-.insignia-pill { display:flex; gap:4px; }
-.insignia-pill .ins-dot { width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid var(--morado); display:flex; align-items:center; justify-content:center; font-size:11px; }
-.insignia-pill .ins-dot.got { background:var(--amarillo); border-color:var(--naranja); }
-
-/* PANTALLA FINAL */
-#scene-final { background: var(--grad-aventura); position:relative; overflow:hidden; }
-.final-card { background:#fff; color:var(--negro); padding:32px 36px; border-radius:28px; box-shadow:0 30px 70px rgba(0,0,0,0.50); text-align:center; max-width:680px; z-index:3; position:relative; }
-.final-card h1 { font-family:'Barlow',sans-serif; font-weight:900; font-style:italic; font-size:42px; line-height:1.05; color:var(--morado); text-transform:uppercase; letter-spacing:-0.5px; margin-bottom:12px; }
-.final-card p { font-family:'Barlow',sans-serif; font-weight:700; font-style:italic; font-size:18px; color:var(--negro); line-height:1.4; }
-.final-avatar-mochila { display:flex; flex-direction:column; align-items:center; margin:14px 0; }
-.final-avatar-mochila img { width:200px; height:200px; object-fit:contain; filter: drop-shadow(0 14px 22px rgba(0,0,0,0.40)); }
-.final-insignias { display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap; }
-.final-insignias .ins { font-size:34px; animation: insBounce 0.7s var(--ease-back) both; }
-.final-insignias .ins:nth-child(2){animation-delay:0.2s;}
-.final-insignias .ins:nth-child(3){animation-delay:0.4s;}
-.final-insignias .ins:nth-child(4){animation-delay:0.6s;}
-@keyframes insBounce { from{opacity:0; transform:translateY(20px) scale(0.5);} to{opacity:1; transform:translateY(0) scale(1);} }
-
-.confetti { position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden; }
-.confetti .c { position:absolute; width:10px; height:10px; animation: confFall 3s linear infinite; }
-@keyframes confFall { 0%{top:-10%; transform:rotate(0); opacity:0;} 10%{opacity:1;} 100%{top:110%; transform:rotate(720deg); opacity:0;} }
-
-/* ===== MEDIA QUERY BASE · obligatoria para responsive en laptop 1366×720 ===== */
-@media (max-height: 760px) {
-  .scene { padding: 10px; }
-  .act-host { padding: 14px 18px; max-height: 90vh; }
-  .act-host h2 { font-size: 24px; margin-bottom: 4px; }
-  .act-host .lead { font-size: 13px; margin-bottom: 8px; line-height: 1.3; }
-  .btn { padding: 10px 22px; font-size: 15px; }
-  .btn.sm { padding: 7px 16px; font-size: 12px; }
-  .title { font-size: 36px; }
-  /* Portada */
-  .portada-img { max-height: 38vh; }
-  .portada-titulo { font-size: 32px; margin: 8px 0; }
-  .portada-narrativa { font-size: 13px; padding: 10px 16px; margin-bottom: 12px; }
-  /* Avatar */
-  .avatar-host h2 { font-size: 24px; }
-  .avatar-host p { font-size: 14px; margin-bottom: 14px; }
-  .avatar-card img { height: 180px; }
-  /* Mapa */
-  .mapa-host h2 { font-size: 22px; margin-bottom: 8px; }
-  .mapa-svg { height: min(48vh, 320px); }
-  /* NO sobreescribir .mapa-avatar-mini aquí · se gestiona en su propia media query */
-  /* Parada 1 */
-  .piramide-display { gap: 3px; margin: 4px 0; }
-  .piramide-fila .obj { width: 34px; height: 34px; font-size: 22px; }
-  .memo-respuesta { padding: 8px; margin: 6px 0; }
-  .memo-respuesta-fila .slot { width: 30px; height: 30px; font-size: 18px; }
-  .memo-opcion { width: 34px; height: 34px; font-size: 20px; }
-  /* Parada 2 */
-  .rio-host { height: 160px; }
-  /* Parada 3 */
-  .bosque-host { height: 180px; }
-  .bosque-numero { width: 48px; height: 48px; font-size: 26px; }
-  .bosque-secuencia .sec-slot { width: 32px; height: 32px; font-size: 18px; }
-  /* Parada 4 */
-  .items-disponibles, .mochila-visual { padding: 10px; }
-  .items-grid .item-pick { font-size: 24px; padding: 5px 2px; }
-  .mochila-visual { min-height: 200px; }
-  .mochila-visual .item-cogido { font-size: 20px; padding: 4px 2px; }
-  /* Final */
-  .final-card { padding: 22px 26px; }
-  .final-card h1 { font-size: 30px; }
-  .final-card p { font-size: 15px; }
-  .final-avatar-mochila img { width: 110px; height: 110px; }
-  .final-insignias .ins { font-size: 26px; }
-  /* Pegasusito fullscreen también */
-  .pega-protagonista { width: 240px; height: 240px; }
-  .historia-bocadillo-pro { padding: 22px 26px; }
-  .historia-bocadillo-pro h3 { font-size: 22px; margin-bottom: 12px; }
-  .historia-bocadillo-pro .texto-historia { font-size: 15px; min-height: 60px; margin-bottom: 16px; }
-}
-@media (max-height: 620px) {
-  .scene { padding: 6px; }
-  .act-host { padding: 10px 14px; }
-  .act-host h2 { font-size: 20px; }
-  .act-host .lead { font-size: 12px; margin-bottom: 4px; }
-  .piramide-fila .obj { width: 28px; height: 28px; font-size: 18px; }
-  .memo-opcion { width: 30px; height: 30px; font-size: 18px; }
-  .bosque-host { height: 130px; }
-  .rio-host { height: 120px; }
-  .mapa-svg { height: 200px; }
-  .pega-protagonista { width: 180px; height: 180px; }
-}
+@media (max-width:760px){.jugadores-grid{grid-template-columns:1fr} .piramide-zone,.colina-zone,.valle-zone{flex-direction:column;align-items:center}}
 </style>
 </head>
 <body>
 
-<!-- Árboles laterales (en lugar de palmeras) -->
-<svg class="arbol izq" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 100 320 L 95 200 L 105 200 L 100 320 Z" fill="#5a3a1c" stroke="#3a2410" stroke-width="2"/>
-  <ellipse cx="100" cy="180" rx="75" ry="70" fill="#2d5234"/>
-  <ellipse cx="60" cy="140" rx="40" ry="38" fill="#4a7c50"/>
-  <ellipse cx="140" cy="140" rx="40" ry="38" fill="#4a7c50"/>
-  <ellipse cx="100" cy="110" rx="50" ry="45" fill="#1f3a26"/>
-  <ellipse cx="90" cy="170" rx="55" ry="20" fill="#1f3a26" opacity="0.6"/>
-</svg>
-<svg class="arbol der" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 100 320 L 95 200 L 105 200 L 100 320 Z" fill="#5a3a1c" stroke="#3a2410" stroke-width="2"/>
-  <ellipse cx="100" cy="180" rx="75" ry="70" fill="#2d5234"/>
-  <ellipse cx="60" cy="140" rx="40" ry="38" fill="#4a7c50"/>
-  <ellipse cx="140" cy="140" rx="40" ry="38" fill="#4a7c50"/>
-  <ellipse cx="100" cy="110" rx="50" ry="45" fill="#1f3a26"/>
-  <ellipse cx="110" cy="170" rx="55" ry="20" fill="#1f3a26" opacity="0.6"/>
-</svg>
+<!-- AUDIO -->
+<audio id="narr-01" preload="auto" src="assets/audio/voz-narrador/narrador-01-bienvenida.mp3"></audio>
+<audio id="narr-02" preload="auto" src="assets/audio/voz-narrador/narrador-02-introduccion.mp3"></audio>
+<audio id="narr-03" preload="auto" src="assets/audio/voz-narrador/narrador-03-montana-intro.mp3"></audio>
+<audio id="narr-04" preload="auto" src="assets/audio/voz-narrador/narrador-04-montana-victoria.mp3"></audio>
+<audio id="narr-05" preload="auto" src="assets/audio/voz-narrador/narrador-05-rio-intro.mp3"></audio>
+<audio id="narr-06" preload="auto" src="assets/audio/voz-narrador/narrador-06-rio-victoria.mp3"></audio>
+<audio id="narr-07" preload="auto" src="assets/audio/voz-narrador/narrador-07-bosque-intro.mp3"></audio>
+<audio id="narr-08" preload="auto" src="assets/audio/voz-narrador/narrador-08-bosque-victoria.mp3"></audio>
+<audio id="narr-09" preload="auto" src="assets/audio/voz-narrador/narrador-09-colina-intro.mp3"></audio>
+<audio id="narr-10" preload="auto" src="assets/audio/voz-narrador/narrador-10-colina-victoria.mp3"></audio>
+<audio id="narr-11" preload="auto" src="assets/audio/voz-narrador/narrador-11-valle-intro.mp3"></audio>
+<audio id="narr-12" preload="auto" src="assets/audio/voz-narrador/narrador-12-valle-victoria.mp3"></audio>
+<audio id="narr-13" preload="auto" src="assets/audio/voz-narrador/narrador-13-celebracion.mp3"></audio>
+<audio id="narr-14" preload="auto" src="assets/audio/voz-narrador/narrador-14-cierre.mp3"></audio>
+<audio id="mus-explore" preload="auto" loop src="assets/audio/musica/musica-exploracion-loop.mp3"></audio>
+<audio id="mus-celebra" preload="auto" src="assets/audio/musica/musica-celebracion-final.mp3"></audio>
+<audio id="sfx-pisada" preload="auto" src="assets/audio/sound-fx/sfx-01-pisada.mp3"></audio>
+<audio id="sfx-chime" preload="auto" src="assets/audio/sound-fx/sfx-02-chime-insignia.mp3"></audio>
+<audio id="sfx-pop" preload="auto" src="assets/audio/sound-fx/sfx-03-pop-palabra.mp3"></audio>
+<audio id="sfx-splash" preload="auto" src="assets/audio/sound-fx/sfx-04-splash-agua.mp3"></audio>
+<audio id="sfx-click" preload="auto" src="assets/audio/sound-fx/sfx-05-click-numero.mp3"></audio>
+<audio id="sfx-confetti" preload="auto" src="assets/audio/sound-fx/sfx-06-confetti.mp3"></audio>
+<audio id="amb-pajaros" preload="auto" loop src="assets/audio/ambiente/ambiente-01-pajaros.wav"></audio>
+<audio id="amb-viento" preload="auto" loop src="assets/audio/ambiente/ambiente-02-viento.wav"></audio>
+<audio id="amb-rio" preload="auto" loop src="assets/audio/ambiente/ambiente-03-rio.wav"></audio>
 
-<!-- Branding Pegasus en TODAS las pantallas -->
-<a class="brand-logo" href="#">
-  <img src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
-</a>
+<a class="brand-logo" href="#"><img src="../../../assets/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus"></a>
 
 <div class="topbar">
-  <span class="badge" style="margin-left:auto;">🎒 Papás al Juego · Psicología</span>
-  <div class="right-grp">
-    <button class="btn ghost sm" id="btnMute" onclick="toggleMute()" title="Silenciar">🔊</button>
-    <span class="progress"><span id="insigniasContador">0</span> / 4 insignias</span>
-  </div>
-</div>
-
-<!-- Toast informativo -->
-<div class="info-toast hidden" id="infoToast">
-  <span class="info-ico">💡</span>
-  <span class="info-text" id="infoText"></span>
-</div>
-
-<!-- Pantalla Pegasusito fullscreen -->
-<div class="historia-fullscreen" id="historiaModal">
-  <div class="historia-stage">
-    <div class="pega-protagonista">
-      <img id="pegaProtaImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
-    </div>
-    <div class="historia-bocadillo-pro">
-      <h3 id="historiaTitulo">…</h3>
-      <div class="texto-historia" id="historiaTexto">…</div>
-      <div class="historia-cta-row">
-        <button class="btn warm" id="historiaCtaBtn" onclick="cerrarHistoria()">▶ ¡VAMOS!</button>
-      </div>
-    </div>
-  </div>
+  <span class="badge">🧭 Papás al Juego · Psicología</span>
+  <span class="progress" id="progress">0 / 5 insignias</span>
+  <button class="btn-mute" id="btnMute" onclick="toggleMute()" title="Silenciar audio">🔊</button>
 </div>
 
 <div id="stage">
 
-  <!-- ESCENA PORTADA con escenario como fondo cover -->
   <section class="scene active" id="scene-portada">
-    <div class="portada-card">
-      <h1 class="portada-titulo">El Gran Viaje<br><span class="accent">del Explorador</span></h1>
-      <div class="portada-narrativa">
-        Todo viaje comienza con un primer paso. A lo largo de este camino descubrirás habilidades, superarás desafíos y conseguirás insignias que te ayudarán a preparar tu mochila para la aventura que te espera.
-      </div>
-      <button class="btn warm" onclick="abrirEleccionAvatar()">▶ EMPEZAR LA AVENTURA</button>
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-04-colina-mochila.png');"></div>
+    <div class="scene-inner">
+      <h1 class="portada-titulo">El Gran Viaje<br>del Explorador</h1>
+      <div class="portada-cartel">📜 Papás al Juego · Psicología</div>
+      <p class="portada-texto">Todo viaje comienza con un primer paso. A lo largo de este camino descubriréis habilidades, superaréis desafíos y conseguiréis insignias para vuestra mochila.</p>
+      <button class="btn lg" onclick="entrarAvatares()">▶ COMENZAR LA EXPEDICIÓN</button>
     </div>
   </section>
 
-  <!-- ESCENA ELECCIÓN AVATAR -->
-  <section class="scene" id="scene-avatar">
-    <div class="avatar-host">
-      <h2>Elige tu Explorador</h2>
-      <p>Antes de comenzar tu viaje, elige al explorador o exploradora que te acompañará durante toda la aventura.</p>
-      <div class="avatar-grid">
-        <div class="avatar-card" id="avatarNino" onclick="elegirAvatar('nino')">
-          <img src="assets/avatar-nino.png" alt="Explorador">
-          <div class="name">Explorador</div>
+  <section class="scene" id="scene-avatares">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-04-colina-mochila.png');"></div>
+    <div class="scene-inner">
+      <div class="avatares-host">
+        <h2>🎒 Elegid vuestros exploradores</h2>
+        <p class="lead">Cada uno escoge su avatar. Os acompañará durante toda la aventura, y cada uno llevará su propia mochila con las insignias.</p>
+        <div class="jugadores-grid">
+          <div class="jugador-col">
+            <h3>Explorador 1</h3>
+            <div class="opciones-avatar">
+              <div class="opcion-avatar" data-jug="1" data-av="nino" onclick="elegirAv(1,'nino')"><img src="assets/avatares/avatar-nino.png" alt="Explorador"><span class="nombre-av">Explorador</span></div>
+              <div class="opcion-avatar" data-jug="1" data-av="nina" onclick="elegirAv(1,'nina')"><img src="assets/avatares/avatar-nina.png" alt="Exploradora"><span class="nombre-av">Exploradora</span></div>
+            </div>
+          </div>
+          <div class="jugador-col">
+            <h3>Explorador 2</h3>
+            <div class="opciones-avatar">
+              <div class="opcion-avatar" data-jug="2" data-av="nino" onclick="elegirAv(2,'nino')"><img src="assets/avatares/avatar-nino.png" alt="Explorador"><span class="nombre-av">Explorador</span></div>
+              <div class="opcion-avatar" data-jug="2" data-av="nina" onclick="elegirAv(2,'nina')"><img src="assets/avatares/avatar-nina.png" alt="Exploradora"><span class="nombre-av">Exploradora</span></div>
+            </div>
+          </div>
         </div>
-        <div class="avatar-card" id="avatarNina" onclick="elegirAvatar('nina')">
-          <img src="assets/avatar-nina.png" alt="Exploradora">
-          <div class="name">Exploradora</div>
-        </div>
+        <button class="btn lg" id="btnContinuarAv" disabled onclick="entrarMapa()">▶ ¡VAMOS A LA AVENTURA!</button>
       </div>
-      <button class="btn warm" id="btnAvatarConfirm" disabled style="margin-top:24px;" onclick="confirmarAvatar()">▶ ¡COMENZAR EL VIAJE!</button>
     </div>
   </section>
 
-  <!-- ESCENA MAPA -->
   <section class="scene" id="scene-mapa">
-    <div class="mapa-host">
-      <h2>Mapa del Viaje</h2>
-      <div class="mapa-svg-wrap">
-        <svg class="mapa-svg" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid meet">
-          <!-- Sendero amplio que cubre todo el ancho -->
-          <path class="sendero" d="M 230 360 Q 420 240 600 320 Q 820 410 1000 230 Q 1190 70 1370 170"/>
-          <!-- Parada 1 · MEMORIA -->
-          <g class="parada-g" data-i="0" onclick="abrirParada(0)" style="cursor:pointer;">
-            <circle class="parada-circle" cx="230" cy="360" r="92" fill="#974694"/>
-            <text class="parada-icono" x="230" y="380">⛰️</text>
-            <rect class="parada-label-bg" x="110" y="466" width="240" height="56" rx="28"/>
-            <text class="parada-label" x="230" y="504">MEMORIA</text>
-          </g>
-          <!-- Parada 2 · COOPERACIÓN -->
-          <g class="parada-g" data-i="1" onclick="abrirParada(1)" style="cursor:pointer;">
-            <circle class="parada-circle" cx="600" cy="320" r="92" fill="#007ec3"/>
-            <text class="parada-icono" x="600" y="340">🌊</text>
-            <rect class="parada-label-bg" x="460" y="426" width="280" height="56" rx="28"/>
-            <text class="parada-label" x="600" y="464">COOPERACIÓN</text>
-          </g>
-          <!-- Parada 3 · ATENCIÓN -->
-          <g class="parada-g" data-i="2" onclick="abrirParada(2)" style="cursor:pointer;">
-            <circle class="parada-circle" cx="1000" cy="230" r="92" fill="#08b75b"/>
-            <text class="parada-icono" x="1000" y="250">🌲</text>
-            <rect class="parada-label-bg" x="880" y="336" width="240" height="56" rx="28"/>
-            <text class="parada-label" x="1000" y="374">ATENCIÓN</text>
-          </g>
-          <!-- Parada 4 · MOCHILA -->
-          <g class="parada-g" data-i="3" onclick="abrirParada(3)" style="cursor:pointer;">
-            <circle class="parada-circle" cx="1370" cy="170" r="92" fill="#e45e9b"/>
-            <text class="parada-icono" x="1370" y="190">🎒</text>
-            <rect class="parada-label-bg" x="1250" y="276" width="240" height="56" rx="28"/>
-            <text class="parada-label" x="1370" y="314">MOCHILA</text>
-          </g>
-        </svg>
-        <div class="mapa-avatar-mini" id="mapaAvatar">
-          <img id="mapaAvatarImg" src="assets/avatar-nino.png" alt="Explorador">
+    <div class="scene-bg dim" style="background-image: url('assets/fondos/fondo-04-colina-mochila.png');"></div>
+    <div class="scene-inner">
+      <div class="mapa-host">
+        <div class="mapa-img-wrap">
+          <img src="assets/mapa/mapa-viaje.png" alt="Mapa del viaje">
+          <div class="mapa-zonas">
+            <button class="mapa-zona" style="left:18%; top:32%" id="z-montana" onclick="abrirParada('montana')" title="Montaña de los Recuerdos">1</button>
+            <button class="mapa-zona" style="left:38%; top:62%" id="z-rio" onclick="abrirParada('rio')" title="Río de la Cooperación">2</button>
+            <button class="mapa-zona" style="left:58%; top:32%" id="z-bosque" onclick="abrirParada('bosque')" title="Bosque de los Números">3</button>
+            <button class="mapa-zona" style="left:78%; top:50%" id="z-colina" onclick="abrirParada('colina')" title="Colina de la Mochila">4</button>
+            <button class="mapa-zona" style="left:62%; top:78%" id="z-valle" onclick="abrirParada('valle')" title="Valle de las Emociones">5</button>
+          </div>
         </div>
-      </div>
-      <p style="color:#fff; font-family:Barlow; font-style:italic; font-weight:700; font-size:14px; margin-top:14px; opacity:0.9;">
-        🎯 Cada parada te dará una insignia para tu mochila. Recórrelas en orden.
-      </p>
-    </div>
-  </section>
-
-  <!-- PARADA 1 · MONTAÑA DE LOS RECUERDOS · MEMORIZA -->
-  <section class="scene" id="scene-parada-0">
-    <div class="theme-rain" id="rainP0"></div>
-    <div class="act-host">
-      <h2>⛰️ Montaña de los Recuerdos</h2>
-      <div class="lead" id="leadP0">Memoriza la pirámide de objetos. Cuando desaparezca, recréala en orden.</div>
-      <div class="piramide-display" id="piramideDisplay"></div>
-      <div class="memo-respuesta" id="memoRespuesta" style="display:none;">
-        <div style="font-family:Barlow; font-weight:900; font-style:italic; font-size:12px; color:var(--morado); text-transform:uppercase;">Reconstruye la pirámide:</div>
-        <div id="memoSlots" style="display:flex; flex-direction:column; gap:4px; align-items:center;"></div>
-        <div class="memo-opciones" id="memoOpciones"></div>
-      </div>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap;">
-        <button class="btn warm" id="btnMemorizar" onclick="iniciarRespuestaMemo()">▶ YA LO HE MEMORIZADO</button>
-        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+        <div class="mochilas-equipo" id="mochilasEquipo"></div>
       </div>
     </div>
   </section>
 
-  <!-- PARADA 2 · RÍO COOPERACIÓN -->
-  <section class="scene" id="scene-parada-1">
-    <div class="theme-rain" id="rainP1"></div>
-    <div class="act-host">
-      <h2>🌊 Río de la Cooperación</h2>
-      <div class="lead">Transporta el 🎈 globo hasta el otro lado del río <b>sin salirte del camino marcado</b>. Arrastra el globo con el dedo o ratón.</div>
-      <div class="rio-host" id="rioHost">
-        <div class="rio-camino"></div>
-        <div class="rio-globo" id="rioGlobo">🎈</div>
-        <div class="rio-meta">🏁</div>
-      </div>
-      <div class="rio-progress"><div class="barra" id="rioBarra"></div></div>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;">
-        <button class="btn ghost sm" onclick="resetRio()">🔁 Reiniciar</button>
-        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARADA 3 · BOSQUE NÚMEROS PERDIDOS -->
-  <section class="scene" id="scene-parada-2">
-    <div class="theme-rain" id="rainP2"></div>
-    <div class="act-host">
-      <h2>🌲 Bosque de los Números Perdidos</h2>
-      <div class="lead" id="leadP2">Mira la secuencia de números que aparecen en el bosque. Luego pulsa los <b>botones de abajo</b> en el MISMO orden.</div>
-      <div class="bosque-host" id="bosqueHost"></div>
-      <div class="bosque-secuencia" id="bosqueSecuencia"></div>
-      <!-- Teclado numérico de respuesta -->
-      <div class="teclado-numerico" id="tecladoNumerico"></div>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
-        <button class="btn warm" id="btnVerSecuencia" onclick="mostrarSecuenciaBosque()">▶ VER SECUENCIA</button>
-        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARADA 4 · COLINA DE LA MOCHILA -->
-  <section class="scene" id="scene-parada-3">
-    <div class="theme-rain" id="rainP3"></div>
-    <div class="act-host" style="max-width:min(94vw, 940px);">
-      <h2>🎒 La Mochila que me llevo</h2>
-      <div class="lead">Toca <b>4 cosas</b> que quieras llevarte de este viaje. Pueden ser personas, recuerdos, fortalezas, lo que tú elijas.</div>
-      <div class="mochila-grid">
-        <div class="items-disponibles">
-          <h3>¿Qué te llevas?</h3>
-          <div class="items-grid" id="itemsGrid"></div>
+  <section class="scene" id="scene-montana">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-01-montana-recuerdos.jpeg');"></div>
+    <div class="scene-inner">
+      <div class="juego-host">
+        <h2>🗻 Montaña de los Recuerdos</h2>
+        <p class="lead">Vais a ver una pirámide con 10 objetos durante <b>45 segundos</b>. Después desaparecerá y tendréis que reconstruirla. <b>Pulsa OBSERVAR</b> cuando estéis listos.</p>
+        <div id="montana-fase-1" style="text-align:center;">
+          <button class="btn lg" onclick="iniciarMemoriaShow()">👁️ OBSERVAR PIRÁMIDE</button>
         </div>
-        <div class="mochila-visual">
-          <h3>🎒 Tu mochila</h3>
-          <div class="items-cogidos" id="itemsCogidos"></div>
-          <div class="contador"><span id="mochilaContador">0</span> / 4</div>
+        <div id="montana-fase-2" style="display:none;">
+          <div class="piramide-zone">
+            <div class="piramide-col">
+              <h4>👁️ Pirámide objetivo</h4>
+              <div class="piramide objetivo" id="piramide-objetivo"></div>
+              <div class="piramide-cuenta" id="piramide-cuenta">⏱️ 45s</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap;">
-        <button class="btn warm" id="btnMochilaLista" disabled onclick="ganarParada(3)">✓ MI MOCHILA ESTÁ LISTA</button>
-        <button class="btn ghost sm" onclick="go('mapa')">↩️ Volver al mapa</button>
+        <div id="montana-fase-3" style="display:none;">
+          <div class="piramide-zone">
+            <div class="piramide-col"><h4>🧠 Reconstruidla</h4><div class="piramide" id="piramide-juego"></div></div>
+            <div class="piramide-col"><h4>📦 Objetos</h4><div class="paleta-objetos" id="paleta-objetos"></div></div>
+          </div>
+          <div class="juego-cta" style="margin-top:8px;">
+            <button class="btn ghost sm" id="btnPistaMontana" onclick="pistaMontana()">💡 Ver objetivo (1 uso · 5s)</button>
+          </div>
+        </div>
+        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
       </div>
     </div>
   </section>
 
-  <!-- ESCENA FINAL -->
+  <section class="scene" id="scene-rio">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-02-rio-cooperacion.jpeg');"></div>
+    <div class="scene-inner">
+      <div class="juego-host">
+        <h2>💧 Río de la Cooperación</h2>
+        <p class="lead">Llevad el globo de un extremo a otro pulsando los <b>puntos del camino</b> en orden. Hay que cruzar <b>dos veces</b>: primero el <b style="color:#d6191b">globo rojo</b>, después el <b style="color:#007ec3">globo azul</b>.</p>
+        <div class="rio-zone">
+          <div class="rio-svg-wrap" id="rio-wrap">
+            <svg viewBox="0 0 720 280" preserveAspectRatio="none">
+              <rect width="720" height="280" fill="#d4ecff"/>
+              <path d="M 40 50 Q 180 50 200 130 Q 220 220 360 220 Q 500 220 520 130 Q 540 50 680 50" stroke="#4ba6e8" stroke-width="48" fill="none" stroke-linecap="round" opacity="0.85"/>
+              <path d="M 40 50 Q 180 50 200 130 Q 220 220 360 220 Q 500 220 520 130 Q 540 50 680 50" stroke="#a5d4ff" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+            </svg>
+            <div class="globo-rio" id="rio-globo" style="left: 5.5%; top: 18%;">🔴</div>
+          </div>
+          <div class="rio-rondas">
+            <div class="rio-ronda-pill" id="rio-pill-1">🔴 Globo rojo</div>
+            <div class="rio-ronda-pill" id="rio-pill-2">🔵 Globo azul</div>
+          </div>
+        </div>
+        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="scene-bosque">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-03-bosque-numeros.jpeg');"></div>
+    <div class="scene-inner">
+      <div class="juego-host">
+        <h2>🌳 Bosque de los Números Perdidos</h2>
+        <p class="lead">Os mostraremos una secuencia de <b>10 números</b> durante unos segundos. Después desaparecerá y tendréis que <b>reconstruirla en orden</b>. Pulsa MOSTRAR cuando estéis listos.</p>
+        <div id="bosque-fase-1" style="text-align:center;"><button class="btn lg" onclick="iniciarBosqueShow()">👁️ MOSTRAR SECUENCIA</button></div>
+        <div id="bosque-fase-2" style="display:none;" class="bosque-zone">
+          <div class="bosque-secuencia-mostrar" id="bosque-secuencia-mostrar"></div>
+          <div class="piramide-cuenta" id="bosque-cuenta">⏱️ 24s</div>
+        </div>
+        <div id="bosque-fase-3" style="display:none;" class="bosque-zone">
+          <div class="bosque-slots" id="bosque-slots"></div>
+          <div class="bosque-teclado" id="bosque-teclado"></div>
+          <div class="juego-cta" style="margin-top:6px;">
+            <button class="btn ghost sm" id="btnPistaBosque" onclick="pistaBosque()">💡 Ver secuencia (1 uso · 5s)</button>
+          </div>
+        </div>
+        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="scene-colina">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-04-colina-mochila.png');"></div>
+    <div class="scene-inner">
+      <div class="juego-host">
+        <h2>🏔️ Colina de la Mochila</h2>
+        <p class="lead">Pensad en lo que queréis <b>llevar con vosotros</b> en futuras aventuras. Elegid <b>6 pegatinas</b> de la paleta y colocadlas en vuestra mochila.</p>
+        <div class="colina-zone">
+          <div class="colina-mochila"><h4>🎒 Nuestra mochila</h4><div class="colina-mochila-grid" id="colina-mochila-grid"></div></div>
+          <div class="colina-mochila"><h4>✨ Pegatinas</h4><div class="colina-paleta" id="colina-paleta"></div></div>
+        </div>
+        <div class="juego-cta"><button class="btn" id="btnGanarColina" disabled onclick="ganarColina()">✓ MOCHILA LISTA</button></div>
+        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="scene-valle">
+    <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-05-valle-emociones.jpeg');"></div>
+    <div class="scene-inner">
+      <div class="juego-host">
+        <h2>🌸 Valle de las Emociones</h2>
+        <p class="lead">Buscad las emociones escondidas. <b>Tocad la primera letra y después la última</b>. Si forman una palabra de la lista, se marcará en verde. Hay que descubrir <b>al menos 6 de 10</b>.</p>
+        <div class="valle-zone">
+          <div class="sopa-grid" id="sopa-grid"></div>
+          <div class="valle-palabras" id="valle-palabras"></div>
+        </div>
+        <div class="valle-cuenta" id="valle-cuenta">0 / 10 emociones · objetivo: 6</div>
+        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
+      </div>
+    </div>
+  </section>
+
   <section class="scene" id="scene-final">
-    <div class="final-card">
-      <h1>¡Lo he conseguido!</h1>
-      <p>He completado mi viaje y ahora llevo conmigo todo lo que necesito para seguir explorando nuevos caminos.</p>
-      <div class="final-avatar-mochila">
-        <img id="finalAvatarImg" src="assets/avatar-nino.png" alt="Explorador">
-        <div class="final-insignias">
-          <span class="ins">🧠</span>
-          <span class="ins">🤝</span>
-          <span class="ins">🔢</span>
-          <span class="ins">💝</span>
-        </div>
+    <div class="scene-bg dim" style="background-image: url('assets/fondos/fondo-04-colina-mochila.png');"></div>
+    <div class="scene-inner">
+      <div class="final-avatares" id="final-avatares"></div>
+      <div class="final-card">
+        <h1>¡Habéis completado la expedición!</h1>
+        <p>Habéis compartido desafíos, colaborado para superar obstáculos y descubierto nuevas habilidades. Pero vuestra aventura no termina aquí: esto es solo el comienzo.</p>
+        <button class="btn lg" onclick="resetTodo()">🔁 OTRA AVENTURA</button>
       </div>
-      <p style="font-size:15px; font-style:italic; color:var(--gris-texto, #666); margin-top:8px;">
-        Cada aventura nos enseña algo nuevo. Tu viaje no termina aquí.<br><b>Esto es solo el comienzo.</b>
-      </p>
-      <button class="btn warm" style="margin-top:18px;" onclick="resetTodo()">🔁 OTRO VIAJE</button>
     </div>
   </section>
 
 </div>
 
+<div class="pega-modal" id="pegaModal">
+  <div class="pega-modal-bg"></div>
+  <div class="pega-modal-inner pega-fullscreen">
+    <div class="pega-foto" id="pegaFoto"><img id="pegaModalImg" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito"></div>
+    <div class="narrador-foto" id="narradorFoto">
+      <div class="narrador-icon">🎙️</div>
+      <div class="narrador-lbl">Escuchando<br>la historia</div>
+      <div class="narrador-ondas"><span></span><span></span><span></span></div>
+    </div>
+    <div class="pega-bocadillo">
+      <h3 id="pegaModalTitulo">…</h3>
+      <p id="pegaModalTexto">…</p>
+      <div class="cta-row"><button class="btn" id="pegaModalCta" onclick="cerrarPegaModal()">▶ CONTINUAR</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="info-toast hidden" id="infoToast"><span class="ico">💡</span><span id="infoText"></span></div>
 <div class="confetti" id="confetti"></div>
 
 <script>
-const PEGA_PATH = '../shared/pegasusito/';
-
-// ===== AUDIO =====
-const AC = window.AudioContext || window.webkitAudioContext;
-let ctx = null;
-function ensureCtx(){ if(!ctx) ctx = new AC(); return ctx; }
-function tone(freq, dur, type='sine', vol=0.18){
-  const c = ensureCtx();
-  const o = c.createOscillator(); const g = c.createGain();
-  o.type = type;
-  o.frequency.setValueAtTime(freq, c.currentTime);
-  g.gain.setValueAtTime(vol, c.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
-  o.connect(g); g.connect(c.destination);
-  o.start(c.currentTime); o.stop(c.currentTime + dur);
-}
-const snd = {
-  tap:   () => tone(660, 0.10, 'triangle'),
-  pop:   () => tone(880, 0.08, 'square', 0.15),
-  win:   () => { tone(660,0.10); setTimeout(()=>tone(880,0.10),100); setTimeout(()=>tone(1175,0.18),200); },
-  fanf:  () => { [523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,0.20,'square',0.15), i*120)); },
-  error: () => tone(140, 0.20, 'sawtooth', 0.18),
-  flip:  () => { tone(300,0.05,'square',0.10); setTimeout(()=>tone(220,0.06,'square',0.10),50); },
-  splash:() => { tone(800,0.05,'sine',0.15); setTimeout(()=>tone(400,0.10,'sine',0.10),50); }
+const audios = {
+  narrador: {
+    '01':document.getElementById('narr-01'),'02':document.getElementById('narr-02'),
+    '03':document.getElementById('narr-03'),'04':document.getElementById('narr-04'),
+    '05':document.getElementById('narr-05'),'06':document.getElementById('narr-06'),
+    '07':document.getElementById('narr-07'),'08':document.getElementById('narr-08'),
+    '09':document.getElementById('narr-09'),'10':document.getElementById('narr-10'),
+    '11':document.getElementById('narr-11'),'12':document.getElementById('narr-12'),
+    '13':document.getElementById('narr-13'),'14':document.getElementById('narr-14')
+  },
+  musica:{explore:document.getElementById('mus-explore'),celebra:document.getElementById('mus-celebra')},
+  sfx:{pisada:document.getElementById('sfx-pisada'),chime:document.getElementById('sfx-chime'),pop:document.getElementById('sfx-pop'),splash:document.getElementById('sfx-splash'),click:document.getElementById('sfx-click'),confetti:document.getElementById('sfx-confetti')},
+  ambiente:{pajaros:document.getElementById('amb-pajaros'),viento:document.getElementById('amb-viento'),rio:document.getElementById('amb-rio')}
 };
-let muted = false;
+Object.values(audios.narrador).forEach(a=>a.volume=1.0);
+audios.musica.explore.volume=0.10;
+audios.musica.celebra.volume=0.18;
+Object.values(audios.sfx).forEach(a=>a.volume=0.22);
+Object.values(audios.ambiente).forEach(a=>a.volume=0.08);
+
+let isMuted=false;
 function toggleMute(){
-  muted = !muted;
-  document.getElementById('btnMute').textContent = muted ? '🔇' : '🔊';
-  if (muted && ctx) ctx.suspend(); else if (ctx) ctx.resume();
+  isMuted=!isMuted;
+  [...Object.values(audios.narrador),...Object.values(audios.musica),...Object.values(audios.sfx),...Object.values(audios.ambiente)].forEach(a=>a.muted=isMuted);
+  document.getElementById('btnMute').textContent=isMuted?'🔇':'🔊';
 }
 
-// ===== ESTADO =====
-const state = {
-  avatar: null,             // 'nino' | 'nina'
-  insignias: [false, false, false, false],  // 4 paradas
-  paradaActual: null
+let narradorSonando=false;
+function reproducirNarrador(id,btn,onEnded){
+  narradorSonando=true;
+  if(btn){btn.disabled=true;btn.classList.add('locked');}
+  const a=audios.narrador[id];
+  if(!a){narradorSonando=false;if(btn){btn.disabled=false;btn.classList.remove('locked');}if(onEnded)onEnded();return;}
+  try{a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}
+  a.addEventListener('ended',()=>{
+    narradorSonando=false;
+    if(btn){btn.disabled=false;btn.classList.remove('locked');}
+    if(onEnded)onEnded();
+  },{once:true});
+}
+function pararAudiosNarrativa(){Object.values(audios.narrador).forEach(a=>{a.pause();a.currentTime=0;});narradorSonando=false;}
+function pararSFX(){Object.values(audios.sfx).forEach(a=>{a.pause();a.currentTime=0;});}
+
+let ambientesArrancados=false;
+function arrancarAmbientes(){
+  if(ambientesArrancados)return;ambientesArrancados=true;
+  try{audios.musica.explore.play().catch(()=>{})}catch(e){}
+  try{audios.ambiente.pajaros.play().catch(()=>{})}catch(e){}
+  try{audios.ambiente.viento.play().catch(()=>{})}catch(e){}
+}
+function pararAmbientes(){audios.musica.explore.pause();audios.ambiente.pajaros.pause();audios.ambiente.viento.pause();audios.ambiente.rio.pause();ambientesArrancados=false;}
+function ambienteRio(on){if(on){try{audios.ambiente.rio.play().catch(()=>{})}catch(e){}}else{audios.ambiente.rio.pause();audios.ambiente.rio.currentTime=0;}}
+
+const state={
+  avatares:{1:null,2:null},
+  insignias:{memoria:false,equipo:false,concentracion:false,crecimiento:false,emocional:false},
+  mem_seleccionado:null,mem_correctos:0,mem_show_timer:null,
+  rio_ronda:1,rio_paso:0,
+  bos_secuencia:[],bos_input:[],bos_show_timer:null,
+  col_pegatinas_sel:[],col_seleccionada:null,
+  val_grid:[],val_start:null,val_encontradas:new Set()
 };
 
-// Posiciones del avatar en el mapa según parada (índice 0-3)
-// Calculadas para que el centro del avatar coincida con cada parada del SVG (1600x500 viewBox)
-// Parada 1 cx=230  → 230/1600 ≈ 14% del ancho del SVG (que ocupa todo el wrap)
-// Parada 2 cx=600  → 600/1600 ≈ 37%
-// Parada 3 cx=1000 → 1000/1600 ≈ 62%
-// Parada 4 cx=1370 → 1370/1600 ≈ 86%
-// El avatar es 200x200 y queremos que su CENTRO coincida con la parada → restamos 100/wrap_ancho
-// Como wrap_ancho varía, usamos translate(-50%,-50%) en CSS
-const MAPA_AVATAR_POS = [
-  { left: '14%',  top: '72%' },
-  { left: '37%',  top: '64%' },
-  { left: '62%',  top: '46%' },
-  { left: '86%',  top: '34%' }
+const INSIGNIAS_DEF=[
+  {key:'memoria',img:'assets/insignias/insignia-01-memoria.png',nombre:'Memoria'},
+  {key:'equipo',img:'assets/insignias/insignia-02-trabajo-equipo.png',nombre:'Trabajo en Equipo'},
+  {key:'concentracion',img:'assets/insignias/insignia-03-concentracion.png',nombre:'Concentración'},
+  {key:'crecimiento',img:'assets/insignias/insignia-04-crecimiento.png',nombre:'Crecimiento Personal'},
+  {key:'emocional',img:'assets/insignias/insignia-05-inteligencia-emocional.png',nombre:'Inteligencia Emocional'}
 ];
 
-// ===== NAVEGACIÓN =====
-function go(id) {
-  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-  const t = document.getElementById('scene-' + id);
-  if (t) t.classList.add('active');
-  snd.tap();
-  const host = document.querySelector('#scene-' + id + ' .act-host');
-  if (host) { host.style.animation = 'none'; void host.offsetWidth; host.style.animation = ''; }
-  if (id === 'mapa') actualizarMapa();
-  if (id === 'parada-0') renderRain('rainP0', ['⛰️','🪨','🌿','🦅'], 16);
-  if (id === 'parada-1') renderRain('rainP1', ['💧','🐟','🪷','🌊'], 16);
-  if (id === 'parada-2') renderRain('rainP2', ['🌲','🌳','🍄','🦌'], 16);
-  if (id === 'parada-3') renderRain('rainP3', ['🎒','⭐','💝','🗺️'], 16);
+function go(id){
+  pararAudiosNarrativa();pararSFX();
+  if(id!=='rio')ambienteRio(false);
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+  const t=document.getElementById('scene-'+id);
+  if(t)t.classList.add('active');
 }
 
-// ===== PEGASUSITO PROTAGONISTA =====
-let pegaCallback = null;
-function setPegaPose(pose) {
-  const img = document.getElementById('pegaProtaImg');
-  if (img) img.src = PEGA_PATH + 'pegasusito-' + pose + '.png';
+function pegasusModalShow({tipo='pegasusito',titulo,texto,pose='saludando',cta='▶ CONTINUAR',narradorId=null,onContinuar=null}){
+  document.getElementById('pegaModalTitulo').textContent=titulo;
+  document.getElementById('pegaModalTexto').textContent=texto;
+  const modal=document.getElementById('pegaModal');
+  if(tipo==='narrador'||narradorId){modal.classList.add('modo-narrador');}
+  else{modal.classList.remove('modo-narrador');document.getElementById('pegaModalImg').src=`../../../01_pegasus-studio/casting/pegasusito/pegasusito-${pose}.png`;}
+  const btn=document.getElementById('pegaModalCta');
+  btn.textContent=cta;btn._callback=onContinuar;
+  modal.classList.add('show');
+  if(narradorId){reproducirNarrador(narradorId,btn);}
+  else{btn.disabled=false;btn.classList.remove('locked');}
 }
-function mostrarPantallaPegasusito({ titulo, texto, pose='saludando', cta='▶ CONTINUAR', onContinuar=null }) {
-  document.getElementById('historiaTitulo').textContent = titulo;
-  document.getElementById('historiaTexto').textContent = texto;
-  document.getElementById('historiaCtaBtn').textContent = cta;
-  setPegaPose(pose);
-  pegaCallback = onContinuar;
-  document.getElementById('historiaModal').classList.add('show');
-  snd.flip();
-}
-function cerrarHistoria() {
-  document.getElementById('historiaModal').classList.remove('show');
-  const cb = pegaCallback;
-  pegaCallback = null;
-  if (cb) cb();
-}
-
-// ===== TOAST =====
-let toastTimer = null;
-function toast(texto, duracion = 3000) {
-  const cont = document.getElementById('infoToast');
-  document.getElementById('infoText').textContent = texto;
-  cont.classList.remove('hidden');
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> cont.classList.add('hidden'), duracion);
+function cerrarPegaModal(){
+  const modal=document.getElementById('pegaModal');
+  modal.classList.remove('show');modal.classList.remove('modo-narrador');
+  pararAudiosNarrativa();
+  const btn=document.getElementById('pegaModalCta');
+  const cb=btn._callback;btn._callback=null;
+  if(cb)cb();
 }
 
-// ===== LLUVIA TEMÁTICA =====
-function renderRain(hostId, items, n=18) {
-  const host = document.getElementById(hostId);
-  if (!host) return;
-  host.innerHTML = '';
-  for (let i=0; i<n; i++) {
-    const el = document.createElement('div');
-    el.className = 'it';
-    el.textContent = items[i % items.length];
-    el.style.left = (Math.random()*100)+'%';
-    el.style.animationDelay = (Math.random()*2.5)+'s';
-    el.style.animationDuration = (2 + Math.random()*2)+'s';
-    el.style.fontSize = (32 + Math.random()*22)+'px';
-    host.appendChild(el);
+let toastTimer=null;
+function toast(t,d=3000){const c=document.getElementById('infoToast');document.getElementById('infoText').textContent=t;c.classList.remove('hidden');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>c.classList.add('hidden'),d);}
+
+function entrarAvatares(){
+  arrancarAmbientes();
+  pegasusModalShow({tipo:'narrador',titulo:'¡Comienza la expedición!',texto:'Todo viaje comienza con un primer paso. A lo largo del camino descubriréis habilidades, superaréis desafíos y conseguiréis insignias.',narradorId:'01',cta:'▶ ELEGIR EXPLORADORES',onContinuar:()=>go('avatares')});
+}
+
+function elegirAv(jug,av){
+  state.avatares[jug]=av;
+  document.querySelectorAll(`.opcion-avatar[data-jug="${jug}"]`).forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.opcion-avatar[data-jug="${jug}"][data-av="${av}"]`).classList.add('selected');
+  audios.sfx.click.play().catch(()=>{});
+  if(state.avatares[1]&&state.avatares[2])document.getElementById('btnContinuarAv').disabled=false;
+}
+
+function entrarMapa(){
+  pegasusModalShow({tipo:'narrador',titulo:'🗺️ El camino se abre',texto:'Ante vosotros se abre un camino lleno de desafíos. Cada parada os enseñará algo: memoria, cooperación, concentración, crecimiento y emociones. Podéis visitar las paradas en el orden que queráis.',narradorId:'02',cta:'▶ VER EL MAPA',onContinuar:()=>{go('mapa');pintarMochilas();}});
+}
+
+function pintarMochilas(){
+  const host=document.getElementById('mochilasEquipo');host.innerHTML='';
+  [1,2].forEach(jug=>{
+    const av=state.avatares[jug]||'nino';
+    const w=document.createElement('div');w.className='mochila-mini';
+    let s='<div class="mochila-mini-slots">';
+    INSIGNIAS_DEF.forEach(ins=>{const t=state.insignias[ins.key];s+=`<div class="mochila-mini-slot ${t?'tiene':''}" title="${ins.nombre}">${t?`<img src="${ins.img}" alt="${ins.nombre}">`:''}</div>`;});
+    s+='</div>';
+    w.innerHTML=`<div class="mochila-mini-avatar"><img src="assets/avatares/avatar-${av}.png" alt="Jugador ${jug}"></div>${s}`;
+    host.appendChild(w);
+  });
+  const c=Object.values(state.insignias).filter(v=>v).length;
+  document.getElementById('progress').textContent=c+' / 5 insignias';
+  const map={'z-montana':'memoria','z-rio':'equipo','z-bosque':'concentracion','z-colina':'crecimiento','z-valle':'emocional'};
+  Object.entries(map).forEach(([elId,insKey])=>{document.getElementById(elId).classList.toggle('ok',state.insignias[insKey]);});
+  if(c===5){
+    setTimeout(()=>{
+      pegasusModalShow({tipo:'narrador',titulo:'🎉 ¡Expedición completada!',texto:'Lo hemos conseguido. Hemos completado nuestra expedición y ahora llevamos con nosotros todo lo que necesitamos para seguir explorando nuevos caminos.',narradorId:'13',cta:'▶ PANTALLA FINAL',onContinuar:()=>mostrarFinal()});
+    },700);
   }
 }
 
-// ===== AVATAR =====
-function abrirEleccionAvatar() {
-  mostrarPantallaPegasusito({
-    titulo: '¿Listo para la aventura?',
-    texto: 'Antes de comenzar el viaje, elige al explorador o exploradora que te acompañará durante toda la aventura.',
-    pose: 'explorador',
-    cta: '▶ ELEGIR EXPLORADOR',
-    onContinuar: () => go('avatar')
-  });
-}
-function elegirAvatar(av) {
-  state.avatar = av;
-  document.getElementById('avatarNino').classList.toggle('selected', av === 'nino');
-  document.getElementById('avatarNina').classList.toggle('selected', av === 'nina');
-  document.getElementById('btnAvatarConfirm').disabled = false;
-  snd.pop();
-}
-function confirmarAvatar() {
-  if (!state.avatar) return;
-  // Actualizar avatar en mapa y final
-  const src = 'assets/avatar-' + state.avatar + '.png';
-  document.getElementById('mapaAvatarImg').src = src;
-  document.getElementById('finalAvatarImg').src = src;
-  mostrarPantallaPegasusito({
-    titulo: '¡Comienza la gran aventura!',
-    texto: 'Frente a ti se abre un camino lleno de desafíos. Durante el viaje conseguirás insignias especiales que guardarás en tu mochila. ¡Ponte la mochila y empecemos!',
-    pose: 'explorador',
-    cta: '▶ ¡VAMOS AL MAPA!',
-    onContinuar: () => go('mapa')
-  });
+function abrirParada(p){
+  if(p==='montana'&&state.insignias.memoria){toast('Ya conseguisteis esta insignia.');return;}
+  if(p==='rio'&&state.insignias.equipo){toast('Ya conseguisteis esta insignia.');return;}
+  if(p==='bosque'&&state.insignias.concentracion){toast('Ya conseguisteis esta insignia.');return;}
+  if(p==='colina'&&state.insignias.crecimiento){toast('Ya conseguisteis esta insignia.');return;}
+  if(p==='valle'&&state.insignias.emocional){toast('Ya conseguisteis esta insignia.');return;}
+  audios.sfx.pisada.play().catch(()=>{});
+  const pres={
+    montana:{narradorId:'03',cta:'▶ EMPEZAR',titulo:'🗻 Montaña de los Recuerdos',texto:'Habéis llegado a la Montaña de los Recuerdos. Uno observará la pirámide de objetos, después desaparecerá y tendréis que reconstruirla juntos.',juego:'montana'},
+    rio:{narradorId:'05',cta:'▶ EMPEZAR',titulo:'💧 Río de la Cooperación',texto:'Las aguas son profundas. Solo los exploradores que colaboran consiguen cruzarlas. Transportad los globos siguiendo el camino marcado.',juego:'rio'},
+    bosque:{narradorId:'07',cta:'▶ EMPEZAR',titulo:'🌳 Bosque de los Números Perdidos',texto:'Los guardianes del bosque os mostrarán una secuencia secreta durante unos segundos. Después desaparecerá. Tendréis que reconstruirla en el mismo orden.',juego:'bosque'},
+    colina:{narradorId:'09',cta:'▶ EMPEZAR',titulo:'🏔️ Colina de la Mochila',texto:'Mirad todo el camino que habéis recorrido. Ahora preparad vuestra mochila con las personas, fortalezas y aprendizajes que queréis llevar.',juego:'colina'},
+    valle:{narradorId:'11',cta:'▶ EMPEZAR',titulo:'🌸 Valle de las Emociones',texto:'Durante cualquier aventura aparecen emociones diferentes. Buscad las emociones escondidas en la sopa de letras. Hay que descubrir al menos seis.',juego:'valle'}
+  };
+  const pr=pres[p];
+  pegasusModalShow({tipo:'narrador',titulo:pr.titulo,texto:pr.texto,cta:pr.cta,narradorId:pr.narradorId,onContinuar:()=>entrarJuego(pr.juego)});
 }
 
-// ===== MAPA =====
-function actualizarMapa() {
-  document.querySelectorAll('.parada-g .parada-circle').forEach((c, i) => {
-    c.classList.toggle('completada', state.insignias[i]);
-    // Solo se desbloquea la siguiente sin completar
-    const debeLockear = !state.insignias[i] && i > 0 && !state.insignias[i-1];
-    c.classList.toggle('locked', debeLockear);
-  });
-  // Posicionar avatar en la siguiente parada no completada
-  const sig = state.insignias.findIndex(v => !v);
-  const idx = sig === -1 ? 3 : sig;
-  const pos = MAPA_AVATAR_POS[idx];
-  const av = document.getElementById('mapaAvatar');
-  av.style.left = pos.left;
-  av.style.top = pos.top;
-  // Contador insignias
-  document.getElementById('insigniasContador').textContent = state.insignias.filter(Boolean).length;
+function entrarJuego(j){
+  go(j);
+  if(j==='montana')montarMontana();
+  if(j==='rio')montarRio();
+  if(j==='bosque')montarBosque();
+  if(j==='colina')montarColina();
+  if(j==='valle')montarValle();
+}
+function volverMapa(){
+  if(state.mem_show_timer){clearInterval(state.mem_show_timer);state.mem_show_timer=null;}
+  if(state.bos_show_timer){clearInterval(state.bos_show_timer);state.bos_show_timer=null;}
+  go('mapa');pintarMochilas();
 }
 
-const PARADAS_INFO = [
-  {
-    titulo: '⛰️ Montaña de los Recuerdos',
-    historia: 'Los grandes exploradores observan con atención todo lo que encuentran en el camino. Mira la pirámide de objetos. Después tendrás que reconstruirla con tu memoria.',
-    pose: 'pensativo',
-    cta: '▶ A MEMORIZAR'
-  },
-  {
-    titulo: '🌊 Río de la Cooperación',
-    historia: 'Las aguas son profundas. Sólo los exploradores que colaboran pueden cruzar. Transporta el globo hasta el otro lado sin salir del camino. Un gran explorador nunca viaja solo.',
-    pose: 'trabajando',
-    cta: '▶ CRUZAR EL RÍO'
-  },
-  {
-    titulo: '🌲 Bosque de los Números Perdidos',
-    historia: 'Los guardianes del bosque te mostrarán una secuencia de números durante unos segundos. Después desaparecerán. Para seguir, tendrás que reproducir la secuencia exacta.',
-    pose: 'curioso',
-    cta: '▶ AL BOSQUE'
-  },
-  {
-    titulo: '🎒 La Colina de la Mochila',
-    historia: 'Has llegado al final del camino. Antes de continuar, piensa en lo que quieres llevarte de este viaje: personas, recuerdos, fortalezas, aprendizajes. Todo gran explorador guarda aquello que le ayuda a seguir adelante.',
-    pose: 'pensativo',
-    cta: '▶ PREPARAR MOCHILA'
-  }
+// MEMORIA
+const OBJETOS=[
+  {i:0,nom:'Brújula',img:'assets/objetos-piramide/objeto-01-brujula.png'},
+  {i:1,nom:'Linterna',img:'assets/objetos-piramide/objeto-02-linterna.png'},
+  {i:2,nom:'Cantimplora',img:'assets/objetos-piramide/objeto-03-cantimplora.png'},
+  {i:3,nom:'Mapa',img:'assets/objetos-piramide/objeto-04-mapa.png'},
+  {i:4,nom:'Prismáticos',img:'assets/objetos-piramide/objeto-05-prismaticos.png'},
+  {i:5,nom:'Cuerda',img:'assets/objetos-piramide/objeto-06-cuerda.png'},
+  {i:6,nom:'Llave',img:'assets/objetos-piramide/objeto-07-llave.png'},
+  {i:7,nom:'Gorra',img:'assets/objetos-piramide/objeto-08-gorra.png'},
+  {i:8,nom:'Cámara',img:'assets/objetos-piramide/objeto-09-camara.png'},
+  {i:9,nom:'Botiquín',img:'assets/objetos-piramide/objeto-10-botiquin.png'}
 ];
+let MEM_CONFIG=[];
 
-function abrirParada(i) {
-  // Comprobar orden secuencial
-  if (i > 0 && !state.insignias[i-1]) {
-    toast('Primero hay que completar la parada anterior.');
-    return;
-  }
-  if (state.insignias[i]) {
-    toast('Esta parada ya la has completado.');
-    return;
-  }
-  state.paradaActual = i;
-  const info = PARADAS_INFO[i];
-  mostrarPantallaPegasusito({
-    titulo: info.titulo,
-    texto: info.historia,
-    pose: info.pose,
-    cta: info.cta,
-    onContinuar: () => {
-      go('parada-' + i);
-      if (i === 0) montarMontana();
-      if (i === 1) montarRio();
-      if (i === 2) montarBosque();
-      if (i === 3) montarMochila();
+function montarMontana(){
+  MEM_CONFIG=shuffle([0,1,2,3,4,5,6,7,8,9].slice());
+  state.mem_seleccionado=null;state.mem_correctos=0;
+  pistaMontanaUsada=false;
+  const bp=document.getElementById('btnPistaMontana');if(bp){bp.disabled=false;bp.classList.remove('locked');}
+  document.getElementById('montana-fase-1').style.display='block';
+  document.getElementById('montana-fase-2').style.display='none';
+  document.getElementById('montana-fase-3').style.display='none';
+}
+function iniciarMemoriaShow(){
+  document.getElementById('montana-fase-1').style.display='none';
+  document.getElementById('montana-fase-2').style.display='block';
+  pintarPiramideObjetivo();
+  let s=45;
+  document.getElementById('piramide-cuenta').textContent=`⏱️ ${s}s`;
+  state.mem_show_timer=setInterval(()=>{
+    s--;
+    document.getElementById('piramide-cuenta').textContent=`⏱️ ${s}s`;
+    if(s<=0){
+      clearInterval(state.mem_show_timer);state.mem_show_timer=null;
+      document.getElementById('montana-fase-2').style.display='none';
+      document.getElementById('montana-fase-3').style.display='block';
+      pintarPiramideJuego();pintarPaletaObjetos();
     }
+  },1000);
+}
+function pintarPiramideObjetivo(){
+  const h=document.getElementById('piramide-objetivo');h.innerHTML='';
+  let idx=0;
+  [1,2,3,4].forEach(n=>{
+    const f=document.createElement('div');f.className='piramide-fila';
+    for(let k=0;k<n;k++){const s=document.createElement('div');s.className='piramide-slot objetivo';const o=OBJETOS[MEM_CONFIG[idx]];s.innerHTML=`<img src="${o.img}" alt="${o.nom}">`;f.appendChild(s);idx++;}
+    h.appendChild(f);
   });
 }
-
-// ===== GANAR PARADA =====
-function ganarParada(i) {
-  state.insignias[i] = true;
-  snd.fanf();
-  const mensajes = [
-    { tit: '¡Insignia de Memoria!', txt: 'Has reconstruido la pirámide. Tu memoria es tu primer tesoro.', pose:'celebrando', cta:'▶ A POR LA SIGUIENTE' },
-    { tit: '¡Insignia de Cooperación!', txt: 'Has cruzado el río juntos. Trabajar en equipo te ha llevado al otro lado.', pose:'celebrando', cta:'▶ AL BOSQUE' },
-    { tit: '¡Insignia de Atención!', txt: 'Has descifrado la secuencia secreta del bosque. Tu atención y tu memoria son tus aliadas.', pose:'celebrando', cta:'▶ A LA COLINA' },
-    { tit: '¡Insignia de Reflexión!', txt: 'Has preparado tu mochila con lo que de verdad importa. Estás listo para seguir explorando.', pose:'celebrando', cta:'▶ AL FINAL' }
-  ];
-  const m = mensajes[i];
-  setTimeout(()=> {
-    mostrarPantallaPegasusito({
-      titulo: m.tit, texto: m.txt, pose: m.pose, cta: m.cta,
-      onContinuar: () => {
-        if (i === 3) {
-          go('final');
-          launchConfetti();
-        } else {
-          go('mapa');
-        }
-      }
-    });
-  }, 600);
-}
-
-// ============================================================
-// PARADA 1 · MONTAÑA · MEMORIZA pirámide de objetos
-// ============================================================
-const OBJ_POOL = ['🌟','🍎','🔑','🦋','🌸','🐚','🎈','⚡','🍀','🌙','🔮','🎁'];
-let piramideObjetos = []; // los 6 a memorizar
-let memoSlotsArr = [];    // los del peque
-
-function generarPiramide() {
-  // 3 filas: 1 + 2 + 3 = 6 objetos
-  const shuffled = [...OBJ_POOL].sort(() => Math.random() - 0.5);
-  piramideObjetos = shuffled.slice(0, 6);
-}
-function pintarPiramide(visible) {
-  const host = document.getElementById('piramideDisplay');
-  host.innerHTML = '';
-  const filas = [[0], [1,2], [3,4,5]];
-  filas.forEach(fila => {
-    const f = document.createElement('div');
-    f.className = 'piramide-fila';
-    fila.forEach(idx => {
-      const o = document.createElement('div');
-      o.className = 'obj' + (visible ? '' : ' oculto');
-      o.textContent = visible ? piramideObjetos[idx] : '?';
-      f.appendChild(o);
-    });
-    host.appendChild(f);
+function pintarPiramideJuego(){
+  const h=document.getElementById('piramide-juego');h.innerHTML='';
+  let idx=0;
+  [1,2,3,4].forEach(n=>{
+    const f=document.createElement('div');f.className='piramide-fila';
+    for(let k=0;k<n;k++){const s=document.createElement('div');s.className='piramide-slot';s.dataset.idx=idx;s.onclick=()=>colocarEnSlot(parseInt(s.dataset.idx),s);f.appendChild(s);idx++;}
+    h.appendChild(f);
   });
 }
-function montarMontana() {
-  generarPiramide();
-  pintarPiramide(true);
-  document.getElementById('memoRespuesta').style.display = 'none';
-  document.getElementById('btnMemorizar').style.display = '';
-  document.getElementById('leadP0').innerHTML = '🧠 <b>Memoriza la pirámide</b>. Cuando creas que la tienes, pulsa el botón.';
-}
-function iniciarRespuestaMemo() {
-  pintarPiramide(false);
-  document.getElementById('memoRespuesta').style.display = 'flex';
-  document.getElementById('btnMemorizar').style.display = 'none';
-  document.getElementById('leadP0').innerHTML = '🎯 <b>Reconstruye la pirámide</b>. Toca cada objeto en el mismo orden que viste (de arriba abajo, de izquierda a derecha).';
-  // Slots
-  memoSlotsArr = Array(6).fill(null);
-  pintarSlots();
-  // Opciones (los 6 reales + 2 distractores mezclados)
-  const distractores = OBJ_POOL.filter(o => !piramideObjetos.includes(o)).slice(0,2);
-  const opciones = [...piramideObjetos, ...distractores].sort(() => Math.random() - 0.5);
-  const op = document.getElementById('memoOpciones');
-  op.innerHTML = '';
-  opciones.forEach(emoji => {
-    const b = document.createElement('div');
-    b.className = 'memo-opcion';
-    b.textContent = emoji;
-    b.onclick = () => elegirObjMemo(emoji, b);
-    op.appendChild(b);
+function pintarPaletaObjetos(){
+  const h=document.getElementById('paleta-objetos');h.innerHTML='';
+  const orden=shuffle([0,1,2,3,4,5,6,7,8,9].slice());
+  orden.forEach(idx=>{
+    const o=OBJETOS[idx];
+    const c=document.createElement('div');c.className='paleta-objeto';c.dataset.obj=idx;
+    c.innerHTML=`<img src="${o.img}" alt="${o.nom}">`;
+    c.onclick=()=>seleccionarObjeto(idx,c);
+    h.appendChild(c);
   });
 }
-function pintarSlots() {
-  const filas = [[0], [1,2], [3,4,5]];
-  const host = document.getElementById('memoSlots');
-  host.innerHTML = '';
-  filas.forEach(fila => {
-    const f = document.createElement('div');
-    f.className = 'memo-respuesta-fila';
-    fila.forEach(idx => {
-      const s = document.createElement('div');
-      s.className = 'slot' + (memoSlotsArr[idx] ? ' lleno' : '');
-      s.textContent = memoSlotsArr[idx] || (idx + 1);
-      f.appendChild(s);   // ← FIX: añadir a la fila, no al host
-    });
-    host.appendChild(f);
-  });
+function seleccionarObjeto(idx,card){
+  if(card.classList.contains('usado'))return;
+  state.mem_seleccionado=idx;
+  document.querySelectorAll('.paleta-objeto').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  audios.sfx.click.play().catch(()=>{});
 }
-function elegirObjMemo(emoji, btnEl) {
-  const idx = memoSlotsArr.findIndex(v => v === null);
-  if (idx === -1) return;
-  memoSlotsArr[idx] = emoji;
-  btnEl.classList.add('usado');
-  snd.pop();
-  pintarSlots();
-  // Si está completa, comprobar
-  if (memoSlotsArr.every(v => v !== null)) {
-    setTimeout(comprobarMemo, 400);
+function colocarEnSlot(slotIdx,slotEl){
+  if(state.mem_seleccionado===null){toast('Primero toca un objeto de la paleta.');return;}
+  if(slotEl.classList.contains('ok'))return;
+  const ok=MEM_CONFIG[slotIdx];
+  if(state.mem_seleccionado===ok){
+    const o=OBJETOS[ok];
+    slotEl.innerHTML=`<img src="${o.img}" alt="${o.nom}">`;
+    slotEl.classList.add('tiene','ok');
+    state.mem_correctos++;
+    audios.sfx.pop.play().catch(()=>{});
+    const p=document.querySelector(`.paleta-objeto[data-obj="${ok}"]`);
+    if(p){p.classList.add('usado');p.classList.remove('selected');}
+    state.mem_seleccionado=null;
+    if(state.mem_correctos===10){audios.sfx.chime.play().catch(()=>{});setTimeout(()=>ganarMontana(),1000);}
+  }else{
+    slotEl.classList.add('error');setTimeout(()=>slotEl.classList.remove('error'),600);
+    toast('No es el objeto correcto. Mira la pirámide objetivo de memoria.');
   }
 }
-function comprobarMemo() {
-  const correcto = piramideObjetos.every((v, i) => memoSlotsArr[i] === v);
-  if (correcto) {
-    ganarParada(0);
-  } else {
-    snd.error();
-    toast('❌ Casi. Vuelve a intentarlo.', 2500);
-    setTimeout(() => {
-      montarMontana(); // vuelve a empezar con nueva pirámide
-    }, 1500);
-  }
+function ganarMontana(){
+  state.insignias.memoria=true;
+  audios.sfx.chime.play().catch(()=>{});
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Memoria!',texto:'Nuestra memoria y nuestra capacidad para comunicarnos nos han ayudado a superar el desafío.',narradorId:'04',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
 }
 
-// ============================================================
-// PARADA 2 · RÍO · transportar el globo
-// ============================================================
-let rioPaso = 0;
-let rioDrag = false;
-const RIO_PASOS = 100;
-
-function montarRio() {
-  resetRio();
-  const host = document.getElementById('rioHost');
-  const globo = document.getElementById('rioGlobo');
-
-  function startDrag(e) {
-    rioDrag = true;
-    e.preventDefault();
-  }
-  function moveDrag(e) {
-    if (!rioDrag) return;
-    const rect = host.getBoundingClientRect();
-    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-    const camino = host.querySelector('.rio-camino').getBoundingClientRect();
-    const yMin = camino.top - rect.top;
-    const yMax = camino.bottom - rect.top;
-    // Si sale del camino vertical, error
-    if (y < yMin || y > yMax) {
-      globo.classList.add('error');
-      snd.error();
-      setTimeout(() => globo.classList.remove('error'), 500);
-      resetRio();
-      return;
-    }
-    const xPct = Math.max(8, Math.min(92, (x / rect.width) * 100));
-    globo.style.left = xPct + '%';
-    globo.style.top = ((y/rect.height)*100) + '%';
-    globo.style.transform = 'translateY(-50%) translateX(-50%)';
-    // Progreso
-    rioPaso = Math.max(0, xPct - 8) / (92 - 8) * 100;
-    document.getElementById('rioBarra').style.width = rioPaso + '%';
-    if (rioPaso >= 95) {
-      rioDrag = false;
-      snd.win();
-      ganarParada(1);
-    }
-  }
-  function endDrag(){ rioDrag = false; }
-
-  globo.onmousedown = startDrag;
-  globo.ontouchstart = startDrag;
-  document.onmousemove = moveDrag;
-  document.ontouchmove = moveDrag;
-  document.onmouseup = endDrag;
-  document.ontouchend = endDrag;
-}
-function resetRio() {
-  rioPaso = 0;
-  const globo = document.getElementById('rioGlobo');
-  if (globo) {
-    globo.style.left = '8%';
-    globo.style.top = '50%';
-    globo.style.transform = 'translateY(-50%)';
-  }
-  const barra = document.getElementById('rioBarra');
-  if (barra) barra.style.width = '0%';
-}
-
-// ============================================================
-// PARADA 3 · BOSQUE · secuencia de números
-// ============================================================
-const N_NUMEROS = 4;
-let bosqueSecuenciaArr = [];
-let bosqueRespuesta = [];
-let bosqueFaseRespuesta = false;
-
-function montarBosque() {
-  const host = document.getElementById('bosqueHost');
-  host.innerHTML = '';
-  // Árboles decorativos
-  const posArboles = [[8,15],[20,55],[35,20],[55,60],[75,30],[88,10]];
-  posArboles.forEach(([x,y]) => {
-    const t = document.createElement('span');
-    t.className = 'arbol-decor';
-    t.textContent = ['🌲','🌳'][Math.floor(Math.random()*2)];
-    t.style.left = x + '%'; t.style.top = y + '%';
-    host.appendChild(t);
-  });
-  // Generar secuencia aleatoria (4 números distintos del 1 al 9)
-  const numeros = [1,2,3,4,5,6,7,8,9].sort(()=>Math.random()-0.5).slice(0, N_NUMEROS);
-  bosqueSecuenciaArr = [...numeros];
-
-  // Pintar los 4 números en el bosque (escondidos al inicio)
-  const posNumeros = [[18,30],[38,55],[60,25],[80,55]];
-  numeros.forEach((n, i) => {
-    const el = document.createElement('div');
-    el.className = 'bosque-numero escondido';
-    el.dataset.n = n;
-    el.textContent = n;
-    el.style.left = posNumeros[i][0] + '%';
-    el.style.top = posNumeros[i][1] + '%';
-    host.appendChild(el);
-  });
-  bosqueRespuesta = [];
-  bosqueFaseRespuesta = false;
-  // Renderizar slots de respuesta (vacíos)
-  pintarSecuencia();
-  // Pintar teclado numérico (1-9) deshabilitado por ahora
-  pintarTecladoNumerico(false);
-  document.getElementById('btnVerSecuencia').style.display = '';
-  document.getElementById('leadP2').innerHTML = '🧠 Pulsa <b>VER SECUENCIA</b> para que los números aparezcan en orden en el bosque. Memorízalos.';
-}
-function pintarSecuencia() {
-  const host = document.getElementById('bosqueSecuencia');
-  host.innerHTML = '';
-  for (let i=0; i<N_NUMEROS; i++) {
-    const s = document.createElement('div');
-    s.className = 'sec-slot' + (bosqueRespuesta[i] !== undefined ? ' lleno' : '');
-    s.textContent = bosqueRespuesta[i] !== undefined ? bosqueRespuesta[i] : (i+1);
-    host.appendChild(s);
-  }
-}
-function pintarTecladoNumerico(activo) {
-  const host = document.getElementById('tecladoNumerico');
-  host.innerHTML = '';
-  for (let n=1; n<=9; n++) {
-    const b = document.createElement('button');
-    b.className = 'tecla';
-    b.textContent = n;
-    b.disabled = !activo;
-    b.onclick = () => pulsarTecla(n);
-    host.appendChild(b);
-  }
-}
-function mostrarSecuenciaBosque() {
-  document.getElementById('btnVerSecuencia').style.display = 'none';
-  const host = document.getElementById('bosqueHost');
-  let i = 0;
-  function ilumSig() {
-    if (i >= N_NUMEROS) {
-      // Tras mostrar todos, esconderlos otra vez y activar el teclado
-      setTimeout(() => {
-        host.querySelectorAll('.bosque-numero').forEach(el => el.classList.add('escondido'));
-        bosqueFaseRespuesta = true;
-        document.getElementById('leadP2').innerHTML = '🎯 Pulsa en el <b>teclado de abajo</b> los números en el MISMO orden que has visto.';
-        pintarTecladoNumerico(true);
-      }, 700);
-      return;
-    }
-    const n = bosqueSecuenciaArr[i];
-    const el = host.querySelector(`.bosque-numero[data-n="${n}"]`);
-    if (el) {
-      el.classList.remove('escondido');
-      el.classList.add('hover-ok');
-      snd.pop();
-      setTimeout(() => el.classList.remove('hover-ok'), 600);
-    }
-    i++;
-    setTimeout(ilumSig, 900);
-  }
-  ilumSig();
-}
-function pulsarTecla(n) {
-  if (!bosqueFaseRespuesta) return;
-  bosqueRespuesta.push(n);
-  pintarSecuencia();
-  snd.tap();
-  const idx = bosqueRespuesta.length - 1;
-  if (bosqueRespuesta[idx] !== bosqueSecuenciaArr[idx]) {
-    // Falla
-    snd.error();
-    toast('❌ Ese no era. La secuencia se vuelve a generar.', 2500);
-    bosqueFaseRespuesta = false;
-    setTimeout(() => { montarBosque(); }, 1800);
-    return;
-  }
-  if (bosqueRespuesta.length === N_NUMEROS) {
-    bosqueFaseRespuesta = false;
-    setTimeout(() => ganarParada(2), 400);
-  }
-}
-
-// ============================================================
-// PARADA 4 · MOCHILA
-// ============================================================
-const ITEMS_MOCHILA = [
-  { ico:'👨‍👩‍👧', lbl:'FAMILIA' },
-  { ico:'👫', lbl:'AMIGOS' },
-  { ico:'❤️', lbl:'AMOR' },
-  { ico:'🦁', lbl:'VALENTÍA' },
-  { ico:'🌱', lbl:'PACIENCIA' },
-  { ico:'🎨', lbl:'CREATIVIDAD' },
-  { ico:'😄', lbl:'HUMOR' },
-  { ico:'🧠', lbl:'CURIOSIDAD' },
-  { ico:'✨', lbl:'ILUSIÓN' }
+// RÍO
+const RIO_CHECKPOINTS=[
+  {x:5.5,y:18},{x:22,y:18},{x:30,y:46},{x:28,y:78},{x:50,y:78},{x:72,y:78},{x:75,y:46},{x:80,y:22},{x:94.5,y:18}
 ];
-let mochilaElegidos = [];
-
-function montarMochila() {
-  mochilaElegidos = [];
-  const grid = document.getElementById('itemsGrid');
-  grid.innerHTML = '';
-  ITEMS_MOCHILA.forEach((it, idx) => {
-    const b = document.createElement('div');
-    b.className = 'item-pick';
-    b.dataset.idx = idx;
-    b.innerHTML = `<span style="font-size:30px;">${it.ico}</span><small>${it.lbl}</small>`;
-    b.onclick = () => elegirItemMochila(idx, b);
-    grid.appendChild(b);
+function montarRio(){state.rio_ronda=1;state.rio_paso=0;pintarRio();}
+function pintarRio(){
+  const w=document.getElementById('rio-wrap');
+  w.querySelectorAll('.rio-checkpoint').forEach(el=>el.remove());
+  RIO_CHECKPOINTS.forEach((cp,i)=>{
+    if(i===0)return;
+    const el=document.createElement('div');el.className='rio-checkpoint';
+    el.style.left=cp.x+'%';el.style.top=cp.y+'%';
+    el.textContent=i;el.dataset.idx=i;
+    if(i===state.rio_paso+1)el.classList.add('activo');
+    else if(i<=state.rio_paso)el.classList.add('ok');
+    else el.classList.add('locked');
+    el.onclick=()=>rioClickCheckpoint(i);
+    w.appendChild(el);
   });
-  document.getElementById('itemsCogidos').innerHTML = '';
-  document.getElementById('mochilaContador').textContent = '0';
-  document.getElementById('btnMochilaLista').disabled = true;
+  const g=document.getElementById('rio-globo');
+  const cur=RIO_CHECKPOINTS[state.rio_paso];
+  g.style.left=cur.x+'%';g.style.top=cur.y+'%';
+  g.textContent=state.rio_ronda===1?'🔴':'🔵';
+  document.getElementById('rio-pill-1').className='rio-ronda-pill'+(state.rio_ronda===1?' actual':(state.rio_ronda>1?' ok':''));
+  document.getElementById('rio-pill-2').className='rio-ronda-pill'+(state.rio_ronda===2?' actual':(state.rio_ronda>2?' ok':''));
+  ambienteRio(true);
 }
-function elegirItemMochila(idx, btnEl) {
-  if (mochilaElegidos.length >= 4) {
-    toast('La mochila ya está completa. Pulsa LISTA cuando quieras.');
+function rioClickCheckpoint(idx){
+  if(idx!==state.rio_paso+1){toast('Tocad los puntos del camino en orden.');audios.sfx.click.play().catch(()=>{});return;}
+  audios.sfx.splash.play().catch(()=>{});
+  state.rio_paso=idx;pintarRio();
+  if(state.rio_paso===RIO_CHECKPOINTS.length-1){
+    setTimeout(()=>{
+      if(state.rio_ronda===1){state.rio_ronda=2;state.rio_paso=0;toast('¡Globo rojo a salvo! Ahora el globo azul.');pintarRio();}
+      else{ambienteRio(false);ganarRio();}
+    },600);
+  }
+}
+function ganarRio(){
+  state.insignias.equipo=true;audios.sfx.chime.play().catch(()=>{});
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Trabajo en Equipo!',texto:'Juntos hemos encontrado la manera de cruzar el río. La cooperación os ha hecho más fuertes.',narradorId:'06',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
+}
+
+// BOSQUE
+function montarBosque(){
+  state.bos_secuencia=shuffle([0,1,2,3,4,5,6,7,8,9].slice());
+  state.bos_input=[];
+  pistaBosqueUsada=false;
+  const bp=document.getElementById('btnPistaBosque');if(bp){bp.disabled=false;bp.classList.remove('locked');}
+  document.getElementById('bosque-fase-1').style.display='block';
+  document.getElementById('bosque-fase-2').style.display='none';
+  document.getElementById('bosque-fase-3').style.display='none';
+}
+function iniciarBosqueShow(){
+  document.getElementById('bosque-fase-1').style.display='none';
+  document.getElementById('bosque-fase-2').style.display='flex';
+  const h=document.getElementById('bosque-secuencia-mostrar');h.innerHTML='';
+  state.bos_secuencia.forEach(n=>{const d=document.createElement('div');d.className='bosque-num-show';d.textContent=n;h.appendChild(d);});
+  let s=24;
+  document.getElementById('bosque-cuenta').textContent=`⏱️ ${s}s`;
+  state.bos_show_timer=setInterval(()=>{
+    s--;
+    document.getElementById('bosque-cuenta').textContent=`⏱️ ${s}s`;
+    if(s<=0){
+      clearInterval(state.bos_show_timer);state.bos_show_timer=null;
+      document.getElementById('bosque-fase-2').style.display='none';
+      document.getElementById('bosque-fase-3').style.display='flex';
+      pintarBosqueSlotsTeclado();
+    }
+  },1000);
+}
+function pintarBosqueSlotsTeclado(){
+  const sl=document.getElementById('bosque-slots');sl.innerHTML='';
+  for(let i=0;i<10;i++){
+    const s=document.createElement('div');s.className='bosque-slot';s.dataset.idx=i;
+    if(i<state.bos_input.length){s.textContent=state.bos_input[i];s.classList.add('tiene');}
+    sl.appendChild(s);
+  }
+  const tec=document.getElementById('bosque-teclado');tec.innerHTML='';
+  for(let n=0;n<10;n++){
+    const b=document.createElement('button');b.className='bosque-tecla';b.textContent=n;
+    b.onclick=()=>bosqueInputNum(n);tec.appendChild(b);
+  }
+}
+function bosqueInputNum(n){
+  if(state.bos_input.length>=10)return;
+  state.bos_input.push(n);
+  audios.sfx.click.play().catch(()=>{});
+  pintarBosqueSlotsTeclado();
+  const i=state.bos_input.length-1;
+  if(state.bos_input[i]!==state.bos_secuencia[i]){
+    const sl=document.querySelectorAll('.bosque-slot')[i];if(sl)sl.classList.add('error');
+    toast('Hmm, ese número no era. Probad de nuevo.');
+    setTimeout(()=>{state.bos_input=[];pintarBosqueSlotsTeclado();},1000);
     return;
   }
-  if (mochilaElegidos.includes(idx)) return;
-  mochilaElegidos.push(idx);
-  btnEl.classList.add('usado');
-  snd.pop();
-  // Pintar en la mochila
-  const mochila = document.getElementById('itemsCogidos');
-  const it = ITEMS_MOCHILA[idx];
-  const div = document.createElement('div');
-  div.className = 'item-cogido';
-  div.innerHTML = `${it.ico}<small>${it.lbl}</small>`;
-  mochila.appendChild(div);
-  document.getElementById('mochilaContador').textContent = mochilaElegidos.length;
-  if (mochilaElegidos.length === 4) {
-    document.getElementById('btnMochilaLista').disabled = false;
-  }
+  if(state.bos_input.length===10){audios.sfx.chime.play().catch(()=>{});setTimeout(()=>ganarBosque(),800);}
+}
+function ganarBosque(){
+  state.insignias.concentracion=true;
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Concentración!',texto:'Vuestra atención y vuestra memoria os han ayudado a encontrar el camino correcto.',narradorId:'08',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
 }
 
-// ===== FINAL =====
-function launchConfetti() {
-  snd.fanf();
-  const host = document.getElementById('confetti');
-  host.innerHTML = '';
-  const cols = ['#f3d100','#ed7928','#e45e9b','#08b75b','#007ec3','#974694','#d6191b'];
-  for (let i=0; i<60; i++) {
-    const c = document.createElement('div');
-    c.className = 'c';
-    c.style.left = (Math.random()*100)+'%';
-    c.style.background = cols[i % cols.length];
-    c.style.animationDelay = (Math.random()*2)+'s';
-    c.style.animationDuration = (2 + Math.random()*2)+'s';
-    c.style.borderRadius = Math.random()>0.5 ? '50%' : '0';
-    host.appendChild(c);
+// COLINA
+const PEGATINAS=[
+  {ico:'👨‍👩‍👧‍👦',lbl:'Mi familia'},{ico:'👫',lbl:'Mis amigos'},{ico:'💪',lbl:'Valentía'},
+  {ico:'😊',lbl:'Alegría'},{ico:'🌟',lbl:'Perseverancia'},{ico:'💖',lbl:'Recuerdos'},
+  {ico:'🎓',lbl:'Aprender'},{ico:'🤝',lbl:'Ayudar'},{ico:'🌈',lbl:'Sueños'},
+  {ico:'🎨',lbl:'Crear'},{ico:'⚡',lbl:'Energía'},{ico:'🏆',lbl:'Logros'},
+  {ico:'🤔',lbl:'Curiosidad'},{ico:'🧘',lbl:'Calma'},{ico:'🌳',lbl:'Naturaleza'}
+];
+function montarColina(){
+  state.col_pegatinas_sel=[];state.col_seleccionada=null;
+  document.getElementById('btnGanarColina').disabled=true;
+  pintarColinaMochila();pintarColinaPaleta();
+}
+function pintarColinaMochila(){
+  const h=document.getElementById('colina-mochila-grid');h.innerHTML='';
+  for(let i=0;i<6;i++){
+    const s=document.createElement('div');s.className='colina-slot';s.dataset.idx=i;
+    if(state.col_pegatinas_sel[i]!==undefined){
+      const p=PEGATINAS[state.col_pegatinas_sel[i]];
+      s.classList.add('tiene');
+      s.innerHTML=`<span class="ico">${p.ico}</span><span class="lbl">${p.lbl}</span>`;
+    }else{s.innerHTML=`<span class="ico" style="opacity:.25">＋</span>`;}
+    s.onclick=()=>colinaClickSlot(i);
+    h.appendChild(s);
   }
-  setTimeout(()=>{ host.innerHTML=''; }, 6000);
+  const llenos=state.col_pegatinas_sel.filter(p=>p!==undefined).length;
+  document.getElementById('btnGanarColina').disabled=llenos<6;
+}
+function pintarColinaPaleta(){
+  const h=document.getElementById('colina-paleta');h.innerHTML='';
+  PEGATINAS.forEach((p,idx)=>{
+    const c=document.createElement('div');c.className='colina-pegatina';c.dataset.idx=idx;
+    if(state.col_pegatinas_sel.includes(idx))c.classList.add('usada');
+    if(state.col_seleccionada===idx)c.classList.add('selected');
+    c.innerHTML=`<div class="ico">${p.ico}</div><div class="lbl">${p.lbl}</div>`;
+    c.onclick=()=>colinaSeleccionarPegatina(idx);
+    h.appendChild(c);
+  });
+}
+function colinaSeleccionarPegatina(idx){
+  if(state.col_pegatinas_sel.includes(idx))return;
+  state.col_seleccionada=idx;pintarColinaPaleta();
+  audios.sfx.click.play().catch(()=>{});
+}
+function colinaClickSlot(slotIdx){
+  if(state.col_seleccionada===null){
+    if(state.col_pegatinas_sel[slotIdx]!==undefined){
+      state.col_pegatinas_sel[slotIdx]=undefined;pintarColinaMochila();pintarColinaPaleta();
+    }else{toast('Primero elige una pegatina.');}
+    return;
+  }
+  state.col_pegatinas_sel[slotIdx]=state.col_seleccionada;
+  state.col_seleccionada=null;
+  audios.sfx.pop.play().catch(()=>{});
+  pintarColinaMochila();pintarColinaPaleta();
+}
+function ganarColina(){
+  state.insignias.crecimiento=true;audios.sfx.chime.play().catch(()=>{});
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Crecimiento Personal!',texto:'Habéis preparado vuestra mochila con todo lo que de verdad importa.',narradorId:'10',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
 }
 
-function resetTodo() {
-  state.avatar = null;
-  state.insignias = [false, false, false, false];
-  state.paradaActual = null;
+// VALLE
+const VALLE_PALABRAS=[
+  {word:'ALEGRIA',row:1,col:1,dir:'H'},
+  {word:'TRISTEZA',row:2,col:3,dir:'V'},
+  {word:'CALMA',row:3,col:11,dir:'HR'},
+  {word:'MIEDO',row:5,col:1,dir:'D'},
+  {word:'SORPRESA',row:7,col:5,dir:'H'},
+  {word:'ORGULLO',row:8,col:7,dir:'V'},
+  {word:'NERVIOS',row:10,col:1,dir:'H'},
+  {word:'ILUSION',row:10,col:11,dir:'VR'},
+  {word:'GRATITUD',row:12,col:4,dir:'H'},
+  {word:'ESPERANZA',row:14,col:1,dir:'H'}
+];
+function montarValle(){
+  state.val_grid=generarValleGrid();
+  state.val_start=null;state.val_encontradas=new Set();
+  pintarSopa();pintarPalabrasLista();actualizarValleCuenta();
+}
+function generarValleGrid(){
+  const g=[];
+  for(let r=0;r<15;r++){const f=[];for(let c=0;c<15;c++)f.push('');g.push(f);}
+  VALLE_PALABRAS.forEach(p=>{
+    const ls=p.word.split('');
+    for(let i=0;i<ls.length;i++){
+      let r=p.row,c=p.col;
+      if(p.dir==='H')c=p.col+i;
+      if(p.dir==='V')r=p.row+i;
+      if(p.dir==='HR')c=p.col-i;
+      if(p.dir==='VR')r=p.row-i;
+      if(p.dir==='D'){r=p.row+i;c=p.col+i;}
+      if(r>=0&&r<15&&c>=0&&c<15)g[r][c]=ls[i];
+    }
+  });
+  const az='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for(let r=0;r<15;r++)for(let c=0;c<15;c++)if(g[r][c]==='')g[r][c]=az[Math.floor(Math.random()*az.length)];
+  return g;
+}
+function pintarSopa(){
+  const h=document.getElementById('sopa-grid');h.innerHTML='';
+  for(let r=0;r<15;r++)for(let c=0;c<15;c++){
+    const cell=document.createElement('div');cell.className='sopa-letra';cell.textContent=state.val_grid[r][c];
+    cell.dataset.r=r;cell.dataset.c=c;
+    cell.onclick=()=>sopaClick(r,c,cell);
+    h.appendChild(cell);
+  }
+}
+function sopaClick(r,c,cell){
+  if(state.val_start===null){state.val_start={r,c,cell};cell.classList.add('start');audios.sfx.click.play().catch(()=>{});return;}
+  const s=state.val_start;
+  const dr=Math.sign(r-s.r);const dc=Math.sign(c-s.c);
+  let len;
+  if(dr===0)len=Math.abs(c-s.c)+1;
+  else if(dc===0)len=Math.abs(r-s.r)+1;
+  else if(Math.abs(r-s.r)===Math.abs(c-s.c))len=Math.abs(r-s.r)+1;
+  else{s.cell.classList.remove('start');state.val_start=null;toast('Tiene que ser una línea recta (horizontal, vertical o diagonal).');return;}
+  let word='';const celdas=[];
+  for(let i=0;i<len;i++){
+    const rr=s.r+dr*i,cc=s.c+dc*i;
+    if(rr<0||rr>=15||cc<0||cc>=15){word='';break;}
+    word+=state.val_grid[rr][cc];celdas.push({r:rr,c:cc});
+  }
+  const pal=VALLE_PALABRAS.find(p=>p.word===word&&!state.val_encontradas.has(p.word));
+  s.cell.classList.remove('start');state.val_start=null;
+  if(pal){
+    audios.sfx.pop.play().catch(()=>{});
+    state.val_encontradas.add(word);
+    celdas.forEach(({r:rr,c:cc})=>{const el=document.querySelector(`.sopa-letra[data-r="${rr}"][data-c="${cc}"]`);if(el)el.classList.add('encontrada');});
+    pintarPalabrasLista();actualizarValleCuenta();
+    if(state.val_encontradas.size===6&&!state.insignias.emocional){
+      setTimeout(()=>{audios.sfx.chime.play().catch(()=>{});setTimeout(()=>ganarValle(),500);},800);
+    }
+  }else{toast('Esa no es ninguna de las emociones. Mira la lista de la derecha.');}
+}
+function pintarPalabrasLista(){
+  const h=document.getElementById('valle-palabras');h.innerHTML='<h4>🌸 Emociones</h4>';
+  VALLE_PALABRAS.forEach(p=>{const d=document.createElement('div');d.className='valle-palabra-item'+(state.val_encontradas.has(p.word)?' encontrada':'');d.textContent=p.word;h.appendChild(d);});
+}
+function actualizarValleCuenta(){document.getElementById('valle-cuenta').textContent=`${state.val_encontradas.size} / 10 emociones · objetivo: 6`;}
+function ganarValle(){
+  if(state.insignias.emocional)return;
+  state.insignias.emocional=true;
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Inteligencia Emocional!',texto:'Hemos descubierto muchas emociones durante nuestro viaje y todas nos ayudan a conocernos mejor.',narradorId:'12',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
+}
+
+// FINAL
+function mostrarFinal(){
+  audios.musica.explore.pause();
+  audios.musica.celebra.currentTime=0;
+  audios.musica.celebra.play().catch(()=>{});
+  const h=document.getElementById('final-avatares');h.innerHTML='';
+  [1,2].forEach(jug=>{
+    const av=state.avatares[jug]||'nino';
+    const col=document.createElement('div');col.className='final-avatar-col';
+    let m='<div class="final-mochila-mini">';
+    INSIGNIAS_DEF.forEach(ins=>{const t=state.insignias[ins.key];m+=`<div class="ins-img">${t?`<img src="${ins.img}" alt="${ins.nombre}">`:''}</div>`;});
+    m+='</div>';
+    col.innerHTML=`<img src="assets/avatares/avatar-${av}.png" alt="Explorador ${jug}">`+m;
+    h.appendChild(col);
+  });
+  go('final');launchConfetti();
+  setTimeout(()=>{
+    pegasusModalShow({tipo:'narrador',titulo:'¡Buen viaje, exploradores!',texto:'Cada aventura nos enseña algo nuevo. Ahora conocéis mejor vuestras fortalezas y todo lo que sois capaces de conseguir. Pero vuestra aventura no termina aquí: esto es solo el comienzo.',narradorId:'14',cta:'▶ CERRAR',onContinuar:()=>{}});
+  },2200);
+}
+function launchConfetti(){
+  audios.sfx.confetti.play().catch(()=>{});
+  const h=document.getElementById('confetti');h.innerHTML='';
+  const e=['🎒','🧭','🌟','✨','🎉','⭐','🗺️','🏔️'];
+  for(let i=0;i<70;i++){
+    const s=document.createElement('span');
+    s.textContent=e[Math.floor(Math.random()*e.length)];
+    s.style.left=(Math.random()*100)+'%';
+    s.style.animationDuration=(2+Math.random()*2)+'s';
+    s.style.animationDelay=(Math.random()*1)+'s';
+    s.style.fontSize=(18+Math.random()*22)+'px';
+    h.appendChild(s);
+  }
+  setTimeout(()=>h.innerHTML='',5000);
+}
+
+function resetTodo(){
+  Object.keys(state.insignias).forEach(k=>state.insignias[k]=false);
+  state.avatares={1:null,2:null};
+  state.mem_correctos=0;state.mem_seleccionado=null;
+  state.rio_ronda=1;state.rio_paso=0;
+  state.bos_input=[];
+  state.col_pegatinas_sel=[];state.col_seleccionada=null;
+  state.val_start=null;state.val_encontradas=new Set();
+  audios.musica.celebra.pause();audios.musica.celebra.currentTime=0;
+  pararAmbientes();
+  document.getElementById('progress').textContent='0 / 5 insignias';
+  document.querySelectorAll('.opcion-avatar').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('btnContinuarAv').disabled=true;
   go('portada');
 }
 
-// ===== UNLOCK AUDIO + BIENVENIDA =====
-document.addEventListener('pointerdown', () => ensureCtx(), { once:true, passive:true });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') resetTodo(); });
+// PISTAS · 1 uso por minijuego (chuleta · 5s)
+let pistaMontanaUsada=false,pistaBosqueUsada=false;
+function pistaMontana(){
+  if(pistaMontanaUsada)return;
+  pistaMontanaUsada=true;
+  const b=document.getElementById('btnPistaMontana');if(b){b.disabled=true;b.classList.add('locked');}
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:250;flex-direction:column;gap:14px;padding:20px;';
+  ov.innerHTML='<div style="color:#fff;font-family:Barlow;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:.5px;">💡 Pista · 5 segundos</div>';
+  const pir=document.createElement('div');pir.className='piramide objetivo';
+  let idx=0;
+  [1,2,3,4].forEach(n=>{
+    const f=document.createElement('div');f.className='piramide-fila';
+    for(let k=0;k<n;k++){const s=document.createElement('div');s.className='piramide-slot objetivo';const o=OBJETOS[MEM_CONFIG[idx]];s.innerHTML=`<img src="${o.img}" alt="${o.nom}">`;f.appendChild(s);idx++;}
+    pir.appendChild(f);
+  });
+  ov.appendChild(pir);
+  document.body.appendChild(ov);
+  setTimeout(()=>ov.remove(),5000);
+}
+function pistaBosque(){
+  if(pistaBosqueUsada)return;
+  pistaBosqueUsada=true;
+  const b=document.getElementById('btnPistaBosque');if(b){b.disabled=true;b.classList.add('locked');}
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:250;flex-direction:column;gap:14px;padding:20px;';
+  ov.innerHTML='<div style="color:#fff;font-family:Barlow;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:.5px;">💡 Pista · 5 segundos</div>';
+  const seq=document.createElement('div');seq.className='bosque-secuencia-mostrar';seq.style.background='transparent';seq.style.border='none';
+  state.bos_secuencia.forEach(n=>{const d=document.createElement('div');d.className='bosque-num-show';d.textContent=n;seq.appendChild(d);});
+  ov.appendChild(seq);
+  document.body.appendChild(ov);
+  setTimeout(()=>ov.remove(),5000);
+}
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    mostrarPantallaPegasusito({
-      titulo: '¡Hola explorador!',
-      texto: 'Soy Pegasusito y voy a acompañaros en este Gran Viaje. Vamos a recorrer un camino lleno de retos donde conseguiréis insignias para vuestra mochila. ¿Estáis listos?',
-      pose: 'explorador',
-      cta: '▶ ¡VAMOS ALLÁ!'
-    });
-  }, 500);
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+
+// ATAJOS TESTING
+document.addEventListener('keydown',(e)=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  const k=e.key.toLowerCase();
+  const esc={'1':'portada','2':'avatares','3':'mapa','4':'montana','5':'rio','6':'bosque','7':'colina','8':'valle','9':'final'};
+  if(esc[k]){
+    e.preventDefault();
+    if(!state.avatares[1])state.avatares[1]='nino';
+    if(!state.avatares[2])state.avatares[2]='nina';
+    document.getElementById('pegaModal').classList.remove('show');
+    pararAudiosNarrativa();
+    const t=esc[k];
+    if(t==='mapa'){go('mapa');pintarMochilas();return;}
+    if(t==='montana'){go('montana');montarMontana();return;}
+    if(t==='rio'){go('rio');montarRio();return;}
+    if(t==='bosque'){go('bosque');montarBosque();return;}
+    if(t==='colina'){go('colina');montarColina();return;}
+    if(t==='valle'){go('valle');montarValle();return;}
+    if(t==='final'){Object.keys(state.insignias).forEach(kk=>state.insignias[kk]=true);mostrarFinal();return;}
+    go(t);
+  }
+  if(k==='s'){const p=Object.values(audios.narrador).find(a=>!a.paused);if(p)p.currentTime=p.duration||999;}
 });
+
+document.addEventListener('DOMContentLoaded',()=>pintarMochilas());
 </script>
 </body>
 </html>
