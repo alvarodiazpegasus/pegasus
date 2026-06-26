@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formación Claude · Equipo MAED-CAM · Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #08B75B; --azul: #007EC3; --morado: #974694; --rosa: #E45E9B;
+  --rojo: #D6191B; --amarillo: #F3D100; --naranja: #ED7928;
+  --negro: #111111; --blanco: #FFFFFF;
+  --gris: #F7F7F8; --gris2: #ECECEE; --gris3: #6B6F76; --gris4: #999;
+  --grad: linear-gradient(90deg, #08B75B, #007EC3, #974694, #E45E9B, #D6191B, #ED7928, #F3D100);
+  --grad-diag: linear-gradient(135deg, #08B75B 0%, #007EC3 25%, #974694 50%, #E45E9B 75%, #ED7928 100%);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Barlow', -apple-system, sans-serif; background: var(--gris); color: var(--negro); overflow-x: hidden; line-height: 1.55; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* NAV COMPACTO */
+nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gris2); }
+.nav-bar { height: 4px; background: var(--grad); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; height: 48px; }
+.nav-brand { font-size: 0.78rem; font-weight: 700; color: var(--negro); letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+.nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grad-diag); }
+.nav-tabs { display: flex; gap: 2px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab { padding: 6px 11px; border-radius: 100px; font-size: 0.74rem; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--gris3); font-family: 'Barlow', sans-serif; transition: all 0.15s; white-space: nowrap; }
+.nav-tab:hover { background: var(--gris2); color: var(--negro); }
+.nav-tab.active { background: var(--negro); color: var(--blanco); }
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; border: none; background: transparent; }
+.hamburger span { display: block; width: 20px; height: 2px; background: var(--negro); border-radius: 2px; transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; z-index: 199; background: var(--blanco); border-bottom: 1px solid var(--gris2); padding: 10px 16px; flex-direction: column; gap: 2px; max-height: calc(100vh - 52px); overflow-y: auto; }
+.mobile-menu.open { display: flex; }
+.mobile-tab { padding: 10px 14px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--gris3); font-family: 'Barlow', sans-serif; text-align: left; }
+.mobile-tab.active { background: var(--negro); color: var(--blanco); }
+
+/* HERO COMPACTO */
+.hero { padding: 40px 20px 30px; background: var(--negro); position: relative; overflow: hidden; }
+.hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-blob { position: absolute; right: -120px; top: -80px; width: 360px; height: 360px; border-radius: 50%; background: var(--grad-diag); opacity: 0.12; filter: blur(20px); }
+.hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+.hero h1 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 700; font-style: italic; line-height: 1.1; color: var(--blanco); margin-bottom: 8px; }
+.hero-sub { font-size: 0.92rem; color: rgba(255,255,255,0.65); max-width: 620px; line-height: 1.55; }
+
+/* MAIN CONTENT */
+main { max-width: 1000px; margin: 0 auto; padding: 36px 20px 80px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECCIONES */
+.seccion { margin-bottom: 48px; }
+.seccion-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gris4); margin-bottom: 8px; }
+.seccion h2 { font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin-bottom: 18px; color: var(--negro); }
+.seccion h2 .grad-text { font-style: italic; }
+.seccion-intro { font-size: 1rem; color: var(--gris3); margin-bottom: 22px; max-width: 720px; line-height: 1.7; }
+
+/* CARD */
+.card { background: var(--blanco); border-radius: 14px; padding: 22px 24px; border: 1px solid var(--gris2); margin-bottom: 16px; }
+.card-grad { position: relative; }
+.card-grad::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 2px; background: var(--grad-diag); }
+.card-grad { padding-left: 30px; }
+.card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--negro); }
+.card p { color: #333; margin-bottom: 10px; }
+.card p:last-child { margin-bottom: 0; }
+.card ul, .card ol { padding-left: 22px; margin: 10px 0; }
+.card ul li, .card ol li { margin-bottom: 6px; color: #333; }
+.card code { background: var(--gris); padding: 2px 7px; border-radius: 5px; font-size: 0.88em; font-family: 'SF Mono', Consolas, monospace; color: var(--morado); font-weight: 600; }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 760px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* MINI-CARD */
+.mini { background: var(--blanco); border-radius: 12px; padding: 18px; border: 1px solid var(--gris2); }
+.mini-icon { font-size: 1.4rem; margin-bottom: 8px; }
+.mini h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; color: var(--negro); }
+.mini p { font-size: 0.85rem; color: var(--gris3); }
+
+/* CALLOUT */
+.callout { padding: 16px 20px; border-radius: 12px; margin-bottom: 16px; font-size: 0.94rem; line-height: 1.6; }
+.callout strong { font-weight: 700; }
+.cal-verde { background: #E8F8EF; border-left: 4px solid var(--verde); color: #064D2A; }
+.cal-azul { background: #E5F2FB; border-left: 4px solid var(--azul); color: #0A4570; }
+.cal-morado { background: #F1E8F1; border-left: 4px solid var(--morado); color: #5C2A5A; }
+.cal-amarillo { background: #FEF5D8; border-left: 4px solid var(--amarillo); color: #6B5400; }
+.cal-rojo { background: #FBE6E7; border-left: 4px solid var(--rojo); color: #821112; }
+.cal-naranja { background: #FDEEDE; border-left: 4px solid var(--naranja); color: #7A3D11; }
+
+/* DETAILS / DESPLEGABLES */
+details { background: var(--blanco); border: 1px solid var(--gris2); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+details[open] { border-color: #d0d2d8; }
+summary { cursor: pointer; padding: 14px 20px; font-weight: 600; font-size: 0.96rem; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; color: var(--negro); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-size: 1.4rem; font-weight: 400; color: var(--gris3); transition: transform 0.2s; }
+details[open] summary::after { transform: rotate(45deg); }
+summary:hover { background: var(--gris); }
+details > div, details > p, details > ol, details > ul { padding: 0 20px 18px; color: #333; }
+details ol, details ul { padding-left: 38px; }
+details li { margin-bottom: 6px; }
+details code { background: var(--gris); padding: 2px 7px; border-radius: 5px; font-size: 0.88em; font-family: 'SF Mono', Consolas, monospace; color: var(--morado); font-weight: 600; }
+
+/* PASOS */
+.pasos { counter-reset: paso; }
+.paso { counter-increment: paso; position: relative; padding-left: 50px; margin-bottom: 16px; }
+.paso::before { content: counter(paso); position: absolute; left: 0; top: 0; width: 34px; height: 34px; background: var(--negro); color: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.92rem; }
+.paso h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.paso p { color: #333; margin: 0; font-size: 0.95rem; }
+.paso .click { display: inline-block; background: var(--negro); color: var(--blanco); padding: 2px 8px; border-radius: 5px; font-size: 0.82em; font-weight: 600; }
+
+/* TABLA */
+.tabla { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92rem; background: var(--blanco); border-radius: 12px; overflow: hidden; border: 1px solid var(--gris2); }
+.tabla th { background: var(--negro); color: var(--blanco); text-align: left; padding: 10px 14px; font-weight: 700; font-size: 0.86rem; letter-spacing: 0.04em; }
+.tabla td { padding: 10px 14px; border-top: 1px solid var(--gris2); color: #333; }
+.tabla tr:nth-child(even) td { background: #FAFAFB; }
+
+/* MAL/BIEN */
+.malbien { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+@media (max-width: 720px) { .malbien { grid-template-columns: 1fr; } }
+.mal, .bien { padding: 14px 18px; border-radius: 10px; font-size: 0.92rem; line-height: 1.5; }
+.mal { background: #FBE6E7; border-left: 3px solid var(--rojo); }
+.bien { background: #E8F8EF; border-left: 3px solid var(--verde); }
+.mal::before { content: '❌ '; font-weight: 700; }
+.bien::before { content: '✅ '; font-weight: 700; }
+
+/* DISPARADOR */
+.disparador { display: flex; gap: 14px; align-items: flex-start; padding: 14px 18px; background: var(--blanco); border: 1px solid var(--gris2); border-radius: 10px; margin-bottom: 8px; }
+.disparador code { background: var(--negro); color: var(--blanco); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-family: 'SF Mono', Consolas, monospace; font-size: 0.82rem; flex-shrink: 0; white-space: nowrap; }
+.disparador .descripcion { color: #333; font-size: 0.92rem; }
+
+/* FOOTER */
+footer { background: var(--negro); color: var(--blanco); padding: 36px 20px 30px; text-align: center; }
+footer .lema { font-style: italic; font-size: 1.1rem; color: var(--amarillo); margin-bottom: 8px; }
+footer .info { font-size: 0.82rem; color: rgba(255,255,255,0.45); }
+.footer-bar { height: 4px; background: var(--grad); }
+
+@media (max-width: 880px) {
+  .nav-tabs { display: none; }
+  .hamburger { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-bar"></div>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand"><span class="dot"></span> Formación Claude · MAED-CAM</a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('claude')">🧠 Claude</button>
+      <button class="nav-tab" onclick="showTab('workspace')">🗂️ Workspace</button>
+      <button class="nav-tab" onclick="showTab('gobernanza')">🤝 Gobernanza</button>
+      <button class="nav-tab" onclick="showTab('sesion')">📝 Sesión</button>
+      <button class="nav-tab" onclick="showTab('hablarle')">💬 Hablarle</button>
+      <button class="nav-tab" onclick="showTab('skills')">🛠️ Skills</button>
+      <button class="nav-tab" disabled style="opacity:0.4;cursor:not-allowed;" title="En pausa — la activaremos más adelante">🔒 Design</button>
+      <button class="nav-tab" onclick="showTab('rgpd')">🔒 RGPD</button>
+      <button class="nav-tab" onclick="showTab('glosario')">📚 Glosario</button>
+      <button class="nav-tab" onclick="showTab('configurar')">🔧 Configurar</button>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-tab active" onclick="showTab('claude')">🧠 Claude</button>
+  <button class="mobile-tab" onclick="showTab('workspace')">🗂️ Workspace</button>
+  <button class="mobile-tab" onclick="showTab('gobernanza')">🤝 Gobernanza</button>
+  <button class="mobile-tab" onclick="showTab('sesion')">📝 Sesión</button>
+  <button class="mobile-tab" onclick="showTab('hablarle')">💬 Hablarle</button>
+  <button class="mobile-tab" onclick="showTab('skills')">🛠️ Skills</button>
+  <button class="mobile-tab" disabled style="opacity:0.4;cursor:not-allowed;" title="En pausa — la activaremos más adelante">🔒 Design</button>
+  <button class="mobile-tab" onclick="showTab('rgpd')">🔒 RGPD</button>
+  <button class="mobile-tab" onclick="showTab('glosario')">📚 Glosario</button>
+  <button class="mobile-tab" onclick="showTab('configurar')">🔧 Configurar</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Formación viernes · 26 jun 2026</div>
+    <h1>Cómo trabajamos con <span class="grad-text">Claude</span> en el MAED-CAM</h1>
+    <p class="hero-sub">Guía operativa para todo el equipo. No hace falta saber nada técnico. Aquí está cómo se usa Claude en el día a día del proyecto, dónde vive cada cosa en la nube, y cómo nos coordinamos sin pisarnos.</p>
+  </div>
+</section>
+
+<main>
+
+<!-- ====================== CLAUDE ====================== -->
+<div id="tab-claude" class="tab-content active">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">¿Qué es?</div>
+    <h2>Claude es <span class="grad-text">tu colaborador</span>, no Google ni ChatGPT.</h2>
+    <p class="seccion-intro">Claude es una inteligencia artificial conversacional que entiende lo que le pides y trabaja contigo. La diferencia con Google: Google busca información que ya existe. Claude la lee, la entiende, la conecta con la tuya, y te entrega un trabajo hecho. Es como tener un becario muy capaz que nunca duerme y al que hay que enseñar a trabajar con vosotros.</p>
+
+    <div class="grid-3">
+      <div class="mini">
+        <div class="mini-icon">🧠</div>
+        <h4>Entiende contexto</h4>
+        <p>Lee tus archivos, tus notas, tus correos. Conecta puntos que tú ni habías visto.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">✍️</div>
+        <h4>Genera contenido</h4>
+        <p>Redacta correos, informes, propuestas. Tú revisas y validas. Te quita el folio en blanco.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">🔧</div>
+        <h4>Trabaja con tus archivos</h4>
+        <p>Crea Word, Excel, PDF, HTML. Modifica los tuyos. Compara versiones.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Modelos disponibles</div>
+    <h2>Tres versiones: <span class="grad-text">Opus, Sonnet, Haiku</span>.</h2>
+    <p class="seccion-intro">Cuando empiezas una conversación, en la esquina superior eliges qué modelo usar. Cambian en potencia y velocidad. Esta es la regla rápida:</p>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Modelo</th><th>Cuándo usarlo</th><th>Velocidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Opus</strong></td><td>Trabajos complejos: documentos largos, análisis denso, propuestas críticas, decisiones importantes</td><td>Más lento</td></tr>
+        <tr><td><strong>Sonnet</strong></td><td>Tu día a día. El equilibrio perfecto. Para casi todo.</td><td>Medio</td></tr>
+        <tr><td><strong>Haiku</strong></td><td>Tareas rápidas: resumir, traducir, contestar un correo simple</td><td>Muy rápido</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout cal-azul"><strong>Recomendación para el equipo MAED-CAM:</strong> usa <strong>Sonnet</strong> por defecto. Pasa a <strong>Opus</strong> solo si estás trabajando con materiales que se van a entregar a CAM, propuestas a empresa, o algo donde no puedes equivocarte.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Qué hace bien y qué hace mal</div>
+    <h2>Claude no es <span class="grad-text">perfecto</span>. Conviene saber sus límites.</h2>
+
+    <details>
+      <summary>✅ Lo que hace muy bien</summary>
+      <ul>
+        <li>Redactar correos, informes y propuestas con tu estilo si le das contexto.</li>
+        <li>Resumir documentos largos en 5 minutos.</li>
+        <li>Comparar versiones de archivos.</li>
+        <li>Estructurar ideas confusas en propuestas claras.</li>
+        <li>Crear materiales con la identidad visual Pegasus (vía skills).</li>
+        <li>Procesar transcripciones de reuniones.</li>
+        <li>Generar imágenes (Claude Design — lo activaremos más adelante).</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>❌ Lo que NO hace bien (o no hace)</summary>
+      <ul>
+        <li><strong>Información en tiempo real</strong>: no sabe qué pasó ayer en las noticias salvo que se lo cuentes.</li>
+        <li><strong>Inventar datos sin avisar</strong>: si le falta información, a veces se la inventa (alucina). Por eso siempre revisa cifras, fechas y nombres.</li>
+        <li><strong>Enviar emails por ti</strong>: redacta el cuerpo, pero el envío lo haces tú desde Gmail.</li>
+        <li><strong>Cálculos financieros sensibles</strong>: úsalo como apoyo, no como única fuente. Cuadra siempre con Excel.</li>
+        <li><strong>Cosas que requieren credenciales</strong>: no entra en tu banca, en MN Program, en Iseazy. Esos sistemas se tocan a mano.</li>
+      </ul>
+    </details>
+
+    <div class="callout cal-amarillo"><strong>Regla de oro:</strong> Claude propone, tú dispones. Antes de mandar algo a un cliente o a la CAM, lee lo que Claude escribió. Su nivel es alto, pero la decisión es tuya.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">La app que usamos</div>
+    <h2>Cowork es <span class="grad-text">la versión de Claude</span> que vamos a usar todos.</h2>
+    <p class="seccion-intro">Cowork es Claude para escritorio. Se diferencia de la versión web (claude.ai) en que puede leer y modificar archivos de tu ordenador. Si lo conectamos a la unidad compartida de Drive del proyecto, todo el equipo trabaja con los mismos archivos. Esa es la base de cómo trabajamos en el MAED-CAM. <strong>Cómo instalarlo y conectarlo está en la pestaña 🔧 Configurar.</strong></p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Concepto clave</div>
+    <h2>Cowork vs <span class="grad-text">Projects</span> de claude.ai.</h2>
+    <p class="seccion-intro">Claude tiene dos formas de trabajar con contexto compartido. Es importante saber cuál usamos y cuándo.</p>
+
+    <div class="grid-2">
+      <div class="card card-grad">
+        <h3>📁 Cowork (lo que usamos)</h3>
+        <p>Se conecta a una carpeta de tu ordenador. Lee y modifica los archivos directamente. Todo lo que hagas queda en Drive sincronizado para el equipo. <strong>Es la base de cómo trabajamos en MAED-CAM.</strong></p>
+      </div>
+      <div class="card card-grad">
+        <h3>🗂️ Projects (no lo usamos)</h3>
+        <p>Es de la web claude.ai. Sube archivos a un proyecto cerrado dentro de Claude. Útil para uso individual rápido, pero no se sincroniza con Drive ni con el equipo. <strong>No lo usamos para el proyecto.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Lo que NO tenemos activado</div>
+    <h2>Conectores <span class="grad-text">desactivados</span> a propósito.</h2>
+    <p class="seccion-intro">Claude puede conectarse a muchas apps externas (Slack, Asana, Notion, Calendar, etc.). En Pegasus tenemos esas conexiones <strong>desactivadas a propósito</strong> para el equipo del MAED-CAM. Solo Álvaro tiene acceso a algunas.</p>
+
+    <div class="callout cal-rojo">
+      <strong>¿Por qué?</strong> Cada conector que activas es una nueva puerta para que datos sensibles del proyecto salgan a otros sistemas. Mientras no tengamos un protocolo cerrado de RGPD para conectores, los mantenemos desactivados. <strong>Si necesitas integrar algo con otra herramienta, lo hablas con Álvaro antes.</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====================== WORKSPACE ====================== -->
+<div id="tab-workspace" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">La nube del proyecto</div>
+    <h2>Toda la información del proyecto vive en <span class="grad-text">una sola carpeta compartida</span>.</h2>
+    <p class="seccion-intro">Se llama <code>Google Drive - MAED</code>. Está sincronizada en el escritorio de todos los miembros del equipo. Lo que tú haces se replica en el de los demás en segundos. Esto tiene consecuencias importantes (ver pestaña Gobernanza).</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Mapa de la unidad compartida</div>
+    <h2>Las <span class="grad-text">8 carpetas principales</span>.</h2>
+
+    <details open>
+      <summary>📋 Raíz · 8 archivos vivos que Claude lee siempre</summary>
+      <div>
+        <p>Estos archivos están en la raíz de la carpeta. Son los que dan contexto general del proyecto.</p>
+        <ul>
+          <li><code>CLAUDE.md</code> · la constitución del proyecto. Lo lee Claude siempre.</li>
+          <li><code>README.md</code> · mapa rápido del workspace.</li>
+          <li><code>ESTADO_PROYECTO.md</code> · dónde estamos hoy.</li>
+          <li><code>PROXIMOS_PASOS.md</code> · tareas pendientes.</li>
+          <li><code>SESION_LOG.md</code> · cronología del proyecto.</li>
+          <li><code>POLITICA_RGPD_Y_CLAUDE.md</code> · reglas de datos personales.</li>
+          <li><code>PROTOCOLO_TRABAJO_EQUIPO.md</code> · cómo trabajamos juntos sin pisarnos.</li>
+          <li><code>GLOSARIO_MAED-CAM.md</code> · diccionario común del proyecto.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>📚 00_LEEME_PRIMERO · si eres nuevo, empieza aquí</summary>
+      <div>
+        <p>Guía rápida para nuevos miembros. Dos archivos:</p>
+        <ul>
+          <li><code>Guia_de_uso_de_esta_carpeta.md</code> · las 6 reglas de oro del workspace.</li>
+          <li><code>Donde_va_cada_cosa.md</code> · chuleta: si tienes X documento, va en Y carpeta.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 00_ESPACIOS_PERSONALES · tu sandbox personal</summary>
+      <div>
+        <p>Cada miembro del equipo tiene una carpeta con su nombre. Ahí escribes lo que quieras, organizas como quieras. <strong>Es tu espacio.</strong></p>
+        <p>Dentro de tu carpeta encontrarás:</p>
+        <ul>
+          <li><code>CLAUDE.md</code> · instrucciones específicas de tu Claude personal.</li>
+          <li><code>drafts/</code> · propuestas que quieras llevar a la zona común.</li>
+          <li><code>notas/</code> · apuntes, ideas, transcripciones.</li>
+          <li><code>_OBSOLETO/</code> · para cosas que ya no usas pero no quieres borrar.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>🌍 01_CONTEXTO_GENERAL · quiénes somos</summary>
+      <div>
+        <p>Filosofía Pegasus, historia de David, organigrama, verticales, marco institucional CAM. No se modifica, se consulta.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>⭐ 02_PROYECTO_MAED-CAM · la carpeta estrella</summary>
+      <div>
+        <p>Aquí vive el trabajo real del proyecto. Tiene 8 subapartados:</p>
+        <ol>
+          <li><strong>01_documentacion_oficial</strong> · convenio, contratos, nóminas, correspondencia CAM</li>
+          <li><strong>02_metodologia_MAED</strong> · marco teórico, triaje, 15 sesiones, 15 capítulos digitales, sistema de evaluación</li>
+          <li><strong>03_produccion_y_plataformas</strong> · audiovisual, Iseazy, Typeform, MN Program</li>
+          <li><strong>04_captacion_y_familias</strong> · centros, criterios, consentimientos</li>
+          <li><strong>05_anexo_economico</strong> · Anexo I, partes de horas, facturas (lo lleva Álvaro)</li>
+          <li><strong>06_ejecucion_piloto</strong> · vacía hasta nov 2026</li>
+          <li><strong>07_evaluacion_y_resultados</strong> · vacía hasta may 2027</li>
+          <li><strong>08_justificacion_CAM</strong> · vacía hasta jul 2027</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>👥 03_EQUIPO_INTERNO_MAED · gestión interna del equipo</summary>
+      <div>
+        <p>Lo que no va al expediente formal de la CAM pero el equipo necesita: organigrama, horarios, actas de reuniones internas, decisiones clave, reglas de trabajo. Esta misma formación vive aquí.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🗺️ 04_ROADMAP_VIVO · planificación a 12 meses</summary>
+      <div>
+        <p>Tablero, Gantt y actas de Sprint Review semanales.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🗄️ _OBSOLETO · nunca se borra, se mueve aquí</summary>
+      <div>
+        <p>Cuando un documento queda superado, se mueve aquí con sufijo de fecha. Nunca se borra. Trazabilidad para justificación CAM + auditoría interna.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Si tienes una duda concreta</div>
+    <h2>¿Dónde va <span class="grad-text">cada cosa</span>?</h2>
+    <p class="seccion-intro">Si tienes un documento en la mano y no sabes dónde meterlo, despliega el caso que te aplique.</p>
+
+    <details>
+      <summary>📄 Tengo un correo importante de la CAM</summary>
+      <div>
+        <p>Guárdalo en <code>02_PROYECTO_MAED-CAM/01_documentacion_oficial/correspondencia_CAM/</code> con el formato: <code>[YYYY-MM-DD]_[tipo]_[descripcion].pdf</code>. Por ejemplo: <code>2026-07-15_correo_Nacho_aprobacion.pdf</code>.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📝 Tengo un acta de una reunión interna</summary>
+      <div>
+        <p>Va en <code>03_EQUIPO_INTERNO_MAED/reuniones_internas/</code> con el formato <code>[YYYY-MM-DD]_[participantes_o_tema].md</code>.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>💡 Se me ha ocurrido una mejora en la metodología</summary>
+      <div>
+        <p>NO la subas directamente. Crea un draft en tu carpeta personal: <code>00_ESPACIOS_PERSONALES/[tu_nombre]/drafts/</code>. Luego avisa a Rober (si es metodología) o a Álvaro (si es cualquier otra cosa). Ellos la revisan y suben a común.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>💰 Tengo una factura del proyecto</summary>
+      <div>
+        <p>Pásala a Álvaro o Davilín. Va en <code>02_PROYECTO_MAED-CAM/05_anexo_economico/06_facturas_y_pagos/[YYYY-MM]/</code>. Pero esto lo gestionan ellos.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>👨‍👩‍👧 Tengo datos reales de una familia del piloto</summary>
+      <div>
+        <p>⚠️ <strong>NO los subas al workspace.</strong> Los datos reales de familias viven en MN Program (CRM) o en archivo físico en sede. En el workspace solo van resúmenes anonimizados con códigos (Familia A1, B2...). Ver pestaña <strong>RGPD</strong>.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📓 Es solo una nota personal mía</summary>
+      <div>
+        <p>Va en tu carpeta personal: <code>00_ESPACIOS_PERSONALES/[tu_nombre]/notas/</code>. Es tu espacio, organizas como quieras.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>❓ No tengo ni idea de dónde va</summary>
+      <div>
+        <p>Pregunta. Mejor preguntar antes que crear un archivo en el sitio equivocado y luego tener que mover cosas. Pregunta a Álvaro (lo general) o a Rober (lo metodológico).</p>
+      </div>
+    </details>
+  </div>
+
+</div>
+
+<!-- ====================== GOBERNANZA ====================== -->
+<div id="tab-gobernanza" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo trabajamos juntos</div>
+    <h2>Una unidad compartida + 8 personas = <span class="grad-text">reglas claras</span>.</h2>
+    <p class="seccion-intro">Todos editamos sobre los mismos archivos en tiempo real. Si no hay reglas, dos personas pueden modificar lo mismo a la vez y se pierde trabajo. Por eso tenemos un modelo de gobernanza. No es burocracia, es supervivencia operativa.</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Modelo de gobernanza</div>
+    <h2>Quién <span class="grad-text">toca qué</span>.</h2>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Quién</th><th>Escribe libremente en</th><th>NO toca sin avisar</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Álvaro</strong> (CFO)</td><td>Todo. Es el merge-master global.</td><td>—</td></tr>
+        <tr><td><strong>Rober</strong></td><td>Su carpeta personal + zona común <strong>solo en metodología</strong></td><td>Económico, contratos, justificación → consulta Álvaro</td></tr>
+        <tr><td><strong>David</strong> (CEO)</td><td><strong>Solo su carpeta personal.</strong> Valida pero no sube.</td><td>Zona común</td></tr>
+        <tr><td><strong>Abel, Andrea, Laura, Marre, Davilín</strong></td><td>Solo su carpeta personal</td><td>Cualquier archivo de zona común</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout cal-morado"><strong>Dos puertas de entrada a la zona común:</strong> Rober para metodología, Álvaro para todo lo demás. No hay más. Esto evita que dos personas modifiquen el mismo archivo a la vez.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Si quieres proponer un cambio a zona común</div>
+    <h2>El flujo de <span class="grad-text">drafts</span>.</h2>
+
+    <div class="pasos">
+      <div class="paso">
+        <h4>Crea el draft en tu carpeta personal</h4>
+        <p>Abre tu carpeta <code>00_ESPACIOS_PERSONALES/[tu_nombre]/drafts/</code> y crea un archivo con el nombre <code>[YYYY-MM-DD]_[descripcion].md</code>. Escribe ahí tu propuesta tan completa como puedas.</p>
+      </div>
+      <div class="paso">
+        <h4>Avisa a quien corresponda</h4>
+        <p>Si tu propuesta es de <strong>metodología, contenido clínico o pedagógico</strong> → avisa a <strong>Rober</strong>.<br>Si es de cualquier otra cosa (económico, contratos, institucional, familias, planning) → avisa a <strong>Álvaro</strong>.<br>El canal de aviso es lo de menos: WhatsApp, correo, en persona. Lo importante es que se entere.</p>
+      </div>
+      <div class="paso">
+        <h4>Espera a que revisen y suban</h4>
+        <p>Rober o Álvaro revisan tu draft, lo ajustan si hace falta, y lo suben a la zona común correspondiente. <strong>No lo subas tú aunque pienses que es urgente.</strong></p>
+      </div>
+      <div class="paso">
+        <h4>Mueve el draft a tu carpeta de obsoletos</h4>
+        <p>Cuando confirmen que está subido, mueve tu draft de <code>drafts/</code> a <code>_OBSOLETO/</code> con sufijo <code>_subido_YYYY-MM-DD</code>. Así sabes qué propusiste y cuándo se aprobó.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Si te equivocas</div>
+    <h2>Qué hacer si <span class="grad-text">dos personas</span> modificaron el mismo archivo.</h2>
+
+    <details>
+      <summary>🆘 He tocado algo de zona común sin querer</summary>
+      <div>
+        <ol>
+          <li>No entres en pánico. Drive guarda el historial.</li>
+          <li>Cuéntaselo a Álvaro inmediatamente. Mejor avisar tú que descubrirlo solo después.</li>
+          <li>Él restaurará la versión anterior desde el historial de Drive.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔄 Quiero ver versiones anteriores de un archivo</summary>
+      <div>
+        <ol>
+          <li>Abre el archivo en Drive (no en tu escritorio, en la web de Drive).</li>
+          <li>Click derecho sobre el archivo → <span class="click">Historial de versiones</span> → <span class="click">Ver historial de versiones</span>.</li>
+          <li>En el panel derecho verás todas las versiones anteriores. Puedes ver, descargar o restaurar cualquiera.</li>
+        </ol>
+        <div class="callout cal-amarillo"><strong>No restaures versiones por tu cuenta si no es tu archivo.</strong> Avisa a Álvaro primero.</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Las reglas no negociables</div>
+    <h2>Lo que <span class="grad-text">nunca</span> se hace.</h2>
+
+    <div class="callout cal-rojo">❌ <strong>Nada se borra.</strong> Lo superado se mueve a <code>_OBSOLETO/</code> con sufijo de fecha. Es trazabilidad para la CAM.</div>
+    <div class="callout cal-rojo">❌ <strong>No modificar zona común si no eres Álvaro o Rober</strong> (con el alcance permitido).</div>
+    <div class="callout cal-rojo">❌ <strong>No inventar cifras, fechas o nombres.</strong> Si falta un dato, se pregunta. Mejor preguntar que inventar.</div>
+    <div class="callout cal-rojo">❌ <strong>No cerrar sesión sin actualizar los 3 archivos vivos</strong> (ESTADO_PROYECTO, PROXIMOS_PASOS, SESION_LOG). Ver pestaña Sesión.</div>
+
+    <div class="callout cal-verde">✅ <strong>Esto no depende solo de tu buena voluntad: está enforzado por los permisos de Drive.</strong> El equipo tiene la zona común en <strong>solo lectura</strong> y permiso de edición <strong>únicamente en su carpeta personal</strong>. Si intentas modificar algo de común, Drive no te dejará — y es <strong>a propósito, no es un fallo</strong>. Para cambiar algo de común, pasa por Álvaro (o Rober en metodología) vía draft.</div>
+  </div>
+
+</div>
+
+<!-- ====================== SESIÓN ====================== -->
+<div id="tab-sesion" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo lee Claude</div>
+    <h2>Sistema de <span class="grad-text">prioridades Tier 1 / 2 / 3</span>.</h2>
+    <p class="seccion-intro">Claude no puede leerse todos los archivos del proyecto cada vez que abres una conversación (sería lentísimo y caro). Por eso tiene un sistema de prioridades. Saber cómo funciona te ayuda a entender por qué a veces Claude no sabe algo y tienes que recordárselo.</p>
+
+    <div class="grid-3">
+      <div class="mini">
+        <div class="mini-icon">🥇</div>
+        <h4>Tier 1 · SIEMPRE</h4>
+        <p>Se lee entero al arrancar cada sesión. <strong>2 archivos:</strong> CLAUDE.md de raíz + tu CLAUDE.md personal.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">🥈</div>
+        <h4>Tier 2 · Bajo demanda</h4>
+        <p>Se lee cuando lo necesita. ESTADO_PROYECTO, PROXIMOS_PASOS, SESION_LOG, POLITICA_RGPD, GLOSARIO.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">🥉</div>
+        <h4>Tier 3 · Solo si lo pides</h4>
+        <p>Las carpetas de trabajo (bloques 01-04). Claude solo entra si la conversación lo pide explícitamente.</p>
+      </div>
+    </div>
+
+    <div class="callout cal-azul"><strong>Lo importante para ti:</strong> tu Claude personal lee siempre el <code>CLAUDE.md</code> raíz + el tuyo. Esos dos archivos son la base. Si algo está mal o desactualizado ahí, todo lo demás se resiente.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Tu Claude tiene tu nombre</div>
+    <h2>El <span class="grad-text">CLAUDE.md personal</span>.</h2>
+    <p class="seccion-intro">Dentro de tu carpeta personal hay un archivo llamado <code>CLAUDE.md</code>. Es como un manual de instrucciones que Claude lee cada vez que arrancas una conversación contigo. Le dice quién eres tú, cuál es tu rol, qué reglas duras tienes, cómo se te habla, y a quién avisas según el tema.</p>
+
+    <details>
+      <summary>📖 Qué contiene tu CLAUDE.md personal</summary>
+      <ul>
+        <li><strong>Quién eres tú</strong> (rol estructural en Pegasus + rol en el MAED-CAM)</li>
+        <li><strong>Reglas duras</strong> que tu Claude respeta siempre</li>
+        <li><strong>A quién avisas según el tema</strong> (Rober, Álvaro, David, etc.)</li>
+        <li><strong>Atajos rápidos personalizados</strong> para ti</li>
+        <li><strong>Lo que sueles hacer con Claude</strong></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>✏️ Cómo editarlo si algo no es correcto</summary>
+      <div>
+        <p>Si ves que tu CLAUDE.md personal tiene algo mal (un rol incorrecto, una regla que ya no aplica, etc.):</p>
+        <ol>
+          <li>NO lo edites directamente.</li>
+          <li>Avisa a Álvaro con el cambio que propones.</li>
+          <li>Él lo actualiza desde su zona de merge-master.</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo empezar el día</div>
+    <h2>Rutina de <span class="grad-text">inicio de sesión</span>.</h2>
+    <p class="seccion-intro">Cada vez que abres Claude por primera vez en una jornada, escríbele uno de estos comandos y Claude se pondrá al día automáticamente.</p>
+
+    <div class="disparador">
+      <code>inicio</code>
+      <div class="descripcion">Claude lee CLAUDE.md raíz + tu CLAUDE.md personal + ESTADO_PROYECTO + PROXIMOS_PASOS + última entrada de SESION_LOG. Te devuelve un resumen de 5 líneas: dónde estamos, qué quedó pendiente, qué propone trabajar hoy.</div>
+    </div>
+
+    <div class="callout cal-verde"><strong>Por qué importa:</strong> Claude no tiene memoria entre conversaciones. Si no le dices "inicio", arranca desde cero y puede pasarse media conversación sin saber qué pasó la semana pasada. Con "inicio", se pone al día en 30 segundos.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo cerrar el día</div>
+    <h2>Rutina de <span class="grad-text">cierre de sesión</span>.</h2>
+    <p class="seccion-intro">⚠️ <strong>El cierre depende de quién lo ejecuta.</strong> El equipo no toca zona común, así que cada uno cierra de forma diferente. Mira el bloque que te aplica.</p>
+
+    <details open>
+      <summary>📓 Si eres del equipo (David, Abel, Andrea, Laura, Marre, Davilín)</summary>
+      <div>
+        <p>Cuando escribes <code>cierre</code>, tu Claude:</p>
+        <ol>
+          <li>Añade entrada nueva en tu <code>notas/[fecha]_sesion.md</code> con lo trabajado hoy: tema, decisiones, archivos modificados (todos dentro de tu sandbox), qué queda abierto.</li>
+          <li>Si algo del día es relevante para el proyecto y debería ir al SESION_LOG oficial, lo marca al final como <code>→ Para escalar a Álvaro/Rober</code>.</li>
+          <li><strong>NO toca</strong> ESTADO_PROYECTO.md, PROXIMOS_PASOS.md ni SESION_LOG.md de raíz. Esos son zona común y tu Claude tiene la regla dura de no tocarlos.</li>
+        </ol>
+        <div class="callout cal-verde"><strong>Por qué así:</strong> cada uno tiene su propio histórico personal de lo que ha trabajado. Cuando hace falta consolidar al proyecto, Álvaro o Rober lo hacen ellos al final del día o de la semana.</div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔐 Si eres Álvaro o Rober (acceso a zona común)</summary>
+      <div>
+        <p>Cuando escribes <code>cierre</code>, tu Claude hace algo distinto. <strong>Pregunta primero y confirma todo antes de tocar nada.</strong></p>
+
+        <div class="pasos">
+          <div class="paso">
+            <h4>Tu Claude te pregunta: ¿comunes o personales?</h4>
+            <p>Antes de hacer nada, te pregunta si los cambios de la sesión son para zona común o para tu carpeta personal.</p>
+          </div>
+          <div class="paso">
+            <h4>Si dices "personales"</h4>
+            <p>Va a la rutina del equipo: log en tu <code>notas/[fecha]_sesion.md</code>, fin.</p>
+          </div>
+          <div class="paso">
+            <h4>Si dices "comunes" → te lista TODO primero</h4>
+            <p>Claude te muestra exactamente qué archivos se van a:</p>
+            <ul>
+              <li><strong>CREAR</strong> (con ruta completa)</li>
+              <li><strong>ACTUALIZAR</strong> (con ruta + resumen del cambio)</li>
+              <li><strong>MOVER A _OBSOLETO/</strong> (con ruta completa)</li>
+            </ul>
+          </div>
+          <div class="paso">
+            <h4>Espera tu confirmación explícita</h4>
+            <p>Tienes que decirle <span class="click">sí</span>, <span class="click">aplica</span> o <span class="click">adelante</span>. Sin esa palabra, <strong>NO toca nada</strong>.</p>
+          </div>
+          <div class="paso">
+            <h4>Solo entonces aplica</h4>
+            <p>Actualiza los 3 archivos vivos, mueve obsoletos con sufijo de fecha, actualiza READMEs de las carpetas tocadas, y te avisa al terminar.</p>
+          </div>
+        </div>
+
+        <div class="callout cal-amarillo"><strong>Por qué tan estricto:</strong> los 3 archivos vivos los lee Claude de todos los miembros del equipo cada vez que arrancan una sesión. Un cambio mal hecho ahí desordena a todo el equipo a la vez. La doble confirmación es una red de seguridad.</div>
+      </div>
+    </details>
+
+    <div class="callout cal-azul"><strong>Importante para todos:</strong> si no haces cierre, el proyecto (y tu propio histórico) pierde memoria operativa. <strong>Cerrar la sesión es responsabilidad tuya, no de Claude.</strong></div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Atajos rápidos</div>
+    <h2>Comandos que <span class="grad-text">todos los Claudes</span> del equipo entienden.</h2>
+
+    <div class="disparador"><code>inicio</code><div class="descripcion">Rutina apertura (la has visto arriba).</div></div>
+    <div class="disparador"><code>cierre</code><div class="descripcion">Rutina cierre (la has visto arriba).</div></div>
+    <div class="disparador"><code>estado</code><div class="descripcion">Devuelve el contenido de ESTADO_PROYECTO.md.</div></div>
+    <div class="disparador"><code>qué toca</code><div class="descripcion">Devuelve el contenido de PROXIMOS_PASOS.md.</div></div>
+    <div class="disparador"><code>historia</code><div class="descripcion">Devuelve las últimas 5 entradas de SESION_LOG.md.</div></div>
+    <div class="disparador"><code>nota</code><div class="descripcion">Crea entrada en notas/[fecha]_sesion.md con plantilla.</div></div>
+    <div class="disparador"><code>draft [descripción]</code><div class="descripcion">Crea propuesta a zona común en tu carpeta drafts/.</div></div>
+    <div class="disparador"><code>obsoleto [archivo]</code><div class="descripcion">Mueve un archivo a _OBSOLETO/ con sufijo de fecha.</div></div>
+    <div class="disparador"><code>glosario [término]</code><div class="descripcion">Busca el término en GLOSARIO_MAED-CAM.md.</div></div>
+  </div>
+
+</div>
+
+<!-- ====================== HABLARLE ====================== -->
+<div id="tab-hablarle" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Conversación con Claude</div>
+    <h2>Cómo <span class="grad-text">hablarle bien</span> a Claude.</h2>
+    <p class="seccion-intro">Claude funciona mejor cuanto más contexto le des. Tres cosas marcan la diferencia entre una respuesta mediocre y una respuesta brillante: contexto, objetivo y restricciones.</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Las 3 cosas que debe saber</div>
+    <h2>Contexto, <span class="grad-text">objetivo y restricciones</span>.</h2>
+
+    <div class="grid-3">
+      <div class="mini">
+        <div class="mini-icon">📍</div>
+        <h4>Contexto</h4>
+        <p>Quién eres, para qué proyecto trabajas, a quién va dirigido lo que pides.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">🎯</div>
+        <h4>Objetivo</h4>
+        <p>Qué quieres que pase tras leer/ver/usar lo que produzca Claude.</p>
+      </div>
+      <div class="mini">
+        <div class="mini-icon">🚧</div>
+        <h4>Restricciones</h4>
+        <p>Tono, longitud, formato, qué evitar, fecha límite.</p>
+      </div>
+    </div>
+
+    <div class="malbien">
+      <div class="mal"><strong>Mal prompt:</strong> "Escribe un correo a la CAM"</div>
+      <div class="bien"><strong>Buen prompt:</strong> "Escribe un correo a Nacho (Subdirección CAM) confirmando que la firma del convenio está prevista para esta semana. Tono institucional pero cercano, máximo 6 líneas. No inventes fechas ni nombres, déjalos como [pendiente] si no los tienes."</div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cuándo Claude se equivoca</div>
+    <h2>Detectar <span class="grad-text">alucinaciones</span>.</h2>
+    <p class="seccion-intro">Claude a veces inventa datos sin avisar. Se le llama "alucinación". No es mala intención, es cómo funciona. Por eso siempre revisa cifras, nombres y fechas antes de mandar nada.</p>
+
+    <details>
+      <summary>🚨 Señales de alerta de que Claude está inventando</summary>
+      <ul>
+        <li>Cita un dato muy específico que no le has dado tú.</li>
+        <li>Menciona personas o entidades que tú no has nombrado.</li>
+        <li>Usa fechas concretas (DD/MM/YYYY) cuando solo le diste contexto general.</li>
+        <li>Cita normativa o artículos de leyes con número exacto sin que se lo hayas pedido.</li>
+        <li>Está demasiado seguro sobre algo que objetivamente no puede saber.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>✋ Cómo cortarle si está inventando</summary>
+      <div>
+        <p>Le dices directamente:</p>
+        <div class="callout cal-verde">"Ese dato no me lo he dado yo. ¿De dónde lo sacas? Si no lo sabes, déjalo como [pendiente]."</div>
+        <p>Claude reconocerá el error y corregirá. Tu Claude está configurado con la regla dura de no inventar (CLAUDE.md raíz). Si se la salta, le recuerdas.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Iterar es normal</div>
+    <h2>El primer resultado <span class="grad-text">casi nunca</span> es el final.</h2>
+    <p class="seccion-intro">No te frustres si la primera respuesta no es perfecta. Iterar es parte del proceso. Le dices qué cambiar y vuelve a generar.</p>
+
+    <details>
+      <summary>🔄 Frases útiles para iterar</summary>
+      <ul>
+        <li>"Esto está demasiado largo, redúcelo a la mitad."</li>
+        <li>"El tono es demasiado formal, hazlo más cercano."</li>
+        <li>"Quita lo del párrafo 2, no encaja con lo que pido."</li>
+        <li>"Añade un ejemplo concreto para que se entienda mejor."</li>
+        <li>"Reescríbelo en bullet points en vez de texto corrido."</li>
+        <li>"Cambia la palabra 'paciente' por 'familia' en todo el texto."</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Qué Claude NO hace bien</div>
+    <h2>Sus <span class="grad-text">puntos ciegos</span>.</h2>
+
+    <details>
+      <summary>📅 Información del momento actual</summary>
+      <div>
+        <p>Claude no sabe qué pasó ayer en las noticias salvo que se lo cuentes. Si necesita info actual (cotización del euro, noticia de hoy, post viral de la última semana) → tú se la tienes que dar.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🧮 Matemáticas y cálculos críticos</summary>
+      <div>
+        <p>Claude no es una calculadora exacta. Para cuentas del Anexo I, partes de horas, presupuestos a CAM: <strong>cuadra siempre con Excel.</strong> Claude es buen apoyo, no fuente única.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔑 Sistemas con login</summary>
+      <div>
+        <p>Claude no entra en MN Program, Iseazy, Typeform, banca, Hacienda. Esos sistemas se tocan a mano. Claude puede ayudarte a redactar lo que vas a meter ahí, pero no lo mete por ti.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📨 Enviar emails</summary>
+      <div>
+        <p>Claude redacta el cuerpo perfecto del correo, pero el botón "Enviar" lo das tú desde Gmail. Es lo correcto: tú firmas, tú decides cuándo manda.</p>
+      </div>
+    </details>
+  </div>
+
+</div>
+
+<!-- ====================== SKILLS ====================== -->
+<div id="tab-skills" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Skills · Claude habla Pegasus</div>
+    <h2>Las skills son <span class="grad-text">expertos especializados</span> que activas con un comando.</h2>
+    <p class="seccion-intro">Una skill es un conjunto de instrucciones que enseña a Claude a comportarse como un experto en algo concreto. Cuando activas una skill, Claude carga ese contexto extra y responde como ese experto. En Pegasus tenemos skills propias para correos institucionales, presupuestos, propuestas, conflictos, filosofía, storytelling, etc.</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo invocarlas</div>
+    <h2>Escribe <span class="grad-text">una barra inclinada</span> y elige.</h2>
+
+    <div class="pasos">
+      <div class="paso">
+        <h4>En el chat, escribe <code>/</code></h4>
+        <p>Aparecerá una lista desplegable con todas las skills disponibles para ti.</p>
+      </div>
+      <div class="paso">
+        <h4>Selecciona la skill que necesitas</h4>
+        <p>Por ejemplo <code>/pegasus-email-institucional</code> si quieres redactar un correo a un ayuntamiento.</p>
+      </div>
+      <div class="paso">
+        <h4>Claude te guiará con preguntas</h4>
+        <p>La skill suele empezar pidiendo el contexto necesario (destinatario, momento de la relación, tono, etc.). Vas contestando.</p>
+      </div>
+      <div class="paso">
+        <h4>Claude entrega el resultado en formato Pegasus</h4>
+        <p>El correo, el presupuesto o el documento ya viene con identidad visual, tono y filosofía Pegasus aplicados.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Skills disponibles para el equipo</div>
+    <h2>Las que te <span class="grad-text">van a venir bien</span>.</h2>
+
+    <details>
+      <summary>✉️ pegasus-email-institucional</summary>
+      <div>
+        <p>Redacta correos a ayuntamientos, administraciones públicas, empresas cliente de Indiferente. Aplica el tono real de Álvaro: cercano, directo, con humor controlado, nunca burocrático.</p>
+        <p><strong>Cuándo usarla:</strong> primer contacto en frío, seguimiento de reunión, respuesta a consulta, comunicación operativa con stakeholders externos.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>💰 pegasus-presupuestos</summary>
+      <div>
+        <p>Genera presupuestos en PDF para cualquier vertical de Pegasus (Indiferente, TPT, IS, etc.). Aplica IVA correcto, bloque de mecenazgo cuando procede, e identidad visual oficial.</p>
+        <p><strong>Cuándo usarla:</strong> "necesito un presupuesto para X", "cuánto le cobro a Y", "oferta económica para Z".</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📑 pegasus-propuesta-ayuntamiento</summary>
+      <div>
+        <p>Genera propuestas para ayuntamientos (TPT, IS, Campamentos Inclusivos). Verifica si aplica contrato menor o licitación. Primero te entrega texto para validar, luego maqueta.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏢 pegasus-propuesta-empresa</summary>
+      <div>
+        <p>Genera propuestas Indiferente para empresas privadas: Sesgos Inconscientes, Resolución de Conflictos, Conferencia David, E-learning, Plan Bienestar, Consultoría D&I.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🤝 pegasus-conflicto</summary>
+      <div>
+        <p>Para cualquier situación de conflicto: con un profesional del equipo, con una familia, con un proveedor, con un cliente institucional. Analiza desde 4 prismas y recomienda cómo actuar. Escala según gravedad.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔍 pegasus-filosofia-checker</summary>
+      <div>
+        <p>Revisa si un texto, idea, copy o nombre respeta la filosofía Pegasus. Detecta patrones prohibidos (paternalismo, lástima, normalización, victimismo, superheroísmo, infantilización) y propone versión corregida.</p>
+        <p><strong>Cuándo usarla:</strong> antes de enviar cualquier comunicación externa, propuesta, copy para redes o material de formación.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📖 pegasus-storytelling</summary>
+      <div>
+        <p>Construye narrativa Pegasus desde cero o mejora textos existentes con estructura miedo → aceptación → transformación. Aplica a propuestas, copies de redes, presentaciones y pitches.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🎮 pegasus-dinamicas-sesion</summary>
+      <div>
+        <p>Diseña dinámicas concretas para sesiones: equipo interno (martes/viernes), formaciones para empresa o ayuntamiento, dinámicas exprés para reuniones de coordinación.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚙️ pegasus-metodologia</summary>
+      <div>
+        <p>Para diseñar sesiones terapéuticas y deportivas: técnicas, AB, gymkanas, multideporte, piscinasus, juegoteca, Papás al Juego, Papás a la Charleta. Para coordinadoras y terapeutas.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🎓 pegasus-sesgos-inconscientes / pegasus-resolucion-conflictos</summary>
+      <div>
+        <p>Skills específicas para las dos formaciones estrella de Indiferente. Útiles para preparar propuestas, emails, landings o explicar la formación a un cliente.</p>
+      </div>
+    </details>
+
+    <div class="callout cal-azul"><strong>Más skills:</strong> hay varias más (proyectos administración pública, pricing IS, presupuestos campamentos, infografía NotebookLM...). Tu Claude las irá sugiriendo cuando aplique.</div>
+  </div>
+
+</div>
+
+<!-- ====================== DESIGN ====================== -->
+<div id="tab-design" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Claude para piezas visuales</div>
+    <h2>Cuando hay que <span class="grad-text">enseñar algo visualmente</span>, no solo contarlo.</h2>
+    <p class="seccion-intro">Claude Design es el modo de Claude que genera piezas visuales: una infografía rápida, un esquema, una landing HTML, una presentación, un mockup. Lo usas cuando un texto plano no transmite bien lo que necesitas comunicar.</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cuándo usarlo</div>
+    <h2>Casos de uso <span class="grad-text">típicos en el MAED-CAM</span>.</h2>
+
+    <div class="grid-2">
+      <div class="card card-grad">
+        <h3>📊 Cuadros de mando visuales</h3>
+        <p>Por ejemplo, un panel rápido del estado del piloto: % familias activas, sesiones impartidas, indicadores en verde/amarillo/rojo.</p>
+      </div>
+      <div class="card card-grad">
+        <h3>📈 Esquemas e infografías</h3>
+        <p>Las 5 etapas MAED visualizadas, el flujo de un proceso, una comparativa de antes/después.</p>
+      </div>
+      <div class="card card-grad">
+        <h3>🌐 Landings y páginas HTML</h3>
+        <p>Como esta misma formación. Para presentar contenido a stakeholders externos o internamente al equipo.</p>
+      </div>
+      <div class="card card-grad">
+        <h3>🎨 Mockups de comunicación</h3>
+        <p>Invitaciones, anuncios, flyers digitales para redes o newsletters internas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo pedirlo</div>
+    <h2>Sé <span class="grad-text">muy específico</span>.</h2>
+    <p class="seccion-intro">Claude Design responde mejor cuanto más concreto seas: qué tipo de pieza, qué contenido va dentro, qué tono, qué identidad visual.</p>
+
+    <details>
+      <summary>🎯 Estructura de un buen prompt para Claude Design</summary>
+      <div>
+        <ol>
+          <li><strong>Qué pieza:</strong> "Hazme una landing HTML de una sola página."</li>
+          <li><strong>Para qué:</strong> "Para presentar el resumen del MAED-CAM a una empresa interesada en patrocinarlo."</li>
+          <li><strong>Identidad visual:</strong> "Con la paleta gradiente Pegasus y tipografía Barlow."</li>
+          <li><strong>Contenido:</strong> "Bloques: portada, qué es el modelo MAED, el equipo, indicadores CAM, llamada a la acción."</li>
+          <li><strong>Restricciones:</strong> "Sin emojis salvo donde mejoren la lectura. Tono cercano, no corporativo."</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🎨 Mantenerse en identidad Pegasus</summary>
+      <div>
+        <p>Cuando le pidas piezas visuales, recuérdale siempre la identidad:</p>
+        <ul>
+          <li><strong>Paleta gradiente Pegasus:</strong> verde (#08B75B), azul (#007EC3), morado (#974694), rosa (#E45E9B), rojo (#D6191B), amarillo (#F3D100), naranja (#ED7928).</li>
+          <li><strong>Tipografía:</strong> Barlow.</li>
+          <li><strong>Tono:</strong> directo, cercano, sin floreos, sin paternalismo, sin victimismo.</li>
+        </ul>
+        <p>O simplemente invoca la skill <code>/pegasus-identidad-visual-html</code> y Claude aplicará todo automáticamente.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Limitaciones reales</div>
+    <h2>Qué <span class="grad-text">no esperes</span> de Claude Design.</h2>
+
+    <ul style="padding-left: 20px; color: #333;">
+      <li style="margin-bottom: 8px;">No genera Word ni PowerPoint editables como Office (sí los genera, pero pierdes la flexibilidad nativa).</li>
+      <li style="margin-bottom: 8px;">No edita Photoshop ni Illustrator.</li>
+      <li style="margin-bottom: 8px;">No genera vídeo.</li>
+      <li style="margin-bottom: 8px;">Para iconos muy específicos, mejor partir de iconos existentes en Canva.</li>
+    </ul>
+
+    <div class="callout cal-azul"><strong>Si lo que necesitas es Canva-tier de calidad visual:</strong> usa Claude para generar el contenido y la estructura, después lo maquetas en Canva con los assets reales de Pegasus.</div>
+  </div>
+
+</div>
+
+<!-- ====================== RGPD ====================== -->
+<div id="tab-rgpd" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Por qué importa</div>
+    <h2>El MAED-CAM trata <span class="grad-text">datos de categoría especial</span>.</h2>
+    <p class="seccion-intro">Trabajamos con familias con personas con discapacidad. Información de salud mental, discapacidad, contexto familiar. Esto es categoría especial según el Reglamento UE 2016/679. Un descuido puede anular el convenio CAM (cláusula 4.8 obliga a declaración responsable RGPD). Las multas llegan a 20 millones de euros o el 4% de facturación. Y el daño a las familias es irreparable.</p>
+
+    <div class="callout cal-rojo"><strong>Esto NO es opcional ni se relaja.</strong> Las reglas que vienen abajo son de obligado cumplimiento durante toda la vida del proyecto y después.</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Las 5 reglas de oro</div>
+    <h2>Memorízalas. <span class="grad-text">Aplican siempre</span>.</h2>
+
+    <div class="card card-grad">
+      <h3>1. Nada con nombre real sube a Claude</h3>
+      <p>Nunca pegues en una conversación con Claude (ni le subas como archivo) datos que permitan identificar a una familia: nombre, apellidos, DNI, teléfono, email, dirección exacta, foto reconocible.</p>
+    </div>
+    <div class="card card-grad">
+      <h3>2. Anonimiza ANTES de subir, no después</h3>
+      <p>Si el dato ya está en la conversación, ya es tarde. La regla es: anonimizar en local, antes de la subida. Sustituye nombres por códigos (Familia A1, Familia B2…).</p>
+    </div>
+    <div class="card card-grad">
+      <h3>3. No combines atributos sensibles</h3>
+      <p>Aunque tu archivo no tenga nombre, si tiene "varón, 14 años, autismo grado 2, centro X de Móstoles, madre soltera trabajadora" → eso identifica a UNA familia concreta. <strong>Cinco atributos específicos = reidentificación.</strong></p>
+    </div>
+    <div class="card card-grad">
+      <h3>4. Exportes de MN Program, Typeform e Iseazy NUNCA salen</h3>
+      <p>Si necesitas trabajar con esos datos en Claude, primero los anonimizas dentro del propio sistema o haces un exporte previamente filtrado.</p>
+    </div>
+    <div class="card card-grad">
+      <h3>5. Si te equivocas, avísalo</h3>
+      <p>Subir un dato identificable por error puede pasar. La gravedad la mide qué se hace después. Avisas a Álvaro inmediatamente, se borra la conversación, se documenta el incidente. <strong>Nunca se oculta.</strong></p>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Antes de subir cualquier cosa</div>
+    <h2>El protocolo de <span class="grad-text">las 3 preguntas</span>.</h2>
+    <p class="seccion-intro">Antes de pegar un texto o subir un archivo a Claude, hazte estas tres preguntas. Si la respuesta a alguna es "sí", para y anonimiza antes.</p>
+
+    <div class="pasos">
+      <div class="paso">
+        <h4>¿Hay nombres reales, DNIs, teléfonos o emails?</h4>
+        <p>Si sí → anonimiza primero. Sustituye por códigos.</p>
+      </div>
+      <div class="paso">
+        <h4>¿Hay 5+ atributos específicos de una persona concreta?</h4>
+        <p>(edad + género + diagnóstico + centro + barrio = identifica). Si sí → generaliza (rangos en vez de edad exacta, categoría en vez de diagnóstico, código en vez de centro).</p>
+      </div>
+      <div class="paso">
+        <h4>¿Es un exporte directo de MN Program, Typeform o Iseazy?</h4>
+        <p>Si sí → filtra antes de exportar o anonimiza en el propio sistema.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Cómo anonimizar bien</div>
+    <h2>El antes y el <span class="grad-text">después</span>.</h2>
+
+    <div class="malbien">
+      <div class="mal"><strong>Mal:</strong><br>Familia: Juan García Pérez<br>Hijo: Carlos García, 12 años, TEA grado 2<br>Centro: Aurora Móstoles<br>Tel madre: 612...<br>T0: 14 en Escala MAED</div>
+      <div class="bien"><strong>Bien:</strong><br>Familia A1<br>Persona referencia: varón, 9-13 años, TEA grado 2<br>Centro: M1<br>T0: 14 en Escala MAED</div>
+    </div>
+
+    <details>
+      <summary>📋 Tabla de equivalencias</summary>
+      <table class="tabla">
+        <thead>
+          <tr><th>Original</th><th>Cómo se anonimiza</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nombre y apellidos</td><td>Código (A1, A2, B1, B2...)</td></tr>
+          <tr><td>Edad exacta (14 años)</td><td>Rango (9-13, 14-17, 18+)</td></tr>
+          <tr><td>Centro de gestión indirecta</td><td>Código (M1, M2 para Móstoles; A1, A2 para Arganda...)</td></tr>
+          <tr><td>Diagnóstico específico</td><td>Categoría general (TEA, TDAH, discapacidad intelectual)</td></tr>
+          <tr><td>Dirección exacta</td><td>Barrio o municipio sin número</td></tr>
+          <tr><td>Teléfono / email</td><td>Eliminar. No hace falta para el trabajo en Claude.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Si Claude detecta un dato sin anonimizar</div>
+    <h2>Claude te va a <span class="grad-text">parar</span>.</h2>
+    <p class="seccion-intro">Tu Claude personal está configurado con una regla dura: si detecta nombres reales, DNIs, teléfonos, emails o exportes sin filtrar, frena la conversación y te pide que anonimices antes de seguir. <strong>No te ofendas. Es su trabajo y es tu protección.</strong></p>
+
+    <details>
+      <summary>🛑 Qué hacer cuando Claude te frena</summary>
+      <ol>
+        <li>Cierra esa conversación (no la sigas).</li>
+        <li>Vuelve al archivo original o al texto que ibas a pegar.</li>
+        <li>Anonimiza siguiendo las equivalencias de la tabla anterior.</li>
+        <li>Abre una conversación nueva con Claude y sube ya la versión anonimizada.</li>
+        <li>Si te has equivocado y subiste algo identificable, avisa a Álvaro.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>📤 Si descubres que subiste un dato por error</summary>
+      <ol>
+        <li>Avisa a Álvaro inmediatamente. No esperes a "ver si pasa algo".</li>
+        <li>Documenta qué pasó: qué archivo, en qué conversación, qué dato concreto.</li>
+        <li>Borra la conversación si Álvaro lo confirma.</li>
+        <li>Se registra el incidente en el log de incidencias RGPD del proyecto.</li>
+      </ol>
+      <div class="callout cal-amarillo">Equivocarse no es un drama. Ocultarlo sí. Confía en que la respuesta del equipo va a ser de soporte, no de regañina.</div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Excepciones legítimas</div>
+    <h2>Lo que <span class="grad-text">sí puedes</span> mencionar libremente.</h2>
+
+    <ul style="padding-left: 22px; color: #333;">
+      <li style="margin-bottom: 8px;"><strong>Nombres del equipo Pegasus</strong> (David, Rober, Abel, Andrea, Laura, Marre, Álvaro, Davilín). Son colaboradores, no beneficiarios.</li>
+      <li style="margin-bottom: 8px;"><strong>Cargos públicos CAM en contexto institucional</strong> (Ana Dávila, Virginia, Nacho).</li>
+      <li style="margin-bottom: 8px;"><strong>Patrones genéricos sin caso individual</strong>. Ejemplo: "una familia con un hijo TEA suele tener..." es legítimo. "La familia de Pepito que tiene TEA" no.</li>
+      <li style="margin-bottom: 8px;"><strong>Datos administrativos del proyecto sin vinculación nominativa</strong> (importes, fechas, fases, indicadores).</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ====================== GLOSARIO ====================== -->
+<div id="tab-glosario" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Diccionario común</div>
+    <h2>Términos del proyecto que <span class="grad-text">todos hablamos igual</span>.</h2>
+    <p class="seccion-intro">Cuando dos personas usan la misma palabra para cosas distintas, el equipo se desordena. Esta es la versión rápida del glosario completo (vive en <code>GLOSARIO_MAED-CAM.md</code> en la raíz de la unidad).</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Conceptos del proyecto</div>
+    <h2>Lo <span class="grad-text">esencial</span>.</h2>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Término</th><th>Qué significa</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>MAED</strong></td><td>Modelo de Afrontamiento Emocional de la Discapacidad. La metodología propia de Pegasus.</td></tr>
+        <tr><td><strong>"Lo que nadie te cuenta"</strong></td><td>Nombre oficial del proyecto subvencionado por la CAM.</td></tr>
+        <tr><td><strong>LQNTC</strong></td><td>Abreviación interna del proyecto.</td></tr>
+        <tr><td><strong>MAED-CAM</strong></td><td>Nombre operativo interno del piloto financiado por la CAM.</td></tr>
+        <tr><td><strong>SACEC</strong></td><td>Sistema de Ajuste Clínico por Evaluación Continua. Permite ±1 sesión por etapa según necesidades.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Fases, etapas, bloques</div>
+    <h2>Tres palabras, <span class="grad-text">tres cosas distintas</span>.</h2>
+
+    <div class="callout cal-amarillo"><strong>Cuidado:</strong> en la memoria V5 se diferencia explícitamente fases vs etapas vs bloques. No son sinónimos.</div>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Término</th><th>Qué es</th><th>Cuántos hay</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>FASES</strong></td><td>Fases temporales del proyecto (cronograma)</td><td>3 (Diseño · Implementación · Evaluación)</td></tr>
+        <tr><td><strong>ETAPAS</strong></td><td>Etapas del viaje emocional MAED (metodología)</td><td>5 (Foto Honesta, Recolocar Foco, Encuentro Miedo, Duelo, Reorganización)</td></tr>
+        <tr><td><strong>BLOQUES</strong></td><td>Bloques de contenido (sesiones + capítulos)</td><td>5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Medición y evaluación</div>
+    <h2>Momentos T <span class="grad-text">y subescalas CI</span>.</h2>
+
+    <div class="grid-2">
+      <div class="card card-grad">
+        <h3>Momentos de medición</h3>
+        <ul>
+          <li><strong>T0</strong> · línea base, antes de la sesión 1</li>
+          <li><strong>T1</strong> · cierre, tras la sesión 15</li>
+          <li><strong>T2</strong> · seguimiento, 3 meses después de T1</li>
+        </ul>
+        <p style="margin-top: 10px; color: var(--rojo);"><strong>⚠️ T0/T1/T2 son momentos de medición, NO tipos de sesión clínica.</strong></p>
+      </div>
+      <div class="card card-grad">
+        <h3>Subescalas Escala MAED</h3>
+        <ul>
+          <li><strong>CI1</strong> · Conciencia emocional</li>
+          <li><strong>CI2</strong> · Responsabilidad interna</li>
+          <li><strong>CI3</strong> · Miedo y evitación</li>
+          <li><strong>CI4</strong> · Duelo y luto abierto</li>
+          <li><strong>CI5</strong> · Reorganización y autocuidado</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Sistemas que usamos</div>
+    <h2>Plataformas <span class="grad-text">del proyecto</span>.</h2>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Sistema</th><th>Para qué</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>MN Program</strong></td><td>CRM clínico de Pegasus. Fichas de las 60 familias con datos reales.</td></tr>
+        <tr><td><strong>Iseazy</strong></td><td>Plataforma LMS donde viven los 15 capítulos digitales del itinerario.</td></tr>
+        <tr><td><strong>Typeform</strong></td><td>Inscripción + cuestionarios T0/T1 + feedback de familias.</td></tr>
+        <tr><td><strong>Google Drive</strong></td><td>Almacenamiento del workspace compartido.</td></tr>
+        <tr><td><strong>Cowork</strong></td><td>La app de Claude que usamos en el escritorio (conectada a Drive).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Personas externas que aparecen</div>
+    <h2>Quién es <span class="grad-text">quién</span>.</h2>
+
+    <table class="tabla">
+      <thead>
+        <tr><th>Persona</th><th>Rol</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Ana Dávila</strong></td><td>Consejera de Familia, Juventud y Asuntos Sociales (CAM). Firmante del convenio.</td></tr>
+        <tr><td><strong>Virginia</strong></td><td>Dirección General de Atención a Personas con Discapacidad (CAM).</td></tr>
+        <tr><td><strong>Nacho</strong></td><td>Subdirección General. Interlocución operativa CAM día a día.</td></tr>
+        <tr><td><strong>Fernando</strong> (Emerge3C)</td><td>Asesor externo en justificación de subvenciones. Altruista.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Si no encuentras un término</div>
+    <h2>El glosario <span class="grad-text">completo</span>.</h2>
+    <p class="seccion-intro">Esta es la versión rápida. El glosario completo vive en <code>GLOSARIO_MAED-CAM.md</code> en la raíz de la unidad compartida. Si tu Claude no reconoce un término, prueba a decirle:</p>
+    <div class="disparador">
+      <code>glosario [término]</code>
+      <div class="descripcion">Claude buscará el término en el glosario completo del proyecto.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====================== CONFIGURAR ====================== -->
+<div id="tab-configurar" class="tab-content">
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Puesta a punto</div>
+    <h2>Cómo <span class="grad-text">instalar y configurar</span> todo, paso a paso.</h2>
+    <p class="seccion-intro">Esta es la parte práctica. Sigue las secciones en orden: primero Google Drive, luego Cowork, después tus instrucciones personales, y al final una prueba rápida para comprobar que todo funciona. Si algo no cuadra, para y pregunta a Álvaro o a Marre antes de seguir.</p>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Sección 1 · Google Drive</div>
+    <h2>Primero, <span class="grad-text">la nube del proyecto</span> en tu ordenador.</h2>
+    <p class="seccion-intro">Antes de Cowork necesitas tener sincronizada la unidad compartida del proyecto en tu PC. Sin esto, Cowork no tiene nada a lo que conectarse.</p>
+
+    <div class="pasos">
+      <div class="paso">
+        <h4>Descarga e instala Google Drive</h4>
+        <p>Entra en <code>google.com/drive/download</code>, descarga Google Drive para escritorio e instálalo como cualquier programa.</p>
+      </div>
+      <div class="paso">
+        <h4>Inicia sesión con tu cuenta de Pegasus</h4>
+        <p>Usa tu cuenta <strong>@fundacionpegasus.org</strong>. No uses tu cuenta personal de Gmail.</p>
+      </div>
+      <div class="paso">
+        <h4>NO sincronices tu Drive personal</h4>
+        <p>Cuando el asistente te ofrezca sincronizar carpetas de tu ordenador (Escritorio, Documentos, Descargas), <strong>no marques ninguna</strong>. Dale a <span class="click">Saltar</span>. Solo nos interesa la unidad del proyecto.</p>
+      </div>
+      <div class="paso">
+        <h4>Sincroniza SOLO la unidad del proyecto</h4>
+        <p>Sincroniza únicamente la unidad <code>♥ Lo que nadie te cuenta - MAED</code>. Ruta para activarla: icono de Drive en la barra de tareas → <span class="click">⚙️ engranaje</span> → <span class="click">Gestionar unidades compartidas</span>. Marca solo esa unidad.</p>
+      </div>
+      <div class="paso">
+        <h4>⚠️ Trampa importante: pásala a "Disponible sin conexión"</h4>
+        <p>Por defecto la unidad se sincroniza en modo <strong>"Solo online"</strong>, y eso <strong>rompe Cowork</strong> (no puede leer los archivos). Hay que cambiarlo: en el Explorador de archivos, <strong>click derecho</strong> sobre la carpeta de la unidad → <span class="click">Mostrar más opciones</span> (en Windows 11) → <span class="click">Acceso sin conexión</span> → <span class="click">Disponible sin conexión</span>.</p>
+      </div>
+    </div>
+
+    <div class="callout cal-amarillo"><strong>Si te saltas el paso 5,</strong> Cowork parecerá funcionar pero no encontrará los archivos del proyecto. Es el error más común. Asegúrate de dejar la unidad en "Disponible sin conexión".</div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Sección 2 · Cowork</div>
+    <h2>Ahora <span class="grad-text">la app de Claude</span>.</h2>
+    <p class="seccion-intro">Con Drive ya sincronizado y disponible sin conexión, instalamos Cowork y lo conectamos a la unidad del proyecto.</p>
+
+    <div class="pasos" style="counter-reset: paso 5;">
+      <div class="paso">
+        <h4>Descarga Cowork</h4>
+        <p>Entra en <code>claude.com/download</code> y descarga Cowork para tu sistema (Windows o Mac). Instálalo como cualquier programa.</p>
+      </div>
+      <div class="paso">
+        <h4>Inicia sesión con tu cuenta de Pegasus</h4>
+        <p>Otra vez con tu cuenta <strong>@fundacionpegasus.org</strong>. La contraseña te la facilita Álvaro.</p>
+      </div>
+      <div class="paso">
+        <h4>Conecta Cowork a la carpeta de la unidad MAED</h4>
+        <p>En Cowork, pincha en el icono de <span class="click">📁 Carpeta</span> y selecciona <span class="click">Conectar carpeta</span>. Navega hasta la carpeta de la unidad <code>♥ Lo que nadie te cuenta - MAED</code> en tu PC y conéctala.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Sección 3 · Tus instrucciones en Cowork (dos capas)</div>
+    <h2>Dile a Cowork <span class="grad-text">quién eres</span>.</h2>
+    <p class="seccion-intro">Son <strong>dos capas</strong> y configuras las dos: la <strong>global</strong> (quién eres + qué es Pegasus, aplica a todo lo que hagas con tu Claude) y la del <strong>proyecto MAED</strong> (tu rol en el proyecto + tu CLAUDE.md, aplica solo dentro del proyecto).</p>
+
+    <div class="card card-grad">
+      <h3>Capa 1 · Instrucciones globales de tu cuenta</h3>
+      <p>Genérica: quién eres, qué es Pegasus y tu rol. Aplica a <strong>todas</strong> tus conversaciones, sean del MAED o no.</p>
+      <p><strong>Dónde:</strong> <span class="click">Settings</span> → <span class="click">Cowork</span> → <span class="click">Global instructions</span> → <span class="click">Edit</span> → pega tu texto → <span class="click">Save</span>.</p>
+      <p><strong>Plantilla</strong> (rellena tu nombre y tu rol):</p>
+      <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy [Nombre]. Trabajo en Fundación Pegasus como [tu rol en Pegasus]. Pegasus acompaña a personas y familias a afrontar emocionalmente la discapacidad y la diferencia. Mi día a día es [una línea]. Háblame en español, directo y cercano, sin florituras.</pre>
+      <p style="font-size:0.85rem;color:var(--gris3);">Tu rol en Pegasus, para rellenar: Álvaro = CFO · David Rodríguez = CEO y Presidente del Patronato · Davilín = apoyo administrativo y operativo · Marre = CMO / desarrollo digital · Rober = copywriter pedagógico · Laura = trabajadora social · Abel y Andrea = psicólogos/as clínicos/as.</p>
+    </div>
+
+    <div class="card card-grad">
+      <h3>Capa 2 · Instrucciones del proyecto MAED</h3>
+      <p>Específica del proyecto: tu rol en el MAED-CAM y dónde está tu CLAUDE.md. Aplica <strong>solo dentro del proyecto MAED</strong>.</p>
+      <p><strong>Dónde:</strong> al crear o abrir el proyecto MAED en Cowork → <span class="click">Instructions</span> del proyecto → pega tu texto.</p>
+      <p>Busca tu nombre, despliega y copia el texto tal cual:</p>
+    </div>
+
+    <details>
+      <summary>👤 Álvaro Díaz Santos (CFO)</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Álvaro Díaz Santos, CFO de Fundación Pegasus y Director del Proyecto MAED-CAM. Mi rol en el proyecto cubre V1 (Dirección del proyecto) y V5 (Justificación económica). Soy el merge-master global del workspace.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Álvaro/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 David Rodríguez Vázquez (CEO)</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy David Rodríguez Vázquez, Presidente del Patronato y CEO de Fundación Pegasus, y Director Metodológico del proyecto MAED-CAM. Firmante del convenio CAM.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/David/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 David Alfonso (Davilín)</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy David Alfonso (Davilín), apoyo administrativo y operativo del equipo Pegasus. En el proyecto MAED-CAM apoyo a Álvaro (CFO) en V1 (Dirección del proyecto) y especialmente en V5 (Justificación económica). Brazo operativo de Álvaro en lo administrativo y económico.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Davilín/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 Álvaro Marrero (Marre)</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Álvaro Marrero (Marre), CMO de Fundación Pegasus y responsable de desarrollo digital. En el proyecto MAED-CAM lidero V3 (Producción y plataformas): producción audiovisual de los 15 capítulos digitales, configuración de Iseazy (LMS), Typeform (cuestionarios) y MN Program (CRM).
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Marre/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 Roberto Fernández (Rober)</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Roberto Fernández (Rober), copywriter pedagógico de Pegasus. En el proyecto MAED-CAM soy responsable de subir contenido metodológico a zona común (segunda puerta de gobernanza junto a Álvaro). Lidero la redacción de guiones de los 15 capítulos digitales y consolido drafts del equipo en metodología.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Rober/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 Laura Pérez Pérez</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Laura Pérez Pérez, trabajadora social del equipo MAED-CAM. Mi rol es V4 (Captación + familias): selección de las 60 familias del piloto, coordinación con centros de gestión indirecta CAM y acompañamiento durante todo el proceso.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Laura/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 Abel Somoza</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Abel Somoza, psicólogo clínico del equipo MAED-CAM. Hago ejecución clínica de las sesiones de intervención emocional con las familias del piloto. Supervisado por David (Dirección Metodológica). Trabajo con Andrea como pareja clínica del proyecto.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Abel/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>👤 Andrea Maniscalco</summary>
+      <div>
+        <pre style="white-space: pre-wrap; background: var(--gris); padding: 14px 16px; border-radius: 8px; font-size: 0.85rem; font-family: 'SF Mono', Consolas, monospace; color: #333; line-height: 1.5;">Soy Andrea Maniscalco, psicóloga clínica del equipo MAED-CAM. Hago ejecución clínica de las sesiones de intervención emocional con las familias del piloto. Supervisada por David (Dirección Metodológica). Trabajo con Abel como pareja clínica del proyecto.
+
+Mi CLAUDE.md personal está en `00_ESPACIOS_PERSONALES/Andrea/CLAUDE.md`. Cuando arranque cualquier conversación, lee también ese archivo además del CLAUDE.md raíz.</pre>
+      </div>
+    </details>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-eyebrow">Sección 4 · Prueba inicial</div>
+    <h2>Comprueba que <span class="grad-text">todo funciona</span>.</h2>
+    <p class="seccion-intro">Dos pruebas rápidas para confirmar que Cowork lee la unidad y puede escribir en tu carpeta.</p>
+
+    <div class="pasos" style="counter-reset: paso 8;">
+      <div class="paso">
+        <h4>Prueba de lectura: escribe <code>inicio</code></h4>
+        <p>En un chat nuevo de Cowork, escribe <code>inicio</code>. Comprueba que Claude te saluda <strong>con tu nombre</strong> y te devuelve el resumen de 5 líneas: dónde estamos, lo pendiente, y qué propone trabajar hoy.</p>
+      </div>
+      <div class="paso">
+        <h4>Prueba de escritura: crea un archivo de prueba</h4>
+        <p>Pide a Claude que cree un archivo de prueba en tu carpeta personal: <code>00_ESPACIOS_PERSONALES/[tu nombre]/notas/2026-06-26_test.md</code>. Luego comprueba en Drive web que el archivo aparece.</p>
+      </div>
+    </div>
+
+    <div class="callout cal-verde"><strong>Si las dos pruebas funcionan,</strong> estás listo para trabajar. Si Claude no te saluda por tu nombre, revisa tus instrucciones personales (Sección 3). Si no puede crear el archivo, revisa que la unidad esté en "Disponible sin conexión" (Sección 1, paso 5).</div>
+  </div>
+
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="lema">Lo mío no es normal, pero lo tuyo tampoco.</div>
+  <div class="info">Formación Claude · Equipo MAED-CAM · Fundación Pegasus · viernes 26 de junio de 2026 · última revisión 24/06/2026</div>
+</footer>
+<div class="footer-bar"></div>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab, .mobile-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.textContent.toLowerCase().includes(tabId) || t.getAttribute('onclick').includes("'" + tabId + "'")) t.classList.add('active');
+  });
+  document.querySelectorAll('.mobile-tab').forEach(t => {
+    if (t.textContent.toLowerCase().includes(tabId) || t.getAttribute('onclick').includes("'" + tabId + "'")) t.classList.add('active');
+  });
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.hamburger').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
+</content>
