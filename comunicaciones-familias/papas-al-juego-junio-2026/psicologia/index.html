@@ -129,6 +129,57 @@ body{font-family:'Barlow',sans-serif;background:#0a1a2c;color:#fff;position:rela
 .rio-ronda-pill.actual{border-color:var(--rosa);background:#fff5fa;color:var(--rosa)}
 .rio-ronda-pill.ok{border-color:var(--verde);background:#eafff0;color:var(--verde)}
 
+/* ===== INSIGNIAS MÁS GRANDES (feedback Andrea) ===== */
+.mochila-item .ico,.mochila-item span:first-child{font-size:clamp(48px,7vh,68px) !important}
+.mochila-item{padding:14px 8px !important}
+.mochila-item .lbl{font-size:clamp(12px,1.6vh,14px) !important;font-weight:900;font-style:italic}
+.insignia-grande{transform:scale(1.25)}
+
+/* ===== LINCE DEL EXPLORADOR · parada 3 (feedback Andrea) ===== */
+.lince-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+.lince-nivel-pick{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.lince-nivel-pick .btn{font-size:17px;padding:14px 24px}
+.lince-secuencia-mostrar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 20px;background:rgba(8,183,91,.15);border-radius:18px;border:3px dashed var(--verde);min-height:96px;align-items:center}
+.lince-tesoro-show{width:clamp(64px,8vh,88px);height:clamp(64px,8vh,88px);background:#fff;border:3px solid var(--verde);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;animation:numPop .4s var(--ease-back);box-shadow:0 6px 14px rgba(0,0,0,.25)}
+.lince-tesoro-show .ico{font-size:clamp(28px,3.5vh,38px);line-height:1}
+.lince-tesoro-show .lbl{font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(10px,1.4vh,12px);color:var(--morado);text-align:center;text-transform:uppercase;margin-top:2px}
+.lince-cuenta{font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(20px,3vh,26px);color:var(--morado);background:#fff;padding:6px 18px;border-radius:14px;border:2px solid var(--morado);box-shadow:0 4px 10px rgba(0,0,0,.20)}
+.lince-orden{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.lince-orden-slot{width:clamp(40px,5vh,52px);height:clamp(40px,5vh,52px);background:#fff;border:2px dashed #ccc;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,3vh,28px)}
+.lince-orden-slot.ok{background:#eafff0;border-color:var(--verde);border-style:solid}
+.lince-buscar{position:relative;height:min(50vh,480px);width:min(50vh,480px);max-width:94vw;max-height:94vw;aspect-ratio:1/1;border-radius:18px;overflow:hidden;box-shadow:0 14px 32px rgba(0,0,0,.35);border:4px solid var(--morado);background:#f4ecd6 url('assets/img/bosque-tesoros-alta.png') center/cover no-repeat;cursor:crosshair;touch-action:manipulation;flex-shrink:0}
+/* Compactar resto de elementos en parada 3 para que entre en 720px */
+#scene-bosque .juego-host{padding:14px 18px;max-height:96vh;overflow:hidden}
+#scene-bosque h2{font-size:clamp(20px,2.6vh,26px);margin-bottom:4px}
+#scene-bosque .lead{font-size:clamp(11px,1.5vh,13px);margin-bottom:6px;line-height:1.3}
+#lince-fase-2 .lince-status{font-size:clamp(13px,1.8vh,16px);padding:6px 14px}
+#lince-fase-2 .lince-orden-slot{width:clamp(32px,4vh,42px);height:clamp(32px,4vh,42px);font-size:clamp(18px,2.4vh,22px)}
+#scene-bosque .juego-back{margin-top:4px}
+#scene-bosque .juego-back .btn{padding:6px 16px;font-size:13px}
+#scene-bosque .btn-saltar{font-size:11px;padding:4px 12px}
+@media (max-height:720px){
+  #scene-bosque .juego-host{padding:8px 14px}
+  .lince-buscar{height:min(44vh,400px);width:min(44vh,400px)}
+  .lince-secuencia-mostrar{padding:8px 14px;min-height:80px}
+  .lince-tesoro-show{width:clamp(54px,7vh,72px);height:clamp(54px,7vh,72px)}
+}
+.lince-hitbox{position:absolute;border-radius:50%;border:3px solid transparent;transition:border-color .25s,background .25s,transform .25s;cursor:pointer}
+.lince-hitbox.found{border-color:#fff;background:rgba(8,183,91,.45);animation:hitPop .5s var(--ease-back)}
+.lince-hitbox.wrong{border-color:var(--rojo);background:rgba(214,25,27,.40);animation:shakeIt .4s}
+.lince-hitbox.hint{border-color:#f3d100;background:rgba(243,209,0,.25);animation:hintGlow 1.2s infinite}
+@keyframes hitPop{0%{transform:scale(0.3);opacity:0}60%{transform:scale(1.25);opacity:1}100%{transform:scale(1)}}
+@keyframes hintGlow{0%,100%{box-shadow:0 0 0 0 rgba(243,209,0,.7)}50%{box-shadow:0 0 0 14px rgba(243,209,0,0)}}
+.lince-status{font-family:'Barlow';font-weight:900;font-style:italic;font-size:clamp(15px,2.2vh,20px);color:#fff;background:rgba(151,70,148,.85);padding:8px 18px;border-radius:999px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 14px rgba(0,0,0,.30);flex-wrap:wrap;justify-content:center}
+.lince-status .siguiente{background:#fff5a8;color:var(--negro);padding:4px 12px;border-radius:999px}
+
+/* ===== Botón saltar (Andrea · nivel bajo) ===== */
+.btn-saltar{font-family:'Barlow',sans-serif;font-weight:700;font-style:italic;font-size:13px;color:#888;background:transparent;border:1px dashed #bbb;border-radius:999px;padding:6px 14px;cursor:pointer;letter-spacing:.5px;transition:all .2s}
+.btn-saltar:hover{color:var(--morado);border-color:var(--morado);background:rgba(151,70,148,.06)}
+
+/* ===== Botón "Saltar audio narrador" (Andrea) ===== */
+.btn-saltar-audio{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.94);border:2px solid var(--morado);color:var(--morado);font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25);z-index:60;display:flex;align-items:center;gap:4px;transition:all .2s;text-transform:uppercase;letter-spacing:.5px}
+.btn-saltar-audio:hover{background:var(--morado);color:#fff;transform:scale(1.05)}
+
 /* BOSQUE */
 .bosque-zone{display:flex;flex-direction:column;align-items:center;gap:10px}
 .bosque-secuencia-mostrar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:14px 18px;background:rgba(8,183,91,.15);border-radius:16px;border:3px dashed var(--verde)}
@@ -265,7 +316,7 @@ body{font-family:'Barlow',sans-serif;background:#0a1a2c;color:#fff;position:rela
 <audio id="amb-viento" preload="auto" loop src="assets/audio/ambiente/ambiente-02-viento.wav"></audio>
 <audio id="amb-rio" preload="auto" loop src="assets/audio/ambiente/ambiente-03-rio.wav"></audio>
 
-<a class="brand-logo" href="#"><img src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus"></a>
+<a class="brand-logo" href="#"><img src="../../../assets/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus"></a>
 
 <div class="topbar">
   <span class="badge">🧭 Papás al Juego · Psicología</span>
@@ -392,21 +443,35 @@ body{font-family:'Barlow',sans-serif;background:#0a1a2c;color:#fff;position:rela
     <div class="scene-bg dim-strong" style="background-image: url('assets/fondos/fondo-03-bosque-numeros.jpeg');"></div>
     <div class="scene-inner">
       <div class="juego-host">
-        <h2>🌳 Bosque de los Números Perdidos</h2>
-        <p class="lead">Os mostraremos una secuencia de <b>10 números</b> durante unos segundos. Después desaparecerá y tendréis que <b>reconstruirla en orden</b>. Pulsa MOSTRAR cuando estéis listos.</p>
-        <div id="bosque-fase-1" style="text-align:center;"><button class="btn lg" onclick="iniciarBosqueShow()">👁️ MOSTRAR SECUENCIA</button></div>
-        <div id="bosque-fase-2" style="display:none;" class="bosque-zone">
-          <div class="bosque-secuencia-mostrar" id="bosque-secuencia-mostrar"></div>
-          <div class="piramide-cuenta" id="bosque-cuenta">⏱️ 24s</div>
-        </div>
-        <div id="bosque-fase-3" style="display:none;" class="bosque-zone">
-          <div class="bosque-slots" id="bosque-slots"></div>
-          <div class="bosque-teclado" id="bosque-teclado"></div>
-          <div class="juego-cta" style="margin-top:6px;">
-            <button class="btn ghost sm" id="btnPistaBosque" onclick="pistaBosque()">💡 Ver secuencia (1 uso · 5s)</button>
+        <h2>🌳 Bosque de los Tesoros Perdidos</h2>
+        <p class="lead">Los guardianes del bosque os enseñarán <b>tesoros secretos</b> durante unos segundos... pero desaparecerán enseguida. Tendréis que encontrarlos entre muchos otros y tocarlos <b>en el mismo orden</b>.</p>
+        <div id="lince-fase-0" class="lince-wrap">
+          <div style="font-family:Barlow;font-weight:900;font-style:italic;font-size:clamp(16px,2.4vh,20px);color:var(--morado);margin-bottom:4px;">Elige el nivel del peque:</div>
+          <div class="lince-nivel-pick">
+            <button class="btn warm" onclick="iniciarLince('bajo')">🌟 NIVEL BAJO · 3 tesoros</button>
+            <button class="btn warm" onclick="iniciarLince('alto')">🦊 NIVEL ALTO · 5 tesoros</button>
           </div>
         </div>
-        <div class="juego-back"><button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button></div>
+        <div id="lince-fase-1" class="lince-wrap" style="display:none;">
+          <div style="font-family:Barlow;font-weight:900;font-style:italic;font-size:clamp(15px,2vh,18px);color:var(--morado);">Memoriza esta secuencia · desaparecerá en unos segundos</div>
+          <div class="lince-secuencia-mostrar" id="lince-secuencia-mostrar"></div>
+          <div class="lince-cuenta" id="lince-cuenta">⏱️ 10s</div>
+        </div>
+        <div id="lince-fase-2" class="lince-wrap" style="display:none;">
+          <div class="lince-status" id="lince-status">
+            Busca y toca: <span class="siguiente" id="lince-siguiente">—</span>
+            <span style="opacity:.7;font-size:12px;">(<span id="lince-progreso">0 / 0</span>)</span>
+          </div>
+          <div class="lince-buscar" id="lince-buscar"></div>
+          <div class="lince-orden" id="lince-orden"></div>
+          <div class="juego-cta" style="margin-top:6px;">
+            <button class="btn ghost sm" onclick="pistaLince()">💡 Marcar el siguiente (1 uso)</button>
+          </div>
+        </div>
+        <div class="juego-back" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <button class="btn ghost sm" onclick="volverMapa()">↩ Volver al mapa</button>
+          <button class="btn-saltar" onclick="saltarParada('concentracion','08')">⏭ Saltar y recibir la insignia</button>
+        </div>
       </div>
     </div>
   </section>
@@ -469,6 +534,7 @@ body{font-family:'Barlow',sans-serif;background:#0a1a2c;color:#fff;position:rela
     <div class="pega-bocadillo">
       <h3 id="pegaModalTitulo">…</h3>
       <p id="pegaModalTexto">…</p>
+      <button class="btn-saltar-audio" id="btnSaltarAudio" onclick="saltarAudioNarrador()" title="Saltar audio del narrador">⏭ Saltar audio</button>
       <div class="cta-row"><button class="btn" id="pegaModalCta" onclick="cerrarPegaModal()">▶ CONTINUAR</button></div>
     </div>
   </div>
@@ -621,16 +687,12 @@ function pintarMochilas(){
 }
 
 function abrirParada(p){
-  if(p==='montana'&&state.insignias.memoria){toast('Ya conseguisteis esta insignia.');return;}
-  if(p==='rio'&&state.insignias.equipo){toast('Ya conseguisteis esta insignia.');return;}
-  if(p==='bosque'&&state.insignias.concentracion){toast('Ya conseguisteis esta insignia.');return;}
-  if(p==='colina'&&state.insignias.crecimiento){toast('Ya conseguisteis esta insignia.');return;}
-  if(p==='valle'&&state.insignias.emocional){toast('Ya conseguisteis esta insignia.');return;}
+  // Andrea: permitir volver atrás para repetir actividades (sin bloqueo)
   audios.sfx.pisada.play().catch(()=>{});
   const pres={
     montana:{narradorId:'03',cta:'▶ EMPEZAR',titulo:'🗻 Montaña de los Recuerdos',texto:'Habéis llegado a la Montaña de los Recuerdos. Uno observará la pirámide de objetos, después desaparecerá y tendréis que reconstruirla juntos.',juego:'montana'},
     rio:{narradorId:'05',cta:'▶ EMPEZAR',titulo:'💧 Río de la Cooperación',texto:'Las aguas son profundas. Solo los exploradores que colaboran consiguen cruzarlas. Transportad los globos siguiendo el camino marcado.',juego:'rio'},
-    bosque:{narradorId:'07',cta:'▶ EMPEZAR',titulo:'🌳 Bosque de los Números Perdidos',texto:'Los guardianes del bosque os mostrarán una secuencia secreta durante unos segundos. Después desaparecerá. Tendréis que reconstruirla en el mismo orden.',juego:'bosque'},
+    bosque:{narradorId:'07',cta:'▶ EMPEZAR',titulo:'🌳 Bosque de los Tesoros Perdidos',texto:'Has llegado al Bosque de los Tesoros Perdidos. Entre las hojas y los senderos se esconden pequeños objetos del verano que el bosque ha protegido. Los guardianes os mostrarán una combinación secreta durante unos segundos... pero desaparecerá. Tendréis que encontrarlos entre muchos otros y tocarlos en el mismo orden. ¡Demostrad ojos de auténtico explorador!',juego:'bosque'},
     colina:{narradorId:'09',cta:'▶ EMPEZAR',titulo:'🏔️ Colina de la Mochila',texto:'Mirad todo el camino que habéis recorrido. Ahora preparad vuestra mochila con las personas, fortalezas y aprendizajes que queréis llevar.',juego:'colina'},
     valle:{narradorId:'11',cta:'▶ EMPEZAR',titulo:'🌸 Valle de las Emociones',texto:'Durante cualquier aventura aparecen emociones diferentes. Buscad las emociones escondidas en la sopa de letras. Hay que descubrir al menos seis.',juego:'valle'}
   };
@@ -797,64 +859,136 @@ function ganarRio(){
   setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Trabajo en Equipo!',texto:'Juntos hemos encontrado la manera de cruzar el río. La cooperación os ha hecho más fuertes.',narradorId:'06',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
 }
 
-// BOSQUE
+// ===== LINCE DEL EXPLORADOR · parada 3 nueva (feedback Andrea) =====
+const TESOROS_BOSQUE={
+  linterna:    {nom:'LINTERNA',    ico:'🔦', x:14, y:5,  r:7},
+  prismaticos: {nom:'PRISMÁTICOS', ico:'🔭', x:50, y:16, r:8},
+  mochila:     {nom:'MOCHILA',     ico:'🎒', x:8,  y:58, r:10},
+  ciervo:      {nom:'CIERVO',      ico:'🦌', x:58, y:42, r:8},
+  tienda:      {nom:'TIENDA',      ico:'⛺', x:92, y:52, r:9}
+};
+const LINCE_NIVELES={
+  bajo: {tiempo:12, claves:['linterna','mochila','ciervo']},
+  alto: {tiempo:10, claves:['linterna','prismaticos','mochila','ciervo','tienda']}
+};
+state.lince_nivel=null; state.lince_secuencia=[]; state.lince_idx=0; state.lince_pista=false; state.lince_show_timer=null;
+
 function montarBosque(){
-  state.bos_secuencia=shuffle([0,1,2,3,4,5,6,7,8,9].slice());
-  state.bos_input=[];
-  pistaBosqueUsada=false;
-  const bp=document.getElementById('btnPistaBosque');if(bp){bp.disabled=false;bp.classList.remove('locked');}
-  document.getElementById('bosque-fase-1').style.display='block';
-  document.getElementById('bosque-fase-2').style.display='none';
-  document.getElementById('bosque-fase-3').style.display='none';
+  if(state.lince_show_timer){clearInterval(state.lince_show_timer);state.lince_show_timer=null;}
+  state.lince_nivel=null; state.lince_secuencia=[]; state.lince_idx=0; state.lince_pista=false;
+  document.getElementById('lince-fase-0').style.display='flex';
+  document.getElementById('lince-fase-1').style.display='none';
+  document.getElementById('lince-fase-2').style.display='none';
 }
-function iniciarBosqueShow(){
-  document.getElementById('bosque-fase-1').style.display='none';
-  document.getElementById('bosque-fase-2').style.display='flex';
-  const h=document.getElementById('bosque-secuencia-mostrar');h.innerHTML='';
-  state.bos_secuencia.forEach(n=>{const d=document.createElement('div');d.className='bosque-num-show';d.textContent=n;h.appendChild(d);});
-  let s=24;
-  document.getElementById('bosque-cuenta').textContent=`⏱️ ${s}s`;
-  state.bos_show_timer=setInterval(()=>{
+function iniciarLince(nivel){
+  state.lince_nivel=nivel;
+  const cfg=LINCE_NIVELES[nivel];
+  state.lince_secuencia=shuffle(cfg.claves.slice());
+  state.lince_idx=0;
+  document.getElementById('lince-fase-0').style.display='none';
+  document.getElementById('lince-fase-1').style.display='flex';
+  const h=document.getElementById('lince-secuencia-mostrar');h.innerHTML='';
+  state.lince_secuencia.forEach(k=>{
+    const t=TESOROS_BOSQUE[k];
+    const d=document.createElement('div');d.className='lince-tesoro-show';
+    d.innerHTML='<div class="ico">'+t.ico+'</div><div class="lbl">'+t.nom+'</div>';
+    h.appendChild(d);
+  });
+  let s=cfg.tiempo;
+  document.getElementById('lince-cuenta').textContent='⏱️ '+s+'s';
+  state.lince_show_timer=setInterval(()=>{
     s--;
-    document.getElementById('bosque-cuenta').textContent=`⏱️ ${s}s`;
-    if(s<=0){
-      clearInterval(state.bos_show_timer);state.bos_show_timer=null;
-      document.getElementById('bosque-fase-2').style.display='none';
-      document.getElementById('bosque-fase-3').style.display='flex';
-      pintarBosqueSlotsTeclado();
-    }
+    document.getElementById('lince-cuenta').textContent='⏱️ '+s+'s';
+    if(s<=0){ clearInterval(state.lince_show_timer);state.lince_show_timer=null; iniciarLinceBuscar(); }
   },1000);
 }
-function pintarBosqueSlotsTeclado(){
-  const sl=document.getElementById('bosque-slots');sl.innerHTML='';
-  for(let i=0;i<10;i++){
-    const s=document.createElement('div');s.className='bosque-slot';s.dataset.idx=i;
-    if(i<state.bos_input.length){s.textContent=state.bos_input[i];s.classList.add('tiene');}
-    sl.appendChild(s);
-  }
-  const tec=document.getElementById('bosque-teclado');tec.innerHTML='';
-  for(let n=0;n<10;n++){
-    const b=document.createElement('button');b.className='bosque-tecla';b.textContent=n;
-    b.onclick=()=>bosqueInputNum(n);tec.appendChild(b);
+function iniciarLinceBuscar(){
+  document.getElementById('lince-fase-1').style.display='none';
+  document.getElementById('lince-fase-2').style.display='flex';
+  const ord=document.getElementById('lince-orden');ord.innerHTML='';
+  state.lince_secuencia.forEach(()=>{
+    const s=document.createElement('div');s.className='lince-orden-slot';s.textContent='?';ord.appendChild(s);
+  });
+  const buscar=document.getElementById('lince-buscar');buscar.innerHTML='';
+  state.lince_secuencia.forEach((k,idx)=>{
+    const t=TESOROS_BOSQUE[k];
+    const hb=document.createElement('div');hb.className='lince-hitbox';
+    hb.id='lince-hb-'+idx; hb.dataset.idx=idx;
+    const size=t.r*2;
+    hb.style.left=(t.x-t.r)+'%'; hb.style.top=(t.y-t.r)+'%';
+    hb.style.width=size+'%'; hb.style.height=size+'%';
+    hb.onclick=(e)=>{ e.stopPropagation(); linceClick(idx); };
+    buscar.appendChild(hb);
+  });
+  buscar.onclick=(e)=>{ if(e.target===buscar){ audios.sfx.click.play().catch(()=>{}); toast('Sigue buscando...'); } };
+  pintarLinceEstado();
+}
+function pintarLinceEstado(){
+  const idx=state.lince_idx, total=state.lince_secuencia.length;
+  document.getElementById('lince-progreso').textContent=idx+' / '+total;
+  if(idx<total){
+    const t=TESOROS_BOSQUE[state.lince_secuencia[idx]];
+    document.getElementById('lince-siguiente').textContent=t.ico+' '+t.nom;
+  }else{ document.getElementById('lince-siguiente').textContent='✓ ¡COMPLETO!'; }
+}
+function linceClick(idxClick){
+  if(idxClick===state.lince_idx){
+    const hb=document.getElementById('lince-hb-'+idxClick);
+    if(hb){hb.classList.add('found');hb.style.pointerEvents='none';}
+    const ord=document.querySelectorAll('.lince-orden-slot')[state.lince_idx];
+    if(ord){ord.classList.add('ok');ord.textContent=TESOROS_BOSQUE[state.lince_secuencia[state.lince_idx]].ico;}
+    audios.sfx.chime.play().catch(()=>{});
+    state.lince_idx++;
+    pintarLinceEstado();
+    if(state.lince_idx===state.lince_secuencia.length){ setTimeout(()=>ganarBosque(),700); }
+  }else{
+    const hb=document.getElementById('lince-hb-'+idxClick);
+    if(hb){hb.classList.add('wrong');setTimeout(()=>hb.classList.remove('wrong'),500);}
+    audios.sfx.click.play().catch(()=>{});
+    toast('Ese tesoro estaba, pero no en ese orden. ¡Sigue!');
   }
 }
-function bosqueInputNum(n){
-  if(state.bos_input.length>=10)return;
-  state.bos_input.push(n);
-  audios.sfx.click.play().catch(()=>{});
-  pintarBosqueSlotsTeclado();
-  const i=state.bos_input.length-1;
-  if(state.bos_input[i]!==state.bos_secuencia[i]){
-    const sl=document.querySelectorAll('.bosque-slot')[i];if(sl)sl.classList.add('error');
-    toast('Hmm, ese número no era. Probad de nuevo.');
-    setTimeout(()=>{state.bos_input=[];pintarBosqueSlotsTeclado();},1000);
-    return;
-  }
-  if(state.bos_input.length===10){audios.sfx.chime.play().catch(()=>{});setTimeout(()=>ganarBosque(),800);}
+function pistaLince(){
+  if(state.lince_pista){toast('Ya usaste la pista.');return;}
+  state.lince_pista=true;
+  const idx=state.lince_idx;
+  if(idx>=state.lince_secuencia.length)return;
+  const hb=document.getElementById('lince-hb-'+idx);
+  if(hb){hb.classList.add('hint');setTimeout(()=>hb.classList.remove('hint'),3500);}
 }
 function ganarBosque(){
   state.insignias.concentracion=true;
-  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Concentración!',texto:'Vuestra atención y vuestra memoria os han ayudado a encontrar el camino correcto.',narradorId:'08',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
+  setTimeout(()=>pegasusModalShow({tipo:'narrador',titulo:'¡Insignia de Concentración!',texto:'Habéis encontrado todos los tesoros del bosque con ojos de auténtico explorador.',narradorId:'08',cta:'▶ VOLVER AL MAPA',onContinuar:()=>volverMapa()}),400);
+}
+
+// ===== Saltar parada y recibir insignia (Andrea · adaptación nivel bajo) =====
+const INSIGNIA_TITULOS={ memoria:'¡Insignia de la Memoria!', equipo:'¡Insignia de Trabajo en Equipo!', concentracion:'¡Insignia de Concentración!', crecimiento:'¡Insignia del Crecimiento!', emocional:'¡Insignia Emocional!' };
+function saltarParada(insKey, narradorId){
+  if(!confirm('¿Saltar esta actividad y recibir la insignia igualmente?\n\nÚtil para nivel bajo o si ya la habéis hecho en papel.'))return;
+  state.insignias[insKey]=true;
+  audios.sfx.chime.play().catch(()=>{});
+  pegasusModalShow({ tipo:'narrador', titulo:INSIGNIA_TITULOS[insKey]||'¡Insignia conseguida!', texto:'Insignia conseguida. Lo importante es el camino que estáis recorriendo juntos.', narradorId:narradorId, cta:'▶ VOLVER AL MAPA', onContinuar:()=>volverMapa() });
+}
+
+// ===== Saltar audio narrador (Andrea · botón skip) =====
+function saltarAudioNarrador(){
+  // Forzar fin del audio narrador que esté sonando: pone currentTime al final
+  // para que dispare el evento 'ended' y se desbloquee el botón CTA
+  let saltado = false;
+  Object.values(audios.narrador).forEach(a => {
+    if (a && !a.paused) {
+      try {
+        if (a.duration && isFinite(a.duration)) { a.currentTime = a.duration; }
+        else { a.pause(); a.dispatchEvent(new Event('ended')); }
+        saltado = true;
+      } catch(e) { console.warn('saltarAudio fallo', e); }
+    }
+  });
+  if (!saltado) {
+    // No había audio sonando · desbloqueamos CTA por si estaba bloqueado por error
+    const cta = document.getElementById('pegaModalCta');
+    if (cta) { cta.disabled = false; cta.classList.remove('locked'); }
+  }
 }
 
 // COLINA
