@@ -559,24 +559,89 @@ body {
   padding-bottom: 90px;     /* espacio para el botón GIRAR */
 }
 .ruleta {
-  width: 360px; height: 360px;
+  width: 520px; height: 520px;
   border-radius: 50%;
   position: relative;
-  border: 10px solid #fff;
-  box-shadow: 0 24px 50px rgba(0,0,0,0.35);
-  background: conic-gradient(
-    var(--rosa)     0deg  90deg,
-    var(--amarillo) 90deg 180deg,
-    var(--naranja) 180deg 270deg,
-    var(--verde)   270deg 360deg
-  );
+  /* Borde dorado de feria · doble anillo metálico */
+  border: 14px solid #f3d100;
+  box-shadow:
+    0 0 0 4px #b88a00,                          /* anillo oscuro exterior · contraste */
+    0 0 28px rgba(243,209,0,0.55),              /* halo dorado */
+    0 28px 60px rgba(0,0,0,0.45),               /* sombra profunda al suelo */
+    inset 0 0 0 6px rgba(255,255,255,0.20),     /* anillo interior brillante */
+    inset 0 0 60px rgba(0,0,0,0.28);            /* sombra interna · volumen */
+  background:
+    /* Brillo radial superior · efecto barniz/3D */
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.42), transparent 55%),
+    conic-gradient(
+      var(--rosa)     0deg  90deg,
+      var(--amarillo) 90deg 180deg,
+      var(--naranja) 180deg 270deg,
+      var(--verde)   270deg 360deg
+    );
+  animation: ruletaHalo 2.4s ease-in-out infinite;
+}
+/* Líneas finas blancas entre sectores · efecto ruleta de feria real */
+.ruleta::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      transparent 0deg 89.5deg, rgba(255,255,255,0.7) 89.5deg 90.5deg, transparent 90.5deg 179.5deg,
+      rgba(255,255,255,0.7) 179.5deg 180.5deg, transparent 180.5deg 269.5deg,
+      rgba(255,255,255,0.7) 269.5deg 270.5deg, transparent 270.5deg 359.5deg,
+      rgba(255,255,255,0.7) 359.5deg 360deg
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes ruletaHalo {
+  0%, 100% { box-shadow:
+    0 0 0 4px #b88a00,
+    0 0 28px rgba(243,209,0,0.55),
+    0 28px 60px rgba(0,0,0,0.45),
+    inset 0 0 0 6px rgba(255,255,255,0.20),
+    inset 0 0 60px rgba(0,0,0,0.28); }
+  50% { box-shadow:
+    0 0 0 4px #b88a00,
+    0 0 42px rgba(243,209,0,0.85),
+    0 28px 60px rgba(0,0,0,0.45),
+    inset 0 0 0 6px rgba(255,255,255,0.28),
+    inset 0 0 60px rgba(0,0,0,0.28); }
+}
+/* Motion blur sutil mientras gira */
+.ruleta.spinning {
+  filter: blur(1.2px) brightness(1.08);
+  transition: filter 0.3s;
+}
+/* LEDs decorativos alrededor del borde · 12 puntos que pulsan en secuencia */
+.ruleta-leds {
+  position: absolute; inset: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+}
+.ruleta-leds .led {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff5a8 0%, #f3d100 55%, #b88a00 100%);
+  box-shadow: 0 0 10px rgba(255,235,120,0.95), 0 0 20px rgba(243,209,0,0.65);
+  top: 50%; left: 50%;
+  margin-top: -6px; margin-left: -6px;
+  animation: ledPulse 1.4s ease-in-out infinite;
+}
+@keyframes ledPulse {
+  0%, 100% { opacity: 0.55; transform: translate(var(--lx), var(--ly)) scale(0.85); }
+  50%      { opacity: 1.00; transform: translate(var(--lx), var(--ly)) scale(1.15); }
 }
 /* Etiquetas posicionadas en el centro de cada cuadrante (diagonales NE/SE/SW/NW) */
 .ruleta .lbl {
   position: absolute;
   font-family: 'Barlow', sans-serif;
   font-weight: 900; font-style: italic;
-  font-size: 20px; color: #fff;
+  font-size: 28px; color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.45);
   white-space: nowrap;
   pointer-events: none;
@@ -590,7 +655,7 @@ body {
   position: absolute;
   font-family: 'Barlow', sans-serif;
   font-weight: 900; font-style: italic;
-  font-size: 60px; color: #fff;
+  font-size: 84px; color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.45);
   pointer-events: none;
 }
@@ -599,41 +664,67 @@ body {
 .ruleta .qmark-sw { bottom: 18%; left: 22%; }
 .ruleta .qmark-nw { top: 18%; left: 22%; }
 
-/* Hub central decorativo */
+/* Hub central decorativo (donde nace la aguja) · dorado metálico con highlight */
 .ruleta .hub {
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: 70px; height: 70px;
+  width: 96px; height: 96px;
   border-radius: 50%;
-  background: #fff;
-  border: 5px solid var(--negro);
-  z-index: 2;
+  background:
+    radial-gradient(circle at 35% 30%, #fff5c2 0%, #f3d100 35%, #b88a00 75%, #6b4f00 100%);
+  border: 5px solid #6b4f00;
+  z-index: 6;
+  box-shadow:
+    0 0 0 3px #fff5a8 inset,
+    0 6px 14px rgba(0,0,0,0.45),
+    0 0 18px rgba(243,209,0,0.55);
+  display: flex;
+  align-items: center; justify-content: center;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 38px;
+  color: #6b4f00;
+  text-shadow: 0 1px 0 #fff5c2, 0 -1px 0 rgba(0,0,0,0.25);
 }
 
-/* AGUJA · esto sí gira */
+/* AGUJA · nace EXACTAMENTE en el centro de la ruleta y apunta hacia arriba */
+/* Aguja metálica · rojo brillante con highlight + sombra base */
 .ruleta-aguja {
   position: absolute;
   left: 50%; top: 50%;
-  width: 16px; height: 170px;
-  margin-left: -8px;
-  margin-top: -160px;             /* punta arriba, base en el centro de la ruleta */
-  background: linear-gradient(180deg, var(--negro) 0%, var(--negro) 70%, var(--rojo) 100%);
-  border-radius: 50% 50% 6px 6px;
-  transform-origin: 50% 94%;      /* gira desde la base, no desde la punta */
+  width: 26px; height: 240px;
+  margin-left: -13px;
+  margin-top: -240px;             /* la BASE queda exactamente en el centro · la punta arriba */
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.45) 28%,
+      rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, #ff4040 0%, var(--rojo) 25%, #6a0000 75%, #2a0000 100%);
+  border-radius: 50% 50% 8px 8px;
+  transform-origin: 50% 100%;     /* pivota desde la base (el centro de la ruleta) */
   transform: rotate(0deg);
   transition: transform 3.5s cubic-bezier(0.17, 0.67, 0.32, 1);
   z-index: 3;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.40));
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.55));
   pointer-events: none;
+}
+.ruleta-aguja::before {
+  /* Brillo metálico en el filo derecho de la aguja */
+  content: '';
+  position: absolute;
+  left: 60%; right: 8%; top: 8%; bottom: 22%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
+  border-radius: 50% / 30%;
 }
 .ruleta-aguja::after {
   content: ""; position: absolute;
-  left: 50%; top: -2px;
+  left: 50%; top: -4px;
   transform: translateX(-50%);
   width: 0; height: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-  border-bottom: 26px solid var(--negro);
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 32px solid var(--rojo);
 }
 
 .ruleta-cta {
@@ -642,6 +733,89 @@ body {
   transform: translateX(-50%);
   white-space: nowrap;
   z-index: 4;
+}
+
+/* ============ FERIA · cartas boca abajo (flip cards) ============ */
+.feria-cartas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.feria-card {
+  perspective: 1000px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.feria-card .card-inner {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+.feria-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.feria-card .card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+}
+.feria-card .card-back {
+  background: linear-gradient(135deg, var(--naranja), var(--rojo));
+  color: #fff;
+  border: 4px solid #fff;
+}
+.feria-card .card-back-ico {
+  font-size: 48px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.40));
+}
+.feria-card .card-back-text {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 18px; color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.feria-card .card-front {
+  background: #fff;
+  color: var(--negro);
+  border: 4px solid var(--amarillo);
+  transform: rotateY(180deg);
+}
+.feria-card .card-front-ico {
+  font-size: 56px;
+}
+.feria-card .card-front-text {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900; font-style: italic;
+  font-size: 18px; color: var(--negro);
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* ============ MÚSICA · lista clickable ============ */
+.musica-list li {
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, transform 0.15s;
+}
+.musica-list li:hover {
+  background: rgba(255,255,255,0.45);
+  transform: translateX(4px);
+}
+.musica-list li:active {
+  transform: scale(0.98);
 }
 
 /* ============ ESCENAS 5-8 · ACTIVIDADES ============ */
@@ -890,7 +1064,6 @@ body {
 </style>
 </head>
 <body>
-
 <!-- Palmeras laterales fijas -->
 <svg class="palmera izq" viewBox="0 0 220 380" xmlns="http://www.w3.org/2000/svg">
   <!-- tronco -->
@@ -954,7 +1127,7 @@ body {
 <div class="historia-fullscreen" id="historiaModal">
   <div class="historia-stage">
     <div class="pega-protagonista">
-      <img id="pegaProtaImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+      <img id="pegaProtaImg" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
     </div>
     <div class="historia-bocadillo-pro">
       <h3 id="historiaTitulo">…</h3>
@@ -973,90 +1146,20 @@ body {
 
 <div id="stage">
 
-  <!-- ESCENA 1 · PORTADA · escena ilustrada CSS/SVG -->
+  <!-- ESCENA 1 · PORTADA · fondo cinematográfico Gemini + título limpio -->
   <section class="scene active" id="scene-portada">
-    <div class="portada-scene" id="portadaIlu">
-      <!-- Cielo con sol y nubes -->
-      <div class="sol-real"></div>
-      <div class="nube nube-a"></div>
-      <div class="nube nube-b"></div>
-
-      <!-- Fuegos artificiales (partículas SVG) -->
-      <svg class="fuego" style="left:14%; top:8%;" viewBox="0 0 100 100">
-        <g stroke="#f3d100" stroke-width="3" stroke-linecap="round" fill="none">
-          <line x1="50" y1="50" x2="50" y2="10"/><line x1="50" y1="50" x2="90" y2="50"/>
-          <line x1="50" y1="50" x2="50" y2="90"/><line x1="50" y1="50" x2="10" y2="50"/>
-          <line x1="50" y1="50" x2="80" y2="20"/><line x1="50" y1="50" x2="20" y2="80"/>
-          <line x1="50" y1="50" x2="80" y2="80"/><line x1="50" y1="50" x2="20" y2="20"/>
-        </g>
-        <g fill="#ed7928">
-          <circle cx="50" cy="10" r="4"/><circle cx="90" cy="50" r="4"/>
-          <circle cx="50" cy="90" r="4"/><circle cx="10" cy="50" r="4"/>
-          <circle cx="80" cy="20" r="3"/><circle cx="20" cy="80" r="3"/>
-        </g>
-      </svg>
-      <svg class="fuego" style="right:18%; top:4%;" viewBox="0 0 100 100">
-        <g stroke="#e45e9b" stroke-width="3" stroke-linecap="round" fill="none">
-          <line x1="50" y1="50" x2="50" y2="10"/><line x1="50" y1="50" x2="90" y2="50"/>
-          <line x1="50" y1="50" x2="50" y2="90"/><line x1="50" y1="50" x2="10" y2="50"/>
-          <line x1="50" y1="50" x2="80" y2="20"/><line x1="50" y1="50" x2="20" y2="80"/>
-          <line x1="50" y1="50" x2="80" y2="80"/><line x1="50" y1="50" x2="20" y2="20"/>
-        </g>
-        <g fill="#f3d100">
-          <circle cx="50" cy="10" r="4"/><circle cx="90" cy="50" r="4"/>
-          <circle cx="50" cy="90" r="4"/><circle cx="10" cy="50" r="4"/>
-        </g>
-      </svg>
-
-      <!-- Escenario de música -->
-      <div class="escenario-real">
-        <div class="esc-techo"></div>
-        <div class="esc-piso"></div>
-        <div class="esc-micro"></div>
-        <div class="esc-musico"></div>
+    <div class="portada-overlay">
+      <div class="portada-eyebrow">🏖️ Papás al Juego · Fisio · Junio 2026</div>
+      <h1 class="portada-title-v2">VIAJE DE VERANO<br><span class="accent">CON FISIO</span></h1>
+      <p class="portada-sub">Una aventura por cuatro destinos del verano.<br>¿Dónde van a viajar mis papás este año?</p>
+      <div class="portada-destinos">
+        <span class="dest-pill">🏖️ PLAYA</span>
+        <span class="dest-pill">🏊 PISCINA</span>
+        <span class="dest-pill">⛰️ MONTAÑA</span>
+        <span class="dest-pill">💦 PARQUE ACUÁTICO</span>
       </div>
-
-      <!-- Puesto de helados -->
-      <div class="puesto-helados">
-        <div class="ph-techo"></div>
-        <div class="ph-mostrador"></div>
-        <div class="ph-letra">HELADOS</div>
-        <div class="ph-cono ph-cono-1"></div>
-        <div class="ph-cono ph-cono-2"></div>
-        <div class="ph-cono ph-cono-3"></div>
-      </div>
-
-      <!-- Cámara grande -->
-      <div class="camara-foto">
-        <div class="cf-cuerpo"></div>
-        <div class="cf-flash"></div>
-        <div class="cf-lente"></div>
-      </div>
-
-      <!-- Mar + arena -->
-      <div class="mar"></div>
-      <div class="arena"></div>
-
-      <!-- Sombrillas en la playa -->
-      <div class="sombrilla sombrilla-a">
-        <div class="som-arriba"></div>
-        <div class="som-mastil"></div>
-      </div>
-      <div class="sombrilla sombrilla-b">
-        <div class="som-arriba alt"></div>
-        <div class="som-mastil"></div>
-      </div>
-
-      <!-- Mini iconos (playa/piscina/montaña/parque acuático) en banda inferior -->
-      <div class="badges-escenarios">
-        <div class="bag">🏖️<small>PLAYA</small></div>
-        <div class="bag">🏊‍♂️<small>PISCINA</small></div>
-        <div class="bag">⛰️<small>MONTAÑA</small></div>
-        <div class="bag">💦<small>PARQUE ACUÁTICO</small></div>
-      </div>
+      <button class="btn warm portada-btn" onclick="go('preparacion')">▶ EMPEZAR</button>
     </div>
-    <h1 class="portada-title">Viaje de Verano<br><span class="accent">con Fisio</span></h1>
-    <button class="btn warm" style="margin-top: 36px;" onclick="go('preparacion')">▶ EMPEZAR</button>
   </section>
 
   <!-- ESCENA 2 · PREPARACIÓN -->
@@ -1084,7 +1187,7 @@ body {
         <span class="qmark qmark-se">?</span>
         <span class="qmark qmark-sw">?</span>
         <span class="qmark qmark-nw">?</span>
-        <div class="hub"></div>
+        <div class="hub">★</div>
       </div>
       <div class="ruleta-aguja"></div>
       <button class="btn warm sm ruleta-cta" onclick="go('ruleta-nombres')">DESCUBRIR ACTIVIDADES</button>
@@ -1101,7 +1204,7 @@ body {
         <span class="lbl lbl-se">FERIA</span>
         <span class="lbl lbl-sw">MÚSICA</span>
         <span class="lbl lbl-nw">FOTOS</span>
-        <div class="hub"></div>
+        <div class="hub">★</div>
       </div>
       <div class="ruleta-aguja" id="aguja"></div>
       <button class="btn warm sm ruleta-cta" id="btnGirar" onclick="girarRuleta()">🎯 GIRAR</button>
@@ -1125,33 +1228,78 @@ body {
     </div>
   </section>
 
-  <!-- ESCENA 6 · FERIA -->
+  <!-- ESCENA 6 · FERIA · cartas boca abajo, se voltean al tocar -->
   <section class="scene" id="scene-feria" style="background: linear-gradient(180deg, #ffd5b3, #f59c4f);">
     <div class="theme-rain" id="feriaRain"></div>
     <div class="actividad-host">
       <h2>🎯 JUEGOS DE FERIA</h2>
-      <ul>
-        <li><span class="num">1.</span><span class="ico">🎯</span> Diana de feria</li>
-        <li><span class="num">2.</span><span class="ico">🎳</span> Bolos</li>
-        <li><span class="num">3.</span><span class="ico">🎈</span> Globo</li>
-        <li><span class="num">4.</span><span class="ico">⭕</span> Canicas movidas por el viento</li>
-      </ul>
+      <p style="font-weight:700; font-style:italic; font-size:20px; color: var(--negro); margin-bottom: 18px;">Toca una carta para descubrir qué actividad de feria os toca:</p>
+      <div class="feria-cartas">
+        <div class="feria-card" onclick="voltearCartaFeria(this, '🎯', 'Diana de feria')">
+          <div class="card-inner">
+            <div class="card-face card-back">
+              <div class="card-back-ico">🎪</div>
+              <div class="card-back-text">¡Tócame!</div>
+            </div>
+            <div class="card-face card-front">
+              <div class="card-front-ico"></div>
+              <div class="card-front-text"></div>
+            </div>
+          </div>
+        </div>
+        <div class="feria-card" onclick="voltearCartaFeria(this, '🎳', 'Bolos')">
+          <div class="card-inner">
+            <div class="card-face card-back">
+              <div class="card-back-ico">🎪</div>
+              <div class="card-back-text">¡Tócame!</div>
+            </div>
+            <div class="card-face card-front">
+              <div class="card-front-ico"></div>
+              <div class="card-front-text"></div>
+            </div>
+          </div>
+        </div>
+        <div class="feria-card" onclick="voltearCartaFeria(this, '🎈', 'Globo')">
+          <div class="card-inner">
+            <div class="card-face card-back">
+              <div class="card-back-ico">🎪</div>
+              <div class="card-back-text">¡Tócame!</div>
+            </div>
+            <div class="card-face card-front">
+              <div class="card-front-ico"></div>
+              <div class="card-front-text"></div>
+            </div>
+          </div>
+        </div>
+        <div class="feria-card" onclick="voltearCartaFeria(this, '⭕', 'Canicas movidas por el viento')">
+          <div class="card-inner">
+            <div class="card-face card-back">
+              <div class="card-back-ico">🎪</div>
+              <div class="card-back-text">¡Tócame!</div>
+            </div>
+            <div class="card-face card-front">
+              <div class="card-front-ico"></div>
+              <div class="card-front-text"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="btn warm" style="margin-top: 24px;" onclick="volverRuleta()">▶ SIGUIENTE</button>
     </div>
   </section>
 
-  <!-- ESCENA 7 · MÚSICA -->
+  <!-- ESCENA 7 · MÚSICA · suena la canción al pinchar (abre YouTube en pestaña nueva) -->
   <section class="scene" id="scene-musica" style="background: linear-gradient(180deg, #fce4f3, #e45e9b);">
     <div class="theme-rain" id="musicaRain"></div>
     <div class="actividad-host">
       <h2 style="color: var(--morado);">🎵 AL RITMO DE LA MÚSICA</h2>
-      <p style="font-weight:700; font-style:italic; font-size:20px; color: var(--negro);">Elige un número y suena la canción:</p>
-      <ul>
-        <li><span class="num">1.</span> La Bomba — <i>King África</i></li>
-        <li><span class="num">2.</span> YMCA — <i>Village People</i></li>
-        <li><span class="num">3.</span> La Macarena — <i>Los del Río</i></li>
-        <li><span class="num">4.</span> Follow the Leader — <i>Soca Boys</i></li>
-        <li style="grid-column: 1 / -1; justify-content: center;"><span class="num">5.</span> Paquito el Chocolatero</li>
+      <p style="font-weight:700; font-style:italic; font-size:20px; color: var(--negro);">Pincha una canción para que suene:</p>
+      <ul class="musica-list">
+        <li onclick="ponerCancion('La Bomba King África')"><span class="num">1.</span> 🎵 La Bomba — <i>King África</i></li>
+        <li onclick="ponerCancion('YMCA Village People')"><span class="num">2.</span> 🎵 YMCA — <i>Village People</i></li>
+        <li onclick="ponerCancion('La Macarena Los del Río')"><span class="num">3.</span> 🎵 La Macarena — <i>Los del Río</i></li>
+        <li onclick="ponerCancion('Follow the Leader Soca Boys')"><span class="num">4.</span> 🎵 Follow the Leader — <i>Soca Boys</i></li>
+        <li onclick="ponerCancion('Paquito el Chocolatero')" style="grid-column: 1 / -1; justify-content: center;"><span class="num">5.</span> 🎵 Paquito el Chocolatero</li>
       </ul>
       <button class="btn warm" style="margin-top: 24px;" onclick="volverRuleta()">▶ SIGUIENTE</button>
     </div>
@@ -1170,10 +1318,10 @@ body {
           <div class="cam-msg">Pulsa <b>ACTIVAR CÁMARA</b><br>para hacer la foto real</div>
         </div>
       </div>
-      <div class="cuenta-atras" id="cuentaAtras">60</div>
+      <div class="cuenta-atras" id="cuentaAtras">–</div>
       <div class="botones-camara" id="botonesCamara">
         <button class="btn warm" id="btnActivarCam" onclick="activarCamara()">📷 ACTIVAR CÁMARA</button>
-        <button class="btn ghost" onclick="iniciarCuentaAtras(true)">▶ MODO SIMULADO</button>
+        <button class="btn ghost" onclick="pedirTiempo(true)">▶ MODO SIMULADO</button>
       </div>
     </div>
   </section>
@@ -1218,16 +1366,38 @@ const snd = {
   win:    () => { tone(660, 0.10, 'sine'); setTimeout(() => tone(880, 0.18, 'sine'), 100); },
   fanf:   () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.20, 'square', 0.15), i * 130)); },
   girar:  () => {
+    // Ratchet de ruleta de feria: clicks metálicos cortos espaciados con ease-out
+    // (rápidos al principio, frenan al final como una ruleta real)
     const c = ensureCtx();
-    const osc = c.createOscillator();
-    const gain = c.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(220, c.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(80, c.currentTime + 3);
-    gain.gain.setValueAtTime(0.10, c.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 3);
-    osc.connect(gain); gain.connect(c.destination);
-    osc.start(c.currentTime); osc.stop(c.currentTime + 3);
+    const totalDur = 3.5;
+    const numTicks = 46;
+    const buf = c.createBuffer(1, c.sampleRate * 0.05, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (c.sampleRate * 0.008));
+    }
+    for (let i = 0; i < numTicks; i++) {
+      // Ease-out cubic: ticks van más rápido al principio y se separan al final
+      const norm = i / numTicks;
+      const eased = 1 - Math.pow(1 - norm, 2.6);
+      const t = c.currentTime + eased * totalDur;
+      const src = c.createBufferSource();
+      src.buffer = buf;
+      const bp = c.createBiquadFilter();
+      bp.type = 'bandpass';
+      // Frecuencia del click baja ligeramente al avanzar (resonancia metálica que se enfría)
+      bp.frequency.value = 1700 - norm * 400;
+      bp.Q.value = 4;
+      const gain = c.createGain();
+      // Volumen empieza alto y baja al final (también ayuda a sensación de frenada)
+      const vol = 0.22 * (1 - norm * 0.45);
+      gain.gain.setValueAtTime(vol, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+      src.connect(bp); bp.connect(gain); gain.connect(c.destination);
+      src.start(t);
+    }
+    // Tap final más grave cuando se detiene (madera)
+    setTimeout(() => tone(180, 0.18, 'sine', 0.22), totalDur * 1000 - 30);
   },
   shutter: () => { tone(2400, 0.05, 'square', 0.30); setTimeout(() => tone(800, 0.08, 'sine', 0.20), 60); },
   beep:    () => tone(880, 0.08, 'square', 0.15)
@@ -1235,7 +1405,7 @@ const snd = {
 
 // ---------- NAVEGACIÓN ESCENAS ----------
 // === PEGASUSITO FULLSCREEN reutilizable ===
-const PEGA_PATH = '../shared/pegasusito/';
+const PEGA_PATH = '../../../01_pegasus-studio/casting/pegasusito/';
 let pegaCallback = null;
 function mostrarPantallaPegasusito({ titulo, texto, pose='saludando', cta='▶ CONTINUAR', onContinuar=null }) {
   document.getElementById('historiaTitulo').textContent = titulo;
@@ -1326,6 +1496,14 @@ function girarRuleta() {
   const aguja = document.getElementById('aguja');
   if (aguja) aguja.style.transform = `rotate(${agujaRot}deg)`;
 
+  // Motion blur sutil en la ruleta mientras gira
+  const ruletaEl = document.getElementById('ruletaN');
+  if (ruletaEl) {
+    ruletaEl.classList.add('spinning');
+    // Lo quitamos en los últimos 600ms para que el sector ganador se vea nítido
+    setTimeout(() => ruletaEl.classList.remove('spinning'), 3100);
+  }
+
   const btn = document.getElementById('btnGirar');
   btn.style.opacity = '0.4';
   btn.style.pointerEvents = 'none';
@@ -1335,10 +1513,82 @@ function girarRuleta() {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
     snd.win();
+    // Mini-confetti centrado al detenerse (celebra el sector ganador)
+    miniConfettiRuleta();
     go(objetivo);
     actividadIdx++;
     actualizarProgreso();
   }, 3700);
+}
+
+// Genera 12 LEDs dorados alrededor del borde de cada ruleta del DOM
+function montarLedsRuleta() {
+  document.querySelectorAll('.ruleta').forEach(rul => {
+    if (rul.querySelector('.ruleta-leds')) return;  // ya montados
+    const cont = document.createElement('div');
+    cont.className = 'ruleta-leds';
+    const N = 12;
+    // El radio se calcula como 47% de la ruleta (justo dentro del borde dorado)
+    const tam = rul.offsetWidth || 520;
+    const radio = tam * 0.47;
+    for (let i = 0; i < N; i++) {
+      const ang = (i / N) * 2 * Math.PI - Math.PI / 2;  // empezar arriba
+      const lx = Math.cos(ang) * radio;
+      const ly = Math.sin(ang) * radio;
+      const led = document.createElement('div');
+      led.className = 'led';
+      led.style.setProperty('--lx', lx + 'px');
+      led.style.setProperty('--ly', ly + 'px');
+      led.style.animationDelay = (i * 0.12) + 's';
+      cont.appendChild(led);
+    }
+    rul.appendChild(cont);
+  });
+}
+// Recalcular LEDs si el viewport cambia (responsive · ruleta 380 vs 520)
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.ruleta .ruleta-leds').forEach(el => el.remove());
+  montarLedsRuleta();
+});
+
+// Mini-confetti centrado para celebrar la ruleta cuando se detiene
+function miniConfettiRuleta() {
+  const ruletaEl = document.getElementById('ruletaN');
+  if (!ruletaEl) return;
+  const rect = ruletaEl.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const colores = ['#f3d100','#ed7928','#e45e9b','#08b75b','#007ec3','#974694','#fff'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.style.cssText = `
+      position: fixed; left:${cx}px; top:${cy}px;
+      width: 8px; height: 8px; border-radius: ${Math.random()>0.5?'50%':'2px'};
+      background: ${colores[i % colores.length]};
+      pointer-events: none; z-index: 9999;
+      box-shadow: 0 0 6px rgba(255,255,255,0.4);
+    `;
+    document.body.appendChild(p);
+    const ang = Math.random() * 2 * Math.PI;
+    const dist = 120 + Math.random() * 150;
+    const dx = Math.cos(ang) * dist;
+    const dy = Math.sin(ang) * dist - 80;
+    p.animate(
+      [
+        { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random()*720-360}deg)`, opacity: 0 }
+      ],
+      { duration: 1200 + Math.random()*400, easing: 'cubic-bezier(.2,.6,.4,1)' }
+    );
+    setTimeout(() => p.remove(), 1700);
+  }
+}
+
+// Montar LEDs en cuanto el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', montarLedsRuleta);
+} else {
+  montarLedsRuleta();
 }
 
 function volverRuleta() {
@@ -1402,22 +1652,32 @@ async function activarCamara() {
     v.style.display = 'block';
     document.getElementById('camOverlay').style.display = 'none';
     camActiva = true;
-    // Cambiar botones: ahora INICIAR cuenta atrás
-    document.getElementById('botonesCamara').innerHTML = `
-      <button class="btn warm" onclick="iniciarCuentaAtras(false)">▶ INICIAR CUENTA ATRÁS</button>
-    `;
+    // Cambiar botones: ahora elegir temporizador (30s o 50s)
+    pedirTiempo(false);
   } catch(e) {
     console.warn('Cámara no disponible:', e);
     alert('No se pudo acceder a la cámara:\n\n' + e.message + '\n\nSe activa el modo simulado.');
     if (btn) { btn.disabled = false; btn.textContent = '📷 ACTIVAR CÁMARA'; }
-    document.getElementById('botonesCamara').innerHTML = `
-      <button class="btn warm" onclick="iniciarCuentaAtras(true)">▶ INICIAR (modo simulado)</button>
-    `;
+    pedirTiempo(true);
   }
 }
 
-function iniciarCuentaAtras(simulado) {
-  cuentaValor = 60;
+// Cambio Ceci: el terapeuta elige 30s o 50s según el peque
+function pedirTiempo(simulado) {
+  document.getElementById('botonesCamara').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;">
+      <div style="font-weight:900;font-size:18px;color:var(--negro);font-style:italic;text-align:center;">¿CUÁNTO TIEMPO PARA POSAR?</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <button class="btn warm" onclick="iniciarCuentaAtras(${simulado ? 'true' : 'false'}, 30)">⏱ 30 segundos</button>
+        <button class="btn warm" onclick="iniciarCuentaAtras(${simulado ? 'true' : 'false'}, 50)">⏱ 50 segundos</button>
+      </div>
+    </div>
+  `;
+}
+
+function iniciarCuentaAtras(simulado, segundos) {
+  segundos = segundos || 50;
+  cuentaValor = segundos;
   const display = document.getElementById('cuentaAtras');
   display.textContent = cuentaValor;
   display.classList.remove('fin');
@@ -1436,41 +1696,65 @@ function iniciarCuentaAtras(simulado) {
   }, 1000);
 
   document.getElementById('botonesCamara').innerHTML = `
-    <button class="btn ghost" onclick="iniciarCuentaAtras(${simulado ? 'true' : 'false'})">🔁 REINICIAR</button>
+    <button class="btn ghost" onclick="iniciarCuentaAtras(${simulado ? 'true' : 'false'}, ${segundos})">🔁 REINICIAR ${segundos}s</button>
     <button class="btn warm" onclick="terminarFotos()">✓ END</button>
   `;
 }
 
+// Preload marco veraniego (Gemini) · usa data URI inline si está disponible
+const marcoVeraniegoImg = new Image();
+marcoVeraniegoImg.src = window.__MARCO_DATAURI__ || 'assets/img/marco-veraniego-foto.png';
+let marcoVeraniegoListo = false;
+marcoVeraniegoImg.onload = () => { marcoVeraniegoListo = true; };
+marcoVeraniegoImg.onerror = () => { console.warn('Marco veraniego no cargado · fallback a palmeras vectoriales'); };
+
 function hacerFoto(simulado) {
   snd.shutter();
-  // Flash blanco siempre
   const flash = document.getElementById('flashScreen');
   flash.classList.remove('fire');
   void flash.offsetWidth;
   flash.classList.add('fire');
 
-  // Capturar frame real si la cámara está activa
   if (!simulado && camActiva) {
     const v = document.getElementById('camVideo');
     const c = document.getElementById('camCanvas');
     if (v.videoWidth > 0) {
-      c.width = v.videoWidth;
-      c.height = v.videoHeight;
+      let cw, ch;
+      if (marcoVeraniegoListo && marcoVeraniegoImg.naturalWidth > 0) {
+        cw = marcoVeraniegoImg.naturalWidth;
+        ch = marcoVeraniegoImg.naturalHeight;
+      } else {
+        cw = v.videoWidth;
+        ch = v.videoHeight;
+      }
+      c.width = cw;
+      c.height = ch;
       const ctx2d = c.getContext('2d');
-      // 1. Frame de la cámara con espejo horizontal
+      const videoRatio = v.videoWidth / v.videoHeight;
+      const canvasRatio = cw / ch;
+      let sx, sy, sw, sh;
+      if (videoRatio > canvasRatio) {
+        sh = v.videoHeight; sw = sh * canvasRatio;
+        sx = (v.videoWidth - sw) / 2; sy = 0;
+      } else {
+        sw = v.videoWidth; sh = sw / canvasRatio;
+        sx = 0; sy = (v.videoHeight - sh) / 2;
+      }
       ctx2d.save();
-      ctx2d.translate(c.width, 0);
+      ctx2d.translate(cw, 0);
       ctx2d.scale(-1, 1);
-      ctx2d.drawImage(v, 0, 0, c.width, c.height);
+      ctx2d.drawImage(v, sx, sy, sw, sh, 0, 0, cw, ch);
       ctx2d.restore();
-      // 2. Marco con palmeras a ambos lados
-      dibujarMarcoPalmeras(ctx2d, c.width, c.height);
+      if (marcoVeraniegoListo) {
+        ctx2d.drawImage(marcoVeraniegoImg, 0, 0, cw, ch);
+      } else {
+        dibujarMarcoPalmeras(ctx2d, cw, ch);
+      }
       c.style.display = 'block';
       v.style.display = 'none';
     }
   }
 
-  // Mostrar botones REINICIAR + GUARDAR + END
   const haCapturado = !simulado && camActiva && document.getElementById('camCanvas').style.display === 'block';
   document.getElementById('botonesCamara').innerHTML = `
     ${haCapturado ? '<button class="btn sun" onclick="guardarFoto()">💾 GUARDAR FOTO</button>' : ''}
@@ -1480,34 +1764,51 @@ function hacerFoto(simulado) {
 }
 
 function cerrarFotos() {
-  // Pantalla Pegasusito vacaciones antes del cierre final
   mostrarPantallaPegasusito({
     titulo: '¡Viaje completado!',
     texto: 'Habéis recorrido las cuatro paradas del verano. La maleta está sellada. Las vacaciones os esperan.',
     pose: 'vacaciones',
     cta: '▶ AL FINAL',
-    onContinuar: () => {
-      terminarFotos();
-    }
+    onContinuar: () => { terminarFotos(); }
   });
 }
 
 function reiniciarFoto(simulado) {
-  document.getElementById('camCanvas').style.display = 'none';
-  if (camActiva) document.getElementById('camVideo').style.display = 'block';
-  iniciarCuentaAtras(simulado);
+  const c = document.getElementById('camCanvas');
+  const v = document.getElementById('camVideo');
+  c.style.display = 'none';
+  if (camActiva && camStream) v.style.display = 'block';
+  document.getElementById('cuentaAtras').classList.remove('fin');
+  document.getElementById('cuentaAtras').textContent = '–';
+  pedirTiempo(simulado);
 }
 
 function guardarFoto() {
   const c = document.getElementById('camCanvas');
-  if (!c) return;
-  const link = document.createElement('a');
-  link.download = 'viaje-verano-fisio-' + Date.now() + '.png';
-  link.href = c.toDataURL('image/png');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  snd.win();
+  if (!c || c.style.display === 'none') {
+    alert('Primero haz la foto. La cuenta atrás debe llegar a 0.');
+    return;
+  }
+  try {
+    c.toBlob((blob) => {
+      if (!blob) {
+        alert('No se pudo generar la foto. Recarga la página y vuelve a intentarlo.');
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = 'viaje-verano-fisio-' + new Date().toISOString().slice(0,16).replace(/[:T]/g,'-') + '.png';
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      snd.win();
+    }, 'image/png');
+  } catch (e) {
+    console.error('Error guardando foto:', e);
+    alert('No se puede guardar la foto.\n\n' + e.message + '\n\nProbable causa: el navegador bloquea por seguridad al abrir el HTML directo. Abre el archivo desde un servidor local.');
+  }
 }
 
 // ===== UNLOCK AUDIO + BIENVENIDA con Pegasusito =====
@@ -1533,31 +1834,40 @@ styleResp.textContent = `
   .actividad-host { padding: 18px 22px; }
   .actividad-host h2 { font-size: 26px; }
   .btn { padding: 10px 22px; font-size: 15px; }
-  .ruleta { width: 280px; height: 280px; }
+  .ruleta { width: 380px; height: 380px; }
+  .ruleta-aguja { height: 170px; margin-top: -170px; }
+  .ruleta .lbl { font-size: 22px; }
+  .ruleta .qmark { font-size: 62px; }
+  .ruleta .hub { width: 70px; height: 70px; font-size: 28px; }
   .visor-grande { height: 320px; }
   .pega-protagonista { height: 280px; }
   .historia-bocadillo-pro { padding: 22px 26px; }
   .historia-bocadillo-pro h3 { font-size: 22px; }
 }`;
 document.head.appendChild(styleResp);
-</script>
-</body>
-</html>
-entById('camCanvas').style.display === 'block';
-  document.getElementById('botonesCamara').innerHTML = `
-    ${haCapturado ? '<button class="btn sun" onclick="guardarFoto()">💾 GUARDAR FOTO</button>' : ''}
-    <button class="btn ghost" onclick="reiniciarFoto(${simulado ? 'true' : 'false'})">🔁 REINICIAR</button>
-    <button class="btn warm" onclick="terminarFotos()">✓ TERMINAR</button>
-  `;
+
+// ============ FERIA · voltear carta para revelar la actividad ============
+function voltearCartaFeria(carta, ico, texto) {
+  if (carta.classList.contains('flipped')) return;
+  const front = carta.querySelector('.card-front');
+  front.querySelector('.card-front-ico').textContent = ico;
+  front.querySelector('.card-front-text').textContent = texto;
+  carta.classList.add('flipped');
+  if (typeof snd !== 'undefined' && snd.win) snd.win();
 }
 
-// Dibuja una palmera estilizada con paths en el canvas
+// ============ MÚSICA · abrir canción en YouTube en pestaña nueva ============
+function ponerCancion(query) {
+  const url = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query);
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+// ============ Funciones para marco veraniego vectorial (fallback) ============
 function dibujarPalmera(ctx, x, baseY, h, flip) {
   ctx.save();
   ctx.translate(x, baseY);
   if (flip) ctx.scale(-1, 1);
   const w = h * 0.55;
-  // Tronco
   ctx.strokeStyle = '#8a5a2e';
   ctx.lineWidth = h * 0.07;
   ctx.lineCap = 'round';
@@ -1565,7 +1875,6 @@ function dibujarPalmera(ctx, x, baseY, h, flip) {
   ctx.moveTo(0, 0);
   ctx.bezierCurveTo(-w*0.12, -h*0.35, -w*0.20, -h*0.65, -w*0.30, -h*0.95);
   ctx.stroke();
-  // Hojas
   ctx.fillStyle = '#08b75b';
   const topX = -w*0.30, topY = -h*0.95;
   const drawLeaf = (ang, len) => {
@@ -1578,13 +1887,12 @@ function dibujarPalmera(ctx, x, baseY, h, flip) {
     ctx.restore();
   };
   const len = w * 0.85;
-  drawLeaf(-Math.PI * 0.85, len);   // arriba izq
-  drawLeaf(-Math.PI * 0.55, len);   // arriba
-  drawLeaf(-Math.PI * 0.25, len);   // arriba der
-  drawLeaf( Math.PI * 0.10, len);   // der
-  drawLeaf( Math.PI * 0.55, len);   // abajo der
-  drawLeaf( Math.PI * 1.00, len);   // izq
-  // Cocos
+  drawLeaf(-Math.PI * 0.85, len);
+  drawLeaf(-Math.PI * 0.55, len);
+  drawLeaf(-Math.PI * 0.25, len);
+  drawLeaf( Math.PI * 0.10, len);
+  drawLeaf( Math.PI * 0.55, len);
+  drawLeaf( Math.PI * 1.00, len);
   ctx.fillStyle = '#5c3618';
   ctx.beginPath(); ctx.arc(topX + 4, topY + 8, h*0.025, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(topX - 6, topY + 10, h*0.022, 0, Math.PI*2); ctx.fill();
@@ -1592,42 +1900,17 @@ function dibujarPalmera(ctx, x, baseY, h, flip) {
 }
 
 function dibujarMarcoPalmeras(ctx, w, h) {
-  // Palmera izquierda + derecha (ancladas a las esquinas inferiores)
   const altura = h * 0.65;
   dibujarPalmera(ctx, w * 0.08, h * 0.95, altura, false);
   dibujarPalmera(ctx, w * 0.92, h * 0.95, altura, true);
-  // Texto en la esquina inferior
   ctx.fillStyle = 'rgba(255,255,255,0.92)';
   ctx.font = `bold italic ${Math.round(h*0.04)}px Barlow, sans-serif`;
   ctx.textAlign = 'center';
   ctx.fillText('🏖️ VIAJE DE VERANO CON FISIO', w/2, h - h*0.04);
 }
 
-function reiniciarFoto(simulado) {
-  const c = document.getElementById('camCanvas');
-  const v = document.getElementById('camVideo');
-  c.style.display = 'none';
-  if (camActiva && camStream) v.style.display = 'block';
-  document.getElementById('cuentaAtras').classList.remove('fin');
-  document.getElementById('cuentaAtras').textContent = '60';
-  iniciarCuentaAtras(simulado);
-}
-
-function guardarFoto() {
-  const c = document.getElementById('camCanvas');
-  if (!c || c.style.display === 'none') return;
-  const link = document.createElement('a');
-  link.download = 'viaje-verano-fisio-' + new Date().toISOString().slice(0,16).replace(/[:T]/g,'-') + '.png';
-  link.href = c.toDataURL('image/png');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  snd.win();
-}
-
 function terminarFotos() {
   if (cuentaTimer) { clearInterval(cuentaTimer); cuentaTimer = null; }
-  // Detener stream de cámara
   if (camStream) {
     camStream.getTracks().forEach(t => t.stop());
     camStream = null;
@@ -1656,17 +1939,59 @@ function launchConfetti() {
   setTimeout(() => { host.innerHTML = ''; }, 6000);
 }
 
-// ---------- KEYBOARD ESCAPE ----------
+// ---------- KEYBOARD ESCAPE + ATAJOS TESTING (1-9) ----------
 document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.key === 'Escape') {
     document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
     document.getElementById('scene-portada').classList.add('active');
     actividadIdx = 0; ruletaRot = 0; fraseIdx = 0;
     actualizarProgreso();
+    return;
+  }
+  const atajos = {
+    '1': 'portada',  '2': 'preparacion',  '3': 'maleta',
+    '4': 'ruleta-nombres',  '5': 'helados',  '6': 'feria',
+    '7': 'musica',  '8': 'fotos',  '9': 'final'
+  };
+  if (atajos[e.key]) {
+    e.preventDefault();
+    const modal = document.getElementById('historiaModal');
+    if (modal) modal.classList.remove('show');
+    go(atajos[e.key]);
   }
 });
 
-// inicializar Web Audio al primer gesto (sin consumir el click del botón)
+// ===== PORTADA v2 · estilos =====
+const stylePortada = document.createElement('style');
+stylePortada.textContent = [
+  '#scene-portada { display: flex !important; align-items: center; justify-content: center; text-align: center; padding: 24px; }',
+  '.portada-overlay { max-width: 880px; width: 92%; background: rgba(0,0,0,0.32); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 32px; padding: clamp(20px, 4vh, 44px) clamp(20px, 4vw, 56px); box-shadow: 0 30px 70px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(255,255,255,0.18); color: #fff; }',
+  '.portada-eyebrow { font-family: Barlow, sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: #fff5a8; margin-bottom: 18px; text-shadow: 0 2px 8px rgba(0,0,0,0.45); }',
+  '.portada-title-v2 { font-family: Barlow, sans-serif; font-weight: 900; font-style: italic; font-size: clamp(40px, 7vh, 72px); line-height: 1.0; color: #fff; text-shadow: 0 4px 18px rgba(0,0,0,0.55), 0 0 28px rgba(243,209,0,0.25); margin-bottom: 14px; letter-spacing: 1px; }',
+  '.portada-title-v2 .accent { color: #f3d100; text-shadow: 0 4px 22px rgba(0,0,0,0.65), 0 0 18px rgba(243,209,0,0.55); }',
+  '.portada-sub { font-family: Barlow, sans-serif; font-weight: 400; font-style: italic; font-size: clamp(15px, 2.4vh, 20px); line-height: 1.4; color: rgba(255,255,255,0.94); max-width: 620px; margin: 0 auto 22px; text-shadow: 0 2px 8px rgba(0,0,0,0.55); }',
+  '.portada-destinos { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 26px; }',
+  '.dest-pill { display: inline-block; padding: 8px 18px; border-radius: 999px; background: rgba(255,255,255,0.92); color: var(--negro); font-family: Barlow, sans-serif; font-weight: 900; font-style: italic; font-size: 14px; letter-spacing: 0.6px; box-shadow: 0 6px 14px rgba(0,0,0,0.30); white-space: nowrap; }',
+  '.portada-btn { font-size: 22px !important; padding: 14px 38px !important; box-shadow: 0 12px 28px rgba(237,121,40,0.45); }',
+  '@media (max-height: 720px) { .portada-title-v2 { font-size: clamp(34px, 6.5vh, 56px); } .portada-sub { font-size: 14px; margin-bottom: 14px; } .dest-pill { font-size: 12px; padding: 6px 14px; } .portada-btn { font-size: 18px !important; padding: 12px 28px !important; } .portada-overlay { padding: 22px 32px; } }'
+].join('\n');
+document.head.appendChild(stylePortada);
+
+// ===== FONDOS CINEMATOGRÁFICOS GEMINI =====
+const styleFondos = document.createElement('style');
+styleFondos.textContent = [
+  "#scene-portada { background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.32)), url('assets/img/fondo-01-portada-playa-atardecer.png') center/cover no-repeat, linear-gradient(180deg, #8edcff, #fbb56b) !important; }",
+  "#scene-preparacion { background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.28)), url('assets/img/fondo-01-portada-playa-atardecer.png') center/cover no-repeat, var(--grad-cielo) !important; }",
+  "#scene-maleta, #scene-ruleta-nombres { background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.32)), url('assets/img/fondo-02-maleta-habitacion.png') center/cover no-repeat, var(--grad-cielo) !important; }",
+  "#scene-helados { background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.25)), url('assets/img/fondo-02-maleta-habitacion.png') center/cover no-repeat, linear-gradient(180deg, #ffe6a3, #ffc46b) !important; }",
+  "#scene-feria { background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.35)), url('assets/img/fondo-03-feria.png') center/cover no-repeat, linear-gradient(180deg, #ffd5b3, #f59c4f) !important; }",
+  "#scene-musica { background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.40)), url('assets/img/fondo-04-verbena-noche.png') center/cover no-repeat, linear-gradient(180deg, #fce4f3, #e45e9b) !important; }",
+  "#scene-fotos { background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.45)), url('assets/img/fondo-05-fotos-carretera.jpg') center/cover no-repeat, var(--grad-cielo) !important; }",
+  "#scene-final { background: linear-gradient(180deg, rgba(0,0,0,0.30), rgba(0,0,0,0.55)), url('assets/img/fondo-05-fotos-carretera.jpg') center/cover no-repeat, radial-gradient(circle at 50% 50%, rgba(243,209,0,0.40), transparent 60%), linear-gradient(180deg, #ed7928, #d6191b) !important; color: #fff !important; }"
+].join('\n');
+document.head.appendChild(styleFondos);
+
 function unlockAudio() { ensureCtx(); }
 document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
 document.addEventListener('touchstart',  unlockAudio, { once: true, passive: true });
