@@ -617,9 +617,9 @@ body{
 }
 .puzzle-grid{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap:3px;
-  width: min(42vh, 380px);
+  width: min(46vh, 420px);
   background:#3a8a3a;
   padding:6px;
   border-radius:12px;
@@ -921,6 +921,26 @@ body{
   .puzzle-grid{ width: min(40vh, 380px); }
   .puzzle-cell .deco{ font-size:22px; }
 }
+
+/* ===== Ceci: botón Saltar audio ===== */
+.btn-saltar-audio{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.94);border:2px solid var(--rosa);color:var(--rosa);font-family:'Barlow',sans-serif;font-weight:900;font-style:italic;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25);z-index:60;display:inline-flex;align-items:center;gap:4px;transition:all .2s;text-transform:uppercase;letter-spacing:.5px}
+.btn-saltar-audio:hover{background:var(--rosa);color:#fff;transform:scale(1.05)}
+/* ===== Ceci: motor un solo cuadro (construcción) ===== */
+.motor-single{display:flex;justify-content:center;margin:8px 0}
+.motor-single .motor-cell{width:min(30vh,260px);max-width:88%;background:#fff;border:3px solid var(--morado);border-radius:16px;padding:12px;box-shadow:0 8px 18px rgba(0,0,0,.20);text-align:center;transition:all .3s}
+.motor-single .motor-cell .lbl{font-family:'Barlow';font-weight:900;font-style:italic;font-size:14px;color:var(--morado);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.motor-single .motor-cell.llena{border-color:var(--verde);background:#f5fff5;animation:motorPop .4s var(--ease-back)}
+.motor-single .motor-cell.llena img{width:100%;max-height:180px;object-fit:contain;border-radius:12px}
+.motor-single .placeholder{padding:24px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:140px}
+@keyframes motorPop{from{transform:scale(0.85)}to{transform:scale(1)}}
+/* Camino pista oculto */
+#puzzleMini.oculto{display:none !important}
+/* Chispa rayo: hacia el maletero del coche (Ceci) */
+.hub-coche .chispa{right:12% !important;left:auto !important;top:52% !important;font-size:38px !important}
+
+/* Emoji superpuesto sobre carretera parcial (start/meta) */
+.puzzle-cell .emoji-sobre{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;text-shadow:0 2px 6px rgba(255,255,255,0.6),0 -1px 2px rgba(0,0,0,0.35)}
+.puzzle-cell.fija{position:relative}
 </style>
 </head>
 <body>
@@ -975,7 +995,7 @@ body{
 
   <!-- ESCENA 1 · INTRO CINEMATOGRÁFICA -->
   <section class="scene active" id="scene-intro">
-    <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.jpg');"></div>
+    <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner">
       <h1 class="intro-titulo">¡Se han estropeado<br>las vacaciones!</h1>
       <p class="intro-subtitulo">Hoy nos vamos de vacaciones. Tenemos las maletas, las gafas de sol, la ropa de verano... ¡todo listo! ¿Estáis preparados?</p>
@@ -988,7 +1008,7 @@ body{
 
   <!-- ESCENA 2 · PRESENTACIÓN PEGASUSITO (escuchar historia) -->
   <section class="scene" id="scene-presentacion">
-    <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.jpg');"></div>
+    <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner pega-fullscreen">
       <div class="pega-foto">
         <img src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
@@ -1005,7 +1025,7 @@ body{
 
   <!-- ESCENA 3 · HUB COCHE AVERIADO -->
   <section class="scene" id="scene-hub">
-    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.jpg');"></div>
+    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner hub-host">
       <div class="hub-coche">
         <img src="assets/imagenes/coche-averiado.png" alt="Coche averiado">
@@ -1033,22 +1053,20 @@ body{
     <div class="scene-inner">
       <div class="juego-host">
         <h2>⚙️ ¿Cuál es el motor de nuestro coche?</h2>
-        <p class="lead">El mecánico nos enseña el plano de nuestro motor. Mira el modelo de la <b>izquierda</b>. Compáralo con los <b>4 motores</b> de abajo y elige el que coincide. Cuando creas que has dado con él, pulsa <b>ESTE ES EL CORRECTO</b>.</p>
-        <div class="motor-vs">
-          <div class="motor-cell objetivo">
-            <div class="lbl">🎯 Nuestro motor</div>
-            <img id="motorObjetivoImg" src="" alt="Motor objetivo">
-          </div>
-          <div class="versus">VS</div>
-          <div class="motor-cell vacia" id="motorElegidoCell">
-            <div class="lbl">⚙️ Tu elección</div>
-            <div class="placeholder" id="motorElegidoSlot">?</div>
+        <p class="lead">El mecánico nos enseña el plano de nuestro motor. <b>Elige un motor</b> de entre los 4 motores de abajo y <b>ayuda a tu compañero a construirlo</b>. Cuando creáis que lo habéis conseguido, pulsa <b>CONSEGUIDO</b>.</p>
+        <div class="motor-single">
+          <div class="motor-cell construccion" id="motorConstruccionCell">
+            <div class="lbl">🧱 Construcción del motor</div>
+            <div class="placeholder" id="motorConstruccionSlot">
+              <span style="font-size:36px;opacity:.35;">?</span>
+              <div style="font-family:'Barlow';font-weight:700;font-style:italic;font-size:12px;color:#888;text-align:center;margin-top:6px;">Elige un motor abajo para ver su construcción</div>
+            </div>
           </div>
         </div>
         <div class="motor-grid" id="motorGrid"></div>
         <div class="motor-feedback" id="motorFeedback"></div>
         <div class="juego-cta">
-          <button class="btn" id="btnElegirMotor" disabled onclick="confirmarMotor()">✓ ESTE ES EL CORRECTO</button>
+          <button class="btn" id="btnElegirMotor" disabled onclick="confirmarMotor()">✓ CONSEGUIDO</button>
           <button class="btn ghost sm" onclick="volverHub()">↩ Volver al coche</button>
         </div>
       </div>
@@ -1073,7 +1091,7 @@ body{
 
   <!-- ESCENA 6a · PRESENTACIÓN VECINOS UNO A UNO -->
   <section class="scene" id="scene-vecinos-presentacion">
-    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.jpg');"></div>
+    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner">
       <div class="juego-host">
         <h2 id="vp-titulo">Vecino 1 de 4</h2>
@@ -1093,7 +1111,7 @@ body{
 
   <!-- ESCENA 6 · JUEGO GASOLINA / SOSPECHOSOS -->
   <section class="scene" id="scene-gasolina">
-    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.jpg');"></div>
+    <div class="scene-bg dim-strong" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner">
       <div class="juego-host">
         <h2>🔍 ¿Quién nos ha dado gasolina?</h2>
@@ -1115,11 +1133,12 @@ body{
     <div class="scene-inner">
       <div class="juego-host">
         <h2>🛣️ Construir el camino</h2>
-        <p class="lead">Mirad el <b>camino objetivo</b> de la izquierda. En el puzzle grande, <b>tocad cada pieza con carretera</b> para rotarla 90°. Cuando una pieza esté igual que en el objetivo, aparecerá <b>✓</b>. Cuando todas estén bien, el coche pasará.</p>
+        <p class="lead">En el puzzle grande, <b>tocad cada pieza con carretera</b> para rotarla 90°. Cuando una pieza esté correcta aparecerá <b>✓</b>. Cuando todas estén bien, el coche pasará. Si necesitáis una pista podéis mirar el cuadro de la izquierda.</p>
         <div class="puzzle-zona">
           <div class="puzzle-mini">
-            <div class="mini-lbl">🎯 Camino objetivo</div>
-            <div class="puzzle-grid mini" id="puzzleMini"></div>
+            <div class="mini-lbl">💡 Camino pista</div>
+            <button class="btn ghost sm" id="btnMostrarPista" onclick="togglePistaCamino()" style="margin:6px 0;">👁 Ver pista</button>
+            <div class="puzzle-grid mini oculto" id="puzzleMini" style="display:none;"></div>
           </div>
           <div class="puzzle-mini">
             <div class="mini-lbl" style="color: var(--morado)">🧩 Construye aquí</div>
@@ -1167,6 +1186,7 @@ body{
     <div class="pega-bocadillo">
       <h3 id="pegaModalTitulo">…</h3>
       <p id="pegaModalTexto">…</p>
+      <button class="btn-saltar-audio" id="btnSaltarAudioTO" onclick="saltarAudioNarradorTO(event)" style="display:none;">⏭ Saltar audio</button>
       <div class="cta-row">
         <button class="btn" id="pegaModalCta" onclick="cerrarPegaModal()">▶ CONTINUAR</button>
       </div>
@@ -1398,26 +1418,54 @@ function arrancarMotorAveriado(){
   m.play().catch(()=>{});
 }
 
+function saltarAudioNarradorTO(ev){
+  if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+  console.log('[saltarAudio] pulsado');
+  let saltado = false;
+  Object.entries(audios.narrador || {}).forEach(([id, a]) => {
+    if (!a) return;
+    const sonando = !a.paused || (a.currentTime > 0 && a.currentTime < (a.duration || 999));
+    if (sonando) {
+      try {
+        if (a.duration && isFinite(a.duration) && a.duration > 0) {
+          a.currentTime = a.duration;
+        } else {
+          a.pause();
+          a.dispatchEvent(new Event('ended'));
+        }
+        saltado = true;
+        console.log('[saltarAudio] narrador '+id+' saltado');
+      } catch(e) { console.warn('[saltarAudio] error:', e); }
+    }
+  });
+  // Independientemente de si había audio, desbloqueamos CTA y ocultamos botón
+  narradorSonando = false;
+  const btnSaltar = document.getElementById('btnSaltarAudioTO');
+  if (btnSaltar) btnSaltar.style.display = 'none';
+  const cta = document.getElementById('pegaModalCta');
+  if (cta) { cta.disabled = false; cta.classList.remove('locked'); }
+}
+
 function pegasusModalShow({tipo='pegasusito', titulo, texto, pose='saludando', cta='▶ CONTINUAR', narradorId=null, onContinuar=null}){
   document.getElementById('pegaModalTitulo').textContent = titulo;
   document.getElementById('pegaModalTexto').textContent = texto;
   const modal = document.getElementById('pegaModal');
-  // Aplicar modo: si hay narrador, modo-narrador (icono altavoz, sin Pegasusito).
-  // Si NO hay narrador, modo Pegasusito mudo.
-  if (tipo === 'narrador' || narradorId){
-    modal.classList.add('modo-narrador');
-  } else {
-    modal.classList.remove('modo-narrador');
-    document.getElementById('pegaModalImg').src = `../../../01_pegasus-studio/casting/pegasusito/pegasusito-${pose}.png`;
-  }
+  // Ceci: Pegasusito SIEMPRE visible (aunque haya narrador · es el narrador)
+  modal.classList.remove('modo-narrador');
+  document.getElementById('pegaModalImg').src = '../../../01_pegasus-studio/casting/pegasusito/pegasusito-'+pose+'.png';
   const cta_btn = document.getElementById('pegaModalCta');
   cta_btn.textContent = cta;
   cta_btn._callback = onContinuar;
   modal.classList.add('show');
+  // Botón "Saltar audio" solo cuando hay narrador activo
+  const btnSaltar = document.getElementById('btnSaltarAudioTO');
   if (narradorId){
-    reproducirNarrador(narradorId, cta_btn);
+    if (btnSaltar) btnSaltar.style.display = 'inline-flex';
+    reproducirNarrador(narradorId, cta_btn, () => {
+      if (btnSaltar) btnSaltar.style.display = 'none';
+    });
   } else {
-    // sin narrador: el boton sigue disponible directo
+    if (btnSaltar) btnSaltar.style.display = 'none';
     cta_btn.disabled = false;
     cta_btn.classList.remove('locked');
   }
@@ -1494,10 +1542,10 @@ function abrirJuego(j){
   // Si tiene narrador → modal narrador (icono altavoz, sin Pegasusito).
   // Si no tiene narrador (rueda) → modal Pegasusito mudo.
   const presentaciones = {
-    motor:     { titulo:'⚙️ El motor del coche', texto:'Hay que descubrir cuál es nuestro motor entre 4 opciones. Comparad bien las formas antes de decidir.', pose:'pensativo', narrador:'03', juego:'motor' },
+    motor:     { titulo:'⚙️ El motor del coche', texto:'Hay que construir el motor de nuestro coche. Elegid entre 4 opciones y trabajad en equipo para que funcione.', pose:'pensativo', narrador:'03', juego:'motor' },
     rueda:     { titulo:'🛞 Cambiar la rueda',   texto:'Una rueda está pinchada. Hay que inflarlas todas para que el coche ruede bien.',     pose:'trabajando', narrador:null, juego:'rueda' },
-    gasolina:  { titulo:'🔍 ¿Quién nos ayudó?', texto:'Tres vecinos del barrio nos han traído gasolina. Primero los vais a conocer uno a uno. Después leed las pistas y descubrid quiénes son.', pose:'curioso', narrador:'04', juego:'gasolina' },
-    carretera: { titulo:'🛣️ Construir el camino', texto:'Ya tenemos motor, rueda y gasolina. Mirad bien el camino objetivo y rotad las piezas hasta replicarlo. Cuando todas estén bien, el coche pasará.', pose:'viajero', narrador:'05', juego:'carretera' }
+    gasolina:  { titulo:'🔍 ¿Qué vecino nos ha dado gasolina?', texto:'El coche ya está arreglado, pero no tenemos gasolina suficiente para llegar a las vacaciones. Hemos pedido ayuda a los vecinos del barrio y hay que darles las gracias, pero no nos acordamos de quién había sido, ¡qué cabezas! Atentos a las pistas, vamos a descubrirlos.', pose:'curioso', narrador:'04', juego:'gasolina' },
+    carretera: { titulo:'🛣️ Construir el camino', texto:'Ya tenemos motor, rueda y gasolina. Mirad bien el camino y girar las piezas hasta que coincidan. Cuando todas estén bien, el coche pasará.', pose:'viajero', narrador:'05', juego:'carretera' }
   };
   const p = presentaciones[j];
   pegasusModalShow({
@@ -1580,27 +1628,23 @@ function toast(texto, dur=3000){
 // JUEGO 1 · MOTORES (4 imágenes reales)
 // =====================================================
 const MOTORES = [
-  { id:1, nom:'Motor V8',        img:'assets/imagenes/motores/motor-01-v8.png' },
-  { id:2, nom:'Motor Inline 4',  img:'assets/imagenes/motores/motor-02-inline-4.png' },
-  { id:3, nom:'Motor Rotativo',  img:'assets/imagenes/motores/motor-03-rotativo.png' },
-  { id:4, nom:'Motor Boxer',     img:'assets/imagenes/motores/motor-04-boxer.png' }
+  { id:1, nom:'Motor Turbo',  img:'assets/imagenes/motores/motor-01-v8.png',       construccion:'assets/imagenes/construcciones/construccion-01-turbo.png' },
+  { id:2, nom:'Motor Cohete', img:'assets/imagenes/motores/motor-02-inline-4.png', construccion:'assets/imagenes/construcciones/construccion-02-cohete.png' },
+  { id:3, nom:'Motor Rayo',   img:'assets/imagenes/motores/motor-03-rotativo.png', construccion:'assets/imagenes/construcciones/construccion-03-rayo.png' },
+  { id:4, nom:'Motor Buzz',   img:'assets/imagenes/motores/motor-04-boxer.png',    construccion:'assets/imagenes/construcciones/construccion-04-buzz.png' }
 ];
 
 function montarMotor(){
-  // Elige uno al azar como correcto
-  state.motorCorrectoIdx = Math.floor(Math.random() * MOTORES.length);
+  // Nueva mecánica Ceci: cualquiera de los 4 motores vale · el equipo elige y construye juntos
   state.motorElegidoIdx = -1;
-  // Pintar el motor objetivo
-  document.getElementById('motorObjetivoImg').src = MOTORES[state.motorCorrectoIdx].img;
-  // Reset slot elegido
-  const elegidoCell = document.getElementById('motorElegidoCell');
-  elegidoCell.classList.add('vacia');
-  elegidoCell.innerHTML = '<div class="lbl">⚙️ Tu elección</div><div class="placeholder" id="motorElegidoSlot">?</div>';
-  // Reset feedback + boton
+  // Reset cuadro construcción
+  const cc = document.getElementById('motorConstruccionCell');
+  cc.classList.remove('llena');
+  cc.innerHTML = '<div class="lbl">🧱 Construcción del motor</div><div class="placeholder" id="motorConstruccionSlot"><span style="font-size:36px;opacity:.35;">?</span><div style="font-family:Barlow;font-weight:700;font-style:italic;font-size:12px;color:#888;text-align:center;margin-top:6px;">Elige un motor abajo para ver su construcción</div></div>';
   document.getElementById('motorFeedback').textContent = '';
   document.getElementById('motorFeedback').className = 'motor-feedback';
   document.getElementById('btnElegirMotor').disabled = true;
-  // Pintar opciones (en orden aleatorio dentro de la rejilla)
+  // Pintar 4 motores en orden aleatorio
   const grid = document.getElementById('motorGrid');
   grid.innerHTML = '';
   const orden = [0,1,2,3].sort(()=> Math.random() - 0.5);
@@ -1609,7 +1653,7 @@ function montarMotor(){
     const card = document.createElement('div');
     card.className = 'motor-opcion';
     card.dataset.idx = idx;
-    card.innerHTML = `<img src="${m.img}" alt="${m.nom}"><div class="nom">${m.nom}</div>`;
+    card.innerHTML = '<img src="'+m.img+'" alt="'+m.nom+'"><div class="nom">'+m.nom+'</div>';
     card.addEventListener('click', () => seleccionarMotor(idx));
     grid.appendChild(card);
   });
@@ -1618,19 +1662,18 @@ function montarMotor(){
 function seleccionarMotor(idx){
   state.motorElegidoIdx = idx;
   const m = MOTORES[idx];
-  // Pintar slot elegido
-  const elegidoCell = document.getElementById('motorElegidoCell');
-  elegidoCell.classList.remove('vacia');
-  elegidoCell.innerHTML = `<div class="lbl">⚙️ Tu elección</div><img src="${m.img}" alt="${m.nom}">`;
-  // Marcar visualmente la opción
+  // Mostrar la construcción de bloques asociada
+  const cc = document.getElementById('motorConstruccionCell');
+  cc.classList.add('llena');
+  cc.innerHTML = '<div class="lbl">🧱 '+m.nom+' · construcción</div><img src="'+m.construccion+'" alt="Construcción '+m.nom+'" onerror="this.style.display=\'none\'; this.parentElement.insertAdjacentHTML(\'beforeend\',\'<div style=&quot;font-size:14px;color:#888;padding:12px;text-align:center;&quot;>[Imagen de construcción pendiente]</div>\')">';
+  // Marcar la opción seleccionada
   document.querySelectorAll('.motor-opcion').forEach(c => {
     c.classList.toggle('selected', parseInt(c.dataset.idx) === idx);
   });
-  // Feedback intermedio
   const fb = document.getElementById('motorFeedback');
   fb.className = 'motor-feedback';
   fb.style.color = '#333';
-  fb.textContent = '👀 Compara los dos planos. ¿Coinciden?';
+  fb.textContent = '🧱 Ayuda a tu compañero a construir este motor con los bloques.';
   document.getElementById('btnElegirMotor').disabled = false;
 }
 
@@ -1638,24 +1681,12 @@ function confirmarMotor(){
   if (state.motorElegidoIdx < 0) return;
   const fb = document.getElementById('motorFeedback');
   const sel = document.querySelector('.motor-opcion.selected');
-  if (state.motorElegidoIdx === state.motorCorrectoIdx){
-    fb.textContent = `✓ ¡Sí! Es el ${MOTORES[state.motorElegidoIdx].nom}.`;
-    fb.className = 'motor-feedback ok';
-    if (sel) sel.classList.add('ok');
-    audios.sfx.chime.play().catch(()=>{});
-    setTimeout(()=> ganarMotor(), 1400);
-  } else {
-    fb.textContent = `❌ El ${MOTORES[state.motorElegidoIdx].nom} no es. Compara mejor y prueba otra vez.`;
-    fb.className = 'motor-feedback fail';
-    if (sel){
-      sel.classList.add('error');
-      setTimeout(()=> sel.classList.remove('error'), 600);
-    }
-    audios.sfx.petardazo.play().catch(()=>{});
-    setTimeout(()=> {
-      fb.textContent = ''; fb.className = 'motor-feedback';
-    }, 2500);
-  }
+  const m = MOTORES[state.motorElegidoIdx];
+  fb.textContent = '✓ ¡Conseguido! Habéis construido el '+m.nom+'.';
+  fb.className = 'motor-feedback ok';
+  if (sel) sel.classList.add('ok');
+  audios.sfx.chime.play().catch(()=>{});
+  setTimeout(()=> ganarMotor(), 1400);
 }
 
 function ganarMotor(){
@@ -1739,10 +1770,10 @@ function ganarRueda(){
 // JUEGO 3 · GASOLINA / SOSPECHOSOS (imágenes reales)
 // =====================================================
 const VECINOS = [
-  { nom: 'Tía Curiosa',       front: 'assets/imagenes/sospechosos/sospechoso-01-tia-curiosa-frontal.png',     back: 'assets/imagenes/sospechosos/sospechoso-01-tia-curiosa-trasera.png' },
-  { nom: 'Vecino Despistado', front: 'assets/imagenes/sospechosos/sospechoso-02-vecino-despistado-frontal.png', back: 'assets/imagenes/sospechosos/sospechoso-02-vecino-despistado-trasera.png' },
-  { nom: 'La Repartidora',    front: 'assets/imagenes/sospechosos/sospechoso-03-repartidora-frontal.png',     back: 'assets/imagenes/sospechosos/sospechoso-03-repartidora-trasera.png' },
-  { nom: 'El Niño del Barrio',front: 'assets/imagenes/sospechosos/sospechoso-04-nino-barrio-frontal.png',    back: 'assets/imagenes/sospechosos/sospechoso-04-nino-barrio-trasera.png' }
+  { nom: 'Manuela', front: 'assets/imagenes/sospechosos/sospechoso-01-tia-curiosa-frontal.png',     back: 'assets/imagenes/sospechosos/sospechoso-01-tia-curiosa-trasera.png' },
+  { nom: 'Ramón',   front: 'assets/imagenes/sospechosos/sospechoso-02-vecino-despistado-frontal.png', back: 'assets/imagenes/sospechosos/sospechoso-02-vecino-despistado-trasera.png' },
+  { nom: 'Alba',    front: 'assets/imagenes/sospechosos/sospechoso-03-repartidora-frontal.png',     back: 'assets/imagenes/sospechosos/sospechoso-03-repartidora-trasera.png' },
+  { nom: 'Hugo',    front: 'assets/imagenes/sospechosos/sospechoso-04-nino-barrio-frontal.png',    back: 'assets/imagenes/sospechosos/sospechoso-04-nino-barrio-trasera.png' }
 ];
 
 /* Pistas (3 sospechosos a descubrir, cada uno apunta a un vecino real) */
@@ -1750,32 +1781,32 @@ const SOSPECHOSOS = [
   {
     titulo: 'Sospechoso 1',
     pistas: [
-      'Es una mujer.',
+      'Es una chica.',
       'Tiene el pelo recogido.',
-      'En la espalda lleva una mochila.',
-      'No lleva gorra.'
+      'Le gusta regar su jardín.',
+      'Tiene zapatos marrones.'
     ],
-    culpable: 0  // Tía Curiosa
+    culpable: 0  // Manuela
   },
   {
     titulo: 'Sospechoso 2',
     pistas: [
-      'Es un hombre.',
-      'Lleva gafas.',
-      'En la espalda lleva una camisa lisa.',
-      'No lleva mochila.'
+      'Es un chico.',
+      'Lleva pantalón corto.',
+      'Tiene el pelo marrón.',
+      'Le gusta leer.'
     ],
-    culpable: 1  // Vecino Despistado
+    culpable: 1  // Ramón
   },
   {
     titulo: 'Sospechoso 3',
     pistas: [
-      'Es joven.',
-      'Lleva ropa de trabajo.',
-      'En la espalda lleva un paquete de reparto.',
-      'No lleva gafas.'
+      'Tiene el pelo rizado.',
+      'Lleva un objeto en las manos.',
+      'No tiene gafas.',
+      'Lleva ropa de trabajo.'
     ],
-    culpable: 2  // Repartidora
+    culpable: 2  // Alba
   }
 ];
 
@@ -1927,35 +1958,48 @@ function ganarGasolina(){
 // =====================================================
 // JUEGO 4 · PUZZLE CARRETERA 4×4
 // =====================================================
-/* Layout 4x4 (16 celdas, index 0..15):
-   Camino: 0 → 1 → 2 → 6 → 10 → 14 → 15  (7 piezas con carretera)
-   Resto = deco (arboles, gasolinera, casa)
-   Meta = 15
+/* Layout 5x5 (25 celdas, index 0..24) · según PDF Ceci
+   Filas: 0-4=top, 5-9, 10-14, 15-19, 20-24=bottom
+   Camino: 0(coche) → 1 → 6 → 11 → 16 → 17 → 18 → 19 → 24(meta)
+   Piezas jugables (rotables): 1, 6, 11, 16, 17, 18, 19  (7 piezas)
 */
 /* Curva base (rot 0): conecta IZQUIERDA + ABAJO.
-   Rotación CSS clockwise:
-     rot 0   → IZQ + ABAJO
-     rot 90  → ABAJO + DERECHA
-     rot 180 → DERECHA + ARRIBA
-     rot 270 → ARRIBA + IZQUIERDA
-   Camino: 0 → 1 → 2 (gira abajo) → 6 → 10 → 14 (gira derecha) → 15 */
+   Rotación CSS clockwise (verificado matemáticamente):
+     rot 0   → IZQ + ABAJO       (cuadrante inferior-izquierdo)
+     rot 90  → ARRIBA + IZQUIERDA (cuadrante superior-izquierdo)
+     rot 180 → DERECHA + ARRIBA  (cuadrante superior-derecho)
+     rot 270 → ABAJO + DERECHA   (cuadrante inferior-derecho) */
 const PUZZLE = [
-  { i:0,  tipo:'recta-h', rotCorrecta:0,   pieza:true },
-  { i:1,  tipo:'recta-h', rotCorrecta:0,   pieza:true },
-  { i:2,  tipo:'curva',   rotCorrecta:0,   pieza:true },   // izq → abajo
-  { i:3,  tipo:'deco',    deco:'🌳' },
-  { i:4,  tipo:'deco',    deco:'🌲' },
-  { i:5,  tipo:'deco',    deco:'🏡' },
-  { i:6,  tipo:'recta-v', rotCorrecta:0,   pieza:true },
-  { i:7,  tipo:'deco',    deco:'🌳' },
-  { i:8,  tipo:'deco',    deco:'⛅' },
-  { i:9,  tipo:'deco',    deco:'🌲' },
-  { i:10, tipo:'recta-v', rotCorrecta:0,   pieza:true },   // vertical: arriba → abajo
-  { i:11, tipo:'deco',    deco:'🌳' },
-  { i:12, tipo:'deco',    deco:'⛽' },
+  // Fila 0 (top): coche → curva-abajo → decos
+  { i:0,  tipo:'coche',   deco:'🚗' },                       // start
+  { i:1,  tipo:'curva',   rotCorrecta:0,   pieza:true },   // izq → abajo
+  { i:2,  tipo:'deco',    deco:'🏠' },
+  { i:3,  tipo:'deco',    deco:'🌲' },
+  { i:4,  tipo:'deco',    deco:'🌳' },
+  // Fila 1
+  { i:5,  tipo:'deco',    deco:'🌳' },
+  { i:6,  tipo:'recta-v', rotCorrecta:0,   pieza:true },   // vertical
+  { i:7,  tipo:'deco',    deco:'🌲' },
+  { i:8,  tipo:'deco',    deco:'🌳' },
+  { i:9,  tipo:'deco',    deco:'🏠' },
+  // Fila 2
+  { i:10, tipo:'deco',    deco:'🌲' },
+  { i:11, tipo:'recta-v', rotCorrecta:0,   pieza:true },   // vertical
+  { i:12, tipo:'deco',    deco:'🌳' },
   { i:13, tipo:'deco',    deco:'🌲' },
-  { i:14, tipo:'curva',   rotCorrecta:180, pieza:true },   // arriba → derecha
-  { i:15, tipo:'meta',    deco:'🏁' }
+  { i:14, tipo:'deco',    deco:'🌼' },
+  // Fila 3
+  { i:15, tipo:'deco',    deco:'🌳' },
+  { i:16, tipo:'curva',   rotCorrecta:180, pieza:true },   // arriba → derecha (recibe de vertical arriba, sale a horizontal derecha)
+  { i:17, tipo:'recta-h', rotCorrecta:0,   pieza:true },
+  { i:18, tipo:'recta-h', rotCorrecta:0,   pieza:true },
+  { i:19, tipo:'curva',   rotCorrecta:0,   pieza:true },   // izq → abajo
+  // Fila 4 (bottom): decos + gasolinera + meta
+  { i:20, tipo:'deco',    deco:'🌳' },
+  { i:21, tipo:'deco',    deco:'⛽' },
+  { i:22, tipo:'deco',    deco:'🌷' },
+  { i:23, tipo:'deco',    deco:'🌲' },
+  { i:24, tipo:'meta',    deco:'🏁' }
 ];
 let puzzleRot = [];
 
@@ -1983,6 +2027,22 @@ function svgPieza(tipo){
       <path d="M 0 50 Q 50 50 50 100" stroke="${linea}" stroke-width="3" stroke-dasharray="6 6" fill="none"/>
     </svg>`;
   }
+  // NUEVO: media carretera saliendo a la DERECHA (para celda de coche · start)
+  if (tipo === 'start'){
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      ${base}
+      <rect x="50" y="35" width="50" height="30" fill="${asf}"/>
+      <rect x="50" y="48" width="50" height="4" fill="${linea}"/>
+    </svg>`;
+  }
+  // NUEVO: media carretera entrando desde ARRIBA (para celda meta)
+  if (tipo === 'meta'){
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      ${base}
+      <rect x="35" y="0" width="30" height="55" fill="${asf}"/>
+      <rect x="48" y="0" width="4" height="55" fill="${linea}"/>
+    </svg>`;
+  }
   return '';
 }
 
@@ -1997,9 +2057,14 @@ function montarPuzzle(){
       if (p.pieza){
         cell.innerHTML = svgPieza(p.tipo);
         cell.querySelector('svg').style.transform = `rotate(${p.rotCorrecta}deg)`;
-      } else {
+      } else if (p.tipo === 'coche' || p.tipo === 'meta') {
+        // Celda fija con carretera embutida (start/meta) · SVG + emoji superpuesto
         cell.classList.add('fija');
         if (p.tipo === 'meta') cell.classList.add('meta');
+        const svgTipo = p.tipo === 'coche' ? 'start' : 'meta';
+        cell.innerHTML = svgPieza(svgTipo) + `<span class="deco emoji-sobre">${p.deco}</span>`;
+      } else {
+        cell.classList.add('fija');
         cell.innerHTML = `<span class="deco">${p.deco}</span>`;
       }
       mini.appendChild(cell);
@@ -2020,9 +2085,13 @@ function montarPuzzle(){
       cell.innerHTML = svgPieza(p.tipo);
       cell.querySelector('svg').style.transform = `rotate(${puzzleRot[idx]}deg)`;
       cell.onclick = () => rotarPieza(idx, cell);
-    } else {
+    } else if (p.tipo === 'coche' || p.tipo === 'meta') {
       cell.classList.add('fija');
       if (p.tipo === 'meta') cell.classList.add('meta');
+      const svgTipo = p.tipo === 'coche' ? 'start' : 'meta';
+      cell.innerHTML = svgPieza(svgTipo) + `<span class="deco emoji-sobre">${p.deco}</span>`;
+    } else {
+      cell.classList.add('fija');
       cell.innerHTML = `<span class="deco">${p.deco}</span>`;
     }
     grid.appendChild(cell);
@@ -2032,7 +2101,7 @@ function montarPuzzle(){
 function rotarPieza(idx, cell){
   puzzleRot[idx] = (puzzleRot[idx] + 90) % 360;
   cell.querySelector('svg').style.transform = `rotate(${puzzleRot[idx]}deg)`;
-  audios.sfx.bocina.play().catch(()=>{});
+  // Ceci: sin sonido al girar (era pitido horrible)
   const correcta = parseInt(cell.dataset.rotCorrecta);
   cell.classList.toggle('ok', puzzleRot[idx] === correcta);
   // ¿todas ok?
@@ -2051,7 +2120,7 @@ function animarCocheRuta(){
   car.textContent = '🚗';
   car.style.transition = 'transform .45s linear, left .45s linear, top .45s linear';
   grid.appendChild(car);
-  const ruta = [0, 1, 2, 6, 10, 14, 15];
+  const ruta = [0, 1, 6, 11, 16, 17, 18, 19, 24];
   const gridRect = grid.getBoundingClientRect();
   const c0 = cells[0].getBoundingClientRect();
   car.style.left = (c0.left - gridRect.left - 50) + 'px';
@@ -2084,8 +2153,8 @@ function animarCocheRuta(){
     let rot = 0;
     if (step < ruta.length - 1){
       const next = ruta[step+1];
-      const cC = idx % 4, cR = Math.floor(idx/4);
-      const nC = next % 4, nR = Math.floor(next/4);
+      const cC = idx % 5, cR = Math.floor(idx/5);
+      const nC = next % 5, nR = Math.floor(next/5);
       if (nC > cC) rot = 0;
       else if (nC < cC) rot = 180;
       else if (nR > cR) rot = 90;
@@ -2138,7 +2207,52 @@ function resetTodo(){
 document.addEventListener('DOMContentLoaded', () => {
   refrescarHub();
 });
+
+// ============ ATAJOS DE TECLADO PARA TESTING (Álvaro) ============
+// 1-9: saltar directo a cualquier escena · S: saltar el audio del narrador en curso
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  const atajos = {
+    '1': 'intro',
+    '2': 'presentacion',
+    '3': 'hub',
+    '4': 'motor',
+    '5': 'rueda',
+    '6': 'vecinos-presentacion',
+    '7': 'gasolina',
+    '8': 'carretera',
+    '9': 'final'
+  };
+  if (atajos[e.key]) {
+    e.preventDefault();
+    // Cerrar modal Pegasusito si está abierto
+    const modal = document.getElementById('pegaModal');
+    if (modal) modal.classList.remove('show');
+    // Parar cualquier narrador que suene y desbloquear
+    if (typeof pararAudiosNarrativa === 'function') pararAudiosNarrativa();
+    const cta = document.getElementById('pegaModalCta');
+    if (cta) { cta.disabled = false; cta.classList.remove('locked'); }
+    // Asegurar estado mínimo para escenas que dependen de state
+    if (e.key === '4' || atajos[e.key] === 'motor')                 { if (typeof montarMotor === 'function') montarMotor(); }
+    if (atajos[e.key] === 'rueda')                                   { if (typeof montarRuedas === 'function') montarRuedas(); }
+    if (atajos[e.key] === 'vecinos-presentacion')                    { if (typeof iniciarPresentacionVecinos === 'function') { iniciarPresentacionVecinos(); return; } }
+    if (atajos[e.key] === 'gasolina')                                { if (typeof montarGasolina === 'function') montarGasolina(); }
+    if (atajos[e.key] === 'carretera')                               { if (typeof montarPuzzle === 'function') montarPuzzle(); }
+    // Cambio de escena directo
+    if (typeof go === 'function') go(atajos[e.key]);
+  }
+  if (e.key === 's' || e.key === 'S') {
+    // Saltar audio narrador activo
+    if (typeof saltarAudioNarradorTO === 'function') saltarAudioNarradorTO(e);
+  }
+});
+
+// Pista visible en pantalla al arrancar (solo primera vez)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (typeof toast === 'function') toast('💡 Testing: teclas 1-9 saltan escenas · S salta audio narrador');
+  }, 1500);
+});
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
