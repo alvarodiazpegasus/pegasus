@@ -1011,7 +1011,7 @@ body{
     <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-01-carretera-vacaciones.png');"></div>
     <div class="scene-inner pega-fullscreen">
       <div class="pega-foto">
-        <img src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+        <img src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
       </div>
       <div class="pega-bocadillo">
         <h3>¡Hola equipo!</h3>
@@ -1156,7 +1156,7 @@ body{
   <section class="scene" id="scene-final">
     <div class="scene-bg dim" style="background-image: url('assets/imagenes/fondos/fondo-03-carretera-final.jpg');"></div>
     <div class="scene-inner">
-      <img src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-vacaciones.png" alt="Pegasusito de vacaciones"
+      <img src="../shared/pegasusito/pegasusito-vacaciones.png" alt="Pegasusito de vacaciones"
            style="width: min(28vh, 220px); margin-bottom: 14px; filter: drop-shadow(0 16px 24px rgba(0,0,0,.50)); animation: pegaBob 3.6s ease-in-out infinite;">
       <div class="final-card">
         <h1>¡Lo habéis conseguido!</h1>
@@ -1175,7 +1175,7 @@ body{
   <div class="pega-modal-inner pega-fullscreen">
     <!-- Foto Pegasusito (modo mudo) -->
     <div class="pega-foto" id="pegaFoto">
-      <img id="pegaModalImg" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+      <img id="pegaModalImg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
     </div>
     <!-- Icono narrador (modo con audio · sin Pegasusito) -->
     <div class="narrador-foto" id="narradorFoto">
@@ -1452,7 +1452,7 @@ function pegasusModalShow({tipo='pegasusito', titulo, texto, pose='saludando', c
   const modal = document.getElementById('pegaModal');
   // Ceci: Pegasusito SIEMPRE visible (aunque haya narrador · es el narrador)
   modal.classList.remove('modo-narrador');
-  document.getElementById('pegaModalImg').src = '../../../01_pegasus-studio/casting/pegasusito/pegasusito-'+pose+'.png';
+  document.getElementById('pegaModalImg').src = '../shared/pegasusito/pegasusito-'+pose+'.png';
   const cta_btn = document.getElementById('pegaModalCta');
   cta_btn.textContent = cta;
   cta_btn._callback = onContinuar;
