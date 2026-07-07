@@ -1,0 +1,333 @@
+/* ==========================================================================
+   Burgers Anormales — Micrositio Carpa Arganda
+   Estilos de la app. Réplica fiel del diseño "Micrositio Burgers Anormales"
+   (Claude Design) sobre los tokens del design system (tokens.css).
+   ========================================================================== */
+
+* , *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  min-height: 100dvh;
+  background: #0a0909;
+  font-family: var(--font-body);
+  color: var(--ba-bone);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+a { color: var(--ba-pink); }
+a:hover { color: var(--ba-pink-hot); }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ---------- Animaciones (del diseño) ---------- */
+@keyframes scr-in { from { opacity:0; transform:translateY(10px) } to { opacity:1; transform:none } }
+@keyframes floaty { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-10px) } }
+@keyframes pulse { 0%,100% { transform:scale(1) } 50% { transform:scale(1.06) } }
+@keyframes grow { from { transform:scaleX(0) } to { transform:scaleX(1) } }
+@keyframes conf { 0% { opacity:0; transform:translateY(-24px) rotate(0) } 12% { opacity:1 } 100% { opacity:0; transform:translateY(760px) rotate(320deg) } }
+@keyframes stampin { 0% { opacity:0; transform:scale(2.3) rotate(-20deg) } 55% { opacity:1; transform:scale(.9) rotate(-11deg) } 100% { transform:scale(1) rotate(-11deg) } }
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+@keyframes toast-in { from { opacity:0; transform:translate(-50%,14px) } to { opacity:1; transform:translate(-50%,0) } }
+
+/* ---------- Marco móvil ---------- */
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  margin: 0 auto;
+  background-color: var(--ba-ink);
+  background-image: var(--damero);
+  color: var(--ba-bone);
+  overflow: hidden;
+  box-shadow: 0 0 70px rgba(0,0,0,.7);
+}
+
+/* ---------- Pantallas ---------- */
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 42px 20px 96px;
+  animation: scr-in .34s var(--ease-out) both;
+}
+.screen--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 44px 26px 40px;
+  overflow: hidden;
+}
+.screen--flush { padding: 0 0 96px; }
+.screen--game {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0 0;
+  overflow: hidden;
+}
+
+/* ---------- Tipos y utilidades ---------- */
+.kicker {
+  font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+  font-size: 12px; color: var(--ba-pink); margin: 0;
+}
+.kicker--coral { color: var(--ba-coral); }
+.kicker--faint { color: var(--ba-bone-faint); }
+.h-display {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-weight: 400; letter-spacing: var(--tracking-display);
+  margin: 0;
+}
+.tag { font-family: var(--font-tag); font-weight: 400; }
+.sub { font-size: 13.5px; color: var(--ba-bone-dim); margin: 8px 0 0; line-height: 1.5; }
+.mut { color: var(--ba-bone-faint); }
+
+/* ---------- Botones (DS: Button) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: .04em; font-weight: 400;
+  border: none; border-radius: var(--radius-md);
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
+  text-decoration: none;
+}
+.btn--lg { height: var(--control-h-lg); padding: 0 22px; font-size: 19px; }
+.btn--md { height: var(--control-h-md); padding: 0 18px; font-size: 16px; }
+.btn--block { display: flex; width: 100%; }
+.btn--primary {
+  background: var(--ba-pink); color: var(--ba-ink);
+  box-shadow: var(--shadow-hard);
+}
+.btn--primary:hover { background: var(--ba-pink-hot); }
+.btn--primary:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--ba-black); background: var(--ba-pink-deep); }
+.btn--secondary {
+  background: var(--ba-coral); color: var(--ba-ink);
+  box-shadow: var(--shadow-hard);
+}
+.btn--secondary:hover { background: var(--ba-coral-hot); }
+.btn--secondary:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--ba-black); background: var(--ba-coral-deep); }
+.btn--outline {
+  background: transparent; color: var(--ba-bone);
+  border: 2px solid var(--ba-ink-4);
+}
+.btn--outline:hover { border-color: var(--ba-bone); }
+.btn--outline:active { transform: translate(2px,2px); }
+.btn--ghost { background: transparent; color: var(--ba-bone-dim); }
+.btn--ghost:hover { color: var(--ba-bone); }
+.btn:disabled { opacity: .45; pointer-events: none; }
+
+.linklike {
+  font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: .05em;
+  color: var(--ba-bone-faint); cursor: pointer; padding: 6px; text-align: center;
+  background: none; border: none; font-family: var(--font-body);
+}
+
+/* ---------- Volver ---------- */
+.back {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-weight: 800; text-transform: uppercase; letter-spacing: .05em; font-size: 12px;
+  color: var(--ba-bone-dim); cursor: pointer; margin-bottom: 12px;
+  background: none; border: none; padding: 0; font-family: var(--font-body);
+}
+.back .chev { font-size: 20px; line-height: .6; }
+
+/* ---------- Formularios (DS: Input / Checkbox) ---------- */
+.field label {
+  display: block; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+  font-size: 11px; color: var(--ba-bone-dim); margin-bottom: 7px;
+}
+.field input {
+  width: 100%; height: 52px;
+  background: var(--ba-ink-2);
+  border: 2px solid var(--ba-ink-3);
+  border-radius: var(--radius-md);
+  color: var(--ba-bone);
+  font-family: var(--font-body); font-size: 15px;
+  padding: 0 14px;
+  outline: none;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.field input::placeholder { color: var(--ba-bone-faint); }
+.field input:focus { border-color: var(--ba-pink); box-shadow: var(--glow-pink); }
+
+.check {
+  display: flex; align-items: flex-start; gap: 11px; cursor: pointer;
+  font-size: 13px; line-height: 1.45; color: var(--ba-bone-dim);
+}
+.check input { position: absolute; opacity: 0; pointer-events: none; }
+.check .box {
+  flex: none; width: 22px; height: 22px; margin-top: 1px;
+  border: 2px solid var(--ba-ink-4); border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+  color: transparent;
+}
+.check input:checked + .box { background: var(--ba-pink); border-color: var(--ba-pink); color: var(--ba-ink); }
+
+/* ---------- Tarjetas fila (home / carta / vota) ---------- */
+.row-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--ba-ink-2);
+  border: 2px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: 13px 14px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--ba-black);
+  -webkit-tap-highlight-color: transparent;
+}
+.row-card .r-icon { width: 32px; height: 32px; flex: none; }
+.row-card .r-title { display: block; font-family: var(--font-display); text-transform: uppercase; font-size: 19px; line-height: 1; color: var(--ba-bone); }
+.row-card .r-sub { display: block; font-size: 12px; color: var(--ba-bone-dim); margin-top: 2px; }
+.row-card .r-chev { color: var(--ba-bone-faint); font-size: 22px; }
+
+.thumb {
+  flex: none; border-radius: 10px;
+  background-color: var(--ba-black); background-image: var(--damero);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; border: 2px solid var(--ba-ink-3);
+}
+.thumb img, .thumb svg { display: block; }
+
+/* ---------- Chips / píldoras ---------- */
+.pill {
+  display: inline-block;
+  background: var(--ba-ink-2); border: 2px solid var(--ba-ink-3);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px; font-weight: 800; font-size: 12px; color: var(--ba-bone-dim);
+}
+
+/* ---------- Caja causa (home) ---------- */
+.causa {
+  margin-top: 26px; border: 2px dashed var(--ba-ink-4);
+  border-radius: var(--radius-lg); padding: 16px;
+}
+.causa .t { font-weight: 900; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; color: var(--ba-pink); margin: 0; }
+.causa .b { font-size: 13.5px; line-height: 1.5; color: var(--ba-bone-dim); margin: 6px 0 0; }
+
+/* ---------- Barra de progreso pasaporte / ranking ---------- */
+.meter {
+  height: 14px; background: var(--ba-ink-2);
+  border: 2px solid var(--border-hairline); border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.meter > i {
+  display: block; height: 100%; border-radius: 999px;
+  transform-origin: left; animation: grow .8s var(--ease-out) both;
+  background: var(--ba-pink);
+}
+.meter--rank { height: 18px; }
+
+/* ---------- Pasaporte ---------- */
+.stamps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.stamp-cell {
+  position: relative; aspect-ratio: 1; border-radius: var(--radius-lg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 10px; overflow: hidden;
+  background: var(--ba-black); border: 2px dashed var(--ba-ink-4);
+}
+.stamp-cell.on { background: var(--ba-ink-2); border-style: solid; }
+.stamp-cell img, .stamp-cell svg { width: 56px; opacity: .16; }
+.stamp-cell.on img, .stamp-cell.on svg { opacity: 1; }
+.stamp-cell .s-name { font-family: var(--font-display); text-transform: uppercase; font-size: 13px; line-height: 1; margin-top: 6px; color: var(--ba-bone-faint); }
+.stamp-cell.on .s-name { color: var(--ba-bone); }
+.stamp-cell .s-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--ba-bone-faint); margin-top: 3px; }
+.stamp-cell .s-ok {
+  position: absolute; top: 8px; right: 8px; transform: rotate(-11deg);
+  color: var(--ba-ink); font-family: var(--font-display); font-size: 10px; letter-spacing: .03em;
+  padding: 3px 7px; border-radius: 5px; box-shadow: 2px 2px 0 var(--ba-black);
+  animation: stampin .5s var(--ease-snap) both;
+}
+
+/* ---------- Ranking (resultado juego) ---------- */
+.lb-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--ba-ink-2); border: 2px solid var(--border-hairline);
+  border-radius: var(--radius-md); padding: 10px 13px;
+}
+.lb-row.me { background: rgba(247,46,183,.14); border-color: var(--ba-pink); }
+.lb-row .n { font-family: var(--font-display); font-size: 18px; color: var(--ba-bone-faint); width: 24px; }
+.lb-row .nick { flex: 1; font-weight: 700; color: var(--ba-bone); }
+.lb-row.me .nick { color: var(--ba-pink); }
+.lb-row .sc { font-family: var(--font-display); font-size: 18px; color: var(--ba-bone); }
+.lb-row.me .sc { color: var(--ba-pink); }
+
+/* ---------- Tab bar ---------- */
+.tabbar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 55; height: 62px;
+  display: flex; align-items: center; justify-content: space-around;
+  background: rgba(16,14,14,.93);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-top: 2px solid var(--ba-ink-3);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.tabbar .tab {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; color: var(--ba-bone-faint); background: none; border: none; padding: 4px 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.tabbar .tab.on { color: var(--ba-pink); }
+.tabbar .tab .i { width: 23px; height: 23px; }
+.tabbar .tab .l { font-weight: 800; font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em; font-family: var(--font-body); }
+
+/* ---------- Juego: HUD ---------- */
+.ghud { display: flex; align-items: center; justify-content: space-between; padding: 30px 20px 10px; }
+.ghud .cap { display: block; font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: .05em; color: var(--ba-bone-faint); }
+.ghud .score { font-family: var(--font-display); font-size: 28px; }
+.ghud .lives { font-family: var(--font-display); font-size: 22px; color: var(--ba-coral); letter-spacing: 2px; }
+.ghud .gname { font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: .05em; color: var(--ba-bone-faint); text-align: center; max-width: 130px; }
+.gtimer { height: 8px; background: var(--ba-ink-3); overflow: hidden; }
+.gtimer > i { display: block; height: 100%; width: 100%; }
+.gcanvas-wrap { flex: 1; position: relative; overflow: hidden; }
+.gcanvas-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.gfoot { padding: 12px 20px calc(18px + env(safe-area-inset-bottom, 0)); }
+
+/* ---------- Confetti ---------- */
+.confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.confetti span { position: absolute; top: -20px; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: absolute; left: 50%; bottom: 84px; transform: translateX(-50%);
+  z-index: 90; max-width: 86%;
+  background: var(--ba-ink-2); color: var(--ba-bone);
+  border: 2px solid var(--ba-pink); border-radius: var(--radius-md);
+  padding: 11px 16px; font-weight: 700; font-size: 13.5px; text-align: center;
+  box-shadow: var(--glow-pink);
+  animation: toast-in .3s var(--ease-out) both;
+}
+
+/* ---------- Escáner QR ---------- */
+.scanbox {
+  position: relative; margin-top: 16px; border-radius: var(--radius-lg);
+  overflow: hidden; border: 2px solid var(--ba-ink-3); background: var(--ba-black);
+  aspect-ratio: 3/4;
+}
+.scanbox video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.scanbox .aim {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.scanbox .aim i {
+  width: 62%; aspect-ratio: 1; border: 3px dashed var(--ba-pink);
+  border-radius: var(--radius-lg); box-shadow: 0 0 0 2000px rgba(16,14,14,.35);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* ---------- Registro OK (sorteo) ---------- */
+.okbox {
+  margin-top: 14px; background: rgba(53,196,106,.14);
+  border: 2px solid var(--ba-success); border-radius: var(--radius-md);
+  padding: 11px 13px; font-weight: 700; font-size: 13px; color: var(--ba-bone);
+}
+.okbox b { color: var(--ba-success); }
+
+/* Escritorio: centra el marco y deja aire */
+@media (min-width: 500px) {
+  body { display: flex; align-items: stretch; justify-content: center; }
+  .phone { height: 100vh; }
+}

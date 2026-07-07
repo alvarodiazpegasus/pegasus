@@ -1,0 +1,17 @@
+<svg viewBox="185 235 830 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mascota Burgers Anormales">
+  <!-- Marca alada simplificada oficial del design system (miniatura del proyecto de diseño).
+       TODO producción: sustituir por el PNG real mascota-burger-alada.png de la marca. -->
+  <path d="M470 388 C 360 300, 250 302, 205 352 C 300 350, 345 402, 472 432 Z" fill="#F2EFEA" opacity="0.9"/>
+  <path d="M730 388 C 840 300, 950 302, 995 352 C 900 350, 855 402, 728 432 Z" fill="#F2EFEA" opacity="0.9"/>
+  <path d="M498 302 L513 252 L528 302 Z" fill="#F2EFEA"/>
+  <path d="M672 302 L687 252 L702 302 Z" fill="#F2EFEA"/>
+  <rect x="450" y="300" width="300" height="96" rx="48" fill="#F94A4A"/>
+  <circle cx="546" cy="346" r="13" fill="#1A1717"/>
+  <circle cx="654" cy="346" r="13" fill="#1A1717"/>
+  <path d="M452 399 h296 l-28 42 h-240 Z" fill="#F4C430"/>
+  <rect x="452" y="440" width="296" height="46" rx="10" fill="#2E2929"/>
+  <rect x="450" y="488" width="300" height="72" rx="34" fill="#F94A4A"/>
+  <path d="M486 560 q11 70 22 0 Z" fill="#F72EB7"/>
+  <path d="M600 560 q12 82 24 0 Z" fill="#F72EB7"/>
+  <path d="M712 560 q11 60 22 0 Z" fill="#F72EB7"/>
+</svg>

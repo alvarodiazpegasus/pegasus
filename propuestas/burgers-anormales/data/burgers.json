@@ -1,0 +1,170 @@
+{
+  "_comentario": "ÚNICO archivo de datos del micrositio. Edita aquí burgers, patrocinadores y juegos. Los campos color/deep son los colores de marca del patrocinador. tint es el color de acento de la burger (token CSS del design system).",
+  "evento": {
+    "nombre": "Burgers Anormales — Carpa Arganda",
+    "organiza": "Pegasus × Black Bull",
+    "lugar": "Fiestas de Arganda del Rey",
+    "precioBurger": 14,
+    "precioMenu": 16
+  },
+  "burgers": [
+    {
+      "id": "raro",
+      "nombre": "RARO BICHO",
+      "mote": "El que muerde de vuelta",
+      "tint": "var(--ba-pink)",
+      "desc": "Chuletón madurado, gouda ahumado, salsa nitro de kimchee, ajo negro y lima, y patatas paja ahumadas dentro del pan Potato High.",
+      "patron": {
+        "id": "riano",
+        "nombre": "CÁRNICAS RIAÑO",
+        "tipo": "Carnicería · Arganda",
+        "color": "#C0392B",
+        "deep": "#7B1E17",
+        "sello": "Producto local",
+        "bio": "La carne de chuletón madurado que hace a estas burgers lo que son. Carnicería de barrio, producto de otra liga."
+      },
+      "juego": {
+        "id": "parrillero",
+        "nombre": "PARRILLERO PERFECTO",
+        "verbo": "Dale la vuelta a la carne justo en su punto. Ni cruda, ni suela de zapato.",
+        "como": "Mantén el ojo en la barra de punto. Toca para voltear cuando esté en la zona dorada.",
+        "color": "#C0392B",
+        "glow": "rgba(192,57,43,.5)"
+      }
+    },
+    {
+      "id": "beer",
+      "nombre": "DIFFERENT BEER",
+      "mote": "Pide otra, va",
+      "tint": "var(--ba-coral)",
+      "desc": "Chuletón madurado, gouda ahumado, mermelada de bacon ahumado en roble y salsa umami dulce-ahumada, en pan Potato RED de Juanito Baker.",
+      "patron": {
+        "id": "mahou",
+        "nombre": "MAHOU",
+        "tipo": "Cerveza · desde 1890",
+        "color": "#E4032E",
+        "deep": "#8E0620",
+        "sello": "Desde 1890",
+        "bio": "La caña que se tira en la carpa, de barril y con su corona de espuma. La de siempre, la de aquí."
+      },
+      "juego": {
+        "id": "cana",
+        "nombre": "LA CAÑA PERFECTA",
+        "verbo": "Tira la caña con la espuma justa. Ni un dedo de más, ni de menos.",
+        "como": "Mantén pulsado para tirar. Suelta en la línea: dos dedos de espuma, ni uno más.",
+        "color": "#E4032E",
+        "glow": "rgba(228,3,46,.5)"
+      }
+    },
+    {
+      "id": "nikkei",
+      "nombre": "NIKKEI ANORMAL",
+      "mote": "Fusión que no es normal",
+      "tint": "var(--ba-gold)",
+      "desc": "Chuletón, mayo teriyaki, jalapeño, cebolla crujiente y un toque de sésamo y nori, en pan bao-brioche.",
+      "patron": {
+        "id": "yoxi",
+        "nombre": "SUSHI YOXI",
+        "tipo": "Nikkei · Arganda",
+        "color": "#35A65B",
+        "deep": "#1E6B3A",
+        "sello": "Cocina nikkei",
+        "bio": "Sushi de Arganda con alma nikkei. Precisión de chef, actitud de calle. Se coló en la carta y no piensa irse."
+      },
+      "juego": {
+        "id": "ninja",
+        "nombre": "NINJA DEL SUSHI",
+        "verbo": "Corta las piezas al vuelo. No falles ni una o se acabó.",
+        "como": "Desliza el dedo para cortar el sushi al vuelo. Ojo con las bombas de wasabi.",
+        "color": "#35A65B",
+        "glow": "rgba(53,166,91,.5)"
+      }
+    },
+    {
+      "id": "fire",
+      "nombre": "FIRE SMOKEY",
+      "mote": "Arde, pero rico",
+      "tint": "var(--ba-coral)",
+      "desc": "Doble smash de chuletón dry age, cheddar, cebolla caramelizada al Oporto y mayo kimchee-teriyaki, en pan Potato Black con polvo de baconeras.",
+      "patron": {
+        "id": "iberex",
+        "nombre": "IBEREX",
+        "tipo": "Antiincendios · Patrocinador",
+        "color": "#F5731F",
+        "deep": "#B8480E",
+        "sello": "Patrocinador 2025",
+        "bio": "Patrocinador dinerario desde 2025. Equipos antiincendios: los que saben que aquí lo único que debe arder es la parrilla."
+      },
+      "juego": {
+        "id": "fuego",
+        "nombre": "APAGA EL FUEGO",
+        "verbo": "Sofoca las llamas contra reloj. Que no se te queme la parrilla.",
+        "como": "Toca cada llama para apagarla con el extintor antes de que se coma la estación.",
+        "color": "#F5731F",
+        "glow": "rgba(245,115,31,.5)"
+      }
+    },
+    {
+      "id": "carne",
+      "nombre": "CARNE-QUESO",
+      "mote": "Sin postureo",
+      "tint": "var(--ba-bone)",
+      "desc": "Chuletón madurado y queso cheddar. Punto. En pan Potato High. La honesta, la que no necesita presentación.",
+      "patron": {
+        "id": "ruiz",
+        "nombre": "GRUPO RUIZ",
+        "tipo": "Autobuses · Madrid–Arganda",
+        "color": "#00843D",
+        "deep": "#005C2A",
+        "sello": "Desde 1890",
+        "bio": "Une Madrid y Arganda desde 1890. Hoy, con flota eléctrica y sostenible. Te trae a la carpa y te lleva a casa."
+      },
+      "juego": {
+        "id": "bus",
+        "nombre": "CONDUCTOR DE BUS",
+        "verbo": "Conduce la línea Madrid–Arganda y recoge a los pasajeros a tiempo.",
+        "como": "Toca izquierda o derecha para cambiar de carril. Recoge pasajeros, esquiva conos y pilla la batería: el bus eco puntúa doble.",
+        "color": "#00843D",
+        "glow": "rgba(0,132,61,.5)"
+      }
+    },
+    {
+      "id": "anormal",
+      "nombre": "BURGER ANORMAL",
+      "mote": "La jefa",
+      "tint": "var(--ba-pink)",
+      "desc": "Doble smash, cheddar fundido, pepinillos holandeses y salsa Burger Smoked, en pan Potato High glaseado con mantequilla y polvo de Doritos.",
+      "patron": {
+        "id": "dursan",
+        "nombre": "DURSAN",
+        "tipo": "Concesionario · Arganda",
+        "color": "#2C7BE5",
+        "deep": "#16407E",
+        "sello": "Premium",
+        "bio": "Coches premium en Arganda: BMW, Mercedes, Audi. Y muy buen rollo. La burger insignia tenía que ser suya."
+      },
+      "juego": {
+        "id": "volante",
+        "nombre": "AL VOLANTE DURSAN",
+        "verbo": "Aparca el coche premium sin un rasguño. BMW, Mercedes, Audi.",
+        "como": "Mantén pulsado para acelerar, suelta para frenar. Clava el morro en la plaza sin besar el muro.",
+        "color": "#2C7BE5",
+        "glow": "rgba(44,123,229,.5)"
+      }
+    }
+  ],
+  "votosBase": { "fire": 428, "anormal": 392, "raro": 333, "beer": 281, "nikkei": 246, "carne": 167 },
+  "rankingSemilla": [
+    { "nick": "ANORMAL_92", "score": 2310 },
+    { "nick": "LACARPA", "score": 2040 },
+    { "nick": "JAVI_BB", "score": 1890 },
+    { "nick": "RIDER_ARGANDA", "score": 1450 },
+    { "nick": "EMMA_A", "score": 1180 }
+  ],
+  "sorteo": {
+    "premio": "Cena para 2 en la carpa",
+    "extra": "+ burgers gratis toda la semana",
+    "apuntadosBase": 132,
+    "ultimoGanador": "María G. · nº 087"
+  }
+}

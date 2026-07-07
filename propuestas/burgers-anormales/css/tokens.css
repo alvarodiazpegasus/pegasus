@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Burgers Anormales — Design System · TOKENS
+   Copia 1:1 de los tokens del "Burgers Anormales Design System"
+   (fonts + colors + typography + spacing + effects). NO editar a mano:
+   si cambia el design system, se vuelve a sincronizar desde Claude Design.
+   ========================================================================== */
+
+/* --- fonts.css --- */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Permanent+Marker&display=swap');
+
+:root {
+  /* --- Base neutrals: near-black concrete --- */
+  --ba-black: #100E0E;          /* deepest — page void */
+  --ba-ink: #1A1717;            /* brand background (concrete + damero) */
+  --ba-ink-2: #221E1E;          /* raised surface / card over ink */
+  --ba-ink-3: #2E2929;          /* hairline borders, dividers */
+  --ba-ink-4: #423B3B;          /* muted strokes, disabled fills */
+  --ba-bone: #F2EFEA;           /* bone white — primary text */
+  --ba-bone-dim: #C9C4BC;       /* secondary text on dark */
+  --ba-bone-faint: #8C8681;     /* tertiary / captions */
+
+  /* --- Brand accents --- */
+  --ba-pink: #F72EB7;           /* PRIMARY — spray pink */
+  --ba-pink-hot: #FF52C8;       /* hover / lit */
+  --ba-pink-deep: #C21A8C;      /* pressed / shadow */
+  --ba-coral: #F94A4A;          /* SECONDARY — coral red */
+  --ba-coral-hot: #FF6A6A;      /* hover */
+  --ba-coral-deep: #C82E2E;     /* pressed */
+  --ba-gold: #F4C430;           /* Black Bull gold — sparing accent */
+
+  /* --- Semantic status --- */
+  --ba-success: #35C46A;
+  --ba-warning: #F4C430;
+  --ba-danger: #F94A4A;
+  --ba-info: #F72EB7;
+
+  /* --- Semantic aliases --- */
+  --surface-page: var(--ba-ink);
+  --surface-void: var(--ba-black);
+  --surface-card: var(--ba-ink-2);
+  --surface-raised: var(--ba-ink-3);
+
+  --text-primary: var(--ba-bone);
+  --text-secondary: var(--ba-bone-dim);
+  --text-muted: var(--ba-bone-faint);
+  --text-on-accent: var(--ba-ink);
+  --text-on-accent-inv: var(--ba-bone);
+
+  --accent: var(--ba-pink);
+  --accent-hover: var(--ba-pink-hot);
+  --accent-press: var(--ba-pink-deep);
+  --accent-2: var(--ba-coral);
+  --accent-2-hover: var(--ba-coral-hot);
+  --accent-2-press: var(--ba-coral-deep);
+
+  --border-hairline: var(--ba-ink-3);
+  --border-strong: var(--ba-ink-4);
+  --border-accent: var(--ba-pink);
+
+  --focus-ring: var(--ba-pink);
+  --link: var(--ba-pink);
+  --link-hover: var(--ba-pink-hot);
+
+  /* --- Typography --- */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
+  --font-tag: 'Permanent Marker', 'Barlow', cursive;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  --fs-display-xl: 96px;  --lh-display-xl: 0.92;
+  --fs-display-lg: 72px;  --lh-display-lg: 0.94;
+  --fs-display-md: 52px;  --lh-display-md: 0.96;
+  --fs-display-sm: 38px;  --lh-display-sm: 1.0;
+  --fs-title: 28px;       --lh-title: 1.05;
+
+  --fs-xl: 22px;  --lh-xl: 1.45;
+  --fs-lg: 18px;  --lh-lg: 1.5;
+  --fs-md: 16px;  --lh-md: 1.55;
+  --fs-sm: 14px;  --lh-sm: 1.5;
+  --fs-xs: 12px;  --lh-xs: 1.4;
+
+  --tracking-display: 0.01em;
+  --tracking-label: 0.06em;
+  --tracking-body: 0;
+
+  /* --- Spacing, radii & layout — 4px base grid --- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --container-sm: 640px;
+  --container-md: 900px;
+  --container-lg: 1200px;
+
+  --control-h-sm: 36px;
+  --control-h-md: 46px;
+  --control-h-lg: 56px;
+
+  /* --- Effects --- */
+  --shadow-sm: 0 2px 0 rgba(0,0,0,0.5);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.55);
+  --shadow-lg: 0 18px 48px rgba(0,0,0,0.6);
+  --shadow-hard: 4px 4px 0 var(--ba-black);
+  --shadow-hard-pink: 4px 4px 0 var(--ba-pink-deep);
+
+  --glow-pink: 0 0 24px rgba(247,46,183,0.55);
+  --glow-coral: 0 0 24px rgba(249,74,74,0.5);
+
+  --border-w: 2px;
+  --border-w-thick: 3px;
+
+  /* Damero (checkerboard) overlay — Black Bull motif */
+  --damero-size: 48px;
+  --damero: repeating-conic-gradient(
+      rgba(255,255,255,0.022) 0% 25%,
+      transparent 0% 50%)
+      50% / var(--damero-size) var(--damero-size);
+
+  /* --- Motion --- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+  --dur-slow: 380ms;
+}
