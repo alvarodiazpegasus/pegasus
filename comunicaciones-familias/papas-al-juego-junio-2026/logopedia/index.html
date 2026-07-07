@@ -555,7 +555,7 @@
 </head>
 <body>
 
-  <img class="brand-logo" src="../../../assets/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+  <img class="brand-logo" src="../../../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
   <button class="mute-btn" id="muteBtn" title="Silenciar / Reactivar audio" onclick="toggleMute()">🔊</button>
   <button class="volver-mapa" id="btnVolverMapa" onclick="volverAlMapa()">🗺 Volver al mapa</button>
   <div id="toast"></div>
@@ -567,7 +567,7 @@
       <img class="cine-fondo" src="assets/imagenes/mapa/isla-tefiti.png" alt="">
       <div class="cine-veil"></div>
       <div class="cine-wrap">
-        <img class="cine-peg" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+        <img class="cine-peg" src="../../../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
         <div class="cine-texto">
           <h1>¡UNA AVENTURA OS ESPERA!</h1>
           <p>El océano os ha elegido. Una piedra mágica se ha roto en cuatro fragmentos y la isla necesita vuestra ayuda. ¿Estáis preparados?</p>
@@ -582,7 +582,7 @@
       <div class="cine-veil"></div>
       <button class="saltar-btn" onclick="irAPersonaje()">Saltar →</button>
       <div class="cine-wrap">
-        <img class="cine-peg" id="pegHistoria" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-curioso.png" alt="Pegasusito">
+        <img class="cine-peg" id="pegHistoria" src="../../../shared/pegasusito/pegasusito-curioso.png" alt="Pegasusito">
         <div class="cine-texto">
           <h1>ESCUCHAD LA LEYENDA</h1>
           <p>El historiador os va a contar lo que ha pasado…</p>
@@ -857,7 +857,7 @@ function toast(msg,tipo='',ms=1800){
 
 /* ---- Pegasusito modal reutilizable ---- */
 function mostrarPegasusito({titulo,texto,pose,cta,onContinuar}){
-  document.getElementById('pegImg').src='../../../01_pegasus-studio/casting/pegasusito/pegasusito-'+pose+'.png';
+  document.getElementById('pegImg').src='../../../shared/pegasusito/pegasusito-'+pose+'.png';
   document.getElementById('pegTit').textContent=titulo;
   document.getElementById('pegTxt').textContent=texto;
   const b=document.getElementById('pegCta');
