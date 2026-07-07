@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Piedra de Te Fiti · Gymkana Logopedia · Papás al Juego junio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 <style>
   :root{
     --morado:#974694;
@@ -305,7 +308,7 @@
     background:
       linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
       url('assets/imagenes/volcan/interior-volcan.png') center/cover no-repeat; }
-  .heroe-cima{ position:absolute; top:14vh; left:50%; transform:translateX(-50%);
+  .heroe-cima{ position:absolute; top:10vh; left:50%; transform:translateX(-50%); width:min(28vh,240px); z-index:5;
       width:clamp(50px,8vh,80px); z-index:3; filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
   .heroe-cima.caer{ animation:caer 1.3s ease-in forwards; }
   @keyframes caer{ 0%{ transform:translateX(-50%) translateY(0) rotate(0);} 100%{ transform:translateX(-50%) translateY(60vh) rotate(540deg); opacity:0; } }
@@ -366,11 +369,193 @@
   .tefiti-img.sube{ transform:translateX(-50%) translateY(8%); }
   #final .final-cta{ position:absolute; bottom:6vh; left:50%; transform:translateX(-50%); z-index:5; display:none; }
   #final .final-cta.on{ display:block; }
+
+  /* ====================================================== */
+  /* PUNTO 4 · nivel bajo (opciones de texto · bug 4)       */
+  /* ====================================================== */
+  .opciones-texto-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+    margin:10px auto 0; max-width:min(70vh,480px); width:100%;
+  }
+  .opt-txt-btn{
+    font-family:'Barlow',system-ui,sans-serif; font-weight:900; font-style:italic;
+    font-size:clamp(17px,2.6vh,23px); letter-spacing:.5px; text-transform:uppercase;
+    color:var(--morado); background:#fff;
+    border:3px solid var(--morado); border-radius:18px;
+    padding:clamp(14px,3vh,24px) 10px;
+    cursor:pointer; touch-action:manipulation;
+    box-shadow:0 6px 16px rgba(0,0,0,.14);
+  }
+  .opt-txt-btn:hover{ background:#faf0fa; border-color:var(--rosa); }
+  .opt-txt-btn.ok{ background:var(--ok); border-color:#2e7d4f; color:#fff; }
+  .opt-txt-btn.fail{ animation:shake .4s; background:#ffe3e3; border-color:var(--coral); color:var(--coral); }
+
+  /* ====================================================== */
+  /* PUNTO 4 · nivel alto (pergamino códigos · bug 5)       */
+  /* ====================================================== */
+  .pergamino{
+    background:linear-gradient(165deg,#f9f0d8 0%,#f4e8c8 55%,#eadbb2 100%);
+    border:4px solid #8a5a2e; border-radius:24px;
+    padding:clamp(16px,2.6vh,30px) clamp(18px,3vw,34px);
+    max-width:min(92vw,640px); margin:6px auto 0;
+    box-shadow:0 18px 44px rgba(0,0,0,.35), inset 0 0 36px rgba(138,90,46,.14);
+    display:flex; flex-direction:column; align-items:center; gap:clamp(8px,1.4vh,14px);
+  }
+  .pergamino h3{
+    margin:0; font-family:'Barlow',system-ui,sans-serif; font-weight:900; font-style:italic;
+    font-size:clamp(20px,3vh,26px); color:#5c3618; text-shadow:0 1px 0 rgba(255,255,255,.55);
+  }
+  .pergamino .historia{
+    margin:0; font-family:'Barlow',system-ui,sans-serif; font-weight:500; font-style:italic;
+    font-size:clamp(14px,2vh,17px); color:#5c3618; line-height:1.5;
+  }
+  .chip-cifrado{
+    background:var(--morado); color:#fff; font-family:'Barlow',system-ui,sans-serif;
+    font-weight:900; font-style:italic; text-transform:uppercase;
+    letter-spacing:2px; font-size:12px; padding:4px 14px; border-radius:999px;
+  }
+  .emojis-cifrado{
+    background:rgba(255,255,255,.72); border:3px dashed var(--morado); border-radius:18px;
+    padding:clamp(10px,1.8vh,18px) clamp(14px,3vw,26px);
+    font-size:clamp(34px,5.6vh,54px); letter-spacing:clamp(6px,1.2vw,14px);
+    text-align:center; line-height:1.25; max-width:100%;
+  }
+  .input-cifrado{
+    font-family:'Barlow',system-ui,sans-serif !important; font-weight:900; font-style:italic;
+    font-size:clamp(16px,2.4vh,21px); color:var(--tinta);
+    border:3px solid var(--morado); background:#fff; outline:none;
+    text-align:center; text-transform:uppercase;
+    padding:12px 22px; border-radius:16px; max-width:min(78vw,320px);
+  }
+  .input-cifrado::placeholder{ font-family:'Barlow',system-ui,sans-serif; font-weight:700; font-style:italic; color:#bda6bd; }
+  .input-cifrado:focus{ border-color:var(--rosa); box-shadow:0 0 0 4px rgba(228,94,155,.18); }
+  .input-cifrado.fail{ animation:shake .4s; border-color:var(--coral); background:#ffe3e3; }
+  .btn-clave{
+    background:none; border:none; cursor:pointer; touch-action:manipulation;
+    font-family:'Barlow',system-ui,sans-serif; font-weight:800; font-style:italic;
+    font-size:14px; color:#8a5a2e; text-decoration:underline; padding:2px 8px;
+  }
+  .btn-clave:hover{ color:var(--morado); }
+
+  /* modal clave del cifrario */
+  #claveModal{
+    position:fixed; inset:0; z-index:400; display:none;
+    align-items:center; justify-content:center; padding:20px;
+    background:rgba(6,29,38,.72);
+  }
+  #claveModal.show{ display:flex; animation:fadeIn .25s; }
+  .clave-card{
+    position:relative;
+    background:linear-gradient(165deg,#f9f0d8 0%,#f4e8c8 55%,#eadbb2 100%);
+    border:4px solid #8a5a2e; border-radius:24px;
+    padding:26px 26px 22px; max-width:min(92vw,560px); max-height:86vh; overflow:auto;
+    box-shadow:0 22px 60px rgba(0,0,0,.5);
+  }
+  .clave-card h3{
+    margin:0 0 14px; font-family:'Barlow',system-ui,sans-serif; font-weight:900; font-style:italic;
+    font-size:clamp(19px,2.8vh,24px); color:#5c3618; text-align:center;
+  }
+  .clave-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(84px,1fr)); gap:8px; width:min(84vw,440px); }
+  .clave-item{
+    background:rgba(255,255,255,.8); border:2px solid rgba(138,90,46,.4); border-radius:12px;
+    padding:6px 4px; display:flex; flex-direction:column; align-items:center; gap:2px;
+  }
+  .clave-item .l{ font-family:'Barlow',system-ui,sans-serif; font-weight:900; font-style:italic; font-size:15px; color:#5c3618; }
+  .clave-item .e{ font-size:26px; line-height:1.1; }
+  .clave-cerrar{
+    position:absolute; top:10px; right:12px; z-index:2;
+    background:var(--morado); color:#fff; border:none; border-radius:50%;
+    width:34px; height:34px; font-size:15px; font-weight:900; cursor:pointer; touch-action:manipulation;
+    box-shadow:0 4px 10px rgba(0,0,0,.25); line-height:1;
+  }
+  @media (max-height:720px){
+    .pergamino{ padding:14px 20px; gap:8px; }
+    .pergamino .historia{ font-size:13px; line-height:1.4; }
+    .emojis-cifrado{ font-size:32px; padding:8px 14px; }
+    .opt-txt-btn{ padding:12px 8px; font-size:16px; }
+  }
+
+/* ===== BARREÑO DE AGUA (Ceci) · imagen Gemini + fallback CSS ===== */
+.barreno-ruleta{
+  position:relative;
+  width:min(36vh, 260px);
+  height:min(36vh, 260px);
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow: 0 18px 36px rgba(0,0,0,.45), 0 0 0 6px #6b421f, 0 0 0 3px #f4c882 inset;
+  background-image: url('assets/img/barreno.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #2196f3;
+  display:flex; align-items:center; justify-content:center;
+  margin: 8px auto 12px;
+}
+/* Fallback si no hay imagen: agua con degradado + reflejo */
+.barreno-ruleta .barreno-agua{
+  position:absolute; inset:12%;
+  border-radius:50%;
+  background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.55) 0%, rgba(180,220,255,.35) 25%, rgba(33,150,243,.15) 55%, transparent 75%),
+              radial-gradient(circle at 65% 75%, rgba(13,71,161,.35) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:1;
+}
+.barreno-ruleta .barreno-letra{
+  position:relative;
+  z-index:2;
+  font-family:'Barlow', sans-serif;
+  font-weight:900; font-style:italic;
+  font-size: clamp(72px, 12vh, 140px);
+  color:#fff;
+  text-shadow: 0 4px 12px rgba(0,0,0,.65), 0 0 20px rgba(0,0,0,.35);
+  line-height:1;
+  user-select:none;
+}
+.barreno-ruleta.girando{ animation: barrenoGira .1s linear infinite; }
+@keyframes barrenoGira{ 0%{transform:rotate(-2deg)} 100%{transform:rotate(2deg)} }
+
+/* Fix layout · el resultado no se recortaba */
+#ruletaBarreno{ 
+  display:flex; flex-direction:column; align-items:center; gap:12px; 
+  width:100%; padding-bottom:24px;
+}
+#barrenoResultado{ 
+  width:100%; max-width:min(88vw, 720px); min-height:120px; 
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.palabra-card{ 
+  transition: transform .2s, box-shadow .2s; 
+}
+.palabra-card:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,0,0,.30); }
+
+
+/* ===== Ceci · fix punto 3 barreño compacto + texto invisible (jul 2026 v2) ===== */
+#punto-3 .act-host{ padding:16px 20px !important; max-height:96vh; overflow:hidden; }
+#punto-3 h2{ font-size:clamp(20px,2.8vh,28px) !important; margin:0 0 4px !important; }
+#punto-3 .lead{ font-size:clamp(12px,1.6vh,15px) !important; margin:0 0 8px !important; line-height:1.3 !important; }
+/* Texto "Escucha la palabra y tócala:" · era blanco sobre blanco */
+#punto-3 #barrenoResultado > div:first-child{
+  color:#0d3b5c !important;
+  font-family:'Barlow',sans-serif; font-weight:900; font-style:italic;
+  font-size:16px !important; text-align:center;
+  text-shadow:none !important;
+}
+#punto-3 .palabra-card{ padding:10px 20px !important; font-size:20px !important; }
+#punto-3 .btn{ padding:10px 20px !important; font-size:15px !important; }
+
+/* Extra compact para pantallas 720p */
+@media (max-height:760px){
+  #punto-3 .barreno-ruleta{ width:min(30vh, 220px) !important; height:min(30vh, 220px) !important; }
+  #punto-3 .barreno-letra{ font-size:clamp(48px, 8vh, 80px) !important; }
+  #punto-3 h2{ font-size:20px !important; }
+  #punto-3 .lead{ font-size:12px !important; }
+  #barrenoResultado{ min-height:80px !important; gap:6px !important; }
+  #punto-3 .palabra-card{ padding:8px 16px !important; font-size:18px !important; }
+}
 </style>
 </head>
 <body>
 
-  <img class="brand-logo" src="../shared/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
+  <img class="brand-logo" src="../../../assets/imagotipo-pegasus-horizontal-color.jpg" alt="Pegasus">
   <button class="mute-btn" id="muteBtn" title="Silenciar / Reactivar audio" onclick="toggleMute()">🔊</button>
   <button class="volver-mapa" id="btnVolverMapa" onclick="volverAlMapa()">🗺 Volver al mapa</button>
   <div id="toast"></div>
@@ -382,7 +567,7 @@
       <img class="cine-fondo" src="assets/imagenes/mapa/isla-tefiti.png" alt="">
       <div class="cine-veil"></div>
       <div class="cine-wrap">
-        <img class="cine-peg" src="../shared/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
+        <img class="cine-peg" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-saludando.png" alt="Pegasusito">
         <div class="cine-texto">
           <h1>¡UNA AVENTURA OS ESPERA!</h1>
           <p>El océano os ha elegido. Una piedra mágica se ha roto en cuatro fragmentos y la isla necesita vuestra ayuda. ¿Estáis preparados?</p>
@@ -397,7 +582,7 @@
       <div class="cine-veil"></div>
       <button class="saltar-btn" onclick="irAPersonaje()">Saltar →</button>
       <div class="cine-wrap">
-        <img class="cine-peg" id="pegHistoria" src="../shared/pegasusito/pegasusito-curioso.png" alt="Pegasusito">
+        <img class="cine-peg" id="pegHistoria" src="../../../01_pegasus-studio/casting/pegasusito/pegasusito-curioso.png" alt="Pegasusito">
         <div class="cine-texto">
           <h1>ESCUCHAD LA LEYENDA</h1>
           <p>El historiador os va a contar lo que ha pasado…</p>
@@ -461,7 +646,7 @@
         <h2>Bailad las olas 🌊</h2>
         <p class="lead">Ved el vídeo e intentad seguir los movimientos. Cuando terminéis, dadle al botón.</p>
         <div class="video-box">
-          <video id="videoBaile" src="assets/video/baile-olas.mp4" controls loop playsinline
+          <video id="videoBaile" src="assets/video/smilie-carrera.mp4" controls loop playsinline
             style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
             Tu navegador no soporta vídeo HTML5.
           </video>
@@ -482,12 +667,9 @@
     <!-- ============ PUNTO 3 · ORILLA (pares mínimos) ============ -->
     <section class="scene bg-ocean" id="punto-3">
       <div class="act-host">
-        <h2>El cuenco de las palabras</h2>
-        <p class="lead">Escuchad bien y tocad la palabra que habéis oído.</p>
-        <div class="cuenco">🏺</div>
-        <div class="pares-cards" id="paresCards"></div>
-        <button class="btn" onclick="reproducirParActual()">🔊 ESCUCHAR</button>
-        <div class="rondas">Ronda <span id="ronda">1</span> de 5</div>
+        <h2>El barreño de las palabras</h2>
+        <p class="lead">Gira la ruleta con forma de barreño. Cada letra guarda palabras muy parecidas.</p>
+        <!-- El JS inyecta aquí el picker de nivel, la ruleta y las palabras -->
       </div>
     </section>
 
@@ -527,6 +709,15 @@
       </div>
     </div>
 
+    <!-- ============ MODAL CLAVE CIFRARIO (punto 4 alto) ============ -->
+    <div id="claveModal" onclick="if(event.target===this)cerrarClaveModal()">
+      <div class="clave-card">
+        <button class="clave-cerrar" onclick="cerrarClaveModal()" title="Cerrar">✕</button>
+        <h3>🔑 Clave del cifrario</h3>
+        <div class="clave-grid" id="claveGrid"></div>
+      </div>
+    </div>
+
     <!-- ============ FINAL · Te Fiti ============ -->
     <section class="scene" id="final">
       <div class="final-stage">
@@ -538,6 +729,7 @@
         </div>
         <img class="tefiti-img" id="tefitiImg" src="assets/imagenes/personajes/te-fiti.png" alt="Te Fiti">
         <button class="btn morado final-cta" id="finalCta" onclick="pantallaDespedida()">▶ FIN DE LA AVENTURA</button>
+<button class="btn coral" style="margin-top:10px;" onclick="volverAEmpezarLogo()">🔁 VOLVER A EMPEZAR</button>
       </div>
     </section>
 
@@ -665,7 +857,7 @@ function toast(msg,tipo='',ms=1800){
 
 /* ---- Pegasusito modal reutilizable ---- */
 function mostrarPegasusito({titulo,texto,pose,cta,onContinuar}){
-  document.getElementById('pegImg').src='../shared/pegasusito/pegasusito-'+pose+'.png';
+  document.getElementById('pegImg').src='../../../01_pegasus-studio/casting/pegasusito/pegasusito-'+pose+'.png';
   document.getElementById('pegTit').textContent=titulo;
   document.getElementById('pegTxt').textContent=texto;
   const b=document.getElementById('pegCta');
@@ -819,36 +1011,68 @@ let sopaRepetidos=new Set(), sopaSeleccionadas=new Set();
 
 function barajar(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
+// Ceci: nivel bajo / alto en punto 2 sopa
+let sopaTotalPares = 5;
+
 function mostrarSopa(){
-  // detener vídeo local al salir
+  // Ceci: primero picker de nivel · luego sopa
   const v=document.getElementById('videoBaile');
   if(v){ try{ v.pause(); }catch(e){} }
-  construirSopa();
   mostrarEscena('punto-2-sopa');
+  const host = document.getElementById('sopaGrid');
+  if (host) host.innerHTML = '';
+  const prog = document.getElementById('sopaProg');
+  if (prog) prog.innerHTML = '';
+  const contPicker = document.createElement('div');
+  contPicker.id = 'sopaNivelPicker';
+  contPicker.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px;';
+  contPicker.innerHTML = '<div style="font-family:Barlow,sans-serif;font-weight:900;font-style:italic;font-size:20px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);text-align:center;">Elige el nivel del peque:</div>' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">' +
+    '<button class="btn coral" onclick="iniciarSopaConNivel(\'bajo\')">🌟 NIVEL BAJO · 3 parejas</button>' +
+    '<button class="btn coral" onclick="iniciarSopaConNivel(\'alto\')">🦈 NIVEL ALTO · 10 parejas</button>' +
+    '</div>';
+  const scene = document.getElementById('punto-2-sopa').querySelector('.act-host');
+  const previo = document.getElementById('sopaNivelPicker');
+  if (previo) previo.remove();
+  scene.appendChild(contPicker);
+}
+
+function iniciarSopaConNivel(nivel){
+  const picker = document.getElementById('sopaNivelPicker');
+  if (picker) picker.remove();
+  sopaTotalPares = (nivel === 'alto') ? 10 : 3;
+  construirSopa();
 }
 
 function construirSopa(){
-  const baraja=barajar(SOPA_ICONOS);
-  const repetidos=baraja.slice(0,5);          // 5 iconos -> aparecen x2 (10 celdas)
-  const unicos=baraja.slice(5,20);            // 15 iconos -> aparecen x1
-  sopaRepetidos=new Set(repetidos);
-  sopaSeleccionadas=new Set();
-  let celdas=[];
-  repetidos.forEach(n=>{ celdas.push(n); celdas.push(n); });
-  unicos.forEach(n=>celdas.push(n));
-  celdas=barajar(celdas);                      // 25 celdas
-  const grid=document.getElementById('sopaGrid'); grid.innerHTML='';
-  celdas.forEach((nombre,i)=>{
-    const c=document.createElement('div');
-    c.className='sopa-cell'; c.dataset.nombre=nombre; c.dataset.idx=i;
-    c.innerHTML='<img src="assets/imagenes/sopa-de-imagenes/'+nombre+'.png" alt="">';
-    c.onclick=()=>clicSopa(c);
+  const totalCeldas = sopaTotalPares === 3 ? 12 : 25;
+  const baraja = barajar(SOPA_ICONOS);
+  const repetidos = baraja.slice(0, sopaTotalPares);
+  const unicos = baraja.slice(sopaTotalPares, sopaTotalPares + (totalCeldas - sopaTotalPares*2));
+  sopaRepetidos = new Set(repetidos);
+  sopaSeleccionadas = new Set();
+  let celdas = [];
+  repetidos.forEach(n => { celdas.push(n); celdas.push(n); });
+  unicos.forEach(n => celdas.push(n));
+  celdas = barajar(celdas);
+  const grid = document.getElementById('sopaGrid'); 
+  grid.innerHTML = '';
+  if (sopaTotalPares === 3) {
+    grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  } else {
+    grid.style.gridTemplateColumns = 'repeat(5, 1fr)';
+  }
+  celdas.forEach((nombre, i) => {
+    const c = document.createElement('div');
+    c.className = 'sopa-cell'; c.dataset.nombre = nombre; c.dataset.idx = i;
+    c.innerHTML = '<img src="assets/imagenes/sopa-de-imagenes/' + nombre + '.png" alt="">';
+    c.onclick = () => clicSopa(c);
     grid.appendChild(c);
   });
   actualizarProgSopa();
 }
 function actualizarProgSopa(){
-  document.getElementById('sopaProg').textContent='('+sopaSeleccionadas.size+'/10)';
+  document.getElementById('sopaProg').textContent='('+sopaSeleccionadas.size+'/'+(sopaTotalPares*2)+')';
 }
 function clicSopa(celda){
   const nombre=celda.dataset.nombre, idx=celda.dataset.idx;
@@ -864,7 +1088,7 @@ function clicSopa(celda){
     sopaSeleccionadas.add(idx); celda.classList.add('sel');
   }
   actualizarProgSopa();
-  if(sopaSeleccionadas.size===10){
+  if(sopaSeleccionadas.size===sopaTotalPares*2){
     toast('¡Habéis encontrado todas las parejas!','ok');
     setTimeout(()=>conseguirFragmento(2), 700);
   }
@@ -873,138 +1097,298 @@ function clicSopa(celda){
 /* =========================================================
    PUNTO 3 · ORILLA (pares mínimos)
 ========================================================= */
-const paresMinimos=[
-  {a:'pala',b:'bala'},{a:'cama',b:'gama'},{a:'tos',b:'dos'},{a:'foto',b:'jota'},
-  {a:'mata',b:'nata'},{a:'pero',b:'pelo'},{a:'coro',b:'toro'},{a:'chapa',b:'llapa'}
-];
-let paresRondas=[], paresRondaIdx=0, parActual=null, palabraObjetivo=null;
+// Ceci: pares mínimos del PDF · agrupados por letra clave para ruleta
+const PALABRAS_POR_LETRA = {
+  'P': [{a:'piña',b:'niña'},{a:'perla',b:'pera'},{a:'pato',b:'palo'},{a:'pino',b:'vino'},{a:'panal',b:'pañal'}],
+  'C': [{a:'carta',b:'tarta'},{a:'cuatro',b:'cuadro'},{a:'coro',b:'corro'},{a:'cuervo',b:'cuerpo'},{a:'cama',b:'casa'},{a:'coco',b:'foco'}],
+  'B': [{a:'bota',b:'gota'},{a:'boca',b:'foca'},{a:'barco',b:'banco'}],
+  'L': [{a:'lata',b:'rata'},{a:'luna',b:'lupa'},{a:'loro',b:'toro'}],
+  'M': [{a:'mesa',b:'pesa'},{a:'mapa',b:'masa'}],
+  'G': [{a:'gorro',b:'zorro'},{a:'gota',b:'bota'}],
+  'H': [{a:'hueso',b:'huevo'}],
+  'J': [{a:'jabón',b:'jarrón'}],
+  'S': [{a:'saco',b:'sapo'}],
+  'O': [{a:'oreja',b:'oveja'}],
+  'F': [{a:'foca',b:'boca'},{a:'foco',b:'coco'}],
+  'T': [{a:'toro',b:'loro'},{a:'tarta',b:'carta'}],
+  'R': [{a:'rata',b:'lata'}],
+  'V': [{a:'vino',b:'pino'}]
+};
+// Todas las letras del abecedario EXCEPTO K, W, X, Y (Ceci)
+const LETRAS_RULETA = ['A','B','C','D','E','F','G','H','I','J','L','M','N','Ñ','O','P','Q','R','S','T','U','V','Z'];
+// Imágenes asociadas por letra (nivel bajo · asociación letra-imagen)
+const IMAGEN_POR_LETRA = {
+  'A':'aletas',
+  'B':'bikini',
+  'C':'cangrejo',
+  'E':'estrella-de-mar',
+  'F':'flotador',
+  'G':'gafas-de-sol',
+  'M':'medusa',
+  'P':'palmera',
+  'S':'sol',
+  'T':'tortuga-marina'
+};
+let logoNivel = 'alto';
+let letraActual = null;
+let palabraObjetivo=null;
 
 function abrirPunto3(){
   reproducir('historiador','orilla',{volume:1});
   mostrarPegasusito({
-    titulo:'La orilla encantada',
-    texto:'Las olas susurran palabras muy parecidas. Afinad el oído: escuchad bien y señalad la palabra correcta. Cinco veces seguidas y el fragmento será vuestro.',
-    pose:'pensativo', cta:'▶ ESCUCHAR LAS OLAS',
+    titulo:'El barreño de las palabras',
+    texto:'Una ruleta con forma de barreño de agua guarda las letras del abecedario. Gira, saca una letra y aparecen palabras muy parecidas. Escuchad bien y señalad la correcta.',
+    pose:'pensativo', cta:'▶ AL BARREÑO',
     onContinuar:()=>{
-      paresRondas=barajar(paresMinimos).slice(0,5);
-      paresRondaIdx=0;
       mostrarEscena('punto-3');
-      montarRondaPares();
+      mostrarPickerNivelPunto3();
     }
   });
 }
-function montarRondaPares(){
-  parActual=paresRondas[paresRondaIdx];
-  document.getElementById('ronda').textContent=paresRondaIdx+1;
-  const cartas=barajar([parActual.a,parActual.b]);
-  const cont=document.getElementById('paresCards'); cont.innerHTML='';
-  cartas.forEach(p=>{
-    const d=document.createElement('div'); d.className='palabra-card'; d.textContent=p;
-    d.onclick=()=>clicPalabra(d,p);
-    cont.appendChild(d);
-  });
-  palabraObjetivo = Math.random()<0.5 ? parActual.a : parActual.b;
-  setTimeout(reproducirParActual, 500);
-}
-function reproducirParActual(){ if(palabraObjetivo) reproducir('pares',palabraObjetivo,{volume:1}); }
-function clicPalabra(card,palabra){
-  if(palabra===palabraObjetivo){
-    reproducir('sfx','chime',{volume:.5});
-    paresRondaIdx++;
-    if(paresRondaIdx>=5){ toast('¡Oído de explorador!','ok'); setTimeout(()=>conseguirFragmento(3),700); }
-    else { toast('¡Correcto! '+(5-paresRondaIdx)+' más','ok',1100); setTimeout(montarRondaPares,800); }
-  } else {
-    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'),420);
-    toast('Escuchad otra vez 🔊','err',1200);
-    setTimeout(reproducirParActual,500);
-  }
-}
-
 /* =========================================================
    PUNTO 4 · BOSQUE (historias + candado)
 ========================================================= */
-const historias=[
-  { texto:'Sara quiere encontrar su juguete favorito en el salón. ¿Qué necesita para buscarlo?',
-    correcto:'lupa', opciones:['lupa','monedero','zapatos','libro'] },
-  { texto:'Lucas quiere comprar un regalo a su madre. ¿Qué le falta?',
-    correcto:'monedero', opciones:['monedero','llaves','juguete','mochila'] },
-  { texto:'Marta no encuentra la salida del parque. ¿A quién pide ayuda?',
-    correcto:'persona-adulta', opciones:['persona-adulta','libro','zapatos','juguete'] },
+// Ceci: mapping letra → emoji para código cifrado (nivel alto)
+const CIFRARIO = {
+  'A':'🐠','B':'🐚','C':'🌊','D':'🐬','E':'🐢','F':'🦈','G':'🐊','H':'🦀','I':'⭐',
+  'J':'🍍','L':'🌴','M':'🐟','N':'🐙','O':'⛵','P':'🌸','Q':'🐳','R':'🌺','S':'🎣',
+  'T':'🏝️','U':'🌈','V':'🦩','Y':'🐍','Z':'⚡','Ó':'⛵','Ú':'🌈'
+};
+
+// Ceci: nivel alto · 5 tarjetas con historia + código cifrado
+const HISTORIAS_ALTO = [
+  { titulo:'El amigo más despistado',
+    texto:'Tiene muchas plumas, le encanta picotear cualquier cosa y siempre acaba metiéndose en líos sin darse cuenta. Descifra el mensaje secreto para descubrir quién es.',
+    respuesta:'HEIHEI' },
+  { titulo:'El objeto que devuelve la vida',
+    texto:'Sin este objeto, las islas se marchitan y la naturaleza pierde su fuerza. Es pequeño, verde y muy valioso. Vaiana debe protegerlo para devolverlo a su dueña.',
+    respuesta:'CORAZON' },
+  { titulo:'El arma del semidiós',
+    texto:'Es enorme, mágico y permite a su dueño transformarse en diferentes animales. Sin él, Maui pierde gran parte de sus poderes.',
+    respuesta:'ANZUELO' },
+  { titulo:'La guía de los navegantes',
+    texto:'Brilla cuando cae la noche y ayuda a Vaiana a orientarse durante su viaje por el océano. Los antiguos navegantes también la utilizaban para encontrar el camino.',
+    respuesta:'ESTRELLA' },
+  { titulo:'El transporte de los exploradores',
+    texto:'Vaiana lo utiliza para cruzar el océano en busca de nuevas aventuras. Con ayuda del viento y las velas, la lleva de isla en isla.',
+    respuesta:'BARCO' }
 ];
+
+// Ceci: nivel bajo · 3 preguntas simples con imagen (dinámica actual)
+const HISTORIAS_BAJO = [
+  { texto:'La luz del cielo: por la noche brilla y ayuda a Vaiana a saber por dónde ir cuando navega por el océano. ¿Qué es?',
+    correcto:'estrella', opciones:['estrella','sol','pez','concha'] },
+  { texto:'El barco de Vaiana: lo usa para viajar por el océano y vivir grandes aventuras. ¿Qué es?',
+    correcto:'barco', opciones:['barco','isla','remo','ola'] },
+  { texto:'El pollo travieso: tiene plumas, hace cosas muy graciosas y siempre se mete en líos. ¿Cómo se llama?',
+    correcto:'heihei', opciones:['heihei','maui','vaiana','pua'] }
+];
+
+// Legacy · fallback (no romper si algo la referencia todavía)
+const historias = HISTORIAS_BAJO;
 let histIdx=0, codigo=[];
+let logoP4Nivel = 'alto';
 
 function abrirPunto4(){
   reproducir('historiador','bosque',{volume:1});
   mostrarPegasusito({
-    titulo:'El bosque de los secretos',
-    texto:'Entre los árboles, tres pequeñas historias guardan un código. Ayudad a cada personaje a resolver qué necesita. Con las tres respuestas se abrirá el candado.',
-    pose:'curioso', cta:'▶ ENTRAR AL BOSQUE',
-    onContinuar:()=>{ histIdx=0; codigo=[]; document.getElementById('candadoZona').style.display='none';
-      document.getElementById('pictoGrid').style.display=''; mostrarEscena('punto-4'); montarHistoria(); }
+    titulo:'El candado de los códigos',
+    texto:'Este candado se abrirá cuando descifréis todos los mensajes. Elige el nivel del peque para empezar.',
+    pose:'curioso', cta:'▶ AL CANDADO',
+    onContinuar:()=>{ 
+      histIdx=0; codigo=[]; 
+      document.getElementById('candadoZona').style.display='none';
+      const _cz=document.getElementById('cifradoZona'); if(_cz) _cz.style.display='none';
+      document.getElementById('pictoGrid').style.display='none'; 
+      mostrarEscena('punto-4'); 
+      mostrarPickerNivelPunto4();
+    }
   });
 }
-function montarHistoria(){
-  const h=historias[histIdx];
-  document.getElementById('bosqueTit').textContent='Historia '+(histIdx+1)+' de 3';
-  document.getElementById('bosqueLead').textContent=h.texto;
-  const grid=document.getElementById('pictoGrid'); grid.innerHTML='';
-  barajar(h.opciones).forEach(op=>{
-    const d=document.createElement('div'); d.className='picto';
-    d.innerHTML='<img src="assets/imagenes/iconos-candado/'+op+'.png" alt="">';
-    d.onclick=()=>clicPicto(d,op,h.correcto);
-    grid.appendChild(d);
-  });
+function mostrarPickerNivelPunto4(){
+  const host = document.querySelector('#punto-4 .act-host');
+  const previo = document.getElementById('punto4Picker');
+  if (previo) previo.remove();
+  const picker = document.createElement('div');
+  picker.id = 'punto4Picker';
+  picker.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px;';
+  picker.innerHTML = 
+    '<div style="font-family:Barlow,sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);">Elige el nivel del peque:</div>' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">' +
+    '<button class="btn coral" onclick="iniciarPunto4(\'bajo\')">🌟 NIVEL BAJO · 3 preguntas</button>' +
+    '<button class="btn coral" onclick="iniciarPunto4(\'alto\')">🦈 NIVEL ALTO · 5 códigos</button>' +
+    '</div>';
+  host.appendChild(picker);
+  document.getElementById('bosqueTit').textContent = 'El candado de los códigos';
+  document.getElementById('bosqueLead').textContent = '';
 }
-function clicPicto(el,op,correcto){
-  if(op===correcto){
-    el.classList.add('ok'); reproducir('sfx','chime',{volume:.5});
-    codigo.push(correcto);
-    [...document.querySelectorAll('#pictoGrid .picto')].forEach(p=>p.onclick=null);
-    toast('¡Bien resuelto!','ok',1100);
-    histIdx++;
-    if(histIdx>=3) setTimeout(abrirCandado,900);
-    else setTimeout(montarHistoria,900);
+function iniciarPunto4(nivel){
+  logoP4Nivel = nivel;
+  const picker = document.getElementById('punto4Picker');
+  if (picker) picker.remove();
+  histIdx = 0; codigo = [];
+  if (nivel === 'alto'){
+    document.getElementById('pictoGrid').style.display = 'none';
+    montarHistoriaAlto();
   } else {
-    el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),420);
-    toast('Mmm… prueba otra vez','err',1100);
+    document.getElementById('pictoGrid').style.display = '';
+    montarHistoriaBajo();
   }
 }
-function abrirCandado(){
-  document.getElementById('bosqueTit').textContent='El código secreto';
-  document.getElementById('bosqueLead').textContent='Las tres respuestas abren el candado…';
-  document.getElementById('pictoGrid').style.display='none';
-  const cz=document.getElementById('candadoZona'); cz.style.display='';
-  const cs=document.getElementById('codigoSecreto'); cs.innerHTML='';
-  codigo.forEach(c=>{ const d=document.createElement('div'); d.className='cs';
-    d.innerHTML='<img src="assets/imagenes/iconos-candado/'+c+'.png" alt="">'; cs.appendChild(d); });
+function montarHistoriaAlto(){
+  const h = HISTORIAS_ALTO[histIdx];
+  document.getElementById('bosqueTit').textContent = 'El candado de los códigos';
+  document.getElementById('bosqueLead').textContent = 'Leed la historia del pergamino, descifrad el código y escribid la palabra secreta.';
+  let host = document.getElementById('cifradoZona');
+  if (!host){
+    host = document.createElement('div');
+    host.id = 'cifradoZona';
+    const scene = document.querySelector('#punto-4 .act-host');
+    scene.insertBefore(host, document.getElementById('candadoZona'));
+  }
+  host.style.display = '';
+  const cifrado = h.respuesta.split('').map(l => (CIFRARIO[l.toUpperCase()] || '?')).join(' ');
+  host.innerHTML =
+    '<div class="pergamino">' +
+      '<h3>' + h.titulo + ' · ' + (histIdx+1) + '/' + HISTORIAS_ALTO.length + '</h3>' +
+      '<p class="historia">' + h.texto + '</p>' +
+      '<span class="chip-cifrado">Código cifrado</span>' +
+      '<div class="emojis-cifrado">' + cifrado + '</div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;">' +
+        '<input type="text" id="respInput" class="input-cifrado" placeholder="ESCRIBE LA PALABRA..." autocomplete="off">' +
+        '<button class="btn coral" onclick="validarCifradoAlto()">✓ COMPROBAR</button>' +
+      '</div>' +
+      '<button class="btn-clave" onclick="verClaveCifrario()">🔑 Ver clave del cifrario</button>' +
+    '</div>';
+  const inp = document.getElementById('respInput');
+  if (inp){
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') validarCifradoAlto(); });
+    inp.focus();
+  }
+}
+function validarCifradoAlto(){
+  const inp = document.getElementById('respInput');
+  if (!inp) return;
+  const val = (inp.value||'').trim().toUpperCase().replace(/[Ó]/g,'O').replace(/[Á]/g,'A').replace(/[É]/g,'E').replace(/[Í]/g,'I').replace(/[Ú]/g,'U');
+  const esperado = HISTORIAS_ALTO[histIdx].respuesta.toUpperCase();
+  if (val === esperado){
+    reproducir('sfx','chime',{volume:.5});
+    toast('¡Descifrado!','ok',900);
+    histIdx++;
+    if (histIdx >= HISTORIAS_ALTO.length){
+      const cz = document.getElementById('cifradoZona'); if (cz) cz.style.display='none';
+      setTimeout(abrirCandadoFinal, 700);
+    } else {
+      setTimeout(montarHistoriaAlto, 900);
+    }
+  } else {
+    inp.classList.add('fail');
+    setTimeout(()=>inp.classList.remove('fail'), 800);
+    toast('Sigue intentándolo…','err',900);
+  }
+}
+function verClaveCifrario(){
+  const grid = document.getElementById('claveGrid');
+  if (grid){
+    const letras = [...new Set(HISTORIAS_ALTO.map(h => h.respuesta.toUpperCase()).join('').split(''))].sort();
+    grid.innerHTML = letras.map(l =>
+      '<div class="clave-item"><span class="l">'+l+'</span><span class="e">'+(CIFRARIO[l]||'?')+'</span></div>'
+    ).join('');
+  }
+  document.getElementById('claveModal').classList.add('show');
+}
+function cerrarClaveModal(){
+  document.getElementById('claveModal').classList.remove('show');
+}
+function montarHistoriaBajo(){
+  const h = HISTORIAS_BAJO[histIdx];
+  document.getElementById('bosqueTit').textContent = 'Pregunta '+(histIdx+1)+' de '+HISTORIAS_BAJO.length;
+  document.getElementById('bosqueLead').textContent = h.texto;
+  const grid = document.getElementById('pictoGrid');
+  grid.className = 'opciones-texto-grid';
+  grid.innerHTML = '';
+  barajar(h.opciones).forEach(op => {
+    const b = document.createElement('button');
+    b.className = 'opt-txt-btn';
+    b.textContent = op.replace(/-/g,' ');
+    b.onclick = () => clicOpcionBajo(b, op, h.correcto);
+    grid.appendChild(b);
+  });
+}
+function clicOpcionBajo(el, op, correcto){
+  if (op === correcto){
+    el.classList.add('ok');
+    el.textContent = '✓ ' + el.textContent;
+    reproducir('sfx','chime',{volume:.5});
+    [...document.querySelectorAll('#pictoGrid .opt-txt-btn')].forEach(b => b.onclick = null);
+    toast('¡Bien!','ok',900);
+    histIdx++;
+    if (histIdx >= HISTORIAS_BAJO.length){
+      setTimeout(abrirCandadoFinal, 900);
+    } else {
+      setTimeout(montarHistoriaBajo, 900);
+    }
+  } else {
+    el.classList.add('fail');
+    setTimeout(()=>el.classList.remove('fail'), 600);
+    toast('Prueba otra','err',900);
+  }
+}
+function abrirCandadoFinal(){
+  document.getElementById('bosqueTit').textContent = '¡Candado abierto!';
+  document.getElementById('bosqueLead').textContent = 'Habéis descifrado todos los mensajes. El fragmento es vuestro.';
+  document.getElementById('pictoGrid').style.display = 'none';
+  const cz = document.getElementById('candadoZona'); cz.style.display = '';
   reproducir('sfx','candado',{volume:.9});
-  // animación de apertura: el arco salta
-  const arco=document.getElementById('arco');
-  arco.style.transition='transform .6s ease-out'; arco.style.transformOrigin='35px 40px';
-  setTimeout(()=>{ arco.style.transform='rotate(-35deg) translateY(-6px)'; },150);
+  const arco = document.getElementById('arco');
+  arco.style.transition = 'transform .6s ease-out';
+  arco.style.transformOrigin = '35px 40px';
+  setTimeout(()=>{ arco.style.transform = 'rotate(-35deg) translateY(-6px)'; }, 150);
   setTimeout(()=>conseguirFragmento(4), 1500);
 }
+// (funciones montarHistoria/clicPicto/abrirCandado legacy reemplazadas por montarHistoriaAlto/Bajo/abrirCandadoFinal)
 
 /* =========================================================
    PUNTO 5 · VOLCÁN
 ========================================================= */
-const preguntasVolcan=[
-  { tipo:'peque', q:'¿Cuál de estas es roja?',
-    img:[{n:'sandia',ok:true},{n:'pez-tropical'},{n:'palmera'}] },
-  { tipo:'peque', q:'Señala el animal que vive en el mar',
-    img:[{n:'tortuga-marina',ok:true},{n:'palmera'},{n:'sol'}] },
-  { tipo:'peque', q:'¿Qué nos ponemos para protegernos del sol en la playa?',
-    img:[{n:'sombrero',ok:true},{n:'pelota-playa'},{n:'cubo-de-arena'}] },
-  { tipo:'papa', q:'Animal marino con 8 brazos que cambia de color.',
-    txt:[{t:'Pulpo',ok:true},{t:'Tortuga'},{t:'Tiburón'}] },
-  { tipo:'papa', q:'Capital de una isla volcánica española.',
-    txt:[{t:'Santa Cruz de Tenerife',ok:true},{t:'Valladolid'},{t:'Sevilla'}] },
-  { tipo:'papa', q:'Película de Disney donde el océano elige a una niña.',
-    txt:[{t:'Vaiana (Moana)',ok:true},{t:'Frozen'},{t:'Coco'}] },
-  { tipo:'papa', q:'Material con el que se hacían los anzuelos de Maui en la leyenda polinesia.',
-    txt:[{t:'Hueso',ok:true},{t:'Hierro'},{t:'Plástico'}] },
+// Ceci: nivel alto · 6 preguntas + 2 locas · todas con respuesta texto
+const VOLCAN_ALTO = [
+  { q:'¿Cuál de estos animales vive siempre en el mar?',
+    opts:[{t:'Delfín',ok:true},{t:'Conejo'},{t:'Caballo'}] },
+  { q:'Si ves una bandera roja en la playa, ¿qué significa?',
+    opts:[{t:'Que puedes bañarte sin problema'},{t:'Que está prohibido bañarse',ok:true},{t:'Que el agua está muy caliente'}] },
+  { q:'En la película Vaiana, ¿qué objeto devuelve Vaiana para salvar la naturaleza y el océano?',
+    opts:[{t:'Una concha'},{t:'El corazón de Te Fiti',ok:true},{t:'Un remo'}] },
+  { q:'La marea sube y cubre la arena donde jugaban unos niños. Deciden mover las toallas atrás. ¿Por qué?',
+    opts:[{t:'Porque empezó a llover'},{t:'Porque el agua llegó hasta donde estaban',ok:true},{t:'Porque hacía demasiado calor'}] },
+  { q:'¿Cuál de estas películas de Disney transcurre principalmente bajo el mar?',
+    opts:[{t:'La Sirenita',ok:true},{t:'Frozen'},{t:'Enredados'}] },
+  { q:'Un capitán observa que el viento cambia y las olas son cada vez más grandes. Modifica el rumbo. ¿Por qué?',
+    opts:[{t:'Porque quiere alargar el viaje'},{t:'Porque busca un camino más seguro',ok:true},{t:'Porque se ha olvidado dónde está la isla'}] },
+  { loca:true, q:'"La ola que moja la roca no moja la roca que moja la ola." ¿Qué moja a la roca?',
+    opts:[{t:'La ola',ok:true},{t:'La roca'},{t:'Las dos se mojan entre sí'}] },
+  { loca:true, q:'Si 2 delfines nadan detrás de 3 tortugas, pero 1 tortuga adelanta a 1 delfín, ¿cuántas tortugas siguen delante de ese delfín?',
+    opts:[{t:'1'},{t:'2',ok:true},{t:'3'}] }
 ];
-let volcanIdx=0;
+// Nivel bajo · 3 padres (2 alto + 1 loca) + 4 pictogramas (originales)
+const VOLCAN_BAJO_PADRES = [
+  { q:'¿Cuál de estos animales vive siempre en el mar?',
+    opts:[{t:'Delfín',ok:true},{t:'Conejo'},{t:'Caballo'}] },
+  { q:'En Vaiana, ¿qué objeto devuelve Vaiana para salvar la naturaleza?',
+    opts:[{t:'Una concha'},{t:'El corazón de Te Fiti',ok:true},{t:'Un remo'}] },
+  { loca:true, q:'"La ola que moja la roca no moja la roca que moja la ola." ¿Qué moja a la roca?',
+    opts:[{t:'La ola',ok:true},{t:'La roca'},{t:'Las dos'}] }
+];
+const VOLCAN_BAJO_PEQUES = [
+  { q:'¿Cuál de estas es roja?', img:[{n:'sandia',ok:true},{n:'pez-tropical'},{n:'palmera'}] },
+  { q:'Señala el animal que vive en el mar', img:[{n:'tortuga-marina',ok:true},{n:'palmera'},{n:'sol'}] },
+  { q:'¿Qué nos ponemos para protegernos del sol en la playa?', img:[{n:'sombrero',ok:true},{n:'pelota-playa'},{n:'cubo-de-arena'}] },
+  { q:'Señala el animal que vive en el mar', img:[{n:'pez-tropical',ok:true},{n:'sombrero'},{n:'palmera'}] }
+];
+let volcanNivel = 'alto', volcanIdx = 0, volcanQueue = [];
+
+// Legacy · fallback
+const preguntasVolcan = VOLCAN_ALTO;
 
 function abrirPunto5(){
   fadeOut(audios.musica.isla,900);
@@ -1013,34 +1397,65 @@ function abrirPunto5(){
   reproducir('sfx','fuego',{volume:.4});
   mostrarPegasusito({
     titulo:'El volcán',
-    texto:'El último fragmento descansa en lo alto del cráter. Responded las pruebas sin caer en la lava. Tres para los exploradores pequeños y cuatro para los grandes. ¡Ánimo!',
+    texto:'El último fragmento descansa en lo alto del cráter. Responded las pruebas sin caer en la lava.',
     pose:'pensativo', cta:'▶ SUBIR AL VOLCÁN',
-    onContinuar:()=>{ volcanIdx=0; mostrarEscena('punto-5'); montarPreguntaVolcan(); }
+    onContinuar:()=>{ 
+      volcanIdx=0; 
+      mostrarEscena('punto-5'); 
+      mostrarPickerNivelPunto5();
+    }
   });
 }
-function montarPreguntaVolcan(){
-  const p=preguntasVolcan[volcanIdx];
-  const host=document.getElementById('volcanQ');
-  const total=preguntasVolcan.length;
-  let html='<span class="badge '+(p.tipo==='peque'?'peque':'papa')+'">'+
-           (p.tipo==='peque'?'Para exploradores peques':'Para exploradores grandes')+
-           ' · '+(volcanIdx+1)+'/'+total+'</span>';
-  html+='<h3>'+p.q+'</h3>';
-  if(p.tipo==='peque'){
-    html+='<div class="opts-img">'+p.img.map((o,i)=>
-      '<div class="opt-img" data-ok="'+(o.ok?1:0)+'"><img src="assets/imagenes/sopa-de-imagenes/'+o.n+'.png" alt=""></div>').join('')+'</div>';
+function mostrarPickerNivelPunto5(){
+  const host = document.getElementById('volcanQ');
+  if (!host) return;
+  host.innerHTML = 
+    '<div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;">' +
+    '<div style="font-family:Barlow,sans-serif;font-weight:900;font-style:italic;font-size:20px;color:var(--tinta);">Elige el nivel del peque:</div>' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">' +
+    '<button class="btn coral" onclick="iniciarPunto5(\'bajo\')">🌟 NIVEL BAJO · 3 padres + 4 peques</button>' +
+    '<button class="btn coral" onclick="iniciarPunto5(\'alto\')">🦈 NIVEL ALTO · 6 + 2 locas</button>' +
+    '</div></div>';
+}
+function iniciarPunto5(nivel){
+  volcanNivel = nivel;
+  volcanIdx = 0;
+  if (nivel === 'alto'){
+    volcanQueue = VOLCAN_ALTO.slice();
   } else {
-    html+='<div class="opts-txt">'+p.txt.map(o=>
-      '<div class="opt-txt" data-ok="'+(o.ok?1:0)+'">'+o.t+'</div>').join('')+'</div>';
+    // Mezclamos: 3 padres + 4 peques (peques primero por escala)
+    volcanQueue = VOLCAN_BAJO_PEQUES.slice().concat(VOLCAN_BAJO_PADRES.slice());
   }
-  host.innerHTML=html;
-  host.querySelectorAll('[data-ok]').forEach(el=>el.onclick=()=>respuestaVolcan(el));
+  montarPreguntaVolcan();
+}
+function montarPreguntaVolcan(){
+  const p = volcanQueue[volcanIdx];
+  if (!p){ toast('¡Habéis dominado el volcán!','ok'); fadeOut(audios.musica.volcan,800); setTimeout(()=>conseguirFragmento(5),700); return; }
+  const host = document.getElementById('volcanQ');
+  const total = volcanQueue.length;
+  const esImagen = !!p.img;
+  const esLoca = !!p.loca;
+  let badge;
+  if (esLoca) badge = '🤪 Pregunta loca';
+  else if (esImagen) badge = 'Para peques';
+  else badge = 'Para grandes';
+  let html = '<span class="badge '+(esImagen?'peque':'papa')+'">'+badge+' · '+(volcanIdx+1)+'/'+total+'</span>';
+  html += '<h3>'+p.q+'</h3>';
+  if (esImagen){
+    html += '<div class="opts-img">' + p.img.map(o => 
+      '<div class="opt-img" data-ok="'+(o.ok?1:0)+'"><img src="assets/imagenes/sopa-de-imagenes/'+o.n+'.png" alt=""></div>').join('') + '</div>';
+  } else {
+    html += '<div class="opts-txt">' + p.opts.map(o => 
+      '<div class="opt-txt" data-ok="'+(o.ok?1:0)+'">'+o.t+'</div>').join('') + '</div>';
+  }
+  host.innerHTML = html;
+  host.querySelectorAll('[data-ok]').forEach(el => el.onclick = () => respuestaVolcan(el));
 }
 function respuestaVolcan(el){
   if(el.dataset.ok==='1'){
     reproducir('sfx','chime',{volume:.5});
     volcanIdx++;
-    if(volcanIdx>=preguntasVolcan.length){
+    if(volcanIdx>=volcanQueue.length){
       toast('¡Habéis dominado el volcán!','ok');
       fadeOut(audios.musica.volcan,800);
       setTimeout(()=>conseguirFragmento(5),700);
@@ -1115,6 +1530,180 @@ window.addEventListener('load', ()=>{
   preloadAudios();
   mostrarEscena('bienvenida');
 });
+
+// ===== Ceci: botón Volver a empezar tras pantalla final =====
+function volverAEmpezarLogo(){
+  // Estrategia más simple y robusta: recargar la página · resetea todo el estado
+  try { location.reload(); }
+  catch(e){ window.location.href = window.location.href; }
+}
+
+// ===== Ceci: picker nivel + ruleta letras (barreño) =====
+function mostrarPickerNivelPunto3(){
+  const host = document.querySelector('#punto-3 .act-host');
+  if (!host) return;
+  // Quitar picker previo si existe
+  const previo = document.getElementById('punto3Picker');
+  if (previo) previo.remove();
+  const picker = document.createElement('div');
+  picker.id = 'punto3Picker';
+  picker.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:14px;padding:14px;';
+  picker.innerHTML = 
+    '<div style="font-family:Barlow,sans-serif;font-weight:900;font-style:italic;font-size:20px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);text-align:center;">Elige el nivel del peque:</div>' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">' +
+    '<button class="btn coral" onclick="iniciarPunto3(\'bajo\')">🌟 NIVEL BAJO · letras + imagen</button>' +
+    '<button class="btn coral" onclick="iniciarPunto3(\'alto\')">🦈 NIVEL ALTO · palabras</button>' +
+    '</div>';
+  host.appendChild(picker);
+}
+
+function iniciarPunto3(nivel){
+  logoNivel = nivel;
+  const picker = document.getElementById('punto3Picker');
+  if (picker) picker.remove();
+  // Mostrar la ruleta barreño
+  montarRuletaBarreno();
+}
+
+function montarRuletaBarreno(){
+  const host = document.querySelector('#punto-3 .act-host');
+  if (!host) return;
+  const previo = document.getElementById('ruletaBarreno');
+  if (previo) previo.remove();
+  const box = document.createElement('div');
+  box.id = 'ruletaBarreno';
+  box.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:12px;';
+  // Filtrar letras que tienen palabras para nivel alto
+  const letrasValidas = logoNivel === 'alto' 
+    ? LETRAS_RULETA.filter(l => PALABRAS_POR_LETRA[l])
+    : LETRAS_RULETA.filter(l => IMAGEN_POR_LETRA[l]);
+  box.innerHTML = 
+    '<div id="barrenoRuleta" class="barreno-ruleta"><div class="barreno-agua"></div><div class="barreno-letra" id="barrenoLetra">💧</div></div>' +
+    '<button class="btn coral" onclick="girarRuletaBarreno()" id="btnGirarBarreno">🌊 GIRAR</button>' +
+    '<div id="barrenoResultado" style="min-height:180px;"></div>';
+  host.appendChild(box);
+  window.__letrasBarreno = letrasValidas;
+}
+
+function girarRuletaBarreno(){
+  const rul = document.getElementById('barrenoRuleta');
+  const btn = document.getElementById('btnGirarBarreno');
+  if (!rul || !btn) return;
+  btn.disabled = true;
+  btn.textContent = '💧 Girando...';
+  // Animación con letras cambiando
+  const letras = window.__letrasBarreno || LETRAS_RULETA;
+  let t = 0;
+  const iv = setInterval(() => {
+    const l = letras[Math.floor(Math.random() * letras.length)];
+    const lEl = document.getElementById('barrenoLetra'); if (lEl) lEl.textContent = l; else rul.textContent = l;
+    t += 100;
+    if (t > 1600) {
+      clearInterval(iv);
+      const finalL = letras[Math.floor(Math.random() * letras.length)];
+      const lEl2 = document.getElementById('barrenoLetra'); if (lEl2) lEl2.textContent = finalL; else rul.textContent = finalL;
+      letraActual = finalL;
+      btn.disabled = false;
+      btn.textContent = '🌊 GIRAR OTRA';
+      mostrarPalabrasDeLetra(finalL);
+    }
+  }, 100);
+}
+
+function mostrarPalabrasDeLetra(letra){
+  const host = document.getElementById('barrenoResultado');
+  if (!host) return;
+  host.innerHTML = '';
+  if (logoNivel === 'alto'){
+    // Nivel alto: elegir un par mínimo de esa letra y mostrar dos palabras
+    const pares = PALABRAS_POR_LETRA[letra] || [];
+    if (pares.length === 0){ host.innerHTML = '<div style="color:#fff;">Esta letra no tiene palabras · vuelve a girar.</div>'; return; }
+    const par = pares[Math.floor(Math.random() * pares.length)];
+    // Ceci: la respuesta correcta es SIEMPRE la palabra que empieza por la letra que salió
+    // (discriminación fonológica del fonema inicial). El distractor es la otra palabra del par mínimo.
+    const letraU = letra.toUpperCase();
+    const aStart = par.a.toUpperCase().startsWith(letraU);
+    const bStart = par.b.toUpperCase().startsWith(letraU);
+    if (aStart && !bStart) palabraObjetivo = par.a;
+    else if (bStart && !aStart) palabraObjetivo = par.b;
+    else palabraObjetivo = par.a;  // fallback (ambas o ninguna: se acepta cualquiera, se pronuncia par.a)
+    // Almacenamos ambas si ambas empiezan por la letra · las dos aceptadas al clicar
+    window.__palabrasAceptadas = (aStart && bStart) ? [par.a, par.b] : [palabraObjetivo];
+    host.innerHTML = 
+      '<div style="color:#fff;font-family:Barlow,sans-serif;font-weight:700;font-style:italic;text-align:center;margin-bottom:8px;">Escucha la palabra y tócala:</div>' +
+      '<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">' +
+        '<div class="palabra-card" onclick="clicPalabraBarreno(\''+par.a+'\',this)" style="background:#fff;padding:14px 26px;border-radius:16px;font-family:Barlow;font-weight:900;font-style:italic;font-size:22px;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.25);border:3px solid #2196f3;">'+par.a.toUpperCase()+'</div>' +
+        '<div class="palabra-card" onclick="clicPalabraBarreno(\''+par.b+'\',this)" style="background:#fff;padding:14px 26px;border-radius:16px;font-family:Barlow;font-weight:900;font-style:italic;font-size:22px;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.25);border:3px solid #2196f3;">'+par.b.toUpperCase()+'</div>' +
+      '</div>' +
+      '<div style="display:flex;justify-content:center;margin-top:10px;">' +
+        '<button class="btn" onclick="pronunciarPalabra(\''+palabraObjetivo+'\')">🔊 ESCUCHAR</button>' +
+      '</div>';
+  } else {
+    // Nivel bajo: mostrar letra grande + palabra + imagen asociada
+    const imgNombre = IMAGEN_POR_LETRA[letra];
+    host.innerHTML = 
+      '<div style="display:flex;flex-direction:row;align-items:center;gap:14px;background:#fff;padding:12px 20px;border-radius:18px;box-shadow:0 6px 14px rgba(0,0,0,.25);border:3px solid #2196f3;flex-wrap:wrap;justify-content:center;">' +
+        '<div style="font-family:Barlow;font-weight:900;font-style:italic;font-size:48px;color:#2196f3;line-height:1;">'+letra+'</div>' +
+        '<div style="font-family:Barlow;font-weight:700;font-style:italic;font-size:16px;color:#333;">de <b>'+imgNombre.replace(/-/g,' ').toUpperCase()+'</b></div>' +
+        (imgNombre ? '<img src="assets/imagenes/sopa-de-imagenes/'+imgNombre+'.png" alt="'+imgNombre+'" style="max-width:60px;max-height:60px;" onerror="this.style.display=\'none\'">' : '') +
+        '<button class="btn coral" style="padding:8px 16px;font-size:14px;" onclick="conseguirFragmento(3)">✓ CONSEGUIDO</button>' +
+      '</div>';
+  }
+}
+
+function clicPalabraBarreno(palabra, el){
+  const aceptadas = window.__palabrasAceptadas || [palabraObjetivo];
+  if (aceptadas.includes(palabra)){
+    el.style.background = '#c8e6c9';
+    el.style.borderColor = '#4caf50';
+    reproducir('sfx','chime',{volume:.5});
+    toast('¡Correcto!','ok',900);
+    setTimeout(()=>conseguirFragmento(3), 900);
+  } else {
+    el.style.background = '#ffcdd2';
+    el.style.borderColor = '#f44336';
+    el.classList.add('shake');
+    setTimeout(()=>{ el.style.background='#fff'; el.style.borderColor='#2196f3'; el.classList.remove('shake'); },800);
+    toast('No era esa, prueba de nuevo','err',900);
+  }
+}
+
+function pronunciarPalabra(palabra){
+  // Web Speech API para leer la palabra en español
+  if ('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(palabra);
+    u.lang = 'es-ES';
+    u.rate = 0.85;
+    speechSynthesis.speak(u);
+  }
+}
+
+
+// ===== Atajos de testing (teclas 1-9 saltan de escena) =====
+window.addEventListener('keydown', e => {
+  if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if (!/^[1-9]$/.test(e.key)) return;
+  document.getElementById('pegasusitoModal').classList.remove('show');
+  cerrarClaveModal();
+  const k = e.key;
+  if (k === '1') mostrarEscena('bienvenida');
+  else if (k === '2') mostrarEscena('personaje');
+  else if (k === '3') irAlMapa(false);
+  else if (k === '4') mostrarEscena('punto-2-video');
+  else if (k === '5') mostrarSopa();
+  else if (k === '6') { mostrarEscena('punto-3'); mostrarPickerNivelPunto3(); }
+  else if (k === '7') {
+    histIdx = 0; codigo = [];
+    document.getElementById('candadoZona').style.display = 'none';
+    const cz = document.getElementById('cifradoZona'); if (cz) cz.style.display = 'none';
+    document.getElementById('pictoGrid').style.display = 'none';
+    mostrarEscena('punto-4'); mostrarPickerNivelPunto4();
+  }
+  else if (k === '8') { volcanIdx = 0; mostrarEscena('punto-5'); mostrarPickerNivelPunto5(); }
+  else if (k === '9') { estado.fragmentos = [true,true,true,true]; secuenciaFinal(); }
+});
+
 </script>
 </body>
 </html>
