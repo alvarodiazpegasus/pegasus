@@ -1,6 +1,8 @@
 /* APAGA EL FUEGO — Iberex (equipos antiincendios)
    Mecánica: se prenden fuegos en las estaciones de la carpa; toca cada llama
-   para descargar el extintor antes de que arrase la estación. */
+   para descargar el extintor antes de que arrase la estación.
+   Dificultad (curva global): más fuegos a la vez, crecen más rápido y dan
+   menos margen antes de arrasar la estación. */
 
 import { rr, watermark, anton, barlow } from './engine.js';
 
@@ -12,15 +14,12 @@ const COLS = 2, ROWS = 3;
 export default {
   id: 'fuego',
   color: '#F5731F',
-  duracion: 45,
   vidas: 3,
 
   init(g) {
     g.data = {
       celdas: Array.from({ length: COLS * ROWS }, () => ({ f: 0, burnT: 0, spray: 0 })),
       spawnT: 1.0,
-      interval: 2.1,
-      growth: 0.16,     // crecimiento de llama por segundo
       apagados: 0,
     };
   },
@@ -34,9 +33,8 @@ export default {
     const c = d.celdas[cyi * COLS + cxi];
     const px = x0 + cxi * cw + cw / 2, py = y0 + cyi * ch + ch / 2;
     if (c.f > 0) {
-      const rapido = c.f < 0.5;
-      const pts = rapido ? 150 : 80;
-      g.addScore(pts, px, py, rapido ? '¡Al vuelo! +150' : '+80');
+      const rapido = c.f < 0.45;
+      g.hit(rapido ? 150 : 70, px, py, rapido ? '¡Al vuelo!' : '');
       c.f = 0; c.burnT = 0; c.spray = 0.5;
       d.apagados += 1;
     } else {
@@ -51,21 +49,24 @@ export default {
     if (d.spawnT <= 0) {
       const libres = d.celdas.map((c, i) => (c.f === 0 ? i : -1)).filter((i) => i >= 0);
       if (libres.length) {
-        d.celdas[g.pick(libres)].f = 0.08;
-        if (libres.length > 3 && Math.random() < 0.35) d.celdas[g.pick(libres)].f = 0.08;
+        prender(d, g.pick(libres));
+        // más fuegos simultáneos con el tiempo (curva global)
+        if (libres.length > 1 && Math.random() < Math.min(0.85, 0.25 + (g.nivel - 1) * 0.1)) prender(d, g.pick(libres));
+        if (libres.length > 2 && Math.random() < Math.min(0.6, (g.nivel - 1) * 0.06)) prender(d, g.pick(libres));
       }
-      d.interval = Math.max(0.75, d.interval * 0.94);
-      d.spawnT = d.interval;
+      d.spawnT = g.esc(2.0, 0.4) * g.rnd(0.85, 1.15);
     }
 
+    const growth = g.esc(0.16, 1.0);           // crecimiento de llama (curva)
+    const margen = g.esc(1.6, 0.3);            // margen antes de arrasar (curva)
     for (let i = 0; i < d.celdas.length; i++) {
       const c = d.celdas[i];
       if (c.spray > 0) c.spray -= dt;
       if (c.f > 0) {
-        c.f = Math.min(1, c.f + d.growth * dt * (1 + g.t / 60));
+        c.f = Math.min(1, c.f + growth * dt);
         if (c.f >= 1) {
           c.burnT += dt;
-          if (c.burnT > 1.6) {          // la estación se ha quemado
+          if (c.burnT > margen) {          // la estación se ha quemado
             const { x0, y0, cw, ch } = grid(g);
             const px = x0 + (i % COLS) * cw + cw / 2, py = y0 + Math.floor(i / COLS) * ch + ch / 2;
             g.loseLife(px, py, '¡Arrasada!');
@@ -138,6 +139,10 @@ export default {
     watermark(g, ctx, 'Iberex · antiincendios');
   },
 };
+
+function prender(d, i) {
+  if (d.celdas[i].f === 0) d.celdas[i].f = 0.08;
+}
 
 function grid(g) {
   const x0 = 10, y0 = 8;

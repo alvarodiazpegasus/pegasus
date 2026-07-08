@@ -12,16 +12,17 @@ sobre el **Burgers Anormales Design System** (tokens en `css/tokens.css`).
 - **Home** con navegación a todo.
 - **Carta** de 6 burgers → **detalle** de cada una (patrón + juego + sellado).
 - **Landing de patrocinador** (una por patrón, generada desde el JSON).
-- **6 minijuegos** en Canvas (60 fps, verticales, una mano, 30–60 s, con vidas
-  o cronómetro, puntuación y ranking del día):
+- **6 minijuegos** en Canvas (60 fps, verticales, una mano, sin límite de
+  tiempo: la partida dura hasta perder las 3 vidas, con curva de dificultad
+  GLOBAL unificada en `js/games/engine.js`, combos por racha y ranking del día):
   | Juego | Patrón | Mecánica |
   |---|---|---|
-  | Parrillero perfecto | Cárnicas Riaño | Toca para voltear la carne en su punto |
-  | La caña perfecta | Mahou | Mantén para tirar, suelta en la línea |
+  | Parrillero perfecto | Cárnicas Riaño | Toca para voltear la carne en su punto (la zona se mueve y estrecha) |
+  | La caña perfecta | Mahou | Mantén para tirar, suelta en la línea (cambia de altura) |
   | Ninja del sushi | Sushi Yoxi | Desliza para cortar, evita el wasabi |
   | Apaga el fuego | Iberex | Toca las llamas antes de que arrasen |
   | Conductor de bus | Grupo Ruiz | Cambia de carril, recoge pasajeros, bus eco x2 |
-  | Al volante Dursan | Dursan | Acelera/frena y clava el coche en la plaza |
+  | Impresión perfecta | DIN Impresores | Retira los pliegos defectuosos, deja pasar los buenos |
 - **Pasaporte** de 6 sellos: se sella escaneando el QR de cada burger
   (lector con cámara + modo "simular sellado" para demo). Al completarlo →
   **premio** con código único ("enséñalo en barra y tu burger es gratis").

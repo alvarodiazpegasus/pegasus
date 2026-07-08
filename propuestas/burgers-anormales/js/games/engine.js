@@ -1,6 +1,28 @@
 /* engine.js — motor común de los 6 minijuegos.
    Canvas 2D, 60 fps, vertical, una mano, controles táctiles grandes.
-   Cada juego define: { duracion, vidas, init(g), update(g,dt), draw(g,ctx), pointer(g,ev) } */
+   Cada juego define: { vidas, init(g), update(g,dt), draw(g,ctx), pointer(g,ev) }
+
+   COMPETICIÓN: no hay límite de tiempo ni tope de puntuación. La partida
+   acaba al perder las vidas. La dificultad la marca la CURVA GLOBAL de abajo
+   (misma para los 6 juegos) y la varianza la dan los combos por racha. */
+
+/* ---------- Curva de dificultad GLOBAL (única para todos los juegos) ----------
+   dificultad(t): factor que arranca en 1 y crece acelerando (término cuadrático).
+   escala(t, base, limite): interpola un parámetro de juego desde su valor de
+   arranque hacia su límite asintótico siguiendo la curva. Todos los juegos
+   escalan velocidad / frecuencia / ventanas SOLO con estas dos funciones. */
+export function dificultad(t) {
+  return 1 + 0.025 * t + 0.00045 * t * t;
+}
+export function escala(t, base, limite) {
+  const d = dificultad(t) - 1;
+  return limite + (base - limite) / (1 + d);
+}
+
+/* Combos: cada acierto seguido sube la racha; el multiplicador sube x1 por
+   cada 4 aciertos hasta x10. Cualquier fallo rompe la racha. */
+const COMBO_PASO = 4;
+const MULT_MAX = 10;
 
 export function startGame(canvas, def, hooks) {
   const ctx = canvas.getContext('2d');
@@ -8,14 +30,32 @@ export function startGame(canvas, def, hooks) {
     score: 0,
     vidas: def.vidas ?? 3,
     t: 0,
-    duracion: def.duracion ?? 45,
     w: 0, h: 0,
     over: false,
     pops: [],       // textos flotantes de puntuación
     shake: 0,       // sacudida de pantalla al fallar
     color: def.color || '#F72EB7',
+    logoImg: null,  // logo del patrón (si hay), para la marca de agua
+    combo: 0,
+    mult: 1,
+    mejorRacha: 0,
     data: {},       // estado propio del juego
     // --- API para los juegos ---
+    get nivel() { return dificultad(this.t); },
+    esc(base, limite) { return escala(this.t, base, limite); },
+    // acierto que suma racha: puntos = base * multiplicador
+    hit(base, x, y, label) {
+      this.combo += 1;
+      if (this.combo > this.mejorRacha) this.mejorRacha = this.combo;
+      this.mult = Math.min(MULT_MAX, 1 + Math.floor(this.combo / COMBO_PASO));
+      const pts = Math.round(base * this.mult);
+      this.score += pts;
+      hooks.setScore(this.score);
+      if (x !== undefined) this.pops.push({ x, y, t: 0, txt: label ? `${label} +${pts}` : `+${pts}`, good: true });
+      return pts;
+    },
+    rompeCombo() { this.combo = 0; this.mult = 1; },
+    // puntos sueltos (sin racha)
     addScore(n, x, y, label) {
       this.score += n;
       hooks.setScore(this.score);
@@ -26,6 +66,7 @@ export function startGame(canvas, def, hooks) {
       if (this.over) return;
       this.vidas -= 1;
       this.shake = 0.35;
+      this.rompeCombo();
       hooks.setLives(this.vidas);
       if (x !== undefined) this.pops.push({ x, y, t: 0, txt: label || '¡Fallo!', good: false });
       if (this.vidas <= 0) end();
@@ -66,6 +107,9 @@ export function startGame(canvas, def, hooks) {
   function onUp(e) {
     if (!g.over) def.pointer?.(g, { type: 'up', ...toXY(e) });
   }
+  // En móvil, mantener pulsado dispara selección de texto / callout / menú
+  // contextual: se bloquea todo en la zona de juego.
+  function onBlock(e) { e.preventDefault(); }
 
   function end() {
     if (g.over) return;
@@ -82,8 +126,8 @@ export function startGame(canvas, def, hooks) {
 
     if (!g.over) {
       g.t += dt;
-      hooks.setTime(Math.max(0, 1 - g.t / g.duracion));
-      if (g.t >= g.duracion) end();
+      // sin límite de tiempo: la barra superior se llena con la dificultad
+      hooks.setTime(Math.min(1, g.t / 150));
       def.update(g, dt);
     }
 
@@ -96,10 +140,24 @@ export function startGame(canvas, def, hooks) {
     }
     ctx.clearRect(-20, -20, g.w + 40, g.h + 40);
     def.draw(g, ctx);
+    drawCombo(g, ctx, def);
     drawPops(g, ctx, dt);
     ctx.restore();
 
     raf = requestAnimationFrame(frame);
+  }
+
+  function drawCombo(g, ctx, def) {
+    if (g.combo < 2) return;
+    const y = def.comboY ?? 34;
+    ctx.save();
+    ctx.textAlign = 'center';
+    anton(ctx, g.mult > 1 ? 21 : 15);
+    ctx.fillStyle = g.color;
+    ctx.shadowColor = 'rgba(0,0,0,.6)';
+    ctx.shadowBlur = 6;
+    ctx.fillText(g.mult > 1 ? `x${g.mult} · RACHA ${g.combo}` : `RACHA ${g.combo}`, g.w / 2, y);
+    ctx.restore();
   }
 
   function drawPops(g, ctx, dt) {
@@ -119,10 +177,28 @@ export function startGame(canvas, def, hooks) {
   resize();
   const ro = new ResizeObserver(resize);
   ro.observe(canvas.parentElement);
+  // estilo anti-selección también por JS (refuerzo del CSS)
+  for (const el of [canvas, canvas.parentElement]) {
+    el.style.touchAction = 'none';
+    el.style.userSelect = 'none';
+    el.style.webkitUserSelect = 'none';
+    el.style.webkitTouchCallout = 'none';
+  }
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerup', onUp);
   canvas.addEventListener('pointercancel', onUp);
+  canvas.addEventListener('contextmenu', onBlock);
+  canvas.addEventListener('touchstart', onBlock, { passive: false });
+  canvas.addEventListener('touchmove', onBlock, { passive: false });
+  canvas.addEventListener('selectstart', onBlock);
+
+  // logo del patrón para la marca de agua del canvas (fallback: texto)
+  if (def.logo) {
+    const img = new Image();
+    img.onload = () => { g.logoImg = img; };
+    img.src = def.logo;
+  }
 
   def.init?.(g);
   hooks.setScore(0);
@@ -142,6 +218,10 @@ export function startGame(canvas, def, hooks) {
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
+      canvas.removeEventListener('contextmenu', onBlock);
+      canvas.removeEventListener('touchstart', onBlock);
+      canvas.removeEventListener('touchmove', onBlock);
+      canvas.removeEventListener('selectstart', onBlock);
     },
     finishNow() { end(); },
     get score() { return g.score; },
@@ -162,11 +242,22 @@ export function rr(ctx, x, y, w, h, r) {
 
 export function watermark(g, ctx, texto) {
   ctx.save();
-  ctx.globalAlpha = 0.22;
-  ctx.font = '400 13px Anton, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = g.color;
-  ctx.fillText(texto.toUpperCase(), g.w / 2, g.h - 12);
+  if (g.logoImg && g.logoImg.width) {
+    // logo real del patrón sobre una pastilla clara para que se lea en oscuro
+    const h = 20, w = h * (g.logoImg.width / g.logoImg.height);
+    const x = g.w / 2 - w / 2, y = g.h - h - 7;
+    ctx.globalAlpha = 0.85;
+    ctx.fillStyle = 'rgba(242,239,234,.88)';
+    rr(ctx, x - 9, y - 4, w + 18, h + 8, 8);
+    ctx.fill();
+    ctx.drawImage(g.logoImg, x, y, w, h);
+  } else {
+    ctx.globalAlpha = 0.22;
+    ctx.font = '400 13px Anton, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = g.color;
+    ctx.fillText(texto.toUpperCase(), g.w / 2, g.h - 12);
+  }
   ctx.restore();
 }
 

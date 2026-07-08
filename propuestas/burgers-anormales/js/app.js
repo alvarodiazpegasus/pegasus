@@ -12,9 +12,9 @@ import cana from './games/cana.js';
 import ninja from './games/ninja.js';
 import fuego from './games/fuego.js';
 import bus from './games/bus.js';
-import volante from './games/volante.js';
+import imprenta from './games/imprenta.js';
 
-const GAMES = { parrillero, cana, ninja, fuego, bus, volante };
+const GAMES = { parrillero, cana, ninja, fuego, bus, imprenta };
 
 let DATA = null;
 let engine = null;        // partida en curso
@@ -48,6 +48,13 @@ function boardDe(juegoId, miScore) {
 function recordDelDia(juegoId) {
   const top = Math.max(...DATA.rankingSemilla.map((r) => r.score), store.mejorPuntuacion(juegoId));
   return fmt(top);
+}
+
+/* Logo del patrón (si hay archivo) con fallback al placeholder de inicial.
+   El onerror cubre el caso de que falte el archivo del logo. */
+function logoPatron(p, size, radius = 12) {
+  if (!p.logo) return '';
+  return `<span style="width:${size}px;height:${size}px;flex:none;border-radius:${radius}px;display:flex;align-items:center;justify-content:center;background:#F6F3EE;overflow:hidden;padding:${Math.max(3, Math.round(size * 0.08))}px"><img src="${p.logo}" alt="${p.nombre}" draggable="false" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.parentElement.style.background='${p.color}';this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="width:100%;height:100%;display:none;align-items:center;justify-content:center;font-family:var(--font-display);font-size:${Math.round(size * 0.42)}px;color:var(--ba-ink)">${p.nombre[0]}</span></span>`;
 }
 
 /* ================= Navegación ================= */
@@ -224,7 +231,7 @@ function scrDetalle(id) {
     <p style="font-size:15px;line-height:1.55;color:var(--ba-bone-dim);margin:14px 0 0">${b.desc}</p>
 
     <div data-go="#/patron/${b.patron.id}" style="display:flex;align-items:center;gap:12px;margin-top:18px;background:var(--ba-ink-2);border:2px solid var(--border-hairline);border-radius:var(--radius-lg);padding:13px 14px;cursor:pointer">
-      <span style="width:44px;height:44px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;color:var(--ba-ink);background:${b.patron.color}">${b.patron.nombre[0]}</span>
+      ${logoPatron(b.patron, 44, 10) || `<span style="width:44px;height:44px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;color:var(--ba-ink);background:${b.patron.color}">${b.patron.nombre[0]}</span>`}
       <span style="flex:1">
         <span style="display:block;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:10px;color:var(--ba-bone-faint)">Patrocinada por</span>
         <span style="display:block;font-family:var(--font-display);text-transform:uppercase;font-size:19px;line-height:1;color:${b.patron.color}">${b.patron.nombre}</span>
@@ -247,7 +254,9 @@ function scrPatron(pid) {
     <div style="position:relative;padding:44px 22px 26px;background:linear-gradient(160deg, ${p.color}, ${p.deep})">
       <button class="back" data-go="#/burger/${b.id}" style="color:rgba(255,255,255,.85);margin-bottom:0"><span class="chev">&lsaquo;</span> Volver</button>
       <div style="display:flex;align-items:center;gap:13px;margin-top:16px">
-        <span style="width:56px;height:56px;flex:none;border-radius:12px;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:26px;color:#fff">${p.nombre[0]}</span>
+        ${p.logo
+          ? `<span style="width:56px;height:56px;flex:none;border-radius:12px;background:#F6F3EE;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:5px"><img src="${p.logo}" alt="${p.nombre}" draggable="false" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.parentElement.style.background='rgba(255,255,255,.16)';this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="width:100%;height:100%;display:none;align-items:center;justify-content:center;font-family:var(--font-display);font-size:26px;color:#fff">${p.nombre[0]}</span></span>`
+          : `<span style="width:56px;height:56px;flex:none;border-radius:12px;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:26px;color:#fff">${p.nombre[0]}</span>`}
         <div>
           <h2 class="h-display" style="font-size:26px;line-height:1.1;color:#fff;white-space:nowrap">${p.nombre}</h2>
           <p style="font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin:3px 0 0">${p.tipo}</p>
@@ -305,6 +314,7 @@ function scrJuegoInicio(id) {
   <div class="screen screen--center">
     <div style="position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(180deg, ${j.color}, transparent);opacity:.22;pointer-events:none"></div>
     <button class="back" data-go="#/burger/${b.id}" style="position:absolute;top:38px;left:20px;margin:0"><span class="chev">&lsaquo;</span> Volver</button>
+    ${b.patron.logo ? `<img src="${b.patron.logo}" alt="${b.patron.nombre}" draggable="false" style="position:relative;height:30px;max-width:130px;object-fit:contain;background:#F6F3EE;border-radius:8px;padding:4px 10px;margin-bottom:9px" onerror="this.style.display='none'">` : ''}
     <p style="position:relative;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:${j.color};margin:0">${b.patron.nombre} presenta</p>
     <div style="position:relative;width:120px;height:120px;margin:16px 0 4px;border-radius:26px;border:3px solid ${j.color};display:flex;align-items:center;justify-content:center;color:${j.color};box-shadow:0 0 30px ${j.glow};background:var(--ba-ink-2)">
       <span style="width:62px;height:62px">${gameIcons[j.id]}</span>
@@ -343,7 +353,7 @@ function scrJugando(id) {
   const livesEl = document.getElementById('g-lives');
   const timerEl = document.getElementById('g-timer');
 
-  engine = startGame(document.getElementById('g-canvas'), def, {
+  engine = startGame(document.getElementById('g-canvas'), { ...def, logo: b.patron.logo }, {
     setScore(s) { scoreEl.textContent = fmt(s); },
     setLives(v) { livesEl.innerHTML = '&hearts;'.repeat(Math.max(0, v)) || '&mdash;'; },
     setTime(f) { timerEl.style.width = `${(f * 100).toFixed(1)}%`; },

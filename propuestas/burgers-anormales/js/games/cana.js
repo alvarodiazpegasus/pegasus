@@ -1,18 +1,18 @@
 /* LA CAÑA PERFECTA — Mahou
    Mecánica: mantén pulsado para tirar la caña; suelta cuando la cerveza
-   llegue a la línea. Dos dedos de espuma. Si rebosa, caña perdida. */
+   llegue a la línea. Si rebosa o te pasas mucho, caña perdida.
+   Dificultad (curva global): el grifo sale con más presión, la línea objetivo
+   CAMBIA de altura en cada caña y la tolerancia se estrecha. Solo la caña
+   perfecta o buena mantiene la racha. */
 
 import { rr, watermark, anton, barlow } from './engine.js';
 
-const INK2 = '#221E1E', INK3 = '#2E2929', BONE = '#F2EFEA', FAINT = '#8C8681',
+const INK3 = '#2E2929', BONE = '#F2EFEA', FAINT = '#8C8681',
   GOLD = '#F4C430', BEER = '#F5A623', BEER_DEEP = '#D88A0F';
-
-const TARGET = 0.78;   // nivel objetivo de cerveza (fracción del vaso)
 
 export default {
   id: 'cana',
   color: '#E4032E',
-  duracion: 45,
   vidas: 3,
 
   init(g) {
@@ -21,12 +21,14 @@ export default {
       espuma: 0,
       pouring: false,
       rate: 0.34,          // velocidad de llenado
+      target: 0.78,        // línea objetivo (cambia por caña)
       n: 1,
       done: false,          // caña evaluada, esperando la siguiente
       doneT: 0,
       resultado: null,
       burbujas: [],
     };
+    nuevaCana(g);
   },
 
   pointer(g, ev) {
@@ -43,7 +45,7 @@ export default {
     const d = g.data;
     if (d.done) {
       d.doneT += dt;
-      if (d.doneT > 0.9) reiniciar(g);
+      if (d.doneT > 0.75) reiniciar(g);
       return;
     }
     if (d.pouring) {
@@ -112,8 +114,8 @@ export default {
     ctx.beginPath(); ctx.moveTo(gx + 10, gy + 12); ctx.lineTo(gx + 10, gy + gh - 12); ctx.stroke();
     ctx.restore();
 
-    // línea objetivo
-    const ty = gy + gh - TARGET * gh;
+    // línea objetivo (cambia de altura en cada caña)
+    const ty = gy + gh - d.target * gh;
     ctx.setLineDash([7, 6]);
     ctx.strokeStyle = GOLD; ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.moveTo(gx - 26, ty); ctx.lineTo(gx + gw + 26, ty); ctx.stroke();
@@ -141,24 +143,47 @@ export default {
   },
 };
 
+function nuevaCana(g) {
+  const d = g.data;
+  d.nivel = 0; d.espuma = 0; d.done = false; d.resultado = null; d.burbujas = [];
+  // el grifo sale con más presión (curva global) y varía un poco por caña
+  d.rate = g.esc(0.34, 0.98) * g.rnd(0.92, 1.08);
+  // la línea objetivo cambia de altura: hay que mirarla, no memorizarla
+  d.target = g.rnd(0.55, 0.86);
+}
+
 function evaluar(g) {
   const d = g.data;
-  const err = Math.abs(d.nivel - TARGET);
-  let pts = 0, txt;
-  if (d.nivel < 0.4) { txt = '¡Media caña!'; g.loseLife(g.w / 2, g.h * 0.3, 'Muy vacía'); }
-  else if (err <= 0.025) { pts = 300; txt = '¡Caña perfecta! +300'; }
-  else if (err <= 0.07) { pts = 150; txt = '¡Buena caña! +150'; }
-  else if (err <= 0.14) { pts = 60; txt = 'Pasable +60'; }
-  else { txt = d.nivel > TARGET ? '¡Pasada!' : 'Corta...'; g.loseLife(g.w / 2, g.h * 0.3, txt); }
-  if (pts) g.addScore(pts, g.w / 2, g.h * 0.3, `+${pts}`);
-  d.resultado = { txt, pts, fail: !pts };
+  const err = Math.abs(d.nivel - d.target);
+  // tolerancias cada vez más estrechas (curva global)
+  const tPerf = g.esc(0.028, 0.007);
+  const tGood = tPerf * 2.8;
+  const tPas = tPerf * 5.5;
+  let txt, fail = false;
+  if (d.nivel < 0.35) {
+    txt = '¡Media caña!'; fail = true;
+    g.loseLife(g.w / 2, g.h * 0.3, 'Muy vacía');
+  } else if (err <= tPerf) {
+    g.hit(300, g.w / 2, g.h * 0.3, '¡Perfecta!');
+    txt = '¡Caña perfecta!';
+  } else if (err <= tGood) {
+    g.hit(140, g.w / 2, g.h * 0.3, '¡Buena!');
+    txt = '¡Buena caña!';
+  } else if (err <= tPas) {
+    // pasable: puntos sueltos, pero rompe la racha
+    g.rompeCombo();
+    g.addScore(40, g.w / 2, g.h * 0.3, 'Pasable +40');
+    txt = 'Pasable...';
+  } else {
+    txt = d.nivel > d.target ? '¡Pasada!' : 'Corta...'; fail = true;
+    g.loseLife(g.w / 2, g.h * 0.3, txt);
+  }
+  d.resultado = { txt, fail };
   d.done = true;
   d.doneT = 0;
 }
 
 function reiniciar(g) {
-  const d = g.data;
-  d.n += 1;
-  d.nivel = 0; d.espuma = 0; d.done = false; d.resultado = null; d.burbujas = [];
-  d.rate = Math.min(0.75, d.rate * 1.12);   // cada caña sale con más presión
+  g.data.n += 1;
+  nuevaCana(g);
 }

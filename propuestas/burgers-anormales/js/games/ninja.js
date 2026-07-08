@@ -1,15 +1,16 @@
 /* NINJA DEL SUSHI — Sushi Yoxi
    Mecánica: desliza (o toca) para cortar las piezas al vuelo.
-   Sushi que cae sin cortar = vida. Bomba de wasabi cortada = vida. */
+   Sushi que cae sin cortar = vida. Bomba de wasabi cortada = vida.
+   Dificultad (curva global): más frecuencia, más piezas simultáneas y más
+   wasabi con el tiempo. Racha/combos: los lleva el motor. */
 
-import { watermark, anton, barlow } from './engine.js';
+import { watermark, barlow } from './engine.js';
 
-const BONE = '#F2EFEA', FAINT = '#8C8681', GREEN = '#35A65B';
+const FAINT = '#8C8681';
 
 export default {
   id: 'ninja',
   color: '#35A65B',
-  duracion: 45,
   vidas: 3,
 
   init(g) {
@@ -18,9 +19,6 @@ export default {
       trozos: [],
       trail: [],
       spawnT: 0.6,
-      interval: 1.15,
-      combo: 0,
-      comboT: 0,
     };
   },
 
@@ -40,13 +38,11 @@ export default {
     d.spawnT -= dt;
     if (d.spawnT <= 0) {
       lanzar(g);
-      if (Math.random() < 0.25) lanzar(g);           // ráfaga doble
-      d.interval = Math.max(0.5, d.interval * 0.975);
-      d.spawnT = d.interval;
+      // ráfagas: cada vez más piezas simultáneas (curva global)
+      if (Math.random() < Math.min(0.7, 0.22 + (g.nivel - 1) * 0.08)) lanzar(g);
+      if (Math.random() < Math.min(0.4, (g.nivel - 1) * 0.045)) lanzar(g);
+      d.spawnT = g.esc(1.15, 0.3) * g.rnd(0.85, 1.15);
     }
-
-    d.comboT -= dt;
-    if (d.comboT <= 0) d.combo = 0;
 
     for (const p of d.piezas) {
       p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 620 * dt; p.rot += p.vr * dt;
@@ -95,13 +91,6 @@ export default {
       ctx.globalAlpha = 1;
     }
 
-    // combo
-    if (d.combo > 1) {
-      anton(ctx, 24);
-      ctx.fillStyle = GREEN; ctx.textAlign = 'center';
-      ctx.fillText(`COMBO x${d.combo}`, g.w / 2, 46);
-    }
-
     barlow(ctx, 12, 800);
     ctx.fillStyle = FAINT; ctx.textAlign = 'center';
     ctx.fillText('DESLIZA PARA CORTAR · EVITA EL WASABI', g.w / 2, g.h - 34);
@@ -112,7 +101,9 @@ export default {
 
 function lanzar(g) {
   const d = g.data;
-  const tipo = Math.random() < 0.18 ? 'wasabi' : (Math.random() < 0.5 ? 'maki' : 'nigiri');
+  // el wasabi aparece más a menudo con el tiempo (curva global)
+  const pWasabi = Math.min(0.32, 0.16 + (g.nivel - 1) * 0.02);
+  const tipo = Math.random() < pWasabi ? 'wasabi' : (Math.random() < 0.5 ? 'maki' : 'nigiri');
   const x = g.rnd(g.w * 0.18, g.w * 0.82);
   d.piezas.push({
     tipo, x, y: g.h + 30,
@@ -136,9 +127,7 @@ function cortar(g, x, y) {
         g.shake = 0.4;
         continue;
       }
-      d.combo += 1; d.comboT = 1.0;
-      const pts = 100 * Math.min(d.combo, 5);
-      g.addScore(pts, p.x, p.y, `+${pts}`);
+      g.hit(90, p.x, p.y);
       // dos mitades
       for (const s of [-1, 1]) {
         d.trozos.push({

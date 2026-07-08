@@ -1,31 +1,33 @@
 /* PARRILLERO PERFECTO — Cárnicas Riaño
    Mecánica: la carne se hace sola; toca (en cualquier sitio) para darle la
    vuelta justo cuando la barra esté en la zona dorada "EN SU PUNTO".
-   Cruda o quemada = pierdes vida. Cada carne va más rápida. */
+   Cruda o quemada = pierdes vida.
+   Dificultad (curva global): la zona dorada se estrecha y CAMBIA DE SITIO en
+   cada carne, y la barra corre cada vez más rápido con variación por carne:
+   no vale memorizar el ritmo, hay que mirar. Precisión = más puntos. */
 
 import { rr, watermark, anton, barlow } from './engine.js';
 
-const INK = '#1A1717', INK2 = '#221E1E', INK3 = '#2E2929', BONE = '#F2EFEA',
-  DIM = '#C9C4BC', FAINT = '#8C8681', GOLD = '#F4C430', CORAL = '#F94A4A', OK = '#35C46A';
-
-// zonas de punto (fracción 0..1 de la barra)
-const Z_CRUDA = 0.62, Z_PASADA = 0.94, PERFECTO = (Z_CRUDA + Z_PASADA) / 2;
+const INK2 = '#221E1E', INK3 = '#2E2929', BONE = '#F2EFEA',
+  FAINT = '#8C8681', GOLD = '#F4C430';
 
 export default {
   id: 'parrillero',
   color: '#C0392B',
-  duracion: 45,
   vidas: 3,
 
   init(g) {
     g.data = {
-      speed: 0.22,       // fracción de barra por segundo
       p: 0,              // punto de la carne 0..1(+)
       n: 1,              // nº de carne
       flip: 0,           // animación de volteo
+      zc: 0.74,          // centro de la zona dorada (cambia por carne)
+      zw: 0.155,         // semiancho de la zona dorada (se estrecha)
+      speed: 0.26,       // fracción de barra por segundo
       humo: [],
       chispas: [],
     };
+    nuevaCarne(g);
   },
 
   pointer(g, ev) {
@@ -33,13 +35,14 @@ export default {
     const d = g.data;
     if (d.flip > 0) return;
     const cx = g.w / 2, cy = g.h * 0.40;
-    if (d.p < Z_CRUDA) {
+    const lo = d.zc - d.zw, hi = d.zc + d.zw;
+    if (d.p < lo) {
       g.loseLife(cx, cy, '¡Cruda!');
       siguiente(g, true);
-    } else if (d.p <= Z_PASADA) {
-      const prec = 1 - Math.abs(d.p - PERFECTO) / ((Z_PASADA - Z_CRUDA) / 2);
-      const pts = prec > 0.72 ? 250 : 120;
-      g.addScore(pts, cx, cy, prec > 0.72 ? '¡En su punto! +250' : '¡Buena! +120');
+    } else if (d.p <= hi) {
+      const prec = 1 - Math.abs(d.p - d.zc) / d.zw;
+      const base = prec > 0.75 ? 300 : prec > 0.4 ? 150 : 60;
+      g.hit(base, cx, cy, prec > 0.75 ? '¡En su punto!' : prec > 0.4 ? '¡Buena!' : 'Justa...');
       for (let i = 0; i < 12; i++) d.chispas.push({ x: cx, y: cy, vx: g.rnd(-130, 130), vy: g.rnd(-220, -60), t: 0 });
       siguiente(g, false);
     } else {
@@ -52,11 +55,11 @@ export default {
     const d = g.data;
     if (d.flip > 0) { d.flip = Math.max(0, d.flip - dt); return; }
     d.p += d.speed * dt;
-    if (d.p > 1.06) {           // se ha quemado sin voltear
+    if (d.p > 1.05) {           // se ha quemado sin voltear
       g.loseLife(g.w / 2, g.h * 0.40, '¡Quemada!');
       siguiente(g, true);
     }
-    if (d.p > Z_PASADA) {
+    if (d.p > d.zc + d.zw) {
       // humo
       if (Math.random() < 0.3) d.humo.push({ x: g.w / 2 + g.rnd(-60, 60), y: g.h * 0.36, t: 0 });
     }
@@ -69,6 +72,7 @@ export default {
   draw(g, ctx) {
     const d = g.data;
     const cx = g.w / 2, cy = g.h * 0.40;
+    const Z_CRUDA = d.zc - d.zw, Z_PASADA = d.zc + d.zw;
 
     // parrilla
     const gw = Math.min(g.w * 0.86, 340), gh = gw * 0.62;
@@ -91,7 +95,7 @@ export default {
     }
 
     // carne (color según punto)
-    const doneT = Math.min(d.p, 1.06);
+    const doneT = Math.min(d.p, 1.05);
     const col = doneT < Z_CRUDA
       ? mix('#E05252', '#A8432F', doneT / Z_CRUDA)
       : doneT <= Z_PASADA
@@ -145,7 +149,7 @@ export default {
     // etiquetas ("en su punto" arriba para no pisar "carbón")
     barlow(ctx, 11, 800);
     ctx.fillStyle = GOLD;
-    ctx.textAlign = 'center'; ctx.fillText('EN SU PUNTO', bx + bw * PERFECTO, by - 12);
+    ctx.textAlign = 'center'; ctx.fillText('EN SU PUNTO', bx + bw * d.zc, by - 12);
     ctx.fillStyle = FAINT;
     ctx.textAlign = 'left'; ctx.fillText('CRUDA', bx, by + bh + 18);
     ctx.textAlign = 'right'; ctx.fillText('CARBÓN', bx + bw, by + bh + 18);
@@ -159,12 +163,22 @@ export default {
   },
 };
 
+function nuevaCarne(g) {
+  const d = g.data;
+  d.p = 0;
+  // ventana cada vez más estrecha (curva global) con algo de variación
+  d.zw = g.esc(0.155, 0.045) * g.rnd(0.9, 1.1);
+  // el punto perfecto cambia de sitio en cada carne
+  d.zc = g.rnd(0.58, Math.min(0.86, 0.97 - d.zw));
+  // la barra corre más rápido, con variación por carne (hay que mirar)
+  d.speed = g.esc(0.26, 1.05) * g.rnd(0.88, 1.12);
+}
+
 function siguiente(g, fallo) {
   const d = g.data;
   d.n += 1;
-  d.p = 0;
   d.flip = fallo ? 0.2 : 0.45;
-  d.speed = Math.min(0.62, d.speed * 1.13);
+  nuevaCarne(g);
 }
 
 function zona(ctx, bx, by, bw, bh, a, b, color) {

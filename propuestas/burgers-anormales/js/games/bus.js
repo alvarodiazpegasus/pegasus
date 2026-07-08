@@ -1,6 +1,8 @@
 /* CONDUCTOR DE BUS — Grupo Ruiz (línea Madrid–Arganda, desde 1890)
    Mecánica: 3 carriles; toca izquierda/derecha para cambiar. Recoge
-   pasajeros, esquiva conos y coches. La batería activa el BUS ECO (x2). */
+   pasajeros, esquiva conos y coches. La batería activa el BUS ECO (x2).
+   Dificultad (curva global): más velocidad y más tráfico con el tiempo.
+   Racha: los pasajeros suben el combo; chocar o dejar escapar uno la rompe. */
 
 import { rr, watermark, anton, barlow } from './engine.js';
 
@@ -10,8 +12,8 @@ const BONE = '#F2EFEA', FAINT = '#8C8681', GREEN = '#00843D', ECO = '#35C46A',
 export default {
   id: 'bus',
   color: '#00843D',
-  duracion: 50,
   vidas: 3,
+  comboY: 84,   // el HUD de racha, debajo de la barra Madrid–Arganda
 
   init(g) {
     g.data = {
@@ -38,7 +40,7 @@ export default {
     const d = g.data;
     d.x += (d.lane - d.x) * Math.min(1, dt * 14);
     d.dash = (d.dash + d.speed * dt) % 64;
-    d.speed = Math.min(470, d.speed + 2.2 * dt * 60);
+    d.speed = g.esc(300, 760);                 // velocidad de crucero (curva global)
     if (d.eco > 0) d.eco -= dt;
     if (d.inv > 0) d.inv -= dt;
 
@@ -47,7 +49,7 @@ export default {
       const r = Math.random();
       const tipo = r < 0.42 ? 'pasajero' : r < 0.78 ? 'cono' : r < 0.9 ? 'coche' : 'bateria';
       d.items.push({ tipo, lane: Math.floor(Math.random() * 3), y: -60 });
-      d.spawnT = Math.max(0.42, 0.95 - g.t * 0.009);
+      d.spawnT = g.esc(0.95, 0.26) * g.rnd(0.85, 1.15);
     }
 
     const busY = g.h * 0.78;
@@ -58,15 +60,24 @@ export default {
         it.hit = true;
         const px = laneX(g, it.lane);
         if (it.tipo === 'pasajero') {
-          const pts = d.eco > 0 ? 300 : 150;
           d.recogidos += 1;
-          g.addScore(pts, px, busY - 50, d.eco > 0 ? '¡ECO! +300' : '+150');
+          g.hit(d.eco > 0 ? 240 : 120, px, busY - 50, d.eco > 0 ? '¡ECO!' : '');
         } else if (it.tipo === 'bateria') {
           d.eco = 5;
           g.pop(px, busY - 50, '¡BUS ECO x2!', true);
         } else if (d.inv <= 0) {
           g.loseLife(px, busY - 50, it.tipo === 'cono' ? '¡Cono!' : '¡Frenazo!');
           d.inv = 1.2;
+        }
+      }
+      // pasajero que se escapa por abajo: media racha perdida (sin vida).
+      // No la rompe entera porque a veces es físicamente inalcanzable.
+      if (!it.hit && !it.missed && it.tipo === 'pasajero' && it.y > g.h + 30) {
+        it.missed = true;
+        if (g.combo > 1) {
+          g.combo = Math.floor(g.combo / 2);
+          g.mult = Math.min(10, 1 + Math.floor(g.combo / 4));
+          g.pop(laneX(g, it.lane), g.h - 70, '¡Se escapó!', false);
         }
       }
     }
@@ -107,8 +118,10 @@ export default {
     const bx = laneX(g, d.x);
     if (!(d.inv > 0 && Math.sin(g.t * 22) > 0)) bus(ctx, bx, busY, d.eco > 0);
 
-    // progreso Madrid → Arganda
-    const p = Math.min(1, g.t / g.duracion);
+    // progreso Madrid ↔ Arganda (trayectos de ida y vuelta, sin fin)
+    const leg = Math.floor(g.t / 45);
+    const frac = (g.t / 45) % 1;
+    const p = leg % 2 ? 1 - frac : frac;
     const px0 = g.w * 0.14, pw = g.w * 0.72, py = 26;
     barlow(ctx, 10, 800);
     ctx.fillStyle = FAINT;

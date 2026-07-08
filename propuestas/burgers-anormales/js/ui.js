@@ -10,7 +10,7 @@ export const gameIcons = {
   ninja: svg('<path d="M4 19.5 15.5 8l1 1L5.5 20.5z"/><path d="M15.5 8l3.2-3.2 1 1L16.5 9"/><circle cx="18.8" cy="5.6" r="0.5"/>'),
   fuego: svg('<path d="M12 2.5s5 4 5 9a5 5 0 0 1-10 0c0-1.6 .6-2.6 .6-2.6S6 11.5 8 12.5c0-4 4-4 4-10Z"/>'),
   bus: svg('<rect x="4" y="5" width="16" height="11" rx="2.2"/><path d="M4 10.5h16"/><path d="M8 5.2v5M12 5.2v5M16 5.2v5"/><circle cx="8" cy="18" r="1.5"/><circle cx="16" cy="18" r="1.5"/>'),
-  volante: svg('<path d="M4.5 13.5l1.8-4.6A2 2 0 0 1 8.2 7.5h7.6a2 2 0 0 1 1.9 1.4l1.8 4.6"/><rect x="3" y="13.5" width="18" height="4.2" rx="1.4"/><circle cx="7.5" cy="18.8" r="1.5"/><circle cx="16.5" cy="18.8" r="1.5"/>'),
+  imprenta: svg('<rect x="6" y="3" width="12" height="4.5" rx="1"/><rect x="3.5" y="7.5" width="17" height="7" rx="1.5"/><circle cx="17.5" cy="10" r="0.6" fill="currentColor"/><rect x="6" y="12.5" width="12" height="8" rx="1"/><path d="M8.5 15.5h7M8.5 18h4.5"/>'),
 };
 
 /* Iconos de navegación / secciones — 1:1 del diseño */

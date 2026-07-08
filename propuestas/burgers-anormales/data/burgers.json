@@ -21,6 +21,7 @@
         "color": "#C0392B",
         "deep": "#7B1E17",
         "sello": "Producto local",
+        "logo": "assets/logo-riano.png",
         "bio": "La carne de chuletón madurado que hace a estas burgers lo que son. Carnicería de barrio, producto de otra liga."
       },
       "juego": {
@@ -69,6 +70,7 @@
         "color": "#35A65B",
         "deep": "#1E6B3A",
         "sello": "Cocina nikkei",
+        "logo": "assets/logo-yoxi.webp",
         "bio": "Sushi de Arganda con alma nikkei. Precisión de chef, actitud de calle. Se coló en la carta y no piensa irse."
       },
       "juego": {
@@ -93,6 +95,7 @@
         "color": "#F5731F",
         "deep": "#B8480E",
         "sello": "Patrocinador 2025",
+        "logo": "assets/logo-iberex.png",
         "bio": "Patrocinador dinerario desde 2025. Equipos antiincendios: los que saben que aquí lo único que debe arder es la parrilla."
       },
       "juego": {
@@ -117,6 +120,7 @@
         "color": "#00843D",
         "deep": "#005C2A",
         "sello": "Desde 1890",
+        "logo": "assets/logo-ruiz.png",
         "bio": "Une Madrid y Arganda desde 1890. Hoy, con flota eléctrica y sostenible. Te trae a la carpa y te lleva a casa."
       },
       "juego": {
@@ -135,31 +139,32 @@
       "tint": "var(--ba-pink)",
       "desc": "Doble smash, cheddar fundido, pepinillos holandeses y salsa Burger Smoked, en pan Potato High glaseado con mantequilla y polvo de Doritos.",
       "patron": {
-        "id": "dursan",
-        "nombre": "DURSAN",
-        "tipo": "Concesionario · Arganda",
-        "color": "#2C7BE5",
-        "deep": "#16407E",
-        "sello": "Premium",
-        "bio": "Coches premium en Arganda: BMW, Mercedes, Audi. Y muy buen rollo. La burger insignia tenía que ser suya."
+        "id": "din",
+        "nombre": "DIN IMPRESORES",
+        "tipo": "Imprenta · Arganda desde 1973",
+        "color": "#E14E10",
+        "deep": "#8A2D06",
+        "sello": "Desde 1973",
+        "logo": "assets/logo-din.png",
+        "bio": "Imprenta y artes gráficas líder en Arganda (Pol. Ind. Borondo) desde 1973. Servicio 360º: diseño y preimpresión, impresión digital y offset, encuadernación y acabados, almacenaje y distribución. Maquinaria offset UV de última generación y certificados ISO 9001, medioambiental y GMP."
       },
       "juego": {
-        "id": "volante",
-        "nombre": "AL VOLANTE DURSAN",
-        "verbo": "Aparca el coche premium sin un rasguño. BMW, Mercedes, Audi.",
-        "como": "Mantén pulsado para acelerar, suelta para frenar. Clava el morro en la plaza sin besar el muro.",
-        "color": "#2C7BE5",
-        "glow": "rgba(44,123,229,.5)"
+        "id": "imprenta",
+        "nombre": "IMPRESIÓN PERFECTA",
+        "verbo": "Control de calidad a pie de offset: caza los pliegos defectuosos antes de que lleguen a la pila.",
+        "como": "Toca los pliegos con defecto (mancha, color desregistrado, tinta pálida) para retirarlos. Los buenos, déjalos pasar. Cada vez salen más rápido y los defectos son más sutiles.",
+        "color": "#E14E10",
+        "glow": "rgba(225,78,16,.5)"
       }
     }
   ],
   "votosBase": { "fire": 428, "anormal": 392, "raro": 333, "beer": 281, "nikkei": 246, "carne": 167 },
   "rankingSemilla": [
-    { "nick": "ANORMAL_92", "score": 2310 },
-    { "nick": "LACARPA", "score": 2040 },
-    { "nick": "JAVI_BB", "score": 1890 },
-    { "nick": "RIDER_ARGANDA", "score": 1450 },
-    { "nick": "EMMA_A", "score": 1180 }
+    { "nick": "ANORMAL_92", "score": 14350 },
+    { "nick": "LACARPA", "score": 11020 },
+    { "nick": "JAVI_BB", "score": 8760 },
+    { "nick": "RIDER_ARGANDA", "score": 5480 },
+    { "nick": "EMMA_A", "score": 3140 }
   ],
   "sorteo": {
     "premio": "Cena para 2 en la carpa",
