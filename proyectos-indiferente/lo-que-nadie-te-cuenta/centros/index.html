@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lo que nadie te cuenta · Programa de la Comunidad de Madrid y Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde:#08B75B; --azul:#007EC3; --morado:#974694; --rosa:#E45E9B;
+    --rojo:#D6191B; --amarillo:#F3D100; --naranja:#ED7928; --negro:#111111; --blanco:#FFFFFF;
+    --grad:linear-gradient(120deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Barlow',Arial,sans-serif;color:var(--negro);background:var(--blanco);line-height:1.6;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px;}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .label{font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#999;margin-bottom:14px;}
+  section{padding:56px 0;}
+  h1{font-weight:800;font-size:2.6rem;line-height:1.12;margin-bottom:18px;}
+  h2{font-weight:800;font-size:1.7rem;line-height:1.2;margin-bottom:16px;}
+  p{font-size:1.08rem;margin-bottom:14px;}
+  .btn{display:inline-block;padding:15px 34px;border-radius:100px;background:var(--negro);color:#fff;
+    font-weight:700;text-decoration:none;font-size:1rem;transition:transform .2s,box-shadow .2s;}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.18);}
+  .topbar{background:var(--grad);height:8px;width:100%;}
+  .logos{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:26px 0 6px;}
+  .logos img{height:46px;width:auto;}
+  .logos .cam{height:58px;}
+  .divider{color:#ccc;font-size:1.6rem;line-height:1;}
+  .video-16x9{position:relative;padding-bottom:56.25%;height:0;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.10);}
+  .video-16x9 iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+  .video-9x16{max-width:330px;margin:22px auto 0;}
+  .video-9x16 .inner{position:relative;padding-bottom:177.78%;height:0;border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.12);}
+  .video-9x16 iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+  .quote{background:var(--grad);border-radius:26px;padding:44px 38px;color:#fff;}
+  .quote p{font-size:1.35rem;font-weight:700;font-style:italic;margin:0;}
+  .stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;}
+  .stat{flex:1;min-width:180px;border:1.5px solid #eee;border-radius:20px;padding:24px;text-align:center;}
+  .stat .n{font-size:2rem;font-weight:800;}
+  .press{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+  .press a{border:1.5px solid #e6e6e6;border-radius:100px;padding:10px 20px;text-decoration:none;color:#333;font-weight:600;font-size:.95rem;}
+  .press a:hover{border-color:var(--azul);color:var(--azul);}
+  .role{background:#faf7fb;border-radius:22px;padding:34px 30px;}
+  .faq{border:1.5px solid #eee;border-radius:14px;margin-bottom:12px;overflow:hidden;}
+  .faq summary{cursor:pointer;padding:16px 20px;font-weight:700;list-style:none;font-size:1.05rem;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:'+';float:right;color:var(--azul);font-weight:800;margin-left:12px;}
+  .faq[open] summary::after{content:'–';}
+  .faq div{padding:0 20px 18px;color:#444;line-height:1.6;}
+  .cta-final{text-align:center;}
+  .dates{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:22px 0 26px;}
+  .date{border:2px solid var(--negro);border-radius:18px;padding:16px 28px;font-weight:700;}
+  footer{background:var(--negro);color:#fff;text-align:center;padding:34px 22px;}
+  footer .slogan{font-style:italic;font-size:1.15rem;margin-bottom:8px;}
+  footer .web{color:#bbb;font-size:.95rem;}
+  .fade{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s;}
+  .fade.vis{opacity:1;transform:translateY(0);}
+  @media(max-width:600px){h1{font-size:2rem;}h2{font-size:1.4rem;}section{padding:42px 0;}}
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<!-- 1 · CABECERA -->
+<section style="padding-top:8px;">
+  <div class="wrap">
+    <div class="logos">
+      <img src="../shared/assets/logo-pegasus.jpg" alt="Fundación Pegasus">
+      <span class="divider">·</span>
+      <img class="cam" src="../shared/assets/sello-comunidad-madrid.png" alt="Comunidad de Madrid">
+    </div>
+    <div style="padding-top:26px;max-width:760px;">
+      <h1>Cuando la discapacidad llega a una familia, hay un proceso emocional del que <span class="grad-text">pocas veces se habla</span>.</h1>
+      <p style="font-size:1.2rem;">Somos <strong>Fundación Pegasus</strong> y estamos desarrollando, junto con la <strong>Comunidad de Madrid</strong>, un trabajo piloto para acompañar emocionalmente a las familias y cuidadores de personas con discapacidad. Lo pondremos en marcha con las <strong>primeras 60 familias que se apunten</strong>, sin coste para ellas.</p>
+      <p style="color:#666;font-size:1rem;">Siguiendo la carta que os hizo llegar la Comunidad de Madrid, os invitamos a un webinar para contaros el proyecto y resolver vuestras dudas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · VÍDEO TVE -->
+<section class="fade" style="background:#f7f9fb;">
+  <div class="wrap">
+    <div class="label">En los informativos de TVE</div>
+    <div class="video-16x9">
+      <iframe src="https://www.youtube.com/embed/E603UZNC3wQ" title="TVE — Lo que nadie te cuenta" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · QUÉ ES -->
+<section class="fade">
+  <div class="wrap" style="max-width:760px;">
+    <h2>Qué es</h2>
+    <p>Un trabajo piloto que desarrollamos junto con la Comunidad de Madrid y que <strong>arranca en noviembre de 2026</strong>. El objetivo es sencillo: <strong>reducir el sufrimiento del entorno</strong> de las personas con discapacidad — sus familias y cuidadores. Lo implementaremos con las <strong>primeras 60 familias que se apunten</strong>, sin coste para ellas. No trabajamos sobre la persona con discapacidad: trabajamos con quien cuida.</p>
+  </div>
+</section>
+
+<!-- 4 · POR QUÉ IMPORTA -->
+<section class="fade" style="padding-top:12px;">
+  <div class="wrap">
+    <div class="quote">
+      <p>Cuando llega un diagnóstico, es natural que el foco vaya a la persona con discapacidad. Y alrededor hay una familia que también se tambalea y se reorganiza, viviendo un proceso emocional del que pocas veces se habla. Eso es «lo que nadie te cuenta». Y cuando la familia está mejor, la persona con discapacidad vive mejor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · RESPALDO -->
+<section class="fade">
+  <div class="wrap" style="max-width:820px;">
+    <h2>Con el respaldo de la Comunidad de Madrid</h2>
+    <p>Es un proyecto piloto que desarrollamos <strong>junto con la Comunidad de Madrid</strong> —en concreto con la Dirección General de Atención a Personas con Discapacidad, de la Consejería de Familia, Juventud y Asuntos Sociales—, dentro de la Estrategia <em>Horizonte 2028</em>.</p>
+    <p>Detrás estamos nosotros, la <strong>Fundación Pegasus</strong>, un equipo que trabaja cada día con familias de personas con discapacidad.</p>
+  </div>
+</section>
+
+<!-- 6 · PREGUNTAS FRECUENTES -->
+<section class="fade">
+  <div class="wrap" style="max-width:820px;">
+    <h2>Preguntas frecuentes</h2>
+    <p style="margin-bottom:24px;">Sabemos que vuestros equipos ya acompañáis cada día a estas familias. Nuestro trabajo suma a lo vuestro: una capa de acompañamiento emocional especializado, con tiempo y foco dedicados solo a eso. Estas son las dudas más habituales:</p>
+
+    <details class="faq"><summary>¿Qué necesitáis de nosotros?</summary>
+      <div>Muy poco. De casi todo nos encargamos nosotros: el contacto y las comunicaciones con las familias, la intervención y el seguimiento. Lo único que necesitamos es que nos <strong>derivéis y recomendéis a las familias</strong> que creáis que encajan. Vosotros las conocéis; nosotros ponemos el resto.</div>
+    </details>
+
+    <details class="faq"><summary>¿Tiene algún coste para las familias o para el centro?</summary>
+      <div>No. El servicio es totalmente <strong>gratuito</strong> para las familias, y para el centro no supone ningún coste.</div>
+    </details>
+
+    <details class="faq"><summary>¿Cuánto tiempo nos ocupa a nosotros?</summary>
+      <div>Prácticamente nada más allá de derivarnos a las familias. Toda la organización del proyecto —sesiones, comunicaciones y seguimiento— la asumimos nosotros.</div>
+    </details>
+
+    <details class="faq"><summary>¿Qué familias encajan?</summary>
+      <div>Familiares y cuidadores directos de personas con discapacidad atendidas en vuestro centro que quieran participar. En el webinar concretamos el perfil y cómo se hace la selección.</div>
+    </details>
+
+    <details class="faq"><summary>¿Cuándo empieza y cuánto dura?</summary>
+      <div>El piloto <strong>arranca en noviembre de 2026</strong>. En el webinar os explicamos el cronograma completo.</div>
+    </details>
+
+    <details class="faq"><summary>¿Qué pasa con los datos de las familias?</summary>
+      <div>Se tratan con total confidencialidad y conforme a la normativa de protección de datos. Nada se comparte fuera del proyecto.</div>
+    </details>
+  </div>
+</section>
+
+<!-- 7 · HAN HABLADO DE NOSOTROS -->
+<section class="fade" style="text-align:center;background:#f7f9fb;">
+  <div class="wrap">
+    <div class="label" style="text-align:center;">Han hablado de nosotros</div>
+    <div class="press">
+      <a href="https://www.comunidad.madrid/noticias/2026/06/01/comunidad-madrid-crea-lo-nadie-te-cuenta-programa-pionero-apoyo-psicologico-familias-afrontan-discapacidad-su-entorno-cercano" target="_blank" rel="noopener">Comunidad de Madrid</a>
+      <a href="https://www.eldiariodemadrid.es/articulo/sociedad/madrid-programa-apoyo-psicologico-familias-discapacidad/20260703140126136215.html" target="_blank" rel="noopener">El Diario de Madrid</a>
+      <a href="https://www.larazon.es/madrid/que-nadie-cuenta-nuevo-programa-madrid-familias-que-reciben-diagnostico-discapacidad_202607066a4afe1ddcb2092ca8c7134c.html" target="_blank" rel="noopener">La Razón</a>
+      <a href="https://youtu.be/E603UZNC3wQ" target="_blank" rel="noopener">TVE</a>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · VÍDEO DAVID (CIERRE) -->
+<section class="fade" style="text-align:center;">
+  <div class="wrap" style="max-width:620px;">
+    <h2>Un mensaje de David</h2>
+    <p style="color:#555;">David Rodríguez, fundador de Fundación Pegasus.</p>
+    <div class="video-9x16">
+      <div class="inner">
+        <iframe src="https://www.youtube.com/embed/g7g9RvHEG1k" title="David — Lo que nadie te cuenta" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · CTA FINAL -->
+<section class="fade cta-final" id="reserva" style="background:#f7f9fb;">
+  <div class="wrap" style="max-width:720px;">
+    <h2>Ven al webinar</h2>
+    <p><strong>Asistir es importante:</strong> es donde os explicamos, de principio a fin, cómo va a funcionar todo el proceso —el proyecto, el cronograma y cómo pueden participar las familias de vuestro centro— y resolvemos todas vuestras dudas. Elige la fecha que mejor te venga:</p>
+    <div class="dates">
+      <div class="date">Martes 28 de julio · 10:00</div>
+      <div class="date">Jueves 30 de julio · 10:00</div>
+    </div>
+    <a class="btn" href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Reserva%20webinar%20Lo%20que%20nadie%20te%20cuenta&body=Hola%2C%20quiero%20reservar%20plaza%20en%20el%20webinar.%0A%0ANombre%20y%20apellidos%3A%20%0ACentro%3A%20%0ACargo%3A%20%0ATel%C3%A9fono%3A%20%0AWebinar%20que%20elijo%20(28%20o%2030%20de%20julio)%3A%20">Escríbenos para reservar tu plaza →</a>
+    <p style="color:#555;font-size:1rem;margin-top:18px;">Para apuntarte, escribe a <strong>alvaro.diaz@fundacionpegasus.org</strong> indicando tu <strong>nombre</strong>, tu <strong>centro</strong>, tu <strong>cargo</strong>, tu <strong>teléfono</strong> y <strong>cuál de los dos webinars eliges</strong> (28 o 30 de julio). Te enviaremos la invitación con el enlace de conexión.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="slogan">"Lo mío no es normal, pero lo tuyo tampoco"</div>
+  <div class="web">Fundación Pegasus · www.fundacionpegasus.org · alvaro.diaz@fundacionpegasus.org</div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*60);io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
