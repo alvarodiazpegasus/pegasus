@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornada de Deporte Adaptado · Majadahonda 2026 · Fundación Pegasus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #08B75B;
+    --azul: #007EC3;
+    --negro: #111111;
+    --blanco: #FFFFFF;
+    --gris: #f5f7fa;
+    --gris-texto: #666;
+    --grad-is: linear-gradient(135deg, #08B75B, #007EC3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--blanco);
+    color: var(--negro);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .nav-logo {
+    font-weight: 700;
+    font-style: italic;
+    font-size: 1.1rem;
+    background: var(--grad-is);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-cta {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 100px;
+    background: var(--negro);
+    color: var(--blanco);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+  /* HERO */
+  .hero {
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-wave-top {
+    width: 100%;
+    height: 420px;
+    background: var(--grad-is);
+    clip-path: ellipse(110% 100% at 50% 0%);
+    position: absolute;
+    top: 80px; left: 0;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 80px 24px 60px;
+    color: var(--blanco);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: var(--blanco);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 36px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.95;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 20px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .hero-spacer { height: 280px; }
+
+  /* STATS */
+  .stats {
+    background: var(--blanco);
+    padding: 0 24px;
+    max-width: 900px;
+    margin: -32px auto 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    background: var(--blanco);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    padding: 36px 32px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .stat-num {
+    font-size: 2.8rem;
+    font-weight: 700;
+    font-style: italic;
+    background: var(--grad-is);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat-divider {
+    width: 1px;
+    background: #e8e8e8;
+    align-self: stretch;
+    margin: 8px 0;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 80px 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+    max-width: 680px;
+  }
+
+  /* PROGRAMA */
+  .programa-section {
+    background: var(--gris);
+    padding: 80px 24px;
+  }
+
+  .programa-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .timeline {
+    margin-top: 40px;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 72px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--verde), var(--azul));
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-hora {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--azul);
+    min-width: 56px;
+    text-align: right;
+    padding-top: 3px;
+  }
+
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--grad-is);
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: 0 0 0 4px rgba(8, 183, 91, 0.15);
+  }
+
+  .timeline-content { flex: 1; }
+
+  .timeline-titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .timeline-desc {
+    font-size: 0.9rem;
+    color: var(--gris-texto);
+    line-height: 1.5;
+  }
+
+  /* INCLUYE */
+  .incluye-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .incluye-card {
+    border: 1.5px solid #e8e8e8;
+    border-radius: 20px;
+    padding: 24px 20px;
+    background: var(--blanco);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.25s;
+  }
+
+  .incluye-card.visible { opacity: 1; transform: translateY(0); }
+  .incluye-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.07); transform: translateY(-2px); }
+
+  .incluye-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(8,183,91,0.1), rgba(0,126,195,0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .incluye-titulo {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+
+  .incluye-desc {
+    font-size: 0.83rem;
+    color: var(--gris-texto);
+    line-height: 1.4;
+  }
+
+  /* EQUIPO */
+  .equipo-section { background: var(--negro); padding: 80px 24px; }
+  .equipo-inner { max-width: 960px; margin: 0 auto; }
+  .equipo-section .section-label { color: var(--verde); }
+  .equipo-section .section-title { color: var(--blanco); }
+  .equipo-section .section-body { color: rgba(255,255,255,0.7); }
+
+  .equipo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .equipo-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px 24px;
+    background: rgba(255,255,255,0.05);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .equipo-card.visible { opacity: 1; transform: translateY(0); }
+
+  .equipo-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--grad-is);
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    font-style: italic;
+  }
+
+  .equipo-nombre {
+    color: var(--blanco);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .equipo-tit {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .equipo-exp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .equipo-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--verde);
+    background: rgba(8,183,91,0.12);
+    border: 1px solid rgba(8,183,91,0.25);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+
+  /* PRESUPUESTO */
+  .presupuesto-section {
+    background: var(--gris);
+    padding: 80px 24px;
+  }
+
+  .presupuesto-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .presupuesto-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    background: var(--blanco);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  }
+
+  .presupuesto-tabla td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+  }
+
+  .presupuesto-tabla tr:last-child td { border-bottom: none; }
+
+  .presupuesto-tabla .col-concepto { color: #444; }
+  .presupuesto-tabla .col-valor {
+    text-align: right;
+    font-weight: 600;
+    color: var(--negro);
+  }
+
+  .presupuesto-total td {
+    background: var(--negro);
+    color: var(--blanco) !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    padding: 20px 24px !important;
+  }
+
+  .presupuesto-total .col-valor {
+    font-size: 1.3rem !important;
+    background: var(--grad-is);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .presupuesto-nota {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    text-align: center;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 80px 24px;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .cta-blob {
+    width: 100%;
+    background: var(--grad-is);
+    border-radius: 32px;
+    padding: 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-blob::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: -80px; right: -80px;
+  }
+
+  .cta-blob::after {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+    bottom: -60px; left: -40px;
+  }
+
+  .cta-titulo {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--blanco);
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+
+  .cta-sub {
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    margin-bottom: 32px;
+    position: relative; z-index: 1;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    border-radius: 100px;
+    background: var(--blanco);
+    color: var(--negro);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative; z-index: 1;
+  }
+
+  .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+
+  .cta-contacto {
+    margin-top: 20px;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.88rem;
+    position: relative; z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--negro);
+    padding: 48px 24px;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  footer .eslogan {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--grad-is);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    nav { padding: 14px 20px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .stat-divider { display: none; }
+    .timeline::before { left: 60px; }
+    .cta-blob { padding: 40px 24px; }
+    .equipo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Fundación Pegasus</div>
+  <a href="mailto:alvaro.diaz@fundacionpegasus.org" class="nav-cta">Confirmar jornada</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-wave-top"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Fiestas Patronales · Majadahonda 2026</div>
+    <h1 class="hero-title">Jornada de<br>Deporte Adaptado</h1>
+    <p class="hero-subtitle">Una mañana de actividad, competición y celebración para personas con discapacidad intelectual.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">📅 17 septiembre 2026</div>
+      <div class="hero-meta-item">📍 Polideportivo La Granadilla</div>
+      <div class="hero-meta-item">⏱ 10:30 – 14:30h</div>
+    </div>
+  </div>
+  <div class="hero-spacer"></div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-num">~90</div>
+      <div class="stat-label">Participantes con DI</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">4h</div>
+      <div class="stat-label">Programa completo</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">4.820€</div>
+      <div class="stat-label">Todo incluido · Exento IVA</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUÉ PROPONEMOS -->
+<section>
+  <p class="section-label fade-in">La propuesta</p>
+  <h2 class="section-title fade-in">No es una actividad de relleno.<br>Es un evento real.</h2>
+  <p class="section-body fade-in">
+    Diseñamos una jornada completa de inicio a fin: gymkana deportiva adaptada para distintos niveles de motricidad, entrega de medallas para todos los participantes y fiesta con música y picoteo en los jardines del polideportivo. Todo producido y ejecutado por nuestro equipo, para que el Ayuntamiento solo tenga que abrir las puertas.
+  </p>
+  <br>
+  <p class="section-body fade-in">
+    Llevamos más de 10 años trabajando con personas con discapacidad intelectual en municipios de la Comunidad de Madrid. Sabemos que este tipo de jornadas funcionan cuando el programa está bien construido, el equipo conoce al colectivo y la producción no falla. De eso nos encargamos nosotros.
+  </p>
+</section>
+
+<!-- PROGRAMA -->
+<div class="programa-section">
+  <div class="programa-inner">
+    <p class="section-label fade-in">El programa</p>
+    <h2 class="section-title fade-in">Una mañana construida al detalle</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-hora">10:30</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-titulo">Recepción y bienvenida</div>
+          <div class="timeline-desc">Llegada de participantes y apoyos. Presentación del equipo y del programa del día.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-hora">11:00</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-titulo">Gymkana deportiva adaptada</div>
+          <div class="timeline-desc">Retos por equipos adaptados a distintos niveles de motricidad. Actividades variadas diseñadas para adultos con DI.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-hora">12:30</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-titulo">Entrega de medallas</div>
+          <div class="timeline-desc">Medalla para cada participante. Reconocimiento individual en un acto de cierre de la actividad deportiva.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-hora">13:00</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-titulo">Fiesta exterior · Jardines del polideportivo</div>
+          <div class="timeline-desc">Música, picoteo variado y bebidas para participantes, apoyos y familias. Carpas y mesas instaladas en exterior.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUÉ INCLUYE -->
+<section>
+  <p class="section-label fade-in">Sin letra pequeña</p>
+  <h2 class="section-title fade-in">El precio lo cubre todo</h2>
+  <p class="section-body fade-in">No hay costes adicionales ni imprevistos. El presupuesto incluye producción completa de la jornada.</p>
+  <div class="incluye-grid">
+    <div class="incluye-card">
+      <div class="incluye-icon">🏃</div>
+      <div>
+        <div class="incluye-titulo">Gymkana deportiva</div>
+        <div class="incluye-desc">Diseño y producción de retos adaptados para distintos niveles de motricidad.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">🎤</div>
+      <div>
+        <div class="incluye-titulo">Equipo de sonido</div>
+        <div class="incluye-desc">Sistema de audio con micrófono y atril para interior y música para la fiesta exterior.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">🍽️</div>
+      <div>
+        <div class="incluye-titulo">Catering para 150 personas</div>
+        <div class="incluye-desc">Picoteo variado (salado y dulce), refrescos y agua para participantes, apoyos y familias.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">🏅</div>
+      <div>
+        <div class="incluye-titulo">130 medallas</div>
+        <div class="incluye-desc">Una medalla para cada participante. Nadie se queda sin reconocimiento.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">⛺</div>
+      <div>
+        <div class="incluye-titulo">Carpas y mesas</div>
+        <div class="incluye-desc">2 carpas 3x3 y 4 mesas plegables para la zona de catering en los jardines.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">🛡️</div>
+      <div>
+        <div class="incluye-titulo">Seguro de accidentes</div>
+        <div class="incluye-desc">Póliza de accidentes específica para el evento con personas con discapacidad.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">🪑</div>
+      <div>
+        <div class="incluye-titulo">Traslado de sillas</div>
+        <div class="incluye-desc">Gestión del traslado de las ~75 sillas desde la instalación municipal y devolución al cierre.</div>
+      </div>
+    </div>
+    <div class="incluye-card">
+      <div class="incluye-icon">👥</div>
+      <div>
+        <div class="incluye-titulo">Equipo profesional</div>
+        <div class="incluye-desc">Coordinador + 3 monitores especializados en discapacidad intelectual durante toda la jornada.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<div class="equipo-section">
+  <div class="equipo-inner">
+    <p class="section-label">El equipo</p>
+    <h2 class="section-title">Profesionales que conocen el colectivo</h2>
+    <p class="section-body">Nuestro equipo lleva años trabajando con personas con discapacidad intelectual adulta. No improvisamos: cada persona sabe lo que hace y cómo adaptarlo al momento.</p>
+    <div class="equipo-grid">
+      <div class="equipo-card">
+        <div class="equipo-avatar">CO</div>
+        <div class="equipo-nombre">Coordinador de la jornada</div>
+        <div class="equipo-tit">Titulación universitaria en CAFYD o Educación Social. Experiencia en coordinación de eventos deportivos inclusivos y gestión de equipos IS.</div>
+        <div class="equipo-exp">
+          <span class="equipo-tag">Inclusive Sport</span>
+          <span class="equipo-tag">Campamentos</span>
+          <span class="equipo-tag">Jornadas</span>
+        </div>
+      </div>
+      <div class="equipo-card">
+        <div class="equipo-avatar">IS</div>
+        <div class="equipo-nombre">Monitores Inclusive Sport</div>
+        <div class="equipo-tit">Titulación en TAFAD, CAFYD o Educación Social. Todos cuentan con formación específica en discapacidad intelectual y experiencia acreditada en los programas de Fundación Pegasus.</div>
+        <div class="equipo-exp">
+          <span class="equipo-tag">Inclusive Sport</span>
+          <span class="equipo-tag">TPT</span>
+          <span class="equipo-tag">Campamentos</span>
+          <span class="equipo-tag">Ocio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESUPUESTO -->
+<div class="presupuesto-section">
+  <div class="presupuesto-inner">
+    <p class="section-label fade-in">Inversión</p>
+    <h2 class="section-title fade-in">Presupuesto cerrado</h2>
+    <p class="section-body fade-in">Sin sorpresas. El precio cubre el diseño, la producción y la ejecución completa de la jornada.</p>
+    <table class="presupuesto-tabla fade-in">
+      <tr>
+        <td class="col-concepto">Actividad deportiva adaptada + gymkana</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">Equipo Pegasus (coordinador + 3 monitores)</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">Catering 150 personas (picoteo + bebidas)</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">130 medallas para participantes</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">2 carpas 3×3 + 4 mesas plegables</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">Equipo de sonido con micrófono y atril</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">Seguro de accidentes del evento</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr>
+        <td class="col-concepto">Traslado de sillas (instalación municipal)</td>
+        <td class="col-valor">incluido</td>
+      </tr>
+      <tr class="presupuesto-total">
+        <td class="col-concepto">TOTAL · Exento de IVA</td>
+        <td class="col-valor">4.900 €</td>
+      </tr>
+    </table>
+    <p class="presupuesto-nota fade-in">Fundación Pegasus está acogida a la Ley 49/2002. Exenta de IVA.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-blob fade-in">
+    <h2 class="cta-titulo">¿Lo hacemos?</h2>
+    <p class="cta-sub">En cuanto confirmes, empezamos con la producción: gymkana, catering, materiales y comunicación a los centros.</p>
+    <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Confirmo jornada deporte adaptado Majadahonda 17 sept" class="cta-btn">Confirmar la jornada</a>
+    <p class="cta-contacto">Álvaro Díaz · alvaro.diaz@fundacionpegasus.org · www.fundacionpegasus.org</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="eslogan">Lo mío no es normal, pero lo tuyo tampoco.</div>
+  <div>Fundación Pegasus · CIF G87919148 · Registro de fundaciones nº 2259</div>
+  <div>Acogida a Ley 49/2002 · www.fundacionpegasus.org</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in, .incluye-card, .equipo-card, .timeline-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
