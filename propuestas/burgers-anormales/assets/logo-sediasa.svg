@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 84" role="img" aria-label="Sediasa (logo provisional)">
+  <!-- TODO: PLACEHOLDER. Sustituir por el logo real de Sediasa Alimentación (Grupo Fuertes). -->
+  <rect x="4" y="4" width="192" height="76" rx="12" fill="#F6F3EE" stroke="#2E7CB8" stroke-width="2.5"/>
+  <text x="100" y="44" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="30" letter-spacing="1" fill="#17547E">SEDIASA</text>
+  <text x="100" y="63" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="9" letter-spacing="2" fill="#8C8681">LOGO PROVISIONAL</text>
+</svg>

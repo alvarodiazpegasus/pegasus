@@ -13,8 +13,9 @@ import ninja from './games/ninja.js';
 import fuego from './games/fuego.js';
 import bus from './games/bus.js';
 import imprenta from './games/imprenta.js';
+import sediasa from './games/sediasa.js';
 
-const GAMES = { parrillero, cana, ninja, fuego, bus, imprenta };
+const GAMES = { parrillero, cana, ninja, fuego, bus, imprenta, sediasa };
 
 let DATA = null;
 let engine = null;        // partida en curso

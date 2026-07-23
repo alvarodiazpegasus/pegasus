@@ -156,9 +156,35 @@
         "color": "#E14E10",
         "glow": "rgba(225,78,16,.5)"
       }
+    },
+    {
+      "id": "sediasa",
+      "nombre": "LA CUERDA",
+      "mote": "Atada de fábrica",
+      "tint": "var(--ba-coral)",
+      "desc": "Chuletón madurado, lonchas de chacinería curada, provolone fundido, cebolla crujiente y salsa brava ahumada, en pan Potato High. Homenaje al embutido bien atado.",
+      "patron": {
+        "id": "sediasa",
+        "nombre": "SEDIASA",
+        "tipo": "Envasado cárnico · Grupo Fuertes",
+        "color": "#2E7CB8",
+        "deep": "#17547E",
+        "sello": "Sin gluten · IFS",
+        "logo": "assets/logo-sediasa.svg",
+        "bio": "Cortan, preparan y envasan carne, charcutería y elaborados para que lleguen impecables al lineal del súper. Plantas robotizadas, certificación IFS y sin gluten, del Grupo Fuertes. Ellos ponen la precisión industrial; el descontrol lo ponemos nosotros.",
+        "_TODO": "logo real de Sediasa: sustituir el placeholder assets/logo-sediasa.svg por el logotipo oficial (Grupo Fuertes). Colores de marca (color/deep/glow) provisionales: azul acero industrial, confirmar con la marca. Falta también la foto real de la burger."
+      },
+      "juego": {
+        "id": "sediasa",
+        "nombre": "A TODA MÁQUINA",
+        "verbo": "Sella cada bandeja al pasar por la selladora. Que no se te escape ni una al lineal.",
+        "como": "Toca en el momento justo, cuando la bandeja entra en la zona de sellado. Si pasa sin sellar, producto no apto y pierdes vida. Las bandejas doradas «sin gluten» dan bonus. La cinta va cada vez más rápido.",
+        "color": "#2E7CB8",
+        "glow": "rgba(46,124,184,.5)"
+      }
     }
   ],
-  "votosBase": { "fire": 428, "anormal": 392, "raro": 333, "beer": 281, "nikkei": 246, "carne": 167 },
+  "votosBase": { "fire": 428, "anormal": 392, "raro": 333, "beer": 281, "nikkei": 246, "sediasa": 205, "carne": 167 },
   "rankingSemilla": [
     { "nick": "ANORMAL_92", "score": 14350 },
     { "nick": "LACARPA", "score": 11020 },
