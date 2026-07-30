@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proceso de Captación y Guía de Orientación — Fundación Pegasus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tpt-morado:#974694; --tpt-rosa:#E45E9B;
+  --is-verde:#08B75B; --is-azul:#007EC3;
+  --amarillo:#F3D100; --naranja:#ED7928; --rojo:#D6191B;
+  --ink:#1a1a1a; --ink-soft:#4a4a4a; --ink-softer:#7a7a7a; --ink-softest:#aaaaaa;
+  --bg:#fafafa; --bg-card:#ffffff; --bg-soft:#f5f3f5;
+  --line:#e8e4e8; --line-soft:#f0eef0;
+  --grad-fusion:linear-gradient(135deg,#08B75B 0%,#007EC3 35%,#974694 70%,#E45E9B 100%);
+  --grad-tpt:linear-gradient(135deg,#974694 0%,#E45E9B 100%);
+  --grad-is:linear-gradient(135deg,#08B75B 0%,#007EC3 100%);
+  --grad-warm:linear-gradient(135deg,#ED7928 0%,#E45E9B 100%);
+  --sidebar-w:290px;
+  --shadow-soft:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.04);
+  --shadow-card:0 2px 8px rgba(0,0,0,0.05),0 12px 32px rgba(0,0,0,0.06);
+  --info-bg:#eef7ff; --info-border:#b3dafe; --info-fg:#0a4b8e;
+  --fam-bg:#fff4e6; --fam-border:#ffcf99; --fam-fg:#8a4b06;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:24px;}
+body{background:var(--bg);color:var(--ink);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.65;}
+h1,h2,h3,h4,.chantal{font-family:'Chantal','Barlow',sans-serif;}
+
+/* ============ VIEWS ============ */
+.view{display:none;}
+.view.active{display:block;}
+#home.active{display:flex;}
+
+/* ============ HOME / HUB ============ */
+#home{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden;background:#0f0a0f;}
+#home::before{content:'';position:absolute;inset:0;background:var(--grad-fusion);opacity:0.14;}
+.hub-top{position:absolute;top:0;left:0;right:0;height:6px;background:var(--grad-fusion);}
+.hub-inner{position:relative;z-index:1;width:100%;max-width:940px;text-align:center;}
+.hub-kicker{display:inline-block;background:rgba(255,255,255,0.12);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:24px;margin-bottom:22px;border:1px solid rgba(255,255,255,0.18);}
+.hub-inner h1{color:#fff;font-size:46px;line-height:1.05;margin-bottom:14px;}
+.hub-inner h1 .grad{background:linear-gradient(90deg,#08B75B,#E45E9B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hub-inner .hub-sub{color:rgba(255,255,255,0.75);font-size:16px;max-width:600px;margin:0 auto 44px;line-height:1.6;}
+.hub-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;text-align:left;}
+.hub-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:22px;padding:34px 30px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
+.hub-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;}
+.hub-card.c1::after{background:var(--grad-tpt);}
+.hub-card.c2::after{background:var(--grad-is);}
+.hub-card:hover{transform:translateY(-5px);background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.28);box-shadow:0 20px 50px rgba(0,0,0,0.35);}
+.hub-ico{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;}
+.hub-card.c1 .hub-ico{background:var(--grad-tpt);}
+.hub-card.c2 .hub-ico{background:var(--grad-is);}
+.hub-card h2{color:#fff;font-size:23px;margin-bottom:10px;}
+.hub-card p{color:rgba(255,255,255,0.68);font-size:14px;line-height:1.55;margin-bottom:18px;}
+.hub-card .hub-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.hub-card .hub-tags span{font-size:11px;font-weight:600;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);padding:4px 10px;border-radius:20px;}
+.hub-cta{display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:14px;}
+.hub-card.c1 .hub-cta{color:#f3a9cf;}
+.hub-card.c2 .hub-cta{color:#7fe0aa;}
+.hub-foot{margin-top:40px;color:rgba(255,255,255,0.45);font-size:12px;}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:#161016;color:#cfc7cf;overflow-y:auto;z-index:200;
+  border-right:1px solid rgba(255,255,255,0.06);
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:4px;}
+.sb-brand{padding:22px 22px 20px;background:var(--grad-fusion);color:#fff;}
+.sb-home{display:inline-flex;align-items:center;gap:7px;background:rgba(0,0,0,0.18);color:#fff;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:20px;text-decoration:none;margin-bottom:14px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:background .15s;}
+.sb-home:hover{background:rgba(0,0,0,0.32);}
+.sb-brand .tag{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.sb-brand h1{font-size:21px;line-height:1.15;color:#fff;}
+.sb-brand .sub{font-size:12px;opacity:0.9;margin-top:8px;}
+.sidebar nav{padding:14px 14px 40px;}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-softest);padding:16px 12px 6px;}
+.sidebar nav a{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;
+  color:#cfc7cf;text-decoration:none;font-size:13.5px;font-weight:500;
+  border-left:3px solid transparent;transition:all .18s;
+}
+.sidebar nav a:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.sidebar nav a.active{background:rgba(228,94,155,0.14);color:#fff;border-left-color:var(--tpt-rosa);}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.22);flex-shrink:0;transition:all .18s;}
+.sidebar nav a.active .sb-dot{background:var(--tpt-rosa);box-shadow:0 0 8px var(--tpt-rosa);}
+.sb-badge{margin-left:auto;background:var(--naranja);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.sb-fam{margin-left:auto;font-size:13px;}
+
+/* ============ MAIN ============ */
+.main{margin-left:var(--sidebar-w);max-width:calc(100vw - var(--sidebar-w));}
+.wrap{max-width:900px;margin:0 auto;padding:0 40px 100px;}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:52px 40px 44px;color:#fff;margin-bottom:8px;}
+.hero::before{content:'';position:absolute;inset:0;background:var(--grad-fusion);opacity:0.97;}
+.hero.guia::before{background:var(--grad-is);}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;}
+.hero .tag{display:inline-block;background:rgba(255,255,255,0.2);font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:16px;}
+.hero h1{font-size:38px;line-height:1.05;margin-bottom:14px;}
+.hero .lead{font-size:16px;max-width:640px;opacity:0.95;line-height:1.6;}
+.hero .meta{margin-top:20px;font-size:12px;opacity:0.85;display:flex;gap:18px;flex-wrap:wrap;}
+
+/* toolbar */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:20px 0 6px;}
+.tb-btn{background:var(--bg-card);border:1px solid var(--line);color:var(--ink-soft);font-family:'Barlow';font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .15s;}
+.tb-btn:hover{border-color:var(--tpt-rosa);color:var(--tpt-morado);}
+
+/* section titles */
+.sec-title{font-size:15px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--tpt-morado);margin:44px 0 6px;display:flex;align-items:center;gap:10px;}
+.sec-title::before{content:'';width:26px;height:3px;border-radius:3px;background:var(--grad-tpt);}
+.sec-title.g::before{background:var(--grad-is);}
+.sec-title.g{color:var(--is-azul);}
+.sec-sub{color:var(--ink-softer);font-size:13.5px;margin-bottom:16px;}
+
+/* legend */
+.legend{display:flex;align-items:center;gap:10px;background:var(--fam-bg);border:1px solid var(--fam-border);color:var(--fam-fg);border-radius:12px;padding:12px 16px;font-size:13.5px;margin:20px 0;}
+.legend .big{font-size:20px;}
+
+/* ============ JOURNEY / FLUJO ============ */
+.flujo{background:var(--bg-card);border:1px solid var(--line);border-radius:18px;padding:26px 24px;box-shadow:var(--shadow-soft);margin-bottom:8px;}
+.flujo-track{display:flex;flex-wrap:wrap;gap:8px;}
+.f-step{flex:1;min-width:130px;position:relative;background:var(--bg-soft);border-radius:12px;padding:14px 12px;border:1px solid var(--line-soft);}
+.f-step .n{width:26px;height:26px;border-radius:50%;background:var(--grad-tpt);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.f-step h4{font-size:13px;color:var(--ink);margin-bottom:3px;line-height:1.25;}
+.f-step p{font-size:11px;color:var(--ink-softer);line-height:1.4;}
+.f-step .fam{position:absolute;top:10px;right:10px;font-size:15px;}
+.f-arrow{align-self:center;color:var(--ink-softest);font-size:18px;flex:0 0 auto;}
+.f-outcomes{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.f-out{flex:1;min-width:120px;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:600;text-align:center;}
+.f-out.ok{background:#e9f9f0;color:#0a7a41;border:1px solid #b6eccd;}
+.f-out.no{background:#fdeaea;color:#a51d1f;border:1px solid #f5c2c3;}
+.f-out.wait{background:#fff8e0;color:#8a6d00;border:1px solid #f0e29a;}
+
+/* ============ CARDS (details/summary) ============ */
+.card{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-soft);}
+.card[open]{box-shadow:var(--shadow-card);}
+.card>summary{list-style:none;display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;}
+.card>summary::-webkit-details-marker{display:none;}
+.card>summary:hover{background:var(--bg-soft);}
+.card .ico{width:42px;height:42px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;background:var(--grad-tpt);}
+.card[data-type="is"] .ico{background:var(--grad-is);}
+.card[data-type="warm"] .ico{background:var(--grad-warm);}
+.card[data-type="crit"] .ico{background:linear-gradient(135deg,#D6191B,#ED7928);}
+.card[data-type="info"] .ico{background:linear-gradient(135deg,#007EC3,#08B75B);}
+.card[data-type="n1"] .ico{background:linear-gradient(135deg,#D6191B,#ED7928);}
+.card[data-type="n2"] .ico{background:linear-gradient(135deg,#ED7928,#F3D100);}
+.card[data-type="n3"] .ico{background:var(--grad-is);}
+.card .s-txt{flex:1;min-width:0;}
+.card .s-txt h3{font-size:17px;color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.card .s-txt .sub{font-size:13px;color:var(--ink-softer);}
+.step-pill{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--tpt-morado);background:#f6ecf5;padding:3px 9px;border-radius:20px;}
+.step-pill.g{color:var(--is-azul);background:#e6f4fb;}
+.chev{width:28px;height:28px;border-radius:8px;background:var(--bg-soft);color:var(--ink-softer);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:transform .2s,background .2s;}
+.card[open] .chev{transform:rotate(180deg);background:var(--tpt-morado);color:#fff;}
+.card-body{padding:6px 22px 24px;border-top:1px solid var(--line-soft);}
+.card-body>*:first-child{margin-top:16px;}
+
+/* fam badge inside summary */
+.fam-tag{display:inline-flex;align-items:center;gap:6px;background:var(--fam-bg);border:1px solid var(--fam-border);color:var(--fam-fg);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+
+/* content helpers */
+.card-body h4{font-size:14px;color:var(--tpt-morado);margin:20px 0 8px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;}
+.card-body h4.g{color:var(--is-azul);}
+.card-body p{margin-bottom:10px;color:var(--ink-soft);}
+.card-body ul{margin:0 0 12px 4px;list-style:none;}
+.card-body ul li{position:relative;padding-left:20px;margin-bottom:6px;color:var(--ink-soft);}
+.card-body ul li::before{content:'';position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--tpt-rosa);}
+.card-body ol{margin:0 0 12px 20px;color:var(--ink-soft);}
+.card-body ol li{margin-bottom:6px;}
+.card-body strong{color:var(--ink);}
+.card-body a{color:var(--is-azul);word-break:break-all;}
+
+/* message box (plantilla) */
+.msg{position:relative;background:#f3fbf6;border:1px solid #c8ead8;border-left:4px solid var(--is-verde);border-radius:0 12px 12px 0;padding:16px 18px 16px 20px;margin:10px 0 16px;font-size:14px;color:#22503b;line-height:1.6;}
+.msg::before{content:'👨‍👩‍👧‍👦 Mensaje a la familia';position:absolute;top:-11px;left:14px;background:var(--fam-bg);border:1px solid var(--fam-border);color:var(--fam-fg);font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:2px 9px;border-radius:20px;}
+.msg .copy{position:absolute;top:10px;right:10px;background:#fff;border:1px solid #c8ead8;color:#0a7a41;font-size:11px;font-weight:600;padding:4px 9px;border-radius:7px;cursor:pointer;font-family:'Barlow';}
+.msg .copy:hover{background:var(--is-verde);color:#fff;border-color:var(--is-verde);}
+.msg .txt{display:block;margin-top:8px;white-space:pre-wrap;}
+
+/* quotes for guide */
+.q{position:relative;border-radius:0 12px 12px 0;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.55;border-left:4px solid;}
+.q.ok{background:#f3fbf6;border-color:var(--is-verde);color:#22503b;}
+.q.no{background:#fdeaea;border-color:var(--rojo);color:#a51d1f;}
+.q.water{background:#eef7ff;border-color:var(--is-azul);color:#0a4b8e;}
+.q .lbl{display:block;font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px;opacity:.85;}
+
+/* callouts */
+.callout{border-radius:12px;padding:14px 16px 14px 44px;position:relative;margin:14px 0;font-size:13.5px;line-height:1.55;}
+.callout::before{position:absolute;left:14px;top:13px;font-size:18px;}
+.callout.info{background:var(--info-bg);border:1px solid var(--info-border);color:var(--info-fg);}
+.callout.info::before{content:'ℹ️';}
+.callout.warn{background:#fff6e6;border:1px solid #f2d79a;color:#8a5a06;}
+.callout.warn::before{content:'⚠️';}
+.callout.crit{background:#fdeaea;border:1px solid #f2b8b9;color:#a51d1f;}
+.callout.crit::before{content:'🚫';}
+.callout.tip{background:#f2fbf6;border:1px solid #bfe8d3;color:#0a7a41;}
+.callout.tip::before{content:'💡';}
+.callout strong{color:inherit;}
+
+/* nomenclatura pill */
+.nom{display:inline-block;background:#1a1a1a;color:#fff;font-family:monospace;font-size:12.5px;padding:3px 9px;border-radius:6px;margin:2px 0;}
+
+/* mini-cards grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.mini{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.mini h5{font-size:13px;color:var(--tpt-morado);margin-bottom:6px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;}
+.mini p,.mini li{font-size:13px;color:var(--ink-soft);}
+
+/* tags system */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.etq{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:20px;border:1px solid;}
+.etq.gray{background:#f2f2f2;color:#666;border-color:#ddd;}
+.etq.int{background:#eef7ff;color:#0a4b8e;border-color:#b3dafe;}
+.etq.new{background:#e9f9f0;color:#0a7a41;border-color:#b6eccd;}
+.etq.no{background:#fdeaea;color:#a51d1f;border-color:#f2b8b9;}
+.etq.wait{background:#fff8e0;color:#8a6d00;border-color:#f0e29a;}
+.etq.user{background:#f6ecf5;color:#7a2d76;border-color:#e3c6e1;}
+.etq.comp{background:#eae6ff;color:#4b3d9e;border-color:#c9c0f0;}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.tbl th{background:var(--bg-soft);text-align:left;padding:10px 12px;color:var(--tpt-morado);border:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.4px;}
+.tbl td{padding:10px 12px;border:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+.tbl.g th{color:var(--is-azul);}
+
+/* keyboard */
+kbd{background:#fff;border:1px solid #ccc;border-bottom-width:2px;border-radius:5px;padding:2px 7px;font-family:monospace;font-size:12px;color:var(--ink);}
+
+/* links list */
+.lnk{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--bg-card);text-decoration:none;transition:all .15s;}
+.lnk:hover{border-color:var(--is-azul);background:#f7fbff;}
+.lnk .li{font-size:16px;}
+.lnk .lt{flex:1;font-size:13.5px;font-weight:600;color:var(--ink);}
+.lnk .lg{font-size:11px;color:var(--ink-softest);font-weight:400;}
+
+/* guia terapias (proceso anexo) */
+.ter{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:0;margin-bottom:12px;overflow:hidden;}
+.ter>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;font-weight:700;color:var(--ink);}
+.ter>summary::-webkit-details-marker{display:none;}
+.ter>summary:hover{background:var(--bg-soft);}
+.ter .tdot{width:12px;height:12px;border-radius:4px;}
+.ter-body{padding:4px 20px 20px;}
+
+.mobile-btn{display:none;}
+.nav-cta-wrap{text-align:center;margin:34px 0 6px;}
+.nav-cta{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border:none;border-radius:14px;color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:15px;cursor:pointer;box-shadow:var(--shadow-card);transition:transform .15s,filter .15s;}
+.nav-cta:hover{transform:translateY(-2px);filter:brightness(1.06);}
+.nav-cta.toguia{background:var(--grad-is);}
+.nav-cta.toproceso{background:var(--grad-tpt);}
+footer{text-align:center;color:var(--ink-softest);font-size:12px;padding:30px 0 10px;}
+
+/* responsive */
+@media(max-width:920px){
+  .hub-inner h1{font-size:32px;}
+  .hub-cards{grid-template-columns:1fr;}
+  .sidebar{transform:translateX(-100%);transition:transform .25s;width:270px;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;max-width:100vw;}
+  .mobile-btn{display:flex;position:fixed;top:14px;left:14px;z-index:300;background:var(--tpt-morado);color:#fff;border:none;width:44px;height:44px;border-radius:12px;font-size:20px;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-card);}
+  .hero{padding:70px 22px 40px;}
+  .hero h1{font-size:28px;}
+  .wrap{padding:0 18px 80px;}
+  .grid2{grid-template-columns:1fr;}
+  .f-arrow{display:none;}
+  .f-step{min-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HOME / HUB ==================== -->
+<div class="view active" id="home">
+  <div class="hub-top"></div>
+  <div class="hub-inner">
+    <span class="hub-kicker">Fundación Pegasus · Atención a familias</span>
+    <h1>Proceso de Captación<br>y <span class="grad">Guía de Orientación</span></h1>
+    <p class="hub-sub">Todo lo que la responsable de Atención a familias necesita, en un solo sitio. Elige por dónde quieres entrar.</p>
+    <div class="hub-cards">
+      <div class="hub-card c1" onclick="show('view-proceso')">
+        <div class="hub-ico">🎯</div>
+        <h2>Proceso de Captación</h2>
+        <p>El paso a paso operativo: desde que una familia nos contacta hasta que se apunta. Con los mensajes tipo listos para copiar.</p>
+        <div class="hub-tags"><span>4 pasos</span><span>Mensajes tipo</span><span>Herramientas</span><span>Cruce de usuarios</span></div>
+        <span class="hub-cta">Entrar al proceso →</span>
+      </div>
+      <div class="hub-card c2" onclick="show('view-guia')">
+        <div class="hub-ico">🧭</div>
+        <h2>Guía de Orientación</h2>
+        <p>Cómo llevar la conversación: filosofía, flujo de llamada, simulador de necesidades, triaje emocional, servicios y objeciones.</p>
+        <div class="hub-tags"><span>Flujo de llamada</span><span>Simulador</span><span>Triaje</span><span>Objeciones</span></div>
+        <span class="hub-cta">Entrar a la guía →</span>
+      </div>
+    </div>
+    <div class="hub-foot">Fusión de Servicios · TPT + Inclusive Sport · 2026</div>
+  </div>
+</div>
+
+<!-- ==================== VISTA 1 · PROCESO DE CAPTACIÓN ==================== -->
+<div class="view" id="view-proceso">
+<button class="mobile-btn" data-sb="sb-proceso">☰</button>
+<aside class="sidebar" id="sb-proceso">
+  <div class="sb-brand">
+    <span class="sb-home" onclick="show('home')">← Inicio</span>
+    <span class="tag">Fusión de Servicios</span>
+    <h1>Proceso de Captación</h1>
+    <div class="sub">Atención a familias · TPT + IS · 2026</div>
+  </div>
+  <nav>
+    <a href="#p-top"><span class="sb-dot"></span> Inicio de la vista</a>
+    <a href="#flujo"><span class="sb-dot"></span> Flujo del proceso</a>
+    <div class="sb-section">Herramientas y apoyo</div>
+    <a href="#etiquetas"><span class="sb-dot"></span> Sistema de etiquetas</a>
+    <a href="#enlaces"><span class="sb-dot"></span> Enlaces importantes</a>
+    <a href="#coord"><span class="sb-dot"></span> Coordinadores por zona</a>
+    <a href="#dia"><span class="sb-dot"></span> Acciones del día a día</a>
+    <a href="#atajos"><span class="sb-dot"></span> Atajos y huecos</a>
+    <a href="#info"><span class="sb-dot"></span> Información general</a>
+    <div class="sb-section">El proceso paso a paso</div>
+    <a href="#p1"><span class="sb-dot"></span> 1 · Contestar y animar <span class="sb-fam">👨‍👩‍👧‍👦</span></a>
+    <a href="#p2"><span class="sb-dot"></span> 2 · Registrar contacto y medio <span class="sb-fam">👨‍👩‍👧‍👦</span></a>
+    <a href="#p3"><span class="sb-dot"></span> 3 · Prueba gratuita <span class="sb-fam">👨‍👩‍👧‍👦</span></a>
+    <a href="#p4"><span class="sb-dot"></span> 4 · Prueba confirmada</a>
+    <a href="#p5"><span class="sb-dot"></span> 5 · Conversión <span class="sb-fam">👨‍👩‍👧‍👦</span></a>
+    <div class="sb-section">Otros procesos</div>
+    <a href="#cruce"><span class="sb-dot"></span> Cruce de usuarios Pegasus</a>
+    <div class="sb-section">Anexo</div>
+    <a href="#guia-terapias"><span class="sb-dot"></span> Guía práctica de terapias <span class="sb-badge">Anexo</span></a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div id="p-top"></div>
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="tag">Fundación Pegasus</span>
+      <h1>Proceso de Atención a familias <span style="opacity:.8;font-size:.6em;">(captación)</span></h1>
+      <p class="lead">Desde que una familia nos contacta interesada hasta que se apunta al servicio. Con los mensajes tipo listos para copiar y el paso a paso de cada momento.</p>
+      <div class="meta"><span>👨‍👩‍👧‍👦 = momento en que la familia recibe un mensaje nuestro</span><span>📋 TPT · Inclusive Sport</span></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="tb-btn js-expand">▽ Desplegar todo</button>
+      <button class="tb-btn js-collapse">△ Plegar todo</button>
+    </div>
+
+    <div class="legend">
+      <span class="big">👨‍👩‍👧‍👦</span>
+      <span>Cada vez que veas este icono, es un <strong>momento en que la familia recibe un mensaje nuestro</strong>. Debajo encontrarás la plantilla lista para copiar.</span>
+    </div>
+
+    <div class="sec-title" id="flujo">Flujo del proceso</div>
+    <p class="sec-sub">El recorrido completo de una familia, de un vistazo.</p>
+    <div class="flujo">
+      <div class="flujo-track">
+        <div class="f-step"><div class="n">1</div><span class="fam">👨‍👩‍👧‍👦</span><h4>Contestar y animar</h4><p>Respondemos y nutrimos el interés.</p></div>
+        <div class="f-arrow">→</div>
+        <div class="f-step"><div class="n">2</div><span class="fam">👨‍👩‍👧‍👦</span><h4>Registrar contacto y medio</h4><p>Anotamos de dónde viene la familia (incl. Publicidad RRSS).</p></div>
+        <div class="f-arrow">→</div>
+        <div class="f-step"><div class="n">3</div><span class="fam">👨‍👩‍👧‍👦</span><h4>Prueba gratuita</h4><p>Ofrecemos hueco + enviamos formulario.</p></div>
+        <div class="f-arrow">→</div>
+        <div class="f-step"><div class="n">4</div><h4>Prueba confirmada</h4><p>Reserva de hueco y registro interno.</p></div>
+        <div class="f-arrow">→</div>
+        <div class="f-step"><div class="n">5</div><span class="fam">👨‍👩‍👧‍👦</span><h4>Conversión</h4><p>Al día siguiente intentamos el alta.</p></div>
+      </div>
+      <div class="f-outcomes">
+        <div class="f-out ok">✅ Se apunta → Alta 👨‍👩‍👧‍👦</div>
+        <div class="f-out no">❌ No se apunta → Despedida 👨‍👩‍👧‍👦</div>
+        <div class="f-out wait">⌛ Lista de espera → Repesca 👨‍👩‍👧‍👦</div>
+      </div>
+    </div>
+
+    <div class="sec-title">Herramientas y apoyo</div>
+    <p class="sec-sub">Referencia rápida para la responsable de Atención a familias.</p>
+
+    <details class="card" data-type="warm" id="etiquetas">
+      <summary><div class="ico">🏷️</div><div class="s-txt"><h3>Sistema de etiquetas</h3><div class="sub">Estados del usuario en WhatsApp / registro.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="tag-row"><span class="etq no">No responde</span><span class="etq int">Interesado / Potencial</span><span class="etq new">Nuevo usuario</span><span class="etq gray">No se apunta</span><span class="etq wait">Lista de espera</span><span class="etq user">Usuario Pegasus</span><span class="etq comp">Compañeros/as</span></div>
+      </div>
+    </details>
+    <details class="card" data-type="is" id="enlaces">
+      <summary><div class="ico">🔗</div><div class="s-txt"><h3>Enlaces importantes</h3><div class="sub">Horarios, Excel operativa, registros y protocolos.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <a class="lnk" target="_blank" href="https://docs.google.com/spreadsheets/d/1K4yT5sKMWQbd2x_ijzq54XnaYcohKEIZenS5DQ6xHnQ/edit?gid=0#gid=0"><span class="li">📝</span><span class="lt">Formularios de captación<span class="lg"> · registro y check de contacto realizado</span></span></a>
+        <a class="lnk" href="#"><span class="li">📅</span><span class="lt">Horario TPT<span class="lg"> · TRABAJADORES TERAPIAS - v2026 vf.xlsx</span></span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/spreadsheets/d/1UyHJLaYBkV52_rgforGs-ZV1wv_xG3yO2s4mcvNxM-w/edit?gid=157165102#gid=157165102"><span class="li">📅</span><span class="lt">Horario Inclusive Sport</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/spreadsheets/d/1yZIwtLEimCx9Gn9dQsUtTGvsQ7tKl5-r6wFkwfA9PsQ/edit?gid=0#gid=0"><span class="li">📊</span><span class="lt">Excel gestión operativa TPT</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/spreadsheets/d/1JL8pSSlQ04Z0708_wyslBzvCq2kkYAdfTbLqHvte6bU/edit?gid=762078118#gid=762078118"><span class="li">📊</span><span class="lt">Excel gestión operativa IS</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/spreadsheets/d/1et_-qfp2RdgtV73RjpFVYzajzvUBjW39rFXHmfVFYDY/edit?gid=2004839444#gid=2004839444"><span class="li">📝</span><span class="lt">Registro captación</span></a>
+        <a class="lnk" target="_blank" href="https://drive.google.com/drive/u/0/folders/1QNYipfX-_OoTbqSqjRjrALA_O5BYwres"><span class="li">📁</span><span class="lt">Flyers y documentos captación</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/presentation/d/1aAxeb4nuIDO_WBj21vo15lTL4d1s8V8pz-lDnKxdjq4/edit#slide=id.p"><span class="li">📑</span><span class="lt">Protocolo alta TPT</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/presentation/d/1NPLig5nSzncAaCef2a9Oy7qmpRbeHKOVpp27MMqVqkY/edit?usp=drive_link"><span class="li">📑</span><span class="lt">Protocolo alta IS</span></a>
+        <a class="lnk" target="_blank" href="https://docs.google.com/presentation/d/1mh-ISCY21FdvmZ3zkxUWx6eJf8pVLrGSr3xriCzAMT8/edit#slide=id.p"><span class="li">📑</span><span class="lt">Protocolo captación<span class="lg"> · pendiente completar</span></span></a>
+        <a class="lnk" target="_blank" href="https://hub.lomionoesnormal.com/formacion/guia-captacion.html"><span class="li">📖</span><span class="lt">Guía práctica de terapias (completa)</span></a>
+      </div>
+    </details>
+    <details class="card" data-type="info" id="coord">
+      <summary><div class="ico">🧭</div><div class="s-txt"><h3>Coordinadores por zona</h3><div class="sub">A quién avisar según la zona.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="grid2">
+          <div class="mini"><h5>Sur-Este · Ana</h5><p>Arganda y Morata.</p></div>
+          <div class="mini"><h5>Este · Irene</h5><p>Rivas, Torrejón y San Agustín de Guadalix.</p></div>
+          <div class="mini"><h5>Sur-Oeste · María</h5><p>Móstoles y FMM.</p></div>
+          <div class="mini"><h5>Centro y Sur · José</h5><p>Madrid, Leganés y Valdemoro.</p></div>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-type="tpt" id="dia">
+      <summary><div class="ico">⚙️</div><div class="s-txt"><h3>Acciones del día a día</h3><div class="sub">Rutina de revisión diaria.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li><strong>Prueba gratuita realizada</strong> (objetivo: convertir en nuevo usuario). Revisar en el horario si ha tenido pruebas gratuitas (TPT o IS) y hablar con la familia.</li><li>Llamadas entrantes y llamadas calendarizadas.</li><li>WhatsApps de compañeros/as.</li><li>Pruebas gratuitas y dudas.</li><li>Potenciales usuarios y etiquetados "interesados" (pendientes de contestar): WhatsApp, RRSS.</li><li>Llamadas perdidas (si aparecen en WhatsApp o registro) y llamadas perdidas generales.</li><li>Correo TPT / Inclusive y Videoask (último formulario).</li><li>Nuevos contactos: WhatsApp, RRSS.</li><li>Etiquetados "No responde" (pendientes de contestar) → mensaje de repesca si no han contestado.</li><li>Revisar Excel de optimización (cruces de usuari@s).</li></ul>
+      </div>
+    </details>
+    <details class="card" data-type="info" id="atajos">
+      <summary><div class="ico">⌨️</div><div class="s-txt"><h3>Atajos y tipos de hueco</h3><div class="sub">Teclado, slots y colores del horario.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>Atajos de teclado</h4>
+        <ul><li><kbd>Windows</kbd> + <kbd>.</kbd> → Emojis.</li><li><kbd>Ctrl</kbd> + <kbd>L</kbd> → Cortar.</li><li><kbd>Ctrl</kbd> + <kbd>↓</kbd> → Bajar en Excel.</li></ul>
+        <h4>Tipos de hueco / slot</h4>
+        <p>Si el hueco no está abierto, consultar con el coordinador.</p>
+        <div class="grid2"><div class="mini"><h5>A0</h5><p>No hay usuario.</p></div><div class="mini"><h5>A</h5><p>Hueco atípico.</p></div><div class="mini"><h5>T</h5><p>Hueco típico.</p></div><div class="mini"><h5>A1</h5><p>1 usuario.</p></div></div>
+        <h4>Colores</h4>
+        <ul><li><strong>"X" gris oscuro</strong> → No se puede abrir sesión.</li><li><strong>Gris claro / amarillo</strong> → Consultar con profesional o coordinador.</li></ul>
+      </div>
+    </details>
+    <details class="card" data-type="tpt" id="info">
+      <summary><div class="ico">📌</div><div class="s-txt"><h3>Información general</h3><div class="sub">Notas y nomenclatura de referencia.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>En formaciones se pueden consultar los Canva.</li><li>Tocar el horario siempre en la instalación (en Inclusive).</li><li>El comentario se pone en la persona (profesional).</li></ul>
+        <h4>Nomenclatura</h4>
+        <p><span class="nom">PG</span> (Prueba gratuita) / <span class="nom">N</span> (Nuevo usuario) + nombre + teléfono.</p>
+      </div>
+    </details>
+
+    <div class="sec-title">El proceso paso a paso</div>
+    <p class="sec-sub">Los 4 pasos de captación con sus mensajes tipo. Despliega cada uno.</p>
+
+    <details class="card" data-type="tpt" id="p1" open>
+      <summary><div class="ico">💬</div><div class="s-txt"><h3><span class="step-pill">Paso 1</span> Contestar y animar <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Nutrir al potencial usuario en cuanto nos contacta.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Objetivo: <strong>nutrir al potencial usuario</strong> y generar confianza desde el primer contacto.</p>
+        <div class="callout warn"><strong>Primero, intentar llamar por teléfono.</strong> El WhatsApp es siempre el segundo paso, en función de lo que pase en la llamada.</div>
+        <h4>▶️ Si cogen el teléfono</h4>
+        <p>Después, por WhatsApp, enviar un mensaje de continuidad en base a lo que se haya hablado por teléfono.</p>
+        <div class="msg"><button class="copy">Copiar</button><span class="txt">[BORRADOR — ajústalo a lo hablado]
+¡Gracias por atenderme al teléfono! 💙 Soy Laura, de Fundación Pegasus.
+Como te comentaba sobre (SERVICIO), te dejo por aquí (lo acordado / la info / el enlace).
+Cualquier duda que te surja, escríbeme sin problema. ¡Hablamos! 🫶</span></div>
+        <h4>▶️ Si no cogen el teléfono</h4>
+        <p>Enviar un WhatsApp avisando de que hemos intentado contactar, ofreciendo seguir por aquí si lo prefieren y preguntando qué información necesitan.</p>
+        <div class="msg"><button class="copy">Copiar</button><span class="txt">¡Hola! 💙 Soy Laura, de Fundación Pegasus.
+He intentado llamarte para ayudarte con la información que nos pediste, pero no he podido localizarte.
+Si lo prefieres, podemos hablar por aquí. Cuéntame un poco qué necesitáis y estaré encantada de ayudarte 😊</span></div>
+        <div class="callout info"><strong>Actualiza siempre las etiquetas de WhatsApp y del Registro de captación</strong> tras el contacto.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="p2">
+      <summary><div class="ico">🗂️</div><div class="s-txt"><h3><span class="step-pill">Paso 2</span> Registrar el contacto y su medio <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Antes de nada, anotar de dónde viene la familia.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Nada más entrar un contacto, <strong>registrarlo en el Registro de Captación</strong> indicando el <strong>medio</strong> del que ha venido.</p>
+        <h4>Medios posibles</h4>
+        <div class="tag-row"><span class="etq int">WhatsApp</span><span class="etq int">RRSS (orgánico)</span><span class="etq int">Web / Videoask</span><span class="etq int">Recomendación</span><span class="etq wait">Publicidad RRSS 💸</span><span class="etq int">Llamada</span></div>
+        <div class="callout tip">Registrar bien el medio es clave para medir de dónde llegan los usuarios y hacer el seguimiento correcto.</div>
+
+        <details class="card" data-type="warm" style="margin-top:14px;">
+          <summary><div class="ico">💸</div><div class="s-txt"><h3>✳️ Caso especial · Formularios de Publicidad en RRSS <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Solicitudes que llegan por campañas de pago en redes.</div></div><div class="chev">▾</div></summary>
+          <div class="card-body">
+            <p>Procedimiento para las solicitudes de información recibidas a través de las campañas de publicidad en redes sociales. Garantiza el registro, contacto y seguimiento de cada persona interesada.</p>
+            <h4>1 · Recepción del formulario</h4>
+            <p>Las solicitudes llegan a través de los distintos formularios de publicidad en redes sociales activos.</p>
+            <h4>2 · Registro de la solicitud</h4>
+            <ul><li>Registrar la información en el <strong>Registro de Captación</strong>.</li><li>En el apartado <strong>Medio</strong>, seleccionar: <strong>Publicidad RRSS 💸</strong>.</li><li>Cumplimentar el resto de datos disponibles del formulario.</li></ul>
+            <h4>3 · Primer contacto <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h4>
+            <div class="callout warn"><strong>Primero, intentar llamar por teléfono.</strong> El WhatsApp es siempre el segundo paso, en función de lo que pase en la llamada.</div>
+            <p><strong>▶️ Si cogen el teléfono:</strong> después, por WhatsApp, enviar un mensaje de continuidad en base a lo que se haya hablado por teléfono.</p>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">[BORRADOR — ajústalo a lo hablado]
+¡Gracias por atenderme al teléfono! 💙 Soy Laura, de Fundación Pegasus.
+Como te comentaba sobre (SERVICIO), te dejo por aquí (lo acordado / la info / el enlace).
+Cualquier duda que te surja, escríbeme sin problema. ¡Hablamos! 🫶</span></div>
+            <p><strong>▶️ Si no cogen el teléfono:</strong> enviar un WhatsApp avisando de que hemos intentado contactar, ofreciendo seguir por WhatsApp si lo prefieren y preguntando qué información necesitan.</p>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">¡Hola! 💙 Soy Laura, de Fundación Pegasus.
+Hemos recibido tu formulario solicitando información sobre (SERVICIO) y he intentado llamarte, pero no he podido localizarte.
+Si lo prefieres, podemos hablar por aquí. Cuéntame un poco qué necesitáis y estaré encantada de ayudarte 😊</span></div>
+            <h4>4 · Registro del contacto</h4>
+            <p>Una vez hecho el primer contacto, marcar el <strong>check de "contacto realizado"</strong> en el documento de formularios (lo tienes en <em>Enlaces importantes</em>).</p>
+          </div>
+        </details>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="p3">
+      <summary><div class="ico">🎟️</div><div class="s-txt"><h3><span class="step-pill">Paso 3</span> Proceso de prueba gratuita <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Ofrecer hueco, comprobar disponibilidad y enviar formulario.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>Ofrecer la prueba</h4>
+        <ul><li>Ofrecer sesiones vacías (horarios disponibles).</li><li>Poner <strong>Q</strong> de "Quizás" para evitar recuperaciones.</li><li>TPT e IS: siempre que no haya recus, <strong>dar 2 días</strong>.</li></ul>
+        <h4>Nomenclatura del hueco</h4>
+        <p><span class="nom">Q – Nombre niño (Nombre papá) Nº teléfono – Día</span></p>
+        <p style="font-size:13px;color:var(--ink-softer)">Siempre en el horario de la instalación.</p>
+        <h4>Comprobación de disponibilidad (TPT)</h4>
+        <ul><li>Comprobar grupo de WhatsApp de recuperaciones y Bonos TPT buscando fecha formato <span class="nom">XX/XX</span>.</li></ul>
+        <div class="callout warn"><strong>Pendiente de cambio →</strong> Ahora mismo se revisa el <strong>grupo de WhatsApp de recuperaciones</strong>. A partir de <strong>septiembre</strong> se mirará el <strong>Excel de recuperaciones de los profesionales</strong>.</div>
+        <h4>Confirmación: rellenar formulario <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h4>
+        <p>Para confirmar la prueba gratuita, la familia debe rellenar el formulario.</p>
+        <div class="msg"><button class="copy">Copiar</button><span class="txt">Perfecto, para poder confirmarte la prueba gratuita en (Servicio), día y hora en el Centro (dirección*), necesito que me rellenes el formulario con algunos datos que necesitamos 😉
+https://docs.google.com/forms/d/e/1FAIpQLScZ0qF2v1zzbhvneaG6eC_7TKMyBR1SktVCX1qBT7X2sO8LFw/viewform</span></div>
+        <div class="grid2">
+          <div class="mini"><h5>Formulario TPT</h5><p><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScZ0qF2v1zzbhvneaG6eC_7TKMyBR1SktVCX1qBT7X2sO8LFw/viewform">Formulario Google TPT + firma + datos</a></p></div>
+          <div class="mini"><h5>Formulario IS</h5><p><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScsev2UkVAkMH-heOEQF4MDVP3GRJTIW_uATauOCPQKUuS5Ig/viewform">Formulario Google IS + firma + datos</a></p></div>
+        </div>
+        <div class="callout crit"><strong>Casuística padres separados:</strong> el consentimiento de la prueba deben realizarlo <strong>ambos</strong> en el cuestionario. Aparecen dos filas; en una de ellas el estado de usuario será "padres separados" con los datos de ambos padres.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="p4">
+      <summary><div class="ico">✅</div><div class="s-txt"><h3><span class="step-pill">Paso 4</span> Prueba confirmada</h3><div class="sub">Formulario recibido → reservar hueco y registrar. (Sin mensaje a familia)</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Una vez realizado el formulario Google (TPT/IS), queda confirmada la prueba y:</p>
+        <ul><li>Reservar hueco en el horario.</li><li>En TPT, añadir comentario en el horario del profesional con: <strong>nombre, edad y necesidades</strong> (sacadas del cuestionario).</li><li>Actualizar Excel operativa.</li></ul>
+        <h4>Nomenclatura</h4>
+        <p><span class="nom">PG – Nombre niño (Nombre papá) Nº teléfono – Día</span></p>
+        <h4>🥇 Regla de oro: manipulación de filas</h4>
+        <div class="callout crit"><strong>Prohibición crítica:</strong> NO se pueden CREAR NI ELIMINAR FILAS manualmente en el Excel/Google Sheets. Garantiza que el sistema de gestión de datos funcione y no se desplace la información.</div>
+        <h4>Procedimiento según el tipo de registro</h4>
+        <p>Si el usuario no rellena el formulario directamente, la responsable de Atención a familias deberá actuar según esta lógica:</p>
+        <table class="tbl"><tr><th>Caso de uso</th><th>Acción requerida</th><th>Firmante (formulario)</th></tr>
+          <tr><td><strong>Caso excepcional:</strong> una PRUEBA sin que el usuario rellene el formulario</td><td>Rellenar nosotros el formulario con los datos del usuario</td><td>Fundación Pegasus</td></tr>
+          <tr><td><strong>Alta directa</strong> (sin prueba): siempre lo rellenamos nosotros</td><td>Rellenar nosotros el formulario con los datos del usuario</td><td>Fundación Pegasus</td></tr></table>
+        <h4>Validación de consentimiento legal</h4>
+        <p>Cuando rellenamos el formulario en lugar del usuario, debemos asegurar el respaldo legal:</p>
+        <table class="tbl"><tr><th>Situación</th><th>Requisito de validación</th><th>Pasos a seguir</th></tr>
+          <tr><td><strong>Prueba</strong></td><td>Confirmación (poco respaldo legal)</td><td>1. Enviar documento de Condiciones de Prueba. 2. Guardar captura de WhatsApp con la confirmación.</td></tr>
+          <tr><td><strong>Alta</strong> (sin prueba, directa)</td><td>No requiere WhatsApp</td><td>No es necesaria la captura de WhatsApp.</td></tr></table>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="p5">
+      <summary><div class="ico">🎯</div><div class="s-txt"><h3><span class="step-pill">Paso 5</span> Conversión a nuevo usuario <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Al día siguiente de la prueba: intentar la conversión.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Escribir al usuario <strong>al día siguiente</strong> (mensaje tipo) e intentar la conversión. Según la respuesta, se abren tres caminos.</p>
+        <details class="card" data-type="is" style="margin-top:14px;">
+          <summary><div class="ico">✅</div><div class="s-txt"><h3>Si se apunta <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Confirmar, tramitar alta y pedir datos.</div></div><div class="chev">▾</div></summary>
+          <div class="card-body">
+            <h4>Confirmar</h4>
+            <ul><li>Día y hora.</li><li>Suscripción económica.</li><li><strong>Descuento amigo:</strong> poner de parte de quién viene (nombre y apellidos) para aplicar el descuento a ambos.</li></ul>
+            <h4>Mensaje "Tramitar alta tras prueba gratuita"</h4>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">Para confirmar y reservar la plaza en (SERVICIO) el día (DÍA DE LA SEMANA Y HORA) e iniciar el (PRIMER DÍA DEL MES) en 📍(UBICACIÓN).
+
+Como te he comentado, el primer pago se realiza por transferencia. La cuenta de la Fundación Pegasus es: ES53 0049 5900 2128 1002 8911, con el concepto (CENTRO) TERAPIA + Nombre y apellidos del usuario.
+
+Te dejo desglosado el pago:
+- Matrícula / Suscripción Anual de (IMPORTE SEGÚN SERVICIO)
+- Mensualidad Suscripción Mensual/Anual de (IMPORTE)
+- Total: XXX€
+
+Cuando realicéis la transferencia, tenéis que enviar el justificante del banco por aquí 📩 Lo necesitamos para confirmar vuestra plaza 🤗</span></div>
+            <h4>Casuísticas de alta — pedir datos <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h4>
+            <p><strong>▶️ Alta tras prueba:</strong> tras recibir el pago, pedir por WhatsApp: correo, dirección con CP, diagnóstico, discapacidad y % (si aplica), centro educativo y datos bancarios (IBAN, titular, DNI, dirección; si el/la niño/a es titular, incluir cotitular).</p>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">Confirmado el horario los ___ de __h a __h ✅🤩🙌🏼
+
+Para poder daros de alta en el sistema, necesitamos los siguientes datos:
+📝 Nombre y apellidos del usuario:
+🆔 DNI (si tuviera):
+🎂 Fecha de nacimiento:
+🏠 Dirección:
+📍 Código postal:
+📧 Correo electrónico:
+🧑 Nombre y apellidos del tutor/a:
+🆔 DNI del tutor/a:
+💉 Diagnóstico (si tuviera) y % de discapacidad (si tuviera):
+¿Perteneces a alguna asociación? En caso de que sí, ¿a cuál?
+🏫 Centro escolar (si tuviera):
+🏦 Datos bancarios (IBAN, Titular, DNI del titular y dirección):</span></div>
+            <div class="callout info"><strong>▶️ Alta directa (sin prueba previa):</strong> tras recibir el pago, pedir la información completa: nombre y apellidos y fecha de nacimiento y DNI de la persona atendida, dirección con CP, nombre/apellidos y DNI del tutor legal, teléfono, correo, diagnóstico, discapacidad y % (si aplica), centro educativo y datos bancarios completos.</div>
+            <h4>Tras recibir el pago</h4>
+            <ul><li>Recibir justificante.</li><li>Revisar importe correcto (el indicado).</li><li>Ese importe será el que se introduzca en el Excel operativa para el alta en CRM.</li></ul>
+            <h4>Datos para alta en CRM (Excel operativa)</h4>
+            <ul><li>Revisar que ha rellenado los datos solicitados.</li><li>Casuística descuento amigo: nombre y apellidos de ambos usuarios.</li><li>Actualizar la pestaña <strong>«Alta»</strong> del Excel de Gestión Operativa.</li><li>Mencionar a la coordinadora correspondiente en el Excel Operativa para tramitar el alta.</li><li>Actualizar el <strong>Registro de captación</strong> y WhatsApp (etiqueta y situación).</li></ul>
+            <h4>Actualización de horario</h4>
+            <ul><li>Cambiar de <span class="nom">PG</span> a <span class="nom">N – Nombre usuario y teléfono</span>.</li><li><strong>Solo coordinación:</strong> cambiar nomenclatura de <span class="nom">A0</span>/<span class="nom">T0</span> a <span class="nom">A1</span>/<span class="nom">T1</span>.</li></ul>
+          </div>
+        </details>
+        <details class="card" data-type="crit" style="margin-top:12px;">
+          <summary><div class="ico">💛</div><div class="s-txt"><h3>Si no se apunta <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Despedida Pegasus adaptada a la familia.</div></div><div class="chev">▾</div></summary>
+          <div class="card-body">
+            <p>Enviar mensaje de despedida Pegasus, adaptado a lo que dice la familia.</p>
+            <h4>Si necesitan pensárselo</h4>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">¡Perfecto! 😊 No hay ningún problema.
+
+Entiendo que queráis valorarlo con calma y comentarlo en familia. Tómate el tiempo que necesitéis y, si os surge cualquier duda mientras tanto, estaré encantada de ayudaros.
+
+Cuando lo tengáis decidido, escribidme sin compromiso y vemos juntos cuál es la mejor opción.
+
+¡Muchas gracias por vuestro tiempo! 💙</span></div>
+            <h4>Si no es lo que buscaban</h4>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">¡Muchas gracias por haber venido a la prueba y por habernos conocido! 😊
+
+Entendemos que, en este momento, no sea lo que estáis buscando. Lo importante es que encontréis el recurso que mejor se adapte a vuestras necesidades 💙
+
+Y, por supuesto, si más adelante cambiáis de idea o creéis que podemos ayudaros en cualquier momento, aquí estaremos encantados de recibiros. 🫂🤗</span></div>
+            <div class="callout info">Actualizar la pestaña <strong>«Alta»</strong> del Excel de Gestión Operativa y el <strong>Registro de captación</strong> (etiqueta de WhatsApp como <strong>"No se apunta"</strong>), indicando motivo y observaciones.</div>
+          </div>
+        </details>
+        <details class="card" data-type="tpt" style="margin-top:12px;">
+          <summary><div class="ico">⌛</div><div class="s-txt"><h3>Lista de espera <span class="fam-tag">👨‍👩‍👧‍👦 Mensaje</span></h3><div class="sub">Repesca de usuarios en espera.</div></div><div class="chev">▾</div></summary>
+          <div class="card-body">
+            <p>Revisar el listado de usuarios en espera para llenar los servicios según las necesidades de captación.</p>
+            <div class="msg"><button class="copy">Copiar</button><span class="txt">👋 ¡Hola!
+
+Estamos revisando nuestra lista de espera para el servicio de XXXX de cara al mes de XXXXX 🍂.
+
+Queríamos saber si sigues interesad@ en conocernos y recibir información sobre nuestras sesiones 😊.
+
+Si es así, estaremos encantados de contactar contigo y resolver cualquier duda que puedas tener 💙.
+
+¡Quedamos atentos a tu respuesta! ✨</span></div>
+            <div class="callout tip">Adapta siempre el mensaje a la situación (servicio y mes).</div>
+            <div class="callout info">Actualizar la pestaña <strong>«Alta»</strong> del Excel de Gestión Operativa y el <strong>Registro de captación</strong> con la situación de lista de espera.</div>
+          </div>
+        </details>
+      </div>
+    </details>
+
+    <div class="sec-title">Otros procesos</div>
+    <p class="sec-sub">Procesos relacionados con la captación.</p>
+
+    <details class="card" data-type="info" id="cruce">
+      <summary><div class="ico">🔄</div><div class="s-txt"><h3>Cruce de usuarios Pegasus</h3><div class="sub">Derivación interna entre Terapias e Inclusive Sport.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p><strong>Objetivo:</strong> regular la derivación interna de usuarios que ya forman parte de Pegasus y quieren incorporarse a otro servicio, favoreciendo la continuidad, la coordinación y la trazabilidad.</p>
+        <div class="callout info">El cruce puede ser en ambos sentidos: terapia ↔ otra terapia, terapia ↔ Inclusive Sport, o entre actividades de Inclusive Sport. Ej.: un usuario de logopedia empieza piscina, o uno de piscina empieza psicología.</div>
+        <h4>1 · Registro inicial por Coordinación</h4>
+        <p>La coordinadora registra en el Excel TPT Operativa (apartado Optimización) al usuario interesado en el cruce.</p>
+        <div class="callout warn">Antes de este paso, el profesional ya habrá hablado con la familia y esta habrá mostrado interés en probar. Debe quedar reflejado: nombre del usuario, servicio actual, interés, profesional que propone el cruce y observaciones.</div>
+        <h4>2 · Derivación a Atención a familias</h4>
+        <ul><li>📩 Se envía a la familia el formulario para la prueba de IS/TPT.</li><li>📊 El usuario pasa automáticamente al Excel de Altas Operativa TPT/IS para seguimiento (prueba realizada, conversión/no conversión).</li></ul>
+        <div class="callout crit">Debe quedar indicado el campo <strong>«Cruce de usuario»</strong> y, <strong>en notas, el nombre del profesional</strong> que propone el cruce. Necesario para el seguimiento interno y el plus por cruce.</div>
+        <h4>3 · Resultado final y cierre</h4>
+        <p>Tras la prueba (✅ se da de alta / ❌ no), Atención a familias se coordina con la coordinadora de terapia para actualizar el estado en TPT Operativa → Optimización: si hubo conversión, si no, y el motivo.</p>
+        <h4>Consideraciones</h4>
+        <ul><li>Todo cruce debe estar validado por la familia.</li><li>El registro inicial en TPT Operativa es obligatorio.</li><li>Atención a familias es responsable del seguimiento de la prueba.</li><li>Coordinación y Atención a familias cierran juntas el proceso para garantizar trazabilidad y medición de conversión.</li><li>Los servicios pueden coexistir de forma complementaria; la identificación de profesional derivante y receptor es obligatoria.</li></ul>
+        <div class="callout tip"><strong>Matrícula gratuita el primer año:</strong> si es un usuario que <strong>ya está en Pegasus</strong> y se apunta a un servicio adicional <strong>sin darse de baja</strong> del que ya tiene, la matrícula de ese nuevo servicio es <strong>gratuita el primer año</strong>. Para reservar la plaza se cobran 25 €, que se devuelven en el primer recibo.</div>
+      </div>
+    </details>
+
+    <div class="sec-title" id="guia-terapias">Anexo · Guía práctica de terapias</div>
+    <p class="sec-sub">Para entender qué hace cada terapia y saber derivar sin ser terapeuta. No derivamos solo por diagnóstico, sino por lo que la persona necesita mejorar en su día a día.</p>
+    <div class="callout tip"><strong>Clave para captación:</strong> no tienes que diagnosticar. Solo piensa: ¿qué le cuesta en su vida diaria? · Movimiento → Fisioterapia · Comunicación → Logopedia · Emoción/pensamiento → Psicología · Autonomía, conducta o discapacidad severa → Terapia Ocupacional.</div>
+
+    <details class="ter"><summary><span class="tdot" style="background:var(--tpt-morado)"></span> Terapia Ocupacional</summary>
+      <div class="ter-body"><p>Muy frecuente en infancia y discapacidad. Cuando hay discapacidad severa, suele sentar la base para desarrollar las demás áreas.</p>
+        <h4 style="color:var(--tpt-morado)">¿Qué necesidades atiende?</h4>
+        <ul><li><strong>Discapacidad moderada/severa:</strong> mucha dependencia, no verbales, TEA con muchas necesidades, bajo nivel cognitivo, dificultad para entender normas.</li><li><strong>Actividades de la vida diaria:</strong> no se viste solo, problemas para comer, rutinas, sueño, organización.</li><li><strong>Regulación sensorial:</strong> le molestan ruidos/texturas, muy nervioso, necesidad de movimiento, rabietas.</li><li><strong>Habilidades sociales:</strong> no sabe jugar con otros, se aísla, no entiende normas.</li><li><strong>Motricidad fina/gruesa:</strong> mala letra, torpeza, caídas, dificultad con tijeras o lápiz.</li></ul>
+        <h4 style="color:var(--tpt-morado)">¿Qué hace?</h4><p>Juegos terapéuticos, circuitos motores, rutinas, regulación emocional, habilidades sociales, comunicación funcional y autonomía. <strong>Objetivo: mejorar el funcionamiento diario.</strong></p></div>
+    </details>
+    <details class="ter"><summary><span class="tdot" style="background:var(--is-verde)"></span> Logopedia</summary>
+      <div class="ter-body"><p>No solo niños con dificultades para hablar o leer: también adultos y personas con discapacidad severa.</p>
+        <h4 style="color:var(--is-verde)">¿Qué necesidades atiende?</h4>
+        <ul><li><strong>Comunicación en discapacidad:</strong> no verbales, TEA, parálisis cerebral, síndromes genéticos.</li><li><strong>Retraso del lenguaje:</strong> habla poco, frases simples, no entiende instrucciones.</li><li><strong>TEL / TDL:</strong> inteligencia normal pero grandes dificultades para expresarse o comprender.</li><li><strong>Dislexia:</strong> dificultad para leer, lectura lenta, confusión de letras.</li><li><strong>Deglución atípica / Disfagia:</strong> forma incorrecta de tragar; dificultad para tragar (mayores, ictus, discapacidad).</li><li><strong>Voz en adultos:</strong> ronquera, fatiga vocal, profesores, lesiones vocales.</li></ul>
+        <h4 style="color:var(--is-verde)">¿Qué hace?</h4><p>Juegos de lenguaje, pronunciación, comprensión, comunicación alternativa, lectoescritura, respiración/voz, deglución. <strong>Objetivo: mejorar comunicación, alimentación y calidad de vida.</strong></p></div>
+    </details>
+    <details class="ter"><summary><span class="tdot" style="background:var(--is-azul)"></span> Fisioterapia</summary>
+      <div class="ter-body"><h4 style="color:var(--is-azul)">¿Qué necesidades atiende?</h4>
+        <ul><li><strong>Discapacidad física o neurológica:</strong> parálisis cerebral, enfermedades neuromusculares, equilibrio, retraso motor.</li><li><strong>Problemas físicos (cualquier edad):</strong> dolor, lesiones, problemas posturales, recuperación tras cirugía.</li><li><strong>Personas mayores:</strong> prevención de caídas, mantener movilidad, dolor crónico.</li></ul>
+        <h4 style="color:var(--is-azul)">¿Qué hace?</h4><p>Ejercicio terapéutico, estiramientos, fuerza, equilibrio, reeducación de la marcha y movilizaciones. <strong>Objetivo: mejorar movilidad y autonomía física.</strong></p></div>
+    </details>
+    <details class="ter"><summary><span class="tdot" style="background:var(--tpt-rosa)"></span> Psicología</summary>
+      <div class="ter-body"><p>Importante también en infancia, no solo adultos.</p>
+        <h4 style="color:var(--tpt-rosa)">¿Qué necesidades atiende?</h4>
+        <ul><li><strong>Problemas emocionales:</strong> ansiedad, miedos, baja autoestima, tristeza, estrés.</li><li><strong>Conducta en niños pequeños:</strong> rabietas, normas, frustración (si puede comprender y participar).</li><li><strong>TDAH:</strong> técnicas de estudio en adolescentes, organización, autocontrol.</li><li><strong>Problemas familiares o personales.</strong></li></ul>
+        <h4 style="color:var(--tpt-rosa)">¿Qué hace?</h4><p>Escucha, estrategias emocionales, pensamiento y conducta, autoestima, hábitos. <strong>Objetivo: bienestar emocional y mental.</strong></p></div>
+    </details>
+    <details class="ter"><summary><span class="tdot" style="background:var(--naranja)"></span> Árbol de derivación</summary>
+      <div class="ter-body"><p><strong>Primera pregunta:</strong> ¿Qué es lo que más le está costando en su día a día?</p>
+        <div class="grid2"><div class="mini"><h5 style="color:var(--is-azul)">Físico / movimiento</h5><p>No camina bien, dolor, se cae, lesión, parálisis cerebral, equilibrio → <strong>Fisioterapia</strong></p></div><div class="mini"><h5 style="color:var(--is-verde)">Comunicación / voz / leer</h5><p>Habla poco, no pronuncia, no entiende, dislexia, TEL/TDL → <strong>Logopedia</strong></p></div><div class="mini"><h5 style="color:var(--tpt-rosa)">Emocional / mental</h5><p>Ansiedad, miedos, baja autoestima, problemas familiares, conducta → <strong>Psicología</strong></p></div><div class="mini"><h5 style="color:var(--tpt-morado)">Vida diaria / discapacidad severa</h5><p>No se viste solo, rabietas, no verbal, sensorial, social, rutinas → <strong>Terapia Ocupacional</strong></p></div></div>
+        <div class="callout tip"><strong>¿Dudas entre psicología y TO?</strong> ¿El niño puede hablar, comprender y reflexionar? Sí → Psicología · No, o mucha discapacidad → Terapia Ocupacional.</div></div>
+    </details>
+    <details class="ter"><summary><span class="tdot" style="background:var(--amarillo)"></span> 10 casos prácticos</summary>
+      <div class="ter-body"><table class="tbl"><tr><th>Caso</th><th>Derivación</th></tr>
+        <tr><td>1. "5 años, no habla y muchas rabietas"</td><td>Terapia Ocupacional + Logopedia</td></tr>
+        <tr><td>2. "9 años, lee fatal"</td><td>Logopedia (probable dislexia)</td></tr>
+        <tr><td>3. "Adulto con mucha ansiedad"</td><td>Psicología</td></tr>
+        <tr><td>4. "TDAH, no se concentra"</td><td>Niño pequeño → TO · Adolescente → Psicología</td></tr>
+        <tr><td>5. "Mi padre de 80 camina peor"</td><td>Fisioterapia</td></tr>
+        <tr><td>6. "Autismo, no juega con otros"</td><td>Terapia Ocupacional</td></tr>
+        <tr><td>7. "Habla bien pero muchos miedos"</td><td>Psicología</td></tr>
+        <tr><td>8. "Parálisis cerebral"</td><td>Fisio + TO + Logopedia (según necesidades)</td></tr>
+        <tr><td>9. "Muy torpe, se cae y mala letra"</td><td>Terapia Ocupacional</td></tr>
+        <tr><td>10. "Pronuncia muy mal"</td><td>Logopedia</td></tr></table></div>
+    </details>
+
+    <div class="nav-cta-wrap"><button class="nav-cta toguia" onclick="show('view-guia')">🧭 Ver guía de orientación →</button></div>
+    <footer>Fundación Pegasus · Proceso de Atención a familias (captación) · Fusión de Servicios 2026</footer>
+  </div>
+</div>
+</div>
+
+<!-- ==================== VISTA 2 · GUÍA DE ORIENTACIÓN ==================== -->
+<div class="view" id="view-guia">
+<button class="mobile-btn" data-sb="sb-guia" style="background:var(--is-azul);">☰</button>
+<aside class="sidebar" id="sb-guia">
+  <div class="sb-brand">
+    <span class="sb-home" onclick="show('home')">← Inicio</span>
+    <span class="tag">Guía interna · v3</span>
+    <h1>Guía de Orientación</h1>
+    <div class="sub">Cómo llevar la conversación · Mayo 2026</div>
+  </div>
+  <nav>
+    <a href="#g-top"><span class="sb-dot"></span> Inicio de la vista</a>
+    <a href="#g1"><span class="sb-dot"></span> 1 · Filosofía y flujo de llamada</a>
+    <a href="#g2"><span class="sb-dot"></span> 2 · Simulador de necesidades</a>
+    <a href="#g3"><span class="sb-dot"></span> 3 · Triaje emocional</a>
+    <a href="#g4"><span class="sb-dot"></span> 4 · TPT — Terapia Para Todos</a>
+    <a href="#g5"><span class="sb-dot"></span> 5 · IS — Inclusive Sport</a>
+    <a href="#g6"><span class="sb-dot"></span> 6 · Objeciones</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div id="g-top"></div>
+  <div class="hero guia">
+    <div class="hero-inner">
+      <span class="tag">Fundación Pegasus · Documento confidencial</span>
+      <h1>Guía de Orientación de captación</h1>
+      <p class="lead">Cómo escuchar, conectar y orientar a cada familia hacia el servicio correcto. Filosofía, flujo de llamada, simulador de necesidades, triaje emocional, servicios y objeciones.</p>
+      <div class="meta"><span>✅ = qué decir · 🚫 = qué evitar · 💡 = tip</span><span>Uso exclusivo del equipo</span></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="tb-btn js-expand">▽ Desplegar todo</button>
+      <button class="tb-btn js-collapse">△ Plegar todo</button>
+    </div>
+
+    <!-- 1 · FILOSOFÍA -->
+    <div class="sec-title g" id="g1">1 · Filosofía y flujo de llamada</div>
+    <p class="sec-sub">Da igual si vienen por TPT o IS, con diagnóstico o sin él. El primer contacto siempre empieza igual: escuchar, conectar y presentar el <strong>para qué</strong> antes del <strong>qué</strong>.</p>
+
+    <details class="card" data-type="is" id="g1-0" open>
+      <summary><div class="ico">👂</div><div class="s-txt"><h3><span class="step-pill g">Paso 0</span> Escucha activa <span style="font-size:12px;color:var(--ink-softer)">· 2-3 min</span></h3><div class="sub">No empieces hablando de Pegasus. Deja que cuenten.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Escucha sin interrumpir. Lo que digan aquí es el hilo del que tirar en todo el resto.</p>
+        <div class="q ok"><span class="lbl">✅ Pregunta de apertura</span>"Hola, ¿cómo puedo ayudarte? Cuéntame un poco qué os trae por aquí."</div>
+        <div class="callout tip">Nunca preguntes el diagnóstico primero. Pregunta qué le está costando en su vida diaria: eso te dice mucho más que el nombre de la condición.</div>
+        <div class="callout tip">Si llegan con diagnóstico, perfecto. Pero si no lo mencionan, no lo pidas. No lo necesitas para orientarles al servicio correcto.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g1-1">
+      <summary><div class="ico">💙</div><div class="s-txt"><h3><span class="step-pill g">Paso 1</span> Filosofía <span style="font-size:12px;color:var(--ink-softer)">· 3-4 min</span></h3><div class="sub">No normalizamos. Acompañamos.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>La mayoría de sitios trabajan para que el niño mejore objetivos clínicos. Nosotros, para algo más profundo: que sea feliz siendo quien es.</p>
+        <div class="q ok"><span class="lbl">✅ Frase clave</span>"En Pegasus no trabajamos para que tu hijo sea como los demás. Trabajamos para que sea lo más feliz posible siendo él mismo. Para nosotros el éxito no es que hable bien o que ande recto. El éxito es que se acepte y sea feliz."</div>
+        <div class="q ok"><span class="lbl">✅ Cuando preguntan si va a "mejorar"</span>"No te voy a prometer que vaya a hablar, porque nadie puede prometerte eso con honestidad. Lo que sí te puedo asegurar es que vamos a buscar que se comunique, que se acepte, y que sea lo más feliz posible."</div>
+        <div class="q ok"><span class="lbl">✅ La familia también</span>"Y no solo trabajamos con tu hijo. Trabajamos contigo. Porque sabemos que cuando la familia está bien, el niño está mejor."</div>
+        <div class="q no"><span class="lbl">🚫 Nunca digas</span>"Vamos a hacer que tu hijo mejore / hable / sea normal / se ponga al nivel de los demás."</div>
+        <div class="callout tip">Adapta el discurso al nivel de aceptación de la familia (ver <strong>Triaje emocional</strong>).</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g1-2">
+      <summary><div class="ico">🧭</div><div class="s-txt"><h3><span class="step-pill g">Paso 2</span> Orientación al servicio <span style="font-size:12px;color:var(--ink-softer)">· 2 min</span></h3><div class="sub">Terapéutico → TPT · Lúdico/social/deportivo → IS · Ambos → ambos.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Una vez has conectado emocionalmente, orienta al servicio.</p>
+        <div class="callout tip">Muchas familias vienen por ambos servicios. No los presentes como alternativas: "Algunas de nuestras familias vienen a terapia los martes y a la piscina los sábados."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g1-3">
+      <summary><div class="ico">🎲</div><div class="s-txt"><h3><span class="step-pill g">Paso 3</span> Metodología <span style="font-size:12px;color:var(--ink-softer)">· 2-3 min</span></h3><div class="sub">Todo ocurre a través del juego. Y trabajamos con la familia.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok"><span class="lbl">✅ IE + Juego</span>"Todo lo que hacemos pasa por el juego. Tu hijo no siente que está en terapia. Siente que se lo está pasando bien."</div>
+        <div class="q ok"><span class="lbl">✅ Papás al Juego (TPT)</span>"Tenemos algo llamado Papás al Juego: entramos a jugar contigo y tu hijo, para enseñarte a jugar con él en casa también."</div>
+        <div class="q ok"><span class="lbl">✅ Papás a la Charleta (TPT)</span>"Y tenemos las Charletas con familias: espacios para daros herramientas a vosotros. Para gestionar el día a día, aceptar la situación, no sentiros solos."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g1-4">
+      <summary><div class="ico">💶</div><div class="s-txt"><h3><span class="step-pill g">Paso 4</span> Precio y condiciones <span style="font-size:12px;color:var(--ink-softer)">· 1-2 min</span></h3><div class="sub">Nunca abras con el precio. Preséntalo tras conectar.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>Explica siempre <strong>por qué podemos tenerlo así</strong>:</p>
+        <ol><li><strong>El compromiso anual</strong> (lo más importante): de septiembre a julio nos permite planificar equipo, plazas y estructura. Esa previsibilidad hace posible el precio.</li></ol>
+        <div class="q ok"><span class="lbl">✅ Introducir el precio con contexto</span>"El precio está entre 17 y 26€ por sesión en TPT, y desde 40€ al mes en IS. Es entre un 55-60% más barato que el mercado. Podemos hacerlo, sobre todo, por vuestro compromiso anual."</div>
+        <div class="callout tip">Si preguntan el precio antes de hora, dilo con naturalidad y vuelve al valor: "Son unos 20€ por sesión. Y te cuento por qué podemos tenerlo tan bajo…"</div>
+        <div class="callout warn"><strong>Importante:</strong> explicar el compromiso anual aquí no significa cerrarlo ahora. El cierre sigue siendo la Sesión de Bienvenida. Pero la familia debe salir entendiendo que precio y compromiso van de la mano.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g1-5">
+      <summary><div class="ico">🤝</div><div class="s-txt"><h3><span class="step-pill g">Paso 5</span> Cierre <span style="font-size:12px;color:var(--ink-softer)">· 1 min</span></h3><div class="sub">Dos escenarios y ambos son buenos.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok"><span class="lbl">✅ Si tienen dudas o necesitan verlo antes</span>"Lo mejor que podéis hacer es venir a conocernos. Hacemos una Sesión de Bienvenida gratuita donde vuestro hijo juega directamente con el profesional. Sin compromiso. ¿Cuándo os viene bien?"</div>
+        <div class="q ok"><span class="lbl">✅ Si vienen muy dispuestos y quieren empezar ya</span>"Perfecto, si lo tenéis claro podemos formalizar el alta directamente y empezar. Os asignamos plaza, terapeuta y horario. La primera sesión será vuestra Sesión de Bienvenida de todas formas, así que no perdéis nada."</div>
+        <div class="q ok"><span class="lbl">✅ Si dudan tras proponer la Sesión de Bienvenida</span>"Entiendo que necesitéis tiempo. La Sesión de Bienvenida es exactamente para eso: para que lo veáis con vuestros propios ojos antes de comprometeros a nada."</div>
+        <div class="callout tip"><strong>Lectura clave:</strong> la Sesión de Bienvenida es para familias que necesitan ver antes de comprometerse. Si ya están convencidas, formalizar el alta directamente es lo mejor. No frenes a quien ya está listo para pagar ofreciéndole algo gratuito.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="crit" id="g1-jamas">
+      <summary><div class="ico">🚫</div><div class="s-txt"><h3>Lo que jamás debe pasar en captación</h3><div class="sub">Líneas rojas de la conversación.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>Hablar de precio antes de haber conectado emocionalmente.</li><li>Prometer resultados clínicos: "va a hablar", "va a mejorar", "se va a poner al nivel".</li><li>Compararse con otros centros o criticarlos.</li><li>Usar lenguaje clínico o de limitación: "su problema", "lo que le falta".</li><li>Hacer sentir a la familia que su situación es un problema que hay que corregir.</li><li>Abrumar con condiciones del contrato en la primera llamada.</li></ul>
+      </div>
+    </details>
+
+    <!-- 2 · SIMULADOR -->
+    <div class="sec-title g" id="g2">2 · Simulador de necesidades</div>
+    <p class="sec-sub">La familia no dirá "TEA con necesidades de comunicación funcional". Dirá "es un desastre y no para quieto". Esta sección te entrena para interpretarlo.</p>
+
+    <details class="card" data-type="info" id="g2-arbol" open>
+      <summary><div class="ico">🌳</div><div class="s-txt"><h3>Árbol de derivación — referencia rápida</h3><div class="sub">¿Qué le está costando más en su vida diaria?</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <table class="tbl g"><tr><th>Área</th><th>Ejemplos</th><th>Orientación TPT</th><th>Complemento IS</th></tr>
+          <tr><td>🦴 Movimiento / dolor / físico</td><td>No camina bien · caídas · parálisis cerebral</td><td>Fisioterapia o Terapia Acuática</td><td>+ PiscinaSUS</td></tr>
+          <tr><td>🗣️ Comunicación / voz / lectura</td><td>No habla · pronuncia mal · dislexia · TEL</td><td>Logopedia</td><td>+ IS grupo</td></tr>
+          <tr><td>💭 Emocional (reflexiona)</td><td>Ansiedad · miedos · baja autoestima · TDAH adolescente</td><td>Psicología</td><td>+ IS grupo pequeño</td></tr>
+          <tr><td>🧩 Autonomía / conducta / dependencia</td><td>No se viste solo · rabietas · no verbal · TDAH &lt;10 años</td><td>Terapia Ocupacional</td><td>+ PiscinaSUS o Fútbol Lúdico</td></tr>
+          <tr><td>🤝 Habilidades sociales (con discapacidad)</td><td>TEA · no juega con otros · Down</td><td>TO (TPT) + IS grupo</td><td>—</td></tr>
+          <tr><td>🤝 Habilidades sociales (sin diagnóstico)</td><td>Es tímido · no tiene amigos</td><td>IS grupo (puerta entrada)</td><td>+ Psicología si hay base emocional</td></tr>
+          <tr><td>🏊 Deporte / ocio / socialización</td><td>Que disfrute · que haga amigos · deporte adaptado</td><td>IS (principal) → escuchar señales de TPT</td><td>—</td></tr></table>
+        <div class="callout tip"><strong>Regla TO vs Psicología:</strong> ¿Puede hablar, comprender y reflexionar sobre lo que le pasa? Sí → <strong>Psicología</strong> · No o muy pequeño → <strong>Terapia Ocupacional</strong>.</div>
+        <div class="callout info"><strong>Regla general con IS:</strong> casi cualquier perfil puede complementar TPT con IS. La pregunta no es "¿encaja IS?" sino "¿qué modalidad?" — y eso lo orienta la Sesión de Bienvenida. La modalidad (piscina o seco) es orientativa, nunca cerrada.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="info" id="g2-rutaA">
+      <summary><div class="ico">🅰️</div><div class="s-txt"><h3>Ruta A · Me dicen lo que le cuesta en el día a día</h3><div class="sub">Las 5 subrutas según el área principal.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4 class="g">A1 · Movimiento, dolor o físico</h4>
+        <p><strong>Orientación:</strong> Fisioterapia (TPT) — o Terapia Acuática si el perfil responde mejor al agua.</p>
+        <div class="q ok">"Lo que describes encaja con lo que trabaja nuestro equipo de fisioterapia. No solo trabajan el movimiento: buscan que tu hijo pueda funcionar con más autonomía. Dependiendo del perfil, pueden trabajar en sala o en el agua — el fisioterapeuta lo valora en la primera sesión."</div>
+        <div class="q water"><span class="lbl">🌊 ¿Fisioterapia o Terapia Acuática?</span>Ambas las lleva el fisioterapeuta; la diferencia es el medio. Con espasticidad, hipotonicidad o dificultad para moverse en seco, la Terapia Acuática puede ser principal o complemento potente. Lo valora el fisioterapeuta en la Sesión de Bienvenida.</div>
+        <div class="q water"><span class="lbl">🏊 IS</span>PiscinaSUS. El agua reduce la resistencia y permite trabajar el movimiento de forma complementaria a la fisioterapia.</div>
+        <h4 class="g">A2 · Comunicación, habla o lectura</h4>
+        <p><strong>Orientación:</strong> Logopedia (TPT). <strong>El mensaje cambia según el triaje emocional:</strong></p>
+        <div class="q no"><span class="lbl">🔴 Nivel 1 (duelo)</span>No uses "el objetivo no es que hable". Valida primero: "Trabajamos con el logopeda para que tu hijo pueda comunicarse de la mejor forma posible para él. No te prometo que vaya a hablar de una forma concreta, pero sí que vamos a buscar que se exprese, que se haga entender y que sea lo más feliz posible."</div>
+        <div class="q ok"><span class="lbl">🟠 Nivel 2 (en proceso)</span>"Lo que trabaja el logopeda no es solo el habla. Trabaja la comunicación en el sentido más amplio: que pueda expresarse, hacerse entender y relacionarse. Y no de forma clínica: todo ocurre a través del juego. Además, trabajamos con vosotros también."</div>
+        <div class="q ok"><span class="lbl">🟢 Nivel 3 (aceptación)</span>"Nuestro enfoque no busca que hable de una forma concreta. Busca que pueda comunicarse de la mejor forma posible para él: palabras, gestos, pictogramas, lo que sea más natural y funcional." · <strong>IS:</strong> el complemento natural de la logopedia; lo que trabajan en sesión, lo practica en contexto real con otros niños.</div>
+        <h4 class="g">A3 · Emocional (el niño habla y puede reflexionar)</h4>
+        <p><strong>Orientación:</strong> Psicología (TPT).</p>
+        <div class="q ok">"Lo que describes encaja con psicología. No es solo para crisis graves: es para cualquier persona que necesite herramientas para gestionar lo que siente. Siempre desde el bienestar, no desde el diagnóstico."</div>
+        <div class="q water"><span class="lbl">🏊 IS</span>Refuerzo de autoestima y socialización. La psicología trabaja lo que el niño piensa y siente sobre sí mismo; IS le da un espacio donde demostrárselo con otros niños.</div>
+        <h4 class="g">A4 · Funcionar en el día a día, conducta o dependencia</h4>
+        <p><strong>Si no reflexiona o es muy pequeño → Terapia Ocupacional.</strong> <strong>Si habla y entiende pero no se organiza (TDAH):</strong> &lt;10 años → TO · ≥10 años → Psicología.</p>
+        <div class="q ok">"Encaja con terapia ocupacional. Se trabaja todo lo del funcionamiento diario: rutinas, regulación, relacionarse con los demás. Todo a través del juego."</div>
+        <div class="q water"><span class="lbl">🏊 IS</span>Practica en contexto real lo que TO trabaja en sesión: habilidades sociales, regulación, adaptación a normas. Para TDAH el deporte adaptado es casi tan importante como la terapia.</div>
+        <h4 class="g">A5 · Habilidades sociales o buscan grupo</h4>
+        <p><strong>Con discapacidad → TO (TPT) + IS grupo. Sin diagnóstico o leve → IS como puerta de entrada + Psicología si hay base emocional.</strong></p>
+        <div class="q ok">"Para las habilidades sociales tenemos dos cosas que se complementan: la terapia ocupacional (individual: relación con otros, regulación, adaptación) y IS (grupo pequeño de deporte adaptado donde lo practica con otros niños). Juntos son mucho más potentes."</div>
+        <div class="q ok">"Para un niño que necesita relacionarse y no sabe cómo, IS es el mejor sitio para empezar: no es terapia, es un grupo de deporte adaptado sin presión ni evaluación. Si además hay ansiedad o baja autoestima, lo complementamos con psicología."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="info" id="g2-rutaB">
+      <summary><div class="ico">🅱️</div><div class="s-txt"><h3>Ruta B · Me dicen el diagnóstico directamente</h3><div class="sub">Orientación principal + complemento IS.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <table class="tbl g"><tr><th>Diagnóstico</th><th>Orientación principal</th><th>Complemento IS</th></tr>
+          <tr><td>Parálisis cerebral / discapacidad física</td><td>Fisioterapia o Terapia Acuática (TPT)</td><td>PiscinaSUS</td></tr>
+          <tr><td>TEA — cualquier nivel</td><td>TO + Logopedia (TPT)</td><td>PiscinaSUS (especialmente indicado)</td></tr>
+          <tr><td>TDAH</td><td>TO (&lt;10 años) o Psicología (≥10 años)</td><td>Muy indicado. Fútbol Lúdico o PiscinaSUS</td></tr>
+          <tr><td>Síndrome de Down / síndromes genéticos</td><td>TO base + Fisio/Logo según necesidades</td><td>IS casi universal</td></tr>
+          <tr><td>Dislexia / TEL / dificultades lenguaje</td><td>Logopedia (TPT)</td><td>IS grupo para práctica en contexto real</td></tr></table>
+        <div class="q water"><span class="lbl">🏊 TEA — nota especial</span>PiscinaSUS es probablemente la combinación más potente para niños con TEA: el medio acuático regula el sistema nervioso, reduce la sobreestimulación y genera un entorno predecible. El grupo pequeño es el espacio natural para practicar las habilidades sociales de TO.</div>
+        <div class="callout info"><strong>Síndromes genéticos:</strong> en Pegasus cogemos todas las discapacidades porque no trabajamos el diagnóstico. Trabajamos cómo la persona y su familia afrontan la diferencia.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="info" id="g2-rutaC">
+      <summary><div class="ico">🅲</div><div class="s-txt"><h3>Ruta C · Vienen por IS (deporte / ocio)</h3><div class="sub">Dáselo, pero detecta necesidades terapéuticas detrás.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p><strong>Si mencionan diagnóstico:</strong></p>
+        <table class="tbl g"><tr><th>Diagnóstico</th><th>IS siempre + terapia sugerida</th></tr>
+          <tr><td>TEA / síndrome genético / DI</td><td>IS + TO (TPT)</td></tr>
+          <tr><td>Parálisis cerebral / problema físico</td><td>IS + Fisioterapia o Terapia Acuática (TPT)</td></tr>
+          <tr><td>TDAH</td><td>IS + TO (&lt;10) o Psicología (≥10)</td></tr>
+          <tr><td>Dislexia / TEL</td><td>IS + Logopedia (TPT)</td></tr></table>
+        <p><strong>Si describen dificultades cotidianas:</strong></p>
+        <table class="tbl g"><tr><th>Qué les cuesta</th><th>IS siempre + terapia sugerida</th></tr>
+          <tr><td>Movimiento / torpeza</td><td>IS + Fisioterapia o Terapia Acuática</td></tr>
+          <tr><td>Comunicación / habla</td><td>IS + Logopedia</td></tr>
+          <tr><td>Emocional / miedos / ansiedad</td><td>IS + Psicología</td></tr>
+          <tr><td>Autonomía / conducta / regulación</td><td>IS + TO</td></tr></table>
+        <div class="callout warn"><strong>Señales de venta cruzada hacia TPT</strong> (cuando dicen que solo buscan deporte): "le cuesta relacionarse" → TO/Psicología · "es muy torpe y se cae" → Fisioterapia · "le cuesta comunicarse" → Logopedia · "muchas rabietas / le cuesta regularse" → TO · "mucha ansiedad o miedos" → Psicología.</div>
+        <div class="q ok">"Muchas de las familias que están en IS también tienen a sus hijos en terapia con nosotros. No son cosas separadas: son dos puertas del mismo espacio. ¿Te cuento un poco más sobre lo que hacemos en el programa terapéutico?"</div>
+      </div>
+    </details>
+
+    <!-- 3 · TRIAJE -->
+    <div class="sec-title g" id="g3">3 · Triaje emocional de la familia</div>
+    <p class="sec-sub">No todas las familias están en el mismo punto. Saber dónde están emocionalmente te permite adaptar el discurso y conectar de verdad.</p>
+
+    <details class="card" data-type="n1" id="g3-1">
+      <summary><div class="ico">🔴</div><div class="s-txt"><h3>Nivel 1 · No aceptación</h3><div class="sub">Están en el duelo. Todavía buscan la cura.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>¿Cómo los reconoces?</h4>
+        <ul><li>"¿Vosotros vais a conseguir que hable?"</li><li>"Yo solo quiero que sea como los demás."</li><li>"En otro centro me dijeron que con fisio intensa…"</li><li>"¿Cuánto tiempo hasta que mejore?" · "¿Hasta dónde puede llegar?"</li><li>"Hemos probado de todo y nada funciona."</li></ul>
+        <div class="callout info"><strong>Tu objetivo:</strong> que no se sientan juzgados. Nada más. No intentes cambiar su mentalidad en esta llamada.</div>
+        <h4>Cómo hablar — paso a paso</h4>
+        <div class="q ok"><span class="lbl">1 · Valida el miedo</span>"Entiendo perfectamente que estéis buscando eso. Es lo más natural del mundo. Cualquier padre en vuestra situación lo haría igual."</div>
+        <div class="q ok"><span class="lbl">2 · Introduce el cambio con suavidad</span>"Nosotros os proponemos algo diferente: no trabajamos para que sea como los demás, trabajamos para que sea lo más feliz posible siendo él mismo."</div>
+        <div class="q ok"><span class="lbl">3 · La honestidad como diferencial</span>"No os voy a prometer que vaya a hablar, porque nadie puede prometéroslo con honestidad. Lo que sí os aseguro es que vamos a buscar que se comunique y que sea lo más feliz posible."</div>
+        <div class="q ok"><span class="lbl">4 · La familia también</span>"Y lo más importante: no vais a estar solos. Acompañamos a la familia también, no solo al niño."</div>
+        <div class="q no"><span class="lbl">🚫 Nunca en nivel 1</span>"Tenéis que aceptar la situación." / "Hay que cambiar la forma en que lo veis." — No confrontes. No prediques.</div>
+        <div class="callout tip">Escucha más de lo que hablas. No vayas aún a la metodología. Si lloran: para, deja silencio, "Tomad el tiempo que necesitéis". El cierre es la Sesión de Bienvenida, no el compromiso.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="n2" id="g3-2">
+      <summary><div class="ico">🟠</div><div class="s-txt"><h3>Nivel 2 · En proceso</h3><div class="sub">Ya saben lo que hay. Pero aún están procesando.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>¿Cómo los reconoces?</h4>
+        <ul><li>"Llevamos dos años buscando algo que de verdad le ayude."</li><li>"En otros sitios nos han tratado como un número."</li><li>"Yo también estoy agotada, ya no sé qué hacer."</li><li>"¿Cómo trabajáis con las familias?"</li><li>"Quiero que esté bien, pero también que sea feliz."</li></ul>
+        <div class="callout info"><strong>Tu objetivo:</strong> que se sientan acompañados, no solos. Puedes entrar con más fuerza en la filosofía y la metodología.</div>
+        <h4>Cómo hablar</h4>
+        <div class="q ok"><span class="lbl">✅ Valida el cansancio</span>"Lo que describes es agotador. Y es muy habitual. Muchas familias que llegan a Pegasus han pasado exactamente por lo mismo."</div>
+        <div class="q ok"><span class="lbl">✅ Lo que nos diferencia</span>"Nosotros no trabajamos solo con tu hijo. Trabajamos contigo. Porque cuando tú estás bien, él está mejor. Y eso en la mayoría de sitios no existe."</div>
+        <div class="q ok"><span class="lbl">✅ Papás al Juego + Charletas</span>"Tenemos dos herramientas pensadas para las familias: los Papás al Juego, donde entramos a jugar juntos, y las Charletas, sesiones para vosotros."</div>
+        <div class="callout tip">Es el perfil donde más funciona la empatía directa. Su objeción real no es el precio: es "¿esto de verdad va a ser diferente?". Respóndela antes de que la hagan.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="n3" id="g3-3">
+      <summary><div class="ico">🟢</div><div class="s-txt"><h3>Nivel 3 · Aceptación</h3><div class="sub">Han llegado a un lugar de paz. Buscan calidad.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>¿Cómo los reconoces?</h4>
+        <ul><li>"Ya hemos probado varios sitios, quiero entender qué hacéis vosotros."</li><li>"Para nosotros lo más importante es que esté feliz."</li><li>"¿Qué metodología usáis?"</li><li>"No quiero promesas, quiero saber cómo funciona."</li></ul>
+        <div class="callout info"><strong>Tu objetivo:</strong> demostrar rigor y profundidad metodológica. Ve directo a la diferencia real.</div>
+        <h4>Cómo hablar</h4>
+        <div class="q ok"><span class="lbl">✅ Responde con rigor, no con marketing</span>"Nuestra metodología se basa en dos pilares: la Inteligencia Emocional y el Juego. Todo lo que trabajamos ocurre a través del juego, de forma que no percibe que está en terapia."</div>
+        <div class="q ok"><span class="lbl">✅ Si preguntan por resultados</span>"No trabajamos con promesas de resultados concretos, porque sería deshonesto. Lo que sí te digo es que el cambio que notan las familias no es solo en el niño: es en toda la familia."</div>
+        <div class="callout tip">La honestidad es tu mejor arma. El compromiso anual no les asusta tanto: si buscan calidad a largo plazo, la permanencia tiene sentido. Preguntas difíciles → "Eso lo valoramos mejor en la Sesión de Bienvenida con el profesional."</div>
+      </div>
+    </details>
+
+    <!-- 4 · TPT -->
+    <div class="sec-title g" id="g4">4 · TPT — Terapia Para Todos</div>
+    <p class="sec-sub">El programa terapéutico. No es terapia clínica al uso: todo ocurre a través del juego.</p>
+
+    <details class="card" data-type="tpt" id="g4-quien">
+      <summary><div class="ico">👥</div><div class="s-txt"><h3>¿Quién viene a TPT?</h3><div class="sub">Necesitan apoyo emocional, no solo técnico.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>Familias con niños con discapacidad o diagnóstico.</li><li>Niños con dificultades sin diagnóstico formal (timidez, dificultades sociales, motrices).</li><li>Adultos con necesidades psicológicas (ansiedad, duelo, rupturas).</li></ul>
+        <div class="q ok"><span class="lbl">✅ Frase clave</span>"Terapia Para Todos es nuestro programa terapéutico. Pero no es terapia clínica al uso. Todo ocurre a través del juego. Tu hijo no va a sentir que está en terapia: va a sentir que se lo está pasando bien. Y mientras tanto, trabaja lo que necesita."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="g4-grupo">
+      <summary><div class="ico">🧑‍🤝‍🧑</div><div class="s-txt"><h3>Fomentamos pareja o grupo cuando es posible</h3><div class="sub">Mejor para el niño y precio más bajo.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>El niño aprende a relacionarse y comparte espacio con iguales.</li><li>Trabaja tolerancia a la frustración y habilidades sociales de forma natural.</li><li>El precio en pareja o grupo es más bajo.</li></ul>
+        <div class="q ok">"Siempre que podemos, intentamos que las sesiones sean en pareja o en un grupito pequeño. Para el niño es mejor porque aprende con otros, y para vosotros el precio también baja. Lo valoramos en la Sesión de Bienvenida según el perfil."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="g4-espec">
+      <summary><div class="ico">🩺</div><div class="s-txt"><h3>Las 5 especialidades de TPT</h3><div class="sub">TO · Logopedia · Fisioterapia · Psicología · Terapia Acuática.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <h4>🧩 Terapia Ocupacional</h4>
+        <p><strong>Para:</strong> niños con dependencia, conducta o discapacidad severa. Cuando hay discapacidad severa, suele ser la primera y la base sobre la que se añaden otras.</p>
+        <div class="q ok">"Trabaja todo lo del día a día: rutinas, autonomía, relacionarse con los demás, gestionar las emociones. Todo a través del juego."</div>
+        <h4>🗣️ Logopedia</h4>
+        <p><strong>Para:</strong> dificultades de comunicación, habla o lectura.</p>
+        <div class="q ok"><span class="lbl">✅ Cuando no habla</span>"Aunque no hable, el logopeda trabaja comunicación funcional: gestos, pictogramas, interacción. El objetivo no es que hable de una forma concreta, sino que pueda comunicarse."</div>
+        <h4>🦴 Fisioterapia</h4>
+        <p><strong>Para:</strong> problemas físicos, neuromotores o de movimiento.</p>
+        <div class="q ok">"Trabajan que tu hijo pueda moverse con más autonomía y menos limitaciones. No solo el movimiento: también que funcione mejor en su vida diaria."</div>
+        <h4>💭 Psicología</h4>
+        <p><strong>Para:</strong> niños, adolescentes o adultos que pueden reflexionar. También online para adultos. Criterio clave: puede hablar y reflexionar sobre lo que le pasa.</p>
+        <div class="q ok">"No es solo para crisis graves. Es para cualquier persona que necesite herramientas para gestionar lo que siente y vivir mejor."</div>
+        <h4>🌊 Terapia Acuática</h4>
+        <p>La lleva el fisioterapeuta. Mismo precio que fisioterapia (19,95€). Para perfiles que se benefician del trabajo terapéutico en el medio acuático.</p>
+        <div class="q ok">"La terapia acuática es fisioterapia en el agua. La flotabilidad reduce la carga articular, facilita movimientos difíciles en seco y tiene un efecto regulador para muchos perfiles."</div>
+        <table class="tbl g"><tr><th></th><th>🌊 Terapia Acuática (TPT)</th><th>🏊 PiscinaSUS (IS)</th></tr>
+          <tr><td>El agua es…</td><td>Medio de intervención clínica</td><td>Espacio de disfrute y socialización</td></tr>
+          <tr><td>Lo lleva…</td><td>Fisioterapeuta con objetivos terapéuticos</td><td>Educador deportivo con enfoque lúdico</td></tr>
+          <tr><td>Formato</td><td>Normalmente individual</td><td>Normalmente pareja o grupo</td></tr>
+          <tr><td>Indicada para…</td><td>Necesidad terapéutica específica en agua</td><td>Ocio, deporte y socialización</td></tr></table>
+        <div class="callout info"><strong>Especialmente indicada:</strong> parálisis cerebral y espasticidad, enfermedades neuromusculares, retraso motor severo/hipotonicidad, alta rigidez o dolor, y TEA con perfil sensorial que responde bien al agua. La indicación exacta la valora el fisioterapeuta en la Sesión de Bienvenida.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="g4-bienvenida">
+      <summary><div class="ico">🌟</div><div class="s-txt"><h3>Sesión de Bienvenida TPT — 40 min</h3><div class="sub">No la llames "sesión gratuita". Es la primera sesión real.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p><strong>Es una experiencia Pegasus:</strong> 40 min de sesión real con el terapeuta que le acompañará · el padre entra dentro y lo ve todo · estructura completa (preclase · calentamiento · parte principal · juego final · posclase) · sin compromiso, sin formularios, sin evaluaciones visibles.</p>
+        <div class="callout warn"><strong>No es:</strong> una entrevista clínica ni recogida de datos · una venta económica · una evaluación formal del usuario · una reunión con los padres mientras el niño espera fuera.</div>
+        <table class="tbl g"><tr><th>Fase</th><th>Tiempo</th><th>Qué ocurre</th></tr>
+          <tr><td>Preclase</td><td>4 min</td><td>Saludo Pegasus · pregunta al familiar · padre dentro desde el inicio</td></tr>
+          <tr><td>Calentamiento</td><td>6 min</td><td>Diálogo micro Pegasus · activación física · padre participante activo</td></tr>
+          <tr><td>Parte principal</td><td>20 min</td><td>Sesión gamificada A-B · material efecto Waouh · aprendizaje enmascarado</td></tr>
+          <tr><td>Juego final</td><td>6 min</td><td>Momento más espectacular · el usuario elige · alta energía</td></tr>
+          <tr><td>Posclase</td><td>4 min</td><td>Devolución positiva · puente con necesidades reales · apertura a Sesión 1</td></tr></table>
+        <div class="q ok"><span class="lbl">✅ Guion de invitación</span>"Antes de contarte todo lo que hacemos, nos gustaría que vinieras a conocernos. Hacemos una Sesión de Bienvenida donde tu hijo va a jugar directamente con el terapeuta. Tú puedes estar dentro y verlo todo. Sin compromiso, sin papeles."</div>
+        <div class="q ok"><span class="lbl">✅ Si preguntan "¿es gratis?"</span>"Sí. Lo gratuito es el precio. Lo que te llevas no tiene precio."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="tpt" id="g4-cond">
+      <summary><div class="ico">📋</div><div class="s-txt"><h3>Condiciones TPT</h3><div class="sub">Precios, matrícula, compromiso y bajas.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <table class="tbl g"><tr><th>Concepto</th><th>Detalle</th></tr>
+          <tr><td>Precio por sesión</td><td>17,95€ (Terapia Integral FMM) · 19,95€ (Fisioterapia · Terapia Acuática) · 25,95€ (TO, Psicología, Logopedia)</td></tr>
+          <tr><td>Matrícula anual</td><td>80€ (1 actividad) · 100€ (2 actividades). Reserva la plaza. No se devuelve.</td></tr>
+          <tr><td>Compromiso</td><td>Septiembre a julio (11 meses).</td></tr>
+          <tr><td>Pago</td><td>Domiciliación bancaria días 1-5 de cada mes.</td></tr>
+          <tr><td>Baja</td><td>Antes del día 20 del mes. Email: terapiaparatodos@fundacionpegasus.org</td></tr>
+          <tr><td>Descuentos familia</td><td>2ª terapia: 50% matrícula · 3ª: gratis · Otros familiares: 50% matrícula</td></tr>
+          <tr><td>Falta médica</td><td>Recuperable siempre que sea posible.</td></tr>
+          <tr><td>Festivos</td><td>Se descuentan de las sesiones mensuales.</td></tr></table>
+      </div>
+    </details>
+
+    <!-- 5 · IS -->
+    <div class="sec-title g" id="g5">5 · IS — Inclusive Sport</div>
+    <p class="sec-sub">El deporte es el fin en sí mismo: disfrute y socialización. Buscan que su hijo se lo pase bien y encaje, no rendimiento.</p>
+
+    <details class="card" data-type="is" id="g5-quien">
+      <summary><div class="ico">🏊</div><div class="s-txt"><h3>¿Quién viene a IS?</h3><div class="sub">Que disfrute, que socialice, que se sienta capaz.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>Principalmente familias con niños con discapacidad de 3 a 12 años.</li><li>También adultos con discapacidad.</li><li>Niños sin discapacidad (objetivo estratégico de crecimiento).</li></ul>
+        <div class="q ok"><span class="lbl">✅ Frase clave</span>"Inclusive Sport no es un club de natación normal. No buscamos que gane medallas. Buscamos que disfrute, que socialice, que se sienta capaz. Que salga del agua sonriendo. Eso es lo que importa."</div>
+        <div class="callout info"><strong>Diferencia con TPT:</strong> en IS el deporte es el fin (disfrute, socialización). En TPT es el medio para un objetivo terapéutico.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g5-grupo">
+      <summary><div class="ico">🤾</div><div class="s-txt"><h3>El grupo es la norma, no la excepción</h3><div class="sub">Abordamos la parte socioemocional, no solo el deporte.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p>IS está diseñado para trabajar en grupo. Es donde ocurre la magia: la socialización, la relación con iguales, el sentirse parte de algo.</p>
+        <div class="q ok">"En IS intentamos siempre que los niños estén en grupo o en pareja. Es donde más se trabaja: la relación con otros, el juego compartido, la socialización. Empezamos con una Sesión de Bienvenida para ver cómo responde tu hijo y asignarle el grupo que mejor encaja."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g5-bienvenida">
+      <summary><div class="ico">🌟</div><div class="s-txt"><h3>Sesión de Bienvenida IS — 30 min</h3><div class="sub">Diferencias clave respecto a TPT.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <ul><li>30 minutos (vs 40 en TPT).</li><li>Normalmente solo con el niño.</li><li>El educador no formaliza la plaza: después comunica a coordinación, que asigna grupo y formaliza el alta.</li><li>A veces se hace directamente en un grupo existente si el educador ve encaje inmediato.</li><li>Siempre se empieza individual salvo que el educador considere que el perfil encaja directamente en un grupo.</li></ul>
+        <table class="tbl g"><tr><th>Fase</th><th>Tiempo</th><th>Qué ocurre</th></tr>
+          <tr><td>Preclase</td><td>3 min</td><td>Saludo Pegasus · introducción breve</td></tr>
+          <tr><td>Calentamiento</td><td>4 min</td><td>Diálogo micro Pegasus · primer juego en el agua</td></tr>
+          <tr><td>Parte principal</td><td>12 min</td><td>Sesión gamificada A-B · material efecto Waouh · educador dentro del agua</td></tr>
+          <tr><td>Juego final</td><td>8 min</td><td>Momento más espectacular · el usuario elige · disfrute máximo</td></tr>
+          <tr><td>Posclase + comunicación</td><td>3 min</td><td>Devolución breve · el educador comunica a coordinación</td></tr></table>
+        <div class="q ok"><span class="lbl">✅ Si preguntan por grupo directamente</span>"Entendemos que prefiráis grupo, es muy habitual. Primero hacemos la Sesión de Bienvenida para ver cómo se desenvuelve en el agua. El medio acuático es muy diferente para cada niño y necesitamos verlo antes de asignarle el grupo que mejor encaje. Suele ser una sola sesión, y si vemos que encaja directamente en un grupo existente, lo dejamos ahí."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g5-modalidades">
+      <summary><div class="ico">⚽</div><div class="s-txt"><h3>Modalidades IS</h3><div class="sub">PiscinaSUS · Fútbol Lúdico + Multideporte.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <table class="tbl g"><tr><th>Modalidad</th><th>Público</th><th>Qué es</th></tr>
+          <tr><td>PiscinaSUS</td><td>Peques y adultos</td><td>Natación adaptada. Fomenta autonomía, coordinación y autoestima. El deporte rey de IS.</td></tr>
+          <tr><td>Fútbol Lúdico + Multideporte</td><td>Peques y adultos</td><td>Deporte adaptado sin competición, en formato lúdico. Foco en habilidades sociales, juego y disfrute.</td></tr></table>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g5-ecosistema">
+      <summary><div class="ico">🔗</div><div class="s-txt"><h3>IS + TPT — el ecosistema completo</h3><div class="sub">Dos puertas del mismo espacio.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"Muchas de nuestras familias vienen a terapia entre semana y a la piscina los sábados. IS y TPT no son alternativas, son dos puertas del mismo espacio. El vínculo con Pegasus es mucho más profundo cuando la familia está en los dos."</div>
+        <div class="callout info">Especialmente relevante para niños con TEA y TDAH: IS complementa muy bien el trabajo terapéutico de TPT.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="is" id="g5-cond">
+      <summary><div class="ico">📋</div><div class="s-txt"><h3>Condiciones IS</h3><div class="sub">Precios, matrícula, compromiso y bajas.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <table class="tbl g"><tr><th>Concepto</th><th>Detalle</th></tr>
+          <tr><td>Precio mensual</td><td>Individual: 51,95€/mes · Pareja/trío: 44,95€/mes · Grupo: 39-44,95€/mes</td></tr>
+          <tr><td>Matrícula anual</td><td>50€ (1 actividad) · 75€ (2 actividades). No se devuelve.</td></tr>
+          <tr><td>Compromiso</td><td>Septiembre a julio.</td></tr>
+          <tr><td>Pago</td><td>Domiciliación bancaria días 1-5 de cada mes.</td></tr>
+          <tr><td>Baja</td><td>Antes del día 20 del mes. Email: inclusivesport@fundacionpegasus.org</td></tr>
+          <tr><td>Descuentos hermanos</td><td>20% cuota hermanos en misma sesión · 50% matrícula 2º hermano · 3er hermano: matrícula gratis</td></tr>
+          <tr><td>Faltas</td><td>No recuperables (salvo lo previsto en el anexo de instalación).</td></tr>
+          <tr><td>Festivos</td><td>No se descuentan.</td></tr></table>
+      </div>
+    </details>
+
+    <!-- 6 · OBJECIONES -->
+    <div class="sec-title g" id="g6">6 · Objeciones</div>
+    <p class="sec-sub">Una objeción no es un no. Es una pregunta disfrazada de duda.</p>
+
+    <details class="card" data-type="warm" id="g6-julio">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Por qué hay que pagar julio si ya no hay sesiones?"</h3><div class="sub">Objeción al modelo anual — de las más importantes.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <p><strong>Lo que hay detrás:</strong> piensan en "pago por sesión". No entienden que no pagan sesiones: sostienen una plaza y un equipo.</p>
+        <div class="callout info"><strong>Entiéndelo tú primero:</strong> el compromiso es anual, de septiembre a julio (11 meses). En esos 11 meses Pegasus mantiene contratado al profesional, reserva la instalación, garantiza el horario y asegura la plaza. Julio es el cierre. No se factura agosto. Con 10 meses, el precio mensual tendría que ser más alto.</div>
+        <div class="q ok">"Entiendo la duda, es muy habitual. No estáis pagando sesiones, estáis sosteniendo una plaza. Tenemos a vuestro profesional contratado, la instalación reservada y el horario bloqueado 11 meses: de septiembre a julio. Julio es el cierre del ciclo. Si en julio no hubiera compromiso, el precio de los 10 meses anteriores tendría que ser más alto. Por eso podemos tener precios un 55-60% por debajo del mercado: porque las familias se comprometen hasta julio."</div>
+        <div class="callout tip">Si no lo entienden, usa la analogía del gimnasio de cuota anual: "pagas los 12 meses aunque en agosto no vayas." No te pongas defensivo: viene de no entender el modelo, no de querer escaparse.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-matricula">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Por qué hay que pagar matrícula?"</h3><div class="sub">Es la garantía de la plaza.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"La matrícula es lo que reserva la plaza para toda la temporada. No es una comisión: es tu garantía de que esa plaza es vuestra de septiembre a julio. Y cuando lo comparas con cualquier otro centro, la diferencia sigue siendo enorme."</div>
+        <div class="callout tip">Si tienen dos hijos, menciona los descuentos de hermanos en la matrícula.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-compromiso">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"Es un compromiso muy grande, necesito pensármelo"</h3><div class="sub">Para eso existe la Sesión de Bienvenida.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"Tiene todo el sentido que lo penséis. Por eso existe la Sesión de Bienvenida: para que no tengáis que comprometeros sin haber visto cómo trabajamos. El compromiso anual se firma después de que hayáis comprobado que esto es lo que buscáis, no antes. Venid a conocernos y decidís con toda la información."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-baja">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Y si necesitamos darnos de baja antes de julio?"</h3><div class="sub">Refuerza el valor de la permanencia antes de las condiciones.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"El compromiso anual —de septiembre a julio— es lo que hace posible que los precios sean lo que son. Es un acuerdo entre los dos: vosotros os comprometéis a estar y nosotros a tener el equipo, las plazas y la estructura disponible todo el año. Si en algún momento necesitáis parar, podéis hacerlo comunicándolo antes del día 20 del mes, y os acompañaríamos para buscar la mejor solución."</div>
+        <div class="callout crit"><strong>⚠️ DANGER JULIO:</strong> si la familia menciona varias veces la posibilidad de baja o el compromiso les genera mucha resistencia, comunícalo a tu coordinador al registrar el alta. Se marcará internamente para seguimiento preventivo en los meses críticos (mayo-julio). No abras tú el tema de las condiciones de reincorporación si no lo preguntan.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-precio">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"En otro centro me cuesta menos"</h3><div class="sub">Desplaza del precio al valor. Nunca critiques al otro.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"Puede haber precios similares en algunos sitios. Lo que cambia es qué hay detrás. En Pegasus no estáis pagando solo una hora de terapia. Estáis pagando una metodología pensada para el bienestar emocional de toda la familia, una trabajadora social incluida, vuestra coordinadora de referencia y un equipo que os acompaña en todo el proceso. Eso, en el mercado, no existe a este precio."</div>
+        <div class="callout tip">No entres en guerra de precios. Nunca digas que el otro sitio es peor.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-sueltas">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Por qué no hacéis sesiones sueltas?"</h3><div class="sub">El cambio que buscamos necesita continuidad.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"El trabajo que hacemos no funciona en sesiones sueltas. No por norma, sino porque el tipo de cambio que buscamos —emocional, de aceptación, de vínculo— necesita continuidad. Un niño que viene una semana sí y tres no, no desarrolla el vínculo con el profesional, que es la base de todo. Por eso el modelo es anual. Y por eso el precio puede ser lo que es."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-funciona">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Y si no funciona? Hemos probado muchas cosas."</h3><div class="sub">Para eso existe la Sesión de Bienvenida.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"Tiene todo el sentido que tengáis esa duda. Y es exactamente para eso que existe la Sesión de Bienvenida: para que lo comprobéis vosotros mismos antes de comprometeros. No os pedimos fe ciega. Os pedimos una hora. La mayoría de familias que vienen dicen que es la primera vez que su hijo no quiere irse."</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-diagnostico">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>"¿Vosotros trabajáis con [diagnóstico concreto]?"</h3><div class="sub">Atendemos todas las discapacidades.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"En Pegasus atendemos todas las discapacidades. Y no es marketing: es posible porque no trabajamos el diagnóstico. Trabajamos cómo la persona y su familia afrontan la diferencia. Lo que importa no es el nombre de la condición sino qué necesita en su vida diaria. Eso lo evaluamos en la Sesión de Bienvenida con el profesional."</div>
+        <div class="callout warn">Nunca digas que un caso está fuera de alcance sin que lo evalúe el equipo técnico. Ante la duda: la Sesión de Bienvenida.</div>
+      </div>
+    </details>
+
+    <details class="card" data-type="warm" id="g6-grupo-is">
+      <summary><div class="ico">💬</div><div class="s-txt"><h3>IS: "¿Por qué no empezamos en grupo directamente?"</h3><div class="sub">Primero la Sesión de Bienvenida para asignar bien.</div></div><div class="chev">▾</div></summary>
+      <div class="card-body">
+        <div class="q ok">"Entendemos que prefiráis grupo, es muy habitual. Primero hacemos la Sesión de Bienvenida para ver cómo se desenvuelve en el agua. El medio acuático es muy diferente para cada niño y necesitamos verlo antes de asignarle el grupo que mejor encaje con su perfil. Suele ser una sola sesión, y si encaja directamente en un grupo existente, lo dejamos ahí."</div>
+      </div>
+    </details>
+
+    <div class="nav-cta-wrap"><button class="nav-cta toproceso" onclick="show('view-proceso')">🎯 Ver proceso de captación →</button></div>
+    <footer>Fundación Pegasus · Guía interna de captación v3 · Mayo 2026 · Documento confidencial — uso exclusivo del equipo</footer>
+  </div>
+</div>
+</div>
+
+<script>
+// ===== View switching =====
+function show(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(view).classList.add('active');
+  document.querySelectorAll('.sidebar').forEach(s=>s.classList.remove('open'));
+  window.scrollTo(0,0);
+  setupSpy();
+}
+
+// ===== Expand / collapse all (scoped to active view) =====
+document.querySelectorAll('.js-expand').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelector('.view.active').querySelectorAll('details').forEach(d=>d.setAttribute('open',''));
+}));
+document.querySelectorAll('.js-collapse').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelector('.view.active').querySelectorAll('details').forEach(d=>d.removeAttribute('open'));
+}));
+
+// ===== Copy buttons =====
+document.querySelectorAll('.msg .copy').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    const txt=btn.parentElement.querySelector('.txt').innerText;
+    navigator.clipboard.writeText(txt).then(()=>{
+      const o=btn.textContent;btn.textContent='¡Copiado! ✓';
+      setTimeout(()=>btn.textContent=o,1500);
+    });
+  });
+});
+
+// ===== Mobile sidebar toggles =====
+document.querySelectorAll('.mobile-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const sb=document.getElementById(btn.dataset.sb);
+    if(sb) sb.classList.toggle('open');
+  });
+});
+
+// ===== Scroll-spy (scoped to active view) =====
+let spyPairs=[];
+function setupSpy(){
+  spyPairs=[];
+  const view=document.querySelector('.view.active');
+  if(!view) return;
+  view.querySelectorAll('.sidebar nav a[href^="#"]').forEach(a=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t) spyPairs.push([a,t]);
+  });
+  onScroll();
+}
+function onScroll(){
+  if(!spyPairs.length) return;
+  const y=window.scrollY+130;let idx=0;
+  spyPairs.forEach((p,i)=>{if(p[1].offsetTop<=y)idx=i;});
+  spyPairs.forEach((p,i)=>p[0].classList.toggle('active',i===idx));
+}
+window.addEventListener('scroll',onScroll);
+
+// ===== Sidebar click: open target card + close mobile =====
+document.querySelectorAll('.sidebar nav a[href^="#"]').forEach(l=>{
+  l.addEventListener('click',()=>{
+    if(window.innerWidth<=920) document.querySelectorAll('.sidebar').forEach(s=>s.classList.remove('open'));
+    setTimeout(()=>{
+      const t=document.querySelector(l.getAttribute('href'));
+      if(t&&t.tagName==='DETAILS'&&!t.hasAttribute('open')) t.setAttribute('open','');
+    },250);
+  });
+});
+</script>
+</body>
+</html>
