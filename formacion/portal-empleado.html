@@ -962,16 +962,24 @@ D.forEach(d=>{ d._c = CAMPOS.map(([k,peso])=>[norm(String(d[k]).replace(/<[^>]+>
 
 function encaja(palabras, t){
   const r = raiz(t); let mejor = 0;
+  const corto = t.length < 4;        // aún está escribiendo: "met", "se", "pa"
   for(const p of palabras){
     if(p===t) return 3;
-    if((t.length>=4 && p.startsWith(t)) || (p.length>=4 && t.startsWith(p))) mejor = Math.max(mejor,2);
+    // empezar a escribir ya vale. Con 2-3 letras puntúa menos, para que el
+    // que escribe la palabra entera siga saliendo antes.
+    if(p.startsWith(t)) mejor = Math.max(mejor, corto ? 1 : 2);
+    else if(!corto && p.length>=4 && t.startsWith(p)) mejor = Math.max(mejor,2);
     else if(r.length>=4 && (p.startsWith(r) || raiz(p)===r)) mejor = Math.max(mejor,1);
   }
   return mejor;
 }
 function buscar(q){
-  const toks = norm(q).split(' ').filter(t=>t.length>1 && !VACIAS.has(t));
-  if(!toks.length) return [];
+  const crudos = norm(q).split(' ').filter(t=>t.length>1);
+  if(!crudos.length) return [];
+  let toks = crudos.filter(t=>!VACIAS.has(t));
+  // si todo lo tecleado son palabras vacías ("me", "es", "para"), es que está
+  // a mitad de escribir una palabra, no que haya escrito una frase: se busca igual
+  if(!toks.length) toks = crudos;
   return D.map(d=>{
     let puntos = 0;
     for(const t of toks){
@@ -987,7 +995,7 @@ function buscar(q){
 const inp = document.getElementById('q'), box = document.getElementById('res');
 inp.addEventListener('input', e=>{
   const q = e.target.value.trim();
-  if(q.length<2){ box.classList.remove('on'); return }
+  if(q.length<2){ box.classList.remove('on'); return }   // con 2 letras ya se busca
   const hits = buscar(q).slice(0,8);
   box.innerHTML = hits.length
     ? hits.map(d=>`<a class="res" href="#/doc/${d.id}"><b>${esc(d.cod?d.cod+' · ':'')}${esc(limpio(d))}</b>
