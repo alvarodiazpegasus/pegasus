@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Rodríguez — Conferenciante, presentador y agitador</title>
+<meta name="robots" content="index,follow">
+<meta name="description" content="David Rodríguez. CEO de Fundación Pegasus. Conferenciante. Presentador. Lo suyo no es normal. Lo tuyo tampoco.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --verde: #08B75B;
+  --azul: #007EC3;
+  --morado: #974694;
+  --rosa: #E45E9B;
+  --rojo: #D6191B;
+  --amarillo: #F3D100;
+  --naranja: #ED7928;
+  --negro: #0A0A0A;
+  --negro-suave: #141414;
+  --gris: #888;
+  --gris-claro: #cfcfcf;
+  --blanco: #FFFFFF;
+  --crema: #FFE9B5;
+  --grad: linear-gradient(135deg, #08B75B 0%, #007EC3 18%, #974694 36%, #E45E9B 54%, #D6191B 72%, #ED7928 86%, #F3D100 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--negro);
+  color: var(--blanco);
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====== TIPOGRAFÍA ====== */
+.handwritten {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+.serif-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gris);
+  display: inline-block;
+}
+.crema { color: var(--crema); }
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* ====== LAYOUT ====== */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.container-narrow { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 120px 0; }
+@media (max-width: 768px) { .section { padding: 64px 0; } }
+
+/* ====== VIEW SWITCHING ====== */
+.view { display: none; }
+.view.active { display: block; animation: viewIn .45s ease; }
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== NAV ====== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: rgba(10,10,10,.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.nav-logo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  color: var(--blanco);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.nav-tab {
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 100px;
+  transition: color .25s, border-color .25s, background .25s;
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+}
+.nav-tab:hover { color: var(--crema); border-color: var(--crema); }
+.nav-cta {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 100px;
+  background: var(--crema);
+  color: var(--negro);
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,233,181,.28); }
+
+/* Menú estilo web (pestañas centrales) */
+.nav-menu {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 100px;
+}
+.nav-link {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.65);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  padding: 9px 18px;
+  border-radius: 100px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .25s, background .25s;
+}
+.nav-link:hover { color: var(--blanco); background: rgba(255,255,255,.06); }
+body[data-view="david"] .nav-link[data-go="david"],
+body[data-view="propuesta"] .nav-link[data-go="propuesta"] {
+  color: var(--negro);
+  background: var(--crema);
+}
+.nav-cta-wrap { display: flex; gap: 8px; }
+
+@media (max-width: 820px) {
+  .nav { padding: 14px 18px; gap: 8px; }
+  .nav-logo { font-size: 0.9rem; }
+  .nav-menu { padding: 3px; gap: 2px; }
+  .nav-link { font-size: 0.74rem; padding: 7px 12px; letter-spacing: 0; }
+}
+@media (max-width: 560px) {
+  .nav-cta { padding: 8px 14px; font-size: 0.78rem; }
+  .nav-link { font-size: 0.7rem; padding: 6px 10px; }
+}
+
+/* Visibilidad del nav según vista activa */
+body[data-view="david"] [data-show="propuesta"] { display: none !important; }
+body[data-view="propuesta"] [data-show="david"] { display: none !important; }
+
+/* ============================================================ */
+/* ============   VISTA DAVID — Quien es David     ============ */
+/* ============================================================ */
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; padding-bottom: 0; }
+}
+.hero-blob {
+  position: absolute;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-blob-1 { top: -120px; left: -120px; background: linear-gradient(135deg, #ED7928, #F3D100); }
+.hero-blob-2 { bottom: -120px; left: 30%; background: linear-gradient(135deg, #D6191B, #ED7928); opacity: .35; }
+
+.hero-text {
+  padding: 0 32px 0 80px;
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 1100px) { .hero-text { padding: 0 32px; } }
+
+.hero-quien {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gris-claro);
+  margin-bottom: 16px;
+}
+.hero-name {
+  font-size: clamp(3rem, 6.5vw, 5.4rem);
+  margin-bottom: 28px;
+  color: var(--blanco);
+}
+.hero-name .first  { display: block; }
+.hero-name .second { display: block; }
+.hero-tagline {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gris-claro);
+  margin-bottom: 40px;
+}
+.hero-tagline span { color: var(--crema); font-weight: 700; }
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 30px;
+  border-radius: 100px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.02em;
+  transition: transform .25s, box-shadow .25s, background .25s;
+}
+.btn-primary { background: var(--crema); color: var(--negro); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255,233,181,.25); }
+.btn-ghost { background: transparent; color: var(--blanco); border: 1.5px solid rgba(255,255,255,.4); }
+.btn-ghost:hover { background: rgba(255,255,255,.08); border-color: var(--blanco); }
+
+.hero-photo {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background-image: url('imagenes/david-rodriguez/hero-mirando-arriba.jpg');
+  background-size: cover;
+  background-position: center top;
+  z-index: 1;
+}
+.hero-photo::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--negro) 0%, transparent 18%, transparent 82%, rgba(10,10,10,.4) 100%);
+}
+@media (max-width: 900px) {
+  .hero-photo { height: 70vh; min-height: 500px; }
+  .hero-photo::before { background: linear-gradient(180deg, transparent 50%, var(--negro) 100%); }
+}
+
+/* MISIÓN */
+.mision {
+  padding: 140px 32px;
+  text-align: center;
+  position: relative;
+}
+.mision-eyebrow { margin-bottom: 32px; }
+.mision-quote {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  line-height: 1.05;
+  max-width: 1100px;
+  margin: 0 auto 32px;
+  letter-spacing: -0.015em;
+}
+.mision-quote em {
+  font-style: italic;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.mision-author {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: var(--gris);
+}
+
+/* TILT VIDEO */
+.tilt-section {
+  padding: 60px 32px 140px;
+  display: flex;
+  justify-content: center;
+  perspective: 1400px;
+}
+.tilt-card {
+  width: min(94vw, 1100px);
+  aspect-ratio: 16/10;
+  border-radius: 28px;
+  border: 6px solid #1a1a1a;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  box-shadow:
+    0 0 0 #0000004d,
+    0 9px 20px #0000004a,
+    0 37px 37px #00000042,
+    0 84px 50px #00000026,
+    0 149px 60px #0000000a;
+  will-change: transform;
+}
+.tilt-card img { width: 100%; height: 100%; object-fit: cover; }
+.tilt-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: var(--rojo);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 12px 40px rgba(214,25,27,.5), 0 0 0 12px rgba(255,255,255,.08);
+  transition: transform .3s, box-shadow .3s;
+}
+.tilt-play::after {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 22px 0 22px 36px;
+  border-color: transparent transparent transparent var(--blanco);
+  margin-left: 8px;
+}
+.tilt-play:hover { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 20px 60px rgba(214,25,27,.7), 0 0 0 16px rgba(255,255,255,.1); }
+.tilt-caption {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(10px);
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* FLOW */
+.flow { padding: 100px 32px; background: var(--negro-suave); }
+.flow-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 900px) { .flow-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+.flow-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.flow-photos figure {
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #000;
+}
+.flow-photos figure:first-child { grid-column: 1 / 3; aspect-ratio: 16/9; }
+.flow-photos img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s; }
+.flow-photos figure:hover img { transform: scale(1.05); }
+
+.flow-text h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+  line-height: 0.95;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  color: var(--blanco);
+}
+.flow-text h3 {
+  color: var(--crema);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 28px;
+}
+.flow-text p { color: var(--gris-claro); margin-bottom: 18px; font-size: 1.05rem; }
+.flow-text strong { color: var(--blanco); font-weight: 700; }
+
+/* SERVICIOS */
+.servicios { padding: 140px 32px; }
+.servicios-header { text-align: center; max-width: 760px; margin: 0 auto 80px; }
+.servicios-header h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+  line-height: 0.95;
+  margin: 16px 0;
+  letter-spacing: -0.02em;
+}
+.servicios-header p { color: var(--gris-claro); font-size: 1.1rem; max-width: 580px; margin: 0 auto; }
+
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) { .servicios-grid { grid-template-columns: 1fr; } }
+
+.servicio {
+  background: var(--negro-suave);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 28px;
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s, border-color .35s;
+}
+.servicio:hover { transform: translateY(-8px); border-color: rgba(255,233,181,.3); }
+.servicio::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .25;
+  transition: opacity .35s;
+}
+.servicio:hover::before { opacity: .5; }
+.servicio-1::before { background: linear-gradient(135deg, #D6191B, #ED7928); }
+.servicio-2::before { background: linear-gradient(135deg, #974694, #E45E9B); }
+.servicio-3::before { background: linear-gradient(135deg, #08B75B, #007EC3); }
+
+.servicio-num {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 3.6rem;
+  line-height: 1;
+  color: var(--crema);
+  margin-bottom: 24px;
+  letter-spacing: -0.04em;
+  position: relative;
+  z-index: 2;
+}
+.servicio h3 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 2;
+}
+.servicio p { color: var(--gris-claro); font-size: 0.97rem; position: relative; z-index: 2; }
+.servicio-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+.servicio-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 5px 11px;
+  border-radius: 100px;
+  color: var(--gris-claro);
+}
+
+/* EMPRESAS */
+.empresas { padding: 120px 32px; background: var(--negro-suave); text-align: center; }
+.empresas-header { max-width: 760px; margin: 0 auto 60px; }
+.empresas h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.empresas h2 span { color: var(--crema); }
+.empresas p { color: var(--gris-claro); font-size: 1.1rem; }
+
+.logos-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255,255,255,.04);
+}
+@media (max-width: 768px) { .logos-grid { grid-template-columns: repeat(2, 1fr); } }
+.logo-cell {
+  padding: 36px 24px;
+  min-height: 130px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--negro);
+  transition: background .3s, transform .3s;
+}
+.logo-cell:hover { background: #181818; transform: translateY(-2px); }
+.logo-cell img {
+  max-width: 100%;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: brightness(1.1) contrast(1.05);
+  transition: opacity .3s;
+}
+.logo-cell:hover img { opacity: 1; }
+.logo-cell-text {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,.78);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-cell-text::before {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 8px 14px 8px;
+  border-color: transparent transparent rgba(255,255,255,.78) transparent;
+  display: inline-block;
+}
+.logo-cell:hover .logo-cell-text { color: var(--blanco); }
+.logo-cell:hover .logo-cell-text::before { border-bottom-color: var(--blanco); }
+
+/* PROGRAMAS */
+.programas { padding: 140px 32px; }
+.programas-header { text-align: center; max-width: 800px; margin: 0 auto 80px; }
+.programas-header h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1;
+  margin: 16px 0;
+  letter-spacing: -0.02em;
+}
+.programas-header p { color: var(--gris-claro); font-size: 1.1rem; }
+
+.programas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) { .programas-grid { grid-template-columns: 1fr; } }
+
+.programa { background: var(--negro-suave); border-radius: 24px; overflow: hidden; transition: transform .35s; }
+.programa:hover { transform: translateY(-6px); }
+.programa-img { aspect-ratio: 1.4/1; overflow: hidden; }
+.programa-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s; }
+.programa:hover .programa-img img { transform: scale(1.06); }
+.programa-body { padding: 28px 28px 32px; }
+.programa h3 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.programa-tpt h3 { color: #E45E9B; }
+.programa-is h3  { color: #08B75B; }
+.programa-ind h3 { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.programa p { color: var(--gris-claro); font-size: 0.97rem; }
+
+/* INFLUENCER */
+.influencer { padding: 140px 32px; background: var(--negro-suave); }
+.influencer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 900px) { .influencer-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+.influencer-text h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1;
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+}
+.influencer-text > p { color: var(--gris-claro); font-size: 1.05rem; margin-bottom: 32px; }
+.influencer-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.stat {
+  background: var(--negro);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 24px;
+  border-radius: 18px;
+}
+.stat-num {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 2.4rem;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--gris);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.influencer-socials { display: flex; gap: 12px; flex-wrap: wrap; }
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: 100px;
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: background .25s, border-color .25s;
+}
+.social:hover { background: rgba(255,255,255,.08); border-color: var(--blanco); }
+
+.influencer-visual {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+}
+.influencer-visual img { width: 100%; height: 100%; object-fit: cover; }
+.tiktok-badge {
+  position: absolute;
+  bottom: 24px; left: 24px; right: 24px;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  padding: 18px 22px;
+  display: flex; align-items: center; gap: 16px;
+}
+.tiktok-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--blanco);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.tiktok-text-num {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.tiktok-text-label { font-size: 0.78rem; color: var(--gris-claro); letter-spacing: 0.1em; }
+
+/* CTA FINAL DAVID */
+.cta-final {
+  padding: 160px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-final-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('imagenes/david-rodriguez/escenario-dosis2024.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(.32) saturate(1.1);
+  z-index: 0;
+}
+.cta-final > * { position: relative; z-index: 2; }
+.cta-final-eyebrow { color: var(--crema); margin-bottom: 24px; }
+.cta-final-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  line-height: 0.95;
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+}
+.cta-final p { color: var(--gris-claro); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; }
+.btn-grande {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--crema);
+  color: var(--negro);
+  padding: 22px 44px;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: transform .25s, box-shadow .25s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-grande:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 24px 60px rgba(255,233,181,.4); }
+
+/* ============================================================ */
+/* ===========   VISTA PROPUESTA (plantilla)       =========== */
+/* ============================================================ */
+
+.p-hero {
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 32px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.p-hero-blob {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.p-hero-blob-1 { top: -120px; right: -80px; background: linear-gradient(135deg, #ED7928, #F3D100); opacity: .4; }
+.p-hero-blob-2 { bottom: -120px; left: -80px; background: linear-gradient(135deg, #D6191B, #974694); opacity: .35; }
+
+.p-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.p-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.p-hero-meta-item {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--crema);
+  padding: 8px 16px;
+  border: 1px solid rgba(255,233,181,.4);
+  border-radius: 100px;
+}
+.p-hero-title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  max-width: 1000px;
+}
+.p-hero-title .a {
+  display: block;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.p-hero-sub {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  color: var(--gris-claro);
+  max-width: 720px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.p-section { padding: 100px 0; }
+.p-eyebrow { margin-bottom: 24px; }
+.p-stitle {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.p-text { font-size: 1.08rem; color: var(--gris-claro); margin-bottom: 18px; }
+.p-text strong { color: var(--blanco); font-weight: 700; }
+
+/* ENCARGO */
+.encargo { background: var(--negro-suave); padding: 100px 0; }
+.encargo-grid {
+  max-width: 1100px;
+  margin: 32px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 0 32px;
+}
+@media (max-width: 768px) { .encargo-grid { grid-template-columns: 1fr; padding: 0 24px; } }
+.dia-card {
+  background: var(--negro);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.dia-card::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .25;
+}
+.dia-card-0::before { background: linear-gradient(135deg, #08B75B, #007EC3); }
+.dia-card-1::before { background: linear-gradient(135deg, #D6191B, #ED7928); }
+.dia-card-2::before { background: linear-gradient(135deg, #974694, #E45E9B); }
+.dia-num {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 2.4rem;
+  color: var(--crema);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+  position: relative; z-index: 2;
+}
+.dia-fecha {
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 24px;
+  position: relative; z-index: 2;
+}
+.dia-card h3 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  position: relative; z-index: 2;
+}
+.dia-card p { color: var(--gris-claro); font-size: 1rem; position: relative; z-index: 2; }
+.dia-pieces { margin-top: 24px; position: relative; z-index: 2; }
+.dia-piece {
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.dia-piece:first-of-type { border-top: 1px solid rgba(255,255,255,.18); }
+.dia-piece-time {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crema);
+  flex-shrink: 0;
+  min-width: 90px;
+  padding-top: 3px;
+}
+.dia-piece-desc { font-size: 0.97rem; color: var(--gris-claro); }
+.dia-piece-desc strong { color: var(--blanco); }
+
+/* POR QUÉ DAVID */
+.por-que-david { padding: 100px 0; }
+.pqd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 900px) { .pqd-grid { grid-template-columns: 1fr; gap: 48px; } }
+.pqd-photo {
+  border-radius: 28px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: var(--negro-suave);
+  position: relative;
+}
+.pqd-photo img { width: 100%; height: 100%; object-fit: cover; }
+.pqd-photo-caption {
+  position: absolute;
+  bottom: 24px; left: 24px; right: 24px;
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  color: var(--gris-claro);
+  line-height: 1.4;
+}
+.pqd-photo-caption strong { color: var(--crema); display: block; font-size: 0.94rem; margin-bottom: 2px; }
+
+.pqd-text h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+.pqd-text p { color: var(--gris-claro); font-size: 1.05rem; margin-bottom: 18px; }
+.pqd-text strong { color: var(--blanco); }
+
+.pqd-stats {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.pqd-stat-num {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.6rem;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.pqd-stat-label {
+  font-size: 0.74rem;
+  color: var(--gris);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* CONFERENCIA */
+.conferencia {
+  background: linear-gradient(135deg, #1a0a0a 0%, #0A0A0A 50%, #1a0a14 100%);
+  padding: 110px 0;
+  position: relative;
+  overflow: hidden;
+}
+.conferencia::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(214,25,27,.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+.conferencia-content {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 2;
+}
+.conferencia-quote {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 24px 0 32px;
+}
+.conferencia-quote em {
+  font-style: italic;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.conferencia p { color: var(--gris-claro); font-size: 1.08rem; margin-bottom: 18px; }
+.conferencia strong { color: var(--blanco); }
+
+/* NO ESPERES */
+.no-esperes { padding: 100px 32px; }
+.no-esperes-grid {
+  max-width: 1100px;
+  margin: 32px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 768px) { .no-esperes-grid { grid-template-columns: 1fr; } }
+.no-card {
+  background: var(--negro-suave);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 28px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.no-x {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--verde);
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+.no-card h4 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+.no-card p { color: var(--gris-claro); font-size: 0.95rem; }
+
+/* CONDICIONES */
+.condiciones { padding: 80px 32px; background: var(--negro-suave); }
+.condiciones-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 768px) { .condiciones-grid { grid-template-columns: 1fr; } }
+.cond-card {
+  background: var(--negro);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.cond-icon {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: rgba(255,233,181,.12);
+  border: 1px solid rgba(255,233,181,.3);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  font-size: 1.1rem;
+}
+.cond-card h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.02em; }
+.cond-card p { color: var(--gris-claro); font-size: 0.92rem; }
+
+/* PRESUPUESTO */
+.presupuesto { padding: 120px 32px; }
+.presupuesto-card {
+  max-width: 880px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #1a1a1a 0%, var(--negro) 100%);
+  border: 1.5px solid rgba(255,233,181,.3);
+  border-radius: 32px;
+  padding: 56px;
+  position: relative;
+  overflow: hidden;
+}
+.presupuesto-card::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ED7928, #F3D100);
+  filter: blur(100px);
+  opacity: .25;
+}
+@media (max-width: 768px) { .presupuesto-card { padding: 36px 28px; } }
+.presupuesto-card > * { position: relative; z-index: 2; }
+.presupuesto-pretitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--crema);
+  margin-bottom: 18px;
+}
+.presupuesto-titulo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 32px;
+  max-width: 700px;
+}
+.precio-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.precio-monto {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(3.4rem, 7vw, 5.5rem);
+  line-height: 1;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+.precio-iva {
+  font-size: 1rem;
+  color: var(--gris-claro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pack-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--crema);
+  margin-bottom: 14px;
+}
+.pack-list { list-style: none; }
+.pack-list li {
+  padding: 10px 0;
+  font-size: 0.97rem;
+  color: var(--gris-claro);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.pack-list li::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--crema);
+  color: var(--negro);
+  font-size: 0.7rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* CTA FINAL PROPUESTA */
+.p-cta-final {
+  text-align: center;
+  padding: 120px 32px 100px;
+}
+.p-cta-final h2 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.p-cta-final h2 span {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.p-cta-final p {
+  color: var(--gris-claro);
+  max-width: 580px;
+  margin: 0 auto 36px;
+  font-size: 1.05rem;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  background: var(--negro);
+  padding: 80px 32px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.footer-eslogan {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.footer-eslogan span { color: var(--crema); }
+.footer-tag {
+  font-size: 0.85rem;
+  color: var(--gris);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  font-weight: 700;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 880px;
+  margin: 0 auto 40px;
+  padding: 32px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  gap: 24px;
+}
+@media (max-width: 700px) { .footer-grid { grid-template-columns: 1fr; } }
+.footer-col-label {
+  font-size: 0.72rem;
+  color: var(--gris);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.footer-col a {
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.footer-col a:hover { color: var(--crema); }
+.footer-meta {
+  font-size: 0.74rem;
+  color: rgba(255,255,255,.4);
+  letter-spacing: 0.06em;
+}
+
+.fade-in { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+
+/* ---- Correcciones de desbordamiento horizontal (heredadas de las landings previas) ---- */
+/* La tarjeta con efecto tilt se escala a 1.05 y en pantallas intermedias asoma
+   fuera del ancho de la ventana. `clip` la recorta sin crear un contenedor de
+   scroll, así que el nav sticky sigue funcionando. */
+html { overflow-x: clip; }
+
+@media (max-width: 768px) {
+  .influencer-grid  { grid-template-columns: minmax(0, 1fr); }
+  .influencer-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .influencer-grid > *, .influencer-stats > * { min-width: 0; }
+}
+</style>
+</head>
+<body data-view="david">
+
+<nav class="nav">
+  <a href="#" class="nav-logo" data-go="david">David Rodríguez</a>
+  <div class="nav-cta-wrap">
+    <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Quiero%20contratar%20a%20David%20Rodr%C3%ADguez" class="nav-cta" data-show="david">Contratar →</a>
+  </div>
+</nav>
+
+<main class="view view-david active">
+
+  <section id="hero" class="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-text">
+      <p class="hero-quien">QUIÉN ES</p>
+      <h1 class="hero-name handwritten">
+        <span class="first">DAVID</span>
+        <span class="second">RODRÍGUEZ</span>
+      </h1>
+      <p class="hero-tagline">Y POR QUÉ <span>"LO SUYO NO ES NORMAL"</span></p>
+      <div class="hero-ctas">
+        <a href="#video" class="btn btn-primary">Ver una de sus charlas</a>
+        <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Quiero%20contratar%20a%20David%20Rodr%C3%ADguez" class="btn btn-ghost">Quiero contratarlo</a>
+      </div>
+    </div>
+    <div class="hero-photo" role="img" aria-label="David Rodríguez"></div>
+  </section>
+
+  <section class="mision">
+    <p class="eyebrow mision-eyebrow fade-in">SU MISIÓN</p>
+    <p class="mision-quote fade-in">
+      "La verdadera discapacidad <em>no es la que crees</em>. Es el <em>miedo</em>.<br>
+      Y eso lo tenemos todos."
+    </p>
+    <p class="mision-author fade-in">— DAVID RODRÍGUEZ · CEO FUNDACIÓN PEGASUS · CONFERENCIANTE</p>
+  </section>
+
+  <section class="tilt-section" id="video">
+    <a href="https://www.youtube.com/results?search_query=David+Rodríguez+Pegasus+Lo+mío+no+es+normal" target="_blank" rel="noopener" class="tilt-card" id="tilt-card">
+      <img src="imagenes/david-rodriguez/youtube-quien-soy.jpg" alt="Vídeo">
+      <div class="tilt-play"></div>
+      <div class="tilt-caption">VER · Por qué lo mío no es normal</div>
+    </a>
+  </section>
+
+  <section class="flow">
+    <div class="flow-grid">
+      <div class="flow-photos fade-in">
+        <figure><img src="imagenes/david-rodriguez/escenario-dosis2024.jpg" alt="DOSIS 2024"></figure>
+        <figure><img src="imagenes/david-rodriguez/david-charla-rojo.jpg" alt="David fondo rojo"></figure>
+        <figure><img src="imagenes/david-rodriguez/david-charla-naranja.jpg" alt="David fondo naranja"></figure>
+      </div>
+      <div class="flow-text fade-in">
+        <p class="eyebrow">ESTE ES SU FLOW</p>
+        <h2>Una "charla" diferente</h2>
+        <h3>Esto no va de "lucha por tus sueños, campeón".</h3>
+        <p>Cuando David habla, <strong>no es el típico discurso de superación</strong> lleno de frases hechas. Su conferencia es una experiencia que transforma a las personas, las hace reflexionar y conectar entre sí.</p>
+        <p>En cada charla, David crea un ambiente donde se <strong>rompen prejuicios y miedos</strong>. La gente sale con una nueva visión sobre la vida y sus retos.</p>
+        <p>Tiene esa capacidad de hacer que cada grupo se convierta en un espacio de crecimiento y autoconocimiento, inspirando a individuos y equipos enteros a <strong>atreverse a ser ellos mismos</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="servicios">
+    <div class="servicios-header fade-in">
+      <p class="eyebrow">CÓMO PUEDES CONTRATARLO</p>
+      <h2>Tres formas de subirlo a tu escenario</h2>
+      <p>Todas con el mismo ADN: emoción, humor inteligente y un público que sale distinto a como entró.</p>
+    </div>
+
+    <div class="servicios-grid">
+      <div class="servicio servicio-1 fade-in">
+        <div class="servicio-num">01</div>
+        <h3>La Charla</h3>
+        <p>Su conferencia insignia. 60–90 minutos donde el público pasa por la sorpresa, la incomodidad productiva y la transformación. Adaptable a equipos, comités, eventos corporativos, congresos y aulas.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">60–90 min</span>
+          <span class="servicio-tag">Hasta 1.000 asistentes</span>
+          <span class="servicio-tag">Personalizada</span>
+        </div>
+      </div>
+
+      <div class="servicio servicio-2 fade-in">
+        <div class="servicio-num">02</div>
+        <h3>Presentador de eventos</h3>
+        <p>Maestro de ceremonias para galas, premios, kick-offs, convenciones y fiestas internas. Cuando un evento necesita alguien que sepa leer la sala, mover la energía y dejar mensaje sin convertirse en payaso.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">Eventos privados</span>
+          <span class="servicio-tag">Galas · Premios</span>
+          <span class="servicio-tag">Kick-offs</span>
+        </div>
+      </div>
+
+      <div class="servicio servicio-3 fade-in">
+        <div class="servicio-num">03</div>
+        <h3>Sesiones a medida</h3>
+        <p>Mesas redondas, fireside chats, formatos híbridos y conversaciones moderadas con tu equipo directivo. Cuando necesitas algo más íntimo que una charla y más profundo que un panel.</p>
+        <div class="servicio-meta">
+          <span class="servicio-tag">Comités</span>
+          <span class="servicio-tag">Off-sites</span>
+          <span class="servicio-tag">Formato libre</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="empresas">
+    <div class="empresas-header fade-in">
+      <p class="eyebrow">EMPRESAS QUE YA HAN VOLADO CON ÉL</p>
+      <h2>Le da igual si eres <span>becario o CEO</span></h2>
+      <p>Ha trabajado con grandes empresas. Sus charlas no solo inspiran — generan cambio real en las organizaciones.</p>
+    </div>
+    <div class="logos-grid fade-in">
+      <div class="logo-cell"><img src="imagenes/comunes/logos/santander.png" alt="Banco Santander"></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/leroy-merlin.png" alt="Leroy Merlin"></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/pepsico.png" alt="PepsiCo"></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/cepsa.png" alt="Cepsa"></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/sprinter.png" alt="Sprinter"></div>
+      <div class="logo-cell"><span class="logo-cell-text">DECATHLON</span></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/iberdrola.png" alt="Iberdrola"></div>
+      <div class="logo-cell"><img src="imagenes/comunes/logos/endesa.png" alt="Endesa"></div>
+    </div>
+  </section>
+
+  <section class="programas">
+    <div class="programas-header fade-in">
+      <p class="eyebrow">Y LE QUEDA TIEMPO PARA SER EMPRENDEDOR SOCIAL</p>
+      <h2>La fundación que va a cambiar el mundo</h2>
+      <p>Al frente de Fundación Pegasus, David lidera tres proyectos socioeducativos para nada normales.</p>
+    </div>
+    <div class="programas-grid">
+      <article class="programa programa-tpt fade-in">
+        <div class="programa-img"><img src="imagenes/david-rodriguez/terapia-para-todos.jpg" alt="TPT"></div>
+        <div class="programa-body">
+          <h3>Terapia Para Todos</h3>
+          <p>Acceso universal a la salud física y emocional, eliminando barreras sociales y económicas. Para personas con y sin discapacidad. Metodología basada en bienestar emocional y juego.</p>
+        </div>
+      </article>
+      <article class="programa programa-is fade-in">
+        <div class="programa-img"><img src="imagenes/david-rodriguez/inclusive-sport.jpg" alt="IS"></div>
+        <div class="programa-body">
+          <h3>Inclusive Sport</h3>
+          <p>Acabar con la exclusión en el deporte. A través de la práctica deportiva y la inteligencia emocional, normaliza diferencias, emociones y miedos en comunidades donde nadie sobra.</p>
+        </div>
+      </article>
+      <article class="programa programa-ind fade-in">
+        <div class="programa-img"><img src="imagenes/david-rodriguez/indiferente-cepsa.jpg" alt="Indiferente"></div>
+        <div class="programa-body">
+          <h3>Indiferente</h3>
+          <p>Programa socioeducativo para empresas. Itinerarios formativos que impulsan una nueva cultura corporativa, normalizando diferencias y reduciendo creencias limitantes sobre la diversidad.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="influencer">
+    <div class="influencer-grid">
+      <div class="influencer-text fade-in">
+        <p class="eyebrow">NO PARA QUIETO POR LAS REDES</p>
+        <h2 class="handwritten">Más de <span class="grad-text">100k personas</span> ya lo siguen</h2>
+        <p>David celebra la diversidad y promueve la idea de que <strong style="color:var(--crema);">"ser anormal es la hostia"</strong>. Contenido auténtico y sin filtros que fomenta el diálogo sobre inclusión e inteligencia emocional. Conecta con todas las personas que alguna vez se han sentido diferentes.</p>
+        <div class="influencer-stats">
+          <div class="stat"><div class="stat-num">100K+</div><div class="stat-label">Comunidad total</div></div>
+          <div class="stat"><div class="stat-num">50,4K</div><div class="stat-label">Instagram</div></div>
+          <div class="stat"><div class="stat-num">4,3M</div><div class="stat-label">Visitas vídeo viral</div></div>
+          <div class="stat"><div class="stat-num">466</div><div class="stat-label">Publicaciones</div></div>
+        </div>
+        <div class="influencer-socials">
+          <a href="https://www.instagram.com/lomionoesnormal/" target="_blank" rel="noopener" class="social">📷 Instagram</a>
+          <a href="https://www.tiktok.com/@lomionoesnormal" target="_blank" rel="noopener" class="social">🎵 TikTok</a>
+          <a href="https://www.linkedin.com/in/davidrodriguezpegasus/" target="_blank" rel="noopener" class="social">💼 LinkedIn</a>
+          <a href="https://www.youtube.com/@lomionoesnormal" target="_blank" rel="noopener" class="social">▶ YouTube</a>
+        </div>
+      </div>
+      <div class="influencer-visual fade-in">
+        <img src="imagenes/david-rodriguez/tiktok-disimular.jpg" alt="TikTok viral">
+        <div class="tiktok-badge">
+          <div class="tiktok-icon">🎵</div>
+          <div>
+            <div class="tiktok-text-num">4,3 millones</div>
+            <div class="tiktok-text-label">DE VISITAS · "Intento disimular mi discapacidad"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final" id="contacto">
+    <div class="cta-final-bg"></div>
+    <p class="eyebrow cta-final-eyebrow fade-in">¿LO QUIERES EN TU PRÓXIMO EVENTO?</p>
+    <h2 class="cta-final-title fade-in">Lo suyo no es normal.<br>Lo tuyo, <span class="crema">tampoco.</span></h2>
+    <p class="fade-in">Cuéntanos qué evento estás montando y para qué lo necesitas. Te respondemos en menos de 24h con disponibilidad, condiciones y propuesta hecha a medida.</p>
+    <a href="mailto:alvaro.diaz@fundacionpegasus.org?subject=Quiero%20contratar%20a%20David%20Rodr%C3%ADguez" class="btn-grande fade-in">Hablemos →</a>
+  </section>
+
+</main>
+
+
+
+<footer class="footer">
+  <p class="footer-eslogan">Lo mío no es normal,<br><span>pero lo tuyo tampoco</span></p>
+  <p class="footer-tag">#ÚneteAlFlow</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <p class="footer-col-label">EMAIL</p>
+      <a href="mailto:alvaro.diaz@fundacionpegasus.org">alvaro.diaz@fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">WEB</p>
+      <a href="https://www.fundacionpegasus.org">www.fundacionpegasus.org</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-label">SÍGUELO</p>
+      <a href="https://www.instagram.com/lomionoesnormal/">@lomionoesnormal</a>
+    </div>
+  </div>
+  <p class="footer-meta">FUNDACIÓN PEGASUS · DAVID RODRÍGUEZ</p>
+</footer>
+
+<script>
+
+
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+const tiltCard = document.getElementById('tilt-card');
+let ticking = false;
+function updateTilt() {
+  if (!tiltCard) { ticking = false; return; }
+  const rect = tiltCard.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const total = rect.height + vh;
+  const passed = vh - rect.top;
+  let progress = passed / total;
+  progress = Math.max(0, Math.min(1, progress));
+  const isMobile = window.innerWidth <= 768;
+  const startScale = isMobile ? 0.85 : 1.05;
+  const endScale = isMobile ? 0.98 : 1;
+  const rotateX = 18 * (1 - progress);
+  const scale = startScale + (endScale - startScale) * progress;
+  tiltCard.style.transform = 'perspective(1400px) rotateX(' + rotateX + 'deg) scale(' + scale + ')';
+  ticking = false;
+}
+function onScroll() {
+  if (!ticking) { requestAnimationFrame(updateTilt); ticking = true; }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+
+
+</script>
+
+</body>
+</html>
