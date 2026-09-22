@@ -1839,6 +1839,317 @@ footer {
   </div>
 </section>
 
+
+<style>
+/* ===== PUESTA EN MARCHA — bloque añadido, mismo sistema visual ===== */
+.pm-white { background: var(--blanco); }
+.pm-gris  { background: var(--gris-claro); }
+.pm-negro { background: var(--negro); position: relative; overflow: hidden; }
+.pm-negro::before { content: ''; position: absolute; inset: 0; background: var(--grad-full); opacity: 0.05; pointer-events: none; }
+.pm-negro > .container { position: relative; z-index: 1; }
+.pm-corte { height: 6px; background: var(--grad-full); }
+
+.pm-h3 { font-family: 'Chantal', sans-serif; font-size: 1.7rem; text-transform: uppercase; line-height: 1.1; margin: 52px 0 16px; }
+.pm-h3.light { color: var(--blanco); }
+
+.pm-prosa p { font-size: 1.05rem; line-height: 1.8; color: #444; max-width: 760px; margin-bottom: 18px; }
+.pm-prosa.light p { color: rgba(255,255,255,0.72); }
+.pm-prosa p:last-child { margin-bottom: 0; }
+.pm-prosa strong { font-weight: 700; font-style: italic; color: var(--negro); }
+.pm-prosa.light strong { color: var(--blanco); }
+.section-desc + .pm-prosa, .section-desc + .pm-tabla-wrap, .section-desc + .pm-grid-2 { margin-top: 32px; }
+
+.pm-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+
+.pm-nota { margin-top: 22px; border-left: 3px solid; border-image: var(--grad-full) 1; padding: 4px 0 4px 16px; font-size: 0.95rem; line-height: 1.7; color: #555; max-width: 720px; }
+.pm-nota.light { color: rgba(255,255,255,0.6); }
+.pm-nota strong { font-weight: 700; font-style: italic; color: var(--negro); }
+.pm-nota.light strong { color: var(--blanco); }
+
+/* --- tablas --- */
+.pm-tabla-wrap { margin-top: 36px; }
+.pm-tabla { width: 100%; border-collapse: collapse; }
+.pm-tabla th { text-align: left; font-family: 'Barlow', sans-serif; font-weight: 700; font-style: italic; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; padding: 0 18px 12px 0; }
+.pm-tabla td { padding: 15px 18px 15px 0; vertical-align: top; font-size: 0.95rem; line-height: 1.6; }
+.pm-tabla td:first-child { white-space: nowrap; font-weight: 700; font-style: italic; width: 1%; }
+.pm-tabla tr:last-child td { border-bottom: none; }
+
+.pm-tabla.oscura th { color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.14); }
+.pm-tabla.oscura td { color: rgba(255,255,255,0.72); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.pm-tabla.oscura td:first-child { color: var(--blanco); }
+.pm-aviso { display: block; margin-top: 10px; border-left: 3px solid var(--naranja); background: rgba(237,121,40,0.10); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.8); }
+.pm-aviso b { color: var(--naranja); font-weight: 700; font-style: italic; text-transform: uppercase; letter-spacing: 1px; font-size: 0.78rem; display: block; margin-bottom: 3px; }
+.pm-tabla.oscura tr.pm-suave td { color: rgba(255,255,255,0.45); font-style: italic; }
+.pm-aviso { display: block; margin-top: 10px; border-left: 3px solid var(--naranja); background: rgba(237,121,40,0.10); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 0.88rem; line-height: 1.5; color: rgba(255,255,255,0.8); }
+.pm-aviso b { color: var(--naranja); font-weight: 700; font-style: italic; text-transform: uppercase; letter-spacing: 1px; font-size: 0.78rem; display: block; margin-bottom: 3px; }
+.pm-tabla.oscura tr.pm-suave td:first-child { color: rgba(255,255,255,0.55); }
+.pm-tabla.oscura tr.pm-destacada td { background: rgba(255,255,255,0.05); }
+.pm-tabla.oscura tr.pm-destacada td:first-child { border-radius: 10px 0 0 10px; }
+.pm-tabla.oscura tr.pm-destacada td:first-child span { background: var(--grad-full); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.pm-tabla.oscura tr.pm-destacada td:last-child { border-radius: 0 10px 10px 0; }
+
+.pm-tabla.clara th { color: #999; border-bottom: 1px solid #e2e2e2; }
+.pm-tabla.clara td { color: #555; border-bottom: 1px solid #ececec; }
+.pm-tabla.clara td:first-child { color: var(--negro); }
+
+/* --- listas de sí / no --- */
+.pm-si-no { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+.pm-si-no ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.pm-si-no li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; line-height: 1.55; color: #444; }
+.pm-cab { font-family: 'Barlow', sans-serif; font-weight: 700; font-style: italic; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #999; margin-bottom: 14px; }
+.pm-mark { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 1px; color: white; }
+.pm-mark.si { background: var(--verde); }
+.pm-mark.no { background: var(--rojo); }
+
+/* --- recuadro tranquilo (comentarios críticos) --- */
+.pm-recuadro { background: var(--blanco); border-radius: 20px; padding: 36px 40px; margin-top: 36px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+.pm-recuadro > .pm-h3:first-child { margin-top: 0; }
+.pm-recuadro .pm-h3 { margin-top: 44px; }
+.pm-recuadro > .pm-h3:first-child { margin-top: 0; }
+.pm-cita { background: var(--gris-claro); border-radius: 12px; padding: 16px 20px; font-size: 1.05rem; font-style: italic; color: #333; line-height: 1.6; margin-bottom: 20px; }
+.pm-reglas { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+.pm-reglas li { display: flex; align-items: flex-start; gap: 14px; font-size: 0.98rem; line-height: 1.6; color: #444; }
+.pm-reglas .pm-num { font-family: 'Chantal', sans-serif; font-size: 1.2rem; line-height: 1.3; background: var(--grad-full); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; flex-shrink: 0; width: 30px; }
+
+@media (max-width: 768px) {
+  .pm-grid-2, .pm-si-no { grid-template-columns: 1fr; }
+  .pm-h3 { font-size: 1.4rem; }
+  .pm-recuadro { padding: 26px 22px; }
+  .pm-tabla, .pm-tabla tbody, .pm-tabla tr, .pm-tabla td { display: block; width: 100%; }
+  .pm-tabla thead { display: none; }
+  .pm-tabla tr { padding: 16px 0; }
+  .pm-tabla.oscura tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .pm-tabla.clara tr { border-bottom: 1px solid #ececec; }
+  .pm-tabla tr:last-child { border-bottom: none; }
+  .pm-tabla td { padding: 0; border-bottom: none !important; }
+  .pm-tabla td:first-child { white-space: normal; width: auto; margin-bottom: 6px; }
+  .pm-tabla.oscura tr.pm-destacada { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 16px 14px; }
+  .pm-tabla.oscura tr.pm-destacada td { background: none; }
+}
+</style>
+
+<!-- ============ PUESTA EN MARCHA ============ -->
+<div class="pm-corte"></div>
+
+<!-- 1 · LA IDEA -->
+<section class="pm-white" id="puesta-en-marcha">
+  <div class="container">
+    <span class="section-label">Cómo se lanza</span>
+    <h2 class="section-title">Y ahora,<br>¿qué hacemos<br>con todo esto?</h2>
+    <p class="section-desc">El material ya está hecho y entregado. Lo que falta es el plan para que funcione: qué se cuelga, dónde, en qué orden y quién hace cada cosa. Eso es lo que viene a continuación.</p>
+
+    <h3 class="pm-h3">En un pueblo no hace falta que lo vea mucha gente</h3>
+    <div class="pm-prosa">
+      <p>Hace falta que la misma gente lo vea muchas veces, y justo donde está el problema.</p>
+      <p>En una ciudad compites por que te miren. En Loeches, el mismo vecino pasa por los mismos tres o cuatro sitios todos los días. Eso cambia la campaña entera, y de ahí salen las tres decisiones del plan.</p>
+      <p><strong>La gráfica va pegada a la plaza reservada, no al tablón de anuncios.</strong> Se ve en el momento exacto en que alguien está pensando en aparcar ahí. Y hay una razón de fondo: la frase de las piezas dice «pero que ocupen tu sitio, también», y esa frase se entiende del todo cuando la lees teniendo la plaza delante. En un tablón, a tres metros y sin contexto, pierde fuerza.</p>
+      <p><strong>El vídeo no es para Loeches.</strong> Los seguidores de David no viven aquí. El vídeo sirve para que Loeches salga fuera y para que se hable del municipio. Es posicionamiento, no sensibilización local.</p>
+      <p><strong>Y el plan arranca por la calle, no por las redes.</strong> Lo físico depende de servicios municipales, que responden rápido. Lo digital depende de una persona de comunicación que casi siempre va desbordada. Empezando por la calle, la campaña arranca sin esperar a nadie.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · QUÉ HACE CADA PIEZA -->
+<section class="pm-gris">
+  <div class="container">
+    <span class="section-label">Cada cosa tiene su trabajo</span>
+    <h2 class="section-title">Qué hace<br>cada pieza</h2>
+    <p class="section-desc">Son cuatro elementos y ninguno hace el trabajo del otro. Si falta uno, los demás cojean.</p>
+
+    <div class="pm-grid-2">
+      <div class="insight-card">
+        <h3 class="insight-title">Los carteles</h3>
+        <p class="insight-copy">Hacen la pregunta. El vecino los ve durante semanas al pasar y se queda con la copla, sin que nadie tenga que explicarle nada.</p>
+      </div>
+      <div class="insight-card">
+        <h3 class="insight-title">La conferencia de David</h3>
+        <p class="insight-copy">Da la respuesta. Reúne a los chavales del municipio y les explica de qué va esto de verdad, con la campaña ya puesta por el pueblo.</p>
+      </div>
+      <div class="insight-card">
+        <h3 class="insight-title">Las tarjetas</h3>
+        <p class="insight-copy">Convierten al que escucha en el que actúa. Es el único punto del plan donde alguien deja de mirar y hace algo.</p>
+      </div>
+      <div class="insight-card">
+        <h3 class="insight-title">El vídeo</h3>
+        <p class="insight-copy">Saca la campaña del municipio. Es la pieza que hace que Loeches se vea desde fuera y que se hable del pueblo.</p>
+      </div>
+    </div>
+
+    <div class="why-together">
+      <h3>Las gráficas son munición. El vídeo es una bala.</h3>
+      <p>Las tres gráficas se pueden repetir durante todo 2027 sin coste y sin que se gasten. El vídeo se estrena una sola vez, concentra casi todo su alcance en las primeras cuarenta y ocho horas y después se apaga. Por eso la fecha del vídeo se elige con cuidado y no se improvisa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · LOS CHAVALES -->
+<section class="pm-white">
+  <div class="container">
+    <span class="section-label">La pieza que lo mueve todo</span>
+    <h2 class="section-title">Lo que hacen<br>los chavales</h2>
+
+    <div class="pm-prosa">
+      <p>Las tarjetas se imprimen a doble cara. Por delante va la gráfica. Por detrás, la explicación y las instrucciones.</p>
+      <p>El día de la conferencia, cada chaval sale del salón de actos con tarjetas en el bolsillo. A partir de ahí, cuando ven un coche aparcado en una plaza reservada sin la tarjeta que lo autoriza, le dejan una debajo del limpiaparabrisas.</p>
+      <p>La diferencia entre que eso lo haga un funcionario y que lo haga un chaval de quince años es toda. Una tarjeta puesta por el Ayuntamiento parece una multa. <strong>Una tarjeta puesta por los críos del pueblo es otra cosa: el que la recibe no se siente sancionado, se siente visto por sus vecinos.</strong></p>
+    </div>
+
+    <p class="pm-nota"><strong>Nota de diseño.</strong> La tarjeta se diseña para que a un metro de distancia no parezca una multa. Sin bordes oficiales, sin códigos, sin nada que huela a expediente.</p>
+  </div>
+</section>
+
+<!-- 4 · CALENDARIO -->
+<section class="pm-negro">
+  <div class="container">
+    <span class="section-label" style="color: rgba(255,255,255,0.5); -webkit-text-fill-color: rgba(255,255,255,0.5);">Las fechas</span>
+    <h2 class="section-title light">El calendario</h2>
+    <p class="section-desc light">Cinco semanas de calle en silencio, después la conferencia y solo entonces las redes. El orden no es casual.</p>
+
+    <div class="pm-tabla-wrap">
+      <table class="pm-tabla oscura">
+        <thead><tr><th>Cuándo</th><th>Qué pasa</th></tr></thead>
+        <tbody>
+          <tr><td>29 sep – 4 oct</td><td>El Ayuntamiento pide a la Policía Local las denuncias por ocupación de plaza reservada de abril a septiembre. Se confirman las ubicaciones, se pide presupuesto a la imprenta y se decide quién publica.</td></tr>
+          <tr><td>5 – 11 oct</td><td>Se imprimen carteles y tarjetas.</td></tr>
+          <tr><td>Martes 13 oct</td><td>Se colocan los carteles. Ni una publicación en redes.<span class="pm-aviso"><b>Pendiente</b>Faltan por definir las ubicaciones exactas de cada pieza y por pedir las medidas de cada soporte. Sin eso no se puede cerrar la imprenta.</span></td></tr>
+          <tr class="pm-suave"><td>13 oct – 15 nov</td><td>Cinco semanas de carteles en la calle y silencio digital.</td></tr>
+          <tr class="pm-destacada"><td><span>Semana del 16 nov</span></td><td>Conferencia de David en el salón de actos. Los chavales salen de ahí con las tarjetas y empiezan a dejarlas esa misma semana.</td></tr>
+          <tr><td>Lunes 23 nov</td><td>Primera gráfica en las redes municipales: la de la panadería.</td></tr>
+          <tr><td>Miércoles 25 nov</td><td>Segunda gráfica: la del VAR.</td></tr>
+          <tr><td>Viernes 27 nov</td><td>Tercera gráfica: la de la mochila. Y el banner en la web municipal.</td></tr>
+          <tr class="pm-destacada"><td><span>Jueves 3 dic</span></td><td>Día Internacional de las Personas con Discapacidad. Se publica el vídeo, que es la última pieza que sale. Lo sube David e invita al Ayuntamiento como colaborador, y el Ayuntamiento acompaña con las fotos de la conferencia.</td></tr>
+          <tr><td>Diciembre y enero</td><td>Los chavales siguen con las tarjetas.</td></tr>
+          <tr><td>Enero</td><td>Se vuelven a pedir los datos a la Policía Local y se compara.</td></tr>
+          <tr><td>Durante 2027</td><td>Las tres gráficas rotan cada seis u ocho semanas. Sin coste.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="pm-h3 light">Por qué el orden es ese</h3>
+    <div class="pm-prosa light">
+      <p>Las cinco semanas de silencio no son un retraso. <strong>Son la parte de la campaña que hace que lo demás funcione.</strong> Cuando llega la conferencia, los chavales llevan más de un mes viendo al de la señal en la panadería y en la puerta del colegio. No hay que explicarles de qué va: ya lo saben.</p>
+      <p>La conferencia va antes que las redes a propósito. Los chavales salen del salón de actos con las tarjetas y empiezan a moverlas por el pueblo mientras en redes todavía no ha salido nada. Primero pasa en la calle; luego se cuenta.</p>
+      <p>Y el vídeo va el último. Cuando se publica, el municipio lleva casi dos meses de carteles, una conferencia y tres gráficas encima. Es la pieza que sale fuera, y sale cuando dentro ya está todo hecho.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · DÓNDE VA CADA COSA -->
+<section class="pm-white">
+  <div class="container">
+    <span class="section-label">La calle</span>
+    <h2 class="section-title">Dónde va<br>cada cosa</h2>
+
+    <div class="pm-tabla-wrap">
+      <table class="pm-tabla clara">
+        <thead><tr><th>Pieza</th><th>Dónde</th></tr></thead>
+        <tbody>
+          <tr><td>Panadería</td><td>Plaza de la Villa y el comercio del centro.</td></tr>
+          <tr><td>Mochila</td><td>Entrada del Colegio Charles Dickens y del resto de centros.</td></tr>
+          <tr><td>VAR</td><td>Polideportivo y campo de fútbol.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pm-nota">Hay un punto que no salió en las reuniones y que probablemente sea <strong>el de más incidencia real de todo el municipio: el centro de salud.</strong> Es donde más plazas reservadas hay y donde más se ocupan «cinco minutos». La gráfica de la panadería vale de momento, aunque lo suyo sería una pieza propia.</p>
+
+    <div class="pm-prosa">
+      <p style="margin-top:22px">Las tarjetas se reparten en la conferencia, y además en el centro de salud, los centros educativos, el mercadillo y el polideportivo.</p>
+    </div>
+
+    <h3 class="pm-h3">La colocación</h3>
+    <div class="pm-prosa">
+      <p>En vía urbana el titular de la calle es el propio Ayuntamiento, así que la autorización se la dan ellos mismos. No hay que pedir nada fuera.</p>
+      <p>Lo único que hay que cuidar es que <strong>el cartel no se pueda confundir con una señal de tráfico</strong>, porque las piezas llevan dentro el símbolo de movilidad reducida. De ahí salen las reglas de colocación.</p>
+    </div>
+
+    <div class="pm-si-no">
+      <div>
+        <div class="pm-cab">Sí</div>
+        <ul>
+          <li><span class="pm-mark si">✓</span><span>Fachada, mobiliario municipal, marquesina o tablón.</span></li>
+          <li><span class="pm-mark si">✓</span><span>En vertical y a altura de persona.</span></li>
+          <li><span class="pm-mark si">✓</span><span>Siempre fuera de la calzada.</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="pm-cab">Nunca</div>
+        <ul>
+          <li><span class="pm-mark no">✕</span><span>En un poste a pie de calzada.</span></li>
+          <li><span class="pm-mark no">✕</span><span>En vinilo sobre el suelo de la plaza. Eso ya es señalización y está regulada.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="pm-nota">Conviene que su Secretaría confirme si el municipio tiene ordenanza de publicidad exterior o de ocupación de vía pública.</p>
+
+    <h3 class="pm-h3">La impresión</h3>
+    <div class="pm-prosa">
+      <p>Las piezas se hicieron para digital, que es lo que se contrató. Imprimen perfectamente en A4 y A5. Para A3 o gran formato de exterior habría que regenerarlas en alta resolución, que es un trabajo aparte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · LA CONFERENCIA -->
+<section class="pm-gris">
+  <div class="container">
+    <span class="section-label">Propuesta nueva</span>
+    <h2 class="section-title">La conferencia<br>de David</h2>
+    <p class="section-desc">No está cerrada. Se propone como parte del plan porque es la pieza que pone la campaña en manos de la gente del pueblo, y porque es la que abre todo lo que viene después.</p>
+
+    <div class="pm-prosa">
+      <p>Una jornada en el salón de actos municipal reuniendo a los chavales de secundaria del municipio. David cuenta su historia y explica de dónde sale la campaña que llevan más de un mes viendo por el pueblo. Al terminar, cada uno sale con las tarjetas.</p>
+      <p>Es la pieza que convierte una campaña de carteles en algo que la gente del pueblo hace, y no algo que el pueblo mira.</p>
+      <p>Fecha propuesta: <strong>la semana del 16 de noviembre</strong>, justo al cerrarse las cinco semanas de carteles y antes de que empiece nada en redes. Lo vemos juntos y le damos forma.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · CÓMO SE MIDE -->
+<section class="pm-white">
+  <div class="container">
+    <span class="section-label">La justificación</span>
+    <h2 class="section-title">Cómo se mide</h2>
+
+    <div class="pm-prosa">
+      <p>El dato bueno lo tiene el Ayuntamiento y es gratis: <strong>el número de denuncias de la Policía Local por ocupación indebida de plaza reservada.</strong> Se piden los seis meses anteriores antes de empezar, y se vuelven a pedir en enero.</p>
+      <p>La primera petición se hace antes de colocar nada. Si se pide después, ya no hay con qué comparar y el dato se queda en un número suelto.</p>
+      <p>A eso se le suman las métricas de redes: alcance del vídeo, veces que se comparte y comentarios.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · COMENTARIOS CRÍTICOS -->
+<section class="pm-gris">
+  <div class="container">
+    <span class="section-label">Previsión</span>
+    <h2 class="section-title">Si llegan<br>comentarios críticos</h2>
+    <p class="section-desc">Pasa siempre y conviene tenerlo pensado antes, no el día que aparece.</p>
+
+    <div class="pm-recuadro">
+      <h3 class="pm-h3">El comentario que va a aparecer</h3>
+      <div class="pm-prosa">
+        </div>
+      <p class="pm-cita">«En vez de gastar dinero público en estas cosas, lo que tenéis que hacer es multar a los que ocupan las plazas.»</p>
+      <div class="pm-prosa">
+        <p>La respuesta no es defenderse. Es darles la razón y ampliarla.</p>
+        <p>Las multas y esto no compiten, hacen cosas distintas. La sanción llega cuando el daño ya está hecho. Esto intenta que no llegue a hacerse.</p>
+        <p>Y el que ocupa una plaza reservada casi nunca es un desalmado: es un vecino normal que va cinco minutos a por el pan. A ese la multa no le cambia, porque calcula que no le van a pillar y suele acertar. <strong>Lo que sí le cambia es que su pueblo entero le mire.</strong></p>
+      </div>
+
+      <h3 class="pm-h3">Tres reglas para quien lleve las redes</h3>
+      <ol class="pm-reglas">
+        <li><span class="pm-num">01</span><span>No se borra ningún comentario crítico, salvo insultos o faltas de respeto. Borrar es echar gasolina.</span></li>
+        <li><span class="pm-num">02</span><span>Se responde una sola vez, con calma, y no se entra en el hilo por muy tentador que sea.</span></li>
+        <li><span class="pm-num">03</span><span>Responde la persona designada desde la cuenta del Ayuntamiento, nunca el concejal desde su perfil personal.</span></li>
+      </ol>
+
+      <p class="pm-nota">Y si para entonces ya están los datos de la Policía Local, la respuesta deja de ser una opinión y pasa a ser un número.</p>
+    </div>
+  </div>
+</section>
+
+
 <footer>
   <p>Fundación Pegasus · CIF G87919148 · Arganda del Rey, Madrid · fundacionpegasus.org</p>
 </footer>
