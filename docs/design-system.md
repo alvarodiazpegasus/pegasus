@@ -510,7 +510,7 @@ Padding: 32px 48px
 ### **Documentos Fuente**
 - `Manual_de_Identidad_Visual__Pegasus_2.pdf`
 - `Colores_y_normas_de_uso.pdf`
-- `hub-pegasus-manual.docx`
+- [`hub-pegasus-manual.docx`](hub-pegasus-manual.docx)
 
 ### **Skills Aplicadas**
 - **Impeccable** (pbakaus) — Frontend design standards

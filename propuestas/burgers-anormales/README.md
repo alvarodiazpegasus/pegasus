@@ -80,6 +80,6 @@ assets/               marca (splash, smiley, flechas, mascota)
 
 ## Qué falta para producción
 
-Ver **`PRODUCCION.md`**. Resumen: backend real (ranking global, leads,
+Ver **[`PRODUCCION.md`](PRODUCCION.md)**. Resumen: backend real (ranking global, leads,
 validación de premios), mascota/fotos/logos reales, fallback jsQR,
 asociación definitiva burger↔patrocinador y revisión legal RGPD.
