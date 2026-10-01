@@ -1,0 +1,1060 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>El CRM por dentro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,900;1,600;1,700;1,900&display=swap">
+<style>
+/* Layout: columna única de 980px, secciones separadas por aire generoso.
+   Gradiente Pegasus reservado a la franja del hero y a barras de acento finas. */
+:root{
+  color-scheme: light;
+  --verde:#08b75b;   --verde-ink:#067038;
+  --azul:#007ec3;    --azul-ink:#00679e;
+  --morado:#974694;  --morado-ink:#974694;
+  --rosa:#e45e9b;    --rosa-ink:#b23670;
+  --rojo:#d6191b;    --rojo-ink:#d6191b;
+  --naranja:#ed7928; --naranja-ink:#a8500e;
+  --amarillo:#f3d100;
+
+  --blanco:#ffffff;
+  --negro:#1a1a1a;
+  --gris-fondo:#f8f8f8;
+  --gris-borde:#e5e5e5;
+  --gris-texto:#6e6e6e;
+
+  --grad-h:linear-gradient(90deg,#08B75B,#007EC3,#974694,#E45E9B,#D6191B,#ED7928,#F3D100);
+
+  --r-pill:999px; --r-card:16px; --r-hero:24px; --r-cont:32px; --r-sm:12px;
+  --sh-rest:0 2px 8px rgba(0,0,0,.06);
+  --sh-raised:0 4px 16px rgba(0,0,0,.08);
+  --ease:cubic-bezier(.16,1,.3,1);
+
+  --body:'Barlow',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--blanco); color:var(--negro);
+  font-family:var(--body); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:980px; margin:0 auto; padding-inline:20px; padding-block:0}
+
+h1,h2,h3{font-style:italic; font-weight:900; letter-spacing:-.015em; line-height:1.05; text-wrap:balance; margin:0}
+h1{font-size:clamp(38px,7vw,64px); text-transform:uppercase}
+h2{font-size:clamp(28px,4.6vw,44px); text-transform:uppercase}
+h3{font-size:clamp(19px,2.4vw,22px); font-weight:700}
+p{margin:0}
+
+.eyebrow{font-size:13px; font-weight:700; font-style:italic; letter-spacing:.18em; text-transform:uppercase; color:var(--gris-texto)}
+.lead{font-size:clamp(17px,2.2vw,20px); line-height:1.45}
+.caption{font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gris-texto)}
+.muted{color:var(--gris-texto)}
+strong{font-weight:700}
+
+/* ---------- HERO ---------- */
+.hero{padding-block:clamp(44px,7vw,84px) clamp(36px,5vw,56px)}
+.hero .bar{height:8px; border-radius:var(--r-pill); background:var(--grad-h); margin-bottom:28px; max-width:220px}
+.hero h1{margin-block:10px 20px}
+.hero .lead{max-width:62ch}
+.grad-text{background:var(--grad-h); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+.framing{
+  margin-top:32px; border-radius:var(--r-hero); background:var(--gris-fondo);
+  border:1px solid var(--gris-borde); padding:clamp(20px,3vw,30px); display:grid; gap:14px;
+}
+.framing p{max-width:70ch}
+
+/* ---------- SECCIONES ---------- */
+section{padding-block:clamp(40px,6vw,68px)}
+section.alt{background:var(--gris-fondo); border-block:1px solid var(--gris-borde)}
+.s-head{display:grid; gap:12px; margin-bottom:clamp(24px,3.5vw,38px)}
+.s-head .lead{max-width:66ch; color:#333}
+
+/* ---------- HOY / MAÑANA ---------- */
+.swap{display:grid; gap:16px}
+.swap-row{
+  background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card);
+  box-shadow:var(--sh-rest); padding:20px 22px;
+  display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:center;
+}
+.swap-row .t{font-weight:700; margin-bottom:4px}
+.swap-row .now .p{font-size:15px; color:var(--gris-texto)}
+.swap-row .next .p{font-size:15px; color:#333}
+.swap-row .arrow{width:36px; height:36px; border-radius:var(--r-pill); display:grid; place-items:center; background:var(--gris-fondo); border:1px solid var(--gris-borde)}
+.swap-row .arrow svg{width:18px; height:18px; stroke:var(--morado); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.tag{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 11px; border-radius:var(--r-pill); border:1.5px solid currentColor; margin-right:6px}
+@media (max-width:720px){ .swap-row{grid-template-columns:1fr; gap:12px} .swap-row .arrow{transform:rotate(90deg)} }
+
+/* ---------- PIEZAS ---------- */
+.pieces{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px}
+.piece{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); box-shadow:var(--sh-rest); overflow:hidden; display:flex; flex-direction:column; min-width:0}
+.piece .strip{height:5px; background:var(--pc)}
+.piece .body{padding:22px; display:grid; gap:12px; align-content:start}
+.piece .top{display:flex; align-items:center; gap:11px}
+.piece .ic{width:38px; height:38px; border-radius:var(--r-sm); display:grid; place-items:center; background:var(--pc-soft); flex:none}
+.piece .ic svg{width:21px; height:21px; stroke:var(--pc-ink); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.piece h3{color:var(--pc-ink); font-style:normal; letter-spacing:-.01em}
+.piece .one{font-weight:700; font-size:16px}
+.piece dl{margin:0; display:grid; gap:9px}
+.piece dt{font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gris-texto)}
+.piece dd{margin:0; font-size:15px; line-height:1.5}
+
+/* ---------- VIAJE DEL DATO ---------- */
+.flowmap{
+  display:flex; flex-wrap:wrap; gap:10px; align-items:stretch; justify-content:center;
+  background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-hero);
+  padding:clamp(16px,2.6vw,24px); box-shadow:var(--sh-rest);
+}
+.node{
+  flex:1 1 140px; min-width:0; max-width:180px; border-radius:var(--r-sm);
+  border:1.5px solid var(--gris-borde); background:var(--gris-fondo);
+  padding:13px 12px; display:grid; gap:5px; align-content:start;
+  transition:all .3s var(--ease); opacity:.45;
+}
+.node .n-name{font-weight:700; font-size:15px; line-height:1.2}
+.node .n-what{font-size:12.5px; line-height:1.35; color:var(--gris-texto)}
+.node .n-dot{width:9px; height:9px; border-radius:var(--r-pill); background:var(--nc); margin-bottom:2px}
+.node[data-on="1"]{opacity:1; background:var(--blanco); border-color:var(--nc); box-shadow:var(--sh-raised); transform:translateY(-2px)}
+.node[data-on="1"] .n-name{color:var(--nc-ink)}
+.chev{display:grid; place-items:center; color:var(--gris-borde); flex:none; width:16px}
+.chev svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round}
+@media (max-width:640px){ .chev{width:100%; height:14px; transform:rotate(90deg)} .node{max-width:none; flex-basis:100%} }
+
+.stepper{margin-top:22px; display:grid; gap:16px}
+.dots{display:flex; flex-wrap:wrap; gap:8px}
+.dot{
+  width:34px; height:34px; border-radius:var(--r-pill); border:1.5px solid var(--gris-borde);
+  background:var(--blanco); color:var(--gris-texto); font-family:var(--body); font-weight:700; font-size:14px;
+  cursor:pointer; transition:all .2s var(--ease); font-variant-numeric:tabular-nums;
+}
+.dot:hover{border-color:var(--morado); color:var(--morado)}
+.dot[aria-current="true"]{background:var(--morado); border-color:var(--morado); color:#fff; box-shadow:0 0 18px rgba(151,70,148,.3)}
+.dot:focus-visible,.tgl:focus-visible,.navbtn:focus-visible{outline:3px solid var(--morado); outline-offset:2px}
+
+.stepcard{
+  background:var(--blanco); border:1px solid var(--gris-borde); border-left:5px solid var(--morado);
+  border-radius:var(--r-card); padding:22px 24px; box-shadow:var(--sh-rest); display:grid; gap:10px; min-height:186px;
+}
+.stepcard .caption{color:var(--morado)}
+.stepcard h3{font-style:normal}
+.stepcard p{font-size:16px; max-width:68ch}
+.nav{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.navbtn{
+  font-family:var(--body); font-weight:700; font-size:14px; padding:10px 20px; border-radius:var(--r-pill);
+  border:2px solid var(--morado); background:var(--blanco); color:var(--morado); cursor:pointer; transition:all .2s var(--ease);
+}
+.navbtn:hover:not(:disabled){background:var(--morado); color:#fff}
+.navbtn:disabled{opacity:.35; cursor:default}
+.kicker{margin-top:20px; padding:18px 22px; border-radius:var(--r-card); background:var(--morado); color:#fff; font-weight:700; font-size:clamp(16px,2.2vw,19px); font-style:italic}
+
+/* ---------- PERMISOS ---------- */
+.tablebox{overflow-x:auto; border:1px solid var(--gris-borde); border-radius:var(--r-card); background:var(--blanco); box-shadow:var(--sh-rest)}
+table.perm{border-collapse:collapse; width:100%; min-width:720px; font-size:14.5px}
+table.perm th, table.perm td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--gris-borde)}
+table.perm thead th{background:var(--morado); color:#fff; font-weight:700; font-size:13px; letter-spacing:.03em; border-bottom:none}
+table.perm thead th:first-child{border-top-left-radius:var(--r-card)}
+table.perm thead th:last-child{border-top-right-radius:var(--r-card)}
+table.perm tbody tr:nth-child(even){background:var(--gris-fondo)}
+table.perm tbody tr:last-child td{border-bottom:none}
+table.perm td:first-child{font-weight:700}
+table.perm td.c{text-align:center; font-weight:700}
+.yes{color:var(--verde-ink)}
+.no{color:var(--rojo-ink)}
+.part{color:var(--naranja-ink); font-weight:600; font-size:13.5px}
+
+.lifecycle{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:22px}
+.lc{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); border-top:4px solid var(--lc); padding:20px; box-shadow:var(--sh-rest); display:grid; gap:9px; align-content:start; min-width:0}
+.lc h3{font-style:normal; font-size:18px; color:var(--lc-ink)}
+.lc p{font-size:15px}
+.lc .why{font-size:14px; font-style:italic; color:var(--gris-texto); border-top:1px solid var(--gris-borde); padding-top:9px}
+
+/* ---------- QUITA UNA PIEZA ---------- */
+.toggles{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px}
+.tgl{
+  font-family:var(--body); font-weight:700; font-size:14px; padding:9px 18px; border-radius:var(--r-pill);
+  border:1.5px solid var(--tc); background:var(--blanco); color:var(--tc-ink); cursor:pointer;
+  display:inline-flex; align-items:center; gap:8px; transition:all .2s var(--ease);
+}
+.tgl .sw{width:9px; height:9px; border-radius:var(--r-pill); background:var(--tc); transition:all .2s var(--ease)}
+.tgl[aria-pressed="true"]{background:var(--gris-fondo); color:var(--gris-texto); border-color:var(--gris-borde); border-style:dashed; text-decoration:line-through}
+.tgl[aria-pressed="true"] .sw{background:var(--gris-borde)}
+.breaks{display:grid; gap:12px}
+.brk{border-radius:var(--r-card); border:1px solid var(--gris-borde); background:var(--blanco); border-left:5px solid var(--rojo); padding:18px 20px; box-shadow:var(--sh-rest); display:grid; gap:7px}
+.brk .t{font-weight:700; color:var(--rojo-ink)}
+.brk .p{font-size:15px}
+.brk .back{font-size:14px; font-style:italic; color:var(--gris-texto)}
+.allok{border-radius:var(--r-card); border:1px solid var(--gris-borde); background:var(--blanco); border-left:5px solid var(--verde); padding:20px; box-shadow:var(--sh-rest)}
+.allok .t{font-weight:700; color:var(--verde-ink); margin-bottom:5px}
+
+/* ---------- LOCAL / NUBE ---------- */
+.three{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px}
+.env{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); padding:22px; box-shadow:var(--sh-rest); display:grid; gap:10px; align-content:start; min-width:0}
+.env .num{width:30px; height:30px; border-radius:var(--r-pill); background:var(--ec); color:#fff; display:grid; place-items:center; font-weight:900; font-size:15px; font-style:italic}
+.env h3{font-style:normal; color:var(--ec-ink)}
+.env .who{font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gris-texto)}
+.env p{font-size:15px}
+.rule{margin-top:20px; border-radius:var(--r-card); border:2px solid var(--rojo); padding:20px 22px; display:grid; gap:8px; background:var(--blanco)}
+.rule .t{font-weight:900; font-style:italic; font-size:clamp(17px,2.4vw,21px); color:var(--rojo-ink); text-transform:uppercase; letter-spacing:-.01em}
+.rule p{font-size:15.5px; max-width:70ch}
+
+/* ---------- ROLES ---------- */
+.roles{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+.role{border-radius:var(--r-card); padding:24px; display:grid; gap:11px; align-content:start; background:var(--blanco); border:1px solid var(--gris-borde); box-shadow:var(--sh-rest); min-width:0}
+.role .badge{justify-self:start; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 13px; border-radius:var(--r-pill); background:var(--rc); color:#fff}
+.role h3{font-style:normal}
+.role p{font-size:15px}
+.role .nota{font-size:14px; font-style:italic; color:var(--gris-texto); border-top:1px solid var(--gris-borde); padding-top:10px}
+
+/* ---------- CIERRE ---------- */
+.closing{border-radius:var(--r-cont); padding:clamp(26px,4vw,44px); background:var(--gris-fondo); border:1px solid var(--gris-borde); display:grid; gap:18px}
+.takeaways{display:grid; gap:11px; margin:0; padding:0; list-style:none}
+.takeaways li{display:flex; gap:12px; align-items:start; font-size:16px}
+.takeaways .ck{width:22px; height:22px; border-radius:var(--r-pill); background:var(--morado); flex:none; display:grid; place-items:center; margin-top:2px}
+.takeaways .ck svg{width:12px; height:12px; stroke:#fff; fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.homework{border-radius:var(--r-card); background:var(--blanco); border:1px solid var(--gris-borde); padding:22px; display:grid; gap:9px}
+.homework .t{font-weight:900; font-style:italic; text-transform:uppercase; color:var(--morado); letter-spacing:-.01em; font-size:19px}
+
+.endbar{height:8px; border-radius:var(--r-pill); background:var(--grad-h); margin-block:36px 40px}
+
+/* ---------- CARPETA ---------- */
+.treewrap{display:grid; grid-template-columns:minmax(260px,1fr) minmax(280px,1.2fr); gap:18px; align-items:start}
+.tree{list-style:none; margin:0; padding:14px 10px; background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); box-shadow:var(--sh-rest); display:grid; gap:2px}
+.tree li{font-size:15px; padding:7px 10px; border-radius:var(--r-sm); cursor:pointer; display:flex; gap:8px; align-items:center; transition:all .15s var(--ease); font-variant-ligatures:none}
+.tree li .ti{width:18px; height:18px; flex:none; display:grid; place-items:center}
+.tree li .ti svg{width:16px; height:16px; stroke:var(--gris-texto); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.tree li .nm{font-weight:600}
+.tree li.d1{padding-left:28px} .tree li.d2{padding-left:46px} .tree li.d3{padding-left:64px}
+.tree li:hover{background:var(--gris-fondo)}
+.tree li[aria-current="true"]{background:var(--morado); color:#fff}
+.tree li[aria-current="true"] .ti svg{stroke:#fff}
+.tree li.root .nm{font-weight:900; font-style:italic; text-transform:uppercase; letter-spacing:.02em}
+.tpanel{background:var(--blanco); border:1px solid var(--gris-borde); border-left:5px solid var(--morado); border-radius:var(--r-card); padding:22px 24px; box-shadow:var(--sh-rest); display:grid; gap:12px; min-height:200px; position:sticky; top:16px}
+.tpanel .path{font-size:13px; font-weight:700; letter-spacing:.04em; color:var(--morado); word-break:break-all}
+.tpanel h3{font-style:normal}
+.tpanel .what{font-size:16px}
+.tpanel .say{font-size:15px; font-style:italic; color:#333; border-top:1px solid var(--gris-borde); padding-top:12px}
+.tpanel .say b{font-style:normal; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--gris-texto); display:block; margin-bottom:4px}
+@media (max-width:760px){ .treewrap{grid-template-columns:1fr} .tpanel{position:static} }
+
+/* ---------- SEIS PASOS ---------- */
+.steps{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:22px}
+.stp{font-family:var(--body); border-radius:var(--r-card); border:1.5px solid var(--gris-borde); background:var(--blanco); padding:12px 8px; cursor:pointer; display:grid; gap:6px; justify-items:center; text-align:center; transition:all .2s var(--ease); min-width:0}
+.stp .n{width:30px; height:30px; border-radius:var(--r-pill); display:grid; place-items:center; font-weight:900; font-style:italic; font-size:14px; color:#fff; background:var(--sc)}
+.stp .l{font-size:12.5px; font-weight:700; line-height:1.2}
+.stp .w{font-size:11px; color:var(--gris-texto); line-height:1.2}
+.stp:hover{border-color:var(--sc); transform:translateY(-2px)}
+.stp[aria-current="true"]{border-color:var(--sc); background:var(--gris-fondo); box-shadow:var(--sh-raised)}
+.stp.persona{--sc:var(--verde)} .stp.maquina{--sc:var(--morado)}
+.legend{display:flex; gap:18px; flex-wrap:wrap; font-size:13.5px; color:var(--gris-texto); margin-top:12px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.legend i{width:11px; height:11px; border-radius:var(--r-pill); display:inline-block}
+.sdetail{margin-top:14px; background:var(--blanco); border:1px solid var(--gris-borde); border-left:5px solid var(--sc); border-radius:var(--r-card); padding:22px 24px; box-shadow:var(--sh-rest); display:grid; gap:9px; min-height:150px}
+.sdetail .caption{color:var(--sc-ink)}
+.sdetail h3{font-style:normal}
+.sdetail .meta{display:flex; gap:16px; flex-wrap:wrap; font-size:13.5px; color:var(--gris-texto)}
+.sdetail .meta b{color:var(--negro); font-weight:700}
+.sdetail p.d{font-size:16px; max-width:68ch}
+@media (max-width:720px){ .steps{grid-template-columns:repeat(4,1fr)} }
+
+/* ---------- SALVAGUARDAS ---------- */
+.guards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:22px}
+.guard{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); border-top:4px solid var(--gc); padding:18px; box-shadow:var(--sh-rest); display:grid; gap:7px; align-content:start; min-width:0}
+.guard .k{width:26px; height:26px; border-radius:var(--r-pill); background:var(--gc); color:#fff; display:grid; place-items:center; font-weight:900; font-style:italic; font-size:13px}
+.guard .t{font-weight:700; font-size:15.5px; line-height:1.25}
+.guard .p{font-size:14px; color:#333}
+.rule.sec{border-color:var(--rojo); margin-top:22px}
+.rule.sec ul{margin:0; padding-left:20px; display:grid; gap:7px}
+.rule.sec li{font-size:15.5px}
+
+/* ---------- MÁQUINAS Y ESPECIALISTAS ---------- */
+.chain{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:16px}
+.chain .lvl{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); padding:16px 14px; display:grid; gap:6px; align-content:start; border-top:4px solid var(--lc); min-width:0}
+.chain .lvl .w{font-weight:900; font-style:italic; text-transform:uppercase; font-size:15px; color:var(--lc-ink); letter-spacing:-.01em}
+.chain .lvl .d{font-size:13.5px; line-height:1.4}
+.chain .lvl .x{font-size:12.5px; color:var(--gris-texto); font-style:italic; border-top:1px solid var(--gris-borde); padding-top:6px}
+.plugs{display:grid; gap:10px; margin-top:18px}
+.plug{background:var(--blanco); border:1px solid var(--gris-borde); border-radius:var(--r-card); box-shadow:var(--sh-rest); overflow:hidden}
+.plug summary{list-style:none; cursor:pointer; padding:16px 20px; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center}
+.plug summary::-webkit-details-marker{display:none}
+.plug summary:hover{background:var(--gris-fondo)}
+.plug summary .n{font-weight:700; font-size:16px}
+.plug summary .n code{font-size:13px; font-weight:700; color:var(--morado); background:var(--gris-fondo); padding:2px 8px; border-radius:var(--r-pill); margin-left:8px}
+.plug summary .q{font-size:14px; color:var(--gris-texto); margin-top:3px}
+.plug summary .cnt{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gris-texto); white-space:nowrap; display:flex; gap:6px; align-items:center}
+.plug summary .cnt::after{content:'+'; width:22px; height:22px; border-radius:var(--r-pill); border:1.5px solid var(--gris-borde); display:grid; place-items:center; font-size:16px; color:var(--morado)}
+.plug[open] summary .cnt::after{content:'–'}
+.plug .body{padding:0 20px 18px; display:grid; gap:14px; border-top:1px solid var(--gris-borde); padding-top:14px}
+.plug .grp{display:grid; gap:6px}
+.plug .grp .caption{color:var(--morado)}
+.plug .it{display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:12px; font-size:14px; padding:6px 0; border-bottom:1px solid var(--gris-fondo)}
+.plug .it code{font-size:13px; font-weight:700; word-break:break-all}
+.plug .it.sk code{color:var(--azul-ink)} .plug .it.cm code{color:var(--naranja-ink)}
+.plug.design{border-left:5px solid var(--rosa)}
+@media (max-width:600px){ .plug .it{grid-template-columns:1fr; gap:2px} }
+
+@media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="bar"></div>
+    <p class="eyebrow">Formación interna · Álvaro Marrero</p>
+    <h1>El CRM<br><span class="grad-text">por dentro</span></h1>
+    <p class="lead">Seis piezas, un dato que viaja entre ellas, quién puede ver qué, y cómo se trabaja.</p>
+
+    <div class="framing">
+      <p class="caption">De qué va esto</p>
+      <p class="lead"><strong>No vienes a aprender a programar.</strong> Vienes a saber dónde vive cada cosa y cómo pedirla.</p>
+      <p>Tú sabes qué pantallas hacen falta, qué ve cada nivel de usuario, cómo se calcula un plus y por qué una recuperación no es una sesión suelta. Eso no lo sabe nadie más en la casa, y es lo que decide si el CRM sirve o no sirve.</p>
+      <p>Lo que falta es el mapa de las herramientas. Eso es lo de hoy.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="s-head">
+      <p class="eyebrow">01 · El punto de partida</p>
+      <h2>Lo que ya tienes montado</h2>
+      <p class="lead">Nada de esto es nuevo. Todo existe ya en Pegasus, resuelto a mano. Lo único que cambia es dónde vive.</p>
+    </div>
+
+    <div class="swap">
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">El Excel de agendas</p>
+          <p class="p">Vive en el portátil de quien lo abrió el último. Hay tres versiones y no se sabe cuál manda.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--verde-ink)">Supabase</span></p>
+          <p class="p">Una sola copia. El terapeuta y la coordinadora miran el mismo dato a la vez.</p>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">Las recuperaciones y el saldo de sesiones</p>
+          <p class="p">Un Excel por profesional, con 1.200 fórmulas y la regla de «no cortes filas».</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--azul-ink)">Next.js</span><span class="tag" style="color:var(--verde-ink)">Supabase</span></p>
+          <p class="p">La regla se escribe una vez. Falta médica en TPT se recupera; en IS no. La aplica el sistema, no una persona.</p>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">Los pluses de ocupación y de cruce</p>
+          <p class="p">Dos hojas distintas, con fórmulas que dan error y cinco decisiones sin cerrar.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--verde-ink)">Supabase</span><span class="tag" style="color:var(--rojo-ink)">GitHub</span></p>
+          <p class="p">Se calculan solos, y queda registrado quién cambió la regla, cuándo y qué decía antes.</p>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">La remesa del día 20</p>
+          <p class="p">La prepara alguien a mano. Si ese día está de baja, no sale.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--morado-ink)">Railway</span></p>
+          <p class="p">Se ejecuta sola a la hora fijada, esté quien esté. Y deja constancia de que se ejecutó.</p>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">Avisar a la familia de un cambio de tarifa</p>
+          <p class="p">Correos sueltos. Sin registro de a quién se le mandó y cuándo.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--rosa-ink)">Brevo</span></p>
+          <p class="p">Las condiciones firmadas obligan a comunicarlo por correo. Sin ese envío registrado, la subida no es oponible a la familia.</p>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <div class="now">
+          <p class="t">El acceso al sistema</p>
+          <p class="p">Contraseñas en texto claro dentro del propio HTML del Hub. El candado solo tapa la portada.</p>
+        </div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+        <div class="next">
+          <p class="t"><span class="tag" style="color:var(--verde-ink)">Supabase Auth</span></p>
+          <p class="p">El permiso deja de estar en la pantalla y pasa a estar en la base de datos. Ver sección 04.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="s-head">
+      <p class="eyebrow">02 · El inventario</p>
+      <h2>Las seis piezas</h2>
+      <p class="lead">Cada una hace <strong>una sola cosa</strong>. Ahí está la diferencia con un Excel, que intenta hacerlas todas y por eso se rompe.</p>
+    </div>
+
+    <div class="pieces">
+
+      <article class="piece" style="--pc:var(--verde); --pc-ink:var(--verde-ink); --pc-soft:#e6f7ee">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+            <h3>Supabase</h3>
+          </div>
+          <p class="one">Donde vive el dato, y quién tiene permiso para verlo.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El archivador del centro, con su cerradura puesta. Si hay dos archivadores, hay dos verdades.</dd></div>
+            <div><dt>En Pegasus</dt><dd>El usuario, su plan, sus sesiones, sus recuperaciones y su cuota. Escrito una vez. Servidores en la UE, porque aquí hay datos de salud de menores.</dd></div>
+            <div><dt>Lo importante</dt><dd>El permiso vive aquí, no en la pantalla. Aunque alguien trastease la pantalla, la base de datos no le da lo que no le toca.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="piece" style="--pc:var(--azul); --pc-ink:var(--azul-ink); --pc-soft:#e3f2fb">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8.5h19M8 21h8"/></svg></div>
+            <h3>Next.js</h3>
+          </div>
+          <p class="one">La aplicación: lo que se ve y lo que pasa justo detrás.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El mostrador y la trastienda. Misma tienda, dos caras.</dd></div>
+            <div><dt>En Pegasus</dt><dd>La pantalla donde el terapeuta marca la sesión desde el móvil, y la pantalla donde la coordinadora ve las nueve agendas de su zona.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="piece" style="--pc:var(--morado); --pc-ink:var(--morado-ink); --pc-soft:#f2e8f2">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="3" width="19" height="7" rx="1.8"/><rect x="2.5" y="14" width="19" height="7" rx="1.8"/><path d="M6.5 6.5h.01M6.5 17.5h.01"/></svg></div>
+            <h3>Railway</h3>
+          </div>
+          <p class="one">El edificio: aloja la app y ejecuta lo que corre solo.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El local con su dirección en la calle, y la sala de máquinas del sótano. La calefacción se enciende a las siete aunque no haya nadie.</dd></div>
+            <div><dt>En Pegasus</dt><dd>Una dirección web para entrar desde cualquier sitio. Y la remesa del día 20, el recordatorio de la sesión de mañana y el cierre de mes, sin que nadie abra nada.</dd></div>
+            <div><dt>Lo importante</dt><dd>Servidores en Ámsterdam. Ya aloja Prisma y el Pipeline, así que no es una cuenta nueva ni una factura nueva.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="piece" style="--pc:var(--rosa); --pc-ink:var(--rosa-ink); --pc-soft:#fceaf2">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+            <h3>Brevo</h3>
+          </div>
+          <p class="one">El correo que el sistema manda solo, y que queda registrado.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El burofax de toda la vida: lo que importa no es enviarlo, es poder demostrar que se envió.</dd></div>
+            <div><dt>En Pegasus</dt><dd>La comunicación de cobro, el recordatorio de sesión y —esta es la seria— el aviso de cambio de condiciones o de tarifa que las condiciones firmadas exigen.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="piece" style="--pc:var(--rojo); --pc-ink:var(--rojo-ink); --pc-soft:#fbe8e8">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><circle cx="18" cy="6" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6M9 6h3a3 3 0 013 3v3"/></svg></div>
+            <h3>GitHub</h3>
+          </div>
+          <p class="one">El historial: cada cambio, quién lo hizo, cuándo, y cómo deshacerlo.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El registro de obras del edificio. No vives ahí: es el expediente de todo lo que se ha tocado.</dd></div>
+            <div><dt>En Pegasus</dt><dd>Si el martes calcula mal un plus, el miércoles se ve qué se cambió el lunes y se vuelve atrás en un minuto.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="piece" style="--pc:var(--naranja); --pc-ink:var(--naranja-ink); --pc-soft:#fdeee2">
+        <div class="strip"></div>
+        <div class="body">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M8 17l-5-5 5-5M16 7l5 5-5 5M13.5 4l-3 16"/></svg></div>
+            <h3>Claude Code</h3>
+          </div>
+          <p class="one">Quien escribe el código a partir de lo que le pides.</p>
+          <dl>
+            <div><dt>La analogía</dt><dd>El constructor. Rápido y bueno, pero levanta exactamente lo que dice el plano. Si el plano está mal, la obra sale mal.</dd></div>
+            <div><dt>En Pegasus</dt><dd>Tú escribes el qué. Él escribe el cómo. Por eso el cuello de botella eres tú, y está bien que lo seas.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="s-head">
+      <p class="eyebrow">03 · El recorrido</p>
+      <h2>El viaje de un dato</h2>
+      <p class="lead">Un caso real y pequeño: <strong>el terapeuta marca que un usuario no vino el martes.</strong> Ocho pasos desde que lo toca hasta que sale el correo a la familia.</p>
+    </div>
+
+    <div class="flowmap" id="flowmap">
+      <div class="node" data-node="persona" style="--nc:var(--gris-texto); --nc-ink:var(--negro)">
+        <div class="n-dot"></div><p class="n-name">La persona</p><p class="n-what">Móvil o portátil</p>
+      </div>
+      <div class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></div>
+      <div class="node" data-node="railway" style="--nc:var(--morado); --nc-ink:var(--morado-ink)">
+        <div class="n-dot"></div><p class="n-name">Railway</p><p class="n-what">Sirve la app y corre los procesos</p>
+      </div>
+      <div class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></div>
+      <div class="node" data-node="next" style="--nc:var(--azul); --nc-ink:var(--azul-ink)">
+        <div class="n-dot"></div><p class="n-name">Next.js</p><p class="n-what">La pantalla y la lógica</p>
+      </div>
+      <div class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></div>
+      <div class="node" data-node="supabase" style="--nc:var(--verde); --nc-ink:var(--verde-ink)">
+        <div class="n-dot"></div><p class="n-name">Supabase</p><p class="n-what">El dato y el permiso</p>
+      </div>
+      <div class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></div>
+      <div class="node" data-node="brevo" style="--nc:var(--rosa); --nc-ink:var(--rosa-ink)">
+        <div class="n-dot"></div><p class="n-name">Brevo</p><p class="n-what">El correo que sale</p>
+      </div>
+    </div>
+
+    <div class="stepper">
+      <div class="dots" id="dots" role="tablist" aria-label="Pasos del viaje del dato"></div>
+      <div class="stepcard" id="stepcard" aria-live="polite">
+        <p class="caption" id="stepnum"></p>
+        <h3 id="steptitle"></h3>
+        <p id="steptext"></p>
+      </div>
+      <div class="nav">
+        <button class="navbtn" id="prev" type="button">← Anterior</button>
+        <button class="navbtn" id="next" type="button">Siguiente →</button>
+        <span class="caption" style="margin-left:4px">También con las flechas del teclado</span>
+      </div>
+    </div>
+
+    <div class="kicker">En ningún paso nadie le ha mandado un Excel a nadie.</div>
+  </section>
+
+  <section class="alt">
+    <div class="s-head">
+      <p class="eyebrow">04 · Lo que más cuesta acertar</p>
+      <h2>Quién ve qué</h2>
+      <p class="lead">Esta es la parte difícil del CRM, y no tiene nada que ver con la tecnología: <strong>tiene que ver con tu organigrama.</strong> Con cuatro coordinaciones de zona, quince espacios y un portal de familias, cada consulta tiene que saber quién la hace.</p>
+    </div>
+
+    <div class="tablebox">
+      <table class="perm">
+        <thead>
+          <tr>
+            <th scope="col">Qué</th>
+            <th scope="col">Terapeuta<br>Educador</th>
+            <th scope="col">Coordinación<br>de zona</th>
+            <th scope="col">Dirección de<br>Servicios</th>
+            <th scope="col">Administración</th>
+            <th scope="col">Familia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Agenda</td>
+            <td><span class="part">solo la suya</span></td>
+            <td><span class="part">su zona</span></td>
+            <td class="c"><span class="yes">todas</span></td>
+            <td class="c"><span class="no">—</span></td>
+            <td><span class="part">sus sesiones</span></td>
+          </tr>
+          <tr>
+            <td>Ficha del usuario</td>
+            <td><span class="part">sus usuarios</span></td>
+            <td><span class="part">su zona</span></td>
+            <td class="c"><span class="yes">todas</span></td>
+            <td><span class="part">datos de cobro</span></td>
+            <td><span class="part">la suya</span></td>
+          </tr>
+          <tr>
+            <td>Historia clínica y PIA</td>
+            <td><span class="part">sus usuarios</span></td>
+            <td><span class="part">su zona</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="no">nunca</span></td>
+            <td class="c"><span class="no">no</span></td>
+          </tr>
+          <tr>
+            <td>Alta y baja de usuario</td>
+            <td class="c"><span class="no">no</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="no">no</span></td>
+          </tr>
+          <tr>
+            <td>Cuotas y remesas</td>
+            <td class="c"><span class="no">no</span></td>
+            <td class="c"><span class="no">no</span></td>
+            <td><span class="part">consulta</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td><span class="part">la suya</span></td>
+          </tr>
+          <tr>
+            <td>Pluses</td>
+            <td><span class="part">el suyo</span></td>
+            <td><span class="part">su zona</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="no">—</span></td>
+          </tr>
+          <tr>
+            <td>Dar de alta a un profesional</td>
+            <td class="c"><span class="no">no</span></td>
+            <td class="c"><span class="no">no</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="yes">sí</span></td>
+            <td class="c"><span class="no">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption" style="margin-top:12px">Borrador para discutir el miércoles. Marrero es quien tiene que corregir cada celda.</p>
+
+    <div class="lifecycle">
+      <article class="lc" style="--lc:var(--verde); --lc-ink:var(--verde-ink)">
+        <h3>Alta de un profesional</h3>
+        <p>Se le da un rol y una zona. Con eso ya ve exactamente lo que le toca: no hay que asignarle usuarios uno a uno.</p>
+        <p class="why">El permiso va por zona, no por persona.</p>
+      </article>
+      <article class="lc" style="--lc:var(--naranja); --lc-ink:var(--naranja-ink)">
+        <h3>Cambio de zona</h3>
+        <p>Se cambia una línea y cambia todo lo que ve. Si el permiso fuera usuario por usuario, habría que tocar doscientas fichas.</p>
+        <p class="why">Por eso el permiso se diseña antes que las pantallas.</p>
+      </article>
+      <article class="lc" style="--lc:var(--rojo); --lc-ink:var(--rojo-ink)">
+        <h3>Baja de un profesional</h3>
+        <p>Se le revoca el acceso el mismo día. <strong>Pero sus registros se quedan.</strong> Lo que escribió en una historia clínica no se borra porque se vaya.</p>
+        <p class="why">Quitar acceso y borrar datos son dos cosas distintas.</p>
+      </article>
+      <article class="lc" style="--lc:var(--morado); --lc-ink:var(--morado-ink)">
+        <h3>Y todo queda registrado</h3>
+        <p>Quién consultó una historia clínica, quién cambió una cuota y cuándo. No es desconfianza: con datos de salud de menores, es obligación.</p>
+        <p class="why">Se escribe desde el primer día o no se escribe nunca.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="s-head">
+      <p class="eyebrow">05 · La prueba</p>
+      <h2>Quita una pieza</h2>
+      <p class="lead">La pregunta buena no es «¿qué hace cada cosa?», sino <strong>«¿qué pasa si la quito?»</strong>. Apaga las que quieras.</p>
+    </div>
+
+    <div class="toggles" id="toggles"></div>
+    <div class="breaks" id="breaks"></div>
+  </section>
+
+  <section class="alt">
+    <div class="s-head">
+      <p class="eyebrow">06 · Dónde se trabaja</p>
+      <h2>Local, subido y publicado</h2>
+      <p class="lead">Hay tres copias del CRM a la vez, y confundirlas es el error que más caro sale.</p>
+    </div>
+
+    <div class="three">
+      <article class="env" style="--ec:var(--azul); --ec-ink:var(--azul-ink)">
+        <div class="num">1</div>
+        <p class="who">Local</p>
+        <h3>Tu copia</h3>
+        <p>La que tienes abierta en tu ordenador. Aquí se prueba, se rompe y se arregla. Nadie más la ve.</p>
+      </article>
+      <article class="env" style="--ec:var(--rojo); --ec-ink:var(--rojo-ink)">
+        <div class="num">2</div>
+        <p class="who">GitHub</p>
+        <h3>La copia de todos</h3>
+        <p>La oficial. Cuando subes lo que has probado, queda ahí con tu nombre y la fecha. Es de donde se vuelve atrás.</p>
+      </article>
+      <article class="env" style="--ec:var(--morado); --ec-ink:var(--morado-ink)">
+        <div class="num">3</div>
+        <p class="who">Railway</p>
+        <h3>Lo publicado</h3>
+        <p>Lo que el equipo está usando ahora mismo. Solo llega aquí lo que ha pasado por 1 y por 2.</p>
+      </article>
+    </div>
+
+    <div class="rule">
+      <p class="t">Nunca se prueba sobre los datos reales de las familias</p>
+      <p>Hay <strong>dos bases de datos</strong>: una de pruebas, con usuarios inventados, y la de verdad. Se programa contra la de pruebas. Un borrado accidental en la de pruebas es una anécdota; en la de verdad es un incidente de protección de datos con historiales clínicos de menores dentro.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="s-head">
+      <p class="eyebrow">07 · El reparto</p>
+      <h2>Dos personas,<br>tres máquinas</h2>
+      <p class="lead">Cinco papeles, y ninguno hace el del otro. Las máquinas no hablan entre ellas: <strong>se dejan ficheros en la carpeta.</strong> La orden de una es un fichero que lee la siguiente.</p>
+    </div>
+
+    <p class="caption" style="margin-bottom:12px">Las personas</p>
+    <div class="roles">
+      <article class="role" style="--rc:var(--verde-ink)">
+        <span class="badge">Marrero</span>
+        <h3>El qué</h3>
+        <p>Qué pantallas hacen falta. Qué campos lleva cada una. Qué ve un terapeuta y qué ve una coordinadora. Cómo se calcula un plus. Cuándo una falta es recuperable. <strong>Y si una pantalla dibujada está bien o no.</strong></p>
+        <p class="nota">Nadie más en la casa lo sabe. Y sin esto, no hay CRM.</p>
+      </article>
+      <article class="role" style="--rc:var(--verde-ink)">
+        <span class="badge">Álvaro</span>
+        <h3>Cómo se pide</h3>
+        <p>Convierte ese qué en instrucciones escritas que las máquinas entienden, decide qué se construye y qué no, y da el visto bueno final antes de que nada se publique.</p>
+        <p class="nota">Es traducción, no invención. Si se inventa algo, sale mal.</p>
+      </article>
+    </div>
+
+    <p class="caption" style="margin:26px 0 12px">Las máquinas</p>
+    <div class="roles">
+      <article class="role" style="--rc:var(--morado)">
+        <span class="badge">Claude</span>
+        <h3>El cerebro · piensa y manda</h3>
+        <p>Es el único que conoce el cerebro de Pegasus entero. Escribe la orden, dibuja la pantalla, reparte el trabajo, lee el veredicto y deja todo apuntado al cerrar.</p>
+        <p class="nota">No programa. Si el cerebro escribe código, ya no hay nadie por encima mirando.</p>
+      </article>
+      <article class="role" style="--rc:var(--azul)">
+        <span class="badge">Codex</span>
+        <h3>El que programa</h3>
+        <p>Recibe la orden cerrada y la pantalla dibujada. Construye, con sus pruebas. Guarda su trabajo y avisa. <strong>No lo publica.</strong></p>
+        <p class="nota">No decide. Si la orden no lo dice, pregunta. No se inventa una regla.</p>
+      </article>
+      <article class="role" style="--rc:var(--naranja-ink)">
+        <span class="badge">Grok · a prueba</span>
+        <h3>El que revisa</h3>
+        <p>Lee la orden, lee la pantalla, lee lo que hizo Codex. Dice si cumple y qué no. Uno construye, otro mira.</p>
+        <p class="nota">No arregla. Señala; el arreglo vuelve a Codex. Se mide un mes: si no aporta, sale.</p>
+      </article>
+    </div>
+
+    <div class="rule" style="border-color:var(--morado)">
+      <p class="t" style="color:var(--morado)">El que programa nunca se revisa a sí mismo</p>
+      <p>Y el cerebro no programa. Son las dos reglas que hacen que tres máquinas sean mejor que una: <strong>siempre hay alguien mirando lo que hizo el otro.</strong></p>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="s-head">
+      <p class="eyebrow">08 · Cómo se trabaja</p>
+      <h2>La carpeta, los seis pasos<br>y los especialistas</h2>
+      <p class="lead">Todo lo que se construye vive en <strong>una carpeta con normas</strong>. Toda pieza pasa por los mismos seis pasos: <strong>tres son tuyos y tres son de las máquinas.</strong> Y cada máquina tiene especialistas a los que llama.</p>
+    </div>
+
+    <p class="caption" style="margin-bottom:12px">La carpeta · pulsa cada línea</p>
+    <div class="treewrap">
+      <ul class="tree" id="tree" role="listbox" aria-label="Carpeta del CRM"></ul>
+      <div class="tpanel" id="tpanel"></div>
+    </div>
+
+    <p class="caption" style="margin:34px 0 0">Los seis pasos de una pieza · pulsa cada uno</p>
+    <div class="steps" id="steps"></div>
+    <div class="legend"><span><i style="background:var(--verde)"></i> Lo hacen personas</span><span><i style="background:var(--morado)"></i> Lo hacen máquinas</span></div>
+    <div class="sdetail" id="sdetail"></div>
+    <div class="kicker">Los pasos 0, 2 y 5 son tuyos. Son los que no se automatizan: ahí es donde entra lo que la máquina no sabe.</div>
+
+    <p class="caption" style="margin:34px 0 0">Las salvaguardas · lo que impide el desastre</p>
+    <div class="guards">
+      <article class="guard" style="--gc:var(--verde)"><div class="k">1</div><p class="t">Dos bases de datos</p><p class="p">Las máquinas solo conocen la de pruebas, con personas inventadas. La real no la ha visto nunca ninguna.</p></article>
+      <article class="guard" style="--gc:var(--azul)"><div class="k">2</div><p class="t">Ninguna máquina tiene llaves de producción</p><p class="p">Ni las verá. Lo publicado solo lo toca una persona.</p></article>
+      <article class="guard" style="--gc:var(--morado)"><div class="k">3</div><p class="t">La máquina guarda; la persona publica</p><p class="p">Nada llega a producción sin que alguien lo haya mirado y haya pulsado el botón.</p></article>
+      <article class="guard" style="--gc:var(--rosa)"><div class="k">4</div><p class="t">Copia de seguridad antes de tocar la base</p><p class="p">Con el enlace escrito. Es una regla que ya costó un susto en otro sistema de la casa.</p></article>
+      <article class="guard" style="--gc:var(--rojo)"><div class="k">5</div><p class="t">Nada personal en el historial. Jamás</p><p class="p">Ni en pruebas, ni en capturas, ni en un ejemplo. El repositorio es privado y aun así no entra.</p></article>
+      <article class="guard" style="--gc:var(--naranja)"><div class="k">6</div><p class="t">Uno construye, otro revisa</p><p class="p">Y lo que dice una máquina se comprueba contra el fichero real antes de creérselo.</p></article>
+      <article class="guard" style="--gc:var(--amarillo)"><div class="k" style="color:var(--negro)">7</div><p class="t">El portátil solo ve la base de pruebas</p><p class="p">Aunque algo se filtre desde un ordenador, lo que se filtra es inventado. Las llaves reales viven en los paneles y en un gestor de contraseñas.</p></article>
+    </div>
+
+    <div class="rule sec">
+      <p class="t">Cinco cosas que no se hacen nunca</p>
+      <ul>
+        <li><strong>Escribir una contraseña</strong> en un chat, en un documento o en un Word en Drive. Van al gestor de contraseñas.</li>
+        <li><strong>Pegarle a una IA el nombre de un niño con su diagnóstico.</strong> Agregado sí; individual no. Tampoco una captura con datos reales.</li>
+        <li><strong>Usar cuentas personales.</strong> Todo con cuentas de Pegasus, con segundo factor. Quien se va, pierde el acceso el mismo día.</li>
+        <li><strong>Subir algo a un repositorio público</strong> pensando que se puede borrar después. Es público para siempre.</li>
+        <li><strong>Dejar que un fichero le dé órdenes a la máquina.</strong> Si un texto le dice qué hacer, la máquina no le hace caso al texto: le hace caso a la persona.</li>
+      </ul>
+    </div>
+  
+    <p class="caption" style="margin:38px 0 0">Las máquinas y sus especialistas</p>
+    <p class="lead" style="margin-top:10px; max-width:66ch">Una máquina no lo sabe todo. Cuando llega una tarea, <strong>despierta a un especialista</strong>, le pasa el trabajo y, cuando termina, lo despide. Cinco palabras, de mayor a menor:</p>
+    <div class="chain">
+      <div class="lvl" style="--lc:var(--verde); --lc-ink:var(--verde-ink)"><p class="w">Proyecto</p><p class="d">Lo que se quiere construir, con su porqué.</p><p class="x">El CRM · 03_PROYECTOS/</p></div>
+      <div class="lvl" style="--lc:var(--azul); --lc-ink:var(--azul-ink)"><p class="w">Carpeta</p><p class="d">Donde vive el código y las normas para construirlo.</p><p class="x">04_SOFTWARE/crm-pegasus/</p></div>
+      <div class="lvl" style="--lc:var(--morado); --lc-ink:var(--morado)"><p class="w">Máquina</p><p class="d">Un programa de IA que trabaja dentro de la carpeta.</p><p class="x">Claude · Codex · Grok</p></div>
+      <div class="lvl" style="--lc:var(--rosa); --lc-ink:var(--rosa-ink)"><p class="w">Agente</p><p class="d">Un especialista que la máquina despierta para una tarea. Termina y desaparece.</p><p class="x">security-auditor</p></div>
+      <div class="lvl" style="--lc:var(--naranja); --lc-ink:var(--naranja-ink)"><p class="w">Skill</p><p class="d">Una hoja de conocimiento que se carga cuando hace falta. No trabaja sola.</p><p class="x">postgresql-table-design</p></div>
+      <div class="lvl" style="--lc:var(--rojo); --lc-ink:var(--rojo-ink)"><p class="w">Comando</p><p class="d">Lo que una persona pide con una barra delante.</p><p class="x">/design-review</p></div>
+    </div>
+    <div class="kicker" style="margin-top:16px">La máquina es la coordinadora. Los agentes, los especialistas a los que llama. Las skills, los protocolos de la estantería. Los comandos, lo que tú le pides con una palabra.</div>
+
+    <p class="caption" style="margin:30px 0 0">Lo instalado · 29 agentes · 31 skills · 17 comandos · pulsa para desplegar</p>
+    <p class="muted" style="font-size:14.5px; margin-top:6px; max-width:66ch">Viene en <strong>plugins</strong>: paquetes que traen agentes, skills y comandos juntos. Todos están apuntados en la carpeta, así que quien la abra los tiene. Cada agente lleva una frase que dice cuándo se despierta: <strong>no hay que pedirlo</strong>.</p>
+    <div class="plugs">
+      <details class="plug"><summary><div><p class="n">El lenguaje<code>javascript-typescript</code></p><p class="q">Todo lo que el CRM se escribe en JavaScript y TypeScript, con sus pruebas.</p></div><span class="cnt">2 ag · 4 sk · 1 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>javascript-pro</code><span>Experto en JavaScript moderno: asincronía, Node.js, compatibilidad navegador/servidor. Se despierta cuando hay que escribir o arreglar JavaScript.</span></div><div class="it ag"><code>typescript-pro</code><span>Experto en TypeScript estricto: tipos avanzados, genéricos, seguridad de tipos. Evita que un dato mal tipado llegue a la base de datos.</span></div></div><div class="grp"><p class="caption">Skills · hojas de conocimiento</p><div class="it sk"><code>javascript-testing-patterns</code><span>Cómo se prueban las cosas: pruebas unitarias, de integración y de extremo a extremo con Jest, Vitest y Testing Library.</span></div><div class="it sk"><code>modern-javascript-patterns</code><span>Los patrones del JavaScript actual: async/await, módulos, funciones flecha, programación funcional.</span></div><div class="it sk"><code>nodejs-backend-patterns</code><span>Cómo se monta un servidor Node.js que aguante producción: middleware, errores, autenticación, base de datos.</span></div><div class="it sk"><code>typescript-advanced-types</code><span>El sistema de tipos avanzado de TypeScript: genéricos, tipos condicionales, utilidades.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/typescript-scaffold</code><span>Levanta el esqueleto de un proyecto TypeScript bien configurado.</span></div></div></div></details><details class="plug"><summary><div><p class="n">Las pantallas<code>frontend-mobile-development</code></p><p class="q">Cómo se construyen las pantallas en React y Next.js, y cómo se gestiona lo que el usuario ve.</p></div><span class="cnt">2 ag · 4 sk · 1 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>frontend-developer</code><span>Construye componentes React, maquetas que se adaptan al móvil y gestiona el estado en pantalla. Domina React 19 y Next.js 15.</span></div><div class="it ag"><code>mobile-developer</code><span>Aplicaciones móviles nativas o React Native. No lo usaremos al principio: el CRM es web, también en el móvil.</span></div></div><div class="grp"><p class="caption">Skills · hojas de conocimiento</p><div class="it sk"><code>nextjs-app-router-patterns</code><span>El enrutador moderno de Next.js: componentes de servidor, carga progresiva, rutas paralelas.</span></div><div class="it sk"><code>react-native-architecture</code><span>Apps móviles con Expo. Reservado para si algún día el portal de familias es app nativa.</span></div><div class="it sk"><code>react-state-management</code><span>Cómo se guarda en pantalla lo que cambia: Zustand, React Query, Redux. Elegir bien evita pantallas que no se actualizan.</span></div><div class="it sk"><code>tailwind-design-system</code><span>Sistemas de diseño con Tailwind CSS v4 y tokens: cómo se traduce el sistema de diseño de Pegasus a código.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/component-scaffold</code><span>Crea un componente de pantalla nuevo con su estructura y sus pruebas.</span></div></div></div></details><details class="plug"><summary><div><p class="n">La lógica de detrás<code>backend-development</code></p><p class="q">Lo que pasa cuando pulsas un botón: las reglas, las APIs, la arquitectura del sistema.</p></div><span class="cnt">8 ag · 9 sk · 1 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>backend-architect</code><span>Diseña la arquitectura: qué APIs hay, cómo se comunican las piezas, cómo escala. El que dibuja los planos.</span></div><div class="it ag"><code>event-sourcing-architect</code><span>Arquitecturas por eventos (cada cambio es un hecho registrado). Relevante para la auditoría del CRM.</span></div><div class="it ag"><code>graphql-architect</code><span>APIs GraphQL. Probablemente no lo usemos: el CRM irá con REST.</span></div><div class="it ag"><code>performance-engineer</code><span>Mide y optimiza: tiempos de respuesta, memoria, consultas lentas. Se usa cuando algo va despacio.</span></div><div class="it ag"><code>security-auditor</code><span>Revisa el código buscando agujeros de seguridad: OWASP Top 10, fallos de autenticación. Se despierta en cada revisión.</span></div><div class="it ag"><code>tdd-orchestrator</code><span>Dirige el ciclo prueba-código-prueba: primero se escribe la prueba que falla, luego el código que la hace pasar.</span></div><div class="it ag"><code>temporal-python-pro</code><span>Flujos de trabajo con Temporal en Python. No aplica a este proyecto.</span></div><div class="it ag"><code>test-automator</code><span>Escribe baterías de pruebas completas: unitarias, de integración, de extremo a extremo.</span></div></div><div class="grp"><p class="caption">Skills · hojas de conocimiento</p><div class="it sk"><code>api-design-principles</code><span>Cómo se diseña una API que otros entiendan sin manual: nombres, rutas, errores, versiones.</span></div><div class="it sk"><code>architecture-patterns</code><span>Arquitectura limpia, hexagonal, diseño guiado por el dominio. Cómo se organiza el código para que dentro de dos años se entienda.</span></div><div class="it sk"><code>cqrs-implementation</code><span>Separar lo que escribe de lo que lee. Útil para la agenda: muchas lecturas, pocas escrituras.</span></div><div class="it sk"><code>event-store-design</code><span>Cómo se guarda un historial de eventos. Base para el módulo de auditoría.</span></div><div class="it sk"><code>microservices-patterns</code><span>Sistemas partidos en muchos servicios. No aplica: el CRM es un solo sistema, a propósito.</span></div><div class="it sk"><code>projection-patterns</code><span>Construir vistas de lectura a partir de eventos. Relacionado con auditoría e informes.</span></div><div class="it sk"><code>saga-orchestration</code><span>Transacciones que atraviesan varias piezas. Relevante en cobros: cuota → remesa → factura.</span></div><div class="it sk"><code>temporal-python-testing</code><span>Pruebas de Temporal en Python. No aplica.</span></div><div class="it sk"><code>workflow-orchestration-patterns</code><span>Flujos de trabajo duraderos con Temporal. No aplica de momento.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/feature-development</code><span>Construye una funcionalidad completa de punta a punta siguiendo el proceso: spec → diseño → código → pruebas.</span></div></div></div></details><details class="plug"><summary><div><p class="n">El modelo de datos<code>database-design</code></p><p class="q">Cómo se diseñan las tablas para que el dato viva una sola vez y bien.</p></div><span class="cnt">2 ag · 1 sk</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>database-architect</code><span>Diseña la capa de datos desde cero: qué tablas, qué relaciones, qué tecnología. El que convierte el modelo de datos en esquema real.</span></div><div class="it ag"><code>sql-pro</code><span>Experto en SQL moderno: consultas eficientes, modelado, rendimiento en bases de datos en la nube.</span></div></div><div class="grp"><p class="caption">Skills · hojas de conocimiento</p><div class="it sk"><code>postgresql-table-design</code><span>Cómo se diseña una tabla en PostgreSQL —la base de Supabase—: tipos de dato, índices, restricciones. Se lee antes de crear cualquier tabla.</span></div></div></div></details><details class="plug"><summary><div><p class="n">Los cambios en la base de datos<code>database-migrations</code></p><p class="q">Cómo se cambia una tabla sin perder datos ni romper lo que ya funciona.</p></div><span class="cnt">2 ag · 2 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>database-admin</code><span>Administración de bases de datos en la nube: copias de seguridad, fiabilidad, automatización. El que se asegura de que hay backup antes de tocar.</span></div><div class="it ag"><code>database-optimizer</code><span>Afina el rendimiento: índices, consultas repetidas (N+1), planes de ejecución.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/sql-migrations</code><span>Escribe una migración SQL con su marcha atrás.</span></div><div class="it cm"><code>/migration-observability</code><span>Vigila que una migración ha ido bien y avisa si algo se queda a medias.</span></div></div></div></details><details class="plug"><summary><div><p class="n">La seguridad de la API<code>backend-api-security</code></p><p class="q">Que nadie pueda pedir al sistema lo que no le toca.</p></div><span class="cnt">2 ag</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>backend-architect</code><span>El mismo arquitecto de arriba, con foco en seguridad.</span></div><div class="it ag"><code>backend-security-coder</code><span>Escribe código seguro: valida cada entrada, protege la autenticación, cierra la API. Se despierta solo cuando toca seguridad.</span></div></div></div></details><details class="plug"><summary><div><p class="n">La revisión con varios ojos<code>comprehensive-review</code></p><p class="q">El papel del revisor, con tres especialistas que miran cada uno una cosa.</p></div><span class="cnt">3 ag · 2 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>architect-review</code><span>Revisa que la arquitectura sigue siendo limpia después del cambio: que nadie ha metido un atajo.</span></div><div class="it ag"><code>code-reviewer</code><span>Revisor de código de élite: bugs, seguridad, rendimiento, fiabilidad. El que dice «esto cumple» o «esto no».</span></div><div class="it ag"><code>security-auditor</code><span>Auditoría de seguridad completa: vulnerabilidades, modelado de amenazas, cumplimiento.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/full-review</code><span>Lanza la revisión completa sobre lo que se ha cambiado.</span></div><div class="it cm"><code>/pr-enhance</code><span>Mejora la descripción de un cambio antes de proponerlo.</span></div></div></div></details><details class="plug"><summary><div><p class="n">Primero la prueba<code>tdd-workflows</code></p><p class="q">La disciplina de escribir la prueba antes que el código. Es lo que hace que «29 de 30» sea 29 de 30.</p></div><span class="cnt">2 ag · 4 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>code-reviewer</code><span>El mismo revisor, dentro del ciclo de pruebas.</span></div><div class="it ag"><code>tdd-orchestrator</code><span>Dirige el ciclo rojo → verde → refactor.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/tdd-cycle</code><span>Un ciclo completo: prueba que falla, código, prueba que pasa, limpieza.</span></div><div class="it cm"><code>/tdd-red</code><span>Escribe la prueba que falla.</span></div><div class="it cm"><code>/tdd-green</code><span>Escribe el mínimo código para que pase.</span></div><div class="it cm"><code>/tdd-refactor</code><span>Limpia sin cambiar el comportamiento.</span></div></div></div></details><details class="plug"><summary><div><p class="n">Diseño de interfaz<code>ui-design</code></p><p class="q">Que las pantallas sean coherentes, accesibles y se vean bien en cualquier tamaño.</p></div><span class="cnt">3 ag · 9 sk · 4 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>accessibility-expert</code><span>Que lo pueda usar todo el mundo: lectores de pantalla, teclado, contraste. WCAG 2.2.</span></div><div class="it ag"><code>design-system-architect</code><span>Diseña el sistema de diseño en código: tokens, componentes, temas. Traduce el sistema de Pegasus a piezas reutilizables.</span></div><div class="it ag"><code>ui-designer</code><span>Crea componentes y maquetas: jerarquía visual, espaciado, responsive.</span></div></div><div class="grp"><p class="caption">Skills · hojas de conocimiento</p><div class="it sk"><code>accessibility-compliance</code><span>Interfaces conformes a WCAG 2.2, también en móvil.</span></div><div class="it sk"><code>design-system-patterns</code><span>Tokens, temas y arquitectura de componentes.</span></div><div class="it sk"><code>interaction-design</code><span>Microinteracciones, transiciones, retroalimentación al usuario: que se note que has pulsado.</span></div><div class="it sk"><code>mobile-android-design</code><span>Material Design 3 para Android nativo. No aplica.</span></div><div class="it sk"><code>mobile-ios-design</code><span>Guías de iOS nativo. No aplica.</span></div><div class="it sk"><code>react-native-design</code><span>Estilo y navegación en React Native. Reservado.</span></div><div class="it sk"><code>responsive-design</code><span>Maquetas que se adaptan: móvil primero, rejillas, tipografía fluida.</span></div><div class="it sk"><code>visual-design-foundations</code><span>Tipografía, color, espaciado, iconografía: los fundamentos.</span></div><div class="it sk"><code>web-component-design</code><span>Patrones de componentes en React: composición, reutilización.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/accessibility-audit</code><span>Audita la accesibilidad de una pantalla.</span></div><div class="it cm"><code>/create-component</code><span>Crea un componente siguiendo el sistema de diseño.</span></div><div class="it cm"><code>/design-review</code><span>Revisa el diseño de una pantalla contra el sistema.</span></div><div class="it cm"><code>/design-system-setup</code><span>Monta la base del sistema de diseño en código.</span></div></div></div></details><details class="plug"><summary><div><p class="n">Que quede explicado<code>code-documentation</code></p><p class="q">Documentación que se genera desde el código y que Marrero pueda leer dentro de un año.</p></div><span class="cnt">3 ag · 2 cmd</span></summary><div class="body"><div class="grp"><p class="caption">Agentes · especialistas que se despiertan</p><div class="it ag"><code>code-reviewer</code><span>El mismo revisor, con foco en que el código se explique.</span></div><div class="it ag"><code>docs-architect</code><span>Genera documentación técnica larga a partir del código existente: arquitectura, decisiones, cómo funciona.</span></div><div class="it ag"><code>tutorial-engineer</code><span>Convierte código en tutoriales paso a paso. Útil para formar a quien venga después.</span></div></div><div class="grp"><p class="caption">Comandos · lo que pide una persona</p><div class="it cm"><code>/code-explain</code><span>Explica en llano qué hace un trozo de código.</span></div><div class="it cm"><code>/doc-generate</code><span>Genera la documentación de un módulo.</span></div></div></div></details>
+      <details class="plug design"><summary><div><p class="n">frontend-design<code>plugin · Claude Code</code></p><p class="q">Anthropic · oficial · 1,3 M instalaciones · Viaja con la carpeta</p></div><span class="cnt">diseño</span></summary><div class="body"><p style="font-size:15px">El criterio estético de base. Le dice a la máquina que diseñe como un estudio con identidad propia y no como una plantilla: elecciones deliberadas de tipografía, paleta y composición. Prohíbe los tics de «interfaz hecha por IA».</p></div></details><details class="plug design"><summary><div><p class="n">impeccable<code>plugin · Claude Code</code></p><p class="q">Paul Bakaus · v4.4 · Viaja con la carpeta</p></div><span class="cnt">diseño</span></summary><div class="body"><p style="font-size:15px">Revisión y pulido de interfaces en pasos repetibles, con 24 comandos: diseñar, criticar, auditar, pulir, simplificar, endurecer, adaptar, animar. Trae cuatro agentes propios: productor de assets, documentador del sistema de diseño, revisor de acabado y aplicador de correcciones. Ya lo usaba el Hub.</p></div></details><details class="plug design"><summary><div><p class="n">interface-design<code>skill · Claude Code y Codex</code></p><p class="q">Dammyjay93 · Viaja con la carpeta</p></div><span class="cnt">diseño</span></summary><div class="body"><p style="font-size:15px">Craft, memoria y consistencia para interfaces de producto —paneles, herramientas, administración—, no para marketing. Guarda las decisiones de diseño en `.interface-design/system.md` y las recarga en cada sesión: la pantalla 40 se parece a la 1.</p></div></details><details class="plug design"><summary><div><p class="n">web-design-guidelines<code>skill · Claude Code y Codex</code></p><p class="q">Vercel · No viaja · cada uno lo instala</p></div><span class="cnt">diseño</span></summary><div class="body"><p style="font-size:15px">Revisa el código de una pantalla contra las guías de interfaz web: accesibilidad, foco, contraste, modo oscuro, estados. Se pide con «revisa esta pantalla» y devuelve lo que falla.</p></div></details>
+    </div>
+    <p class="muted" style="font-size:14px; margin-top:12px; max-width:70ch"><strong>Y encima de todo, un fichero de la casa:</strong> <code>docs/diseno/sistema-de-diseno.md</code>. Las skills saben hacer pantallas bien hechas; ese fichero dice cómo se hacen las de Pegasus. Solo Barlow, los siete colores, la accesibilidad.</p>
+
+  </section>
+
+  <section class="alt">
+    <div class="s-head">
+      <p class="eyebrow">09 · Y el cerebro</p>
+      <h2>Por qué esto va antes que el código</h2>
+    </div>
+    <div class="framing" style="margin-top:0">
+      <p class="lead">Todo lo de arriba se apoya en algo que no es tecnología: <strong>lo que está escrito.</strong></p>
+      <p>Ninguna de las tres máquinas sabe que en TPT una falta médica se recupera y en IS no. Lo sabe porque está escrito en un fichero que lee antes de empezar. Si ese fichero está mal, el CRM calculará mal — y lo hará muy rápido y muy convencido.</p>
+      <p>Por eso la parte aburrida (escribir bien las reglas, dejar el estado al cerrar la sesión, no tener el mismo dato en dos sitios) no es burocracia: <strong>es el plano de la obra.</strong></p>
+      <p>Tres reglas, y no se negocian: <strong>un dato, un sitio</strong> · <strong>el estado se comprueba, no se declara</strong> · <strong>los datos con fecha no son doctrina</strong>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="closing">
+      <p class="eyebrow">Para llevarse</p>
+      <ul class="takeaways">
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Cada pieza hace una cosa. El dato vive en una sola de ellas.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Quitar cualquiera de las seis rompe algo concreto. Ninguna está de adorno.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>El permiso vive en la base de datos y va por rol y zona, no por persona.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Se prueba en local, se sube a GitHub, se publica en Railway. En ese orden, siempre.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Contra los datos reales de las familias no se programa nunca.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Tres máquinas, tres papeles. El que programa nunca se revisa a sí mismo.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>Una pantalla se dibuja y la validas tú antes de que nadie la programe.</span></li>
+        <li><span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><span>El cuello de botella no es el código. Es tener claro el qué.</span></li>
+      </ul>
+      <div class="homework">
+        <p class="t">Los deberes</p>
+        <p>Tres cosas. Una: las <strong>pantallas</strong> del CRM, y para quién es cada una. Dos: los <strong>niveles de usuario</strong>, y qué puede hacer cada uno en cada pantalla — la tabla de la sección 04, corregida por ti. Tres: las <strong>doce fichas de módulo</strong> de la carpeta, que dicen qué Excel sustituye cada cajón — tú sabes si eso es verdad.</p>
+        <p class="muted" style="font-size:15px">Sin pensar en cómo se construye: eso ya no es tu problema. Es el primer fichero del cerebro del proyecto, y de ahí sale todo lo demás.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="endbar"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STEPS = [
+    { on:["persona","railway"], t:"El terapeuta abre el CRM en el móvil",
+      d:"El navegador pide la página a Railway, que se la devuelve. No hay nada instalado en ese móvil: solo una dirección web y sus credenciales. Si mañana cambia de teléfono, no hay que instalar nada." },
+    { on:["next","supabase"], t:"La app pide la agenda, y Supabase decide qué le da",
+      d:"Le devuelve solo las sesiones de esa persona, de ese día. El permiso no es una cortesía de la pantalla: está en la base de datos. Aunque alguien trastease la pantalla, Supabase no le daría las sesiones de otro profesional." },
+    { on:["persona","next"], t:"Marca «no asistió · causa médica»",
+      d:"Dos toques. La pantalla ofrece exactamente los motivos que existen en Pegasus, ni uno más. Así no hay catorce formas de escribir lo mismo, que es lo que hoy hace imposible contar nada." },
+    { on:["next","supabase"], t:"Se guarda, y queda registrado quién lo hizo",
+      d:"El dato va a Supabase y queda escrito una sola vez. Junto a él se anota quién lo tocó y cuándo. No hay copia en el móvil, ni un Excel que alguien tenga que actualizar después." },
+    { on:["next"], t:"Se dispara la regla sola",
+      d:"Falta médica justificada en TPT es recuperable, así que la app crea la sesión pendiente de recuperar. En IS no lo sería, y no la crearía. La regla está escrita una vez, en un sitio, y no la aplica ninguna persona a mano." },
+    { on:["supabase","next","persona"], t:"La coordinadora lo ve",
+      d:"Cuando abre su pantalla, Supabase le devuelve el dato ya actualizado, con la recuperación pendiente en su lista. Ve esta y las de toda su zona, porque su rol lo permite. Nadie le ha avisado: simplemente está." },
+    { on:["railway","supabase"], t:"Fin de mes, de madrugada",
+      d:"Railway ejecuta el cierre sin que nadie abra nada: cuenta las sesiones del mes, descuenta los festivos, aplica la tarifa y deja la cuota lista para la remesa. Si ese día no hay nadie en la oficina, la remesa sale igual." },
+    { on:["railway","brevo"], t:"Y sale el correo a la familia",
+      d:"La comunicación de cobro se manda sola, y queda registrado a quién se envió y cuándo. Eso no es un detalle: las condiciones firmadas dicen que un cambio de tarifa se comunica por correo, y sin ese envío la subida no es oponible a la familia." }
+  ];
+
+  var i = 0;
+  var dotsEl = document.getElementById("dots");
+  var numEl = document.getElementById("stepnum");
+  var titleEl = document.getElementById("steptitle");
+  var textEl = document.getElementById("steptext");
+  var prevEl = document.getElementById("prev");
+  var nextEl = document.getElementById("next");
+  var nodes = document.querySelectorAll("#flowmap .node");
+
+  STEPS.forEach(function(s, n){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "dot";
+    b.textContent = String(n + 1);
+    b.setAttribute("aria-label", "Paso " + (n + 1) + ": " + s.t);
+    b.addEventListener("click", function(){ go(n); });
+    dotsEl.appendChild(b);
+  });
+
+  function go(n){
+    i = Math.max(0, Math.min(STEPS.length - 1, n));
+    var s = STEPS[i];
+    numEl.textContent = "Paso " + (i + 1) + " de " + STEPS.length;
+    titleEl.textContent = s.t;
+    textEl.textContent = s.d;
+    Array.prototype.forEach.call(dotsEl.children, function(b, n2){
+      b.setAttribute("aria-current", n2 === i ? "true" : "false");
+    });
+    Array.prototype.forEach.call(nodes, function(nd){
+      nd.setAttribute("data-on", s.on.indexOf(nd.getAttribute("data-node")) > -1 ? "1" : "0");
+    });
+    prevEl.disabled = i === 0;
+    nextEl.disabled = i === STEPS.length - 1;
+  }
+
+  prevEl.addEventListener("click", function(){ go(i - 1); });
+  nextEl.addEventListener("click", function(){ go(i + 1); });
+  document.addEventListener("keydown", function(e){
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.key === "ArrowRight") { go(i + 1); }
+    else if (e.key === "ArrowLeft") { go(i - 1); }
+  });
+  go(0);
+
+  /* ---- Quita una pieza ---- */
+  var PIECES = [
+    { id:"supabase", name:"Supabase", c:"--verde", ink:"--verde-ink",
+      brk:"Cada uno vuelve a guardar en su sitio, y el permiso vuelve a la pantalla.",
+      d:"Un terapeuta tiene sus sesiones, la coordinadora tiene las suyas y la hoja de remesas tiene otras terceras. Nadie miente: es que hay tres archivadores. Y con el permiso en la pantalla, quien sepa mirar ve lo que no debe.",
+      back:"Vuelves exactamente a hoy, con el candado del Hub." },
+    { id:"next", name:"Next.js", c:"--azul", ink:"--azul-ink",
+      brk:"No hay pantalla.",
+      d:"El dato existe y está bien guardado, pero solo lo puede consultar quien sepa consultarlo. Un terapeuta no va a escribir una consulta para marcar una falta.",
+      back:"Vuelves a que solo Marrero pueda tocar el sistema." },
+    { id:"railway", name:"Railway", c:"--morado", ink:"--morado-ink",
+      brk:"La app solo existe donde se hizo, y nada pasa solo.",
+      d:"Funciona en el ordenador de quien la construyó. Nadie puede entrar desde fuera. Y la remesa la tiene que lanzar una persona el día 20, y los recordatorios los manda alguien a mano.",
+      back:"Vuelves al CRM instalado en una máquina, y a depender de que alguien esté ese día." },
+    { id:"brevo", name:"Brevo", c:"--rosa", ink:"--rosa-ink",
+      brk:"El sistema sabe qué hay que comunicar, pero no puede comunicarlo.",
+      d:"Alguien tiene que escribir los correos a mano, y no queda constancia de a quién se le mandó ni cuándo. El día que una familia diga que no le avisaron de la subida, no hay nada que enseñar.",
+      back:"Es la pieza barata que evita un problema caro." },
+    { id:"github", name:"GitHub", c:"--rojo", ink:"--rojo-ink",
+      brk:"Funciona hasta el día que se rompe.",
+      d:"Y ese día no sabes qué cambió, ni quién, ni cuándo, ni cómo volver a como estaba. No hay marcha atrás: hay que arreglarlo a ciegas y en caliente.",
+      back:"Es la pieza que no se echa en falta hasta que la necesitas de golpe." },
+    { id:"claude", name:"Claude Code", c:"--naranja", ink:"--naranja-ink",
+      brk:"Hay que contratar a alguien que escriba el código.",
+      d:"Y esperar a que tenga hueco para cada cambio. Un ajuste de diez minutos pasa a ser una petición que entra en una cola.",
+      back:"Vuelves a depender de una agenda que no controlas." }
+  ];
+
+  var off = {};
+  var togglesEl = document.getElementById("toggles");
+  var breaksEl = document.getElementById("breaks");
+
+  PIECES.forEach(function(p){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tgl";
+    b.style.setProperty("--tc", "var(" + p.c + ")");
+    b.style.setProperty("--tc-ink", "var(" + p.ink + ")");
+    b.setAttribute("aria-pressed", "false");
+    var sw = document.createElement("span");
+    sw.className = "sw";
+    sw.setAttribute("aria-hidden", "true");
+    b.appendChild(sw);
+    b.appendChild(document.createTextNode(p.name));
+    b.addEventListener("click", function(){
+      off[p.id] = !off[p.id];
+      b.setAttribute("aria-pressed", off[p.id] ? "true" : "false");
+      render();
+    });
+    togglesEl.appendChild(b);
+  });
+
+  function render(){
+    breaksEl.textContent = "";
+    var any = PIECES.filter(function(p){ return off[p.id]; });
+    if (!any.length){
+      var ok = document.createElement("div");
+      ok.className = "allok";
+      var t = document.createElement("p");
+      t.className = "t";
+      t.textContent = "Las seis puestas. Todo funciona.";
+      var p = document.createElement("p");
+      p.textContent = "Apaga una y mira qué deja de funcionar. Puedes apagar varias a la vez.";
+      ok.appendChild(t); ok.appendChild(p);
+      breaksEl.appendChild(ok);
+      return;
+    }
+    any.forEach(function(p){
+      var d = document.createElement("div");
+      d.className = "brk";
+      var t = document.createElement("p");
+      t.className = "t";
+      t.textContent = "Sin " + p.name + " · " + p.brk;
+      var x = document.createElement("p");
+      x.className = "p";
+      x.textContent = p.d;
+      var b = document.createElement("p");
+      b.className = "back";
+      b.textContent = p.back;
+      d.appendChild(t); d.appendChild(x); d.appendChild(b);
+      breaksEl.appendChild(d);
+    });
+  }
+  render();
+})();
+
+/* ---------- CARPETA ---------- */
+const TREE=[
+ {k:'root',d:0,dir:1,nm:'crm-pegasus/',path:'04_SOFTWARE\\crm-pegasus\\',what:'La carpeta del CRM. Todo lo que se construye vive aquí, y aquí es donde se abre la terminal.',say:'Esto es el CRM entero. Hoy no tiene código: tiene normas y un mapa. Y eso está bien.'},
+ {k:'agents',d:1,dir:0,nm:'AGENTS.md',path:'crm-pegasus\\AGENTS.md',what:'Las normas de la casa, para máquinas. Las tres leen este fichero antes de tocar nada.',say:'Esto es lo que lee la máquina antes de empezar. Si aquí pone «nunca datos reales», la máquina no los toca. Si no lo pusiera, sí.'},
+ {k:'docs',d:1,dir:1,nm:'docs/',path:'crm-pegasus\\docs\\',what:'Lo que se piensa antes de construir: el mapa, el proceso, las órdenes, las pantallas dibujadas.',say:'Nada de lo que hay aquí es código. Es lo que hace que el código salga bien.'},
+ {k:'arq',d:2,dir:0,nm:'ARQUITECTURA.md',path:'docs\\ARQUITECTURA.md',what:'El mapa. Doce cajones, uno por cosa que hace el sistema, y cómo se relacionan.',say:'El portal de familias es un cajón más, no otro sistema. Si fueran dos, volveríamos a tener el mismo dato en dos sitios.'},
+ {k:'met',d:2,dir:0,nm:'METODO-DE-TRABAJO.md',path:'docs\\METODO-DE-TRABAJO.md',what:'Los seis pasos, quién hace cada uno, y qué fichero se toca cuando. Lo de esta sección, escrito.',say:'Si dentro de seis meses alguien pregunta «¿y esto cómo se hacía?», la respuesta está aquí.'},
+ {k:'specs',d:2,dir:1,nm:'specs/',path:'docs\\specs\\',what:'Una orden por pieza. Qué tiene que poder hacer alguien, con qué reglas, para qué rol. Sin esto no hay código.',say:'Esto lo escribimos juntos. Tú dices el qué; se escribe de forma que la máquina no pueda entenderlo de otra manera.'},
+ {k:'dis',d:2,dir:1,nm:'diseno/',path:'docs\\diseno\\',what:'Las pantallas dibujadas y validadas antes de programarse. Una carpeta por pieza.',say:'Antes de programar una pantalla, se dibuja. Y la validas tú mirando, no leyendo. Hasta que no digas «así», no se guarda aquí.'},
+ {k:'src',d:1,dir:1,nm:'src/',path:'crm-pegasus\\src\\',what:'El código. Hoy vacío. Nace con la primera orden.',say:'Aquí es donde trabaja Codex. Tú no tienes que entrar nunca.'},
+ {k:'mod',d:2,dir:1,nm:'modules/',path:'src\\modules\\',what:'Doce carpetas, una por cajón del mapa. Cada una con su ficha.',say:'Cada ficha dice qué guarda el cajón, qué reglas del canon aplica y qué Excel sustituye. Esto lo corriges tú: eres el que sabe si es verdad.'},
+ {k:'ag',d:3,dir:1,nm:'agenda/',path:'src\\modules\\agenda\\',what:'Horarios, plazas, sesiones, recuperaciones. Lo que pasó de verdad.',say:'Sustituye a la Agenda del CRM actual, a los dos horarios y al Excel de saldos con 1.200 fórmulas. Aquí están hoy las 7-12 horas semanales de cada coordinadora.'},
+ {k:'cli',d:3,dir:1,nm:'clinico/',path:'src\\modules\\clinico\\',what:'Historia clínica, triaje, PIA. El cajón con el acceso más restringido de todos.',say:'Administración no ve esto nunca. Y cada vez que alguien lo mira, queda apuntado quién y cuándo.'},
+ {k:'fam',d:3,dir:1,nm:'familias/',path:'src\\modules\\familias\\',what:'El portal de familias: sus sesiones, sus recibos, sus tareas para casa. Se construye al final, pero está en el mapa desde hoy.',say:'Mismo acceso, misma base. Por eso está aquí y no en otro sitio.'},
+ {k:'sup',d:1,dir:1,nm:'supabase/',path:'crm-pegasus\\supabase\\',what:'Todo lo que define la base de datos, guardado en la carpeta y no solo en la nube.',say:'Prisma perdió esto: su base solo existe en Supabase. Aquí, si se pierde la nube, se vuelve a levantar desde la carpeta.'},
+ {k:'seed',d:2,dir:1,nm:'seed/',path:'supabase\\seed\\',what:'Las personas inventadas. La base contra la que se programa.',say:'Contra las reales no se programa nunca. Ni una vez, ni «solo para probar».'},
+];
+const tree=document.getElementById('tree'), tpanel=document.getElementById('tpanel');
+const icoDir='<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>';
+const icoFile='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+TREE.forEach((t,i)=>{
+  const li=document.createElement('li'); li.className=(t.d?'d'+t.d:'')+(t.k==='root'?' root':''); li.setAttribute('role','option'); li.tabIndex=0;
+  li.innerHTML='<span class="ti" aria-hidden="true">'+(t.dir?icoDir:icoFile)+'</span><span class="nm">'+t.nm+'</span>';
+  li.addEventListener('click',()=>showTree(i)); li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showTree(i)}});
+  tree.appendChild(li);
+});
+function showTree(i){
+  [...tree.children].forEach((li,j)=>li.setAttribute('aria-current',j===i?'true':'false'));
+  const t=TREE[i];
+  tpanel.innerHTML='<p class="path">'+t.path+'</p><h3>'+t.nm+'</h3><p class="what">'+t.what+'</p><p class="say"><b>Lo que se le dice a Marrero</b>'+t.say+'</p>';
+}
+showTree(1);
+
+/* ---------- SEIS PASOS ---------- */
+const STEPS=[
+ {n:0,l:'La regla existe',w:'Marrero + Álvaro',p:1,tool:'00_CANON',out:'La regla de negocio, escrita',d:'Si la regla no está escrita en el canon, se escribe primero. Qué se recupera, cómo se calcula un plus, cuándo se descuenta un festivo. Aquí aportas lo que nadie más sabe.'},
+ {n:1,l:'Pensar',w:'Claude, con Álvaro',p:0,tool:'El chat',out:'La orden, en docs/specs/',d:'Qué tiene que poder hacer alguien cuando esto esté hecho, con qué reglas del canon, para qué rol. Si hay una decisión de fondo, se apunta aparte para que dentro de un año se sepa por qué.'},
+ {n:2,l:'Ver antes de construir',w:'Marrero valida',p:1,tool:'Claude Design',out:'La pantalla, en docs/diseno/',d:'Se dibuja la pantalla tal como tiene que quedar. Tú la miras y dices «así» o «así no». Hasta que no digas «así», no se guarda. Y sin pantalla guardada, Codex no tiene qué construir.'},
+ {n:3,l:'Construir',w:'Codex',p:0,tool:'Codex',out:'Código con pruebas, guardado sin publicar',d:'Recibe la orden y la pantalla. Construye contra las dos, con sus pruebas. Guarda su trabajo y avisa en llano de qué probó y qué salió. No publica nada.'},
+ {n:4,l:'Revisar',w:'Grok · a prueba',p:0,tool:'Grok',out:'Sí o no, y por qué',d:'Lee la orden, la pantalla y lo que hizo Codex. Dice si cumple y qué no cumple. No arregla: el arreglo vuelve a Codex. Claude lee el veredicto y decide.'},
+ {n:5,l:'Probar y publicar',w:'Marrero o Álvaro',p:1,tool:'La base de pruebas',out:'Publicado, o vuelta atrás',d:'Pasos numerados, y cada uno dice el número exacto que tiene que salir. Si sale, copia de seguridad con el enlace escrito, y entonces se publica. Si no sale, se para.'},
+ {n:6,l:'Cerrar',w:'Claude',p:0,tool:'Rutina de cierre',out:'El estado, escrito',d:'Deja apuntado en qué punto está todo: qué se hizo, qué quedó a medias, qué decidiste. Sin esto, la siguiente sesión empieza de cero y la de hoy se pierde.'},
+];
+const steps=document.getElementById('steps'), sdetail=document.getElementById('sdetail');
+STEPS.forEach((s,i)=>{
+  const b=document.createElement('button'); b.type='button'; b.className='stp '+(s.p?'persona':'maquina');
+  b.innerHTML='<span class="n">'+s.n+'</span><span class="l">'+s.l+'</span><span class="w">'+s.w+'</span>';
+  b.addEventListener('click',()=>showStep(i)); steps.appendChild(b);
+});
+function showStep(i){
+  [...steps.children].forEach((b,j)=>b.setAttribute('aria-current',j===i?'true':'false'));
+  const s=STEPS[i]; const c=s.p?'var(--verde)':'var(--morado)', ci=s.p?'var(--verde-ink)':'var(--morado)';
+  sdetail.style.setProperty('--sc',c); sdetail.style.setProperty('--sc-ink',ci);
+  sdetail.innerHTML='<p class="caption">Paso '+s.n+' · '+(s.p?'lo hace una persona':'lo hace una máquina')+'</p><h3>'+s.l+'</h3><div class="meta"><span>Quién · <b>'+s.w+'</b></span><span>Con qué · <b>'+s.tool+'</b></span><span>Qué sale · <b>'+s.out+'</b></span></div><p class="d">'+s.d+'</p>';
+}
+showStep(2);
+
+</script>
+
+</body></html>
