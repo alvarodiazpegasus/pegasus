@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard Financiero Ene-Ago 2026 — Fundación Pegasus</title>
+<style>
+:root{--g:#2e7d32;--r:#c62828;--o:#e65100;--b:#1565c0;--gy:#546e7a;--tpt:#7b1fa2;--is:#2e7d32;--ind:#1565c0;--mun:#e65100;--lq:#c62828;--ge:#546e7a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;background:#f5f7fa;color:#1a1a2e;}
+.top-bar{background:#1a1a2e;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.top-bar h1{font-size:17px;font-weight:700;}
+.top-bar .sub{font-size:11px;opacity:.7;margin-top:2px;}
+.nav{background:#fff;border-bottom:2px solid #e8e8e8;padding:8px 20px;display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:100;}
+.nav-link{color:#1a1a2e;text-decoration:none;font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #ddd;white-space:nowrap;transition:all .15s;}
+.nav-link:hover{background:#1a1a2e;color:#fff;}
+.content{max-width:1380px;margin:0 auto;padding:20px;}
+.section{background:#fff;border-radius:12px;padding:22px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.section h2{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #f0f0f0;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;}
+.kpi-card{background:#fafafa;border-radius:10px;padding:14px;border:1px solid #eee;}
+.kpi-label{display:inline-block;margin-bottom:8px;}
+.kpi-val{font-size:22px;font-weight:800;margin-bottom:4px;}
+.kpi-sub{font-size:11px;color:#666;}
+.kpi-green{color:var(--g);}.kpi-red{color:var(--r);}.kpi-orange{color:var(--o);}
+.kpi-gray{color:var(--gy);}.kpi-blue{color:var(--b);}.kpi-neg-kpi{color:var(--r);}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:#fff;}
+.badge-green{background:var(--g);}.badge-red{background:var(--r);}.badge-orange{background:var(--o);}
+.badge-blue{background:var(--b);}.badge-gray{background:var(--gy);}.badge-tpt{background:var(--tpt);}
+.badge-is{background:var(--is);}.badge-ind{background:var(--ind);}.badge-mun{background:var(--mun);}
+.badge-lqntc{background:var(--lq);}.badge-gen{background:var(--ge);}.badge-flow{background:#558b2f;}
+.badge-fiab{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.75rem;font-weight:700;}
+.fiab-ok{background:#e8f5ef;color:#18794e;}.fiab-est{background:#fff4e0;color:#b55a00;}
+.peg-table.compact td,.peg-table.compact th{padding:4px 8px;font-size:12px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:#f8f9fa;text-align:left;padding:7px 10px;border-bottom:2px solid #dee2e6;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.03em;}
+td{padding:6px 10px;border-bottom:1px solid #f0f0f0;}
+.num{text-align:right;font-variant-numeric:tabular-nums;}
+.pos{color:var(--g);font-weight:600;}.neg{color:var(--r);font-weight:600;}
+.total-row td{background:#f1f3f5;font-weight:700;border-top:2px solid #dee2e6;}
+.separator td{border-top:3px double #666;font-weight:700;font-size:14px;}
+.indent td:first-child{padding-left:22px;color:#555;font-size:12px;}
+.note{font-size:11px;color:#555;margin-top:12px;padding:9px 13px;background:#f0f4ff;border-left:3px solid var(--b);border-radius:0 6px 6px 0;line-height:1.55;}
+.note-inline{font-size:12px;color:#444;margin-bottom:10px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+.legend{font-size:11px;color:#666;margin-bottom:10px;}
+.bar-row{margin-bottom:9px;}
+.bar-label{font-size:12px;font-weight:600;margin-bottom:3px;}
+.bar{height:19px;border-radius:4px;display:flex;align-items:center;padding:0 7px;font-size:11px;font-weight:700;color:#fff;min-width:36px;margin-bottom:2px;}
+.bar-green{background:#43a047;}.bar-red{background:#ef5350;}
+.tabs-bar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.tab-btn{padding:5px 13px;border-radius:20px;border:1px solid #ddd;background:#f8f9fa;cursor:pointer;font-size:11px;font-weight:500;transition:all .15s;}
+.tab-btn.active,.tab-btn:hover{background:#1a1a2e;color:#fff;border-color:#1a1a2e;}
+.tab-content{display:none;}.tab-content.active{display:block;}
+.scroll-x{overflow-x:auto;}
+.pyg-table{max-width:600px;}
+code{background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:11px;}
+@media(max-width:768px){.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+<div><h1>📊 Dashboard Financiero — Fundación Pegasus</h1><div class="sub">Enero – Agosto 2026 · Fuente única: Mayor contable (gestora) + BBDD_NOMINAS + Facturación MN Program · Todas las cifras cuadradas</div></div>
+<div style="font-size:11px;opacity:.6;text-align:right;">Generado: 05/10/2026<br>Mayor ene-ago 2026 (23.339+ mov.)</div>
+</div>
+<nav class="nav"><a href="#s1" class="nav-link">📊 Resumen</a><a href="#s-ruta" class="nav-link">💸 Ruta del dinero</a><a href="#s-conceptos" class="nav-link">💡 Conceptos clave</a><a href="#s2" class="nav-link">📅 Evolución</a><a href="#s3" class="nav-link">🗒️ MN vs Mayor</a><a href="#s4" class="nav-link">📈 PYG vertical</a><a href="#micro-tpt" class="nav-link">🟣 TPT</a><a href="#micro-is" class="nav-link">🟢 IS</a><a href="#micro-ind" class="nav-link">🔵 Indiferente</a><a href="#micro-mun" class="nav-link">🟠 Municipios</a><a href="#lqntc-gen" class="nav-link">🔍 Lo que nadie te cuenta</a><a href="#s9" class="nav-link">👥 Personal CC</a><a href="#s10" class="nav-link">💳 Otros gastos</a><a href="#s11" class="nav-link">➕ Otros ingresos</a><a href="#s12" class="nav-link">📊 Histórico 24-25-26</a><a href="#s13" class="nav-link">🧾 PYG completa</a><a href="#s14" class="nav-link">📐 Indicadores</a><a href="#s15" class="nav-link">🚨 Alertas</a><a href="#s16" class="nav-link">📊 Análisis transversal</a><a href="#s17" class="nav-link">📚 Lecturas</a><a href="#s18" class="nav-link">🔭 Forecast</a><a href="#s19" class="nav-link">📉 Evolución márgenes</a><a href="#s20" class="nav-link">⚖️ Punto equilibrio</a></nav>
+<div class="content">
+<div class="section" id="s1">
+<h2>📊 Resumen ejecutivo — Enero a Agosto 2026</h2>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="kpi-label badge badge-green">Ingresos totales</div><div class="kpi-val kpi-green">836.765,51€</div><div class="kpi-sub">Mayor contable (cifra negoc. + otros ing.)</div></div>
+<div class="kpi-card"><div class="kpi-label badge badge-red">Coste personal</div><div class="kpi-val kpi-red">754.041,51€</div><div class="kpi-sub">90.1% sobre ingresos</div></div>
+<div class="kpi-card"><div class="kpi-label badge badge-orange">Total gastos (PYG)</div><div class="kpi-val kpi-orange">866.786,57€</div><div class="kpi-sub">Personal + expl. + financieros + amortiz.</div></div>
+<div class="kpi-card"><div class="kpi-label badge badge-neg-kpi">Resultado PYG</div><div class="kpi-val kpi-neg-kpi">-30.021,06€</div><div class="kpi-sub">Ingresos − Total gastos = -30.021,06€ ✓</div></div>
+<div class="kpi-card"><div class="kpi-label badge badge-gray">% Personal / ingresos</div><div class="kpi-val kpi-gray">90.1%</div><div class="kpi-sub">Referencia sector: ~70–75%</div></div>
+<div class="kpi-card"><div class="kpi-label badge badge-blue">Plantilla media ene-ago</div><div class="kpi-val kpi-blue">49 personas</div><div class="kpi-sub">Agosto: 36 TPT · 13 IS · total 56 personas</div></div>
+</div>
+<div class="note">Verificación: 836.765,51€ (ingresos) − 866.786,57€ (total gastos PYG) = <strong>−30.021,06€</strong> ✓ — Las cifras cuadran con la cuenta de resultados oficial de Ana (31/08/2026).</div>
+</div>
+<div class="section" id="s-ruta">
+<h2>💸 La ruta del dinero — de ingresos a resultado (ene–ago)</h2>
+<p class="note-inline">Cada euro de ingreso recorre cuatro etapas hasta llegar al resultado. El cuello de botella es el coste de personal: <strong>90.1 cts</strong> de cada euro ingresado van a nóminas.</p>
+<div style="display:grid;grid-template-columns:1fr;gap:0;max-width:720px;margin:20px 0 32px;">
+
+  <div style="background:#f0fdf4;border:1.5px solid #16a34a;border-radius:10px 10px 0 0;padding:18px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;color:#16a34a;text-transform:uppercase;">① Ingresos totales ene–ago 2026</div>
+        <div style="font-size:1.8rem;font-weight:800;color:#15803d;margin-top:4px;">+836.765,51€ €</div>
+      </div>
+      <div style="text-align:right;font-size:0.82rem;color:#555;line-height:1.8;">
+        Prestación de servicios (G70x) <strong>792.794,76€ €</strong><br>
+        Subvenciones / otros ingresos (G72x–G75x) <strong>43.970,75€ €</strong>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:4px 0;font-size:1.2rem;color:#94a3b8;">▼</div>
+
+  <div style="background:#fff7ed;border:1.5px solid #ea580c;padding:18px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;color:#ea580c;text-transform:uppercase;">② (−) Coste personal (G640+G642)</div>
+        <div style="font-size:1.8rem;font-weight:800;color:#c2410c;margin-top:4px;">−754.041,51€ €</div>
+        <div style="font-size:0.75rem;color:#888;margin-top:4px;">90.1% de los ingresos → nóminas</div>
+      </div>
+      <div style="text-align:right;font-size:0.82rem;color:#555;line-height:1.8;">
+        TPT <strong>423.069€ €</strong><br>
+        IS <strong>129.388€ €</strong><br>
+        General/Admin <strong>94.303€ €</strong><br>
+        Municipios <strong>89.370€ €</strong><br>
+        Indiferente <strong>17.911€ €</strong>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:4px 0;font-size:1.2rem;color:#94a3b8;">▼</div>
+
+  <div style="background:#eff6ff;border:1.5px solid #2563eb;padding:18px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;color:#2563eb;text-transform:uppercase;">③ = Margen sobre personal</div>
+        <div style="font-size:1.8rem;font-weight:800;color:#1d4ed8;margin-top:4px;">+82.724,00€ €</div>
+        <div style="font-size:0.75rem;color:#888;margin-top:4px;">Cobertura ingresos/personal: 111.0%</div>
+      </div>
+      <div style="font-size:0.82rem;color:#555;max-width:240px;text-align:right;line-height:1.5;">
+        Los ingresos cubren el 100% del personal + 82.724,00€ € de margen — pero no cubren los otros gastos.
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:4px 0;font-size:1.2rem;color:#94a3b8;">▼</div>
+
+  <div style="background:#fdf4ff;border:1.5px solid #9333ea;padding:18px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;color:#9333ea;text-transform:uppercase;">④ (−) Otros gastos (G60+G62x+G63x+G66x+G68)</div>
+        <div style="font-size:1.8rem;font-weight:800;color:#7e22ce;margin-top:4px;">−112.745,06€ €</div>
+      </div>
+      <div style="text-align:right;font-size:0.82rem;color:#555;line-height:1.8;">
+        Profesionales externos (G623) <strong>31.823 €</strong><br>
+        Otros servicios ext. (G629x) <strong>43.961 €</strong><br>
+        Reparaciones/mant. (G622) <strong>5.842 €</strong><br>
+        Seguros (G626) <strong>6.354 €</strong><br>
+        Suministros + transportes + publicidad <strong>9.315 €</strong><br>
+        Gastos financieros + tributos + resto <strong>15.451 €</strong>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:4px 0;font-size:1.2rem;color:#94a3b8;">▼</div>
+
+  <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:0 0 10px 10px;padding:18px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;color:#dc2626;text-transform:uppercase;">⑤ = Resultado ene–ago 2026</div>
+        <div style="font-size:2rem;font-weight:900;color:#b91c1c;margin-top:4px;">−30.021,06€ €</div>
+        <div style="font-size:0.78rem;color:#888;margin-top:6px;">H1 (ene–jun): −67.127 € · Jul–Ago: +37.106 €</div>
+      </div>
+      <div style="font-size:0.82rem;color:#555;max-width:240px;text-align:right;line-height:1.5;">
+        El margen personal de +82.724,00€ € no absorbe los 112.745,06€ € de otros gastos.<br>
+        <strong>Brecha: 30.021,06€ €</strong> que sale de reservas (PN en riesgo).
+      </div>
+    </div>
+  </div>
+
+</div>
+<p class="note-inline">Fuente: libro mayor ene–ago 2026 (grupos 6 y 7). Coste personal por vertical: BBDD_NOMINAS_2026.xlsx (ene–ago), escalado a G640+G642 del mayor.</p>
+</div>
+<div class="section" id="s-conceptos">
+<h2>💡 Conceptos clave para leer este dashboard</h2>
+<p class="note-inline">Tres documentos, una sola lógica. El libro mayor es la fuente de todo: de él se derivan la PYG y el balance.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 20px;">
+  <div style="border:1.5px solid #007EC3;border-radius:10px;padding:16px;">
+    <h3 style="color:#007EC3;margin:0 0 8px;">📒 Libro mayor</h3>
+    <p style="font-size:13px;color:#555;margin:0;">El detalle de cada movimiento contable: qué cuenta, qué fecha, qué importe, a qué centro de coste. Es la fuente primaria de este dashboard (30,074 apuntes ene–ago).</p>
+  </div>
+  <div style="border:1.5px solid #974694;border-radius:10px;padding:16px;">
+    <h3 style="color:#974694;margin:0 0 8px;">📊 PYG (P&amp;G)</h3>
+    <p style="font-size:13px;color:#555;margin:0;">Ingresos − Gastos = Resultado. En 2026 viene desglosada por vertical (TPT, IS, Indiferente, Municipios, Flow, General), lo que permite ver qué línea genera margen.</p>
+  </div>
+  <div style="border:1.5px solid #08B75B;border-radius:10px;padding:16px;">
+    <h3 style="color:#08B75B;margin:0 0 8px;">🏦 Balance</h3>
+    <p style="font-size:13px;color:#555;margin:0;">Foto fija: qué tiene Pegasus (activo), qué debe (pasivo) y su patrimonio neto. No disponemos del balance intermedio ene–ago — solo del cierre 2025.</p>
+  </div>
+</div>
+<div class="note"><strong>Fuentes de este dashboard:</strong> Libro mayor ene–ago 2026 (gestora, 31/08/2026) para facturación y costes contables · BBDD_NOMINAS_2026.xlsx para desglose de nóminas por vertical y ubicación · PYG oficial de Ana (PDF 31/08/2026) para las cifras de gastos no desglosadles por CC.</div>
+</div>
+<div class="section" id="s2">
+<h2>📅 Evolución mensual de ingresos y gastos</h2>
+<div class="two-col">
+<div><table><thead><tr><th>Mes</th><th>Ingresos G7</th><th>Gastos G6</th><th>Resultado</th></tr></thead><tbody><tr><td><strong>Ene</strong></td><td class="num">89.279€</td><td class="num">103.798€</td><td class="num neg">-14.518€</td></tr>
+<tr><td><strong>Feb</strong></td><td class="num">110.276€</td><td class="num">111.227€</td><td class="num neg">-951€</td></tr>
+<tr><td><strong>Mar</strong></td><td class="num">108.011€</td><td class="num">111.126€</td><td class="num neg">-3.115€</td></tr>
+<tr><td><strong>Abr</strong></td><td class="num">91.567€</td><td class="num">114.077€</td><td class="num neg">-22.510€</td></tr>
+<tr><td><strong>May</strong></td><td class="num">90.666€</td><td class="num">111.995€</td><td class="num neg">-21.329€</td></tr>
+<tr><td><strong>Jun</strong></td><td class="num">108.144€</td><td class="num">113.864€</td><td class="num neg">-5.720€</td></tr>
+<tr><td><strong>Jul</strong></td><td class="num">189.212€</td><td class="num">100.967€</td><td class="num pos">+88.245€</td></tr>
+<tr><td><strong>Ago</strong></td><td class="num">49.611€</td><td class="num">99.788€</td><td class="num neg">-50.177€</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>836.765,51€</strong></td><td class="num"><strong>866.840,21€</strong></td><td class="num neg"><strong>-30.074,70€</strong></td></tr></tbody></table></div>
+<div><div class="legend">🟩 Verde = ingresos &nbsp; 🟥 Rojo = gastos</div><div class="bar-row"><div class="bar-label">Ene <span style="color:#c62828;font-weight:700">-15.k€</span></div><div class="bar bar-green" style="width:122.7px">89k€</div><div class="bar bar-red" style="width:142.6px">104k€</div></div>
+<div class="bar-row"><div class="bar-label">Feb <span style="color:#c62828;font-weight:700">-1.0k€</span></div><div class="bar bar-green" style="width:151.5px">110k€</div><div class="bar bar-red" style="width:152.8px">111k€</div></div>
+<div class="bar-row"><div class="bar-label">Mar <span style="color:#c62828;font-weight:700">-3.0k€</span></div><div class="bar bar-green" style="width:148.4px">108k€</div><div class="bar bar-red" style="width:152.7px">111k€</div></div>
+<div class="bar-row"><div class="bar-label">Abr <span style="color:#c62828;font-weight:700">-23.k€</span></div><div class="bar bar-green" style="width:125.8px">92k€</div><div class="bar bar-red" style="width:156.8px">114k€</div></div>
+<div class="bar-row"><div class="bar-label">May <span style="color:#c62828;font-weight:700">-21.k€</span></div><div class="bar bar-green" style="width:124.6px">91k€</div><div class="bar bar-red" style="width:153.9px">112k€</div></div>
+<div class="bar-row"><div class="bar-label">Jun <span style="color:#c62828;font-weight:700">-6.0k€</span></div><div class="bar bar-green" style="width:148.6px">108k€</div><div class="bar bar-red" style="width:156.5px">114k€</div></div>
+<div class="bar-row"><div class="bar-label">Jul <span style="color:#2e7d32;font-weight:700">+88.0k€</span></div><div class="bar bar-green" style="width:260.0px">189k€</div><div class="bar bar-red" style="width:138.7px">101k€</div></div>
+<div class="bar-row"><div class="bar-label">Ago <span style="color:#c62828;font-weight:700">-50.k€</span></div><div class="bar bar-green" style="width:68.2px">50k€</div><div class="bar bar-red" style="width:137.1px">100k€</div></div>
+</div>
+</div>
+<div class="note">Julio: +88k€ por cobro LQNTC (75.000€ Comunidad de Madrid). Agosto: −50k€ por baja actividad estival. Resultado mensual = G7 − G6 del mayor; su suma acumulada = <strong>−30.074,70€</strong>. El resultado oficial del PYG de Ana es <strong>−30.021,06€</strong> (diferencia de 53,64€ por ajustes de periodificación en la cuenta de resultados oficial — detalle en S13).</div>
+</div>
+<div class="section" id="s3">
+<h2>🗒️ Facturación operativa MN Program vs Mayor</h2>
+<table><thead><tr><th>Vertical</th><th>Bruta MN</th><th>Devoluciones</th><th>Neta MN</th><th>Mayor G70x</th><th>Gap (timing)</th></tr></thead><tbody><tr><td><span class="badge badge-tpt">TPT</span></td><td class="num">469.212,88€</td><td class="num neg">-21.572,93€</td><td class="num"><strong>447.639,95€</strong></td><td class="num"><strong>445.409,95€</strong></td><td class="num neg">-2.230,00€</td></tr>
+<tr><td><span class="badge badge-is">IS</span></td><td class="num">108.573,19€</td><td class="num neg">-3.130,63€</td><td class="num"><strong>105.442,56€</strong></td><td class="num"><strong>105.392,56€</strong></td><td class="num neg">-50,00€</td></tr>
+<tr><td><span class="badge badge-ind">Indiferente</span></td><td class="num">123.406,08€</td><td class="num neg">-33.834,97€</td><td class="num"><strong>89.571,11€</strong></td><td class="num"><strong>89.571,11€</strong></td><td class="num pos">+0,00€</td></tr>
+<tr><td><span class="badge badge-mun">Municipios</span></td><td class="num">77.184,36€</td><td class="num neg">-1.469,70€</td><td class="num"><strong>75.714,66€</strong></td><td class="num"><strong>75.689,32€</strong></td><td class="num neg">-25,34€</td></tr>
+<tr class="total-row"><td><strong>TOTAL operativo</strong></td><td class="num"><strong>778.376,51€</strong></td><td class="num neg"><strong>-60.008,23€</strong></td><td class="num"><strong>718.368,28€</strong></td><td class="num"><strong>716.062,94€</strong></td><td class="num">2.305,34€</td></tr></tbody></table>
+<div class="note">Fuente de verdad contable: mayor G70x. La facturación MN Program es la fuente operativa (permite desglose por ubicación/servicio). El gap de periodificación es normal (devengo vs cobro). LQNTC (75.000€) y Otros ingresos (41.222€) no pasan por MN Program — contabilizados directamente en el mayor.</div>
+</div>
+<div class="section" id="s4">
+<h2>📈 PYG por vertical — margen s/personal</h2>
+<div class="scroll-x"><table><thead><tr><th>Concepto</th><th><span class="badge badge-tpt">TPT</span></th><th><span class="badge badge-is">IS</span></th><th><span class="badge badge-ind">Indiferente</span></th><th><span class="badge badge-mun">Municipios</span></th><th><span class="badge badge-flow">Únete al Flow</span></th><th><span class="badge badge-lqntc">LQNTC</span></th><th><span class="badge badge-gen">General</span></th><th>TOTAL</th></tr></thead>
+<tbody>
+<tr><td><strong>Ingresos (mayor G70x)</strong></td><td class="num"><strong>445.409,95€</strong></td><td class="num"><strong>105.392,56€</strong></td><td class="num"><strong>89.571,11€</strong></td><td class="num"><strong>75.689,32€</strong></td><td class="num"><strong>4.480,98€</strong></td><td class="num"><strong>75.000,00€</strong></td><td class="num"><strong>41.221,59€</strong></td><td class="num"><strong>836.765,51€</strong></td></tr>
+<tr><td>Personal (BBDD_NOMINAS escalado)</td><td class="num">423.068,99€</td><td class="num">129.388,17€</td><td class="num">17.910,66€</td><td class="num">89.370,22€</td><td class="num">0,00€</td><td class="num">0,00€</td><td class="num">94.303,47€</td><td class="num"><strong>754.041,51€</strong></td></tr>
+<tr><td><strong>Margen s/personal</strong></td><td class="num pos"><strong>+22.340,96€</strong></td><td class="num neg"><strong>-23.995,61€</strong></td><td class="num pos"><strong>+71.660,45€</strong></td><td class="num neg"><strong>-13.680,90€</strong></td><td class="num pos"><strong>+4.480,98€</strong></td><td class="num pos"><strong>+75.000,00€</strong></td><td class="num neg"><strong>-53.081,88€</strong></td><td class="num pos"><strong>+82.724,00€</strong></td></tr>
+<tr><td>% margen s/personal</td><td class="num pos">5.0%</td><td class="num neg">-22.8%</td><td class="num pos">80.0%</td><td class="num neg">-18.1%</td><td class="num pos">100.0%</td><td class="num pos">100.0%</td><td class="num neg">-128.8%</td><td class="num pos">9.9%</td></tr>
+</tbody></table></div>
+<div class="note">Personal escalado para cuadrar exactamente con G640+642 del mayor (754.041,51€). LQNTC: 0€ personal en BBDD_NOMINAS. GEN: directivos. Rentabilidad/trabajador disponible en la pestaña "Rentabilidad / Trabajador" del análisis micro de cada vertical.</div>
+</div>
+<div class="section" id="micro-tpt">
+<h2><span class="badge badge-tpt">TPT</span> Análisis micro — TPT</h2>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Bruta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">469.213€</div>
+    <div class="kpi-sub">Total emitido · MN Program</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Devoluciones</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">21.573€</div>
+    <div class="kpi-sub">Abonos / Series R-</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Neta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">445.410€</div>
+    <div class="kpi-sub">Mayor G70x · fuente contable</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Coste Personal</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">423.069€</div>
+    <div class="kpi-sub">G640+G642 escalado ene-ago</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #c8e6c9">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Margen Bruto</div>
+    <div class="kpi-val" style="font-size:20px;color:#2e7d32">+22.341€</div>
+    <div class="kpi-sub">Cobertura 105.3%</div>
+  </div>
+</div>
+<div class="two-col" style="gap:18px;margin-bottom:14px">
+<div style="overflow-x:auto">
+<table><thead><tr><th>Ubicación</th><th>Fac. Neta</th><th>Coste Personal</th><th>Margen</th><th>Cobertura</th></tr></thead>
+<tbody><tr><td>Arganda del Rey</td><td class="num">214.504€</td><td class="num">163.091€</td><td class="num pos">+51.412€</td><td class="num pos">131.5% </td></tr>
+<tr><td>Móstoles</td><td class="num">73.150€</td><td class="num">52.377€</td><td class="num pos">+20.773€</td><td class="num pos">139.7% </td></tr>
+<tr><td>Torrejón</td><td class="num">55.093€</td><td class="num">45.865€</td><td class="num pos">+9.228€</td><td class="num pos">120.1% </td></tr>
+<tr><td>Leganés</td><td class="num">40.677€</td><td class="num">39.463€</td><td class="num pos">+1.214€</td><td class="num pos">103.1% </td></tr>
+<tr><td>Rivas</td><td class="num">27.756€</td><td class="num">30.151€</td><td class="num neg">2.395€</td><td class="num orange">92.1% </td></tr>
+<tr><td>Valdemoro</td><td class="num">25.084€</td><td class="num">27.460€</td><td class="num neg">2.376€</td><td class="num orange">91.3% </td></tr>
+<tr><td>San Agustín de Guadalix</td><td class="num">8.276€</td><td class="num">7.346€</td><td class="num pos">+931€</td><td class="num pos">112.7% </td></tr>
+<tr><td>Madrid</td><td class="num">871€</td><td class="num">—</td><td class="num pos">+871€</td><td class="num neg">0% </td></tr>
+<tr style="color:#888;font-style:italic"><td>Coordinación</td><td class="num">—</td><td class="num">57.071€</td><td class="num">—</td><td class="num">—</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>445.409,95€</strong></td><td class="num"><strong>423.068,99€</strong></td><td class="num pos"><strong>+22.341€</strong></td><td class="num pos"><strong>105.3%</strong></td></tr></tbody></table>
+<p style="font-size:11px;color:#888;margin-top:6px">Fac. neta = mayor G70x escalado por ubicación (MN Program). Coste personal = BBDD_NOMINAS escalado.</p>
+</div>
+<div><div style="padding:14px;background:#fff8e1;border-radius:10px;border:1px solid #ffe082">
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:4px">57.071€ sin centro asignado</div>
+          <div style="font-size:11px;color:#666;margin-bottom:12px">Equipo de coordinación sin asignación directa a centro físico.</div>
+          <div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">ANA MARIA GARCIA TORRADO</div>
+              <div style="font-size:18px;font-weight:800;color:var(--tpt);margin:4px 0">22.596€</div>
+              <div style="font-size:11px;color:#888">100% TPT · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">MARIA ALVAREZ LOPEZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--tpt);margin:4px 0">16.466€</div>
+              <div style="font-size:11px;color:#888">100% TPT · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">IRIS GASULL DIAZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--tpt);margin:4px 0">13.259€</div>
+              <div style="font-size:11px;color:#888">100% TPT · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">LAURA PEREZ PEREZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--tpt);margin:4px 0">4.750€</div>
+              <div style="font-size:11px;color:#888">100% TPT · sin centro físico</div>
+            </div>
+        </div></div>
+</div>
+<div class="tabs-bar" id="tabs-tpt">
+<button class="tab-btn active" onclick="switchTab('tpt','evol')">📅 Evolución mensual</button>
+<button class="tab-btn" onclick="switchTab('tpt','ubmes')">📍 Ubicación × Mes</button>
+<button class="tab-btn" onclick="switchTab('tpt','svmes')">🎯 Servicio × Mes</button>
+<button class="tab-btn" onclick="switchTab('tpt','ubsv')">📊 Ubicación acumulada</button>
+<button class="tab-btn" onclick="switchTab('tpt','dev')">↩ Devoluciones</button>
+<button class="tab-btn" onclick="switchTab('tpt','prof')">👤 Rentab./Trabajador</button>
+</div>
+<div class="tab-content active" id="tpt-evol">
+<p class="note-inline">Fuente: mayor G70x — total verificado: <strong>445.409,95€</strong>.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Ingresos</th></tr></thead><tbody><tr><td>Ene</td><td class="num">53.775€</td></tr>
+<tr><td>Feb</td><td class="num">53.734€</td></tr>
+<tr><td>Mar</td><td class="num">63.801€</td></tr>
+<tr><td>Abr</td><td class="num">57.661€</td></tr>
+<tr><td>May</td><td class="num">58.343€</td></tr>
+<tr><td>Jun</td><td class="num">65.723€</td></tr>
+<tr><td>Jul</td><td class="num">62.695€</td></tr>
+<tr><td>Ago</td><td class="num">29.679€</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>445.409,95€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="tpt-ubmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>445.409,95€</strong>). TOTAL = suma de todas las ubicaciones ese mes.</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Arganda del R</th><th>Leganés</th><th>Madrid</th><th>Móstoles</th><th>Rivas</th><th>San Agustín d</th><th>Torrejón</th><th>Valdemoro</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">27.686€</td><td class="num">4.595€</td><td class="num">—</td><td class="num">8.297€</td><td class="num">2.631€</td><td class="num">—</td><td class="num">7.725€</td><td class="num">2.573€</td><td class="num" style="background:#f1f8e9"><strong>53.507€</strong></td></tr>
+<tr><td>Feb</td><td class="num">26.662€</td><td class="num">4.077€</td><td class="num">—</td><td class="num">9.005€</td><td class="num">2.537€</td><td class="num">852€</td><td class="num">7.061€</td><td class="num">3.272€</td><td class="num" style="background:#f1f8e9"><strong>53.466€</strong></td></tr>
+<tr><td>Mar</td><td class="num">30.841€</td><td class="num">5.839€</td><td class="num">—</td><td class="num">10.804€</td><td class="num">3.769€</td><td class="num">671€</td><td class="num">7.815€</td><td class="num">3.745€</td><td class="num" style="background:#f1f8e9"><strong>63.483€</strong></td></tr>
+<tr><td>Abr</td><td class="num">28.029€</td><td class="num">5.002€</td><td class="num">—</td><td class="num">9.810€</td><td class="num">2.758€</td><td class="num">1.668€</td><td class="num">7.112€</td><td class="num">2.994€</td><td class="num" style="background:#f1f8e9"><strong>57.373€</strong></td></tr>
+<tr><td>May</td><td class="num">26.788€</td><td class="num">5.420€</td><td class="num">—</td><td class="num">9.494€</td><td class="num">4.004€</td><td class="num">1.331€</td><td class="num">7.932€</td><td class="num">3.085€</td><td class="num" style="background:#f1f8e9"><strong>58.052€</strong></td></tr>
+<tr><td>Jun</td><td class="num">29.027€</td><td class="num">6.849€</td><td class="num">—</td><td class="num">11.205€</td><td class="num">5.114€</td><td class="num">1.682€</td><td class="num">7.505€</td><td class="num">4.014€</td><td class="num" style="background:#f1f8e9"><strong>65.396€</strong></td></tr>
+<tr><td>Jul</td><td class="num">30.447€</td><td class="num">5.812€</td><td class="num">871€</td><td class="num">9.933€</td><td class="num">5.032€</td><td class="num">1.136€</td><td class="num">5.867€</td><td class="num">3.285€</td><td class="num" style="background:#f1f8e9"><strong>62.383€</strong></td></tr>
+<tr><td>Ago</td><td class="num">15.024€</td><td class="num">3.084€</td><td class="num">—</td><td class="num">4.602€</td><td class="num">1.910€</td><td class="num">935€</td><td class="num">4.076€</td><td class="num">2.117€</td><td class="num" style="background:#f1f8e9"><strong>31.750€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>214.504€</strong></td><td class="num"><strong>40.677€</strong></td><td class="num"><strong>871€</strong></td><td class="num"><strong>73.150€</strong></td><td class="num"><strong>27.756€</strong></td><td class="num"><strong>8.276€</strong></td><td class="num"><strong>55.093€</strong></td><td class="num"><strong>25.084€</strong></td><td class="num" style="background:#c8e6c9"><strong>445.409,95€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="tpt-svmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>445.409,95€</strong>). Incluye abonos (negativos).</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Devoluciones</th><th>Fisioterapia</th><th>Logopedia</th><th>Pilates</th><th>Psicología</th><th>Terapia Ocupa</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">2.054€</td><td class="num">4.188€</td><td class="num">19.597€</td><td class="num">—</td><td class="num">16.054€</td><td class="num">15.722€</td><td class="num" style="background:#f1f8e9"><strong>53.507€</strong></td></tr>
+<tr><td>Feb</td><td class="num">3.794€</td><td class="num">4.255€</td><td class="num">20.053€</td><td class="num">119€</td><td class="num">17.743€</td><td class="num">15.089€</td><td class="num" style="background:#f1f8e9"><strong>53.466€</strong></td></tr>
+<tr><td>Mar</td><td class="num">2.439€</td><td class="num">4.970€</td><td class="num">23.425€</td><td class="num">—</td><td class="num">19.060€</td><td class="num">18.467€</td><td class="num" style="background:#f1f8e9"><strong>63.483€</strong></td></tr>
+<tr><td>Abr</td><td class="num">3.202€</td><td class="num">4.395€</td><td class="num">21.838€</td><td class="num">—</td><td class="num">17.313€</td><td class="num">17.030€</td><td class="num" style="background:#f1f8e9"><strong>57.373€</strong></td></tr>
+<tr><td>May</td><td class="num">2.803€</td><td class="num">4.849€</td><td class="num">22.578€</td><td class="num">—</td><td class="num">18.537€</td><td class="num">14.890€</td><td class="num" style="background:#f1f8e9"><strong>58.052€</strong></td></tr>
+<tr><td>Jun</td><td class="num">3.509€</td><td class="num">4.885€</td><td class="num">25.201€</td><td class="num">—</td><td class="num">19.036€</td><td class="num">19.784€</td><td class="num" style="background:#f1f8e9"><strong>65.396€</strong></td></tr>
+<tr><td>Jul</td><td class="num">3.663€</td><td class="num">6.209€</td><td class="num">22.029€</td><td class="num">—</td><td class="num">18.624€</td><td class="num">19.184€</td><td class="num" style="background:#f1f8e9"><strong>62.383€</strong></td></tr>
+<tr><td>Ago</td><td class="num">—</td><td class="num">4.634€</td><td class="num">14.010€</td><td class="num">—</td><td class="num">6.420€</td><td class="num">6.686€</td><td class="num" style="background:#f1f8e9"><strong>31.750€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>21.465€</strong></td><td class="num"><strong>38.386€</strong></td><td class="num"><strong>168.730€</strong></td><td class="num"><strong>119€</strong></td><td class="num"><strong>132.787€</strong></td><td class="num"><strong>126.852€</strong></td><td class="num" style="background:#c8e6c9"><strong>445.409,95€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="tpt-ubsv">
+<p class="note-inline">Ranking acumulado ene-ago por ubicación (neto = <strong>445.409,95€</strong>).</p>
+<table style="max-width:420px"><thead><tr><th>Ubicación</th><th>Importe neto</th><th>% s/total</th></tr></thead><tbody><tr><td>Arganda del Rey</td><td class="num">214.504€</td><td class="num">48.2%</td></tr>
+<tr><td>Móstoles</td><td class="num">73.150€</td><td class="num">16.4%</td></tr>
+<tr><td>Torrejón</td><td class="num">55.093€</td><td class="num">12.4%</td></tr>
+<tr><td>Leganés</td><td class="num">40.677€</td><td class="num">9.1%</td></tr>
+<tr><td>Rivas</td><td class="num">27.756€</td><td class="num">6.2%</td></tr>
+<tr><td>Valdemoro</td><td class="num">25.084€</td><td class="num">5.6%</td></tr>
+<tr><td>San Agustín de Guadalix</td><td class="num">8.276€</td><td class="num">1.9%</td></tr>
+<tr><td>Madrid</td><td class="num">871€</td><td class="num">0.2%</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>445.409,95€</strong></td><td class="num">100%</td></tr></tbody></table>
+</div>
+<div class="tab-content" id="tpt-dev">
+<p class="note-inline">Abonos emitidos (reducción de ingreso). Importes negativos.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Abonos</th></tr></thead><tbody><tr><td>Ene</td><td class="num neg">2.054,08€</td></tr>
+<tr><td>Feb</td><td class="num neg">3.794,16€</td></tr>
+<tr><td>Mar</td><td class="num neg">2.439,39€</td></tr>
+<tr><td>Abr</td><td class="num neg">3.202,17€</td></tr>
+<tr><td>May</td><td class="num neg">2.802,82€</td></tr>
+<tr><td>Jun</td><td class="num neg">3.509,43€</td></tr>
+<tr><td>Jul</td><td class="num neg">3.663,42€</td></tr>
+<tr class="total-row"><td><strong>TOTAL devoluciones</strong></td><td class="num neg"><strong>21.465,47€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="tpt-prof">
+<p class="note-inline">Coste empresa escalado al mayor (G640+G642). Ingresos atribuidos: prorrata por presencia efectiva (meses × % CC) dentro de cada combinación municipio+especialidad. Ordenado de peor a mejor margen.</p>
+<div class="scroll-x"><table><thead><tr style="background:#546e7a;color:white"><th>Nombre</th><th>Especialidad</th><th>Municipio</th><th class="num">Coste emp.</th><th class="num">Ingr. atrib.</th><th class="num">Margen</th><th class="num">Cobertura</th><th>Meses</th></tr></thead><tbody><tr style="background:#ffebee"><td><strong>Mª Camila Jiménez</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Valdemoro</td><td class="num">15,256€</td><td class="num">10,546€</td><td class="num" style="color:#c62828;font-weight:700">-4,710€</td><td class="num" style="color:#c62828;font-weight:700">69.1%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#ffebee"><td><strong>Irene Lavara</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">TO</td><td style="color:#555">Rivas</td><td class="num">3,585€</td><td class="num">1,483€</td><td class="num" style="color:#c62828;font-weight:700">-2,102€</td><td class="num" style="color:#c62828;font-weight:700">41.4%</td><td style="font-size:10px;text-align:center">3m</td></tr>
+<tr style="background:#fff8e1"><td><strong>Andrea Maldonado</strong></td><td style="color:#555">TO</td><td style="color:#555">Leganés</td><td class="num">14,797€</td><td class="num">14,221€</td><td class="num" style="color:#e65100;font-weight:700">-576€</td><td class="num" style="color:#e65100;font-weight:700">96.1%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#fff8e1"><td><strong>Margherita Colucci</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Logopeda</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">2,050€</td><td class="num">1,977€</td><td class="num" style="color:#e65100;font-weight:700">-73€</td><td class="num" style="color:#e65100;font-weight:700">96.4%</td><td style="font-size:10px;text-align:center">1m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Sandra Hernández</strong></td><td style="color:#555">TO</td><td style="color:#555">San Agustín de Guadalix</td><td class="num">8,036€</td><td class="num">8,318€</td><td class="num" style="color:#2e7d32;font-weight:700">+282€</td><td class="num" style="color:#2e7d32;font-weight:700">103.5%</td><td style="font-size:10px;text-align:center">5m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Javier Torresano</strong></td><td style="color:#555">Psicólogo</td><td style="color:#555">Leganés</td><td class="num">12,650€</td><td class="num">13,325€</td><td class="num" style="color:#2e7d32;font-weight:700">+675€</td><td class="num" style="color:#2e7d32;font-weight:700">105.3%</td><td style="font-size:10px;text-align:center">7m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Ana Mª Castillo</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">13,111€</td><td class="num">13,839€</td><td class="num" style="color:#2e7d32;font-weight:700">+728€</td><td class="num" style="color:#2e7d32;font-weight:700">105.6%</td><td style="font-size:10px;text-align:center">7m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Cecilia Camacho</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Arganda del Rey</td><td class="num">22,015€</td><td class="num">23,122€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,107€</td><td class="num" style="color:#2e7d32;font-weight:700">105.0%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Laura Barriopedro</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Leganés</td><td class="num">15,020€</td><td class="num">16,233€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,213€</td><td class="num" style="color:#2e7d32;font-weight:700">108.1%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alejandro Díez</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Psicólogo</td><td style="color:#555">Leganés</td><td class="num">2,056€</td><td class="num">3,363€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,307€</td><td class="num" style="color:#2e7d32;font-weight:700">163.6%</td><td style="font-size:10px;text-align:center">2m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Elena García Marín</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Rivas</td><td class="num">16,369€</td><td class="num">17,716€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,347€</td><td class="num" style="color:#2e7d32;font-weight:700">108.2%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Irene Lotero</strong></td><td style="color:#555">TO</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">15,239€</td><td class="num">16,778€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,539€</td><td class="num" style="color:#2e7d32;font-weight:700">110.1%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alejandra Rueda</strong></td><td style="color:#555">Psicóloga</td><td style="color:#555">Valdemoro</td><td class="num">12,203€</td><td class="num">14,663€</td><td class="num" style="color:#2e7d32;font-weight:700">+2,460€</td><td class="num" style="color:#2e7d32;font-weight:700">120.2%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Abel Somoza</strong></td><td style="color:#555">Psicólogo</td><td style="color:#555">Móstoles</td><td class="num">18,298€</td><td class="num">20,850€</td><td class="num" style="color:#2e7d32;font-weight:700">+2,552€</td><td class="num" style="color:#2e7d32;font-weight:700">113.9%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Sara Marín</strong></td><td style="color:#555">TO</td><td style="color:#555">Rivas</td><td class="num">7,939€</td><td class="num">10,747€</td><td class="num" style="color:#2e7d32;font-weight:700">+2,808€</td><td class="num" style="color:#2e7d32;font-weight:700">135.4%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Elena Pérez</strong></td><td style="color:#555">TO</td><td style="color:#555">Arganda del Rey</td><td class="num">16,503€</td><td class="num">21,636€</td><td class="num" style="color:#2e7d32;font-weight:700">+5,133€</td><td class="num" style="color:#2e7d32;font-weight:700">131.1%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Esther Cascales</strong></td><td style="color:#555">TO</td><td style="color:#555">Arganda del Rey</td><td class="num">16,414€</td><td class="num">21,636€</td><td class="num" style="color:#2e7d32;font-weight:700">+5,222€</td><td class="num" style="color:#2e7d32;font-weight:700">131.8%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Andrea Maniscalco</strong></td><td style="color:#555">Psicóloga</td><td style="color:#555">Arganda del Rey</td><td class="num">20,123€</td><td class="num">26,060€</td><td class="num" style="color:#2e7d32;font-weight:700">+5,937€</td><td class="num" style="color:#2e7d32;font-weight:700">129.5%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Esther Moreno</strong></td><td style="color:#555">Psicóloga</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">15,055€</td><td class="num">22,774€</td><td class="num" style="color:#2e7d32;font-weight:700">+7,719€</td><td class="num" style="color:#2e7d32;font-weight:700">151.3%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Sandra Vizcaíno</strong></td><td style="color:#555">Psicóloga</td><td style="color:#555">Arganda del Rey</td><td class="num">17,617€</td><td class="num">26,060€</td><td class="num" style="color:#2e7d32;font-weight:700">+8,443€</td><td class="num" style="color:#2e7d32;font-weight:700">147.9%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Mª Ángeles Palomino</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Móstoles</td><td class="num">16,813€</td><td class="num">25,630€</td><td class="num" style="color:#2e7d32;font-weight:700">+8,817€</td><td class="num" style="color:#2e7d32;font-weight:700">152.4%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Ana Mª Guerrero</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Arganda del Rey</td><td class="num">16,518€</td><td class="num">26,091€</td><td class="num" style="color:#2e7d32;font-weight:700">+9,573€</td><td class="num" style="color:#2e7d32;font-weight:700">158.0%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Silvia Inglés</strong></td><td style="color:#555">TO</td><td style="color:#555">Móstoles</td><td class="num">17,018€</td><td class="num">27,037€</td><td class="num" style="color:#2e7d32;font-weight:700">+10,019€</td><td class="num" style="color:#2e7d32;font-weight:700">158.9%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Lucía Remesal</strong></td><td style="color:#555">Logopeda</td><td style="color:#555">Arganda del Rey</td><td class="num">15,227€</td><td class="num">26,091€</td><td class="num" style="color:#2e7d32;font-weight:700">+10,864€</td><td class="num" style="color:#2e7d32;font-weight:700">171.3%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alba Fonseca</strong></td><td style="color:#555">Fisioterapeuta</td><td style="color:#555">Arganda del Rey</td><td class="num">22,058€</td><td class="num">36,451€</td><td class="num" style="color:#2e7d32;font-weight:700">+14,393€</td><td class="num" style="color:#2e7d32;font-weight:700">165.3%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#f5f5f5;font-style:italic"><td colspan="3" style="color:#888">9 incorporaciones fin agosto (período &lt;1 mes)</td><td class="num" style="color:#888">2,126€</td><td class="num" style="color:#888">—</td><td class="num" style="color:#888">—</td><td class="num" style="color:#888">—</td><td style="color:#888">&lt;1m</td></tr>
+<tr class="total-row" style="background:#e8f5e9"><td colspan="3"><strong>TOTAL 25 terapeutas clínicos</strong></td><td class="num"><strong>351,970€</strong></td><td class="num"><strong>446,647€</strong></td><td class="num" style="color:#2e7d32;font-weight:700">+94,677€</td><td class="num" style="color:#2e7d32;font-weight:700">126.9%</td><td></td></tr></tbody></table></div>
+<div class="note">Excluidas: Ana Mª García Torrado, Iris Gasull, Mª Álvarez (coordinadoras) · Débora Ortega (admin) · Laura Pérez (captación). Ingresos Pilates y Madrid (~1.000€) no atribuidos. Cobertura = ingresos facturados ÷ coste empresa — no incluye otros gastos de explotación.</div></div>
+</div>
+<div class="section" id="micro-is">
+<h2><span class="badge badge-is">IS</span> Análisis micro — IS</h2>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Bruta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">108.573€</div>
+    <div class="kpi-sub">Total emitido · MN Program</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Devoluciones</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">3.131€</div>
+    <div class="kpi-sub">Abonos / Series R-</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Neta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">105.393€</div>
+    <div class="kpi-sub">Mayor G70x · fuente contable</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Coste Personal</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">129.388€</div>
+    <div class="kpi-sub">G640+G642 escalado ene-ago</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Margen Bruto</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">23.996€</div>
+    <div class="kpi-sub">Cobertura 81.5%</div>
+  </div>
+</div>
+<div class="two-col" style="gap:18px;margin-bottom:14px">
+<div style="overflow-x:auto">
+<table><thead><tr><th>Ubicación</th><th>Fac. Neta</th><th>Coste Personal</th><th>Margen</th><th>Cobertura</th></tr></thead>
+<tbody><tr><td>Arganda del Rey</td><td class="num">40.261€</td><td class="num">36.458€</td><td class="num pos">+3.803€</td><td class="num pos">110.4% </td></tr>
+<tr><td>Torrejón</td><td class="num">19.681€</td><td class="num">14.917€</td><td class="num pos">+4.765€</td><td class="num pos">131.9% </td></tr>
+<tr><td>Cuatro Caminos</td><td class="num">10.956€</td><td class="num">9.126€</td><td class="num pos">+1.829€</td><td class="num pos">120.0% </td></tr>
+<tr><td>Navalcarnero</td><td class="num">9.697€</td><td class="num">8.851€</td><td class="num pos">+847€</td><td class="num pos">109.6% </td></tr>
+<tr><td>Móstoles</td><td class="num">8.701€</td><td class="num">5.416€</td><td class="num pos">+3.284€</td><td class="num pos">160.6% </td></tr>
+<tr><td>Cebada</td><td class="num">7.606€</td><td class="num">5.914€</td><td class="num pos">+1.692€</td><td class="num pos">128.6% </td></tr>
+<tr><td>Latina</td><td class="num">5.584€</td><td class="num">3.627€</td><td class="num pos">+1.957€</td><td class="num pos">154.0% </td></tr>
+<tr><td>Valdemoro</td><td class="num">1.454€</td><td class="num">3.051€</td><td class="num neg">1.597€</td><td class="num neg">47.7% </td></tr>
+<tr><td>Leganés</td><td class="num">1.420€</td><td class="num">3.429€</td><td class="num neg">2.010€</td><td class="num neg">41.4% </td></tr>
+<tr><td>La Cebada</td><td class="num">52€</td><td class="num">—</td><td class="num pos">+52€</td><td class="num neg">0% </td></tr>
+<tr><td>Rivas</td><td class="num">31€</td><td class="num">—</td><td class="num pos">+31€</td><td class="num neg">0% </td></tr>
+<tr><td>Vicálvaro</td><td class="num">50€</td><td class="num">—</td><td class="num neg">50€</td><td class="num neg">0% </td></tr>
+<tr style="color:#888;font-style:italic"><td>Coordinación</td><td class="num">—</td><td class="num">38.599€</td><td class="num">—</td><td class="num">—</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>105.392,56€</strong></td><td class="num"><strong>129.388,17€</strong></td><td class="num neg"><strong>23.996€</strong></td><td class="num neg"><strong>81.5%</strong></td></tr></tbody></table>
+<p style="font-size:11px;color:#888;margin-top:6px">Fac. neta = mayor G70x escalado por ubicación (MN Program). Coste personal = BBDD_NOMINAS escalado.</p>
+</div>
+<div><div style="padding:14px;background:#fff8e1;border-radius:10px;border:1px solid #ffe082">
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:4px">38.599€ sin centro asignado</div>
+          <div style="font-size:11px;color:#666;margin-bottom:12px">Equipo de coordinación sin asignación directa a centro físico.</div>
+          <div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">JOSE LUIS MENA ELVIRA</div>
+              <div style="font-size:18px;font-weight:800;color:var(--is);margin:4px 0">19.302€</div>
+              <div style="font-size:11px;color:#888">100% IS · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">IRENE BURGOS PLANA</div>
+              <div style="font-size:18px;font-weight:800;color:var(--is);margin:4px 0">19.297€</div>
+              <div style="font-size:11px;color:#888">100% IS · sin centro físico</div>
+            </div>
+        </div></div>
+</div>
+<div class="tabs-bar" id="tabs-is">
+<button class="tab-btn active" onclick="switchTab('is','evol')">📅 Evolución mensual</button>
+<button class="tab-btn" onclick="switchTab('is','ubmes')">📍 Ubicación × Mes</button>
+<button class="tab-btn" onclick="switchTab('is','svmes')">🎯 Servicio × Mes</button>
+<button class="tab-btn" onclick="switchTab('is','ubsv')">📊 Ubicación acumulada</button>
+<button class="tab-btn" onclick="switchTab('is','dev')">↩ Devoluciones</button>
+<button class="tab-btn" onclick="switchTab('is','prof')">👤 Rentab./Trabajador</button>
+</div>
+<div class="tab-content active" id="is-evol">
+<p class="note-inline">Fuente: mayor G70x — total verificado: <strong>105.392,56€</strong>.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Ingresos</th></tr></thead><tbody><tr><td>Ene</td><td class="num">15.002€</td></tr>
+<tr><td>Feb</td><td class="num">14.619€</td></tr>
+<tr><td>Mar</td><td class="num">14.336€</td></tr>
+<tr><td>Abr</td><td class="num">14.633€</td></tr>
+<tr><td>May</td><td class="num">14.341€</td></tr>
+<tr><td>Jun</td><td class="num">14.194€</td></tr>
+<tr><td>Jul</td><td class="num">9.773€</td></tr>
+<tr><td>Ago</td><td class="num">8.494€</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>105.392,56€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="is-ubmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>105.392,56€</strong>). TOTAL = suma de todas las ubicaciones ese mes.</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Arganda del R</th><th>Cebada</th><th>Cuatro Camino</th><th>La Cebada</th><th>Latina</th><th>Leganés</th><th>Móstoles</th><th>Navalcarnero</th><th>Rivas</th><th>Torrejón</th><th>Valdemoro</th><th>Vicálvaro</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">5.218€</td><td class="num">1.308€</td><td class="num">1.329€</td><td class="num">—</td><td class="num">1.045€</td><td class="num">252€</td><td class="num">1.191€</td><td class="num">1.748€</td><td class="num">31€</td><td class="num">2.663€</td><td class="num">260€</td><td class="num">50€</td><td class="num" style="background:#f1f8e9"><strong>14.995€</strong></td></tr>
+<tr><td>Feb</td><td class="num">5.261€</td><td class="num">999€</td><td class="num">1.632€</td><td class="num">52€</td><td class="num">763€</td><td class="num">252€</td><td class="num">1.158€</td><td class="num">1.544€</td><td class="num">—</td><td class="num">2.692€</td><td class="num">260€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>14.612€</strong></td></tr>
+<tr><td>Mar</td><td class="num">4.642€</td><td class="num">1.086€</td><td class="num">1.341€</td><td class="num">—</td><td class="num">952€</td><td class="num">252€</td><td class="num">1.342€</td><td class="num">1.748€</td><td class="num">—</td><td class="num">2.706€</td><td class="num">260€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>14.330€</strong></td></tr>
+<tr><td>Abr</td><td class="num">5.405€</td><td class="num">1.332€</td><td class="num">1.697€</td><td class="num">—</td><td class="num">803€</td><td class="num">38€</td><td class="num">1.308€</td><td class="num">1.254€</td><td class="num">—</td><td class="num">2.529€</td><td class="num">260€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>14.626€</strong></td></tr>
+<tr><td>May</td><td class="num">5.094€</td><td class="num">1.160€</td><td class="num">1.394€</td><td class="num">—</td><td class="num">701€</td><td class="num">252€</td><td class="num">1.129€</td><td class="num">1.780€</td><td class="num">—</td><td class="num">2.564€</td><td class="num">260€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>14.334€</strong></td></tr>
+<tr><td>Jun</td><td class="num">5.614€</td><td class="num">992€</td><td class="num">1.293€</td><td class="num">—</td><td class="num">612€</td><td class="num">200€</td><td class="num">1.313€</td><td class="num">1.624€</td><td class="num">—</td><td class="num">2.385€</td><td class="num">156€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>14.187€</strong></td></tr>
+<tr><td>Jul</td><td class="num">5.520€</td><td class="num">21€</td><td class="num">1.395€</td><td class="num">—</td><td class="num">108€</td><td class="num">125€</td><td class="num">385€</td><td class="num">—</td><td class="num">—</td><td class="num">2.256€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>9.768€</strong></td></tr>
+<tr><td>Ago</td><td class="num">3.505€</td><td class="num">750€</td><td class="num">875€</td><td class="num">—</td><td class="num">600€</td><td class="num">50€</td><td class="num">875€</td><td class="num">—</td><td class="num">—</td><td class="num">1.886€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>8.540€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>40.261€</strong></td><td class="num"><strong>7.606€</strong></td><td class="num"><strong>10.956€</strong></td><td class="num"><strong>52€</strong></td><td class="num"><strong>5.584€</strong></td><td class="num"><strong>1.420€</strong></td><td class="num"><strong>8.701€</strong></td><td class="num"><strong>9.697€</strong></td><td class="num"><strong>31€</strong></td><td class="num"><strong>19.681€</strong></td><td class="num"><strong>1.454€</strong></td><td class="num"><strong>50€</strong></td><td class="num" style="background:#c8e6c9"><strong>105.392,56€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="is-svmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>105.392,56€</strong>). Incluye abonos (negativos).</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Devoluciones</th><th>Juegoteca</th><th>Logopedia</th><th>Multideporte</th><th>Piscina</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">556€</td><td class="num">—</td><td class="num">—</td><td class="num">1.934€</td><td class="num">13.617€</td><td class="num" style="background:#f1f8e9"><strong>14.995€</strong></td></tr>
+<tr><td>Feb</td><td class="num">156€</td><td class="num">—</td><td class="num">—</td><td class="num">1.668€</td><td class="num">13.100€</td><td class="num" style="background:#f1f8e9"><strong>14.612€</strong></td></tr>
+<tr><td>Mar</td><td class="num">260€</td><td class="num">—</td><td class="num">—</td><td class="num">1.802€</td><td class="num">12.788€</td><td class="num" style="background:#f1f8e9"><strong>14.330€</strong></td></tr>
+<tr><td>Abr</td><td class="num">194€</td><td class="num">—</td><td class="num">—</td><td class="num">1.195€</td><td class="num">13.625€</td><td class="num" style="background:#f1f8e9"><strong>14.626€</strong></td></tr>
+<tr><td>May</td><td class="num">409€</td><td class="num">70€</td><td class="num">—</td><td class="num">1.500€</td><td class="num">13.173€</td><td class="num" style="background:#f1f8e9"><strong>14.334€</strong></td></tr>
+<tr><td>Jun</td><td class="num">522€</td><td class="num">40€</td><td class="num">—</td><td class="num">1.235€</td><td class="num">13.434€</td><td class="num" style="background:#f1f8e9"><strong>14.187€</strong></td></tr>
+<tr><td>Jul</td><td class="num">601€</td><td class="num">—</td><td class="num">305€</td><td class="num">927€</td><td class="num">9.137€</td><td class="num" style="background:#f1f8e9"><strong>9.768€</strong></td></tr>
+<tr><td>Ago</td><td class="num">433€</td><td class="num">—</td><td class="num">—</td><td class="num">700€</td><td class="num">8.273€</td><td class="num" style="background:#f1f8e9"><strong>8.540€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>3.129€</strong></td><td class="num"><strong>110€</strong></td><td class="num"><strong>305€</strong></td><td class="num"><strong>10.960€</strong></td><td class="num"><strong>97.146€</strong></td><td class="num" style="background:#c8e6c9"><strong>105.392,56€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="is-ubsv">
+<p class="note-inline">Ranking acumulado ene-ago por ubicación (neto = <strong>105.392,56€</strong>).</p>
+<table style="max-width:420px"><thead><tr><th>Ubicación</th><th>Importe neto</th><th>% s/total</th></tr></thead><tbody><tr><td>Arganda del Rey</td><td class="num">40.261€</td><td class="num">38.2%</td></tr>
+<tr><td>Torrejón</td><td class="num">19.681€</td><td class="num">18.7%</td></tr>
+<tr><td>Cuatro Caminos</td><td class="num">10.956€</td><td class="num">10.4%</td></tr>
+<tr><td>Navalcarnero</td><td class="num">9.697€</td><td class="num">9.2%</td></tr>
+<tr><td>Móstoles</td><td class="num">8.701€</td><td class="num">8.3%</td></tr>
+<tr><td>Cebada</td><td class="num">7.606€</td><td class="num">7.2%</td></tr>
+<tr><td>Latina</td><td class="num">5.584€</td><td class="num">5.3%</td></tr>
+<tr><td>Valdemoro</td><td class="num">1.454€</td><td class="num">1.4%</td></tr>
+<tr><td>Leganés</td><td class="num">1.420€</td><td class="num">1.3%</td></tr>
+<tr><td>La Cebada</td><td class="num">52€</td><td class="num">0.0%</td></tr>
+<tr><td>Rivas</td><td class="num">31€</td><td class="num">0.0%</td></tr>
+<tr><td>Vicálvaro</td><td class="num">50€</td><td class="num">-0.0%</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>105.392,56€</strong></td><td class="num">100%</td></tr></tbody></table>
+</div>
+<div class="tab-content" id="is-dev">
+<p class="note-inline">Abonos emitidos (reducción de ingreso). Importes negativos.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Abonos</th></tr></thead><tbody><tr><td>Ene</td><td class="num neg">556,21€</td></tr>
+<tr><td>Feb</td><td class="num neg">155,78€</td></tr>
+<tr><td>Mar</td><td class="num neg">259,63€</td></tr>
+<tr><td>Abr</td><td class="num neg">193,71€</td></tr>
+<tr><td>May</td><td class="num neg">408,67€</td></tr>
+<tr><td>Jun</td><td class="num neg">521,99€</td></tr>
+<tr><td>Jul</td><td class="num neg">600,58€</td></tr>
+<tr><td>Ago</td><td class="num neg">432,59€</td></tr>
+<tr class="total-row"><td><strong>TOTAL devoluciones</strong></td><td class="num neg"><strong>3.129,16€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="is-prof">
+<p class="note-inline">Ingresos IS por municipio (Piscina + Multideporte + Juegoteca, neto devoluciones). Para monitores con varios municipios: ingreso prorrata por presencia efectiva. Ordenado de peor a mejor margen.</p>
+<div class="scroll-x"><table><thead><tr style="background:#546e7a;color:white"><th>Nombre</th><th>Especialidad</th><th>Municipio</th><th class="num">Coste emp.</th><th class="num">Ingr. atrib.</th><th class="num">Margen</th><th class="num">Cobertura</th><th>Meses</th></tr></thead><tbody><tr style="background:#ffebee"><td><strong>Milce Andrea</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">La Cebada</td><td class="num">8,155€</td><td class="num">2,035€</td><td class="num" style="color:#c62828;font-weight:700">-6,120€</td><td class="num" style="color:#c62828;font-weight:700">25.0%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#ffebee"><td><strong>Monica Salvador</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">La Latina</td><td class="num">2,361€</td><td class="num">0€</td><td class="num" style="color:#c62828;font-weight:700">-2,361€</td><td class="num" style="color:#c62828;font-weight:700">0.0%</td><td style="font-size:10px;text-align:center">6m</td></tr>
+<tr style="background:#fff8e1"><td><strong>Adrian Moncayo</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Navalcarnero</td><td class="num">11,431€</td><td class="num">9,374€</td><td class="num" style="color:#e65100;font-weight:700">-2,057€</td><td class="num" style="color:#e65100;font-weight:700">82.0%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#fff8e1"><td><strong>Samuel Matas</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Arganda del Rey</td><td class="num">14,667€</td><td class="num">13,270€</td><td class="num" style="color:#e65100;font-weight:700">-1,397€</td><td class="num" style="color:#e65100;font-weight:700">90.5%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#ffebee"><td><strong>Antonio Corro</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">5,269€</td><td class="num">4,021€</td><td class="num" style="color:#c62828;font-weight:700">-1,248€</td><td class="num" style="color:#c62828;font-weight:700">76.3%</td><td style="font-size:10px;text-align:center">4m</td></tr>
+<tr style="background:#fff8e1"><td><strong>Alfonso Martinez</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Valdemoro</td><td class="num">7,627€</td><td class="num">7,066€</td><td class="num" style="color:#e65100;font-weight:700">-561€</td><td class="num" style="color:#e65100;font-weight:700">92.6%</td><td style="font-size:10px;text-align:center">6m</td></tr>
+<tr style="background:#ffebee"><td><strong>Belen Pastor</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">La Cebada</td><td class="num">205€</td><td class="num">8€</td><td class="num" style="color:#c62828;font-weight:700">-197€</td><td class="num" style="color:#c62828;font-weight:700">3.9%</td><td style="font-size:10px;text-align:center">1m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Carolina Muñoz</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Arganda del Rey</td><td class="num">9,606€</td><td class="num">9,952€</td><td class="num" style="color:#2e7d32;font-weight:700">+346€</td><td class="num" style="color:#2e7d32;font-weight:700">103.6%</td><td style="font-size:10px;text-align:center">6m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Ruben Crespo</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">3,748€</td><td class="num">4,209€</td><td class="num" style="color:#2e7d32;font-weight:700">+461€</td><td class="num" style="color:#2e7d32;font-weight:700">112.3%</td><td style="font-size:10px;text-align:center">5m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alvaro Fernandez</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">209€</td><td class="num">842€</td><td class="num" style="color:#2e7d32;font-weight:700">+633€</td><td class="num" style="color:#2e7d32;font-weight:700">402.9%</td><td style="font-size:10px;text-align:center">1m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Marina Villareal</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Cuatro Caminos</td><td class="num">5,454€</td><td class="num">6,476€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,022€</td><td class="num" style="color:#2e7d32;font-weight:700">118.7%</td><td style="font-size:10px;text-align:center">4m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Jorge Rubio</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Cuatro Caminos</td><td class="num">5,283€</td><td class="num">6,476€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,193€</td><td class="num" style="color:#2e7d32;font-weight:700">122.6%</td><td style="font-size:10px;text-align:center">4m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Ana Isabel</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Arganda del Rey</td><td class="num">3,577€</td><td class="num">4,976€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,399€</td><td class="num" style="color:#2e7d32;font-weight:700">139.1%</td><td style="font-size:10px;text-align:center">3m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Natalia Morales</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">1,037€</td><td class="num">2,526€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,489€</td><td class="num" style="color:#2e7d32;font-weight:700">243.6%</td><td style="font-size:10px;text-align:center">3m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Adrian Olivares</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Móstoles</td><td class="num">43€</td><td class="num">1,608€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,565€</td><td class="num" style="color:#2e7d32;font-weight:700">3739.5%</td><td style="font-size:10px;text-align:center">1m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alvaro Corpa</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">1,742€</td><td class="num">3,367€</td><td class="num" style="color:#2e7d32;font-weight:700">+1,625€</td><td class="num" style="color:#2e7d32;font-weight:700">193.3%</td><td style="font-size:10px;text-align:center">4m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Alvaro Valoria</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Torrejón de Ardoz</td><td class="num">4,412€</td><td class="num">7,074€</td><td class="num" style="color:#2e7d32;font-weight:700">+2,662€</td><td class="num" style="color:#2e7d32;font-weight:700">160.3%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Hugo Azevedo</strong></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Navalcarnero</td><td class="num">5,920€</td><td class="num">8,682€</td><td class="num" style="color:#2e7d32;font-weight:700">+2,762€</td><td class="num" style="color:#2e7d32;font-weight:700">146.7%</td><td style="font-size:10px;text-align:center">6m</td></tr>
+<tr style="background:#e8f5e9"><td><strong>Felix Antonio</strong> <span style="font-size:10px;color:#999">(período parcial)</span></td><td style="color:#555">Monitor deportivo</td><td style="color:#555">Latina</td><td class="num">43€</td><td class="num">5,586€</td><td class="num" style="color:#2e7d32;font-weight:700">+5,543€</td><td class="num" style="color:#2e7d32;font-weight:700">12990.7%</td><td style="font-size:10px;text-align:center">1m</td></tr>
+<tr style="background:#f5f5f5;font-style:italic"><td colspan="3" style="color:#888">Irene Burgos + José Luis Mena (coordinadores — excluidos)</td><td class="num" style="color:#888">38,599€</td><td class="num" style="color:#888">—</td><td class="num" style="color:#888">—</td><td class="num" style="color:#888">—</td><td></td></tr>
+<tr class="total-row" style="background:#e8f5e9"><td colspan="3"><strong>TOTAL 19 monitores clínicos</strong></td><td class="num"><strong>90,789€</strong></td><td class="num"><strong>97,548€</strong></td><td class="num" style="color:#2e7d32;font-weight:700">+6,759€</td><td class="num" style="color:#2e7d32;font-weight:700">107.4%</td><td></td></tr></tbody></table></div>
+<div class="note">Excluidos Irene Burgos y José Luis Mena (coordinadores). Cobertura = ingresos copago ÷ coste empresa — no incluye subvención ni otros gastos de explotación.</div></div>
+</div>
+<div class="section" id="micro-ind">
+<h2><span class="badge badge-ind">Indiferente</span> Análisis micro — Indiferente</h2>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Bruta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">123.406€</div>
+    <div class="kpi-sub">Total emitido · MN Program</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Devoluciones</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">33.835€</div>
+    <div class="kpi-sub">Abonos / Series R-</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Neta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">89.571€</div>
+    <div class="kpi-sub">Mayor G70x · fuente contable</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Coste Personal</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">17.911€</div>
+    <div class="kpi-sub">G640+G642 escalado ene-ago</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #c8e6c9">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Margen Bruto</div>
+    <div class="kpi-val" style="font-size:20px;color:#2e7d32">+71.660€</div>
+    <div class="kpi-sub">Cobertura 500.1%</div>
+  </div>
+</div>
+<div class="two-col" style="gap:18px;margin-bottom:14px">
+<div style="overflow-x:auto">
+<table><thead><tr><th>Ubicación</th><th>Fac. Neta</th><th>Coste Personal</th><th>Margen</th><th>Cobertura</th></tr></thead>
+<tbody><tr><td>Rivas</td><td class="num">24.738€</td><td class="num">—</td><td class="num pos">+24.738€</td><td class="num neg">0% </td></tr>
+<tr><td>Comunidad de Madrid</td><td class="num">15.000€</td><td class="num">—</td><td class="num pos">+15.000€</td><td class="num neg">0% </td></tr>
+<tr><td>San Agustín de Guadalix</td><td class="num">14.990€</td><td class="num">—</td><td class="num pos">+14.990€</td><td class="num neg">0% </td></tr>
+<tr><td>Arganda del Rey</td><td class="num">12.600€</td><td class="num">—</td><td class="num pos">+12.600€</td><td class="num neg">0% </td></tr>
+<tr><td>Torrejón</td><td class="num">7.064€</td><td class="num">—</td><td class="num pos">+7.064€</td><td class="num neg">0% </td></tr>
+<tr><td>Villaviciosa de Odón</td><td class="num">4.200€</td><td class="num">—</td><td class="num pos">+4.200€</td><td class="num neg">0% </td></tr>
+<tr><td>Loeches</td><td class="num">4.000€</td><td class="num">—</td><td class="num pos">+4.000€</td><td class="num neg">0% </td></tr>
+<tr><td>Madrid</td><td class="num">3.900€</td><td class="num">—</td><td class="num pos">+3.900€</td><td class="num neg">0% </td></tr>
+<tr><td>Leganés</td><td class="num">1.800€</td><td class="num">—</td><td class="num pos">+1.800€</td><td class="num neg">0% </td></tr>
+<tr><td>Alcobendas</td><td class="num">780€</td><td class="num">—</td><td class="num pos">+780€</td><td class="num neg">0% </td></tr>
+<tr><td>Valencia</td><td class="num">500€</td><td class="num">—</td><td class="num pos">+500€</td><td class="num neg">0% </td></tr>
+<tr style="color:#888;font-style:italic"><td>Coordinación</td><td class="num">—</td><td class="num">17.911€</td><td class="num">—</td><td class="num">—</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>89.571,11€</strong></td><td class="num"><strong>17.910,66€</strong></td><td class="num pos"><strong>+71.660€</strong></td><td class="num pos"><strong>500.1%</strong></td></tr></tbody></table>
+<p style="font-size:11px;color:#888;margin-top:6px">Fac. neta = mayor G70x escalado por ubicación (MN Program). Coste personal = BBDD_NOMINAS escalado.</p>
+</div>
+<div><div style="padding:14px;background:#fff8e1;border-radius:10px;border:1px solid #ffe082">
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:4px">17.911€ sin centro asignado</div>
+          <div style="font-size:11px;color:#666;margin-bottom:12px">Equipo de coordinación sin asignación directa a centro físico.</div>
+          <div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">FRANCISCO JAVIER ORTIZ DE LERA</div>
+              <div style="font-size:18px;font-weight:800;color:var(--ind);margin:4px 0">17.911€</div>
+              <div style="font-size:11px;color:#888">100% Indiferente · sin centro físico</div>
+            </div>
+        </div></div>
+</div>
+<div class="tabs-bar" id="tabs-ind">
+<button class="tab-btn active" onclick="switchTab('ind','evol')">📅 Evolución mensual</button>
+<button class="tab-btn" onclick="switchTab('ind','ubmes')">📍 Ubicación × Mes</button>
+<button class="tab-btn" onclick="switchTab('ind','svmes')">🎯 Servicio × Mes</button>
+<button class="tab-btn" onclick="switchTab('ind','ubsv')">📊 Ubicación acumulada</button>
+<button class="tab-btn" onclick="switchTab('ind','dev')">↩ Devoluciones</button>
+
+</div>
+<div class="tab-content active" id="ind-evol">
+<p class="note-inline">Fuente: mayor G70x — total verificado: <strong>89.571,11€</strong>.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Ingresos</th></tr></thead><tbody><tr><td>Ene</td><td class="num">0€</td></tr>
+<tr><td>Feb</td><td class="num">0€</td></tr>
+<tr><td>Mar</td><td class="num">27.650€</td></tr>
+<tr><td>Abr</td><td class="num">11.673€</td></tr>
+<tr><td>May</td><td class="num">9.478€</td></tr>
+<tr><td>Jun</td><td class="num">19.857€</td></tr>
+<tr><td>Jul</td><td class="num">10.501€</td></tr>
+<tr><td>Ago</td><td class="num">10.411€</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>89.571,11€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="ind-ubmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>89.571,11€</strong>). TOTAL = suma de todas las ubicaciones ese mes.</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Alcobendas</th><th>Arganda del R</th><th>Comunidad de </th><th>Leganés</th><th>Loeches</th><th>Madrid</th><th>Rivas</th><th>San Agustín d</th><th>Torrejón</th><th>Valencia</th><th>Villaviciosa </th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>0€</strong></td></tr>
+<tr><td>Feb</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>0€</strong></td></tr>
+<tr><td>Mar</td><td class="num">—</td><td class="num">12.600€</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">3.500€</td><td class="num">—</td><td class="num">7.350€</td><td class="num">—</td><td class="num">4.200€</td><td class="num" style="background:#f1f8e9"><strong>27.650€</strong></td></tr>
+<tr><td>Abr</td><td class="num">—</td><td class="num">—</td><td class="num">6.200€</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">2.475€</td><td class="num">2.498€</td><td class="num">—</td><td class="num">500€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>11.673€</strong></td></tr>
+<tr><td>May</td><td class="num">780€</td><td class="num">—</td><td class="num">—</td><td class="num">4.000€</td><td class="num">—</td><td class="num">—</td><td class="num">9.550€</td><td class="num">2.498€</td><td class="num">7.350€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>9.478€</strong></td></tr>
+<tr><td>Jun</td><td class="num">—</td><td class="num">—</td><td class="num">8.800€</td><td class="num">2.200€</td><td class="num">4.000€</td><td class="num">—</td><td class="num">2.750€</td><td class="num">2.498€</td><td class="num">4.009€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>19.857€</strong></td></tr>
+<tr><td>Jul</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">2.900€</td><td class="num">3.575€</td><td class="num">2.498€</td><td class="num">1.527€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>10.501€</strong></td></tr>
+<tr><td>Ago</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">1.000€</td><td class="num">2.888€</td><td class="num">4.997€</td><td class="num">1.527€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>10.411€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>780€</strong></td><td class="num"><strong>12.600€</strong></td><td class="num"><strong>15.000€</strong></td><td class="num"><strong>1.800€</strong></td><td class="num"><strong>4.000€</strong></td><td class="num"><strong>3.900€</strong></td><td class="num"><strong>24.738€</strong></td><td class="num"><strong>14.990€</strong></td><td class="num"><strong>7.064€</strong></td><td class="num"><strong>500€</strong></td><td class="num"><strong>4.200€</strong></td><td class="num" style="background:#c8e6c9"><strong>89.571,11€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="ind-svmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>89.571,11€</strong>). Incluye abonos (negativos).</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Consultoría</th><th>Contrato meno</th><th>E-learning</th><th>Formaciones</th><th>Planes Sensib</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>0€</strong></td></tr>
+<tr><td>Feb</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>0€</strong></td></tr>
+<tr><td>Mar</td><td class="num">12.600€</td><td class="num">7.350€</td><td class="num">—</td><td class="num">4.200€</td><td class="num">3.500€</td><td class="num" style="background:#f1f8e9"><strong>27.650€</strong></td></tr>
+<tr><td>Abr</td><td class="num">6.200€</td><td class="num">—</td><td class="num">2.975€</td><td class="num">—</td><td class="num">2.498€</td><td class="num" style="background:#f1f8e9"><strong>11.673€</strong></td></tr>
+<tr><td>May</td><td class="num">780€</td><td class="num">2.950€</td><td class="num">5.150€</td><td class="num">—</td><td class="num">6.498€</td><td class="num" style="background:#f1f8e9"><strong>9.478€</strong></td></tr>
+<tr><td>Jun</td><td class="num">8.800€</td><td class="num">8.009€</td><td class="num">4.550€</td><td class="num">—</td><td class="num">1.502€</td><td class="num" style="background:#f1f8e9"><strong>19.857€</strong></td></tr>
+<tr><td>Jul</td><td class="num">—</td><td class="num">4.026€</td><td class="num">6.475€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>10.501€</strong></td></tr>
+<tr><td>Ago</td><td class="num">—</td><td class="num">6.524€</td><td class="num">3.888€</td><td class="num">—</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>10.411€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>28.380€</strong></td><td class="num"><strong>22.959€</strong></td><td class="num"><strong>23.038€</strong></td><td class="num"><strong>4.200€</strong></td><td class="num"><strong>10.995€</strong></td><td class="num" style="background:#c8e6c9"><strong>89.571,11€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="ind-ubsv">
+<p class="note-inline">Ranking acumulado ene-ago por ubicación (neto = <strong>89.571,11€</strong>).</p>
+<table style="max-width:420px"><thead><tr><th>Ubicación</th><th>Importe neto</th><th>% s/total</th></tr></thead><tbody><tr><td>Rivas</td><td class="num">24.738€</td><td class="num">27.6%</td></tr>
+<tr><td>Comunidad de Madrid</td><td class="num">15.000€</td><td class="num">16.7%</td></tr>
+<tr><td>San Agustín de Guadalix</td><td class="num">14.990€</td><td class="num">16.7%</td></tr>
+<tr><td>Arganda del Rey</td><td class="num">12.600€</td><td class="num">14.1%</td></tr>
+<tr><td>Torrejón</td><td class="num">7.064€</td><td class="num">7.9%</td></tr>
+<tr><td>Villaviciosa de Odón</td><td class="num">4.200€</td><td class="num">4.7%</td></tr>
+<tr><td>Loeches</td><td class="num">4.000€</td><td class="num">4.5%</td></tr>
+<tr><td>Madrid</td><td class="num">3.900€</td><td class="num">4.4%</td></tr>
+<tr><td>Leganés</td><td class="num">1.800€</td><td class="num">2.0%</td></tr>
+<tr><td>Alcobendas</td><td class="num">780€</td><td class="num">0.9%</td></tr>
+<tr><td>Valencia</td><td class="num">500€</td><td class="num">0.6%</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>89.571,11€</strong></td><td class="num">100%</td></tr></tbody></table>
+</div>
+<div class="tab-content" id="ind-dev">
+<p class="note-inline">Abonos emitidos (reducción de ingreso). Importes negativos.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Abonos</th></tr></thead><tbody><tr><td>Mar</td><td class="num neg">4.996,66€</td></tr>
+<tr><td>May</td><td class="num neg">7.350,00€</td></tr>
+<tr><td>Jun</td><td class="num neg">4.000,00€</td></tr>
+<tr><td>Ago</td><td class="num neg">17.488,31€</td></tr>
+<tr class="total-row"><td><strong>TOTAL devoluciones</strong></td><td class="num neg"><strong>33.834,97€</strong></td></tr></tbody></table>
+</div>
+
+</div>
+<div class="section" id="micro-mun">
+<h2><span class="badge badge-mun">Municipios</span> Análisis micro — Municipios</h2>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Bruta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">77.184€</div>
+    <div class="kpi-sub">Total emitido · MN Program</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Devoluciones</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">1.470€</div>
+    <div class="kpi-sub">Abonos / Series R-</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Facturación Neta</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">75.689€</div>
+    <div class="kpi-sub">Mayor G70x · fuente contable</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Coste Personal</div>
+    <div class="kpi-val" style="font-size:20px;color:#1a1a2e">89.370€</div>
+    <div class="kpi-sub">G640+G642 escalado ene-ago</div>
+  </div>
+  <div class="kpi-card" style="border:1.5px solid #ffcdd2">
+    <div class="kpi-label" style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Margen Bruto</div>
+    <div class="kpi-val" style="font-size:20px;color:#c62828">13.681€</div>
+    <div class="kpi-sub">Cobertura 84.7%</div>
+  </div>
+</div>
+<div class="two-col" style="gap:18px;margin-bottom:14px">
+<div style="overflow-x:auto">
+<table><thead><tr><th>Ubicación</th><th>Fac. Neta</th><th>Coste Personal</th><th>Margen</th><th>Cobertura</th></tr></thead>
+<tbody><tr><td>Comunidad de Madrid</td><td class="num">60.625€</td><td class="num">—</td><td class="num pos">+60.625€</td><td class="num neg">0% </td></tr>
+<tr><td>Griñón</td><td class="num">8.130€</td><td class="num">15.904€</td><td class="num neg">7.774€</td><td class="num neg">51.1% </td></tr>
+<tr><td>Villamanrique</td><td class="num">4.380€</td><td class="num">13.511€</td><td class="num neg">9.132€</td><td class="num neg">32.4% </td></tr>
+<tr><td>Colmenar del Arroyo</td><td class="num">2.555€</td><td class="num">15.567€</td><td class="num neg">13.012€</td><td class="num neg">16.4% </td></tr>
+<tr style="color:#888;font-style:italic"><td>Coordinación</td><td class="num">—</td><td class="num">44.388€</td><td class="num">—</td><td class="num">—</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>75.689,32€</strong></td><td class="num"><strong>89.370,22€</strong></td><td class="num neg"><strong>13.681€</strong></td><td class="num neg"><strong>84.7%</strong></td></tr></tbody></table>
+<p style="font-size:11px;color:#888;margin-top:6px">Fac. neta = mayor G70x escalado por ubicación (MN Program). Coste personal = BBDD_NOMINAS escalado.</p>
+</div>
+<div><div style="padding:14px;background:#fff8e1;border-radius:10px;border:1px solid #ffe082">
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:4px">44.388€ sin centro asignado</div>
+          <div style="font-size:11px;color:#666;margin-bottom:12px">Equipo de coordinación sin asignación directa a centro físico.</div>
+          <div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">IRIS GASULL DIAZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">11.877€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">MARIA ALVAREZ LOPEZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">6.129€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">ALVARO DIAZ SANTOS</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">6.071€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">ALVARO MARRERO COLINO</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">6.071€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">DAVID RODRIGUEZ VAZQUEZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">5.925€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">ROBERTO FERNANDEZ GIL</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">4.874€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">CECILIA CAMACHO RUIZ</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">2.505€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div><div style="background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;font-size:12px;color:#1a1a2e">SANDRA HERNANDEZ CARRASCO</div>
+              <div style="font-size:18px;font-weight:800;color:var(--mun);margin:4px 0">937€</div>
+              <div style="font-size:11px;color:#888">100% Municipios · sin centro físico</div>
+            </div>
+        </div></div>
+</div>
+<div class="tabs-bar" id="tabs-mun">
+<button class="tab-btn active" onclick="switchTab('mun','evol')">📅 Evolución mensual</button>
+<button class="tab-btn" onclick="switchTab('mun','ubmes')">📍 Ubicación × Mes</button>
+<button class="tab-btn" onclick="switchTab('mun','svmes')">🎯 Servicio × Mes</button>
+<button class="tab-btn" onclick="switchTab('mun','ubsv')">📊 Ubicación acumulada</button>
+<button class="tab-btn" onclick="switchTab('mun','dev')">↩ Devoluciones</button>
+<button class="tab-btn" onclick="switchTab('mun','prof')">👤 Rentab./Trabajador</button>
+</div>
+<div class="tab-content active" id="mun-evol">
+<p class="note-inline">Fuente: mayor G70x — total verificado: <strong>75.689,32€</strong>.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Ingresos</th></tr></thead><tbody><tr><td>Ene</td><td class="num">20.431€</td></tr>
+<tr><td>Feb</td><td class="num">41.922€</td></tr>
+<tr><td>Mar</td><td class="num">2.182€</td></tr>
+<tr><td>Abr</td><td class="num">2.598€</td></tr>
+<tr><td>May</td><td class="num">2.731€</td></tr>
+<tr><td>Jun</td><td class="num">2.576€</td></tr>
+<tr><td>Jul</td><td class="num">2.243€</td></tr>
+<tr><td>Ago</td><td class="num">1.006€</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>75.689,32€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="mun-ubmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>75.689,32€</strong>). TOTAL = suma de todas las ubicaciones ese mes.</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Colmenar del </th><th>Comunidad de </th><th>Griñón</th><th>Villamanrique</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">—</td><td class="num">20.208€</td><td class="num">72€</td><td class="num">144€</td><td class="num" style="background:#f1f8e9"><strong>20.424€</strong></td></tr>
+<tr><td>Feb</td><td class="num">126€</td><td class="num">40.416€</td><td class="num">1.033€</td><td class="num">333€</td><td class="num" style="background:#f1f8e9"><strong>41.908€</strong></td></tr>
+<tr><td>Mar</td><td class="num">287€</td><td class="num">—</td><td class="num">1.256€</td><td class="num">638€</td><td class="num" style="background:#f1f8e9"><strong>2.182€</strong></td></tr>
+<tr><td>Abr</td><td class="num">431€</td><td class="num">—</td><td class="num">1.580€</td><td class="num">599€</td><td class="num" style="background:#f1f8e9"><strong>2.610€</strong></td></tr>
+<tr><td>May</td><td class="num">502€</td><td class="num">—</td><td class="num">1.277€</td><td class="num">964€</td><td class="num" style="background:#f1f8e9"><strong>2.743€</strong></td></tr>
+<tr><td>Jun</td><td class="num">431€</td><td class="num">—</td><td class="num">1.162€</td><td class="num">982€</td><td class="num" style="background:#f1f8e9"><strong>2.575€</strong></td></tr>
+<tr><td>Jul</td><td class="num">359€</td><td class="num">—</td><td class="num">1.163€</td><td class="num">720€</td><td class="num" style="background:#f1f8e9"><strong>2.242€</strong></td></tr>
+<tr><td>Ago</td><td class="num">420€</td><td class="num">—</td><td class="num">586€</td><td class="num">—</td><td class="num" style="background:#f1f8e9"><strong>1.006€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>2.555€</strong></td><td class="num"><strong>60.625€</strong></td><td class="num"><strong>8.130€</strong></td><td class="num"><strong>4.380€</strong></td><td class="num" style="background:#c8e6c9"><strong>75.689,32€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="mun-svmes">
+<p class="note-inline">MN Program escalado al mayor (total verde = <strong>75.689,32€</strong>). Incluye abonos (negativos).</p>
+<div class="scroll-x"><table><thead><tr><th>Mes</th><th>Devoluciones</th><th>Subvención</th><th>Terapia Ocupa</th><th style="background:#e8f5e9"><strong>TOTAL</strong></th></tr></thead><tbody><tr><td>Ene</td><td class="num">—</td><td class="num">20.208€</td><td class="num">216€</td><td class="num" style="background:#f1f8e9"><strong>20.424€</strong></td></tr>
+<tr><td>Feb</td><td class="num">72€</td><td class="num">40.416€</td><td class="num">1.564€</td><td class="num" style="background:#f1f8e9"><strong>41.908€</strong></td></tr>
+<tr><td>Mar</td><td class="num">136€</td><td class="num">—</td><td class="num">2.318€</td><td class="num" style="background:#f1f8e9"><strong>2.182€</strong></td></tr>
+<tr><td>Abr</td><td class="num">344€</td><td class="num">—</td><td class="num">2.953€</td><td class="num" style="background:#f1f8e9"><strong>2.610€</strong></td></tr>
+<tr><td>May</td><td class="num">208€</td><td class="num">—</td><td class="num">2.951€</td><td class="num" style="background:#f1f8e9"><strong>2.743€</strong></td></tr>
+<tr><td>Jun</td><td class="num">494€</td><td class="num">—</td><td class="num">3.068€</td><td class="num" style="background:#f1f8e9"><strong>2.575€</strong></td></tr>
+<tr><td>Jul</td><td class="num">217€</td><td class="num">—</td><td class="num">2.459€</td><td class="num" style="background:#f1f8e9"><strong>2.242€</strong></td></tr>
+<tr><td>Ago</td><td class="num">—</td><td class="num">—</td><td class="num">1.006€</td><td class="num" style="background:#f1f8e9"><strong>1.006€</strong></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>1.469€</strong></td><td class="num"><strong>60.625€</strong></td><td class="num"><strong>16.534€</strong></td><td class="num" style="background:#c8e6c9"><strong>75.689,32€</strong></td></tr></tbody></table></div>
+</div>
+<div class="tab-content" id="mun-ubsv">
+<p class="note-inline">Ranking acumulado ene-ago por ubicación (neto = <strong>75.689,32€</strong>).</p>
+<table style="max-width:420px"><thead><tr><th>Ubicación</th><th>Importe neto</th><th>% s/total</th></tr></thead><tbody><tr><td>Comunidad de Madrid</td><td class="num">60.625€</td><td class="num">80.1%</td></tr>
+<tr><td>Griñón</td><td class="num">8.130€</td><td class="num">10.7%</td></tr>
+<tr><td>Villamanrique</td><td class="num">4.380€</td><td class="num">5.8%</td></tr>
+<tr><td>Colmenar del Arroyo</td><td class="num">2.555€</td><td class="num">3.4%</td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num"><strong>75.689,32€</strong></td><td class="num">100%</td></tr></tbody></table>
+</div>
+<div class="tab-content" id="mun-dev">
+<p class="note-inline">Abonos emitidos (reducción de ingreso). Importes negativos.</p>
+<table style="max-width:320px"><thead><tr><th>Mes</th><th>Abonos</th></tr></thead><tbody><tr><td>Feb</td><td class="num neg">71,78€</td></tr>
+<tr><td>Mar</td><td class="num neg">135,90€</td></tr>
+<tr><td>Abr</td><td class="num neg">343,59€</td></tr>
+<tr><td>May</td><td class="num neg">207,68€</td></tr>
+<tr><td>Jun</td><td class="num neg">493,63€</td></tr>
+<tr><td>Jul</td><td class="num neg">216,63€</td></tr>
+<tr class="total-row"><td><strong>TOTAL devoluciones</strong></td><td class="num neg"><strong>1.469,21€</strong></td></tr></tbody></table>
+</div>
+<div class="tab-content" id="mun-prof">
+<p class="note-inline">Ingresos = copago de familias (facturación MUN por municipio). <strong>No incluye el convenio FMM (~93k cobrado en septiembre)</strong> ni la subvención CM (60k). La cobertura real mejorará sustancialmente cuando el FMM entre en el mayor.</p>
+<div class="scroll-x"><table><thead><tr style="background:#546e7a;color:white"><th>Nombre</th><th>Especialidad</th><th>Municipio</th><th class="num">Coste emp.</th><th class="num">Ingr. atrib.</th><th class="num">Margen</th><th class="num">Cobertura</th><th>Meses</th></tr></thead><tbody><tr style="background:#ffebee"><td><strong>Ainhoa Morán</strong></td><td style="color:#555">TO</td><td style="color:#555">Colmenar del Arroyo</td><td class="num">15,567€</td><td class="num">2,556€</td><td class="num" style="color:#c62828;font-weight:700">-13,011€</td><td class="num" style="color:#c62828;font-weight:700">16.4%</td><td style="font-size:10px;text-align:center">7m</td></tr>
+<tr style="background:#ffebee"><td><strong>Sonia García</strong></td><td style="color:#555">TO</td><td style="color:#555">Villamanrique</td><td class="num">13,511€</td><td class="num">4,381€</td><td class="num" style="color:#c62828;font-weight:700">-9,130€</td><td class="num" style="color:#c62828;font-weight:700">32.4%</td><td style="font-size:10px;text-align:center">7m</td></tr>
+<tr style="background:#ffebee"><td><strong>Eva Madridano</strong></td><td style="color:#555">TO</td><td style="color:#555">Griñón</td><td class="num">15,904€</td><td class="num">8,094€</td><td class="num" style="color:#c62828;font-weight:700">-7,810€</td><td class="num" style="color:#c62828;font-weight:700">50.9%</td><td style="font-size:10px;text-align:center">8m</td></tr>
+<tr class="total-row" style="background:#ffebee"><td colspan="3"><strong>TOTAL 3 terapeutas MUN</strong></td><td class="num"><strong>44,982€</strong></td><td class="num"><strong>15,031€</strong></td><td class="num" style="color:#c62828;font-weight:700">-29,951€</td><td class="num" style="color:#c62828;font-weight:700">33.4%</td><td></td></tr></tbody></table></div>
+<div class="note">Fuente ingresos: facturación "Municipios que te cuidan" por municipio (neto devoluciones). Fuente costes: BBDD_NOMINAS escalado al mayor.</div></div>
+</div>
+<div class="section" id="lqntc-gen">
+<h2>🔍 Verticales sin MN Program — Únete al Flow · LQNTC · Estructura General</h2>
+<p style="color:#555;max-width:700px;margin-bottom:18px">Tres líneas que no pasan por MN Program. <strong>Únete al Flow</strong> tiene ingresos y gastos reales en el mayor (CC=6.0). <strong>LQNTC</strong> es un convenio de la Comunidad de Madrid (ingresos extraordinarios). <strong>General</strong> es la estructura directiva sin ingresos propios.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px">
+
+  <!-- ÚNETE AL FLOW -->
+  <div style="background:#f1f8e9;border-radius:12px;border:2px solid #558b2f;padding:18px">
+    <div style="font-size:12px;font-weight:800;color:#33691e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">🍔 Únete al Flow</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="kpi-card"><div class="kpi-label">Ingresos</div><div class="kpi-val" style="color:#33691e;font-size:18px">4.481€</div><div class="kpi-sub">Carpa + The Gourmet Food · CC=6.0</div></div>
+      <div class="kpi-card"><div class="kpi-label">Gastos directos</div><div class="kpi-val" style="color:#c62828;font-size:18px">15.220€</div><div class="kpi-sub">G6xx CC=6.0 · sin personal</div></div>
+    </div>
+    <div style="background:#dcedc8;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b5e20;font-weight:700;text-align:center;margin-bottom:10px">
+      Resultado directo: <span style="color:#c62828">10.739€</span>
+      <span style="font-size:10px;font-weight:400;color:#555"> (sin personal — ene-ago)</span>
+    </div>
+    <table style="width:100%;font-size:11px"><thead><tr><th>Concepto (mayor)</th><th class="num">Importe</th></tr></thead><tbody>
+      <tr style="background:#f9fbe7"><td style="font-size:11px">Ventas carpa (01/06)</td><td class="num" style="font-size:11px">1.731,82€</td></tr>
+<tr style="background:#f9fbe7"><td style="font-size:11px">The Gourmet Food S.L. (26/05)</td><td class="num" style="font-size:11px">2.749,16€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Servicios profesionales independientes</td><td class="num" style="font-size:11px;color:#c62828">14.479,00€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Arrendamientos y cánones</td><td class="num" style="font-size:11px;color:#c62828">700,00€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Suministros varios</td><td class="num" style="font-size:11px;color:#c62828">347,60€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Gastos representación, publicidad y rela</td><td class="num" style="font-size:11px;color:#c62828">242,20€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Suministros Gasoil</td><td class="num" style="font-size:11px;color:#c62828">33,06€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Servicios Bancarios y Similares</td><td class="num" style="font-size:11px;color:#c62828">16,00€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Suscripciones</td><td class="num" style="font-size:11px;color:#c62828">14,52€</td></tr>
+<tr style="background:#fff8f8"><td style="font-size:11px;color:#c62828">− Gatos transporte trabajadores</td><td class="num" style="font-size:11px;color:#c62828">8,96€</td></tr>
+
+    </tbody></table>
+    <div style="font-size:11px;color:#558b2f;margin-top:8px">⚠ Personal del proyecto (si lo hay) está en GEN sin desglosar. El resultado real es peor.</div>
+  </div>
+
+  <!-- LQNTC -->
+  <div style="background:#f3f8ff;border-radius:12px;border:2px solid #1565c0;padding:18px">
+    <div style="font-size:12px;font-weight:800;color:#1565c0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">🎭 LQNTC — Lo que nadie te cuenta</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="kpi-card"><div class="kpi-label">Ingresos</div><div class="kpi-val" style="color:#1565c0;font-size:18px">75.000€</div><div class="kpi-sub">Convenio CM · cuenta 70500008</div></div>
+      <div class="kpi-card"><div class="kpi-label">Gastos directos</div><div class="kpi-val" style="color:#888;font-size:18px">32,67</div><div class="kpi-sub">Solo Typeform (CC=7.0)</div></div>
+    </div>
+    <div style="background:#e3f2fd;border-radius:8px;padding:10px;font-size:11px;color:#1a237e">
+      <strong>Convenio CM:</strong> 150.000€ total — 75.000€ reconocidos julio 2026 (anticipo), 75.000€ en 2027.<br>
+      <strong>Costes reales:</strong> no imputados en el mayor — están en GEN provisionalmente. El margen de 75k€ es artificial hasta que se reasignen.<br>
+      <strong>CC=7.0</strong> solo tiene el ingreso y una suscripción Typeform (32,67€).
+    </div>
+  </div>
+
+  <!-- GEN -->
+  <div style="background:#fff8e1;border-radius:12px;border:2px solid #f57f17;padding:18px">
+    <div style="font-size:12px;font-weight:800;color:#e65100;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">🏛 GEN — Estructura general</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="kpi-card"><div class="kpi-label">Ingresos directos</div><div class="kpi-val" style="color:#888;font-size:18px">0</div><div class="kpi-sub">Sin ingresos propios</div></div>
+      <div class="kpi-card"><div class="kpi-label">Coste Personal</div><div class="kpi-val" style="color:#e65100;font-size:18px">94.303€</div><div class="kpi-sub">Directivos · G640+642</div></div>
+    </div>
+    <div style="background:#fff3e0;border-radius:8px;padding:10px;font-size:11px;color:#bf360c">
+      <strong>Directivos y coordinación general</strong> sin CC productivo.<br>
+      <strong>Subsidio cruzado:</strong> TPT e Indiferente financian este coste.<br>
+      <strong>Nota:</strong> GEN está sobredimensionado en jul-ago porque los costes de LQNTC/Flow y MUN pendientes aún no se han reasignado.
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:8px">
+  <h3 style="font-size:14px;font-weight:800;color:#1a1a2e;margin-bottom:4px">👔 Equipo directivo — desglose de coste ene–ago</h3>
+  <p style="font-size:12px;color:#666;margin-bottom:12px">Cifra agregada (sin desglose nominal). Fuente: BBDD_NOMINAS escalada al mayor (G640+642=754.042€). GEN = Estructura General · MUN = Municipios Que Te Cuidan.</p>
+  <table style="max-width:700px"><thead><tr>
+    <th>Bloque</th><th class="num">Coste total</th><th class="num">→ GEN</th><th class="num">→ MUN QTC</th><th class="num">% GEN</th>
+  </tr></thead><tbody><tr><td><strong>Equipo directivo (5 personas)</strong></td><td class="num">117.246€</td><td class="num">94.305€</td><td class="num">22.941€</td><td class="num" style="color:#888">80.4%</td></tr>
+<tr class="total-row"><td><strong>TOTAL directivos</strong></td><td class="num"><strong>117.246€</strong></td><td class="num"><strong>94.305€</strong></td><td class="num"><strong>22.941€</strong></td><td class="num"><strong>80.4%</strong></td></tr></tbody></table>
+  <div style="margin-top:12px;background:#fff3cd;border-left:4px solid #e65100;border-radius:0 8px 8px 0;padding:12px 14px;font-size:12px;color:#7f3b00;max-width:700px">
+    <strong>⚠ Julio y agosto — asignación pendiente:</strong> en estos dos meses el 100% del coste de cuatro de los cinco directivos está imputado a GEN porque aún no se ha reasignado la parte correspondiente a <strong>LQNTC</strong>, <strong>Únete al Flow</strong> y <strong>Municipios Que Te Cuidan</strong>. Al actualizar la BBDD_NOMINAS con ese reparto, GEN bajará y los otros CC subirán — el resultado total no cambia.
+  </div>
+</div>
+</div>
+<div class="section" id="s9">
+<h2>👥 Análisis personal — distribución por Centro de Coste</h2>
+<p class="note-inline">Personal total: <strong>754.041,51€</strong> (G640+642 del mayor). Factor escala: 0.999786 | Sum todos CC = 754.041,51€</p>
+<table><thead><tr><th>Centro de Coste</th><th>Vertical</th><th>Coste personal</th><th>% s/total</th></tr></thead><tbody><tr><td>TPT</td><td><span class="badge badge-tpt">TPT</span></td><td class="num">423.068,99€</td><td class="num">56.1%</td></tr>
+<tr><td>IS</td><td><span class="badge badge-is">IS</span></td><td class="num">129.388,17€</td><td class="num">17.2%</td></tr>
+<tr><td>GENERAL</td><td><span class="badge badge-gen">GEN</span></td><td class="num">94.303,47€</td><td class="num">12.5%</td></tr>
+<tr><td>MUNICIPIOS QUE TE CUIDAN</td><td><span class="badge badge-mun">MUN</span></td><td class="num">89.370,22€</td><td class="num">11.9%</td></tr>
+<tr><td>INDIFERENTE</td><td><span class="badge badge-ind">IND</span></td><td class="num">17.910,66€</td><td class="num">2.4%</td></tr>
+</tbody></table>
+<div class="note">Distribución basada en BBDD_NOMINAS (asignación multi-slot CC), escalada para cuadrar exactamente con el mayor. La suma de todos los CC = 754.041,51€.</div>
+</div>
+<div class="section" id="s10">
+<h2>💳 Gastos totales — estructura PYG y desglose</h2>
+<p class="note-inline">Total gastos PYG: <strong>866.786,57€</strong> · Ingresos 836.765,51€ − Gastos 866.786,57€ = <strong>−30.021,06€</strong> ✓</p>
+<table><thead><tr><th>Categoría PYG</th><th>Importe</th><th>% s/total</th><th>Fuente</th></tr></thead><tbody><tr><td>Personal (G640+G642)</td><td class="num">754.041,51€</td><td class="num">87.0%</td><td style="font-size:11px;color:#888">Mayor G640+G642</td></tr>
+<tr><td>Aprovisionamientos (G60)</td><td class="num">663,42€</td><td class="num">0.1%</td><td style="font-size:11px;color:#888">Mayor G60</td></tr>
+<tr><td>Otros gastos expl. (G62x+G63x)</td><td class="num">107.401,79€</td><td class="num">12.4%</td><td style="font-size:11px;color:#888">Mayor G62x+G63x — desglose abajo</td></tr>
+<tr><td>Amortización (G68)</td><td class="num">1,21€</td><td class="num">0.0%</td><td style="font-size:11px;color:#888">Mayor G68</td></tr>
+<tr><td>Gastos financieros (G66x)</td><td class="num">4.677,18€</td><td class="num">0.5%</td><td style="font-size:11px;color:#888">Mayor G66x</td></tr>
+<tr><td>Diferencias de cambio (G668)</td><td class="num">1,46€</td><td class="num">0.0%</td><td style="font-size:11px;color:#888">Mayor G668</td></tr>
+<tr class="separator"><td><strong>TOTAL GASTOS PYG</strong></td><td class="num"><strong>866.786,57€</strong></td><td class="num">100%</td><td></td></tr></tbody></table>
+<h3 style="margin:16px 0 10px;font-size:13px;color:#444">Desglose de Otros gastos de explotación (G62x + G63x)</h3>
+<table><thead><tr><th>Cuenta</th><th>Concepto</th><th>Importe</th><th>% s/línea 7</th></tr></thead><tbody><tr><td><code>62300000</code></td><td>Servicios profesionales</td><td class="num">31.822,72€</td><td class="num">29.6%</td></tr>
+<tr><td><code>62900000</code></td><td>Otros serv.ext.</td><td class="num">14.362,26€</td><td class="num">13.4%</td></tr>
+<tr><td><code>62900001</code></td><td>Otros serv.ext.1</td><td class="num">13.648,49€</td><td class="num">12.7%</td></tr>
+<tr><td><code>62900003</code></td><td>Otros serv.ext.3</td><td class="num">8.199,95€</td><td class="num">7.6%</td></tr>
+<tr><td><code>62900002</code></td><td>Otros serv.ext.2</td><td class="num">7.750,31€</td><td class="num">7.2%</td></tr>
+<tr><td><code>62200000</code></td><td>Comunicaciones</td><td class="num">5.842,32€</td><td class="num">5.4%</td></tr>
+<tr><td><code>62600000</code></td><td>Seguros</td><td class="num">4.625,92€</td><td class="num">4.3%</td></tr>
+<tr><td><code>62950000</code></td><td>Otros ext.7</td><td class="num">3.876,68€</td><td class="num">3.6%</td></tr>
+<tr><td><code>62800000</code></td><td>Suministros</td><td class="num">3.112,25€</td><td class="num">2.9%</td></tr>
+<tr><td><code>62700000</code></td><td>Transportes</td><td class="num">2.881,72€</td><td class="num">2.7%</td></tr>
+<tr><td><code>62500000</code></td><td>Publicidad</td><td class="num">2.475,42€</td><td class="num">2.3%</td></tr>
+<tr><td><code>62990000</code></td><td>Otros ext.6</td><td class="num">2.145,42€</td><td class="num">2.0%</td></tr>
+<tr><td><code>62600002</code></td><td>Seguros 2</td><td class="num">1.728,37€</td><td class="num">1.6%</td></tr>
+<tr><td><code>63100000</code></td><td>Tributos</td><td class="num">1.727,46€</td><td class="num">1.6%</td></tr>
+<tr><td><code>62100000</code></td><td>Arrendamientos</td><td class="num">879,74€</td><td class="num">0.8%</td></tr>
+<tr><td><code>62810000</code></td><td>Suministros 2</td><td class="num">834,90€</td><td class="num">0.8%</td></tr>
+<tr><td><code>62960000</code></td><td>Otros ext.5</td><td class="num">686,46€</td><td class="num">0.6%</td></tr>
+<tr><td><code>62900004</code></td><td>Otros serv.ext.4</td><td class="num">435,60€</td><td class="num">0.4%</td></tr>
+<tr><td><code>62100001</code></td><td>Arrendamientos 2</td><td class="num">243,96€</td><td class="num">0.2%</td></tr>
+<tr><td><code>62600003</code></td><td>Seguros 3</td><td class="num">163,33€</td><td class="num">0.2%</td></tr>
+<tr><td><code>62400000</code></td><td>Publicidad 2</td><td class="num">11,94€</td><td class="num">0.0%</td></tr>
+<tr><td><code>65900000</code></td><td>65900000</td><td class="num">0,21€</td><td class="num">0.0%</td></tr>
+<tr class="total-row"><td></td><td><strong>TOTAL otros gastos expl. (línea 7 PYG)</strong></td><td class="num"><strong>107.455,43€</strong></td><td class="num">100%</td></tr></tbody></table>
+</div>
+<div class="section" id="s11">
+<h2>➕ Otros ingresos — desglose</h2>
+<p class="note-inline">Total: <strong>41.221,59€</strong> (G70000000 + G72x + G74x + G75x). Las cuentas 72300003, 72300007, 72300008 y 72300009 corresponden a certificados de donación de terceros, contabilizados como reintegros/convenio.</p>
+<table><thead><tr><th>Cuenta</th><th>Concepto</th><th>Importe</th></tr></thead><tbody><tr><td><code>75900000</code></td><td>Otros ingresos de gestión</td><td class="num">28.982,55€</td></tr>
+<tr><td><code>74000000</code></td><td>Subvenciones a explotación</td><td class="num">4.734,04€</td></tr>
+<tr><td><code>72300008</code></td><td>Cert. donación — Mutua Madrileña Automovilista SSPF (V28027118)</td><td class="num">3.605,00€</td></tr>
+<tr><td><code>72300009</code></td><td>72300009</td><td class="num">2.749,16€</td></tr>
+<tr><td><code>72300007</code></td><td>Cert. donación — Cooltra Motos Headquarters S.L.U. (B67202028)</td><td class="num">2.500,00€</td></tr>
+<tr><td><code>70000000</code></td><td>70000000</td><td class="num">1.731,82€</td></tr>
+<tr><td><code>72300003</code></td><td>Cert. donación — Iberext SA (A78999968)</td><td class="num">1.400,00€</td></tr>
+<tr class="total-row"><td></td><td><strong>TOTAL otros ingresos</strong></td><td class="num"><strong>41.221,59€</strong></td></tr></tbody></table>
+</div>
+<div class="section" id="s12">
+<h2>📊 Comparativa histórica — Ene-Ago 2024 · 2025 · 2026</h2>
+
+<h3 style="font-size:13px;margin:14px 0 8px;color:#333">① Ene-Ago: comparativa de los tres años</h3>
+<div style="overflow-x:auto">
+<table><thead><tr><th>Concepto</th><th>Ene-Ago 2024</th><th>Ene-Ago 2025</th><th>Ene-Ago 2026</th><th>Δ 24→25</th><th>%</th><th>Δ 24→26</th><th>%</th></tr></thead><tbody><tr><td><strong>Ingresos totales</strong></td><td class="num">527.236€</td><td class="num">545.966€</td><td class="num">836.766€</td><td class="num"><span class="pos">+18.730€</span></td><td class="num"><span class="pos">+3.6%</span></td><td class="num"><span class="pos">+309.529€</span></td><td class="num"><span class="pos">+58.7%</span></td></tr>
+<tr><td>  Personal (G640+G642)</td><td class="num">422.837€</td><td class="num">527.659€</td><td class="num">754.042€</td><td class="num"><span class="neg">+104.822€</span></td><td class="num"><span class="neg">+24.8%</span></td><td class="num"><span class="neg">+331.205€</span></td><td class="num"><span class="neg">+78.3%</span></td></tr>
+<tr><td>  Otros gastos (G6 - personal)</td><td class="num">78.334€</td><td class="num">120.931€</td><td class="num">112.799€</td><td class="num"><span class="pos">42.597€</span></td><td class="num"><span class="pos">54.4%</span></td><td class="num"><span class="neg">+191.133€</span></td><td class="num"><span class="neg">+-244.0%</span></td></tr>
+<tr><td><strong>Resultado</strong></td><td class="num">26.065€</td><td class="num">102.623€</td><td class="num">30.021€</td><td class="num"><span class="neg">128.689€</span></td><td class="num"><span class="neg">-493.7%</span></td><td class="num"><span class="neg">56.086€</span></td><td class="num"><span class="neg">-215.2%</span></td></tr>
+<tr><td>% personal/ingresos</td><td class="num">80.2%</td><td class="num">96.6%</td><td class="num">90.1%</td><td colspan="4" class="num" style="color:#888">—</td></tr>
+</tbody></table>
+</div>
+
+<h3 style="font-size:13px;margin:18px 0 8px;color:#333">② Año completo: 2024 vs 2025</h3>
+<table style="max-width:520px"><thead><tr><th>Concepto</th><th>2024 (completo)</th><th>2025 (completo)</th></tr></thead><tbody><tr><td><strong>Ingresos</strong></td><td class="num"><strong>869.695€</strong></td><td class="num"><strong>1.034.164€</strong></td></tr>
+<tr><td>Personal</td><td class="num">674.545€</td><td class="num">872.616€</td></tr>
+<tr><td>Otros gastos</td><td class="num">1.547.314€</td><td class="num">1.980.584€</td></tr>
+<tr><td><strong>Resultado</strong></td><td class="num neg"><strong>3.074€</strong></td><td class="num neg"><strong>73.804€</strong></td></tr>
+<tr><td>% personal/ingresos</td><td class="num">77.6%</td><td class="num">84.4%</td></tr>
+</tbody></table>
+<p class="note-inline" style="margin:6px 0 14px">2026 completo: en curso — proyección lineal ene-ago → <strong>~1.255.148€</strong> de ingresos anualizados.</p>
+
+<h3 style="font-size:13px;margin:14px 0 8px;color:#333">③ Ingresos mensuales (Ene-Ago) — evolución 2024 · 2025 · 2026</h3>
+<div class="two-col">
+<div>
+<div class="legend">
+  <span style="background:#b0bec5;display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:4px"></span>2024
+  <span style="background:#1565c0;display:inline-block;width:14px;height:10px;border-radius:2px;margin:0 4px 0 12px"></span>2025
+  <span style="background:#2e7d32;display:inline-block;width:14px;height:10px;border-radius:2px;margin:0 4px 0 12px"></span>2026
+</div>
+<div class="bar-row"><div class="bar-label">Ene</div><div class="bar" style="width:51.9px;background:#b0bec5;margin-bottom:1px" title="2024: 44.663€€">45k</div><div class="bar" style="width:98.8px;background:#1565c0;margin-bottom:1px" title="2025: 84.936€€">85k</div><div class="bar" style="width:103.8px;background:#2e7d32;margin-bottom:1px" title="2026: 89.279€€">89k</div></div>
+<div class="bar-row"><div class="bar-label">Feb</div><div class="bar" style="width:56.6px;background:#b0bec5;margin-bottom:1px" title="2024: 48.697€€">49k</div><div class="bar" style="width:67.3px;background:#1565c0;margin-bottom:1px" title="2025: 57.903€€">58k</div><div class="bar" style="width:128.2px;background:#2e7d32;margin-bottom:1px" title="2026: 110.276€€">110k</div></div>
+<div class="bar-row"><div class="bar-label">Mar</div><div class="bar" style="width:117.4px;background:#b0bec5;margin-bottom:1px" title="2024: 100.950€€">101k</div><div class="bar" style="width:87.6px;background:#1565c0;margin-bottom:1px" title="2025: 75.357€€">75k</div><div class="bar" style="width:125.6px;background:#2e7d32;margin-bottom:1px" title="2026: 108.011€€">108k</div></div>
+<div class="bar-row"><div class="bar-label">Abr</div><div class="bar" style="width:68.8px;background:#b0bec5;margin-bottom:1px" title="2024: 59.164€€">59k</div><div class="bar" style="width:83.0px;background:#1565c0;margin-bottom:1px" title="2025: 71.394€€">71k</div><div class="bar" style="width:106.5px;background:#2e7d32;margin-bottom:1px" title="2026: 91.567€€">92k</div></div>
+<div class="bar-row"><div class="bar-label">May</div><div class="bar" style="width:56.3px;background:#b0bec5;margin-bottom:1px" title="2024: 48.380€€">48k</div><div class="bar" style="width:67.3px;background:#1565c0;margin-bottom:1px" title="2025: 57.864€€">58k</div><div class="bar" style="width:105.4px;background:#2e7d32;margin-bottom:1px" title="2026: 90.666€€">91k</div></div>
+<div class="bar-row"><div class="bar-label">Jun</div><div class="bar" style="width:116.5px;background:#b0bec5;margin-bottom:1px" title="2024: 100.170€€">100k</div><div class="bar" style="width:82.0px;background:#1565c0;margin-bottom:1px" title="2025: 70.488€€">70k</div><div class="bar" style="width:125.7px;background:#2e7d32;margin-bottom:1px" title="2026: 108.144€€">108k</div></div>
+<div class="bar-row"><div class="bar-label">Jul</div><div class="bar" style="width:112.1px;background:#b0bec5;margin-bottom:1px" title="2024: 96.400€€">96k</div><div class="bar" style="width:98.4px;background:#1565c0;margin-bottom:1px" title="2025: 84.629€€">85k</div><div class="bar" style="width:220.0px;background:#2e7d32;margin-bottom:1px" title="2026: 189.212€€">189k</div></div>
+<div class="bar-row"><div class="bar-label">Ago</div><div class="bar" style="width:33.5px;background:#b0bec5;margin-bottom:1px" title="2024: 28.812€€">29k</div><div class="bar" style="width:50.5px;background:#1565c0;margin-bottom:1px" title="2025: 43.393€€">43k</div><div class="bar" style="width:57.7px;background:#2e7d32;margin-bottom:1px" title="2026: 49.611€€">50k</div></div>
+
+</div>
+<div>
+<table><thead><tr><th>Mes</th><th>Res.2024</th><th>Res.2025</th><th>Res.2026</th></tr></thead><tbody><tr><td><strong>Ene</strong></td><td class="num"><span style="color:#c62828">-18.0k</span></td><td class="num"><span style="color:#2e7d32">+10.0k</span></td><td class="num"><span style="color:#c62828">-14.5k</span></td></tr>
+<tr><td><strong>Feb</strong></td><td class="num"><span style="color:#c62828">-14.7k</span></td><td class="num"><span style="color:#c62828">-12.0k</span></td><td class="num"><span style="color:#c62828">-1.0k</span></td></tr>
+<tr><td><strong>Mar</strong></td><td class="num"><span style="color:#2e7d32">+42.5k</span></td><td class="num"><span style="color:#c62828">-6.0k</span></td><td class="num"><span style="color:#c62828">-3.1k</span></td></tr>
+<tr><td><strong>Abr</strong></td><td class="num"><span style="color:#c62828">-9.9k</span></td><td class="num"><span style="color:#c62828">-17.9k</span></td><td class="num"><span style="color:#c62828">-22.5k</span></td></tr>
+<tr><td><strong>May</strong></td><td class="num"><span style="color:#c62828">-16.4k</span></td><td class="num"><span style="color:#c62828">-28.5k</span></td><td class="num"><span style="color:#c62828">-21.3k</span></td></tr>
+<tr><td><strong>Jun</strong></td><td class="num"><span style="color:#2e7d32">+40.2k</span></td><td class="num"><span style="color:#c62828">-5.5k</span></td><td class="num"><span style="color:#c62828">-5.7k</span></td></tr>
+<tr><td><strong>Jul</strong></td><td class="num"><span style="color:#2e7d32">+33.4k</span></td><td class="num"><span style="color:#c62828">-10.1k</span></td><td class="num"><span style="color:#2e7d32">+88.2k</span></td></tr>
+<tr><td><strong>Ago</strong></td><td class="num"><span style="color:#c62828">-31.2k</span></td><td class="num"><span style="color:#c62828">-32.7k</span></td><td class="num"><span style="color:#c62828">-50.2k</span></td></tr>
+<tr class="total-row"><td><strong>TOTAL</strong></td><td class="num pos"><strong>26.065€</strong></td><td class="num neg"><strong>102.623€</strong></td><td class="num neg"><strong>30.021€</strong></td></tr></tbody></table>
+</div>
+</div>
+
+<div class="note">Fuentes: mayor 2024 (Tratado), mayor 2025 (Tratado), mayor ene-ago 2026 (Tratado). Excluye asiento de apertura. Los ingresos 2026 ene-ago (++53.3% vs 2025, ++58.7% vs 2024) reflejan el crecimiento de todas las líneas. El ratio personal/ingresos empeora de 80.2% (2024) a 90.1% (2026) por el aumento de plantilla. Resultado 2026 ene-ago (−30.021€) es mejor que 2025 ene-ago (−102.623€) aunque peor que 2024 (resultado positivo).</div>
+</div>
+<div class="section" id="s13">
+<h2>🧾 PYG completa — Enero a Agosto 2026 (estructura oficial gestora)</h2>
+<table class="pyg-table"><colgroup><col style="width:68%"><col style="width:32%"></colgroup><tbody>
+<tr style="background:#e8f5e9"><td colspan="2"><strong>A) RESULTADO DE EXPLOTACIÓN</strong></td></tr>
+<tr><td>1. Importe neto cifra de negocios</td><td class="num pos">792.794,76€</td></tr>
+<tr class="indent"><td>— TPT</td><td class="num">445.409,95€</td></tr>
+<tr class="indent"><td>— IS</td><td class="num">105.392,56€</td></tr>
+<tr class="indent"><td>— Indiferente</td><td class="num">89.571,11€</td></tr>
+<tr class="indent"><td>— Municipios</td><td class="num">75.689,32€</td></tr>
+<tr class="indent"><td>— LQNTC (Comunidad de Madrid)</td><td class="num">75.000,00€</td></tr>
+<tr><td>4. Aprovisionamientos (G60)</td><td class="num neg">-663,42€</td></tr>
+<tr><td>5. Otros ingresos de explotación (G72x/G74x/G75x)</td><td class="num pos">43.970,75€</td></tr>
+<tr><td>6. Gastos de personal (G640+G642)</td><td class="num neg">-754.041,51€</td></tr>
+<tr><td>7. Otros gastos de explotación (G62x/G63x)</td><td class="num neg">-107.401,79€</td></tr>
+<tr><td>8. Amortización del inmovilizado (G68)</td><td class="num neg">-1,21€</td></tr>
+<tr class="separator"><td><strong>A) RESULTADO DE EXPLOTACIÓN</strong></td><td class="num neg"><strong>25.342,42€</strong></td></tr>
+<tr style="background:#fff3e0"><td colspan="2"><strong>B) RESULTADO FINANCIERO</strong></td></tr>
+<tr><td>14. Gastos financieros (G66x)</td><td class="num neg">-4.677,18€</td></tr>
+<tr><td>16. Diferencias de cambio</td><td class="num neg">-1,46€</td></tr>
+<tr class="separator"><td><strong>B) RESULTADO FINANCIERO</strong></td><td class="num neg"><strong>4.678,64€</strong></td></tr>
+<tr class="separator" style="font-size:15px"><td><strong>C) RESULTADO ANTES DE IMPUESTOS (A+B)</strong></td><td class="num neg"><strong>-30.021,06€</strong></td></tr></tbody></table>
+<div class="note">Fuente: "cuenta resultados 31082026.pdf" (gestora Ana, ContaPlus). Estructura PGC: A) Explotación (25.342,42€ pérdida) + B) Financiero (4.678,64€ pérdida) = C) 30.021,06€ pérdida total. Los gastos financieros G66x pertenecen al resultado financiero (B), NO a otros gastos de explotación.</div>
+</div>
+<div class="section" id="s14">
+<h2>📐 Indicadores financieros — Ene-Ago 2026</h2>
+<p style="color:#555;max-width:700px;margin-bottom:18px">Nueve indicadores en tres bloques. Todo calculado sobre el mayor contable (fuente única). El semáforo muestra si el valor está dentro del rango saludable para una entidad social.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
+  
+<div style="background:#fff;border-radius:12px;border:2px solid #2e7d32;padding:18px 20px;text-align:center">
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Ingresos ene-ago</div>
+  <div style="font-size:26px;font-weight:900;color:#1a1a2e;margin-bottom:4px">836.766€</div>
+  <div style="font-size:11px;color:#666">vs 545.966€ ene-ago 2025 (+53.3%)</div>
+</div>
+  
+<div style="background:#fff;border-radius:12px;border:2px solid #c62828;padding:18px 20px;text-align:center">
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Resultado ene-ago</div>
+  <div style="font-size:26px;font-weight:900;color:#1a1a2e;margin-bottom:4px">-30.021€</div>
+  <div style="font-size:11px;color:#666">sin convenio CM (75k): −105.021€</div>
+</div>
+  
+<div style="background:#fff;border-radius:12px;border:2px solid #546e7a;padding:18px 20px;text-align:center">
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Ingresos modelo ordinario</div>
+  <div style="font-size:26px;font-weight:900;color:#1a1a2e;margin-bottom:4px">761.766€</div>
+  <div style="font-size:11px;color:#666">sin los 75k del convenio CM · 91.0% del total</div>
+</div>
+</div>
+<div style="margin-bottom:22px">
+  <div style="font-size:12px;font-weight:800;color:#546e7a;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;border-bottom:2px solid #e8e8e8;padding-bottom:6px">① ¿Pegasus cubre sus gastos?</div>
+  <table style="width:100%"><thead><tr>
+    <th style="width:42%">Indicador</th><th class="num" style="width:14%">Valor</th>
+    <th class="num" style="width:14%">Referencia</th><th style="width:6%;text-align:center">Estado</th>
+    <th style="width:24%;font-size:11px;color:#888">Por qué importa</th>
+  </tr></thead><tbody><tr><td style="font-size:13px">Cobertura global — ingresos ÷ gastos</td><td class="num" style="font-weight:700;color:#c62828">96.5%</td><td class="num" style="font-size:12px;color:#888">≥ 100%</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">Por cada 100€ que se gasta, Pegasus ingresa 96.5€. Estar por debajo de 100 significa que la fundación consume reservas para funcionar. El objetivo es llegar a 100% o más. Fuente: G7 total ÷ G6 total del mayor.</td></tr>
+<tr><td style="font-size:13px">Margen neto — lo que sobra (o falta) de cada €</td><td class="num" style="font-weight:700;color:#c62828">-3.59%</td><td class="num" style="font-size:12px;color:#888">≥ 0%</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">De cada 100€ que entran, 3.59€ se gastan de más. Negativo = Pegasus gasta más de lo que ingresa. Fuente: Resultado PYG ÷ Ingresos totales.</td></tr>
+</tbody></table></div>
+<div style="margin-bottom:22px">
+  <div style="font-size:12px;font-weight:800;color:#546e7a;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;border-bottom:2px solid #e8e8e8;padding-bottom:6px">② ¿Cuánto pesa el personal?</div>
+  <table style="width:100%"><thead><tr>
+    <th style="width:42%">Indicador</th><th class="num" style="width:14%">Valor</th>
+    <th class="num" style="width:14%">Referencia</th><th style="width:6%;text-align:center">Estado</th>
+    <th style="width:24%;font-size:11px;color:#888">Por qué importa</th>
+  </tr></thead><tbody><tr><td style="font-size:13px">Personal sobre ingresos</td><td class="num" style="font-weight:700;color:#c62828">90.1%</td><td class="num" style="font-size:12px;color:#888">≤ 80% recomendado</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">De cada 100€ que entran, 90.1€ van a pagar nóminas y Seguridad Social. En entidades sociales el umbral saludable es 75-80%. Por encima de 90% no queda margen para imprevistos ni inversión. Fuente: G640+G642 (nóminas + SS) ÷ G7 total del mayor.</td></tr>
+<tr><td style="font-size:13px">Personal sobre gastos totales</td><td class="num" style="font-weight:700;color:#c62828">87.0%</td><td class="num" style="font-size:12px;color:#888">≤ 85% recomendado</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">El personal representa el 87.0% de todo lo que gasta Pegasus. Solo queda un 13.0% para alquileres, suministros, material y servicios externos. Fuente: G640+G642 ÷ G6 total.</td></tr>
+<tr><td style="font-size:13px">Dependencia de TPT</td><td class="num" style="font-weight:700;color:#e65100">53.2%</td><td class="num" style="font-size:12px;color:#888">< 60% saludable</td><td style="text-align:center;font-size:16px">🟡</td><td style="font-size:11px;color:#555;line-height:1.5">53.2% de todos los ingresos vienen de una sola línea (Terapias Para Todos). Si TPT frena — por vacaciones, bajas o abandono de usuarios — el golpe llega de inmediato al resultado global. Fuente: ingresos TPT (cuenta 70500002) ÷ G7 total.</td></tr>
+</tbody></table></div><div style="background:#f3f4f6;border-radius:10px;padding:14px 16px;margin-top:10px">
+  <div style="font-size:12px;font-weight:700;color:#546e7a;margin-bottom:4px">Ratio personal/ingresos mes a mes</div>
+  <div style="font-size:11px;color:#888;margin-bottom:8px">Cuánto del ingreso de cada mes se va en personal. Verde ≤90% · Naranja 90-100% · Rojo >100%.</div>
+  <table style="width:100%"><tbody><tr><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Ene</div><span style="background:#e65100;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">98.8%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Feb</div><span style="background:#2e7d32;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">85.2%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Mar</div><span style="background:#2e7d32;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">89.8%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Abr</div><span style="background:#c62828;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">107.1%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">May</div><span style="background:#c62828;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">106.4%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Jun</div><span style="background:#e65100;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">91.5%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Jul</div><span style="background:#2e7d32;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">48.2%</span></td><td style="text-align:center;padding:4px 6px"><div style="font-size:10px;color:#888">Ago</div><span style="background:#c62828;color:white;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700">181.6%</span></td></tr></tbody></table>
+  <div style="font-size:11px;color:#666;margin-top:8px">Julio anómalo (ingreso de 75k convenio CM). Agosto crítico: con TPT/IS paradas en verano, el personal corre igual y el ratio se dispara.</div>
+</div>
+<div style="margin-bottom:22px">
+  <div style="font-size:12px;font-weight:800;color:#546e7a;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;border-bottom:2px solid #e8e8e8;padding-bottom:6px">③ ¿Cada vertical cubre su coste de personal?</div>
+  <table style="width:100%"><thead><tr>
+    <th style="width:42%">Indicador</th><th class="num" style="width:14%">Valor</th>
+    <th class="num" style="width:14%">Referencia</th><th style="width:6%;text-align:center">Estado</th>
+    <th style="width:24%;font-size:11px;color:#888">Por qué importa</th>
+  </tr></thead><tbody><tr><td style="font-size:13px">TPT — ingresos vs coste de personal</td><td class="num" style="font-weight:700;color:#2e7d32">105.3%</td><td class="num" style="font-size:12px;color:#888">≥ 100%</td><td style="text-align:center;font-size:16px">🟢</td><td style="font-size:11px;color:#555;line-height:1.5">TPT factura 445.410€€ y su equipo cuesta 423.069€€. Sobran 22.341€€ — es el motor que financia al resto. Fuente: cuenta 70500002 vs G640+G642 CC=TPT del mayor.</td></tr>
+<tr><td style="font-size:13px">IS — ingresos vs coste de personal</td><td class="num" style="font-weight:700;color:#c62828">81.5%</td><td class="num" style="font-size:12px;color:#888">≥ 100%</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">IS ingresa 105.393€€ pero su personal cuesta 129.388€€. Faltan 23.996€€ para cubrir solo las nóminas — cada mes el déficit crece. Fuente: cuenta 70500003 vs CC=IS.</td></tr>
+<tr><td style="font-size:13px">Indiferente — ingresos vs coste de personal</td><td class="num" style="font-weight:700;color:#2e7d32">500.1%</td><td class="num" style="font-size:12px;color:#888">≥ 100%</td><td style="text-align:center;font-size:16px">🟢</td><td style="font-size:11px;color:#555;line-height:1.5">Indiferente genera 89.571€€ con un equipo que cuesta 17.911€€. Es la unidad más eficiente: cada euro de coste produce 5.0€ de ingreso. Fuente: cuenta 70500004 vs CC=INDIFERENTE.</td></tr>
+<tr><td style="font-size:13px">Municipios — ingresos vs coste de personal</td><td class="num" style="font-weight:700;color:#c62828">84.7%</td><td class="num" style="font-size:12px;color:#888">≥ 100%</td><td style="text-align:center;font-size:16px">🔴</td><td style="font-size:11px;color:#555;line-height:1.5">En el mayor ene-ago solo entra el copago de familias (75.689€€) frente a 89.370€€ de personal. El convenio FMM (~93k cobrado en septiembre) no aparece aún — cuando entre en el mayor, la cobertura real cambia radicalmente. Ver ⚖️ S20.</td></tr>
+</tbody></table></div>
+<div class="note">Fuente única: mayor contable gestora ene-ago 2026 · BBDD_NOMINAS escalada al mayor (G640+G642). Coberturas por vertical = ingresos del vertical ÷ coste de personal del vertical — <em>no incluyen alquiler, externos ni otros gastos de explotación</em>.</div>
+</div>
+<div class="section" id="s15">
+<h2>🚨 Alertas — Ene-Ago 2026</h2>
+<p style="color:#555;max-width:640px;margin-bottom:18px">7 señales que piden atención. Datos: mayor contable ene-ago 2026 (fuente única).</p>
+<div style="border-left:4px solid #c62828;background:#ffebee;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🔴</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 1</span>
+        <strong style="font-size:14px;color:#1a1a2e">IS pierde 23.996€€ — el déficit estructural sigue abierto</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">Cobertura personal: <strong>81.5%</strong>. Los ingresos de IS son planos (~14k€/mes ene-jun) y caen a 9-8k€ en julio-agosto por la pausa estival. Sin subida de precios materializada, IS cerrará 2026 con ≈−35.994€€ de pérdida solo en personal. Cada mes de inacción suma ~2.999€€ adicionales al agujero.</div>
+    </div><div style="border-left:4px solid #c62828;background:#ffebee;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🔴</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 2</span>
+        <strong style="font-size:14px;color:#1a1a2e">Agosto: −50.177€ — el peor mes del año</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">Con solo 49.611€ de ingresos frente a 90k€ de costes mensuales, agosto revela la exposición a la estacionalidad. Sin actividad de verano en TPT/IS, el burn rate mensual se dispara. La vuelta a la actividad en septiembre es crítica para recuperar el ritmo.</div>
+    </div><div style="border-left:4px solid #c62828;background:#ffebee;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🔴</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 3</span>
+        <strong style="font-size:14px;color:#1a1a2e">Resultado real sin LQNTC = −105.021€€</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">El resultado ene-ago de −30.021€€ <em>incluye</em> los 75.000€ del convenio CM (cobrado en julio). Sin ese ingreso, el resultado acumulado sería −<strong>105.021€€</strong>. LQNTC ha sido el colchón de 2026: sin él, el modelo operativo ordinario no ha mejorado respecto al año anterior. <strong>Dos matices importantes:</strong> (1) Los gastos del programa LQNTC (salarios + facturas jul-dic) están provisionalmente en GENERAL hasta que se defina el % de imputación — cuando se reasignen, LQNTC mostrará menos margen y GENERAL menos coste, pero el resultado total no cambia. (2) En 2027 Pegasus recibirá otros <strong>+75.000€</strong> de LQNTC (segunda mitad del convenio CM de 150k€ total), que mejorará el resultado del ejercicio 2027.</div>
+    </div><div style="border-left:4px solid #e65100;background:#fff3e0;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🟠</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 4</span>
+        <strong style="font-size:14px;color:#1a1a2e">MUN cobertura 84.7% ene-ago — los costes van por delante, pero el convenio FMM lo corrige</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">Los 75.689€€ reconocidos ene-ago son <em>solo el copago de familias</em> (Griñón, Villamarrique, Colmenar del Arroyo). <strong>No incluyen el convenio FMM/Comunidad de Madrid</strong>: 2 facturas de ~93.000€€ c/u. La 1ª ya se cobró en septiembre — cuando llegue el mayor de sept la cobertura real de MUN cambia radicalmente. La 2ª (93.000€€) es incierta entre Q4 2026 y Q1 2027.</div>
+    </div><div style="border-left:4px solid #e65100;background:#fff3e0;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🟠</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 5</span>
+        <strong style="font-size:14px;color:#1a1a2e">Equipo directivo: jul-ago sin reasignación a LQNTC y MUN QTC</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">En julio y agosto el 100% del coste de 4 directivos (≈13k€/mes) está en GEN cuando debería repartirse con LQNTC y Municipios QTC. Esto infla GEN artificialmente y maquilla los márgenes de esas dos líneas. Hay que corregirlo en la BBDD_NOMINAS de sept-oct.</div>
+    </div><div style="border-left:4px solid #f57f17;background:#fffde7;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🟡</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 6</span>
+        <strong style="font-size:14px;color:#1a1a2e">Concentración de ingresos en TPT: 53.2%</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">445.410€€ de los 836.766€€ totales vienen de una sola línea. Si TPT frena (vacaciones, bajas, churn), el impacto en el resultado es inmediato. La diversificación con Indiferente (contrato empresarial) y Municipios (convenios) reduce el riesgo pero no lo elimina.</div>
+    </div><div style="border-left:4px solid #2e7d32;background:#e8f5e9;border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:18px">🟢</span>
+        <span style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px">Alerta 7</span>
+        <strong style="font-size:14px;color:#1a1a2e">TPT e Indiferente generan +94.001€€ de margen conjunto</strong>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.6">TPT genera +22.341€€ de margen bruto personal (cobertura 105.3%). Indiferente añade +71.660€€ (500.1%). Juntos cubren las pérdidas de IS (−23.996€€), MUN (−13.681€€) y GEN (−94.303€€) con −30.021€€ de resultado neto global. El subsidio cruzado funciona — pero el margen de seguridad es estrecho.</div>
+    </div>
+</div>
+<div class="section" id="s16">
+<h2>📊 Análisis transversal — Rentabilidad por vertical</h2>
+<p style="color:#555;max-width:680px;margin-bottom:18px">Tres perspectivas sobre los mismos datos: el scatter sitúa cada vertical en el espacio coste/ingresos (puntos sobre la diagonal = superávit), la tabla agrega los márgenes y el pareto muestra la concentración de facturación.</p>
+<div class="two-col" style="gap:24px;align-items:start">
+<div>
+<svg viewBox="0 0 460 310" style="max-width:480px;display:block">
+  <rect width="460" height="310" fill="#fafafa" rx="8"/>
+  <line x1="52.0" y1="258.0" x2="376.7" y2="60.80000000000001" stroke="#bdbdbd" stroke-dasharray="5,3" stroke-width="1.5"/>
+  <text x="380.7" y="56.80000000000001" font-size="9" fill="#999">breakeven</text>
+  <line x1="52.0" y1="258.0" x2="395.8" y2="258.0" stroke="#ccc" stroke-width="1"/>
+  <line x1="52.0" y1="258.0" x2="52.0" y2="49.19999999999999" stroke="#ccc" stroke-width="1"/>
+  <text x="52" y="274" text-anchor="middle" font-size="10" fill="#666">0k</text><text x="128" y="274" text-anchor="middle" font-size="10" fill="#666">100k</text><text x="205" y="274" text-anchor="middle" font-size="10" fill="#666">200k</text><text x="281" y="274" text-anchor="middle" font-size="10" fill="#666">300k</text><text x="358" y="274" text-anchor="middle" font-size="10" fill="#666">400k</text><text x="434" y="274" text-anchor="middle" font-size="10" fill="#666">500k</text><text x="46" y="262" text-anchor="end" font-size="10" fill="#666">0k</text><text x="46" y="216" text-anchor="end" font-size="10" fill="#666">100k</text><text x="46" y="169" text-anchor="end" font-size="10" fill="#666">200k</text><text x="46" y="123" text-anchor="end" font-size="10" fill="#666">300k</text><text x="46" y="76" text-anchor="end" font-size="10" fill="#666">400k</text><text x="46" y="30" text-anchor="end" font-size="10" fill="#666">500k</text>
+  <text x="256" y="306" text-anchor="middle" font-size="11" fill="#546e7a">Coste personal (€)</text>
+  <text x="12" y="155" text-anchor="middle" font-size="11" fill="#546e7a" transform="rotate(-90,12,155)">Ingresos (€)</text>
+  <text x="256" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">Ingresos vs Coste personal por vertical</text>
+  <text x="329.4" y="87.60000000000002" font-size="9" fill="#2e7d32">SUPERÁVIT ▲</text>
+  <text x="176.6" y="234.88" font-size="9" fill="#c62828">DÉFICIT ▼</text>
+  <circle cx="375.2" cy="51.3" r="14" fill="#7b1fa2" opacity=".85"/><text x="375.2" y="33.3" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">TPT</text><text x="375.2" y="55.3" text-anchor="middle" font-size="9" fill="white" font-weight="700">+22k</text><circle cx="150.9" cy="209.1" r="14" fill="#2e7d32" opacity=".85"/><text x="150.9" y="191.1" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">IS</text><text x="150.9" y="213.1" text-anchor="middle" font-size="9" fill="white" font-weight="700">-24k</text><circle cx="65.7" cy="216.4" r="14" fill="#1565c0" opacity=".85"/><text x="65.7" y="198.4" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">IND</text><text x="65.7" y="220.4" text-anchor="middle" font-size="9" fill="white" font-weight="700">+72k</text><circle cx="120.3" cy="222.9" r="14" fill="#e65100" opacity=".85"/><text x="120.3" y="204.9" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">MUN</text><text x="120.3" y="226.9" text-anchor="middle" font-size="9" fill="white" font-weight="700">-14k</text><circle cx="124.0" cy="258.0" r="14" fill="#546e7a" opacity=".85"/><text x="124.0" y="240.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">GEN</text><text x="124.0" y="262.0" text-anchor="middle" font-size="9" fill="white" font-weight="700">-94k</text>
+</svg>
+<p style="font-size:11px;color:#888;margin-top:6px">La cifra dentro de cada círculo es el margen bruto de personal. GEN no tiene ingresos propios (eje X solo).</p>
+</div>
+<div>
+<h3 style="font-size:13px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Pareto de ingresos</h3>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">TPT</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:88.7%;background:#7b1fa2;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">445.410€ (53.2%)</div>
+    </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">IS</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:21.0%;background:#2e7d32;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">105.393€ (12.6%)</div>
+    </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">IND</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:17.8%;background:#1565c0;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">89.571€ (10.7%)</div>
+    </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">MUN</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:15.0%;background:#e65100;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">75.689€ (9.0%)</div>
+    </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">LQNTC</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:15.0%;background:#c62828;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">75.000€ (9.0%)</div>
+    </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:60px;font-size:12px;font-weight:700;color:#1a1a2e;text-align:right">OTROS</div>
+      <div style="flex:1;background:#eee;border-radius:4px;height:22px;position:relative">
+        <div style="width:8.2%;background:#78909c;height:100%;border-radius:4px"></div>
+      </div>
+      <div style="width:80px;font-size:12px;color:#333;text-align:right">41.222€ (4.9%)</div>
+    </div>
+<p style="font-size:11px;color:#888;margin-top:8px">TPT (53.2%) + Municipios + Indiferente = 73.0% de la facturación total.</p>
+</div>
+</div>
+<div style="margin-top:18px">
+<table><thead><tr><th>Vertical</th><th class="num">Ingresos</th><th class="num">% s/total</th><th class="num">Coste personal</th><th class="num">Margen bruto</th><th class="num">Cobertura</th></tr></thead>
+<tbody><tr><td><span class="badge" style="background:#7b1fa2;color:white;padding:2px 8px;border-radius:10px;font-size:11px">TPT</span></td><td class="num">445.410€</td><td class="num" style="color:#888">53.2%</td><td class="num">423.069€</td><td class="num pos">+22.341€</td><td class="num pos">105.3%</td></tr>
+<tr><td><span class="badge" style="background:#2e7d32;color:white;padding:2px 8px;border-radius:10px;font-size:11px">IS</span></td><td class="num">105.393€</td><td class="num" style="color:#888">12.6%</td><td class="num">129.388€</td><td class="num neg">23.996€</td><td class="num neg">81.5%</td></tr>
+<tr><td><span class="badge" style="background:#1565c0;color:white;padding:2px 8px;border-radius:10px;font-size:11px">IND</span></td><td class="num">89.571€</td><td class="num" style="color:#888">10.7%</td><td class="num">17.911€</td><td class="num pos">+71.660€</td><td class="num pos">500.1%</td></tr>
+<tr><td><span class="badge" style="background:#e65100;color:white;padding:2px 8px;border-radius:10px;font-size:11px">MUN</span></td><td class="num">75.689€</td><td class="num" style="color:#888">9.0%</td><td class="num">89.370€</td><td class="num neg">13.681€</td><td class="num neg">84.7%</td></tr>
+<tr><td><span class="badge" style="background:#546e7a;color:white;padding:2px 8px;border-radius:10px;font-size:11px">GEN</span></td><td class="num">0€</td><td class="num" style="color:#888">0.0%</td><td class="num">94.303€</td><td class="num neg">94.303€</td><td class="num neg">0.0%</td></tr>
+<tr class="total-row"><td>TOTAL</td><td class="num"><strong>836.766€</strong></td><td class="num">100%</td><td class="num"><strong>754.042€</strong></td><td class="num neg"><strong>−30.021€</strong></td><td class="num neg"><strong>111.0%</strong></td></tr></tbody></table>
+<p class="note-inline" style="margin-top:8px">Margen bruto = ingresos − coste personal (no incluye otros gastos de explotación). GEN: coste puro sin ingresos directos, financiado por subsidio cruzado.</p>
+</div>
+</div>
+<div class="section" id="s17">
+<h2>📚 Lecturas para el equipo — H1+Verano 2026</h2>
+<p style="color:#555;max-width:680px;margin-bottom:18px">Cinco conclusiones para interiorizar antes de revisar Q3. Todo sale del mayor contable ene-ago 2026.</p>
+
+<div style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:26px;line-height:1">🏗️</div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Lectura 1</div>
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:8px">El subsidio cruzado funciona… por los pelos</div>
+          <div style="font-size:13px;color:#444;line-height:1.7">TPT (445.410€€) e Indiferente (89.571€€) generan juntos <strong>+94.001€€ de margen bruto de personal</strong>. Eso cubre las pérdidas de IS (−23.996€€), MUN (−13.681€€) y GEN (−94.303€€). Resultado final: −30.021€€. El modelo aguanta, pero el colchón es de 4,0€% de los costes de personal — cualquier mes malo lo consume.</div>
+        </div>
+      </div>
+    </div>
+<div style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:26px;line-height:1">🎭</div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Lectura 2</div>
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Sin el cheque de la Comunidad de Madrid, 2026 va peor que 2025</div>
+          <div style="font-size:13px;color:#444;line-height:1.7">Los 75.000€ de LQNTC (Comunidad de Madrid, julio) son la diferencia entre −30.021€€ y −105.021€€. Son un ingreso real y bienvenido. <strong>El convenio CM es de 150k€ total</strong>: 75k reconocidos en 2026 y 75k que se reconocerán en 2027. Los gastos del programa (salarios + facturas jul-dic) están provisionalmente en GENERAL — al reasignarlos a LQNTC el resultado total no cambia, pero sí la foto por vertical. <strong>El modelo operativo ordinario todavía no ha mejorado respecto a ene-ago 2025</strong>. Hay que leer los buenos números con ese matiz.</div>
+        </div>
+      </div>
+    </div>
+<div style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:26px;line-height:1">📉</div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Lectura 3</div>
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:8px">IS necesita intervención — no solo una subida de precios</div>
+          <div style="font-size:13px;color:#444;line-height:1.7">Los ingresos de IS son planos (≈14k€/mes ene-jun) y caen en verano (9.773€ jul, 8.494€ ago). El coste de personal es <strong>129.388€€</strong> para generar solo 105.393€€ — la estructura no se sostiene con el modelo actual. Una subida de precios del 10-15% resolvería parcialmente el problema. Pero también hay que revisar si el número de terapeutas está calibrado con la demanda real.</div>
+        </div>
+      </div>
+    </div>
+<div style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:26px;line-height:1">💼</div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Lectura 4</div>
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Indiferente es el motor de margen — y necesita pipeline constante</div>
+          <div style="font-size:13px;color:#444;line-height:1.7">Con 17.911€€ de coste personal genera 89.571€€ de ingresos → cobertura <strong>500.1%</strong>. Es la unidad con mejor ratio de la fundación. El riesgo: es volátil por naturaleza (contratos puntuales, conferencias, proyectos). Un mes sin facturación de Indiferente cambia el resultado global en ~10k€. El pipeline de Q4 y el arranque de contratos para enero 2027 son decisivos.</div>
+        </div>
+      </div>
+    </div>
+<div style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:26px;line-height:1">🗓️</div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Lectura 5</div>
+          <div style="font-size:15px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Agosto revela la dependencia de la actividad presencial</div>
+          <div style="font-size:13px;color:#444;line-height:1.7">Agosto: 49.611€ de ingresos vs 90.095€ de coste personal → resultado de −50.177€. Esto no es un error contable: es la fundación parada en verano con los costes fijos corriendo. <strong>La aceleración de septiembre es crítica</strong> para compensar. Si el ritmo de sept-dic reproduce ene-jun (sin LQNTC), el cierre 2026 quedaría en torno a −82.532€€ aproximadamente.</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="section" id="s18">
+<h2>🔭 Forecast — Cierre 2026 (Sep-Dic)</h2>
+<p style="color:#555;max-width:700px;margin-bottom:18px">Proyección de los 4 meses restantes en 3 escenarios. Costes sep-dic estimados en <strong>433.393€€</strong> (promedio mensual ene-ago × 4). Sin nuevo ingreso extraordinario tipo LQNTC en ningún escenario.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px">
+  <div style="background:#fff;border:2px solid #c62828;border-radius:12px;padding:16px 18px">
+  <div style="font-size:11px;font-weight:800;color:#c62828;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Pesimista</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px;line-height:1.4">Ritmo jul-ago en TPT/IS · MUN solo copago familias (sin FMM) · sin 2ª FMM</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Ing. sep-dic</div>
+      <div style="font-size:18px;font-weight:900;color:#1a1a2e">294.848€€</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Resultado anual</div>
+      <div style="font-size:18px;font-weight:900;color:#c62828">-168.566€€</div>
+    </div>
+  </div>
+</div>
+  <div style="background:#fff;border:2px solid #e65100;border-radius:12px;padding:16px 18px">
+  <div style="font-size:11px;font-weight:800;color:#e65100;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Base</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px;line-height:1.4">TPT/IS al ritmo ene-jun · MUN copago + 1ª FMM confirmada (93.000€€ sept)</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Ing. sep-dic</div>
+      <div style="font-size:18px;font-weight:900;color:#1a1a2e">462.969€€</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Resultado anual</div>
+      <div style="font-size:18px;font-weight:900;color:#e65100">-446€€</div>
+    </div>
+  </div>
+</div>
+  <div style="background:#fff;border:2px solid #2e7d32;border-radius:12px;padding:16px 18px">
+  <div style="font-size:11px;font-weight:800;color:#2e7d32;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Optimista</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px;line-height:1.4">TPT/IS +5-10% · IND contratos Q4 · MUN copago + ambas FMM (186.000€€)</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Ing. sep-dic</div>
+      <div style="font-size:18px;font-weight:900;color:#1a1a2e">606.282€€</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#888;margin-bottom:2px">Resultado anual</div>
+      <div style="font-size:18px;font-weight:900;color:#2e7d32">+142.868€€</div>
+    </div>
+  </div>
+</div>
+</div>
+<h3 style="font-size:13px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Detalle por vertical — ingresos sep-dic proyectados</h3>
+<table><thead><tr>
+  <th>Vertical</th><th class="num">Real ene-ago</th>
+  <th class="num" style="color:#c62828">Sep-dic Pesim.</th>
+  <th class="num" style="color:#e65100">Sep-dic Base</th>
+  <th class="num" style="color:#2e7d32">Sep-dic Optim.</th>
+  <th class="num">Total anual (base)</th>
+</tr></thead><tbody><tr><td><span style="background:#7b1fa2;color:white;border-radius:8px;padding:1px 7px;font-size:11px;font-weight:700">TPT</span></td><td class="num">445.410€</td><td class="num" style="color:#c62828">184.748€</td><td class="num" style="color:#e65100;font-weight:700">235.357€</td><td class="num" style="color:#2e7d32">258.893€</td><td class="num" style="font-weight:700">680.767€</td></tr>
+<tr><td><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 7px;font-size:11px;font-weight:700">IS</span></td><td class="num">105.393€</td><td class="num" style="color:#c62828">36.534€</td><td class="num" style="color:#e65100;font-weight:700">58.084€</td><td class="num" style="color:#2e7d32">60.988€</td><td class="num" style="font-weight:700">163.476€</td></tr>
+<tr><td><span style="background:#1565c0;color:white;border-radius:8px;padding:1px 7px;font-size:11px;font-weight:700">IND</span></td><td class="num">89.571€</td><td class="num" style="color:#c62828">41.824€</td><td class="num" style="color:#e65100;font-weight:700">44.786€</td><td class="num" style="color:#2e7d32">68.659€</td><td class="num" style="font-weight:700">134.357€</td></tr>
+<tr><td><span style="background:#e65100;color:white;border-radius:8px;padding:1px 7px;font-size:11px;font-weight:700">MUN</span></td><td class="num">75.689€</td><td class="num" style="color:#c62828">8.891€</td><td class="num" style="color:#e65100;font-weight:700">101.891€</td><td class="num" style="color:#2e7d32">194.891€</td><td class="num" style="font-weight:700">177.580€</td></tr>
+<tr class="total-row"><td>TOTAL + OTROS</td><td class="num"><strong>836.766€</strong></td><td class="num" style="color:#c62828"><strong>294.848€</strong></td><td class="num" style="color:#e65100;font-weight:700"><strong>462.969€</strong></td><td class="num" style="color:#2e7d32"><strong>606.282€</strong></td><td class="num"><strong>1.299.734€</strong></td></tr>
+</tbody></table>
+<div class="note" style="margin-top:12px"><strong>MUN tiene dos flujos:</strong> (1) copago de familias ~2.2k€/mes (Griñón, Villamarrique, Colmenar del Arroyo) y (2) convenio FMM/Comunidad de Madrid — renovado julio 2026–2027 por 2 facturas de ~93.000€€ cada una. La 1ª está confirmada (cobrada en septiembre). La 2ª es incierta (Q4 2026 o Q1 2027). · <strong>LQNTC=0 en los escenarios sep-dic 2026</strong> (el ingreso de 75k ya está en ene-ago). <em>Nota para 2027</em>: se reconocerán otros +75k€ de LQNTC (segunda mitad del convenio CM de 150k€), y los gastos del programa que ahora están en GENERAL se reasignarán a LQNTC.</div>
+</div>
+<div class="section" id="s19">
+<h2>📉 Evolución mensual de márgenes por vertical</h2>
+<p style="color:#555;max-width:700px;margin-bottom:16px">Margen bruto de personal (ingresos − coste personal) y cobertura % mes a mes. Los costes de personal por vertical se calculan desde BBDD_NOMINAS escalada al mayor contable.</p>
+<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="background:#7b1fa2;color:white;border-radius:8px;padding:1px 8px;font-size:11px;font-weight:700;min-width:36px;text-align:center">TPT</span><span style="font-size:12px;color:#444">📉 Tendencia bajista (99.6% → 54.0%)</span></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 8px;font-size:11px;font-weight:700;min-width:36px;text-align:center">IS</span><span style="font-size:12px;color:#444">📉 Tendencia bajista (91.5% → 65.1%)</span></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="background:#1565c0;color:white;border-radius:8px;padding:1px 8px;font-size:11px;font-weight:700;min-width:36px;text-align:center">IND</span><span style="font-size:12px;color:#444">📈 Tendencia alcista (0.0% → 472.6%)</span></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="background:#e65100;color:white;border-radius:8px;padding:1px 8px;font-size:11px;font-weight:700;min-width:36px;text-align:center">MUN</span><span style="font-size:12px;color:#444">📉 Tendencia bajista (1043.7% → 21.0%)</span></div></div>
+<div class="scroll-x">
+<table style="min-width:540px"><thead><tr><th>Mes</th><th class="num" style="color:#7b1fa2">TPT<br><span style="font-size:9px;font-weight:400">mar€ / cob%</span></th><th class="num" style="color:#2e7d32">IS<br><span style="font-size:9px;font-weight:400">mar€ / cob%</span></th><th class="num" style="color:#1565c0">IND<br><span style="font-size:9px;font-weight:400">mar€ / cob%</span></th><th class="num" style="color:#e65100">MUN<br><span style="font-size:9px;font-weight:400">mar€ / cob%</span></th></tr></thead><tbody><tr><td style="font-weight:700">Ene</td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−220€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">99.6%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−1.385€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">91.5%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−2.203€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">0.0%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+18.473€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">1043.7%</span></td></tr>
+<tr><td style="font-weight:700">Feb</td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−824€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">98.5%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−2.010€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">87.9%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−2.203€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">0.0%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+35.623€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">665.5%</span></td></tr>
+<tr><td style="font-weight:700">Mar</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+6.380€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">111.1%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−1.992€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">87.8%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+25.314€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">1183.9%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−4.377€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">33.3%</span></td></tr>
+<tr><td style="font-weight:700">Abr</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+1.630€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">102.9%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−3.817€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">79.3%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+9.311€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">494.2%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−3.916€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">39.9%</span></td></tr>
+<tr><td style="font-weight:700">May</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+2.575€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">104.6%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−2.588€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">84.7%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+7.276€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">430.3%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−3.755€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">42.1%</span></td></tr>
+<tr><td style="font-weight:700">Jun</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+10.734€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">119.5%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−4.488€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">76.0%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+17.655€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">901.5%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−5.435€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">32.2%</span></td></tr>
+<tr><td style="font-weight:700">Jul</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+6.011€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">110.6%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−3.181€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">75.4%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+8.298€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">476.7%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−2.128€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">51.3%</span></td></tr>
+<tr><td style="font-weight:700">Ago</td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−25.325€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">54.0%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−4.563€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">65.1%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+8.209€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">472.6%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−3.787€</span><br><span style="background:#c62828;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">21.0%</span></td></tr>
+<tr class="total-row"><td>TOTAL ene-ago</td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+22.341€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">105.3%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−23.996€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">81.5%</span></td><td class="num"><span style="color:#2e7d32;font-weight:700;font-size:11px">+71.660€</span><br><span style="background:#2e7d32;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">500.1%</span></td><td class="num"><span style="color:#c62828;font-weight:700;font-size:11px">−13.681€</span><br><span style="background:#e65100;color:white;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700">84.7%</span></td></tr></tbody></table>
+</div>
+<div class="note" style="margin-top:10px">🔑 IS muestra tendencia bajista continua (cobertura cae cada mes). TPT tiene el patrón estacional claro (agosto colapsa). IND y MUN son irregulares por naturaleza (contratos puntuales vs. cobros de convenios). Cobertura = ingresos / coste personal; 100% = break-even de personal.</div>
+</div>
+<div class="section" id="s20">
+<h2>⚖️ Punto de equilibrio por vertical</h2>
+<p style="color:#555;max-width:700px;margin-bottom:18px">¿Cuánto le falta a cada vertical para cubrir su coste de personal? El PE es el umbral donde ingresos = coste de personal. No incluye otros gastos de explotación (alquiler, externos, etc.).</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+<div style="background:#e8f5e9;border:2px solid #2e7d32;border-radius:12px;padding:16px 18px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="font-size:22px">🟣</span>
+    <div>
+      <div style="font-size:13px;font-weight:800;color:#1a1a2e">TPT — Terapias Para Todos</div>
+      <div style="font-size:11px;color:#2e7d32;font-weight:700">✅ Superávit de personal</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:#333;margin-bottom:4px">Ingresos: 445.410€€ · Coste personal: 423.069€€</div>
+  <div style="font-size:13px;color:#333;margin-bottom:6px"><strong>Margen: +22.341€€</strong> — cubre con holgura su personal.</div>
+  <div style="font-size:11px;color:#666;border-top:1px solid #2e7d3233;padding-top:6px">Media 392 abonados/mes a 141.99€ neto/persona.</div>
+</div>
+<div style="background:#ffebee;border:2px solid #c62828;border-radius:12px;padding:16px 18px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="font-size:22px">🟢</span>
+    <div>
+      <div style="font-size:13px;font-weight:800;color:#1a1a2e">IS — Inclusive Sport</div>
+      <div style="font-size:11px;color:#c62828;font-weight:700">❌ Déficit de personal</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:#333;margin-bottom:4px">Ingresos: 105.393€€ · Coste personal: 129.388€€</div>
+  <div style="font-size:13px;color:#333;margin-bottom:6px"><strong>Déficit: −23.996€€</strong>. Necesita <strong>58 abonados más/mes</strong> durante 8 meses,</div>
+  <div style="font-size:11px;color:#666;border-top:1px solid #c6282833;padding-top:6px">o subir el precio de 52.05€ a 63.9€/mes por persona (+22.8%). Media actual: 253 abonados/mes.</div>
+</div>
+<div style="background:#e8f5e9;border:2px solid #2e7d32;border-radius:12px;padding:16px 18px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="font-size:22px">🔵</span>
+    <div>
+      <div style="font-size:13px;font-weight:800;color:#1a1a2e">Indiferente</div>
+      <div style="font-size:11px;color:#2e7d32;font-weight:700">✅ Superávit de personal</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:#333;margin-bottom:4px">Ingresos: 89.571€€ · Coste personal: 17.911€€</div>
+  <div style="font-size:13px;color:#333;margin-bottom:6px"><strong>Margen: +71.660€€</strong>. La unidad de mayor eficiencia de la fundación.</div>
+  <div style="font-size:11px;color:#666;border-top:1px solid #2e7d3233;padding-top:6px">El riesgo no es el PE sino la volatilidad: ene-feb sin contratos genera pérdida mensual de ~2.239€€.</div>
+</div>
+<div style="background:#ffebee;border:2px solid #c62828;border-radius:12px;padding:16px 18px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="font-size:22px">🟠</span>
+    <div>
+      <div style="font-size:13px;font-weight:800;color:#1a1a2e">Municipios</div>
+      <div style="font-size:11px;color:#c62828;font-weight:700">❌ Déficit de personal</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:#333;margin-bottom:4px">Ingresos ene-ago: 75.689€€ (solo copago familias) · Coste personal: 89.370€€</div>
+  <div style="font-size:13px;color:#333;margin-bottom:6px"><strong>Déficit aparente: −13.681€€</strong> — pero NO incluye el convenio FMM.</div>
+  <div style="font-size:11px;color:#666;border-top:1px solid #c6282833;padding-top:6px"><strong>Convenio FMM renovado (2026-2027): 2 facturas de ~93.000€€ c/u.</strong> La 1ª (93.000€€) ya cobrada en septiembre — convierte el déficit en superávit (+79.319€€). La 2ª (93.000€€) pendiente (Q4 2026 o Q1 2027).</div>
+</div>
+</div>
+<div style="background:#fff3e0;border:2px solid #e65100;border-radius:12px;padding:16px 18px">
+  <div style="font-size:13px;font-weight:800;color:#e65100;margin-bottom:10px">📌 PE Global — ¿Cuánto le falta a Pegasus para cerrar en 0?</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+    <div style="text-align:center">
+      <div style="font-size:11px;color:#888;margin-bottom:4px">Resultado actual ene-ago</div>
+      <div style="font-size:22px;font-weight:900;color:#c62828">−30.021€€</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:11px;color:#888;margin-bottom:4px">Resultado sin LQNTC</div>
+      <div style="font-size:22px;font-weight:900;color:#c62828">−105.021€€</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:11px;color:#888;margin-bottom:4px">Ingresos adicionales p/cerrar en 0</div>
+      <div style="font-size:22px;font-weight:900;color:#e65100">30.021€€</div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#555;margin-top:10px;line-height:1.5">
+    Equivale a <strong>26 abonados más de TPT</strong> durante 8 meses (141.99€/abonado),
+    o <strong>72 abonados más de IS</strong> (52.05€/abonado),
+    o cualquier combinación de ingresos adicionales que sume 30.021€€.
+    Sin LQNTC, la brecha sube a 105.021€€. Para 2027: el convenio CM aporta otros +75k€ de LQNTC (segunda mitad), lo que reduciría la brecha efectiva a ~30.021€€ — similar al resultado de 2026. Si además llega FMM_PAGO2 (+93.000€€), el cierre 2027 podría ser positivo.
+  </div>
+</div>
+<div class="note" style="margin-top:12px">El PE se calcula sobre coste de personal únicamente (G640+G642 del mayor). Para el PE operativo completo (incluyendo otros gastos y financieros), el umbral de ingresos sería 866.787€€ anuales — Pegasus ingresó 836.766€€ en ene-ago.</div>
+</div>
+</div>
+<script>
+function switchTab(group, tabId) {
+  var sec = document.getElementById('micro-'+group);
+  sec.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  sec.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
+  sec.querySelector('.tab-content#'+group+'-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

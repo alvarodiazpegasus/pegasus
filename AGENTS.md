@@ -113,6 +113,7 @@ Este repo es **publicación**, no fuente. Las fuentes viven fuera: las propuesta
 
 ## 7 · Lo que hay pendiente
 
+- 🔴 **Pasar el repo a privado · pedido por Álvaro el 19/10/2026 💬.** Pages desde repo privado exige **Pro, Team o Enterprise**; en Free el sitio se cae 📄. Cuenta personal → GitHub Pro (~4 $/mes). Gratis → transferir el repo a la org `Fundacion-Pegasus` y pedir **GitHub for Nonprofits** (Team sin coste, verificación de hasta una semana) 📄. ⚠️ Repo privado **no** hace privada la web: `hub.lomionoesnormal.com/<ruta>` sigue sirviendo el fichero a quien tenga la URL; restringir el sitio solo existe en **Enterprise Cloud** 📄. ⬜ Sin decidir cuál de las dos rutas.
 - 🔴 **El `README.md` está prácticamente vacío**: dos líneas. Quien llegue por GitHub no sabe qué es esto, cómo se despliega ni qué no puede subir. Hay que escribirlo, y se escribe desde el repo porque se publica.
 - ⬜ **No consta la versión ni el último commit desplegado.** Se comprueba con `git log`, no se declara.
 - ⬜ **No consta el contenido exacto de `direccion/descargables/`.** No se ha auditado.
