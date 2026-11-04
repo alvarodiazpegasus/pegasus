@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gincana Día Universal del Niño – Paracuellos de Jarama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#17323f; --muted:#56707a; --surface:#f1f8f4; --card:#ffffff;
+  --line:#d4e4de; --field:#e8f6ee; --field-line:#9fd9b8;
+  --green:#08B75B; --blue:#007EC3; --purple:#974694; --pink:#E45E9B;
+  --red:#D6191B; --yellow:#F3D100; --orange:#ED7928;
+  --team-a:#ED7928; --team-b:#007EC3; --on-yellow:#3a3000;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1a20; --ink:#e7f1ee; --muted:#9db4b0; --surface:#14262d; --card:#122229;
+    --line:#26434b; --field:#12302a; --field-line:#2f7a55; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1a20; --ink:#e7f1ee; --muted:#9db4b0; --surface:#14262d; --card:#122229;
+  --line:#26434b; --field:#12302a; --field-line:#2f7a55; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Barlow",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+h1,h2,h3{font-family:"Barlow Condensed","Barlow",system-ui,Arial,sans-serif;line-height:1.05;margin:0}
+p{margin:0 0 1em}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+
+/* HERO */
+.hero{position:relative;color:#fff;background:linear-gradient(120deg,var(--green) 0%,var(--blue) 100%);border-radius:0 0 56px 56px;overflow:hidden;padding:56px 0 64px}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero::before{width:420px;height:420px;right:-120px;top:-160px}
+.hero::after{width:260px;height:260px;left:-90px;bottom:-140px}
+.hero .wrap{position:relative;z-index:1}
+.org{font-weight:600;font-size:16px;opacity:.95;margin-bottom:28px}
+.hero h1{font-size:clamp(46px,8vw,92px);font-weight:800;letter-spacing:-.5px;max-width:12ch}
+.hero .sub{font-size:20px;font-weight:500;margin:18px 0 34px;max-width:46ch}
+.facts{display:flex;flex-wrap:wrap;gap:12px}
+.fact{background:#fff;color:#17323f;border-radius:999px;padding:10px 20px 10px 12px;display:flex;align-items:center;gap:10px}
+.fact b{font-family:"Barlow Condensed",sans-serif;font-size:30px;line-height:1;color:var(--blue);min-width:44px;height:44px;border-radius:50%;background:#e9f6f0;display:grid;place-items:center;padding:0 6px}
+.fact span{font-weight:600;font-size:15px;line-height:1.2}
+
+/* SECTIONS */
+section.blk{padding:64px 0 8px}
+.blk h2{font-size:clamp(34px,5vw,48px);font-weight:800;margin-bottom:22px;color:var(--ink)}
+.blk h2 .dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:linear-gradient(120deg,var(--green),var(--blue));margin-right:12px;vertical-align:middle}
+.lead{font-size:19px;max-width:68ch}
+.lead strong{color:var(--blue)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:10px}
+.pill-card{background:var(--surface);border-radius:28px;padding:22px 24px}
+.pill-card h3{font-size:26px;margin-bottom:8px;color:var(--ink)}
+.pill-card p{margin:0;color:var(--ink)}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 0}
+.role{border:2px solid var(--line);border-radius:24px;padding:16px 18px}
+.role strong{display:block;font-family:"Barlow Condensed",sans-serif;font-size:22px;color:var(--green)}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border-radius:24px;border:2px solid var(--line);margin:8px 0 18px}
+table{border-collapse:collapse;width:100%;min-width:420px}
+th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);font-size:16px}
+th{font-weight:700;background:var(--surface)}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.total td{font-weight:800;font-size:18px;background:var(--surface)}
+
+/* TIMELINE */
+.timeline{display:flex;border-radius:999px;overflow:hidden;height:54px;margin:12px 0 10px}
+.seg{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden}
+.seg.ex{background:var(--purple)} .seg.r{background:var(--green)} .seg.aj{background:var(--muted)} .seg.c{background:var(--pink)}
+.tl-legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px;color:var(--muted);margin-bottom:8px}
+.tl-legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* ROTATION */
+.rot{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:26px;align-items:center}
+@media (max-width:760px){.rot{grid-template-columns:1fr}}
+.matrix td,.matrix th{text-align:center;padding:10px 8px}
+.matrix td span{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;color:#fff;font-weight:800}
+
+/* POSTAS */
+.posta{margin-top:40px;background:var(--card);border:2px solid var(--line);border-radius:36px;padding:28px;}
+.posta-head{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.badge{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:"Barlow Condensed",sans-serif;font-size:34px;font-weight:800;flex:none}
+.posta h3{font-size:clamp(32px,4.6vw,44px);font-weight:800}
+.posta .concept{font-size:18px;max-width:64ch}
+.posta-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:start;margin-top:8px}
+@media (max-width:820px){.posta-grid{grid-template-columns:1fr}}
+.field{background:var(--surface);border-radius:28px;padding:14px}
+.field svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);padding:8px 8px 2px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.rounds{display:flex;flex-direction:column;gap:10px}
+.round{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:var(--surface);border-radius:22px;padding:14px 16px}
+.round .n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:var(--green)}
+.round b{display:block;font-size:17px}
+.round p{margin:0;font-size:16px;color:var(--muted)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:20px}
+.meta div{border-radius:24px;padding:16px 18px;border:2px dashed var(--line)}
+.meta h4{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green)}
+.meta p{margin:0;font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{border-radius:999px;padding:5px 14px;font-size:14px;font-weight:600;background:var(--surface);border:1.5px solid var(--line)}
+.flow{margin-top:16px;border-radius:26px;padding:18px 22px;background:linear-gradient(120deg,var(--green),var(--blue));color:#fff}
+.flow h4{margin:0 0 4px;font-size:17px;font-weight:700}
+.flow p{margin:0}
+
+/* MATRIX OBJ */
+.dots{letter-spacing:3px;color:var(--green);font-size:18px;white-space:nowrap}
+.dots .off{color:var(--line)}
+
+/* PRICE */
+.price{background:var(--surface);border-radius:40px;padding:32px;margin-top:6px}
+.price ul{margin:0 0 20px;padding-left:20px}
+.price li{margin:6px 0}
+.big{font-family:"Barlow Condensed",sans-serif;font-size:56px;font-weight:800;color:var(--blue);line-height:1}
+
+/* SVG */
+svg text{font-family:"Barlow","Barlow Condensed",Arial,sans-serif}
+.s-field{fill:var(--field);stroke:var(--field-line);stroke-width:2}
+.s-line{stroke:var(--field-line);stroke-width:2.5;fill:none}
+.s-dash{stroke:var(--field-line);stroke-width:2.5;fill:none;stroke-dasharray:8 7}
+.s-a{fill:var(--team-a)} .s-b{fill:var(--team-b)}
+.s-arrow{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;opacity:.65}
+.s-lbl{fill:var(--muted);font-size:13px;font-weight:600}
+.s-lbl-ink{fill:var(--ink);font-size:14px;font-weight:700}
+.s-white{fill:#fff;font-weight:700}
+.s-jail-a{fill:var(--team-a);opacity:.14}
+.s-jail-b{fill:var(--team-b);opacity:.14}
+.s-ball{fill:var(--yellow);stroke:#c9a800;stroke-width:1.5}
+.s-zone{fill:var(--card);stroke:var(--field-line);stroke-width:2}
+
+/* CLOSE */
+.closing{margin:72px 0 0;background:linear-gradient(120deg,var(--green),var(--blue));color:#fff;border-radius:56px 56px 0 0;padding:56px 0 64px;text-align:center}
+.closing p.slogan{font-family:"Barlow Condensed",sans-serif;font-size:clamp(34px,6vw,60px);font-weight:800;line-height:1.05;margin:0 auto 14px;max-width:18ch}
+.closing p{margin:0}
+@media (max-width:560px){.posta{padding:20px;border-radius:28px}.hero{border-radius:0 0 36px 36px}}
+@media print{.hero,.closing,.flow{-webkit-print-color-adjust:exact;print-color-adjust:exact}.posta{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="org">Fundación Pegasus para el Ayuntamiento de Paracuellos de Jarama</div>
+    <h1>Gincana del Día Universal del Niño</h1>
+    <p class="sub">Viernes 20 de noviembre de 2026. Propuesta técnica y económica de una jornada de juego para 200 niños y niñas.</p>
+    <div class="facts">
+      <div class="fact"><b>200</b><span>niños y niñas<br>de 9 a 12 años</span></div>
+      <div class="fact"><b>6</b><span>postas de juego<br>simultáneas</span></div>
+      <div class="fact"><b>12</b><span>profesionales<br>de Pegasus</span></div>
+      <div class="fact"><b>100</b><span>minutos<br>de gincana</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="blk">
+  <h2><span class="dot"></span>El derecho a jugar</h2>
+  <p class="lead">El 20 de noviembre se celebra el Día Universal del Niño, la fecha en la que Naciones Unidas aprobó la Declaración (1959) y la Convención (1989) sobre los Derechos del Niño. Uno de esos derechos es el <strong>derecho al juego</strong>, y es el que ponemos en el centro de esta jornada.</p>
+  <p class="lead">Durante cerca de dos horas, 200 niños y niñas jugarán, competirán, cooperarán y se lo pasarán en grande. Por debajo del juego, y sin que lo vivan como una lección, trabajarán la gestión de la frustración, el trabajo en equipo, la comunicación y las habilidades sociales. En Pegasus lo llamamos <strong>aprendizaje enmascarado</strong>: lo que se siente se aprende, y lo que se aprende jugando se queda.</p>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Cómo jugamos</h2>
+  <div class="two">
+    <div class="pill-card"><h3>Competimos fuera, cooperamos dentro</h3><p>En cada posta se enfrentan dos subequipos. Para ganar al rival, cada subequipo tiene que ponerse de acuerdo, comunicarse y apoyarse. La competición da la motivación y la cooperación da el aprendizaje.</p></div>
+    <div class="pill-card"><h3>Equilibrio sin palizas</h3><p>La primera ronda se juega sin adaptaciones. Desde la segunda, el capitán aplica handicaps al que va ganando o ventajas al que va perdiendo, de forma natural y dentro del juego. Todos tienen opción hasta el final.</p></div>
+    <div class="pill-card"><h3>Identidad de equipo</h3><p>Al empezar, cada subequipo elige nombre y grito de guerra. Los usa en cada posta, en cada punto y en cada celebración.</p></div>
+  </div>
+
+  <div class="pill-card" style="margin-top:18px">
+    <h3>El capitán: animador, líder y compañero</h3>
+    <p>Cada subequipo tiene un profesional de Pegasus que lo acompaña durante toda la gincana. No es un árbitro que mira desde fuera: hace el grito de equipo, celebra cada punto como si fuera una final y, cuando algo sale mal, es el primero en decir «venga, la siguiente es nuestra».</p>
+    <div class="roles">
+      <div class="role"><strong>Showman</strong>Voz alta, energía, música y buen rollo con los niños, las familias y todo el que pase. Se tiene que notar que Pegasus ha llegado.</div>
+      <div class="role"><strong>Líder</strong>Explica el juego en menos de 90 segundos, ordena y marca los tiempos.</div>
+      <div class="role"><strong>Compañero</strong>Juega dentro cuando la actividad lo permite. Si no, vive el juego al lado de su grupo.</div>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-top:18px">
+    <h4>El flow Pegasus</h4>
+    <p>Es nuestro estilo de comunicación: dinámico, activo y llamativo. Cada posta empieza con una entrada épica, cada ronda se anuncia como un nuevo nivel y cada recuento es un momento de tensión y celebración. Si un juego parece aburrido, lo es, y el capitán cambia el ritmo.</p>
+  </div>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Formato</h2>
+  <div class="tbl-wrap"><table>
+    <tr><th>Elemento</th><th>Detalle</th></tr>
+    <tr><td>Participantes</td><td>200 niños y niñas de 9 a 12 años</td></tr>
+    <tr><td>Grupos</td><td>6 grupos de 33-34 personas</td></tr>
+    <tr><td>Subequipos</td><td>12 subequipos de 16-17 personas, cada uno con su capitán</td></tr>
+    <tr><td>Postas</td><td>6 postas simultáneas; todos los grupos pasan por todas</td></tr>
+    <tr><td>Duración por posta</td><td>15 minutos máximo</td></tr>
+    <tr><td>Cambio de posta</td><td>2 minutos, con una señal común para todo el recinto</td></tr>
+    <tr><td>Bloque de gincana</td><td>100 minutos (6 × 15' + 5 × 2')</td></tr>
+  </table></div>
+
+  <h3 style="font-size:28px;margin:30px 0 4px">Así son los 15 minutos de cada posta</h3>
+  <div class="timeline" role="img" aria-label="Estructura de 15 minutos: explicación 1 minuto y medio, ronda 1 de 3 minutos y medio, ajuste, ronda 2 de 3 minutos y medio, ajuste, ronda 3 de 4 minutos y recuento de 1 minuto y medio">
+    <div class="seg ex" style="flex:1.5">1'30"</div>
+    <div class="seg r" style="flex:3.5">Ronda 1</div>
+    <div class="seg aj" style="flex:.5"></div>
+    <div class="seg r" style="flex:3.5">Ronda 2</div>
+    <div class="seg aj" style="flex:.5"></div>
+    <div class="seg r" style="flex:4">Ronda 3</div>
+    <div class="seg c" style="flex:1.5">1'30"</div>
+  </div>
+  <div class="tl-legend">
+    <span><i style="background:var(--purple)"></i>Entrada épica, explicación y demostración (1'30")</span>
+    <span><i style="background:var(--green)"></i>Rondas de juego (3'30" + 3'30" + 4')</span>
+    <span><i style="background:var(--muted)"></i>Ajuste o handicap (30")</span>
+    <span><i style="background:var(--pink)"></i>Recuento y celebración (1'30")</span>
+  </div>
+
+  <h3 style="font-size:28px;margin:34px 0 12px">Rotación: todos juegan a todo</h3>
+  <div class="rot">
+    <div class="field">
+      <svg viewBox="0 0 360 360" role="img" aria-label="Las seis postas en círculo; los grupos rotan en el sentido de las agujas del reloj">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+        <g style="color:var(--muted)"><path d="M221,67 A120,120 0 0,1 257,88" class="s-arrow" marker-end="url(#ah)"/><path d="M298,159 A120,120 0 0,1 298,201" class="s-arrow" marker-end="url(#ah)"/><path d="M257,272 A120,120 0 0,1 221,293" class="s-arrow" marker-end="url(#ah)"/><path d="M139,293 A120,120 0 0,1 103,272" class="s-arrow" marker-end="url(#ah)"/><path d="M62,201 A120,120 0 0,1 62,159" class="s-arrow" marker-end="url(#ah)"/><path d="M103,88 A120,120 0 0,1 139,67" class="s-arrow" marker-end="url(#ah)"/></g>
+        <g>
+          <circle cx="180" cy="60" r="30" fill="var(--green)"/><text x="180" y="67" text-anchor="middle" class="s-white" font-size="20">P1</text>
+          <circle cx="284" cy="120" r="30" fill="var(--purple)"/><text x="284" y="127" text-anchor="middle" class="s-white" font-size="20">P2</text>
+          <circle cx="284" cy="240" r="30" fill="var(--pink)"/><text x="284" y="247" text-anchor="middle" class="s-white" font-size="20">P3</text>
+          <circle cx="180" cy="300" r="30" fill="var(--red)"/><text x="180" y="307" text-anchor="middle" class="s-white" font-size="20">P4</text>
+          <circle cx="76" cy="240" r="30" fill="var(--yellow)"/><text x="76" y="247" text-anchor="middle" font-size="20" font-weight="700" fill="var(--on-yellow)">P5</text>
+          <circle cx="76" cy="120" r="30" fill="var(--blue)"/><text x="76" y="127" text-anchor="middle" class="s-white" font-size="20">P6</text>
+        </g>
+        <text x="180" y="172" text-anchor="middle" class="s-lbl-ink" font-size="16">Rotación en el sentido</text>
+        <text x="180" y="192" text-anchor="middle" class="s-lbl-ink" font-size="16">de las agujas del reloj</text>
+        <text x="180" y="214" text-anchor="middle" class="s-lbl">2' de cambio entre postas</text>
+      </svg>
+    </div>
+    <div>
+      <p>Cada grupo empieza en la posta con su mismo número (el grupo 1 en la posta 1, el grupo 2 en la posta 2…) y, a la señal, avanza a la siguiente. En seis turnos, todos los grupos han jugado las seis postas.</p>
+      <div class="tbl-wrap"><table class="matrix" id="matrix" aria-label="Posta en la que está cada grupo en cada turno"></table></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Las 6 postas</h2>
+  <p class="lead">Seis juegos, tres rondas en cada uno y una regla que cambia en cada ronda para que el reto se renueve. Las rondas duran por reloj, no por repeticiones, así que todas las postas terminan a la vez.</p>
+
+  <!-- POSTA 1 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--green)">1</div><h3>Megakinball</h3></div>
+    <p class="concept">Una pelota gigante, dos campos y un objetivo: que la pelota caiga en el campo rival. Nadie puede mover un balón así solo, así que el equipo tiene que funcionar como uno.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Campo dividido en zona A y zona B con una pelota gigante lanzada en arco hacia el campo rival">
+          <defs>
+            <radialGradient id="kb" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="#7fe0ad"/><stop offset="1" stop-color="#08B75B"/></radialGradient>
+            <marker id="ah1" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)" opacity=".65"/></marker>
+          </defs>
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <line x1="210" y1="18" x2="210" y2="222" class="s-dash"/>
+          <text x="40" y="38" class="s-lbl">Zona A</text><text x="380" y="38" text-anchor="end" class="s-lbl">Zona B</text>
+          <g class="s-a"><circle cx="70" cy="80" r="9"/><circle cx="60" cy="150" r="9"/><circle cx="110" cy="190" r="9"/><circle cx="105" cy="110" r="9"/><circle cx="150" cy="185" r="9"/><circle cx="170" cy="70" r="9"/><circle cx="125" cy="58" r="9"/></g>
+          <g class="s-b"><circle cx="250" cy="62" r="9"/><circle cx="305" cy="50" r="9"/><circle cx="358" cy="70" r="9"/><circle cx="375" cy="132" r="9"/><circle cx="362" cy="196" r="9"/><circle cx="250" cy="196" r="9"/><circle cx="240" cy="128" r="9"/></g>
+          <circle cx="150" cy="128" r="30" fill="url(#kb)"/>
+          <path d="M168,100 Q230,20 290,98" class="s-arrow" stroke-dasharray="6 6" marker-end="url(#ah1)"/>
+          <circle cx="300" cy="128" r="28" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="5 5"/>
+          <text x="303" y="178" text-anchor="middle" class="s-lbl-ink" font-size="13">¿cae? ¡punto!</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A</span><span><i style="background:var(--team-b)"></i>Subequipo B</span><span><i style="background:var(--green)"></i>Pelota de kinball</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>Sin límites</b><p>Vale todo el cuerpo y todos los brazos. Sirve para descubrir cómo vuela la pelota y organizarse.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>Un solo brazo</b><p>Hay que repensar la estrategia: más gente debajo de la pelota y más comunicación.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>Todos de la mano</b><p>El equipo entero va unido. Moverse, recibir y lanzar exige coordinarse al milímetro.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Narra como un comentarista («¡la pelota sube, sube… y cae!»). Antes de cada lanzamiento hay cuenta atrás colectiva y cada punto se celebra con el grito del equipo. En la ronda 3 va dentro de la cadena, de la mano de sus jugadores.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Cooperación</span><span class="chip">Comunicación verbal</span><span class="chip">Organización espacial</span><span class="chip">Frustración</span></div></div>
+      <div><h4>Puntuación</h4><p>Un punto por cada caída en campo rival. Gana el subequipo con más puntos en el total de las tres rondas.</p></div>
+      <div><h4>Material</h4><p>Pelota de kinball gigante, conos o cinta para delimitar y marcador visible.</p></div>
+    </div>
+  </article>
+
+  <!-- POSTA 2 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--purple)">2</div><h3>Roba colas por equipos</h3></div>
+    <p class="concept">El clásico roba colas convertido en batalla de equipos. Cada uno lucha por recuperar sus colas de zorro y quitarle las suyas al rival.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Dos equipos salen desde los extremos hacia los petos de colores colocados en el centro del campo">
+          <defs><marker id="ah2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)" opacity=".65"/></marker></defs>
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <line x1="48" y1="30" x2="48" y2="210" class="s-line"/><line x1="372" y1="30" x2="372" y2="210" class="s-line"/>
+          <g class="s-a"><circle cx="34" cy="50" r="8"/><circle cx="34" cy="80" r="8"/><circle cx="34" cy="110" r="8"/><circle cx="34" cy="140" r="8"/><circle cx="34" cy="170" r="8"/><circle cx="34" cy="198" r="8"/></g>
+          <g class="s-b"><circle cx="386" cy="50" r="8"/><circle cx="386" cy="80" r="8"/><circle cx="386" cy="110" r="8"/><circle cx="386" cy="140" r="8"/><circle cx="386" cy="170" r="8"/><circle cx="386" cy="198" r="8"/></g>
+          <g>
+            <rect x="178" y="88" width="18" height="26" rx="6" class="s-a"/><rect x="202" y="80" width="18" height="26" rx="6" class="s-b"/><rect x="226" y="92" width="18" height="26" rx="6" class="s-a"/>
+            <rect x="186" y="122" width="18" height="26" rx="6" class="s-b"/><rect x="212" y="114" width="18" height="26" rx="6" class="s-a"/><rect x="236" y="126" width="18" height="26" rx="6" class="s-b"/>
+            <rect x="166" y="120" width="18" height="26" rx="6" class="s-b"/><rect x="200" y="150" width="18" height="26" rx="6" class="s-a"/>
+          </g>
+          <path d="M60,80 Q110,90 158,108" class="s-arrow" marker-end="url(#ah2)"/><path d="M60,170 Q110,160 158,142" class="s-arrow" marker-end="url(#ah2)"/>
+          <path d="M360,80 Q310,90 264,108" class="s-arrow" marker-end="url(#ah2)"/><path d="M360,170 Q310,160 264,142" class="s-arrow" marker-end="url(#ah2)"/>
+          <text x="210" y="205" text-anchor="middle" class="s-lbl-ink">Colas de zorro (petos)</text>
+          <text x="60" y="30" class="s-lbl">Salida A</text><text x="360" y="30" text-anchor="end" class="s-lbl">Salida B</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A y sus colas</span><span><i style="background:var(--team-b)"></i>Subequipo B y sus colas</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>Corriendo</b><p>Velocidad, reflejos y estrategia libre.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>De la mano</b><p>Se juega por parejas. Si la pareja se suelta, no puede robar hasta que se vuelva a unir.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>A caballito</b><p>Uno lleva y otro va encima. El de arriba roba y el de abajo es el motor. Se avanza caminando rápido, sin correr.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Antes de empezar vende la historia: «Somos una manada de zorros y nos han robado las colas». Canta el tiempo en voz alta («¡30 segundos!») y anuncia el recuento como una gala de premios.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Estrategia de grupo</span><span class="chip">Decisiones rápidas</span><span class="chip">Confianza</span><span class="chip">Gestión de la pérdida</span></div></div>
+      <div><h4>Puntuación</h4><p>Un punto por cada jugador que conserva su cola y un punto por cada cola robada al rival.</p></div>
+      <div><h4>Material</h4><p>Petos de dos colores (al menos uno por jugador de cada equipo) y conos para las líneas de salida.</p></div>
+    </div>
+  </article>
+
+  <!-- POSTA 3 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--pink)">3</div><h3>Furor</h3></div>
+    <p class="concept">Una batalla musical. Dos equipos frente a frente y una palabra: hay que cantar canciones que la contengan. El equipo que se queda sin canción pierde la ronda.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Dos filas de jugadores enfrentadas cantando; en el centro, la palabra de la ronda">
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <g class="s-a"><circle cx="70" cy="52" r="10"/><circle cx="110" cy="52" r="10"/><circle cx="150" cy="52" r="10"/><circle cx="190" cy="52" r="10"/><circle cx="230" cy="52" r="10"/><circle cx="270" cy="52" r="10"/><circle cx="310" cy="52" r="10"/><circle cx="350" cy="52" r="10"/></g>
+          <g class="s-b"><circle cx="70" cy="188" r="10"/><circle cx="110" cy="188" r="10"/><circle cx="150" cy="188" r="10"/><circle cx="190" cy="188" r="10"/><circle cx="230" cy="188" r="10"/><circle cx="270" cy="188" r="10"/><circle cx="310" cy="188" r="10"/><circle cx="350" cy="188" r="10"/></g>
+          <rect x="150" y="94" width="120" height="52" rx="26" fill="var(--pink)"/>
+          <text x="210" y="128" text-anchor="middle" class="s-white" font-size="24" font-family="Barlow Condensed">AMOR</text>
+          <g fill="var(--pink)" font-size="26" font-weight="700"><text x="96" y="112">♪</text><text x="300" y="104">♫</text><text x="322" y="150">♪</text><text x="80" y="150">♫</text></g>
+          <line x1="40" y1="70" x2="40" y2="170" class="s-dash"/><text x="48" y="124" class="s-lbl">4-5 m</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A</span><span><i style="background:var(--team-b)"></i>Subequipo B</span><span><i style="background:var(--pink)"></i>Palabra de la ronda</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>La palabra es «amor»</b><p>Empieza el subequipo A. Cada canción validada pasa el turno al rival.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>Elige el que ha perdido</b><p>El subequipo que perdió la ronda 1 elige la palabra.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>Doble o nada</b><p>Cada subequipo tiene que cantar dos canciones seguidas en cada turno.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Es el presentador de un concurso de televisión. Hace la cuenta atrás de 10 segundos con todo el grupo, baila, se suma al coro de su equipo y celebra cada canción validada como un número uno.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Desinhibición</span><span class="chip">Autoestima</span><span class="chip">Memoria</span><span class="chip">Escucha activa</span><span class="chip">Respeto del turno</span></div></div>
+      <div><h4>Reglas y puntuación</h4><p>10 segundos para arrancar a cantar en grupo. Validan los dos capitanes y no se repiten canciones. Cada ronda dura un máximo de 4 minutos. Una ronda ganada vale un punto; al mejor de tres.</p></div>
+      <div><h4>Material</h4><p>Altavoz, micro Pegasus y tarjetas con palabras.</p></div>
+    </div>
+  </article>
+
+  <!-- POSTA 4 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--red)">4</div><h3>Balón prisionero</h3></div>
+    <p class="concept">El juego más reconocible de cualquier patio, con tres rondas que lo convierten en algo nuevo cada vez.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Campo dividido en dos con una cárcel detrás de cada campo y balones en juego">
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <path d="M10,40 A30,30 0 0,1 40,10 L66,10 L66,230 L40,230 A30,30 0 0,1 10,200 Z" class="s-jail-b"/>
+          <path d="M354,10 L380,10 A30,30 0 0,1 410,40 L410,200 A30,30 0 0,1 380,230 L354,230 Z" class="s-jail-a"/>
+          <line x1="66" y1="16" x2="66" y2="224" class="s-dash"/><line x1="354" y1="16" x2="354" y2="224" class="s-dash"/>
+          <line x1="210" y1="16" x2="210" y2="224" class="s-line"/>
+          <text x="38" y="124" text-anchor="middle" class="s-lbl" transform="rotate(-90 38 120)">Cárcel B</text>
+          <text x="382" y="124" text-anchor="middle" class="s-lbl" transform="rotate(90 382 120)">Cárcel A</text>
+          <g class="s-a"><circle cx="100" cy="60" r="9"/><circle cx="140" cy="100" r="9"/><circle cx="110" cy="150" r="9"/><circle cx="170" cy="180" r="9"/><circle cx="180" cy="60" r="9"/><circle cx="95" cy="200" r="9"/></g>
+          <g class="s-b"><circle cx="320" cy="60" r="9"/><circle cx="280" cy="100" r="9"/><circle cx="310" cy="150" r="9"/><circle cx="250" cy="180" r="9"/><circle cx="240" cy="60" r="9"/></g>
+          <circle cx="380" cy="160" r="9" class="s-a"/><circle cx="36" cy="70" r="9" class="s-b"/>
+          <circle cx="196" cy="126" r="9" class="s-ball"/><circle cx="266" cy="140" r="9" class="s-ball"/>
+          <path d="M196,126 Q240,110 268,104" stroke="var(--ink)" stroke-width="2" fill="none" stroke-dasharray="4 5" opacity=".6"/>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A</span><span><i style="background:var(--team-b)"></i>Subequipo B</span><span><i style="background:var(--yellow)"></i>Balones de espuma</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>Clásico</b><p>Sin reglas adicionales. Quien es tocado pasa a la cárcel, detrás del campo rival, y puede liberarse tocando a un rival.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>Unidos</b><p>Por parejas de la mano: si tocan a uno, caen los dos. Hay que protegerse mutuamente.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>Doble balón</b><p>Dos pelotas a la vez. Atención y caos, multiplicados por dos.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Narra las jugadas, celebra cada «¡liberado!» y mantiene a los de la cárcel enchufados: también son parte del juego y tienen su misión.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Atención</span><span class="chip">Reacción</span><span class="chip">Responsabilidad compartida</span><span class="chip">Juego limpio</span><span class="chip">Frustración</span></div></div>
+      <div><h4>Puntuación</h4><p>Gana la ronda el subequipo con más jugadores en campo al terminar el tiempo. Al mejor de tres.</p></div>
+      <div><h4>Material</h4><p>Dos balones de espuma blandos y conos para delimitar campo y cárceles.</p></div>
+    </div>
+  </article>
+
+  <!-- POSTA 5 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--yellow);color:var(--on-yellow)">5</div><h3>¡Que no caiga!</h3></div>
+    <p class="concept">Llevar objetos de un punto A a un punto B sin usar las manos y siempre en equipo. Parece fácil hasta que lo intentas.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Arriba, grupos de cuatro llevan un aro con la cabeza de la zona A a la B; abajo, la serpiente avanza pasando la pelota">
+          <defs><marker id="ah5" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)" opacity=".65"/></marker></defs>
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <rect x="22" y="22" width="64" height="196" rx="22" class="s-zone"/><rect x="334" y="22" width="64" height="196" rx="22" class="s-zone"/>
+          <text x="54" y="44" text-anchor="middle" class="s-lbl-ink">A</text><text x="366" y="44" text-anchor="middle" class="s-lbl-ink">B</text>
+          <circle cx="44" cy="80" r="9" class="s-ball"/><circle cx="64" cy="96" r="9" class="s-ball"/><ellipse cx="54" cy="150" rx="18" ry="7" fill="none" stroke="var(--green)" stroke-width="4"/>
+          <rect x="348" y="64" width="36" height="34" rx="12" class="s-a"/><rect x="348" y="160" width="36" height="34" rx="12" class="s-b"/>
+          <line x1="96" y1="120" x2="324" y2="120" class="s-dash"/>
+          <circle cx="170" cy="72" r="20" fill="none" stroke="var(--green)" stroke-width="4"/>
+          <g class="s-a"><circle cx="170" cy="46" r="9"/><circle cx="196" cy="72" r="9"/><circle cx="170" cy="98" r="9"/><circle cx="144" cy="72" r="9"/></g>
+          <path d="M220,72 L310,76" class="s-arrow" marker-end="url(#ah5)"/>
+          <text x="265" y="106" text-anchor="middle" class="s-lbl">Rondas 1 y 2: grupos de 4</text>
+          <g class="s-b"><circle cx="120" cy="178" r="8"/><circle cx="150" cy="178" r="8"/><circle cx="180" cy="178" r="8"/><circle cx="210" cy="178" r="8"/><circle cx="240" cy="178" r="8"/></g>
+          <path d="M112,196 C122,160 132,200 140,176 C150,150 160,200 170,176 C180,152 190,200 200,176 C210,150 222,200 234,170 L262,170" class="s-arrow" stroke-dasharray="5 5" marker-end="url(#ah5)"/>
+          <circle cx="104" cy="186" r="7" class="s-ball"/>
+          <text x="210" y="216" text-anchor="middle" class="s-lbl">Ronda 3: la serpiente</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A</span><span><i style="background:var(--team-b)"></i>Subequipo B</span><span><i style="background:var(--green)"></i>Aros</span><span><i style="background:var(--yellow)"></i>Pelotas</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>Aros con la cabeza</b><p>Grupos de 4 sostienen un aro solo con la cabeza y lo llevan hasta B. Si cae, vuelve a A.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>Pelotas con la cabeza</b><p>Mismo formato con pelotas, que ruedan y obligan a moverse con mucha más precisión.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>La serpiente</b><p>Todo el equipo en fila. El último coge la pelota, avanza en zigzag hasta ponerse primero y la pasa por debajo de las piernas de todos hasta que llega al último, que vuelve a empezar. Así la serpiente avanza hacia B.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Marca el ritmo, sobre todo en la serpiente («¡zig, zag, zig, zag!»). Celebra cada objeto que llega a B y convierte cada caída en un momento de risa compartida, nunca de culpa.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Coordinación</span><span class="chip">Comunicación en grupo</span><span class="chip">Paciencia</span><span class="chip">Tolerancia a la frustración</span></div></div>
+      <div><h4>Puntuación</h4><p>Un punto por objeto en B en las rondas 1 y 2. En la ronda 3, un punto por cada pelota que llega a B o por cada tramo que avanza la serpiente.</p></div>
+      <div><h4>Material</h4><p>Aros, pelotas medianas y un contenedor por subequipo en la zona B.</p></div>
+    </div>
+  </article>
+
+  <!-- POSTA 6 -->
+  <article class="posta">
+    <div class="posta-head"><div class="badge" style="background:var(--blue)">6</div><h3>Ultimate pañuelo loco</h3></div>
+    <p class="concept">La mezcla del juego del pañuelo y un reto de puntería con frisbee. Velocidad, astucia y precisión en un solo juego.</p>
+    <div class="posta-grid">
+      <div class="field">
+        <svg viewBox="0 0 420 240" role="img" aria-label="Dos equipos numerados en los extremos, frisbees en el centro y una diana delante de cada equipo">
+          <defs><marker id="ah6" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)" opacity=".65"/></marker></defs>
+          <rect x="10" y="10" width="400" height="220" rx="30" class="s-field"/>
+          <line x1="52" y1="30" x2="52" y2="210" class="s-line"/><line x1="368" y1="30" x2="368" y2="210" class="s-line"/>
+          <g><circle cx="34" cy="52" r="11" class="s-a"/><circle cx="34" cy="86" r="11" class="s-a"/><circle cx="34" cy="120" r="11" class="s-a"/><circle cx="34" cy="154" r="11" class="s-a"/><circle cx="34" cy="188" r="11" class="s-a"/></g>
+          <g><circle cx="386" cy="52" r="11" class="s-b"/><circle cx="386" cy="86" r="11" class="s-b"/><circle cx="386" cy="120" r="11" class="s-b"/><circle cx="386" cy="154" r="11" class="s-b"/><circle cx="386" cy="188" r="11" class="s-b"/></g>
+          <g class="s-white" font-size="12" text-anchor="middle"><text x="34" y="56">1</text><text x="34" y="90">2</text><text x="34" y="124">3</text><text x="34" y="158">4</text><text x="34" y="192">5</text><text x="386" y="56">1</text><text x="386" y="90">2</text><text x="386" y="124">3</text><text x="386" y="158">4</text><text x="386" y="192">5</text></g>
+          <g fill="var(--purple)"><ellipse cx="196" cy="108" rx="14" ry="6"/><ellipse cx="224" cy="118" rx="14" ry="6"/><ellipse cx="204" cy="134" rx="14" ry="6"/><ellipse cx="230" cy="96" rx="14" ry="6"/></g>
+          <text x="212" y="160" text-anchor="middle" class="s-lbl">Frisbees</text>
+          <g><circle cx="120" cy="190" r="24" fill="var(--card)" stroke="var(--red)" stroke-width="4"/><circle cx="120" cy="190" r="14" fill="none" stroke="var(--red)" stroke-width="4"/><circle cx="120" cy="190" r="5" fill="var(--red)"/></g>
+          <g><circle cx="300" cy="62" r="24" fill="var(--card)" stroke="var(--red)" stroke-width="4"/><circle cx="300" cy="62" r="14" fill="none" stroke="var(--red)" stroke-width="4"/><circle cx="300" cy="62" r="5" fill="var(--red)"/></g>
+          <path d="M48,120 Q120,108 178,112" class="s-arrow" marker-end="url(#ah6)"/>
+          <path d="M372,120 Q300,132 246,128" class="s-arrow" marker-end="url(#ah6)"/>
+          <path d="M60,170 Q86,190 92,190" class="s-arrow" stroke-dasharray="4 5" marker-end="url(#ah6)"/>
+          <path d="M360,80 Q338,64 330,62" class="s-arrow" stroke-dasharray="4 5" marker-end="url(#ah6)"/>
+          <text x="152" y="195" class="s-lbl">Diana A</text><text x="268" y="67" text-anchor="end" class="s-lbl">Diana B</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--team-a)"></i>Subequipo A</span><span><i style="background:var(--team-b)"></i>Subequipo B</span><span><i style="background:var(--purple)"></i>Frisbees</span><span><i style="background:var(--red)"></i>Dianas</span></div>
+      </div>
+      <div class="rounds">
+        <div class="round"><span class="n">1</span><div><b>Corriendo</b><p>Se canta un número; salen los dos jugadores con ese número, cogen un frisbee, vuelven a su línea y lanzan a la diana. Muchas salidas para que pasen todos.</p></div></div>
+        <div class="round"><span class="n">2</span><div><b>A pata coja</b><p>Salen dos números de cada equipo y todo el recorrido se hace a pata coja.</p></div></div>
+        <div class="round"><span class="n">3</span><div><b>Sillita de la reina</b><p>Salen tres números a la vez: dos forman la sillita y el tercero va sentado y es quien lanza.</p></div></div>
+      </div>
+    </div>
+    <div class="flow"><h4>Flow del capitán</h4><p>Canta los números con suspense, mezcla órdenes («¡el 3… y el 7… y el 12!») y hace de locutor en cada lanzamiento. La diana se convierte en el centro de todas las miradas.</p></div>
+    <div class="meta">
+      <div><h4>Qué trabajamos</h4><div class="chips"><span class="chip">Atención y escucha</span><span class="chip">Reacción</span><span class="chip">Precisión</span><span class="chip">Confianza en el compañero</span></div></div>
+      <div><h4>Puntuación</h4><p>Cada lanzamiento suma los puntos de la zona de la diana donde cae el frisbee.</p></div>
+      <div><h4>Material</h4><p>Frisbees, dos dianas grandes con zonas de puntuación y conos para las líneas de salida.</p></div>
+    </div>
+  </article>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Lo que trabajamos jugando</h2>
+  <div class="tbl-wrap"><table>
+    <tr><th>Posta</th><th>Cooperación</th><th>Frustración</th><th>Comunicación</th><th>Habilidades sociales</th></tr>
+    <tr><td>Megakinball</td><td class="dots">●●●</td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●●</td><td class="dots">●●<span class="off">●</span></td></tr>
+    <tr><td>Roba colas</td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td></tr>
+    <tr><td>Furor</td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●●</td></tr>
+    <tr><td>Balón prisionero</td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●●</td><td class="dots">●<span class="off">●●</span></td><td class="dots">●●<span class="off">●</span></td></tr>
+    <tr><td>¡Que no caiga!</td><td class="dots">●●●</td><td class="dots">●●●</td><td class="dots">●●●</td><td class="dots">●●<span class="off">●</span></td></tr>
+    <tr><td>Ultimate pañuelo loco</td><td class="dots">●●<span class="off">●</span></td><td class="dots">●●<span class="off">●</span></td><td class="dots">●<span class="off">●●</span></td><td class="dots">●●<span class="off">●</span></td></tr>
+  </table></div>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Seguridad</h2>
+  <div class="two">
+    <div class="pill-card"><h3>Balones blandos</h3><p>Todos los balones del balón prisionero son de espuma, con la norma de no dar en la cabeza.</p></div>
+    <div class="pill-card"><h3>Porteos con cabeza</h3><p>En el caballito y la sillita de la reina, el capitán forma parejas y tríos de peso y altura similares, se avanza caminando y nadie está obligado a llevar ni a subirse: quien no quiera tiene otro rol dentro del juego.</p></div>
+    <div class="pill-card"><h3>Juego limpio</h3><p>En el roba colas no se agarra la ropa ni se empuja: solo se roba el peto.</p></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h2><span class="dot"></span>Propuesta económica</h2>
+  <div class="price">
+    <p style="font-size:18px">Fundación Pegasus presenta esta propuesta como un <strong>servicio integral a precio cerrado</strong>, que incluye:</p>
+    <ul>
+      <li>Diseño metodológico completo de la gincana: 6 postas originales con progresión en tres rondas, sistema de puntuación y flujo de rotación sincronizado.</li>
+      <li>Equipo de 12 profesionales de Fundación Pegasus, uno por cada subequipo, que acompaña al mismo grupo durante toda la experiencia como capitán y animador.</li>
+      <li>Todo el material necesario para el desarrollo de las 6 postas.</li>
+      <li>Montaje, dinamización y desmontaje de la actividad.</li>
+      <li>Coordinación previa con el equipo organizador del Ayuntamiento para la división de grupos y la logística del día.</li>
+    </ul>
+    <div class="tbl-wrap" style="background:var(--card)"><table>
+      <tr><th>Concepto</th><th style="text-align:right">Importe</th></tr>
+      <tr><td>Gincana Día Universal del Niño, servicio integral</td><td class="num">4.132,23 €</td></tr>
+      <tr><td>IVA (21%)</td><td class="num">867,77 €</td></tr>
+      <tr class="total"><td>Total</td><td class="num">5.000,00 €</td></tr>
+    </table></div>
+    <p>El precio responde directamente a la dimensión del equipo profesional necesario para garantizar la calidad, la seguridad y la experiencia de 200 participantes de forma simultánea. También refleja la trayectoria de Fundación Pegasus en el diseño y la dinamización de actividades de este tipo y los plazos de preparación del evento. Por ello, se trata de una propuesta cerrada en sus condiciones y en su importe.</p>
+    <p style="margin:0;color:var(--muted)">Validez de la propuesta: [X] días desde su envío. Forma de pago: [a confirmar].</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="closing">
+  <div class="wrap">
+    <p class="slogan">Lo mío no es normal, pero lo tuyo tampoco.</p>
+    <p>Fundación Pegasus</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var colors=['var(--green)','var(--purple)','var(--pink)','var(--red)','var(--yellow)','var(--blue)'];
+  var t=document.getElementById('matrix'); if(!t) return;
+  var h='<tr><th>Turno</th>'; for(var g=1;g<=6;g++) h+='<th>Grupo '+g+'</th>'; h+='</tr>';
+  for(var r=1;r<=6;r++){
+    h+='<tr><th>'+r+'</th>';
+    for(var g2=1;g2<=6;g2++){
+      var p=((g2-1)+(r-1))%6+1;
+      var txt=p===5?'color:var(--on-yellow);':'';
+      h+='<td><span style="background:'+colors[p-1]+';'+txt+'">P'+p+'</span></td>';
+    }
+    h+='</tr>';
+  }
+  t.innerHTML=h;
+})();
+</script>
+</body>
+</html>
